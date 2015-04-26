@@ -6,16 +6,22 @@
 
     <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
     <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
 
-    <title>julianshen@Github by julianshen</title>
+    <link rel="stylesheet" type="text/css" href="stylesheets/jquery.terminal.css">
+
+    <link href='http://fonts.googleapis.com/css?family=Press+Start+2P' rel='stylesheet' type='text/css'>
+    <script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <script src="javascripts/jquery.terminal-0.8.8.min.js"></script>
+
+
+    <title>julianshen@github by julianshen</title>
   </head>
 
   <body>
 
     <header>
       <div class="container">
-        <h1>julianshen@Github</h1>
+        <h1>julianshen@github</h1>
         <h2></h2>
 
         <section id="downloads">
@@ -27,10 +33,36 @@
     <div class="container">
       <section id="main_content">
 
+          <div id="term"></div>
 
       </section>
     </div>
+    <div>Powered by <a href="http://terminal.jcubic.pl">JQuery Terminal</a></div>
+    <script>
+        jQuery(function($, undefined) {
+            $('#term').terminal(function(command, term) {
+               if (command !== '') {
+                   if (command === 'help') {
+                       term.echo('"whoareyou" Go to my linkedin page');
+                       term.echo('"blog" Go to my blog');
+                   } else if(command === 'blog') {
+                       location.href='http://blog.jln.co';
+                   } else if(command === 'whoareyou') {
+                       location.href='https://tw.linkedin.com/in/julianshen';
+                   } else {
+                     term.error('Command not found');
+                   }
 
+               } else {
+                     term.echo('');
+               }
+          }, {
+               greetings: 'Welcome, my friend\n\nPlease type "help" for commands\n',
+               name: 'jlnterm',
+               height: 400,
+               prompt: 'julianshen@github> '});
+       });
+    </script>
     
   </body>
 </html>
