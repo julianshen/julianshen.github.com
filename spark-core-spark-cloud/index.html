@@ -1,0 +1,259 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>Spark core & Spark cloud &#8211; Le murmure de Julian</title>
+<meta name="description" content="朱隸安貓囈語錄">
+<meta name="keywords" content="arduino, sparkcore">
+
+<!-- Twitter Cards -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://67.media.tumblr.com/0a4f7bd098a99f604b05c5d4b640ea0f/tumblr_inline_mxik2nylQO1qzg4zq.png">
+<meta name="twitter:title" content="Spark core & Spark cloud">
+<meta name="twitter:description" content="朱隸安貓囈語錄">
+<meta name="twitter:creator" content="@jlnshen">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spark core & Spark cloud">
+<meta property="og:description" content="朱隸安貓囈語錄">
+<meta property="og:url" content="http://blog.jln.co/spark-core-spark-cloud/">
+<meta property="og:site_name" content="Le murmure de Julian">
+<meta name="og:image" content="http://67.media.tumblr.com/0a4f7bd098a99f604b05c5d4b640ea0f/tumblr_inline_mxik2nylQO1qzg4zq.png">
+
+
+
+
+<link rel="canonical" href="http://blog.jln.co/spark-core-spark-cloud/">
+<link href="http://blog.jln.co/feed.xml" type="application/atom+xml" rel="alternate" title="Le murmure de Julian Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="http://blog.jln.co/assets/css/main.css">
+<!-- Webfonts -->
+<link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel="stylesheet" type="text/css">
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- Load Modernizr -->
+<script src="http://blog.jln.co/assets/js/vendor/modernizr-2.6.2.custom.min.js"></script>
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="http://blog.jln.co/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="http://blog.jln.co/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="http://blog.jln.co/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://blog.jln.co/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://blog.jln.co/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://blog.jln.co/images/apple-touch-icon-144x144-precomposed.png">
+
+
+
+</head>
+
+<body id="post" >
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+<nav id="dl-menu" class="dl-menuwrapper" role="navigation">
+	<button class="dl-trigger">Open Menu</button>
+	<ul class="dl-menu">
+		<li><a href="http://blog.jln.co/">Home</a></li>
+		<li>
+			<a href="#">About</a>
+			<ul class="dl-submenu">
+				<li>
+					<img src="http://blog.jln.co/images/avatar.png" alt="Julian Shen photo" class="author-photo">
+					<h4>Julian Shen</h4>
+					<p>software deverloper</p>
+				</li>
+				<li>
+					<a href="mailto:julianshen22@gmail.com"><i class="fa fa-fw fa-envelope"></i> Email</a>
+				</li>
+				<li>
+					<a href="https://twitter.com/jlnshen"><i class="fa fa-fw fa-twitter"></i> Twitter</a>
+				</li>
+				<li>
+					<a href="https://facebook.com/julianshen"><i class="fa fa-fw fa-facebook"></i> Facebook</a>
+				</li>
+				
+				<li>
+					<a href="https://linkedin.com/in/julianshen"><i class="fa fa-fw fa-linkedin"></i> LinkedIn</a>
+				</li>
+				<li>
+					<a href="https://github.com/julianshen"><i class="fa fa-fw fa-github"></i> GitHub</a>
+				</li>
+				
+				<li>
+					<a href="https://instagram.com/julianshen"><i class="fa fa-fw fa-instagram"></i> Instagram</a>
+				</li>
+				<li>
+					<a href="https://www.flickr.com/photos/julianshen"><i class="fa fa-fw fa-flickr"></i> Flickr</a>
+				</li>
+				
+			</ul><!-- /.dl-submenu -->
+		</li>
+		<li>
+			<a href="#">Posts</a>
+			<ul class="dl-submenu">
+				<li><a href="http://blog.jln.co/posts/">All Posts</a></li>
+				<li><a href="http://blog.jln.co/tags/">All Tags</a></li>
+			</ul>
+		</li>
+		
+	</ul><!-- /.dl-menu -->
+</nav><!-- /.dl-menuwrapper -->
+
+
+
+
+<div id="main" role="main">
+  <article class="hentry">
+    <header class="header-title">
+      <div class="header-title-wrap">
+        
+          <h1 class="entry-title"><a href="http://blog.jln.co/spark-core-spark-cloud/" rel="bookmark" title="Spark core & Spark cloud">Spark core & Spark cloud</a></h1>
+        
+        <h2><span class="entry-date date published"><time datetime="2013-12-09T09:15:00+08:00">December 09, 2013</time></span></h2>
+        
+        <p class="entry-reading-time">
+          <i class="fa fa-clock-o"></i>
+          
+Reading time ~1 minute
+        </p><!-- /.entry-reading-time -->
+        
+      </div><!-- /.header-title-wrap -->
+    </header>
+    <div class="entry-content">
+      <p><img alt="image" src="http://67.media.tumblr.com/0a4f7bd098a99f604b05c5d4b640ea0f/tumblr_inline_mxik2nylQO1qzg4zq.png"/></p>
+<p>Spark core跟一般Arduino不同, 它並沒有一個在PC上的IDE供你寫及編譯程式, 這動作完全是在雲端, 開發者在Web IDE上攥寫程式, 之後server會去編譯並下載firmware到Spark core端執行</p>
+<p>明明電腦跟Spark core都在眼前, 但程式卻不是在眼前編譯反而繞了一段路從Spark cloud下來, 感覺是有點多此一舉, 但其實Spark cloud的功能不僅於此, 它還提供了一個叫<a href="http://docs.spark.io/#/start/tinkering-with-tinker-the-tinker-api">TINKER</a>的服務</p>
+<p>TINKER分為兩部分, 一個是手機上的TINKER APP</p>
+<p><img alt="image" height="400" src="http://docs.spark.io/images/tinker.png"/></p>
+<p>這App的用途就是讓你可以在不用寫任何一行程式的情況下, 就可以測試你的Spark core, 它背後的作法就是發送REST API, 也就是另一部分, 所謂的TINKER API, 到Spark cloud上, Spark cloud在把對應的命令轉到core上面, 由於core設定只要一打開就會連上網連到Spark cloud上, 因此可以用如此的方式控制它</p>
+<p>因為可以透過TINKER API來控制core, 加上TINKER API也是公開的REST API, 因此, 我們未必要用Arduino的程式寫法來控制core, 我們也可以透過TINKER API用自己想用的程式語言來做開發</p>
+<p>以以下的閃爍LED當做例子:</p>
+<p><img alt="image" src="http://67.media.tumblr.com/216e79553b156474a48bfc5c36381bb4/tumblr_inline_mxil05iRQw1qzg4zq.gif"/></p>
+
+<p>以傳統Arduino的寫法, 這樣一個程式(這範例應該老到掉牙了), 應該是這樣的:</p>
+<p>
+<script src="https://gist.github.com/julianshen/7865855.js" type="text/javascript"></script></p>
+<p>跟C有點像, 當然啦,你不用期待它有啥多執行緒(Multiple threading), 或是啥事件驅動(event driven)等等東西可以用啦, 基本上它也是編譯好跑在Spark core上, core並沒有強大的運算能力跟複雜的硬體可以搞這麼複雜的東西, 有一點要注意的是, 這樣一個程式從Spark cloud燒錄到core去, 原本的TINKER就會被取代而失效, 必須由TINKER APP重新燒錄</p>
+<p>至於說到<a href="http://docs.spark.io/#/start/tinkering-with-tinker-the-tinker-api">TINKER API</a>, 由於是REST API, 因此你可以用你習慣的語言去包裝, 不管是java, javascript, 或是go也好, 包裝它相當容易, 基本上目前也只有四個API: digitalwrite, digitalread, analogread, analogwrite</p>
+<p>我包裝了Node.js跟Go可以使用的版本, 需要的人可以直接取用:</p>
+<ol><li>Node.js module: <a href="https://github.com/julianshen/SparkCoreJs">https://github.com/julianshen/SparkCoreJs</a></li>
+<li>Go: <a href="https://github.com/julianshen/SparkGo">https://github.com/julianshen/SparkGo</a></li>
+</ol><p>如果改用了Node.js或是Go, 那這個閃爍程式該如何寫?</p>
+<p>Node.js:</p>
+<p>
+<script src="https://gist.github.com/julianshen/7865942.js" type="text/javascript"></script></p>
+<p>這邊就可以把原本用&quot;delay&quot;的方式改用javascript中的setTimeout來實作</p>
+<p>Go:</p>
+<p>
+<script src="https://gist.github.com/julianshen/7865955.js" type="text/javascript"></script></p>
+<p>Go這邊則就是用了Tick</p>
+<p>Access token跟device ID其實是可以去你的Web IDE上查到的</p>
+<p>透過TINKER API, 這樣程式就不用一定得要&quot;on board&quot;去執行, 而且使用的程式語言也不會有侷限, 但缺點是, 首先要考慮到網路所造成的時間差問題, 另一個問題是, 現在提供的API像是digitalread這樣的API都非常的基本, 如果所有程式全部放在遠端, 遠端程式就必須要很頻繁的透過Spark cloud來發號司令, 如果連上Spark cloud的core越多, Spark cloud的負擔就相當可觀, 如果能提供custom command或custom api的方式, 把部分常態的邏輯變成在core端執行的內儲程序被呼叫, 或許可以減輕些Spark cloud的負擔</p>
+
+      <footer class="entry-meta">
+        <span class="entry-tags"><a href="http://blog.jln.co/tags/#arduino" title="Pages tagged arduino" class="tag"><span class="term">arduino</span></a><a href="http://blog.jln.co/tags/#sparkcore" title="Pages tagged sparkcore" class="tag"><span class="term">sparkcore</span></a></span>
+        
+        <div class="social-share">
+  <ul class="socialcount socialcount-small inline-list">
+    <li class="facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=http://blog.jln.co/spark-core-spark-cloud/" title="Share on Facebook"><span class="count"><i class="fa fa-facebook-square"></i> Like</span></a></li>
+    <li class="twitter"><a href="https://twitter.com/intent/tweet?text=http://blog.jln.co/spark-core-spark-cloud/" title="Share on Twitter"><span class="count"><i class="fa fa-twitter-square"></i> Tweet</span></a></li>
+    <li class="googleplus"><a href="https://plus.google.com/share?url=http://blog.jln.co/spark-core-spark-cloud/" title="Share on Google Plus"><span class="count"><i class="fa fa-google-plus-square"></i> +1</span></a></li>
+  </ul>
+</div><!-- /.social-share -->
+      </footer>
+    </div><!-- /.entry-content -->
+    <section id="disqus_thread"></section><!-- /#disqus_thread -->
+    <div class="read-more">
+  
+    <div class="read-more-header">
+      <a href="http://blog.jln.co/spark-core/" class="read-more-btn">Read More</a>
+    </div><!-- /.read-more-header -->
+    <div class="read-more-content">
+      <h3><a href="http://blog.jln.co/%E7%AD%86%E8%A8%98-%E7%A7%BB%E6%A4%8Dparse-push/" title="[筆記] 移植Parse Push">[筆記] 移植Parse Push</a></h3>
+      <p>今天追完了綠箭, 該來點功課, 不過今天忘了買啤酒了:(Parse Push, 這功能無疑應該是Parse本身比較受歡迎的部分, 既然Parse明年要關門大吉了,這部份也是必須要搬家的, 但搬家比較麻煩的不是要搬到哪去, 而是之前累積的使用者, 總不希望一搬了就找不到他們了...&hellip; <a href="http://blog.jln.co/%E7%AD%86%E8%A8%98-%E7%A7%BB%E6%A4%8Dparse-push/">Continue reading</a></p>
+    </div><!-- /.read-more-content -->
+  
+  <div class="read-more-list">
+    
+      <div class="list-item">
+        <h4><a href="http://blog.jln.co/%E7%AD%86%E8%A8%98-%E8%A2%AB%E5%86%A4%E6%9E%89%E7%9A%84mongodb/" title="[筆記] 被冤枉的MongoDB">[筆記] 被冤枉的MongoDB</a></h4>
+        <span>Published on February 18, 2016</span>
+      </div><!-- /.list-item -->
+    
+      <div class="list-item">
+        <h4><a href="http://blog.jln.co/%E7%AD%86%E8%A8%98-parse-%E8%87%AA%E6%95%91%E6%96%B9%E6%A1%88%E4%B9%8B%E4%B8%80-pushd/" title="[筆記] Parse 自救方案之一 - Pushd">[筆記] Parse 自救方案之一 - Pushd</a></h4>
+        <span>Published on February 12, 2016</span>
+      </div><!-- /.list-item -->
+    
+  </div><!-- /.read-more-list -->
+</div><!-- /.read-more -->
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrapper">
+  <footer role="contentinfo">
+    <span>&copy; 2016 Julian Shen. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> using the <a href="https://mademistakes.com/work/hpstr-jekyll-theme/" rel="nofollow">HPSTR Theme</a>.</span>
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="http://blog.jln.co/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="http://blog.jln.co/assets/js/scripts.min.js"></script>
+
+
+<!-- Asynchronous Google Analytics snippet -->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-79243751-1', 'auto');  
+  ga('require', 'linkid', 'linkid.js');
+  ga('send', 'pageview');
+</script>
+
+
+
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'julianshen'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function () {
+            var s = document.createElement('script'); s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+	        
+
+</body>
+</html>
