@@ -149,6 +149,30 @@
   <header>
     
     <div class="entry-meta">
+      <span class="entry-date date published updated"><time datetime="2013-06-17T09:46:39+08:00"><a href="http://blog.jln.co/%E7%AD%86%E8%A8%98android-studiogit-push/">June 17, 2013</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
+      
+      <span class="entry-reading-time">
+        <i class="fa fa-clock-o"></i>
+        
+Reading time ~1 minute
+      </span><!-- /.entry-reading-time -->
+      
+    </div><!-- /.entry-meta -->
+    
+      <h1 class="entry-title"><a href="http://blog.jln.co/%E7%AD%86%E8%A8%98android-studiogit-push/" rel="bookmark" title="[筆記][Android Studio]Git push" itemprop="url">[筆記][Android Studio]Git push</a></h1>
+    
+  </header>
+  <div class="entry-content">
+    <p>本想說有直接整合了Git, GitHub是件不錯的事, 沒想到要把新project push到remote git就栽了&hellip;.<br/><br/>Android Studio/Intellij 似乎沒介面設定remote (搜尋了半天沒發現這種答案, 啃了半天的使用手冊也沒發現), 現在如果要把既有的project給匯出到遠端的git (如bitbucket), 就得利用command line (以bitbucket 為例):<br/><br/></p><ol><li>在bitbucket上create一個新的project</li><li>在Android studio選&quot;VCS&quot;-&gt;&ldquo;Import into version control&rdquo;-&gt;&ldquo;Create Git repository&rdquo;, 這樣就可以建立一個local的repository</li><li>&ldquo;VCS&rdquo;-&gt;&ldquo;Git&rdquo;-&gt;&ldquo;Add to VCS&rdquo;</li><li>&ldquo;VCS&rdquo;-&gt;&ldquo;Git&rdquo;-&gt;&ldquo;Commit File&rdquo;</li><li>到command line下切換到project目錄下<i>&ldquo;git remote add origin ssh://git@bitbucket.org/xxx/xxx.git&rdquo;</i></li><li>回到Android studio, &ldquo;VCS&rdquo;-&gt;&ldquo;Git&rdquo;-&gt;&ldquo;Push&rdquo;</li></ol><div>要注意的是, 如果你已經有一個remote repository,&ldquo;VCS&rdquo;-&gt;&ldquo;Import into version control&rdquo;-&gt;&ldquo;Share project on GitHub&quot;會失敗</div><br/><br/><br/><br/>
+via Blogger <a href="http://bit.ly/13MAjob">http://bit.ly/13MAjob</a>
+
+  </div><!-- /.entry-content -->
+</article><!-- /.hentry -->
+
+<article class="hentry">
+  <header>
+    
+    <div class="entry-meta">
       <span class="entry-date date published updated"><time datetime="2013-06-16T00:01:29+08:00"><a href="http://blog.jln.co/%E7%AD%86%E8%A8%98-android-studio-gradle-native-libraries/">June 16, 2013</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
       
       <span class="entry-reading-time">
@@ -237,30 +261,6 @@ Reading time ~1 minute
   <div class="entry-content">
     <p>最近科技界比較流行的戲碼是: Google要把Google Reader給送上斷頭台了<br/><br/>這齣戲有點輕肥皂劇的感覺, 先是Google公布要把Reader給喀嚓了, 再來就是一堆重度使用者叫苦連天, 一堆原本吃Google reader豆腐的服務跳出來說要接手實作替代方案, 緊接著是<a href="http://b.qr.ae/14ZiNey">Google reader的Product manager 在Quora上爆料Google都把人抽去做Google+</a>, 再來就是有重量級的部落格重炮轟擊Google關掉受歡迎的東西卻拿人力去開發沒用的東西(Google+), 對於這樣的評論, 個人是認為&quot;言重了&quot;, 我自己本身的觀點跟這些是有點相反的, 不過我的觀點不主流, 這篇也不是為了談這個, 只是先行加點小小囉嗦&hellip; :P<br/><br/>Google Reader停了, 對原本的重度使用者以及使用到他的服務比如說feedly, 應該是重傷不少, 對我個人而言, 影響不大, 我在幾年前早把我消耗資訊的習慣, 從Reader轉到Twitter了, 個人認為Twitter也是一個很好的消化資訊的管道<br/><br/>不過, 先不管Reader和Twitter&hellip;你聽過Google有一個跟Reader同質性相當高的服務叫Google Currents嗎? 這是一個在這一年內(應該是吧)的新服務(中文譯名是有點矬):<br/><br/></p><div class="separator" style="clear: both; text-align: center;"><a href="http://bit.ly/WXnszp" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="http://bit.ly/WXnszp"/></a></div><br/>目前除了有Android版本外, iOS上也是可以找的到<br/><br/>跟Google Reader不同的是, 它比較像Flipboard, 事先把新聞網站分類整理好讓使用者訂閱, 乍看之下是跟Google Reader不一樣的概念, 但是, 其實Google Reader訂閱的東西也是可以轉移到這邊來的<br/><br/>首先, 從&quot;新增訂閱項目&quot;開始<br/><div class="separator" style="clear: both; text-align: center;"><a href="http://bit.ly/WXnveM" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="320" src="http://bit.ly/15wmjNJ" width="180"/></a></div><div class="separator" style="clear: both; text-align: left;"><br/></div><div class="separator" style="clear: both; text-align: left;">拉到最下面, 可以找到你原本就在Google Reader已訂閱的項目, 這時候你就可以把他們一個個加進來了</div><div class="separator" style="clear: both; text-align: center;"><a href="http://bit.ly/WXnszt" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="320" src="http://bit.ly/15wmh8z" width="180"/></a></div><div class="separator" style="clear: both; text-align: center;"><br/></div><div class="separator" style="clear: both; text-align: center;"><br/></div><div class="separator" style="clear: both; text-align: left;">那可不可以加自定的RSS呢? 也不難, 這邊示範了怎樣加我自己Flickr的RSS, 搜尋&quot;flickr julianshen&quot;, 馬上就找到它了, 我甚至還不用跑到Flickr網頁去找到那個RSS</div><div class="separator" style="clear: both; text-align: center;"><a href="http://bit.ly/WXnveO" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="320" src="http://bit.ly/15wmjNL" width="180"/></a></div><br/>再做另一個實驗, 搜尋我的名字&quot;julianshen&quot;, 不但我的Flickr, 我的blog, 甚至是我的GitHub, Youtube, 都跑出來可以讓你去訂閱, 而且搜尋速度, 還蠻快的<br/><div class="separator" style="clear: both; text-align: center;"><a href="http://bit.ly/WXnszv" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="320" src="http://bit.ly/15wmh8B" width="180"/></a></div><br/>當然也不是沒有缺點:<br/><br/><ol><li>目前只有Android, iOS 版本並無PC或Web版本, 當然更無其他3rd party軟體</li><li>加進去的RSS都會被自動歸類, 大多被歸類在&quot;資訊提供&quot;, 有些會被歸類的其他類別(比如說某些科技公司的新聞的RSS可能會被自動歸類到科技類), 沒辦法像Google Reader一樣自定目錄來分類, 也不能修改分類</li><li>沒辦法直接跟瀏覽器配合</li></ol><div>不過這些好像對Google來說也不是啥複雜難做的吧</div><div><br/></div><div>有兩個同質性那麼高的服務, 關掉其中一個也還蠻合理的啦, 賴到Google+頭上, 好像也有點無辜 XD</div><br/><br/><div class="separator" style="clear: both; text-align: center;"><br/></div><br/><br/><br/>
 via Blogger <a href="http://bit.ly/WXnszx">http://bit.ly/WXnszx</a>
-
-  </div><!-- /.entry-content -->
-</article><!-- /.hentry -->
-
-<article class="hentry">
-  <header>
-    
-    <div class="entry-meta">
-      <span class="entry-date date published updated"><time datetime="2013-03-14T00:47:39+08:00"><a href="http://blog.jln.co/twitter-11-api%E7%9A%84search%E4%B8%8D%E5%86%8D%E6%98%AF%E4%B8%8D%E9%9C%80%E8%A6%81authentication%E7%9A%84%E4%BA%86/">March 14, 2013</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
-      
-      <span class="entry-reading-time">
-        <i class="fa fa-clock-o"></i>
-        
-Reading time ~1 minute
-      </span><!-- /.entry-reading-time -->
-      
-    </div><!-- /.entry-meta -->
-    
-      <h1 class="entry-title"><a href="http://blog.jln.co/twitter-11-api%E7%9A%84search%E4%B8%8D%E5%86%8D%E6%98%AF%E4%B8%8D%E9%9C%80%E8%A6%81authentication%E7%9A%84%E4%BA%86/" rel="bookmark" title="Twitter 1.1 API的Search不再是不需要Authentication的了" itemprop="url">Twitter 1.1 API的Search不再是不需要Authentication的了</a></h1>
-    
-  </header>
-  <div class="entry-content">
-    <p>以往Twitter的search API是不需要任何認證, 也不需要設定啥App ID或啥consumer key的, 不過, 在API 1.1之後, 這就改了<br/><br/>因為1.1, search也列入rate limit的追蹤囉, 所以使用search API也要做認證(Authentication), 但由於search api的使用情境, 不見得一定需要使用者登入, 有些做資料分析的應用也有可能會用到, 所以強制用OAuth就有點不是很合理, 所幸, 除了用OAuth以外, 這類的API也可以使用<a href="http://bit.ly/XDV7N4" target="_blank">Application-only authentication</a>:<br/><br/></p><div class="separator" style="clear: both; text-align: center;"><a href="http://bit.ly/Wb0AuX" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="239" src="http://bit.ly/Wb0AuX" width="320"/></a></div><br/><ol><li>首先必須要用Basic Auth的方式取得token, 用consumer key當user name, consumer secret當password去呼叫/oauth2/token的API</li><ol><li>使用POST</li><li>必須要有grant_type=client_credentials</li></ol><li>成功的話就會得到access_token (注意token type為bearer)</li><li>使用這個token去呼叫API (search或其他不需要user login的API)</li><ol><li>把token加在HTTP的Authentication header (像是: Authorization: Bearer AAAAAAAAAAAAAAAA )</li><li>一定要走SSL (https), 如果是非SSL會碰到&quot;Bad Authentication data&quot;的錯誤</li></ol></ol><div>以下是Sample code (使用Go):</div><div><br/></div><div><br/></div><br/><script src="http://bit.ly/Wb0CD3"></script><br/><br/><br/>
-via Blogger <a href="http://bit.ly/X79jKT">http://bit.ly/X79jKT</a>
 
   </div><!-- /.entry-content -->
 </article><!-- /.hentry -->
