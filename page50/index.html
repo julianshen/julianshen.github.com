@@ -63,6 +63,16 @@
 
 
 
+  
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({
+        google_ad_client: "ca-pub-1789797875470932",
+        enable_page_level_ads: true
+    });
+    </script>
+  
+
 </head>
 
 <body id="post-index" class="feature">
@@ -135,6 +145,29 @@
 
 <div id="main" role="main">
   
+<article class="hentry">
+  <header>
+    
+    <div class="entry-meta">
+      <span class="entry-date date published updated"><time datetime="2011-02-13T01:20:48+08:00"><a href="http://blog.jln.co/android-decompiler-apkdex-in-2-steps/">February 13, 2011</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
+      
+      <span class="entry-reading-time">
+        <i class="fa fa-clock-o"></i>
+        
+Reading time ~1 minute
+      </span><!-- /.entry-reading-time -->
+      
+    </div><!-- /.entry-meta -->
+    
+      <h1 class="entry-title"><a href="http://blog.jln.co/android-decompiler-apkdex-in-2-steps/" rel="bookmark" title="[Android] DeCompiler APK/DEX in 2 steps" itemprop="url">[Android] DeCompiler APK/DEX in 2 steps</a></h1>
+    
+  </header>
+  <div class="entry-content">
+    <div class="posterous_autopost"><p>真的, 這真的很簡單, 只要兩個步驟</p>  <p>首先, 你要有兩個工具:</p>  <ul><li><a href="http://code.google.com/p/dex2jar/">dex2jar</a></li>  <li><a href="http://java.decompiler.free.fr/">JD-GU</a>I 或其他Java decompliler (這邊我用JD-GUI當範例)</li>  </ul><p>步驟1: 拿dex2jar把apk或是dex轉成jar (裡面包含從dex轉譯過來的class file)</p>  <blockquote>  <p><span style="font-size: medium;"><em><strong>command &gt; </strong></em></span>./dex2jar.sh ~/SKeyTest.apk </p>  <p>version:0.0.7.8-SNAPSHOT</p>  <p>5 [main] INFO pxb.android.dex2jar.v3.Main - dex2jar /Users/julianshen/SKeyTest.apk -&gt; /Users/julianshen/SKeyTest.apk.dex2jar.jar</p>  <p>Done.</p>    </blockquote>  <p>步驟2: 拿JD-GUI開啟/Users/julianshen/SKeyTest.apk.dex2jar.jar (轉出的檔名即是原始檔SKeyTest.apk加上dex2jar.jar)</p>  <p>結果就像這樣:</p>  <p><a href="http://posterous.com/getfile/files.posterous.com/temp-2011-02-12/vJBtjoHhrGIChJllstkEFiJAgehzpHsEDkhqhnchgAIxqJcdfkIGwzJmlEJE/_2011-02-13_1.14.21.png.scaled1000.png"><img src="http://posterous.com/getfile/files.posterous.com/temp-2011-02-12/vJBtjoHhrGIChJllstkEFiJAgehzpHsEDkhqhnchgAIxqJcdfkIGwzJmlEJE/_2011-02-13_1.14.21.png.scaled500.png" width="500" height="304"/></a> </p>    <p> </p>  </div>
+
+  </div><!-- /.entry-content -->
+</article><!-- /.hentry -->
+
 <article class="hentry">
   <header>
     
@@ -223,29 +256,6 @@ Reading time ~1 minute
   </header>
   <div class="entry-content">
     <div class="posterous_autopost"><p>今天早上, Honeycomb preview SDK已經出來了, 當然包含了模擬器, 不過真的是慢到嚇死人的不能用, 在我的MBP上動不了</p>  <p>剛剛注意到, 預設的Ram size只有256MB(小氣!!!), 所以就把它調大來試看看, 果然勉強可以動一下下 (我MBP只有2G RAM, 所以我設768MB給它用):</p>  <p><a href="http://posterous.com/getfile/files.posterous.com/temp-2011-01-27/fjqwviefqdhanqHzncvDElCocxonhaJucEIBcIJiAeylEFkurmEzwkBhrCgp/_2011-01-27_11.18.27.png.scaled1000.png"><img src="http://posterous.com/getfile/files.posterous.com/temp-2011-01-27/fjqwviefqdhanqHzncvDElCocxonhaJucEIBcIJiAeylEFkurmEzwkBhrCgp/_2011-01-27_11.18.27.png.scaled500.png" width="500" height="545"/></a> 不過螢幕方向, 這實在很難看</p>  <p><a href="http://posterous.com/getfile/files.posterous.com/temp-2011-01-27/ADEjlmjfuCuvntJrffcfwJGeyJocihvmIFIhFrGlcpiidsgnFcmBfrfGlmCu/_2011-01-27_10.37.01.png.scaled1000.png"><img src="http://posterous.com/getfile/files.posterous.com/temp-2011-01-27/ADEjlmjfuCuvntJrffcfwJGeyJocihvmIFIhFrGlcpiidsgnFcmBfrfGlmCu/_2011-01-27_10.37.01.png.scaled500.png" width="500" height="313"/></a> Ctrl-F12 一下就可以不用擺頭看了, 但不管怎轉還是Portrait mode, 但還是Landscape比較有fu吧!</p>  <p>不過這只要去Settings-&gt;Screen 把Auto rotation關了就好, 這下有Landscape囉!</p>  <p><a href="http://posterous.com/getfile/files.posterous.com/temp-2011-01-27/ICkrttnsbGEnriAsAIyytxDIJewIJsCGofIEDeJAyDxHAyEIxJDEfilwwjky/_2011-01-27_11.05.43.png.scaled1000.png"><img src="http://posterous.com/getfile/files.posterous.com/temp-2011-01-27/ICkrttnsbGEnriAsAIyytxDIJewIJsCGofIEDeJAyDxHAyEIxJDEfilwwjky/_2011-01-27_11.05.43.png.scaled500.png" width="500" height="311"/></a> </p>  <p>實在太慢了, 看不了幾項, Recent used application的呈現方式有WebOS的fu, 還不錯:</p>  <p><img src="http://posterous.com/getfile/files.posterous.com/temp-2011-01-27/mAehrDvHdwiFfEpcelGycnbmrjBdFDJDBEIEeyHhdybIrDeujgwxwDfjtiCq/_2011-01-27_11.12.46.png.scaled500.png" width="207" height="346"/></p>  <p>Browser&hellip;.好熟悉呀&hellip;簡直就是Chrome嘛&hellip;</p>  <p><a href="http://posterous.com/getfile/files.posterous.com/temp-2011-01-27/EnkgjsmosnnElFigglIDHuEioawqmlIAmwoxEHugqndtkrctBoyppJnikxyk/_2011-01-27_11.07.12.png.scaled1000.png"><img src="http://posterous.com/getfile/files.posterous.com/temp-2011-01-27/EnkgjsmosnnElFigglIDHuEioawqmlIAmwoxEHugqndtkrctBoyppJnikxyk/_2011-01-27_11.07.12.png.scaled500.png" width="500" height="312"/></a> 實機應該比較好(廢話)</p>    <p> </p></div>
-
-  </div><!-- /.entry-content -->
-</article><!-- /.hentry -->
-
-<article class="hentry">
-  <header>
-    
-    <div class="entry-meta">
-      <span class="entry-date date published updated"><time datetime="2011-01-27T20:29:45+08:00"><a href="http://blog.jln.co/android%E7%AD%86%E8%A8%98-%E5%9C%A8%E9%80%B2%E5%85%A5activity%E6%99%82%E4%B8%8Ddefault%E9%96%8B%E5%95%9F%E8%BB%9F%E9%AB%94%E9%8D%B5%E7%9B%A4sip/">January 27, 2011</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
-      
-      <span class="entry-reading-time">
-        <i class="fa fa-clock-o"></i>
-        
-Reading time ~1 minute
-      </span><!-- /.entry-reading-time -->
-      
-    </div><!-- /.entry-meta -->
-    
-      <h1 class="entry-title"><a href="http://blog.jln.co/android%E7%AD%86%E8%A8%98-%E5%9C%A8%E9%80%B2%E5%85%A5activity%E6%99%82%E4%B8%8Ddefault%E9%96%8B%E5%95%9F%E8%BB%9F%E9%AB%94%E9%8D%B5%E7%9B%A4sip/" rel="bookmark" title="[Android][筆記] 在進入Activity時不default開啟軟體鍵盤(SIP)" itemprop="url">[Android][筆記] 在進入Activity時不default開啟軟體鍵盤(SIP)</a></h1>
-    
-  </header>
-  <div class="entry-content">
-    <div class="posterous_autopost"><p>Android上有個很煩人的就是(尤其是某公司的手機), 如果畫面上有可以輸入的框, 預設會focus在那上面, 某些手機(或說某些公司的手機), 預設變成只要那邊取得focus, 就會跳出軟體鍵盤, 這對很多User來說, 會有點煩(要看場合啦)&hellip;..</p>  <p>要在code裡面把SIP預先藏起來的話, 要用這段code:</p>  <blockquote class="posterous_short_quote">  <p>getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);</p>    </blockquote></div>
 
   </div><!-- /.entry-content -->
 </article><!-- /.hentry -->

@@ -63,6 +63,16 @@
 
 
 
+  
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({
+        google_ad_client: "ca-pub-1789797875470932",
+        enable_page_level_ads: true
+    });
+    </script>
+  
+
 </head>
 
 <body id="post-index" class="feature">
@@ -135,6 +145,29 @@
 
 <div id="main" role="main">
   
+<article class="hentry">
+  <header>
+    
+    <div class="entry-meta">
+      <span class="entry-date date published updated"><time datetime="2010-12-29T23:03:34+08:00"><a href="http://blog.jln.co/android-screen-capture-for-android/">December 29, 2010</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
+      
+      <span class="entry-reading-time">
+        <i class="fa fa-clock-o"></i>
+        
+Reading time ~1 minute
+      </span><!-- /.entry-reading-time -->
+      
+    </div><!-- /.entry-meta -->
+    
+      <h1 class="entry-title"><a href="http://blog.jln.co/android-screen-capture-for-android/" rel="bookmark" title="[Android] Screen capture for Android" itemprop="url">[Android] Screen capture for Android</a></h1>
+    
+  </header>
+  <div class="entry-content">
+    <div class="posterous_autopost"><p>雖然Android可以透過ddms抓screen shot, 不過這樣畢竟沒iOS方便, iOS只要按個熱鍵就可以抓了, 不用接著電腦</p>  <p>要在Android上實現這功能其實也不難(不過,應該只能跑在rooted device吧?本文介紹的是直接跟AOSP一起build用platform certificate)</p>  <p>第一個直覺想到的是直接access framebuffer, 不過這樣實在太醜了, 我想要做的是直接利用Android既有的framework</p>  <p>想到framebuffer在往上一層就是surfaceflinger了, 稍微掃一下code果然發現有captureScreen這種東西, 所以下一步就是grep一下找看看範例囉!!沒想到, 運氣真好, 一下子就在 <em><strong>frameworks/base/services/surfaceflinger/tests/screencap </strong></em>這邊找到範例, 還是一個standalone的程式</p>  <p>不過我想做的是直接收一個Intent就可以把screen capture到SD卡, 所以這個東西還要做進一步包裝, 於是動手把它包裝成JNI, 並寫了一個簡單的BroadcastReceiver去呼叫他&hellip;..花不到一個小時&hellip;搞定!!! XD</p>  <p><a href="https://github.com/julianshen/ScreenCap">Source在這邊</a></p>  <p>不過, 這不是我原本想做的東西&hellip;.繼續改&hellip; :P</p></div>
+
+  </div><!-- /.entry-content -->
+</article><!-- /.hentry -->
+
 <article class="hentry">
   <header>
     
@@ -223,29 +256,6 @@ Reading time ~1 minute
   </header>
   <div class="entry-content">
     <div class="posterous_autopost"><div style="padding: 5px 5px 10px 5px; margin-top: 5px; border: 1px solid #ddd; background-color: #fff;line-height: 16px;">       <div style="float: left; margin-right: 5px; overflow: visible;"><a href="http://posterous.com/getfile/files.posterous.com/julianshen/oHtcFelCBhrakgnHijrxeAradIkfcCGlJDaHgfkAChIoxhvpvsggyfHcijoA/p450.mov" style="color: #bc7134;"><img src="http://posterous.com/images/filetypes/mov.png" style="border: none;"/></a></div>       <div style="font-size: 10px; color: #424037;line-height: 16px;">Download now or <a href="http://julianshen.posterous.com/37395876" style="color: #bc7134">watch on posterous</a></div>       <b><a href="http://posterous.com/getfile/files.posterous.com/julianshen/oHtcFelCBhrakgnHijrxeAradIkfcCGlJDaHgfkAChIoxhvpvsggyfHcijoA/p450.mov" style="color: #bc7134;">p450.mov</a></b> <span style="font-size: 10px; color: #424037;">(2000 KB)</span>       <br style="clear: both;"/></div>      </div>
-
-  </div><!-- /.entry-content -->
-</article><!-- /.hentry -->
-
-<article class="hentry">
-  <header>
-    
-    <div class="entry-meta">
-      <span class="entry-date date published updated"><time datetime="2010-12-24T23:42:22+08:00"><a href="http://blog.jln.co/android-getting-package-signature-in-runtime/">December 24, 2010</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
-      
-      <span class="entry-reading-time">
-        <i class="fa fa-clock-o"></i>
-        
-Reading time ~1 minute
-      </span><!-- /.entry-reading-time -->
-      
-    </div><!-- /.entry-meta -->
-    
-      <h1 class="entry-title"><a href="http://blog.jln.co/android-getting-package-signature-in-runtime/" rel="bookmark" title="[Android] Getting package signature in runtime" itemprop="url">[Android] Getting package signature in runtime</a></h1>
-    
-  </header>
-  <div class="entry-content">
-    <div class="posterous_autopost"><p>如果使用過Google MapView你會發現G社會叫你用你的package signature去申請map key(<a href="http://code.google.com/intl/zh-TW/android/add-ons/google-apis/mapkey.html">參考這邊</a>)</p>  <p>那MapView本身又是如何取得你的package signature的呢? </p>  <p>其實很簡單, 可以透過目前的Context用<a href="http://developer.android.com/reference/android/content/Context.html#getPackageName()">Context.getPackageName()</a>取得package name, 然後再利用package name去<a href="http://developer.android.com/reference/android/content/pm/PackageManager.html#getPackageInfo(java.lang.String,%20int)">PackageManager.getPackageInfo()</a>去查詢package的資訊(<a href="http://developer.android.com/reference/android/content/pm/PackageInfo.html">PackageInfo</a>), 裡面有項資訊&quot;signatures&quot;就是我們所要的(一個package是可以被sign多次的)</p>  <p><a href="https://github.com/facebook/facebook-android-sdk">Facebook Android SDK</a>所提供的Single sign on (SSO)也是得先在server端註冊你的package signature, 這樣它可以避免別人偷用你的API key去做single sign on的動作(因為別人的AP可能不會跟你sign同一個signature)</p>  <p>但Facebook的SSO是透過Facebook for Android來做login的動作的, 你的application是透過startActivityForResult去叫Facebook for Android, 這牽涉到兩個不同的package, 如果依上面的例子的話, MapView其實是鑲嵌在你的UI上, 跟你的application是同一個package, 所以可以拿context來取得這資訊</p>  <p>Facebook for Android是如何取得call他的人的signature呢?</p>  <p>其實也是用<a href="http://developer.android.com/reference/android/content/pm/PackageManager.html#getPackageInfo(java.lang.String,%20int)">PackageManager.getPackageInfo()</a> 來取得, 但它如何知道呼叫他的人是哪個package的?</p>  <p>這只要組合兩個API就可以辦到了</p>  <p>第一個是<a href="http://developer.android.com/reference/android/os/Binder.html#getCallingUid()">Binder.getCallingUid()</a> , 這可以讓你取得你的Calling process的UID</p>  <p>第二個是<a href="http://developer.android.com/reference/android/content/pm/PackageManager.html#getPackagesForUid(int)">PackageManager.getPackagesForUid()</a> , 這可以讓你取得屬於這UID的所有package</p>  <p>或許這邊你可能會有點疑問, 不是不同的package可以share UID嗎? 這樣取出來的package可能有很多個, 我怎知道用哪個? 我們目的只是要取得signature, 所以用哪個都一樣, 因為share UID的必要條件就是這些相同UID的package都是要sign同一把key, 所以只要找出所有package共通的signature就大功告成了 </p>  </div>
 
   </div><!-- /.entry-content -->
 </article><!-- /.hentry -->
