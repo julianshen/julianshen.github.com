@@ -149,29 +149,6 @@
   <header>
     
     <div class="entry-meta">
-      <span class="entry-date date published updated"><time datetime="2011-05-08T11:58:56+08:00"><a href="http://blog.jln.co/%E8%8D%89%E8%8E%93%E7%89%9B%E5%A5%B6/">May 08, 2011</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
-      
-      <span class="entry-reading-time">
-        <i class="fa fa-clock-o"></i>
-        
-Reading time ~1 minute
-      </span><!-- /.entry-reading-time -->
-      
-    </div><!-- /.entry-meta -->
-    
-      <h1 class="entry-title"><a href="http://blog.jln.co/%E8%8D%89%E8%8E%93%E7%89%9B%E5%A5%B6/" rel="bookmark" title="草莓牛奶" itemprop="url">草莓牛奶</a></h1>
-    
-  </header>
-  <div class="entry-content">
-    <div class="posterous_autopost"><a href="http://instagr.am/p/D_gb2/"><div class="p_embed p_image_embed"> <a href="http://posterous.com/getfile/files.posterous.com/julianshen/cAhixDsJwiaekqgapIlonmwpujEzyvJDArcbzjkoelemwmofbsEAjtjxAceB/media_httpimagesinsta_wgAgz.jpg.scaled1000.jpg"><img alt="Media_httpimagesinsta_wgagz" height="500" src="http://posterous.com/getfile/files.posterous.com/julianshen/cAhixDsJwiaekqgapIlonmwpujEzyvJDArcbzjkoelemwmofbsEAjtjxAceB/media_httpimagesinsta_wgAgz.jpg.scaled500.jpg" width="500"/></a> </div> </a></div>
-
-  </div><!-- /.entry-content -->
-</article><!-- /.hentry -->
-
-<article class="hentry">
-  <header>
-    
-    <div class="entry-meta">
       <span class="entry-date date published updated"><time datetime="2011-05-07T13:06:01+08:00"><a href="http://blog.jln.co/%E7%AD%86%E8%A8%98-building-64-bit-v8-on-ubuntu/">May 07, 2011</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
       
       <span class="entry-reading-time">
@@ -256,6 +233,29 @@ Reading time ~1 minute
   </header>
   <div class="entry-content">
     <div class="posterous_autopost"><p><a href="http://julianshen.posterous.com/poc-using-javascript-to-develop-android-activ">上次做的</a>僅止於setText這個簡單的動作, 那像是處理click這類的怎做?</p>  <p>先拿click來做範例, 在Android中, 如果要替一個view加上處理click動作要利用到View.setOnClickListener, 但setOnClickListener的參數是onClickListener, 這是一個java interface, 在Rhino中如何實作一個Java interface?</p>  <p>首先, 不要被Rhino的文件給騙了, 那有問題(還花了我一個晚上看 :( ), Rhino的source codes裡有個example目錄, 裡面有隻SwingApplication.js, 答案就在這邊</p>  <p>因此, onClick就會像是這樣:</p>  <blockquote>  <p><span style="color: #800000;">var</span> button1 = findview(R.id(<span style="color: #3366ff;">&lsquo;button1&rsquo;</span>));</p>  <p>button1.setOnClickListener(<span style="color: #800000;">function</span>(view, methodName)<br/>{<br/>     if (methodName == <span style="color: #3366ff;">&ldquo;onClick&rdquo;</span>) { <br/>         log(&ldquo;MyScript&rdquo;, &ldquo;clicked&rdquo;); <br/> } });</p>    </blockquote>  <p>在這function內, 必須要自己判斷methodName來知道是哪個method被呼叫到, 應該是所有的java interface都可以用這樣去實作</p>  <p>OK, 這樣&hellip;很醜&hellip;繼續改進</p></div>
+
+  </div><!-- /.entry-content -->
+</article><!-- /.hentry -->
+
+<article class="hentry">
+  <header>
+    
+    <div class="entry-meta">
+      <span class="entry-date date published updated"><time datetime="2011-05-02T01:16:28+08:00"><a href="http://blog.jln.co/%E5%85%AC%E9%96%8B-%E9%98%BF%E6%A0%BC%E8%A5%BF%E8%87%AA%E5%82%B3/">May 02, 2011</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
+      
+      <span class="entry-reading-time">
+        <i class="fa fa-clock-o"></i>
+        
+Reading time ~1 minute
+      </span><!-- /.entry-reading-time -->
+      
+    </div><!-- /.entry-meta -->
+    
+      <h1 class="entry-title"><a href="http://blog.jln.co/%E5%85%AC%E9%96%8B-%E9%98%BF%E6%A0%BC%E8%A5%BF%E8%87%AA%E5%82%B3/" rel="bookmark" title="公開: 阿格西自傳" itemprop="url">公開: 阿格西自傳</a></h1>
+    
+  </header>
+  <div class="entry-content">
+    <div class="posterous_autopost"><p><a href="http://www.anobii.com/books/%E5%85%AC%E9%96%8B/9789861202808/01844cc131951bacae/" title="More about 公開"><img title="More about 公開" src="http://image.anobii.com/anobi/image_book.php?type=4&amp;item_id=01844cc131951bacae&amp;time=1285082110" alt="More about 公開" style="padding: 5px;"/></a></p>  <p>這本書前陣子已經熬夜看完了, 想寫這篇一直沒寫, 最早剛出中文版時本來就想看了, 但被厚厚的一本嚇到, 但真的看的時候, 外表只是嚇人的, 整本內容雖多, 但看完還是大呼不不過癮呀!</p>  <p>雖然我網球看的不多, 不過正好他的時代, 我也多多少少有看了一些, 以前就有點蠻喜歡他的特立獨行(我自己也有點特立獨行吧, 總喜歡這類的人), 雖然對上Sampras他總是佔下風, 但他的職業生涯可是比Sampras更長, 成就也不低呀</p>  <p>本想說一個網球選手自己寫的自傳有可能會很沈悶, 但阿格西這本讀來完全不會枯燥, 完全看的出他直率坦蕩的個性, 每字每句毫不修飾, 好像想到啥就講啥, 愛恨分明, 喜歡誰不喜歡誰都明講, 毫不掩飾, 但整本讀起來就是很流暢, 實在看不出他接受的教育並不多</p>  <p>他就像是大多數的天才一樣, 自負, 自信高, 也因為本身的才能跟盛名差點招致毀滅, 但他不會完全倚靠他的天份, 而是想辦法打倒再站起來, 不斷的突破, 直到不能動為止, 雖然, 看得出來, 他真的很不喜歡網球, 其實根本就已經無關喜不喜歡了, 網球已經是他的一部分了</p>  <p>看完這本自傳後, 我只有一個感覺&hellip;我真喜歡這傢伙&hellip;還真想擁有他那一點點的狂妄呀~~~</p></div>
 
   </div><!-- /.entry-content -->
 </article><!-- /.hentry -->

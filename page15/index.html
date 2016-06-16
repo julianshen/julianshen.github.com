@@ -149,30 +149,6 @@
   <header>
     
     <div class="entry-meta">
-      <span class="entry-date date published updated"><time datetime="2012-10-24T13:19:52+08:00"><a href="http://blog.jln.co/go%E7%AD%86%E8%A8%98-defer/">October 24, 2012</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
-      
-      <span class="entry-reading-time">
-        <i class="fa fa-clock-o"></i>
-        
-Reading time ~1 minute
-      </span><!-- /.entry-reading-time -->
-      
-    </div><!-- /.entry-meta -->
-    
-      <h1 class="entry-title"><a href="http://blog.jln.co/go%E7%AD%86%E8%A8%98-defer/" rel="bookmark" title="[Go筆記] defer" itemprop="url">[Go筆記] defer</a></h1>
-    
-  </header>
-  <div class="entry-content">
-    <p>Go沒有exception handling這樣的設計, 所以沒有像java裡的try{} catch{} finally{&hellip;}這種東西, 在java裡, 我們會用<br/><br/></p><blockquote class="tr_bq"><i>try { </i></blockquote><blockquote class="tr_bq"><i>     &hellip;..</i></blockquote><blockquote class="tr_bq"><i>} finally {  </i></blockquote><blockquote class="tr_bq"><i>   <span style="color: #cc0000;"> in.close();</span></i></blockquote><blockquote class="tr_bq"><i>}</i></blockquote><blockquote class="tr_bq"></blockquote>在finally區塊內去做一些善後的工作, 以確保這些善後工作可以在程式執行後不管有沒錯誤發生都可以被執行到, 在Go中, 用的則是defer:<br/><script src="http://bit.ly/P19oA0"></script><br/><br/>defer後面接的可以是一個closure, 這些closure會在函式執行結束後(return 之後)緊接著被執行, 所以這段程式執行的結果會是這樣:<br/><br/><blockquote class="tr_bq"><blockquote class="tr_bq"><i style="background-color: yellow;">6</i></blockquote><blockquote class="tr_bq"><i style="background-color: yellow;">b</i></blockquote><blockquote class="tr_bq"><i style="background-color: yellow;">e</i></blockquote><blockquote class="tr_bq"><i style="background-color: yellow;">c</i></blockquote><blockquote class="tr_bq"><i style="background-color: yellow;">nn</i></blockquote><blockquote class="tr_bq"><i style="background-color: yellow;">a</i></blockquote><blockquote class="tr_bq"><i style="background-color: yellow;">&mdash;&mdash;&ndash;</i></blockquote><blockquote class="tr_bq"><i style="background-color: yellow;">1</i></blockquote><blockquote class="tr_bq"><i style="background-color: yellow;">b</i></blockquote><blockquote class="tr_bq"><i style="background-color: yellow;">e</i></blockquote><blockquote class="tr_bq"><i style="background-color: yellow;">a</i></blockquote></blockquote><br/><br/>
-via Blogger <a href="http://bit.ly/RUP5S0">http://bit.ly/RUP5S0</a>
-
-  </div><!-- /.entry-content -->
-</article><!-- /.hentry -->
-
-<article class="hentry">
-  <header>
-    
-    <div class="entry-meta">
       <span class="entry-date date published updated"><time datetime="2012-10-24T01:25:12+08:00"><a href="http://blog.jln.co/go-do-not-communicate-by-sharing-memory/">October 24, 2012</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
       
       <span class="entry-reading-time">
@@ -261,6 +237,30 @@ Reading time ~1 minute
   <div class="entry-content">
     <p>趁著等車時寫一下昨天搭車時想到的一些東西<br/><br/>今年參加了好幾個國內外的hackthon，收穫還算不少，覺得，很多developers都有很多不錯且創新的想法，但實際上，大部份的工作場，除了以developers為主體的公司外，大部份的developers處的角色都是執行者，這些＂想法＂反而往往在工作場合不會出現或被埋沒，這讓我想到＂Effective Programming&quot;裡提到的＂developers大多不善於表達＂！<br/><br/> 這倒很難辯駁的，這一行，包含我自己，不用說不懂的做美美的簡報、炫麗的demo，連把一個簡單的觀念傳達給別人都可能要花上大把時間，尤其是傳達給非技術相關的，developers的思考模式大多是非線性的、跳tone的，強一點的根本就是multi cores，而且，都是沒耐性的，所以往往傳達給別人的，大多不到本意的六成，被瞭解的大概又只剩這一半<br/><br/>Hackthon算是一種不錯的訓練，訓練人在短時間團隊合作並傳達更多有趣的想法，雖然我不是很喜歡那些藉這種場合宣傳自己產品的，畢竟他們的產物不是在當下產生的，不過也是很多有趣的startup就這麼興起的<br/><br/> <br/><br/></p><div style="text-align: right; font-size: small; clear: both;" id="blogsy_footer"><a href="http://blogsyapp.com" target="_blank"><img src="http://bit.ly/Nh8z1A" alt="在Blogsy發表的" style="vertical-align: middle; margin-right: 5px;" width="20" height="20"/>在Blogsy發表的</a></div><br/><br/>
 via Blogger <a href="http://bit.ly/PXPsfy">http://bit.ly/PXPsfy</a>
+
+  </div><!-- /.entry-content -->
+</article><!-- /.hentry -->
+
+<article class="hentry">
+  <header>
+    
+    <div class="entry-meta">
+      <span class="entry-date date published updated"><time datetime="2012-09-08T00:21:43+08:00"><a href="http://blog.jln.co/android-gcm%E5%8F%AF%E4%BB%A5%E6%80%8E%E9%BA%BC%E7%94%A8/">September 08, 2012</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
+      
+      <span class="entry-reading-time">
+        <i class="fa fa-clock-o"></i>
+        
+Reading time ~1 minute
+      </span><!-- /.entry-reading-time -->
+      
+    </div><!-- /.entry-meta -->
+    
+      <h1 class="entry-title"><a href="http://blog.jln.co/android-gcm%E5%8F%AF%E4%BB%A5%E6%80%8E%E9%BA%BC%E7%94%A8/" rel="bookmark" title="[Android] GCM可以怎麼用?" itemprop="url">[Android] GCM可以怎麼用?</a></h1>
+    
+  </header>
+  <div class="entry-content">
+    GCM的前身就是所謂的C2DM, 最早在今年Google I/O時聽到C2DM將進化到GCM時, 就在想, 一定要架個server才可以利用GCM嗎?<br/><br/>其實是可以不用的<br/><br/><div class="separator" style="clear: both; text-align: center;"><a href="http://bit.ly/Ngg8t2" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="104" src="http://bit.ly/Q9qUPv" width="320"/></a></div>從API console可知, 是可以設定允許從任意IP傳送的<br/><br/>再來看看一般的流程:<br/>1. Regster:<br/><blockquote class="tr_bq"><pre class="prettyprint pretty-java"><span class="typ">GCMRegistrar</span><span class="pun">.</span><span class="pln">checkDevice</span><span class="pun">(</span><span class="kwd">this</span><span class="pun">);</span><span class="pln"><br/></span><span class="typ">GCMRegistrar</span><span class="pun">.</span><span class="pln">checkManifest</span><span class="pun">(</span><span class="kwd">this</span><span class="pun">);</span><span class="pln"><br/></span><span class="kwd">final</span><span class="pln"> </span><span class="typ">String</span><span class="pln"> regId </span><span class="pun">=</span><span class="pln"> </span><b><span class="typ">GCMRegistrar</span><span class="pun">.</span><span class="pln">getRegistrationId</span><span class="pun">(</span><span class="kwd">this</span><span class="pun">);</span></b><span class="pln"><br/></span><span class="kwd">if</span><span class="pln"> </span><span class="pun">(</span><span class="pln">regId</span><span class="pun">.</span><span class="pln">equals</span><span class="pun">(</span><span class="str">""</span><span class="pun">))</span><span class="pln"> </span><span class="pun">{</span><span class="pln"><br/></span><span class="typ">GCMRegistrar</span><span class="pun">.</span><span class="kwd">register</span><span class="pun">(</span><span class="kwd">this</span><span class="pun">,</span><span class="pln"> SENDER_ID</span><span class="pun">);</span><span class="pln"><br/></span><span class="pun">}</span><span class="pln"> </span><span class="kwd">else</span><span class="pln"> </span><span class="pun">{</span><span class="pln"><br/></span><span class="typ">Log</span><span class="pun">.</span><span class="pln">v</span><span class="pun">(</span><span class="pln">TAG</span><span class="pun">,</span><span class="pln"> </span><span class="str">"Already registered"</span><span class="pun">);</span><span class="pln"><br/></span><span class="pun">}</span></pre></blockquote>2. 取得Registration ID後將ID送至Server <br/>3. Server之後可以用這ID送訊息給這一支手機<br/><br/>由&quot;2&quot;看來, 其實Registration ID是關鍵, 而不是Server, 任何人只要有Registration ID, 就可以傳送訊息給這隻手機了<br/><br/>做了個小小實驗, 寫了一支Activity同時具備了收訊息以及傳送(給自己)的能力:<br/><a href="http://bit.ly/Nggb8b"><br/></a><a href="http://bit.ly/Q9qSag">http://bit.ly/Q9qSag</a><br/><br/>想到的應用: 兩隻手機透過條碼或藍牙交換Registration ID, 就可以透過GCM互傳訊息了<br/><br/>缺點: Registration ID如果有變(GCM是有可能更換ID), 就失效了<br/><br/>
+via Blogger <a href="http://bit.ly/Q9qSai">http://bit.ly/Q9qSai</a>
 
   </div><!-- /.entry-content -->
 </article><!-- /.hentry -->

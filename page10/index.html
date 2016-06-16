@@ -149,30 +149,6 @@
   <header>
     
     <div class="entry-meta">
-      <span class="entry-date date published updated"><time datetime="2013-06-29T08:31:32+08:00"><a href="http://blog.jln.co/android-retrofit-signpost/">June 29, 2013</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
-      
-      <span class="entry-reading-time">
-        <i class="fa fa-clock-o"></i>
-        
-Reading time ~1 minute
-      </span><!-- /.entry-reading-time -->
-      
-    </div><!-- /.entry-meta -->
-    
-      <h1 class="entry-title"><a href="http://blog.jln.co/android-retrofit-signpost/" rel="bookmark" title="[Android] Retrofit + Signpost :  替Retrofit加上OAuth支援" itemprop="url">[Android] Retrofit + Signpost :  替Retrofit加上OAuth支援</a></h1>
-    
-  </header>
-  <div class="entry-content">
-    看到Square發表的這個Retrofit - <a href="http://bit.ly/167v72a">http://bit.ly/167v72a</a> 蠻有趣的, 它的目的似乎是試圖的想要去簡化開發REST client, 開發者不用寫太多的邏輯, 只要寫一個Interface跟利用annotation就可以完成一個簡單的REST client:<br/><br/><pre class="prettyprint prettyprinted" style="background-color: whitesmoke; border-bottom-left-radius: 4px; border-bottom-right-radius: 4px; border-top-left-radius: 4px; border-top-right-radius: 4px; border: 1px solid rgba(0, 0, 0, 0.14902); color: #666666; font-family: Monaco, Menlo, Consolas, 'Courier New', monospace; font-size: 13px; line-height: 20px; margin-bottom: 20px; padding: 9.5px; white-space: pre-wrap; word-break: break-all; word-wrap: break-word;"><span class="kwd">public</span><span class="pln" style="color: black;"> </span><span class="kwd">interface</span><span class="pln" style="color: black;"> </span><span class="typ" style="color: #222222;">GitHubService</span><span class="pln" style="color: black;"> </span><span class="pun" style="color: #888888;">{</span><span class="pln" style="color: black;"><br/></span><span class="lit">@GET</span><span class="pun" style="color: #888888;">(</span><span class="str" style="color: #32835b;">"/users/{user}/repos"</span><span class="pun" style="color: #888888;">)</span><span class="pln" style="color: black;"><br/></span><span class="typ" style="color: #222222;">List</span><span class="pun" style="color: #888888;">&lt;</span><span class="typ" style="color: #222222;">Repo</span><span class="pun" style="color: #888888;">&gt;</span><span class="pln" style="color: black;"> listRepos</span><span class="pun" style="color: #888888;">(</span><span class="lit">@Path</span><span class="pun" style="color: #888888;">(</span><span class="str" style="color: #32835b;">"user"</span><span class="pun" style="color: #888888;">)</span><span class="pln" style="color: black;"> </span><span class="typ" style="color: #222222;">String</span><span class="pln" style="color: black;"> user</span><span class="pun" style="color: #888888;">);</span><span class="pln" style="color: black;"><br/></span><span class="pun" style="color: #888888;">}</span></pre><div><span class="pun" style="color: #888888;"><br/></span></div>因為開發者只需要寫interface和annotation, 實質上並不用寫任何的code, 真正實作的部份他用了Proxy class的技巧包裝起來了, 這作法讓我想起來很久之前我在之前的工作幫公司寫的一個legacy系統的wrapper, 那時有很多機器產生的interface, 如果人工一個個實作很浪費時間, Proxy class可以解決掉這一部分的問題, 同樣的在retrofit似乎也是想用這技巧節省實作<br/><br/>但可惜的是, 現在的retrofit並還沒加入OAuth的支援, 因此送出去的API部分並沒被oauth簽章過,不過所幸要解決這一部分也不難, 寫一個Client class搭配<a href="http://bit.ly/11OBeF8" target="_blank">Signpost</a>還是可以做到, 這邊範例繼承了OkClient(使用OkHttp) :<br/><br/><br/><script src="http://bit.ly/14BPkrJ"></script><br/>因為OkHttp也是一種HttpURLConnection, 因此Signpost搭配DefaultOAuthProvider和DefaultOAuthConsumer即可, 另外初始化RestAdapter時加上這個新的Client即可:<br/><br/><blockquote class="tr_bq">RestAdapter restAdapter = new RestAdapter.Builder()                         .setClient(new SignedOkClient(mConsumer)) </blockquote><br/><br/>
-via Blogger <a href="http://bit.ly/11OBeFb">http://bit.ly/11OBeFb</a>
-
-  </div><!-- /.entry-content -->
-</article><!-- /.hentry -->
-
-<article class="hentry">
-  <header>
-    
-    <div class="entry-meta">
       <span class="entry-date date published updated"><time datetime="2013-06-27T01:46:42+08:00"><a href="http://blog.jln.co/android-%E8%87%AA%E5%AE%9A%E7%BE%A9view%E5%B1%AC%E6%80%A7/">June 27, 2013</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
       
       <span class="entry-reading-time">
@@ -261,6 +237,30 @@ Reading time ~1 minute
   <div class="entry-content">
     <p>在<a href="https://developers.google.com/events/io/sessions/324958375" target="_blank">Androids Do Daydream</a>裡有提到Romain Guy要他提(大概假的吧)在layout裡面放&quot;&lt;blink&gt;&ldquo;可以做到view閃爍的效果而不用寫到一行code<br/><br/>查了一下AOSP的原始碼也的確有這東西, 它是一個躲在<a href="https://github.com/android/platform_frameworks_base/blob/5cb0f2184656642160e9ac032d0646f766058a5b/core/java/android/view/LayoutInflater.java" target="_blank">LayoutInflater</a>的一個叫BlinkLayout的東西, 這樣一來就可以配合<a href="http://developer.android.com/reference/android/widget/TextClock.html" target="_blank">TextClock</a> (API Level 17)來做一個閃爍的時鐘了<br/><br/><script src="https://gist.github.com/julianshen/5822197.js"></script><br/>不過, 這樣, 是整個TextClock在閃, 而不是像一般數字鐘一樣是只有&rdquo;:&ldquo;閃, 如果要做到只有&rdquo;:&ldquo;在閃, 那只好把&quot;時&quot;跟&quot;分&quot;給拆開, 像這樣: <br/><br/><script src="https://gist.github.com/julianshen/5822234.js"></script><br/><br/>
 via Blogger <a href="http://julianshen.blogspot.com/2013/06/android-blinklayout.html">http://julianshen.blogspot.com/2013/06/android-blinklayout.html</a></p>
+
+  </div><!-- /.entry-content -->
+</article><!-- /.hentry -->
+
+<article class="hentry">
+  <header>
+    
+    <div class="entry-meta">
+      <span class="entry-date date published updated"><time datetime="2013-06-17T09:46:39+08:00"><a href="http://blog.jln.co/%E7%AD%86%E8%A8%98android-studiogit-push/">June 17, 2013</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
+      
+      <span class="entry-reading-time">
+        <i class="fa fa-clock-o"></i>
+        
+Reading time ~1 minute
+      </span><!-- /.entry-reading-time -->
+      
+    </div><!-- /.entry-meta -->
+    
+      <h1 class="entry-title"><a href="http://blog.jln.co/%E7%AD%86%E8%A8%98android-studiogit-push/" rel="bookmark" title="[筆記][Android Studio]Git push" itemprop="url">[筆記][Android Studio]Git push</a></h1>
+    
+  </header>
+  <div class="entry-content">
+    <p>本想說有直接整合了Git, GitHub是件不錯的事, 沒想到要把新project push到remote git就栽了&hellip;.<br/><br/>Android Studio/Intellij 似乎沒介面設定remote (搜尋了半天沒發現這種答案, 啃了半天的使用手冊也沒發現), 現在如果要把既有的project給匯出到遠端的git (如bitbucket), 就得利用command line (以bitbucket 為例):<br/><br/></p><ol><li>在bitbucket上create一個新的project</li><li>在Android studio選&quot;VCS&quot;-&gt;&ldquo;Import into version control&rdquo;-&gt;&ldquo;Create Git repository&rdquo;, 這樣就可以建立一個local的repository</li><li>&ldquo;VCS&rdquo;-&gt;&ldquo;Git&rdquo;-&gt;&ldquo;Add to VCS&rdquo;</li><li>&ldquo;VCS&rdquo;-&gt;&ldquo;Git&rdquo;-&gt;&ldquo;Commit File&rdquo;</li><li>到command line下切換到project目錄下<i>&ldquo;git remote add origin ssh://git@bitbucket.org/xxx/xxx.git&rdquo;</i></li><li>回到Android studio, &ldquo;VCS&rdquo;-&gt;&ldquo;Git&rdquo;-&gt;&ldquo;Push&rdquo;</li></ol><div>要注意的是, 如果你已經有一個remote repository,&ldquo;VCS&rdquo;-&gt;&ldquo;Import into version control&rdquo;-&gt;&ldquo;Share project on GitHub&quot;會失敗</div><br/><br/><br/><br/>
+via Blogger <a href="http://bit.ly/13MAjob">http://bit.ly/13MAjob</a>
 
   </div><!-- /.entry-content -->
 </article><!-- /.hentry -->
