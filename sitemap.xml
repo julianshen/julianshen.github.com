@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://blog.jln.co/golang-%25E4%25B8%2580%25E5%2580%258B%25E7%25B0%25A1%25E5%2596%25AE%25E7%259A%2584mongo-db-proxy/</loc>
+<lastmod>2016-06-19T13:17:04+08:00</lastmod>
+</url>
+<url>
 <loc>http://blog.jln.co/%25E5%258F%2588%25E5%2586%258D%25E6%258A%258Ablog%25E6%2590%25AC%25E5%25AE%25B6%25E4%25BA%2586/</loc>
 <lastmod>2016-06-16T20:37:58+08:00</lastmod>
 </url>
