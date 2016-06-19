@@ -190,13 +190,14 @@ Reading time ~1 minute
 </ol>
 
 <h4 id="section-2">使用方法</h4>
-<p>這個工具是用Go寫的, 所以使用之前需要先安裝go
-##### 安裝
-<code class="highlighter-rouge">go get julianshen/mongoproxy/mp</code></p>
+<p>這個工具是用Go寫的, 所以使用之前需要先安裝go</p>
+
+<h5 id="section-3">安裝</h5>
+<p><code class="highlighter-rouge">go get julianshen/mongoproxy/mp</code></p>
 
 <p>這個步驟做完後, 就可以把mp這個指令裝好了, 確定 $GOPATH/bin是在你路徑內, mp這個檔也是在那邊</p>
 
-<h5 id="section-3">使用</h5>
+<h5 id="section-4">使用</h5>
 <p><code class="highlighter-rouge">mp --port=6001 --remote=mydb:27017 --response</code></p>
 
 <p>其中:</p>
@@ -223,16 +224,17 @@ Reading time ~1 minute
 </code></pre>
 </div>
 
-<p>對應golang, 我定義成這樣:
-<code class="highlighter-rouge">go
-type MsgHeader struct {
-	MessageLength int32 // total message size, including this
-	RequestID     int32 // identifier for this message
-	ResponseTo    int32 // requestID from the original request
-	//   (used in responses from db)
-	Opcode // request type - see table below
-}
-</code></p>
+<p>對應golang, 我定義成這樣:</p>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="k">type</span><span class="x"> </span><span class="n">MsgHeader</span><span class="x"> </span><span class="k">struct</span><span class="x"> </span><span class="p">{</span><span class="x">
+	</span><span class="n">MessageLength</span><span class="x"> </span><span class="kt">int32</span><span class="x"> </span><span class="c">// total message size, including this</span><span class="x">
+	</span><span class="n">RequestID</span><span class="x">     </span><span class="kt">int32</span><span class="x"> </span><span class="c">// identifier for this message</span><span class="x">
+	</span><span class="n">ResponseTo</span><span class="x">    </span><span class="kt">int32</span><span class="x"> </span><span class="c">// requestID from the original request</span><span class="x">
+	</span><span class="c">//   (used in responses from db)</span><span class="x">
+	</span><span class="n">Opcode</span><span class="x"> </span><span class="c">// request type - see table below</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre>
+</div>
 
 <p>因為一開始就可以讀到整個訊息長度的, 所以就蠻好解析的, wire protocol的實作我是有參考了<a href="https://github.com/facebookgo/dvara">dvara</a>, 本來是有想拿它的code來改, 但看了一下發現它也沒完整實作wire protocol, 秉著自己也來了解一下這部份的想法, 就重頭自己刻了</p>
 
@@ -290,7 +292,7 @@ type MsgHeader struct {
 
 <p>我是用<a href="https://www.wireshark.org">Wireshark</a>來驗證我的實作有沒問題, Wireshark預設會把到27017 port的資料解析成wire protocol的內容供閱讀, 當然也可以自己手動請它解析</p>
 
-<h4 id="section-4">其他應用</h4>
+<h4 id="section-5">其他應用</h4>
 <p>這樣的proxy應該可以不只應用在debug, 像是Parse open source的<a href="https://github.com/facebookgo/dvara">dvara</a>, 它也是利用了proxy來做connection pooling, 應該也可以用在request routing和caching的應用上</p>
 
   </div><!-- /.entry-content -->

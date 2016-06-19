@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.1.6">Jekyll</generator><link href="http://blog.jln.co/feed.xml" rel="self" type="application/atom+xml" /><link href="http://blog.jln.co/" rel="alternate" type="text/html" /><updated>2016-06-19T14:19:00+08:00</updated><id>http://blog.jln.co/</id><title>Le murmure de Julian</title><subtitle>朱隸安貓囈語錄</subtitle><entry><title>[Golang] 一個簡單的Mongo db proxy</title><link href="http://blog.jln.co/golang-%E4%B8%80%E5%80%8B%E7%B0%A1%E5%96%AE%E7%9A%84mongo-db-proxy/" rel="alternate" type="text/html" title="[Golang] 一個簡單的Mongo db proxy" /><published>2016-06-19T13:17:04+08:00</published><updated>2016-06-19T13:17:04+08:00</updated><id>http://blog.jln.co/[golang]-一個簡單的mongo-db-proxy</id><content type="html" xml:base="http://blog.jln.co/golang-%E4%B8%80%E5%80%8B%E7%B0%A1%E5%96%AE%E7%9A%84mongo-db-proxy/">&lt;p&gt;之前被Parse搞的半死, 一直很好奇它的API到Mongodb的request之間到底是怎樣的對應&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.1.6">Jekyll</generator><link href="http://blog.jln.co/feed.xml" rel="self" type="application/atom+xml" /><link href="http://blog.jln.co/" rel="alternate" type="text/html" /><updated>2016-06-19T14:21:06+08:00</updated><id>http://blog.jln.co/</id><title>Le murmure de Julian</title><subtitle>朱隸安貓囈語錄</subtitle><entry><title>[Golang] 一個簡單的Mongo db proxy</title><link href="http://blog.jln.co/golang-%E4%B8%80%E5%80%8B%E7%B0%A1%E5%96%AE%E7%9A%84mongo-db-proxy/" rel="alternate" type="text/html" title="[Golang] 一個簡單的Mongo db proxy" /><published>2016-06-19T13:17:04+08:00</published><updated>2016-06-19T13:17:04+08:00</updated><id>http://blog.jln.co/[golang]-一個簡單的mongo-db-proxy</id><content type="html" xml:base="http://blog.jln.co/golang-%E4%B8%80%E5%80%8B%E7%B0%A1%E5%96%AE%E7%9A%84mongo-db-proxy/">&lt;p&gt;之前被Parse搞的半死, 一直很好奇它的API到Mongodb的request之間到底是怎樣的對應&lt;/p&gt;
 
 &lt;p&gt;要弄清楚這個其實也不難, 把Mongodb的profiler全打開去看log就好了(&lt;code class=&quot;highlighter-rouge&quot;&gt;db.setProfilingLevel(2)&lt;/code&gt;), 但這也是有缺點, profiler會寫到&lt;code class=&quot;highlighter-rouge&quot;&gt;system.profile&lt;/code&gt;這個collection去, 而它是固定大小, 不能無限制的放, 再加上它還要多寫入這段, 多多少少影響效能&lt;/p&gt;
 
@@ -25,13 +25,14 @@
 &lt;/ol&gt;
 
 &lt;h4 id=&quot;section-2&quot;&gt;使用方法&lt;/h4&gt;
-&lt;p&gt;這個工具是用Go寫的, 所以使用之前需要先安裝go
-##### 安裝
-&lt;code class=&quot;highlighter-rouge&quot;&gt;go get julianshen/mongoproxy/mp&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;這個工具是用Go寫的, 所以使用之前需要先安裝go&lt;/p&gt;
+
+&lt;h5 id=&quot;section-3&quot;&gt;安裝&lt;/h5&gt;
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;go get julianshen/mongoproxy/mp&lt;/code&gt;&lt;/p&gt;
 
 &lt;p&gt;這個步驟做完後, 就可以把mp這個指令裝好了, 確定 $GOPATH/bin是在你路徑內, mp這個檔也是在那邊&lt;/p&gt;
 
-&lt;h5 id=&quot;section-3&quot;&gt;使用&lt;/h5&gt;
+&lt;h5 id=&quot;section-4&quot;&gt;使用&lt;/h5&gt;
 &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;mp --port=6001 --remote=mydb:27017 --response&lt;/code&gt;&lt;/p&gt;
 
 &lt;p&gt;其中:&lt;/p&gt;
@@ -58,16 +59,17 @@
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;p&gt;對應golang, 我定義成這樣:
-&lt;code class=&quot;highlighter-rouge&quot;&gt;go
-type MsgHeader struct {
-	MessageLength int32 // total message size, including this
-	RequestID     int32 // identifier for this message
-	ResponseTo    int32 // requestID from the original request
-	//   (used in responses from db)
-	Opcode // request type - see table below
-}
-&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;對應golang, 我定義成這樣:&lt;/p&gt;
+
+&lt;div class=&quot;language-go highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;MsgHeader&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+	&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;MessageLength&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int32&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;c&quot;&gt;// total message size, including this&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+	&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RequestID&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;     &lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int32&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;c&quot;&gt;// identifier for this message&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+	&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ResponseTo&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;    &lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int32&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;c&quot;&gt;// requestID from the original request&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+	&lt;/span&gt;&lt;span class=&quot;c&quot;&gt;//   (used in responses from db)&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+	&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Opcode&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;c&quot;&gt;// request type - see table below&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
 
 &lt;p&gt;因為一開始就可以讀到整個訊息長度的, 所以就蠻好解析的, wire protocol的實作我是有參考了&lt;a href=&quot;https://github.com/facebookgo/dvara&quot;&gt;dvara&lt;/a&gt;, 本來是有想拿它的code來改, 但看了一下發現它也沒完整實作wire protocol, 秉著自己也來了解一下這部份的想法, 就重頭自己刻了&lt;/p&gt;
 
@@ -125,7 +127,7 @@ type MsgHeader struct {
 
 &lt;p&gt;我是用&lt;a href=&quot;https://www.wireshark.org&quot;&gt;Wireshark&lt;/a&gt;來驗證我的實作有沒問題, Wireshark預設會把到27017 port的資料解析成wire protocol的內容供閱讀, 當然也可以自己手動請它解析&lt;/p&gt;
 
-&lt;h4 id=&quot;section-4&quot;&gt;其他應用&lt;/h4&gt;
+&lt;h4 id=&quot;section-5&quot;&gt;其他應用&lt;/h4&gt;
 &lt;p&gt;這樣的proxy應該可以不只應用在debug, 像是Parse open source的&lt;a href=&quot;https://github.com/facebookgo/dvara&quot;&gt;dvara&lt;/a&gt;, 它也是利用了proxy來做connection pooling, 應該也可以用在request routing和caching的應用上&lt;/p&gt;</content><category term="golang" /><category term="mongodb" /><summary>之前被Parse搞的半死, 一直很好奇它的API到Mongodb的request之間到底是怎樣的對應</summary></entry><entry><title>又再把Blog搬家了</title><link href="http://blog.jln.co/%E5%8F%88%E5%86%8D%E6%8A%8Ablog%E6%90%AC%E5%AE%B6%E4%BA%86/" rel="alternate" type="text/html" title="又再把Blog搬家了" /><published>2016-06-16T20:37:58+08:00</published><updated>2016-06-16T20:37:58+08:00</updated><id>http://blog.jln.co/又再把blog搬家了</id><content type="html" xml:base="http://blog.jln.co/%E5%8F%88%E5%86%8D%E6%8A%8Ablog%E6%90%AC%E5%AE%B6%E4%BA%86/">&lt;p&gt;一直把Blog當作紀錄一些事情用的地方, 想法, 或是學習過的一些東西, 雖然不是很頻繁的在寫, 不過也寫了好幾年了, 從以前到現在, 換過好幾次平台, 從自己架的wordpress, 到posterous, blogger, 一直到現在用的Tumblr, 這中間最喜歡的還是posterous, 不過它已經不存在了, 而Tumblr也用了好一陣子了, 雖然加減湊合著用好像還OK, 不過編輯上也一直不是那麼順手, 尤其是貼source code, 因此也一直想把它換掉&lt;/p&gt;
 
 &lt;p&gt;那 &lt;strong&gt;medium&lt;/strong&gt; 呢? medium我還沒很有動力去搞懂它, 會在上面看一些文章沒錯, 但把Blog移到上面去, 好像也沒啥動力&lt;/p&gt;
