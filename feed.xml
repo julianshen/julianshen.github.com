@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.1.6">Jekyll</generator><link href="http://blog.jln.co/feed.xml" rel="self" type="application/atom+xml" /><link href="http://blog.jln.co/" rel="alternate" type="text/html" /><updated>2016-06-19T13:52:09+08:00</updated><id>http://blog.jln.co/</id><title>Le murmure de Julian</title><subtitle>朱隸安貓囈語錄</subtitle><entry><title>[Golang] 一個簡單的Mongo db proxy</title><link href="http://blog.jln.co/golang-%E4%B8%80%E5%80%8B%E7%B0%A1%E5%96%AE%E7%9A%84mongo-db-proxy/" rel="alternate" type="text/html" title="[Golang] 一個簡單的Mongo db proxy" /><published>2016-06-19T13:17:04+08:00</published><updated>2016-06-19T13:17:04+08:00</updated><id>http://blog.jln.co/[golang]-一個簡單的mongo-db-proxy</id><content type="html" xml:base="http://blog.jln.co/golang-%E4%B8%80%E5%80%8B%E7%B0%A1%E5%96%AE%E7%9A%84mongo-db-proxy/">&lt;p&gt;之前被Parse搞的半死, 一直很好奇它的API到Mongodb的request之間到底是怎樣的對應&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.1.6">Jekyll</generator><link href="http://blog.jln.co/feed.xml" rel="self" type="application/atom+xml" /><link href="http://blog.jln.co/" rel="alternate" type="text/html" /><updated>2016-06-19T14:19:00+08:00</updated><id>http://blog.jln.co/</id><title>Le murmure de Julian</title><subtitle>朱隸安貓囈語錄</subtitle><entry><title>[Golang] 一個簡單的Mongo db proxy</title><link href="http://blog.jln.co/golang-%E4%B8%80%E5%80%8B%E7%B0%A1%E5%96%AE%E7%9A%84mongo-db-proxy/" rel="alternate" type="text/html" title="[Golang] 一個簡單的Mongo db proxy" /><published>2016-06-19T13:17:04+08:00</published><updated>2016-06-19T13:17:04+08:00</updated><id>http://blog.jln.co/[golang]-一個簡單的mongo-db-proxy</id><content type="html" xml:base="http://blog.jln.co/golang-%E4%B8%80%E5%80%8B%E7%B0%A1%E5%96%AE%E7%9A%84mongo-db-proxy/">&lt;p&gt;之前被Parse搞的半死, 一直很好奇它的API到Mongodb的request之間到底是怎樣的對應&lt;/p&gt;
 
 &lt;p&gt;要弄清楚這個其實也不難, 把Mongodb的profiler全打開去看log就好了(&lt;code class=&quot;highlighter-rouge&quot;&gt;db.setProfilingLevel(2)&lt;/code&gt;), 但這也是有缺點, profiler會寫到&lt;code class=&quot;highlighter-rouge&quot;&gt;system.profile&lt;/code&gt;這個collection去, 而它是固定大小, 不能無限制的放, 再加上它還要多寫入這段, 多多少少影響效能&lt;/p&gt;
 
@@ -111,10 +111,11 @@ type MsgHeader struct {
 &lt;div class=&quot;language-go highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;M&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;interface&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{}&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
-&lt;p&gt;和
-&lt;code class=&quot;highlighter-rouge&quot;&gt;go
-type D []DocElem
-&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;和&lt;/p&gt;
+
+&lt;div class=&quot;language-go highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;D&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DocElem&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
 
 &lt;p&gt;如果你是要把解析出的資料用map來操作, M是蠻方便的, 一開始我也是依著之前我寫相關的東西的習慣用M, 不過這邊卻是不可以用M的, 這也是我碰到bug的地方&lt;/p&gt;
 
