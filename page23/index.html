@@ -149,6 +149,29 @@
   <header>
     
     <div class="entry-meta">
+      <span class="entry-date date published updated"><time datetime="2011-10-22T03:12:19+08:00"><a href="http://blog.jln.co/android-javascript-injection-in-webview/">October 22, 2011</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
+      
+      <span class="entry-reading-time">
+        <i class="fa fa-clock-o"></i>
+        
+Reading time ~1 minute
+      </span><!-- /.entry-reading-time -->
+      
+    </div><!-- /.entry-meta -->
+    
+      <h1 class="entry-title"><a href="http://blog.jln.co/android-javascript-injection-in-webview/" rel="bookmark" title="[Android] javascript injection in WebView" itemprop="url">[Android] javascript injection in WebView</a></h1>
+    
+  </header>
+  <div class="entry-content">
+    <div class="posterous_autopost"><p>上次寫了一篇&quot;<a href="http://julianshen.posterous.com/startactivityforresult-and-callback-in-webvie">startActivityForResult and callback in WebView</a>&ldquo;, 本篇則是上次這篇的延伸應用, 這是有人問我如何inject一整個javascript file到一個web page內(剛剛回顧了一下自己這篇, 發現我把它叫做javascript injection)</p>  <p>其實原理是一樣的, 在載入完原本的web page之後, 一樣透過URL來插入script:</p>  <blockquote>  <p>mWebView.loadUrl(&quot;javascript:var js = <em><strong>document.createElement(&lsquo;script&rsquo;)</strong></em>;js.type = 'text/javascript&rsquo;;js.src = <span style="font-size: small;"><strong>&rsquo;<span style="text-decoration: underline;">http://my_host/1.js</span>&rsquo;</strong></span>;document.getElementsByTagName('head&rsquo;)[0].<span style="text-decoration: underline;"><strong><em><span style="font-size: small;">appendChild(js)</span></em></strong></span>;&rdquo;);</p>  </blockquote>  <p>一樣是透過<strong>&ldquo;javascript:&rdquo;</strong>來inject, 不一樣的只是, 這次我要插入的是一整個js檔, 所以這串javascript的目的就是要建立一個新的script element, 並將它插入head裡, 這樣任務就達成了</p>  <p>但這方法的缺點是, 來源必須是一個url, 也就是要把script file放在server才可以, 如果script是來自應用程式本身, 比如說放在應用程式apk裡面, 或是放在data partition就不行了</p>  <p>在Honeycomb之前的版本, 我還沒想到一個比較好的解法, 但Honeycomb (API level 11, 含11)之後就有一個比較簡單的解法了</p>  <p>作法就是overwrite <a href="http://developer.android.com/reference/android/webkit/WebViewClient.html#shouldInterceptRequest(android.webkit.WebView,%20java.lang.String)">WebViewClient的shouldInterceptRequest</a>,這似乎就是為了類似的用途而生的呀~~</p>  <p>  <script src="https://gist.github.com/1304648.js?file=gistfile1.java"></script></p>  <p>這邊我將來自於apk asset目錄裡的檔案的url定義成&quot;asset://&ldquo;, 因此, 想當然耳, 要導向的url就是這種, 作法也很簡單, 將asset的input stream包裝成<a href="http://developer.android.com/reference/android/webkit/WebResourceResponse.html">WebResourceResponse</a>就可以了, 這樣只要&quot;js.src=&quot;後面的url是&quot;asset://xxx.js&rdquo;, 這js的來源就是apk裡的asset</p>  <p>缺點是, 這方法只適用API level 11之後</p>  <p>延伸應用? 其實應該可以利用這個API做出一個lightweight版本的client side serlvet (這樣叫好像也不是很貼切, 反正就是不需要透過http去存取), 不過因為資訊只有url可以使用, 因此不能implement &ldquo;POST&rdquo;&hellip;</p>    <p>題外話, 這個我是在Ice cream sandwich的emulator上測試的, 不過真的要小抱怨一下, 開個emulator要開很久, 看篇漫畫結束後還沒跑完, 如果叫developer完全用emulator開發, 真的會抓狂吧&hellip;.這樣開發者的開發意願也會降低吧&hellip;. = =&ldquo;</p></div>
+
+  </div><!-- /.entry-content -->
+</article><!-- /.hentry -->
+
+<article class="hentry">
+  <header>
+    
+    <div class="entry-meta">
       <span class="entry-date date published updated"><time datetime="2011-10-22T01:05:38+08:00"><a href="http://blog.jln.co/android-if-you-cant-remove-it-at-least-you-can/">October 22, 2011</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
       
       <span class="entry-reading-time">
@@ -233,29 +256,6 @@ Reading time ~1 minute
   </header>
   <div class="entry-content">
     <div class="posterous_autopost"><p>我們的生活周遭不外乎就是以人、事、時、地、物 所構成, 人與人之間的互動, 事件的發生 等等</p>  <p>每個Social Network Service正是在想辦法把我們的生活的縮影給數位化, 網路化</p>  <ol><li>人: Personal profile, Friends, Lists, Group&hellip;.虛擬著人與人之間互動的關係</li>  <li>事: What&rsquo;s on your mind? What&rsquo;s happening? 什麼事情即將發生或發生過(events)</li>  <li>時: 每個事件, 動作都會帶著時間</li>  <li>地: Check in是沒意義的動作, 只是好玩, 但如果事件或想法帶著地點就不同了, 那代表事情的發生地點, 或是你在啥地方激發了你的想法</li>  <li>物: 吃食物, 看電影, 聽音樂, 讀一本書&hellip;我們時時刻刻無不跟東西在互動</li>  </ol><p>Google+對Social network的解答是隱私權(Circle), 是分享(Reshare, auto upload), 是溝通(Hangout), 但Facebook卻是從人出發(Profile, Timeline, 最早由Profile), 到Open Graph (與物的互動), 想盡辦法縮影我們的生活, 雖然有很多爭議點, 我認為, 現階段G+還是無法抗衡, 比較起來, Facebook目前還是比Google懂社群 (純個人意見抒發)</p></div>
-
-  </div><!-- /.entry-content -->
-</article><!-- /.hentry -->
-
-<article class="hentry">
-  <header>
-    
-    <div class="entry-meta">
-      <span class="entry-date date published updated"><time datetime="2011-09-26T18:33:23+08:00"><a href="http://blog.jln.co/%E7%AD%86%E8%A8%98-translate-open-graph-activity/">September 26, 2011</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
-      
-      <span class="entry-reading-time">
-        <i class="fa fa-clock-o"></i>
-        
-Reading time ~1 minute
-      </span><!-- /.entry-reading-time -->
-      
-    </div><!-- /.entry-meta -->
-    
-      <h1 class="entry-title"><a href="http://blog.jln.co/%E7%AD%86%E8%A8%98-translate-open-graph-activity/" rel="bookmark" title="[筆記] Translate open graph activity" itemprop="url">[筆記] Translate open graph activity</a></h1>
-    
-  </header>
-  <div class="entry-content">
-    <div class="posterous_autopost"><ol><li>Go to Facebook developer :<a href="https://developers.facebook.com/apps"> </a><a href="https://developers.facebook.com/apps">https://developers.facebook.com/apps</a></li>  <li>Select your app</li>  <li>Click &ldquo;Edit Setting&rdquo;</li>  <li>Choose &ldquo;Translate your app&rdquo; at left hand side</li>  <li>You&rsquo;ll see a form as following. Select your language and translate all messages:</li>  </ol><div class="p_embed p_image_embed"> <a href="http://posterous.com/getfile/files.posterous.com/temp-2011-09-26/gJsBdvlFmemmIuykxJzqHGujoiAtmvvEHsiJBkqpDrthffAqDBHEEqGIFlwb/_2011-09-26_6.32.03.png.scaled1000.png"><img alt="_2011-09-26_6" height="182" src="http://posterous.com/getfile/files.posterous.com/temp-2011-09-26/gJsBdvlFmemmIuykxJzqHGujoiAtmvvEHsiJBkqpDrthffAqDBHEEqGIFlwb/_2011-09-26_6.32.03.png.scaled500.png" width="500"/></a> </div> </div>
 
   </div><!-- /.entry-content -->
 </article><!-- /.hentry -->

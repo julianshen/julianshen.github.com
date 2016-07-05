@@ -149,6 +149,56 @@
   <header>
     
     <div class="entry-meta">
+      <span class="entry-date date published updated"><time datetime="2014-08-20T00:24:16+08:00"><a href="http://blog.jln.co/android-%E5%9C%9F%E8%A3%BDplay-store-api/">August 20, 2014</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
+      
+      <span class="entry-reading-time">
+        <i class="fa fa-clock-o"></i>
+        
+Reading time ~1 minute
+      </span><!-- /.entry-reading-time -->
+      
+    </div><!-- /.entry-meta -->
+    
+      <h1 class="entry-title"><a href="http://blog.jln.co/android-%E5%9C%9F%E8%A3%BDplay-store-api/" rel="bookmark" title="[Android] 土製Play store API" itemprop="url">[Android] 土製Play store API</a></h1>
+    
+  </header>
+  <div class="entry-content">
+    <p>認真說的話, 這也算不上啥非官方API, 算是一個為了抓取Play store上資訊的一個小小工具: <a href="https://github.com/julianshen/PlaystoreUtil">PlaystoreUtil</a></p>
+<p>現在很多網路的服務, 大多有提供開放的REST API來供人寫原生的程式使用, 當然也有非常多並沒有, 像是Play store, 目前就沒開放的API可供存取, 剛好想要有個東西可以查詢某個app在play store上是屬於啥分類的, 所以就乾脆自己自製一個囉&hellip;</p>
+<p>現在的網頁, 大多結構性很好, 所以就算沒有REST API, 其實也不難處理, 搭配上 <a href="http://jsoup.org/">jsoup</a> , 可以說輕而易舉</p>
+<p>jsoup是一個可以用css selector來解析html的Java函式庫, 有了這個, 解析html可以不用辛苦的爬dom tree, 只要幾行簡單的程式即可:</p>
+<blockquote>
+<pre>Document doc = Jsoup.connect("http://example.com/").get;
+
+Elements links = doc.select("a[href]"); // a with href
+Elements pngs = doc.select("img[src$=.png]");
+</pre>
+</blockquote>
+<p>再來看看play store</p>
+<p>先看看每個app的資訊畫面, 以Facebook為例, 它的url是 &ndash;</p>
+<blockquote>
+<p><a href="https://play.google.com/store/apps/details?id=com.facebook.katana&amp;hl=ja">https://play.google.com/store/apps/details?id=com.facebook.katana&amp;hl=ja</a></p>
+</blockquote>
+<p>很明顯的, id後面是package name, 另外如果加上&quot;&amp;hl=&ldquo;可以指定語言, 然後再看到頁面上:</p>
+<p><img src="http://67.media.tumblr.com/af1c3987664a190e02f67e8dbd3d0fab/tumblr_inline_nakagxbSNE1qzg4zq.png"/></p>
+<p>在Facebook (公司名稱)下方有個分類, 可以使用Chrome的開發人員工具(我比較習慣這個), 找到這個連結的css class名稱是&rdquo;<span>document-subtitle category</span>&ldquo;,而名稱則在它底下的一個span, 這span有個屬性itemprop, 值是genre</p>
+<p><img src="http://66.media.tumblr.com/5374e22ec19244ebbee79c4dbbcddf7b/tumblr_inline_nakajs6dHK1qzg4zq.png"/></p>
+<p>因此, 透過以下這段code就可以取到類別名稱囉</p>
+<blockquote>
+<pre>Document doc = Jsoup.connect("https://play.google.com/store/apps/details?id=" + packageName + "&amp;hl=" + locale.getISO3Language()).get();
+Elements elements = doc.select("span[itemprop=genre]");
+</pre>
+</blockquote>
+<p>當然, 這方法不只適用於play store, 其他網頁也可以嘗試用這個方法來取得資料</p>
+<p>詳細的範例在: <a href="https://github.com/julianshen/PlaystoreUtil">https://github.com/julianshen/PlaystoreUtil</a></p>
+
+  </div><!-- /.entry-content -->
+</article><!-- /.hentry -->
+
+<article class="hentry">
+  <header>
+    
+    <div class="entry-meta">
       <span class="entry-date date published updated"><time datetime="2014-07-29T00:36:15+08:00"><a href="http://blog.jln.co/android%E9%96%8B%E7%99%BC-%E6%8A%93%E5%8F%96%E7%B6%B2%E9%A0%81%E7%B8%AE%E5%9C%96/">July 29, 2014</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
       
       <span class="entry-reading-time">
@@ -364,33 +414,6 @@ Reading time ~1 minute
 <p><iframe frameborder="0" height="500" src="https://www.flickr.com/photos/julianshen/12436748523/player/a65773506e" width="333"></iframe></p>
 <p>像這棟馬來西亞的KLCC, 拍起來的照片真的很像如臨現場, 感覺不出來這是一片片樂高堆積起來的作品</p>
 <p>不過這邊的缺點是, 販賣店賣得樂高其實價格偏高, 不太適合樂高迷來這掃貨</p>
-
-  </div><!-- /.entry-content -->
-</article><!-- /.hentry -->
-
-<article class="hentry">
-  <header>
-    
-    <div class="entry-meta">
-      <span class="entry-date date published updated"><time datetime="2014-02-12T13:37:53+08:00"><a href="http://blog.jln.co/sketchup-%E9%82%84%E8%A0%BB%E5%A5%BD%E7%94%A8%E7%9A%84/">February 12, 2014</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
-      
-      <span class="entry-reading-time">
-        <i class="fa fa-clock-o"></i>
-        
-Reading time ~1 minute
-      </span><!-- /.entry-reading-time -->
-      
-    </div><!-- /.entry-meta -->
-    
-      <h1 class="entry-title"><a href="http://blog.jln.co/sketchup-%E9%82%84%E8%A0%BB%E5%A5%BD%E7%94%A8%E7%9A%84/" rel="bookmark" title="Sketchup 還蠻好用的" itemprop="url">Sketchup 還蠻好用的</a></h1>
-    
-  </header>
-  <div class="entry-content">
-    <p>好久沒寫Blog了, 先來寫一篇充一下版面</p>
-<p>最近由於新房子要裝潢, 為了跟裝潢師傅好溝通, 就自己想辦法用<a href="http://www.sketchup.com/">Sketchup</a>塗塗抹抹的, 本以為做這樣的設計圖不是很容易, 沒想到意外的簡單, 就當起兼差室內設計師了&hellip;</p>
-<p><img src="http://65.media.tumblr.com/2cea62c0545b3eeebd452a070584fde1/tumblr_inline_n0vb0tf3k21qzg4zq.jpg"/></p>
-<p>做這樣一張圖其實還蠻容易的, 只要拿建商提供的CAD檔來修改就好了, Sketchup是可以匯入AutoCAD的檔案的, 由於建商給的圖是平面的, 但這樣就已經很足夠了, 只要把牆壁拉出來就好了, 拉牆壁其也不難, 在封閉的形狀上(原本的平面圖的線有些並沒造成封閉的部份先補齊它就好), 然後再用Push/Pull這個工具把牆面拉出(可以直接輸入高度到你想要的高地)</p>
-<p>家具的部份, 當然也可以自己做, 不過比較費工(我自己做出我家的中島, 花了一兩個小時 orz), 找現成的看看樣子也是不錯的選擇, 直接從 <a href="http://sketchup.google.com/3dwarehouse/">http://sketchup.google.com/3dwarehouse/</a> 就可以找到不少現成的家具, 甚至是裝潢的樣本</p>
 
   </div><!-- /.entry-content -->
 </article><!-- /.hentry -->
