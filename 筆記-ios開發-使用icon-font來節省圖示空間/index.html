@@ -11,7 +11,7 @@
 
 <!-- Twitter Cards -->
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://blog.jln.coimages/posts/p1608041.png">
+<meta name="twitter:image" content="http://blog.jln.co/images/posts/p1608041.png">
 <meta name="twitter:title" content="[iOS開發筆記] 使用Icon font來節省圖示空間">
 <meta name="twitter:description" content="朱隸安貓囈語錄">
 <meta name="twitter:creator" content="@jlnshen">
@@ -23,7 +23,7 @@
 <meta property="og:description" content="朱隸安貓囈語錄">
 <meta property="og:url" content="http://blog.jln.co/%E7%AD%86%E8%A8%98-ios%E9%96%8B%E7%99%BC-%E4%BD%BF%E7%94%A8icon-font%E4%BE%86%E7%AF%80%E7%9C%81%E5%9C%96%E7%A4%BA%E7%A9%BA%E9%96%93/">
 <meta property="og:site_name" content="Le murmure de Julian">
-<meta name="og:image" content="http://blog.jln.coimages/posts/p1608041.png">
+<meta name="og:image" content="http://blog.jln.co/images/posts/p1608041.png">
 <meta name="google-site-verification" content="Fwa4TQMXvroZpNT7rrwHzdf-rWBe1RDuTu75Enx_DWA">
 
 
@@ -181,11 +181,11 @@ Reading time ~1 minute
 
 <p>自己手動加的好處就是, Interface Builder上就可以套用, 直接就可以看到結果, 但就是稍微繁瑣了一點</p>
 
-<p><img src="images/posts/p1608041.png" alt="Interface Builder直接看結果" /></p>
+<p><img src="/images/posts/p1608041.png" alt="Interface Builder直接看結果" /></p>
 
 <p>首先, 要把字型檔拖入你的Project裡面:</p>
 
-<p><img src="images/posts/p1608042.png" alt="ttf files in project" /></p>
+<p><img src="/images/posts/p1608042.png" alt="ttf files in project" /></p>
 
 <p>接著打開Info.plist, 加上一個新的項目叫做<em>“Fonts provided by application”</em></p>
 
@@ -195,9 +195,9 @@ Reading time ~1 minute
 
 <p>接著, 在Interface Builder裡你所要使用icon font的地方, 比如說UILabel設定你的字型, 原本的字型是設定為<em>“System”</em>, 把它改成<em>“Custom”</em>, 並選定你所需要的字型名稱, 例如FontAwesome, 要注意的是, 字型名稱不一定等同於你字型檔的名字:</p>
 
-<p><img src="images/posts/p1608044.png" alt="Interface builder" /></p>
+<p><img src="/images/posts/p1608044.png" alt="Interface builder" /></p>
 
-<p><img src="images/posts/p1608045.png" alt="Interface builder" /></p>
+<p><img src="/images/posts/p1608045.png" alt="Interface builder" /></p>
 
 <p>接下來在<strong>Text</strong>的部分輸入這個圖示的代表的Unicode字元就好, 不是Unicode碼, 而是那個字元本身, 這挺不方便的, 可能用copy paste的才有辦法, 這是這個方法最大的缺點</p>
 
@@ -217,13 +217,13 @@ Reading time ~1 minute
 
 <p>我們先來看看, 如果使用沒有而Ligatures的FontAwesome, 你在Text打上<strong>“Contacts”</strong>會是怎樣一個情形?</p>
 
-<p><img src="images/posts/p1608046.png" alt="Ligatures1" /></p>
+<p><img src="/images/posts/p1608046.png" alt="Ligatures1" /></p>
 
 <p>它會直接一字不漏的呈現<strong>“Contacts”</strong>,這還是因為FontAwesome有包含原本英數字字型在裡面, 有些其他的自行更慘, 根本就是一片白</p>
 
 <p>讓我們再看看用<a href="https://design.google.com/icons/">Google material icons</a>的字型,同樣的東西會有什麼結果</p>
 
-<p><img src="images/posts/p1608047.png" alt="Ligatures2" /></p>
+<p><img src="/images/posts/p1608047.png" alt="Ligatures2" /></p>
 
 <p>因為這個字型有支援Ligatures, 所以在這邊contacts就會被直接代換成它對應的圖示了, 我們就不用寄那種完全看不懂的unicode碼了</p>
 
