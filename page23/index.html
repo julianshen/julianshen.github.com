@@ -149,6 +149,29 @@
   <header>
     
     <div class="entry-meta">
+      <span class="entry-date date published updated"><time datetime="2011-11-05T18:02:55+08:00"><a href="http://blog.jln.co/%E7%AD%86%E8%A8%98-sencha-touch-facebook-graph-api/">November 05, 2011</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
+      
+      <span class="entry-reading-time">
+        <i class="fa fa-clock-o"></i>
+        
+Reading time ~1 minute
+      </span><!-- /.entry-reading-time -->
+      
+    </div><!-- /.entry-meta -->
+    
+      <h1 class="entry-title"><a href="http://blog.jln.co/%E7%AD%86%E8%A8%98-sencha-touch-facebook-graph-api/" rel="bookmark" title="[筆記] Sencha Touch + Facebook Graph API" itemprop="url">[筆記] Sencha Touch + Facebook Graph API</a></h1>
+    
+  </header>
+  <div class="entry-content">
+    <div class="posterous_autopost"><p><a href="http://www.sencha.com/products/touch/">Sencha Touch</a> 2.0在OO的包裝上做的還算不錯, 把MVC的角色切分的還蠻清楚的, 以List為例, 大概就像這樣:</p>  <div class="p_embed p_image_embed"> <img alt="_2011-11-05_5" height="413" src="http://getfile7.posterous.com/getfile/files.posterous.com/temp-2011-11-05/yfinjuApdfmgndesfEfpIHkgDCvoxAfIkbjzqvCCrgjzAqdweeHzDvDDDcqg/_2011-11-05_5.55.16.png.scaled500.png" width="487"/></div> 但它的document實在很糟糕, 光看他的document大概僅知道, Proxy可分為兩類Client(Memory, Local Storage &hellip; )與Server (AJAX, JSONP &hellip;)  <p>但如果是要用Facebook Java script SDK去存取Facebook Graph API這類, 似乎就不知道怎歸類了, 如果直接用JSONP去存取Graph API, 則碰到Authentication error.. orz</p>  <p>那&hellip;就只好寫一個Proxy了, 像這樣:</p>  <p><a href="https://gist.github.com/1341345.js?file=gistfile1">https://gist.github.com/1341345.js?file=gistfile1</a></p>    <p>以下是一個使用這範例存取使用者自己的Facebook Group的範例:</p>  <p><a href="https://gist.github.com/1341348.js?file=gistfile1">https://gist.github.com/1341348.js?file=gistfile1</a></p>  </div>
+
+  </div><!-- /.entry-content -->
+</article><!-- /.hentry -->
+
+<article class="hentry">
+  <header>
+    
+    <div class="entry-meta">
       <span class="entry-date date published updated"><time datetime="2011-10-22T03:12:19+08:00"><a href="http://blog.jln.co/android-javascript-injection-in-webview/">October 22, 2011</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
       
       <span class="entry-reading-time">
@@ -233,29 +256,6 @@ Reading time ~2 minutes
   </header>
   <div class="entry-content">
     <div class="posterous_autopost"><div class="p_embed p_image_embed"> <a href="http://posterous.com/getfile/files.posterous.com/temp-2011-09-28/yDcrGkHznnvkFfkhEjoabkEryHGaevvynvtyCEGosBbuinEijbvqtaehCjpq/_2011-09-29_12.03.19.png.scaled1000.png"><img alt="_2011-09-29_12" height="392" src="http://posterous.com/getfile/files.posterous.com/temp-2011-09-28/yDcrGkHznnvkFfkhEjoabkEryHGaevvynvtyCEGosBbuinEijbvqtaehCjpq/_2011-09-29_12.03.19.png.scaled500.png" width="500"/></a> </div>   <p>Looks familiar? It&rsquo;s not Google+. It&rsquo;s <a href="https://joindiaspora.com/">DIASPORA</a>. An open source project that implements a distributed social networking service. This project was announced on APRIL 24, 2010 (Just right after Facebook f8 2010 that is at APRIL 21). Alpha version was released at NOV 23, 2010 (two days before my birthday :P). </p>  <p>According to <a href="http://mashable.com/2010/05/28/zuckerberg-diaspora/">this</a>, Mark Zuckerbug also donated to it just because it&rsquo;s a cool idea.</p>  <p>It&rsquo;s built on Ruby on rails. So it might be not so difficult to port it to Heroku platform which is a nice RoR host (althrough it still took me some time). It might be easier than build from scratch on a Linux. </p>  <p>I&rsquo;m a newbie to these two (Heroku and DIASPORA). I&rsquo;m also not familar with RoR. Here records steps I tried. </p>  <p><span style="font-size: medium;"><strong>create an application on heroku</strong></span></p>  <p>First, you need to create an application on Heroku. There are several platform stack on Heroku. <a href="http://devcenter.heroku.com/articles/cedar">Cedar stack</a> might be the newest and most powerful one. It supports several languages and frameworks. And It also makes it very easy to deploy RoR applications. </p>  <p>You need to <a href="http://devcenter.heroku.com/articles/heroku-command">install heroku CLI</a> before creating an application. And use &ldquo;<em>heroku login</em>&rdquo; to login to your heroku account.</p>  <p>Run the following command to create a new cedar application (assume application name is &ldquo;mysocialy&rdquo;) &ndash;</p>  <blockquote class="posterous_short_quote">  <p><em>heroku create &ndash;stack cedar mysocialy</em></p>  </blockquote>  <p>After the application created, you&rsquo;ll have a url <em>&ldquo;http://mysocialy.herokuapp.com/&rdquo;</em> for your site. And a git repository: <em><a href="mailto:git@heroku.com">git@heroku.com</a>:mysocialy.git</em></p>  <p><span style="font-size: medium;"><em><strong>import source codes</strong></em></span></p>  <p>Get DIASPORA* source codes from git hub:</p>  <blockquote class="posterous_short_quote">  <p><em>git clone git://github.com/diaspora/diaspora.git</em></p>  </blockquote>  <p>Get your source codes from Heroku git repository (you&rsquo;ll get an empty folder):</p>  <blockquote class="posterous_short_quote">  <p><em>git clone </em><em><a href="mailto:git@heroku.com">git@heroku.com</a>:mysocialy.git</em></p>    </blockquote>  <p>If you have trouble to download from Heroku. Try to use &ldquo;<em>heroku keys:add</em>&rdquo; to add your ssh public key and try again.</p>  <p>Copy all files except &ldquo;.git&rdquo; folder from &ldquo;diaspora&rdquo; to &ldquo;mysocialy&rdquo;.</p>  <p><span style="font-size: medium;"><em><strong>Initial configuration</strong></em></span></p>  <p>Make new configuration files from example.</p>  <blockquote class="posterous_short_quote">  <p><em>cd config</em></p>  <p><em>mv application.yml.example application.yml  </em></p>  <p><em>mv database.yml.example database.yml</em></p>  </blockquote>  <p>Edit application.yml. Make &ldquo;pod_url&rdquo; to your host. In this case:</p>  <blockquote class="posterous_short_quote">  <p><em>pod_url: &ldquo;http://mysocialy.herokuapp.com/&rdquo;</em></p>  </blockquote>  <p><em><strong><span style="font-size: medium;">Deploy codes</span></strong></em></p>  <p>Add and commit files:</p>  <blockquote class="posterous_short_quote">  <p><em>git add .</em></p>  <p><em>git commit -am &lsquo;initial import&rsquo;</em></p>  </blockquote>  <p>Push them to Heroku</p>  <blockquote class="posterous_short_quote">  <p><em>git push origin master</em></p>  </blockquote>  <p>The coolest thing that Heroku does is that it makes deploy codes so easy. All you need to do is to push your codes to its git repository. And it could also install all related modules for you (that is configured in Gemfile). Super easy.</p>  <p>Ok, I must admit that I lie a little bit. There might be some problems. After I pushes all codes to Heroku, I found there is an error that it couldn&rsquo;t find 'pg&rsquo; (postgresSQL). Looks like it does not install into gem.</p>  <p>I found the answer that it might be problem with gem version. Need to run &ldquo;<em>bundle install</em>&rdquo; at local.  This will generate a new Gemfile.lock. Push this new file to Heroku might solve this problem</p>  <p><em><span style="font-size: medium;"><strong>Ok, that&rsquo;s all?</strong></span></em></p>  <p>Not sure if I missed anything (I might). Anyway, what I did is alive at &ldquo;<em><a href="http://mysocialy.herokuapp.com/">http://mysocialy.herokuapp.com/</a>&rdquo;.</em></p></div>
-
-  </div><!-- /.entry-content -->
-</article><!-- /.hentry -->
-
-<article class="hentry">
-  <header>
-    
-    <div class="entry-meta">
-      <span class="entry-date date published updated"><time datetime="2011-09-26T23:18:09+08:00"><a href="http://blog.jln.co/social-network%E7%9A%84-%E4%BA%BA%E4%BA%8B%E6%99%82%E5%9C%B0%E7%89%A9/">September 26, 2011</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
-      
-      <span class="entry-reading-time">
-        <i class="fa fa-clock-o"></i>
-        
-Reading time ~1 minute
-      </span><!-- /.entry-reading-time -->
-      
-    </div><!-- /.entry-meta -->
-    
-      <h1 class="entry-title"><a href="http://blog.jln.co/social-network%E7%9A%84-%E4%BA%BA%E4%BA%8B%E6%99%82%E5%9C%B0%E7%89%A9/" rel="bookmark" title="Social Network的 人、事、時、地、物 " itemprop="url">Social Network的 人、事、時、地、物 </a></h1>
-    
-  </header>
-  <div class="entry-content">
-    <div class="posterous_autopost"><p>我們的生活周遭不外乎就是以人、事、時、地、物 所構成, 人與人之間的互動, 事件的發生 等等</p>  <p>每個Social Network Service正是在想辦法把我們的生活的縮影給數位化, 網路化</p>  <ol><li>人: Personal profile, Friends, Lists, Group&hellip;.虛擬著人與人之間互動的關係</li>  <li>事: What&rsquo;s on your mind? What&rsquo;s happening? 什麼事情即將發生或發生過(events)</li>  <li>時: 每個事件, 動作都會帶著時間</li>  <li>地: Check in是沒意義的動作, 只是好玩, 但如果事件或想法帶著地點就不同了, 那代表事情的發生地點, 或是你在啥地方激發了你的想法</li>  <li>物: 吃食物, 看電影, 聽音樂, 讀一本書&hellip;我們時時刻刻無不跟東西在互動</li>  </ol><p>Google+對Social network的解答是隱私權(Circle), 是分享(Reshare, auto upload), 是溝通(Hangout), 但Facebook卻是從人出發(Profile, Timeline, 最早由Profile), 到Open Graph (與物的互動), 想盡辦法縮影我們的生活, 雖然有很多爭議點, 我認為, 現階段G+還是無法抗衡, 比較起來, Facebook目前還是比Google懂社群 (純個人意見抒發)</p></div>
 
   </div><!-- /.entry-content -->
 </article><!-- /.hentry -->

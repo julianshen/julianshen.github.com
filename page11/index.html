@@ -149,6 +149,30 @@
   <header>
     
     <div class="entry-meta">
+      <span class="entry-date date published updated"><time datetime="2013-06-26T01:31:50+08:00"><a href="http://blog.jln.co/android-%E4%B8%80%E5%80%8B%E7%B0%A1%E5%96%AE%E7%9A%84%E8%87%AA%E8%A3%BD-layout-simplecelllayout/">June 26, 2013</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
+      
+      <span class="entry-reading-time">
+        <i class="fa fa-clock-o"></i>
+        
+Reading time ~1 minute
+      </span><!-- /.entry-reading-time -->
+      
+    </div><!-- /.entry-meta -->
+    
+      <h1 class="entry-title"><a href="http://blog.jln.co/android-%E4%B8%80%E5%80%8B%E7%B0%A1%E5%96%AE%E7%9A%84%E8%87%AA%E8%A3%BD-layout-simplecelllayout/" rel="bookmark" title="[Android] 一個簡單的自製 layout - SimpleCellLayout" itemprop="url">[Android] 一個簡單的自製 layout - SimpleCellLayout</a></h1>
+    
+  </header>
+  <div class="entry-content">
+    <p>寫Android寫了這麼久, 才想到自己沒寫過custom layout, 剛剛花了點時間(主要時間還是花在跟Android studio和gradle搏鬥)寫了一個簡單的CellLayout (還很陽春) :<br/><br/><a href="http://bit.ly/12nuhGn">http://bit.ly/12nuhGn</a><br/><br/>寫custom layout還蠻簡單的, 在onMeasure決定自己和child views的大小, 在onLayout時把每個child views放到適當的位置, 目前還沒加入attibrtues的支援, 所以暫時還只能寫code自己把view加進去, 另外也還沒加檢查是不是會有重疊的views, 之後再來寫<br/><br/>這個layout跟GridView不同, 可以不用每個格子都是同一大小, 以下範例是把畫面劃成4x4的格子, 左上角的那張圖大小是2x2, 下方則是 4x2<br/><br/></p><div class="separator" style="clear: both; text-align: center;"><a href="http://bit.ly/12nuhGp" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="640" src="http://bit.ly/1aKMLbI" width="360"/></a></div><div class="separator" style="clear: both; text-align: center;"><br/></div><br/><br/><br/>
+via Blogger <a href="http://bit.ly/12nuj0X">http://bit.ly/12nuj0X</a>
+
+  </div><!-- /.entry-content -->
+</article><!-- /.hentry -->
+
+<article class="hentry">
+  <header>
+    
+    <div class="entry-meta">
       <span class="entry-date date published updated"><time datetime="2013-06-22T01:31:57+08:00"><a href="http://blog.jln.co/android-%E5%9C%93%E5%BD%A2%E5%A4%A7%E9%A0%AD%E8%B2%BC-%E4%BD%BF%E7%94%A8picasso%E7%9A%84transformation/">June 22, 2013</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
       
       <span class="entry-reading-time">
@@ -237,30 +261,6 @@ Reading time ~1 minute
   <div class="entry-content">
     <p>最近試用Android studio開發, 可能有些習慣被以往Eclipse慣壞了, 剛剛發現放在libs/底下的東西不像以前會被自動建置到apk內, 有點小訝異, 對jar file來說, 可能還好不算太難, 在build.gradle的dependencies內補上一筆就夠了, 但對native library (jni)那些.so檔, 就沒辦法<br/><br/>用這樣解決了  Google了一下, 並且在Stack overflow上找到些解法來試, 可能因為Android studio跟Gradle Android plugin還一直在變化中, 在現在這版一直沒成功, 後來小改一下成底下這樣就成功了:   <br/><script src="http://bit.ly/11PxIJZ"></script><br/><br/>原本找到的解法是pkgTask.jniDir <b><span style="color: red;">new File</span></b>(&lsquo;build/native-libs&rsquo;) , 這樣會得到<br/></p><blockquote class="tr_bq"><blockquote class="tr_bq"><i>&gt; Directory 'build/native-libs&rsquo; specified for property 'jniDir&rsquo; does not exist.</i></blockquote></blockquote>把&quot;new File&quot;改成&quot;file&quot;就沒問題了,不過現在一切應該都還在開發中, 未來可能會有原生的native lib 支援也不一定, 未來可能這方法也不管用了吧<br/><blockquote class="tr_bq"><blockquote class="tr_bq"></blockquote></blockquote><br/><br/>
 via Blogger <a href="http://bit.ly/13Ouh50">http://bit.ly/13Ouh50</a>
-
-  </div><!-- /.entry-content -->
-</article><!-- /.hentry -->
-
-<article class="hentry">
-  <header>
-    
-    <div class="entry-meta">
-      <span class="entry-date date published updated"><time datetime="2013-04-02T17:01:25+08:00"><a href="http://blog.jln.co/android-%E5%88%97%E5%8D%B0%E5%88%B0android%E8%A3%9D%E7%BD%AE/">April 02, 2013</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
-      
-      <span class="entry-reading-time">
-        <i class="fa fa-clock-o"></i>
-        
-Reading time ~1 minute
-      </span><!-- /.entry-reading-time -->
-      
-    </div><!-- /.entry-meta -->
-    
-      <h1 class="entry-title"><a href="http://blog.jln.co/android-%E5%88%97%E5%8D%B0%E5%88%B0android%E8%A3%9D%E7%BD%AE/" rel="bookmark" title="[Android] 列印到Android裝置" itemprop="url">[Android] 列印到Android裝置</a></h1>
-    
-  </header>
-  <div class="entry-content">
-    <p>剛剛從Chrome要列印一份文件時, 發現一件有趣的事, 在選擇印表機時, 發現我的手機也在清單當中<br/><br/></p><div class="separator" style="clear: both; text-align: center;"><a href="http://bit.ly/17auoeu" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="156" src="http://bit.ly/Z5v1i8" width="320"/></a></div><div class="separator" style="clear: both; text-align: left;"><br/></div>這怎一回事? 難道可以從電腦&quot;列印&quot;文件到手機?<br/><br/>測了一下果然是如此, 在我的手機上會多了一份pdf, 內容就是由我的電腦列印過去的, 而且是透過Google Cloud Print, 打開Cloud Print的設定, 可以看到Print Jobs的確有我剛列印過去的<br/><br/><div class="separator" style="clear: both; text-align: center;"><a href="http://bit.ly/17auoeA" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="110" src="http://bit.ly/Z5v1ia" width="320"/></a></div><div class="separator" style="clear: both; text-align: center;"><br/></div><div class="separator" style="clear: both; text-align: left;">這功能需要有登入Cloud Print, 並且手機也要安裝Chrome才可以</div><div class="separator" style="clear: both; text-align: left;"><a href="http://bit.ly/17auoeC">http://bit.ly/17auoeC</a></div><div class="separator" style="clear: both; text-align: center;"><a href="http://bit.ly/17aurqL" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="89" src="http://bit.ly/Z5v1ic" width="320"/></a></div><div class="separator" style="clear: both; text-align: center;"><br/></div><div class="separator" style="clear: both; text-align: left;">不知道實不實用, 還蠻有趣的就是了</div><div class="separator" style="clear: both; text-align: left;"><br/></div><br/><br/><br/>
-via Blogger <a href="http://bit.ly/17aurqN">http://bit.ly/17aurqN</a>
 
   </div><!-- /.entry-content -->
 </article><!-- /.hentry -->
