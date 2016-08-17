@@ -149,6 +149,29 @@
   <header>
     
     <div class="entry-meta">
+      <span class="entry-date date published updated"><time datetime="2010-12-06T02:01:21+08:00"><a href="http://blog.jln.co/a-pattern-learned-from-memcached/">December 06, 2010</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
+      
+      <span class="entry-reading-time">
+        <i class="fa fa-clock-o"></i>
+        
+Reading time ~1 minute
+      </span><!-- /.entry-reading-time -->
+      
+    </div><!-- /.entry-meta -->
+    
+      <h1 class="entry-title"><a href="http://blog.jln.co/a-pattern-learned-from-memcached/" rel="bookmark" title="A pattern learned from memcached" itemprop="url">A pattern learned from memcached</a></h1>
+    
+  </header>
+  <div class="entry-content">
+    <div class="posterous_autopost"><p>晚上快速翻了一變 <a href="http://www.memcached.org/">memcached</a> , 想了一些想法, 趁還沒忘之前先寫下來再去睡好了</p>  <p>memcahced的設計概念說實在的簡單到不行, 說簡單不是說他不好或是沒什麼, 反而這麼一個簡單的設計, 幫助真的會不小</p>  <p>memcached簡單說了就是一個分散式key-value based data cache, 資料是分散放在很多台電腦的RAM裡面, 因為是key-value based, 所以說起來就是一個大的hash table, 並不需要複雜的query, 只需要O(1)就可以取得資料, 而且資料就在RAM中, 可以是相當的快</p>  <p>我們都知道一個事實: &ldquo;IO costs&rdquo;, 如果每次都需要從database query資料, 那所花的時間, 包含SQL處理的時間, 以及IO的時間會是相當長的, 這點不管是Web application或是在mobile上(尤其現在SQLite被大量使用)都通用</p>  <p>因此使用RAM來cache query result as long as possible會是tuning這類的performance的其中一步, 這觀念應該是很多人都想的到</p>  <p>不過這樣得pattern可能得考慮的:</p>  <ol><li>怎樣把一個常用且複雜的query對應到一個key-value pair</li>  <li>cache的存續時間</li>  <li>How to efficiently invalidate or update cache after data set changed</li>  </ol><p>或許在Android的ContentProvider中可以引入memory caching的機制來減少IO的量</p></div>
+
+  </div><!-- /.entry-content -->
+</article><!-- /.hentry -->
+
+<article class="hentry">
+  <header>
+    
+    <div class="entry-meta">
       <span class="entry-date date published updated"><time datetime="2010-12-06T00:58:27+08:00"><a href="http://blog.jln.co/%E7%AD%86%E8%A8%98three20-%E8%A8%AD%E5%AE%9Alauncherview-item%E7%9A%84%E5%AD%97%E5%9E%8B/">December 06, 2010</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
       
       <span class="entry-reading-time">
@@ -243,29 +266,6 @@ Reading time ~1 minute
         <p><a href="http://gowalla.com/julianshen">Follow me on Gowalla</a></p>
         <div style="clear:left;height:0"> </div>
       </div>
-
-  </div><!-- /.entry-content -->
-</article><!-- /.hentry -->
-
-<article class="hentry">
-  <header>
-    
-    <div class="entry-meta">
-      <span class="entry-date date published updated"><time datetime="2010-12-04T21:59:46+08:00"><a href="http://blog.jln.co/splashtop-remote/">December 04, 2010</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
-      
-      <span class="entry-reading-time">
-        <i class="fa fa-clock-o"></i>
-        
-Reading time ~1 minute
-      </span><!-- /.entry-reading-time -->
-      
-    </div><!-- /.entry-meta -->
-    
-      <h1 class="entry-title"><a href="http://blog.jln.co/splashtop-remote/" rel="bookmark" title="Splashtop Remote" itemprop="url">Splashtop Remote</a></h1>
-    
-  </header>
-  <div class="entry-content">
-    <div class="posterous_autopost"><p>這是可以從你的iPad上控制你的PC或Mac的軟體</p>  <p>雖然覺得不見得很實用, 但只要1.99, 還是買下去了, 一個便當的價位, 其他很多類似的軟體其實是很高價的, 甚至上百元, 當然也有很多lite版, 但看起來lite版多是缺東缺西的,這邊有Demo影片</p>  <p><iframe src="http://www.youtube.com/embed/qNSXSU4C8d0" frameborder="0" height="221" width="340"></iframe></p>  <p>在iPad上, 長得是這樣:</p>  <p><a href="http://posterous.com/getfile/files.posterous.com/temp-2010-12-04/ycyCdshgAcayqpjgfuEoEHGmfjJHHogmGwsIrsIleznbDaJrgirfACyyeekz/Photo_12_04_9_25_27_.jpg.scaled1000.jpg"><img src="http://posterous.com/getfile/files.posterous.com/temp-2010-12-04/ycyCdshgAcayqpjgfuEoEHGmfjJHHogmGwsIrsIleznbDaJrgirfACyyeekz/Photo_12_04_9_25_27_.jpg.scaled500.jpg" width="500" height="375"/></a> 居然是繁體中文的, 真感動, 這家公司還真有心呀~~</p>  <p>似乎不是跟一般VNC一樣, 所以在Mac/PC上, 還需要裝一個Host, 像這樣:</p>  <p><img src="http://posterous.com/getfile/files.posterous.com/temp-2010-12-04/pIbinreGtvktpuBBhfvEDGuatfiJpqGktBdwtIFoivthGpIslebIFAytHgGg/_2010-12-04_9.21.46.png.scaled500.png" width="454" height="232"/> 可能是iPad解析度的關係, 當一turn on時, 我Macbook pro的桌面解析度自動被調低, 不過反正在iPad上使用, 其實也還好啦</p>  <p>整體上速度感覺還好, 不過畢竟是touch based的操作對應到滑鼠, 其實不是很好操作, 鍵盤則是使用iPad上的</p>  <p>如果不想帶自己的電腦到處跑, 這或許是不錯的選擇</p></div>
 
   </div><!-- /.entry-content -->
 </article><!-- /.hentry -->

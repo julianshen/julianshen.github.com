@@ -149,6 +149,29 @@
   <header>
     
     <div class="entry-meta">
+      <span class="entry-date date published updated"><time datetime="2011-05-14T15:35:00+08:00"><a href="http://blog.jln.co/%E7%94%9F%E6%B0%A3%E9%B3%A5%E6%88%B0%E8%A8%98-%E5%B0%8F%E9%BB%83%E4%B8%8A%E5%93%AA%E5%85%92%E5%8E%BB%E4%BA%86/">May 14, 2011</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
+      
+      <span class="entry-reading-time">
+        <i class="fa fa-clock-o"></i>
+        
+Reading time ~1 minute
+      </span><!-- /.entry-reading-time -->
+      
+    </div><!-- /.entry-meta -->
+    
+      <h1 class="entry-title"><a href="http://blog.jln.co/%E7%94%9F%E6%B0%A3%E9%B3%A5%E6%88%B0%E8%A8%98-%E5%B0%8F%E9%BB%83%E4%B8%8A%E5%93%AA%E5%85%92%E5%8E%BB%E4%BA%86/" rel="bookmark" title="生氣鳥戰記  --  小黃上哪兒去了？" itemprop="url">生氣鳥戰記  --  小黃上哪兒去了？</a></h1>
+    
+  </header>
+  <div class="entry-content">
+    <div class="posterous_autopost"><a href="http://instagr.am/p/EOKq6/"><div class="p_embed p_image_embed"> <a href="http://posterous.com/getfile/files.posterous.com/julianshen/zBHvqrqlDnzitptJerzJlGzFpzGwredbgaqjzvuiuFhAbofuxssttwuGnhGH/media_httpimagesinsta_cJysq.jpg.scaled1000.jpg"><img alt="Media_httpimagesinsta_cjysq" height="500" src="http://posterous.com/getfile/files.posterous.com/julianshen/zBHvqrqlDnzitptJerzJlGzFpzGwredbgaqjzvuiuFhAbofuxssttwuGnhGH/media_httpimagesinsta_cJysq.jpg.scaled500.jpg" width="500"/></a> </div> </a><br/>Taken at HTC Research Center (Sindian Branch)</div>
+
+  </div><!-- /.entry-content -->
+</article><!-- /.hentry -->
+
+<article class="hentry">
+  <header>
+    
+    <div class="entry-meta">
       <span class="entry-date date published updated"><time datetime="2011-05-14T15:27:41+08:00"><a href="http://blog.jln.co/androidtip-how-twitter-for-android-implements/">May 14, 2011</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
       
       <span class="entry-reading-time">
@@ -233,29 +256,6 @@ Reading time ~1 minute
   </header>
   <div class="entry-content">
     <div class="posterous_autopost"><div class="p_embed p_image_embed"> <a href="http://posterous.com/getfile/files.posterous.com/julianshen/AkCpeeozhJwawxnzvpmCBcuDCuradGwuIGJsurocDwpkJjGCAsmDwyFgFkGF/p425.jpg.scaled1000.jpg"><img alt="P425" height="670" src="http://posterous.com/getfile/files.posterous.com/julianshen/AkCpeeozhJwawxnzvpmCBcuDCuradGwuIGJsurocDwpkJjGCAsmDwyFgFkGF/p425.jpg.scaled500.jpg" width="500"/></a> </div> 家中空氣灰塵多，主臥那台Daikin用了四年，覺得不夠，還是多買了台放客廳，不過總覺新款的沒以前有質感</div>
-
-  </div><!-- /.entry-content -->
-</article><!-- /.hentry -->
-
-<article class="hentry">
-  <header>
-    
-    <div class="entry-meta">
-      <span class="entry-date date published updated"><time datetime="2011-05-10T14:19:21+08:00"><a href="http://blog.jln.co/generating-facebook-key-hash-for-android/">May 10, 2011</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
-      
-      <span class="entry-reading-time">
-        <i class="fa fa-clock-o"></i>
-        
-Reading time ~1 minute
-      </span><!-- /.entry-reading-time -->
-      
-    </div><!-- /.entry-meta -->
-    
-      <h1 class="entry-title"><a href="http://blog.jln.co/generating-facebook-key-hash-for-android/" rel="bookmark" title="Generating Facebook key hash for Android" itemprop="url">Generating Facebook key hash for Android</a></h1>
-    
-  </header>
-  <div class="entry-content">
-    <div class="posterous_autopost"><p>According to<a href="http://developers.facebook.com/docs/guides/mobile/#android"> Facebook mobile development document</a> (Android), you need to generate a key hash for your application in order to apply Facebook SSO(Single Sign on).</p>  <p>Here is the formal way to do this:</p>  <blockquote>  <p><span style="color: #99cc00;">keytool -exportcert -alias androiddebugkey -keystore ~/.android/debug.keystore  | openssl sha1 -binary | openssl base64</span></p>  </blockquote>  <p>But sometimes you won&rsquo;t have a tradtional key store especially when building with Android open sources. Keys in Android open sources are in pk8 format. In order to generate key hashes with these keys, you need to tranfer them into a pk12 key store.</p>  <p>I created another way to generate keyhash without <em><strong>keytool</strong></em> and <em><strong>openssl</strong></em>. Here is the source codes: <a href="https://github.com/julianshen/FacebookKeyHashGen">FacebookKeyHashGen</a></p>  <p>This program get package sigature directly from package itself. </p></div>
 
   </div><!-- /.entry-content -->
 </article><!-- /.hentry -->

@@ -149,6 +149,30 @@
   <header>
     
     <div class="entry-meta">
+      <span class="entry-date date published updated"><time datetime="2012-10-24T01:25:12+08:00"><a href="http://blog.jln.co/go-do-not-communicate-by-sharing-memory/">October 24, 2012</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
+      
+      <span class="entry-reading-time">
+        <i class="fa fa-clock-o"></i>
+        
+Reading time ~1 minute
+      </span><!-- /.entry-reading-time -->
+      
+    </div><!-- /.entry-meta -->
+    
+      <h1 class="entry-title"><a href="http://blog.jln.co/go-do-not-communicate-by-sharing-memory/" rel="bookmark" title="[Go] Do not communicate by sharing memory; instead, share memory by communicating." itemprop="url">[Go] Do not communicate by sharing memory; instead, share memory by communicating.</a></h1>
+    
+  </header>
+  <div class="entry-content">
+    <blockquote class="tr_bq">Do not communicate by sharing memory; instead, share memory by communicating.  </blockquote>這是在Go的concurrent programming裡一個很重要的精神, concurrent programming也是Go裡面一個相當重要的部份, 它已是語言本身的一部分<br/><br/>&ldquo;channel&rdquo; 也就是這精神下的產物, channel可以說是多個thread之間溝通的工具, 有點像是&quot;pipe&quot;但又有點肩負多執行緒間synchronization的責任, 下面實作了一個concurrent merge sort (我想這例子蠻適合的)<br/><br/><script src="http://bit.ly/T8STOo"></script><br/><br/>&ldquo;go&quot;這個修飾字用來啟用一個goroutines, goroutine可以視為一個輕量的執行緒(lightware thread), 在這用了一個內容是整數陣列的channel: chan []int, channel必須要先用&quot;make&quot;初始化<br/><br/>由於使用了&rdquo;<span class="k">go</span> <span class="n">MergeSort</span><span class="p">(</span><span class="n">data</span><span class="p">[:</span><span class="n">middle</span><span class="p">],</span> <span class="n">leftChan</span><span class="p">)&ldquo;, 因此, 左右兩邊的merge sort是同時進行的, 直到兩邊都結束後才會執行&quot;merge&quot;的動作, 但用了&quot;go&quot;啟用了執行緒, 連續這兩行是不會卡住(block)等結果的, 那怎確定兩個執行緒都真的結束後才執行merge的動作? 這其中就是透過channel來做同步化的動作, &rdquo;</span><span class="n">ldata</span> <span class="p">:=</span> <span class="p">&lt;-</span><span class="n">leftChan&quot;, 這一段是將leftChan這個channel的結果指定到ldata, 如果leftChan一直沒輸入(input)進來, 這一行就會等在這, 直到左邊的MergeSort執行到Merge結束後(r&lt;-)</span><br/><span class="n"><br/></span><span class="n">主程式也是叫起一個執行緒做MergeSort的動作, 等到結果產生才將結果印出, 整個不是很難懂, 但這思維還有點難調整(對我來說)</span><br/><br/><br/><br/>
+via Blogger <a href="http://bit.ly/VA5n9P">http://bit.ly/VA5n9P</a>
+
+  </div><!-- /.entry-content -->
+</article><!-- /.hentry -->
+
+<article class="hentry">
+  <header>
+    
+    <div class="entry-meta">
       <span class="entry-date date published updated"><time datetime="2012-10-23T20:26:45+08:00"><a href="http://blog.jln.co/go-go%E8%AA%9E%E8%A8%80%E4%B8%AD%E7%9A%84closure/">October 23, 2012</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
       
       <span class="entry-reading-time">
@@ -237,30 +261,6 @@ Reading time ~1 minute
   <div class="entry-content">
     GCM的前身就是所謂的C2DM, 最早在今年Google I/O時聽到C2DM將進化到GCM時, 就在想, 一定要架個server才可以利用GCM嗎?<br/><br/>其實是可以不用的<br/><br/><div class="separator" style="clear: both; text-align: center;"><a href="http://bit.ly/Ngg8t2" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="104" src="http://bit.ly/Q9qUPv" width="320"/></a></div>從API console可知, 是可以設定允許從任意IP傳送的<br/><br/>再來看看一般的流程:<br/>1. Regster:<br/><blockquote class="tr_bq"><pre class="prettyprint pretty-java"><span class="typ">GCMRegistrar</span><span class="pun">.</span><span class="pln">checkDevice</span><span class="pun">(</span><span class="kwd">this</span><span class="pun">);</span><span class="pln"><br/></span><span class="typ">GCMRegistrar</span><span class="pun">.</span><span class="pln">checkManifest</span><span class="pun">(</span><span class="kwd">this</span><span class="pun">);</span><span class="pln"><br/></span><span class="kwd">final</span><span class="pln"> </span><span class="typ">String</span><span class="pln"> regId </span><span class="pun">=</span><span class="pln"> </span><b><span class="typ">GCMRegistrar</span><span class="pun">.</span><span class="pln">getRegistrationId</span><span class="pun">(</span><span class="kwd">this</span><span class="pun">);</span></b><span class="pln"><br/></span><span class="kwd">if</span><span class="pln"> </span><span class="pun">(</span><span class="pln">regId</span><span class="pun">.</span><span class="pln">equals</span><span class="pun">(</span><span class="str">""</span><span class="pun">))</span><span class="pln"> </span><span class="pun">{</span><span class="pln"><br/></span><span class="typ">GCMRegistrar</span><span class="pun">.</span><span class="kwd">register</span><span class="pun">(</span><span class="kwd">this</span><span class="pun">,</span><span class="pln"> SENDER_ID</span><span class="pun">);</span><span class="pln"><br/></span><span class="pun">}</span><span class="pln"> </span><span class="kwd">else</span><span class="pln"> </span><span class="pun">{</span><span class="pln"><br/></span><span class="typ">Log</span><span class="pun">.</span><span class="pln">v</span><span class="pun">(</span><span class="pln">TAG</span><span class="pun">,</span><span class="pln"> </span><span class="str">"Already registered"</span><span class="pun">);</span><span class="pln"><br/></span><span class="pun">}</span></pre></blockquote>2. 取得Registration ID後將ID送至Server <br/>3. Server之後可以用這ID送訊息給這一支手機<br/><br/>由&quot;2&quot;看來, 其實Registration ID是關鍵, 而不是Server, 任何人只要有Registration ID, 就可以傳送訊息給這隻手機了<br/><br/>做了個小小實驗, 寫了一支Activity同時具備了收訊息以及傳送(給自己)的能力:<br/><a href="http://bit.ly/Nggb8b"><br/></a><a href="http://bit.ly/Q9qSag">http://bit.ly/Q9qSag</a><br/><br/>想到的應用: 兩隻手機透過條碼或藍牙交換Registration ID, 就可以透過GCM互傳訊息了<br/><br/>缺點: Registration ID如果有變(GCM是有可能更換ID), 就失效了<br/><br/>
 via Blogger <a href="http://bit.ly/Q9qSai">http://bit.ly/Q9qSai</a>
-
-  </div><!-- /.entry-content -->
-</article><!-- /.hentry -->
-
-<article class="hentry">
-  <header>
-    
-    <div class="entry-meta">
-      <span class="entry-date date published updated"><time datetime="2012-09-07T15:31:43+08:00"><a href="http://blog.jln.co/android-%E5%A6%82%E4%BD%95%E7%9F%A5%E9%81%93%E4%BD%BF%E7%94%A8%E8%80%85%E6%98%AF%E5%90%A6%E5%B7%B2%E7%A7%BB%E9%99%A4%E4%BD%A0%E7%9A%84%E7%A8%8B%E5%BC%8F/">September 07, 2012</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
-      
-      <span class="entry-reading-time">
-        <i class="fa fa-clock-o"></i>
-        
-Reading time ~1 minute
-      </span><!-- /.entry-reading-time -->
-      
-    </div><!-- /.entry-meta -->
-    
-      <h1 class="entry-title"><a href="http://blog.jln.co/android-%E5%A6%82%E4%BD%95%E7%9F%A5%E9%81%93%E4%BD%BF%E7%94%A8%E8%80%85%E6%98%AF%E5%90%A6%E5%B7%B2%E7%A7%BB%E9%99%A4%E4%BD%A0%E7%9A%84%E7%A8%8B%E5%BC%8F/" rel="bookmark" title="[Android] 如何知道使用者是否已移除你的程式" itemprop="url">[Android] 如何知道使用者是否已移除你的程式</a></h1>
-    
-  </header>
-  <div class="entry-content">
-    <p>這問題我原先是在Stack overflow看到的:<br/><br/><a href="http://bit.ly/PNSz84">http://bit.ly/PNSz84</a><br/><br/>我也提供了一個解法, 不過, 慚愧的是, 我當初突然想到這解法後, 自己並沒有去實驗它, 只是覺得理論上可行&hellip; :P<br/><br/>我的方法是, 利用<a href="http://bit.ly/PNSyku">GCM (Google Cloud Messaging)</a>, 裡面有一段:<br/><br/></p><blockquote class="tr_bq"><span style="background-color: #eeeeee; font-family: Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif; font-size: 14px; line-height: 18px;">When users uninstall an application, it is not automatically unregistered on GCM. It is only unregistered when the GCM server tries to send a message to the device and the device answers that the application is uninstalled. At that point, you server should mark the device as unregistered (the server will receive a NotRegistered error).</span></blockquote><br/>後來拿了GCM sample試了一下, 好像也可行, 只是不是那麼即時, 也就是沒辦法剛移除就知道了, 我的測試結果是, 一兩個小時候才出現 &ldquo;NotRegistered&rdquo;, 不過似乎也是個解法就是了&hellip;<br/><br/>
-via Blogger <a href="http://bit.ly/Qqr2Mn">http://bit.ly/Qqr2Mn</a>
 
   </div><!-- /.entry-content -->
 </article><!-- /.hentry -->

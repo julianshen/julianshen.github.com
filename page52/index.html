@@ -149,6 +149,29 @@
   <header>
     
     <div class="entry-meta">
+      <span class="entry-date date published updated"><time datetime="2011-01-27T19:59:21+08:00"><a href="http://blog.jln.co/android-%E8%AA%BF%E6%95%B4ui-layout%E7%9A%84%E5%88%A9%E5%99%A8-hierarchyviewer/">January 27, 2011</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
+      
+      <span class="entry-reading-time">
+        <i class="fa fa-clock-o"></i>
+        
+Reading time ~1 minute
+      </span><!-- /.entry-reading-time -->
+      
+    </div><!-- /.entry-meta -->
+    
+      <h1 class="entry-title"><a href="http://blog.jln.co/android-%E8%AA%BF%E6%95%B4ui-layout%E7%9A%84%E5%88%A9%E5%99%A8-hierarchyviewer/" rel="bookmark" title="[Android] 調整UI layout的利器- hierarchyviewer" itemprop="url">[Android] 調整UI layout的利器- hierarchyviewer</a></h1>
+    
+  </header>
+  <div class="entry-content">
+    <div class="posterous_autopost"><p><a href="http://posterous.com/getfile/files.posterous.com/temp-2011-01-27/GwChqdthbkrCGvCmIFpvHgjAgAdoqdxeyEnjihyJipwJrgpCGpwrdgkmqiEH/_2011-01-27_6.45.46.png.scaled1000.png"><img src="http://posterous.com/getfile/files.posterous.com/temp-2011-01-27/GwChqdthbkrCGvCmIFpvHgjAgAdoqdxeyEnjihyJipwJrgpCGpwrdgkmqiEH/_2011-01-27_6.45.46.png.scaled500.png" width="500" height="446"/></a> Visual UI design的工具在很多平台跟語言其實都有, 當然有好有壞啦, Android ADT也是有的, 所以並不稀奇, 不過Android有的是更好用的 - hierarchyviewer</p>  <p>一般WYSIWYG UI editor著重的是在開發時期拉UI layout的部份, 但更進階的通常就沒著墨了, ADT上的UI builder並不是很強, 真正要能夠調出複雜而且是自己想要的UI光靠那個也並不容易, 還是得對一堆layout有相當程度的了解才能比較得心應手, hierarchyviewer是屬於更進一步的工具, 他可以檢查做出來的成品的UI layout (當然也可以想辦法偷人家的看 :P), 由於Android上的layout設計是階層式的, 所以可以攤成樹狀, 由hierarchyviewer就可以很明顯看出各layout從屬關係, 並且可以從screen shot部分的對應看出某一段layout成果的長像是如何</p>  <p>此外還有一些更強的功能, hierarchyviewer可以幫你把整個畫面輸出成PSD 檔(Photoshop的檔案), 這不是只是簡單的輸出平面的screenshot, 而是利用PSD檔可以有層次(layer), 把畫面上不同的元件分作為不同的layer疊起來, 這樣從Photoshop就可以一目了然的看出是不是有哪些沒秀出來的原因是被另一個蓋到的</p>  <p>個人覺得最棒的是那個紅綠燈, 設計不良的UI的效能自然是很差, 這個紅綠燈就是幫助你把效能不好的地方抓出來, 分作三部分, layout, measure, draw, 可以由這三部分分析去進一步改善整體UI的效能</p>    <p> </p>    <p> </p></div>
+
+  </div><!-- /.entry-content -->
+</article><!-- /.hentry -->
+
+<article class="hentry">
+  <header>
+    
+    <div class="entry-meta">
       <span class="entry-date date published updated"><time datetime="2011-01-25T19:16:50+08:00"><a href="http://blog.jln.co/%E5%8E%9F%E4%BE%86%E5%A4%A7%E9%83%A8%E5%88%86%E7%9A%84%E4%BA%BA%E7%9A%84%E9%9B%BB%E8%85%A6%E9%83%BD%E6%98%AF%E6%8B%BF%E4%BE%86%E5%B7%A5%E4%BD%9C%E7%9A%84%E5%91%80%E4%B8%8D%E7%84%B6%E6%8B%BF%E4%BE%86%E5%B9%B9%E5%97%8E/">January 25, 2011</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
       
       <span class="entry-reading-time">
@@ -233,29 +256,6 @@ Reading time ~1 minute
   </header>
   <div class="entry-content">
     <div class="posterous_autopost"><p>今天晚上的GTUG請來了Tony Chan講GB的新features, 不過, 這些內容其實大部分都已經在Android網站上看過很多次了, 提起不了啥興趣, 雖然是對StorageManager有點興趣, 但卻不在這次講的內容, 可見這東西真的並不是個完成品, 不足以拿出來推</p>  <p>唯一讓我有點感興趣的是Google Analytics for Android, 所以回來的時候在車上稍微研究了一下</p>  <p>目前這東西, 說起來有點陽春, 把user行為的tracking定義成兩個分類 - pageview和event</p>  <p>pageview這觀念感覺就是從Web上來的, 但mobile application其實也沒啥page, 硬要分的話, 可以拿Activity來當做一個page吧, 不過有很多user interaction是在同一個Activity發生, 所以這分類應該是拿來應用在追蹤使用者使用某大功能的頻率</p>  <p>既然pageview不能夠表示in-activity的互動行為, 其實還可以拿&quot;event&quot;來用, 可以把button click, gesture之類的當做event來記錄分析</p>  <p>不過, 對於pageview和event其實沒有很明確的分野, developer可以在任何時候任何地方使用這兩者記錄, 並沒有特別強制性(比如說只能在activity用pageview或是pageview只能每個activity記錄一次之類的), 所以要胡搞也可以啦 (不過那就失去意義了)</p>  <p>比較恐怖的功能是可以允許developer自定變數, 如果把使用者個人資訊一起送上去, 就不妙囉</p>  <p>這整個功能上還稍嫌陽春, 如果要tracking使用者的使用流程, 這樣的東西並沒辦法做到</p>  <p>這部份有被問了幾個問題, 回來後我稍微查了一下:</p>  <p>1. 使用權限問題: 要不要使用者先同意收集才可以使用? 很不幸的, 這一點似乎是developer自由心證了, 並沒有任何強制步驟是使用者同意後才可以使用, 雖然使用這lib必須在manifest加上兩個uses-permission:</p>  <blockquote class="posterous_short_quote">  <p>&lt;uses-permission android:name=&ldquo;android.permission.INTERNET&rdquo; /&gt;</p>  <p>&lt;uses-permission android:name=&ldquo;android.permission.ACCESS_NETWORK_STATE&rdquo; /&gt;</p>    </blockquote>  <p>但這兩個, 一個是存取Internet, 一個是存取網路狀態的, 完全跟Privacy無關</p>  <p>2. Tony提到, 在沒有網路的時候會先keep在local的database等有網路時在上傳資料, 我當時提的問題是, 是否會有background service來做這件事, 還是AP launch之後才會真正去檢查網路並重送, 是只會有一個background service來做這件事? 還是每個AP獨立, 我會想到這問題有兩點, 第一點是資料庫問題, 如果每個AP負責自己的, 那每個AP會有各自獨立的資料庫, 而不會統一管理, 第二個是background processes數量問題</p>  <p>在會中時沒得到啥答案, 所以我只好自己簡單的追了一下, 基本上, 這設計沒我想的複雜, 簡單很多, 沒任何background service, 只有一個AnalysticsReceiver但看起來是來處理com.android.vending.INSTALL_REFERRER而非Connectivity change</p>  <p>所以這問題的答案就是, 它其實只是一個AP內的thread來處理而已(應該是NetworkDispatcher的dispatcherThread)</p>  <p>而且tacking code是存於各個AP的data目錄下一個叫google_analytics.db資料庫內, 所以只要取得這資料庫就可以取得了</p>    <p>整個設計上應該可以再加強, 尤其是保護User privacy這部份, 不然有可能被告吧? 我認為比較好一點的設計應該是在Market那隻AP裡面放個service來負責上傳analytics的資料, 只要提供API給AP去呼叫這隻service就好, 這樣第一步可以透過Android permission的機制先卡第一關, 而且可以比較容易統一設計一個end user agreement的dialog, 當AP第一次使用的時候跳出來取得user同意, 此外, 亦可以自動在網路狀態從無到有時自動把未送出的資料送出, 而非一定要AP正在使用的時候</p></div>
-
-  </div><!-- /.entry-content -->
-</article><!-- /.hentry -->
-
-<article class="hentry">
-  <header>
-    
-    <div class="entry-meta">
-      <span class="entry-date date published updated"><time datetime="2011-01-15T19:04:26+08:00"><a href="http://blog.jln.co/android-gingerbread-storagemanager-and-obb/">January 15, 2011</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
-      
-      <span class="entry-reading-time">
-        <i class="fa fa-clock-o"></i>
-        
-Reading time ~1 minute
-      </span><!-- /.entry-reading-time -->
-      
-    </div><!-- /.entry-meta -->
-    
-      <h1 class="entry-title"><a href="http://blog.jln.co/android-gingerbread-storagemanager-and-obb/" rel="bookmark" title="[Android] Gingerbread: StorageManager and Obb" itemprop="url">[Android] Gingerbread: StorageManager and Obb</a></h1>
-    
-  </header>
-  <div class="entry-content">
-    <div class="posterous_autopost"><p>在Android Gingerbread引入了<a href="http://developer.android.com/reference/android/os/storage/StorageManager.html">StorageManager</a>這東西, 似乎是為了OBB(Opaque Binary Blobs)這功能而來的, 不過, 似乎是也還沒把tool含到SDK內, 也沒很詳細的說明文件, 所以看起來現在好像也沒啥人去用這個, 實際上試了一下, 最後還是有問題, 搞不好還有bug, 懶得繼續追下去了, 不過大致上理解怎來利用這東西</p>  <p>OBB是一個含有加過密的檔案系統的檔案, 唸起來頗繞口, 不過如果對Linux有點熟悉的話, 它是一個磁碟映像檔(image file), 最後會以loopback device的方式掛載入Android內(Android底層是Linux, 採用這種方式也不足為奇)</p>  <p>由於是加密過的, 所以, 應用程式可以把需要保密的內容放到這個檔內, 比如說私密的通訊資料庫啦, 或是見不得人的照片&hellip;(呃, 我講到哪去了)</p>  <p>要建立一個OBB的檔案需要幾個tool:</p>  <blockquote class="posterous_short_quote">  <p>mkobb.sh</p>  <p>pdkdf2gen</p>  <p>obbtool</p>  </blockquote>  <p>由於目前SDK好像還沒這幾個東西, 所以必須從aosp裡面去找, 前兩者是一組的, 要一起配合, 而且mkobb.sh只能在Linux底下跑, 如果你嘗試在Mac上跑(像我一樣), 是會失敗的 (不過想想, 目前沒支援Mac也很合理)</p>  <p>Linux下, 有幾個kernel module是一定必要被載入的</p>  <blockquote>  <p class="p1">sudo modprobe cryptoloop</p>  <p class="p1">sudo modprobe twofish</p>  <p class="p1">sudo modprobe vfat</p>    </blockquote>  <p>這樣你才可以建立一個被加密過的loopback file system image</p>  <p>執行的指令如下:</p>  <blockquote>  <p class="p1">mkobb.sh -d obbdir -k password -o obbfile </p>    </blockquote>  <p>-d 後面那個obbdir可以改成任何一個存在的目錄, 建立好的obb檔會幫你含入所有這目錄裡面的檔案, -k 後面輸入加密的密碼, -o 後面加入輸出的檔名</p>  <p>執行後內容會如下:</p>  <p>  <script src="https://gist.github.com/780831.js?file=gistfile1.txt"></script></p>    <p>最後一行裡的&quot;5f88a3619e6544ef&quot;這個salt很重要, 要抄下來, 之後會用到</p>  <p>接下來就要用obbtool加簽章了, obbtool用法如下:</p>  <blockquote class="posterous_short_quote">  <p>加簽章: obbtool a -n com.yourcompany.app -v 1 obbtest.obb -s 5f88a3619e6544ef</p>  <p>移除: obbtool r ~/Dropbox/obbtest.obb</p>  </blockquote>  <p>-n 後面是package name, 必須要跟你的應用程式的package name相同, -v 後面則是自定的版本, -s 後面接的就是剛剛做mkobb.sh後產生的salt了</p>  <p>這樣這個obb檔就完成了, 可以把它放到手機sdcard或其他地方讓你的程式存取</p>  <p>在程式內掛載obb的話就要用到StorageManager了:</p>  <p>  <script src="https://gist.github.com/780834.js?file=gistfile1.java"></script></p>  <p>不過目前, 我碰到的狀況就是, 明明state已經變成MOUNTED, 但我就是取不到mounted path, 怪怪的</p></div>
 
   </div><!-- /.entry-content -->
 </article><!-- /.hentry -->
