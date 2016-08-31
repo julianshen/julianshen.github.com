@@ -39,6 +39,7 @@
 
 <!-- For all browsers -->
 <link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.rawgit.com/knsv/mermaid/6.0.0/dist/mermaid.css">
 <!-- Webfonts -->
 <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel="stylesheet" type="text/css">
 
@@ -149,6 +150,29 @@
   <header>
     
     <div class="entry-meta">
+      <span class="entry-date date published updated"><time datetime="2010-12-08T22:45:42+08:00"><a href="http://blog.jln.co/%E7%AD%86%E8%A8%98-%E7%94%A2%E7%94%9F-web-page-thumbnail-%E7%BA%8C%E5%89%8D%E7%AF%87/">December 08, 2010</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
+      
+      <span class="entry-reading-time">
+        <i class="fa fa-clock-o"></i>
+        
+Reading time ~1 minute
+      </span><!-- /.entry-reading-time -->
+      
+    </div><!-- /.entry-meta -->
+    
+      <h1 class="entry-title"><a href="http://blog.jln.co/%E7%AD%86%E8%A8%98-%E7%94%A2%E7%94%9F-web-page-thumbnail-%E7%BA%8C%E5%89%8D%E7%AF%87/" rel="bookmark" title="[筆記] 產生 Web page thumbnail (續前篇)" itemprop="url">[筆記] 產生 Web page thumbnail (續前篇)</a></h1>
+    
+  </header>
+  <div class="entry-content">
+    <div class="posterous_autopost"><p>在<a href="http://julianshen.posterous.com/-web-page-thumbnail">前篇提到利用CutyCapt來產生Web page thumbnail</a>, 不過畢竟CutyCapt是C++寫的, build出來也是一個執行檔, 寫完上一篇就有股衝動想用<a href="http://www.riverbankcomputing.co.uk/news">PyQt</a>來做, 反正一樣可以利用Qt/WebKit, 原理應該相同的</p>  <p>沒想到, 真的那麼簡單, 只用了二十幾行code就可以辦到了</p>  <p>這邊主要利用到的一個class就是 <a href="http://www.riverbankcomputing.co.uk/static/Docs/PyQt4/html/qwebpage.html">QWebPage</a> , 透過這個class我們就可以很簡單的達成這任務</p>  <p>為了程式的重複利用性, 我把它包裝成一個class PageRender:</p>  <blockquote>  <p>class PageRender(QObject):</p>  <p>    def __init__(self, url, outfile, scale):</p>  <p>       QObject.__init__(self)</p>  <p>       self.outfile = outfile</p>  <p>       self.scale = scale</p>  <p>       self.web = QWebPage()</p>  <p>       self.web.mainFrame().load(QUrl(url))</p>  <p>       self.connect(self.web, SIGNAL(&ldquo;loadFinished(bool)&rdquo;) ,self.loadFinished)</p>    <p>    def loadFinished(self, b):</p>  <p>        print &ldquo;load finished&rdquo;</p>  <p>        self.web.setViewportSize(self.web.mainFrame().contentsSize())</p>  <p>        image = QImage(self.web.viewportSize(), QImage.Format_ARGB32);</p>  <p>        painter = QPainter(image)</p>  <p>        self.web.mainFrame().render(painter)</p>  <p>        painter.end()</p>  <p>        thumbnail = image.scaledToWidth(self.scale)</p>  <p>        thumbnail.save(self.outfile)</p>  <p>        app.exit(0)</p>    </blockquote>  <p> 在Constructor那邊做的就是把loadFinished跟我們實際處理save to thumbnail的function connect在一起</p>  <p>而在loadFinished那邊就是實際render到image的部份, 這邊要注意的是:</p>  <blockquote class="posterous_short_quote">  <p>self.web.setViewportSize(self.web.mainFrame().contentsSize())</p>  </blockquote>  <p>這是把QWebPage的View port size設成跟實際content一樣大, 後面接著我們就可以建立QImage跟其相對映的painter, 然後用QWebFrame的&quot;render()&ldquo;把它實際輸出到image</p>  <p>最後scale到我們想要的大小(pixels)</p>  <p>這邊是一個實際call它的範例:</p>  <blockquote class="posterous_short_quote">  <p>p = PageRender(&quot;http://www.yahoo.com.tw&rdquo;, &ldquo;sssss.png&rdquo;, 200)</p>  </blockquote>  <p>結果:</p>  <p><img src="http://posterous.com/getfile/files.posterous.com/temp-2010-12-08/peiueoGCpEqHokvqDIdzrIcEqJprdsgdsAuIloHtFwykfnDGudcfynDtBhGG/sssss.png.scaled500.png" width="200" height="357"/> 實際的程式可以<a href="https://bitbucket.org/fishuman/webcutter/src">在此下載</a></p></div>
+
+  </div><!-- /.entry-content -->
+</article><!-- /.hentry -->
+
+<article class="hentry">
+  <header>
+    
+    <div class="entry-meta">
       <span class="entry-date date published updated"><time datetime="2010-12-08T02:07:56+08:00"><a href="http://blog.jln.co/social-networking-with-mobility/">December 08, 2010</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
       
       <span class="entry-reading-time">
@@ -233,29 +257,6 @@ Reading time ~1 minute
   </header>
   <div class="entry-content">
     <div class="posterous_autopost"><p>昨天一直很想來寫這一篇, 沒想到今天凌晨, Google eBooks就發表了, 某方面來看, 概念跟我原本想講的差不多, 先看一下它的介紹</p>  <p><iframe src="http://www.youtube.com/embed/ZKEaypYJbb4?hd=1" frameborder="0" height="255" width="400"></iframe></p>  <p>最近常在iPad/iPhone上看電子書(老實說, 手機並不適合看書), 就一直在想, 紙本書存在的必要性?什麼樣的書比較適合電子化?</p>  <p>首先第一個問題, 我聽過很多人說, 電子書很方便, 但還是無法取代閱讀紙本書的樂趣, 的確, 我個人也是會這樣認為, 至少&quot;翻書&quot;, 夾上特別圖案的書籤, 這類的事在電子書上就沒辦法做到了, 不過, 玩傳統單眼的攝影師也常說無法接受數位, 但隨著數位攝影的進步, 這些人也漸漸投降了, 我覺得, 同樣的道理也可以套在這上面, 隨著數位內容的進步, 很快的, 人們也可以接受很多書都是電子化的</p>  <p>那什麼樣的書適合電子化呢?應該所有都適合吧, 不管是文字內容電子化, 或是以掃描的方式, 其實都可以任何型態存在, 但最適合電子化的, 我個人是認為是雜誌, 而且我覺得甚至它以後可以不用以紙本存在, 雜誌與一般書籍不同, 它可以提供最新的消息內容, 並且可以是一種娛樂, 其實, 漸漸的它的角色很容易被web給取代, 因為網際網路可以提供更快速更豐富的消息, 如果藉由現在行動平台的優勢, 可以提供內容更新, 更加豐富互動的內容, 那應該很多人也蠻喜歡的, 最大的一個好處是, 不會製造垃圾, 以往雜誌通常就看過就算, 但實體的雜誌常常堆積在那邊造成一堆垃圾, 搬家時更麻煩, 這種東西全面電子化應該也可以減少不少垃圾</p>  <p>對於電子書來說, 最重要的應該不是閱讀器, 很快的, 不, 就是現在, 閱讀器人人可做, 不管是硬體(Kindle)也好, 軟體也好(iBook), 甚至Web化(Google eBook), 使用者對閱讀器的選擇可以有很多種, 閱讀器的優劣差異也會越來越小, 因此這不會成為一個電子書發行的成敗關鍵, 最重要的, 反而是 &ndash; 平台</p>  <p>這也就是Google進來了, Amazon就要<a href="http://mashable.com/2010/12/07/kindle-web-app/">趕快反擊</a>, 平台就如同是實體書店一樣, 任何出版商都可以鋪到任一種平台上, 就如同到金石堂或誠品上架一樣, 當然, 任何一個人都可以踩進來做平台, Google, Amazon可以, 出版商亦可以, 但出版商自己來, 流通性不高, 小型出版商也負擔不起, 因此到別人的平台上上架變成是一個比較經濟的方式</p>  <p>目前電子書平台的優勢在哪? 個人覺得是Cloud, 電子書平台不能夠單單的提供使用者購買並下載電子書而已, 還要有完善的管理功能, 這就像是有人蓋了一間很大很大的移動圖書館, 任何人都可以在這間圖書館裡面有一整排的書架, 買來的書直接擺在這書架上, 隨時想看的時候, 這間圖書館隨時都找的到(當然要有電子裝置在手), 而且要不管任何的裝置都要能夠取得你自己的書(這點就像是Amazon做的一樣, Google也做了)</p>  <p>除了這樣以外, 未來還能怎樣延伸呢? 其實不只傳統定義下的&quot;書&quot;, 任何個人相關的知識內容應該要都可以存到這書架上, 比如說某年某月在某網站看到的一篇文章, 或是哪份電子報看到的一小篇剪輯, 甚至隨手寫下的小記, 應該都要能夠存到這座個人的圖書館去, 這樣的圖書館, 可以成為一個知識的累加基地, 甚至可以透過這樣的一個平台發表並販售自己的創作, 可以找到志同道合的人聯合創作並販賣, 以後出書可以不用找出版社, 也不用看出版社臉色, 只要有讀者, 到處都可以販售</p>  <p>Wikipedia目的是要建立一套百科全書, 但百科全書的內容來自於事實來自於歷史, 來自於前人的創作, 但知識的累積, 除了這些以外還仰賴了接連不斷的創作跟創新, 這些應該就是建立一個好的電子書平台的一個任務吧&hellip;.</p></div>
-
-  </div><!-- /.entry-content -->
-</article><!-- /.hentry -->
-
-<article class="hentry">
-  <header>
-    
-    <div class="entry-meta">
-      <span class="entry-date date published updated"><time datetime="2010-12-07T19:37:01+08:00"><a href="http://blog.jln.co/iphone-rss-reader-for-iphone-reeder-and-flud/">December 07, 2010</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
-      
-      <span class="entry-reading-time">
-        <i class="fa fa-clock-o"></i>
-        
-Reading time ~1 minute
-      </span><!-- /.entry-reading-time -->
-      
-    </div><!-- /.entry-meta -->
-    
-      <h1 class="entry-title"><a href="http://blog.jln.co/iphone-rss-reader-for-iphone-reeder-and-flud/" rel="bookmark" title="[iPhone] RSS Reader for iPhone : Reeder and FLUD " itemprop="url">[iPhone] RSS Reader for iPhone : Reeder and FLUD </a></h1>
-    
-  </header>
-  <div class="entry-content">
-    <div class="posterous_autopost"><p>常常在看一些文章, 但share給朋友始終不是很方便, 大部分的軟體都會做透過e-mail share的功能, 但現在其實用Social network會比用e-mail來的頻繁(e-mail應該快恐龍化了吧), 如果先點share到e-mail再把link copy下來貼其實也很不方便, 後來找到Reeder和FLUD這兩個軟體, 前者是收費的, 後者目前還是免費</p>  <p>先來說Reeder這套付費的軟體, 介面相當的簡單直覺, 但這並不表示它的功能不好, 可以同步Google reader而且還蠻好操作的</p>  <p><a href="http://posterous.com/getfile/files.posterous.com/temp-2010-12-07/zBCIDFgpacAbGhsDgxCukmazctlpeCtzjzznDCligglwdxBBkrlnDyEjyelb/Photo_12_07_7_17_08_.jpg.scaled1000.jpg"><img src="http://posterous.com/getfile/files.posterous.com/temp-2010-12-07/zBCIDFgpacAbGhsDgxCukmazctlpeCtzjzznDCligglwdxBBkrlnDyEjyelb/Photo_12_07_7_17_08_.jpg.scaled500.jpg" width="500" height="750"/></a> <a href="http://posterous.com/getfile/files.posterous.com/temp-2010-12-07/chEmbqbJiHubexbGBGCEmjJGrqBFdDjiFlvECGmirJcDtEGhzHdatllCaysc/Photo_12_07_7_16_26_.jpg.scaled1000.jpg"><img src="http://posterous.com/getfile/files.posterous.com/temp-2010-12-07/chEmbqbJiHubexbGBGCEmjJGrqBFdDjiFlvECGmirJcDtEGhzHdatllCaysc/Photo_12_07_7_16_26_.jpg.scaled500.jpg" width="500" height="750"/></a> </p>  <p>最重要的是Share功能, 它提供相當多, 按下按鈕後就可以出現一個Panel裡面有很多支援的服務</p>  <p><a href="http://posterous.com/getfile/files.posterous.com/temp-2010-12-07/gbqpmxgjlHAplAmoJjDGrDxsxvrDrtbfitnCxfJbAsuqslgtnmqmbrtvmHDl/Photo_12_07_7_16_57_.jpg.scaled1000.jpg"><img src="http://posterous.com/getfile/files.posterous.com/temp-2010-12-07/gbqpmxgjlHAplAmoJjDGrDxsxvrDrtbfitnCxfJbAsuqslgtnmqmbrtvmHDl/Photo_12_07_7_16_57_.jpg.scaled500.jpg" width="500" height="750"/></a> </p>  <p>對我來說有Twitter, Facebook就很足夠了, 可惜沒支援Plurk, 不過國外沒那麼流行Plurk倒是情有可原, 不過這麼多也很容易眼花撩亂, 所幸在設定裡面其實是可以開關每個服務的</p>  <p>Reeder還算不錯用, 價錢還算OK, 只是缺點是雖然支援Google reader但我有些跟的站, 內容似乎會抓不下來, 這是一大敗筆</p>  <p>再來說到FLUD, 它最大的好處是不用錢, 介面也新穎, 可惜的就是不支援Google Reader (不過iPad版居然是支援的, 不知道為啥iPhone版沒有)</p>  <p><a href="http://posterous.com/getfile/files.posterous.com/temp-2010-12-07/qjqCGxJJqqBBooudExpmetDjtqJzmnabgmCyoHstqdEcrmGwagfiarpFnash/Photo_12_07_7_23_36_.jpg.scaled1000.jpg"><img src="http://posterous.com/getfile/files.posterous.com/temp-2010-12-07/qjqCGxJJqqBBooudExpmetDjtqJzmnabgmCyoHstqdEcrmGwagfiarpFnash/Photo_12_07_7_23_36_.jpg.scaled500.jpg" width="500" height="750"/></a> 這樣的介面自從Flipboard, Pulse流行後, 好像蠻多人採用的, 好處是可以直接看圖略過, 看到圖就沒興趣的就略過不看, 這樣感覺上還是蠻有效率的, 一樣可以share到Twitter, Facebook, 不過不支援Google Reader還有不是很穩定是致命傷, 希望在iPhone上很快就可以支援Google Reader</p>  <p>目前我會比較推薦Reeder (iPhone上), iPad上我就會推薦FLUD了(Pulse我是覺得很雜亂)</p></div>
 
   </div><!-- /.entry-content -->
 </article><!-- /.hentry -->

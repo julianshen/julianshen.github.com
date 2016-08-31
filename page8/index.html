@@ -39,6 +39,7 @@
 
 <!-- For all browsers -->
 <link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.rawgit.com/knsv/mermaid/6.0.0/dist/mermaid.css">
 <!-- Webfonts -->
 <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel="stylesheet" type="text/css">
 
@@ -145,6 +146,83 @@
 
 <div id="main" role="main">
   
+<article class="hentry">
+  <header>
+    
+    <div class="entry-meta">
+      <span class="entry-date date published updated"><time datetime="2014-07-23T23:09:00+08:00"><a href="http://blog.jln.co/%E9%A2%B1%E9%A2%A8%E5%A4%A9%E7%9A%84%E5%AE%85code%E6%95%99%E5%AD%B8-%E6%8A%93%E6%BC%AB%E7%95%AB/">July 23, 2014</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
+      
+      <span class="entry-reading-time">
+        <i class="fa fa-clock-o"></i>
+        
+Reading time ~1 minute
+      </span><!-- /.entry-reading-time -->
+      
+    </div><!-- /.entry-meta -->
+    
+      <h1 class="entry-title"><a href="http://blog.jln.co/%E9%A2%B1%E9%A2%A8%E5%A4%A9%E7%9A%84%E5%AE%85code%E6%95%99%E5%AD%B8-%E6%8A%93%E6%BC%AB%E7%95%AB/" rel="bookmark" title="颱風天的宅code教學: 抓漫畫" itemprop="url">颱風天的宅code教學: 抓漫畫</a></h1>
+    
+  </header>
+  <div class="entry-content">
+    <p>先說在前面&hellip;不是鼓勵盜版, 也不是鼓勵去操掛人家網站, 這篇的出發點是單純好玩&hellip;起因是, 雖然現在大多數的人看漫畫都用布卡來看, 但布卡也不是所有漫畫都找的到, 上次聽到有人說布卡找不到某某漫畫, 就Google了一下, 總還是會有些網站有, 而且發現, 這些網站的結構都差不多, 所以就想說來寫個東西抓這些圖檔離線來看, 以下的技巧當然不只可以用在這用途上&hellip;</p>
+<p>抓取這類的非結構性資料的網站, 最直覺的方式就是把html抓回來解析, 不過這類型的網站, 為了保護資料, 所以很多東西都寫在javascript中, 這樣光解析靜態的html是不夠的, 還要去搞懂怎從他程式中抓到想要的資料是很累人的, 不過, 不管用了多少html, javascript, css的技巧, 最終還是得把整個頁面畫到browser才能讓使用者看到, 也就是如果在瀏覽器上, 到最後還是會有一個完整的DOM tree讓我們從某個節點取得我們想要的資料</p>
+<p>不過, 這樣聽起來好像還是工程浩大, 還得綁個瀏覽器? 其實不用, 只要靠 <a href="http://phantomjs.org/">phantom.js</a> 就好</p>
+<blockquote>
+<p><span>PhantomJS is a headless WebKit scriptable with a JavaScript API. It has </span><span>fast</span><span> and </span><span>native</span><span> support for various web standards: DOM handling, CSS selector, JSON, Canvas, and SVG.</span></p>
+</blockquote>
+<p>反正呢&hellip;.就是&hellip;這個可以拿來做這用途, 把它當一個scriptable沒畫面的Browser就對了</p>
+<p>接下來我們拿&quot;看漫畫&quot;(<a href="http://tw.seemh.com/">http://tw.seemh.com/</a>)這網站來當個範例</p>
+<p>以&quot;夜王&quot;這部漫畫(<a href="http://tw.seemh.com/comic/6563/">http://tw.seemh.com/comic/6563/</a>)來說, 從url可以猜到6563是他的ID, 而進入這個link之中, 有一堆單行本的列表, 所以第一個打算當然是用程式取的這些列表跟他的url囉, 所以打開Chrome的開發人員工具</p>
+<p><img alt="image" src="http://66.media.tumblr.com/a04c7a98bab8237a8f228d54c5bcf25e/tumblr_inline_n966k39vzt1qzg4zq.png"/></p>
+
+<p>從這上面可以看到, 這些連結有個共通點, 就是它們的class都是&quot;status0&quot;, 為了證實這一想法, 切到console用&quot;<span>document.querySelectorAll(&rsquo;.status0&rsquo;)</span>&ldquo;來測試一下:</p>
+<p><img alt="image" src="http://67.media.tumblr.com/1da84f597f674e9d4f610dae0c9dd0bf/tumblr_inline_n966o7ja9J1qzg4zq.png"/></p>
+
+<p>Bingo!果然如此, 因此這就適合我們拿phantom.js來抓取了url, 因此我們可以採用以下的code (書名的class是book-title)</p>
+<pre>function getComics() {
+   var url = 'http://tw.seemh.com/comic/6563/';
+   page.open(url, function (status) {
+       var book_title = page.evaluate(function() {
+           var title = document.querySelector('.book-title');
+           return title.innerText;
+       });
+       console.log(book_title);
+       var elements = page.evaluate(function() {
+           var elems = document.querySelectorAll('a.status0');
+           var titles = [];
+           for(var i=0;i&lt;elems.length;i++) {
+               titles.push({title:elems[i].title, url:elems[i].href});
+           }
+           return titles;
+       });
+
+       elements.forEach(function(arg, i) {
+         console.log(arg.title);
+       });
+       console.log('end');
+       phantom.exit();
+   });
+};
+
+</pre>
+<p>Phantom.js可以直接用page.evaluate()對網頁執行javascript, 因此我們可以在這之內用document.querySelector來取得我們所需要的節點</p>
+<p>接下來進入每本單行版的頁面, 如 http://tw.seemh.com/comic/6563/75102.html , 這邊我們有興趣的是, 到底有幾頁, 以及, 圖片到底在哪?</p>
+<p>所幸這也很簡單</p>
+<p><img alt="image" src="http://66.media.tumblr.com/524f6a1cff5d73049ae301e4f9d68296/tumblr_inline_n96746jGsT1qzg4zq.png"/></p>
+
+<p>頁面的資訊就在上方那條, 有個下拉選擇的部份, 用同樣的方法我們可知, 它的id是&quot;pageSelect&rdquo;, 因此, 我們可以以下面的方式取的頁面數量:</p>
+<pre>nPages = page.evaluate(function() {
+    return document.getElementById('pageSelect').length;
+});
+</pre>
+<p>而圖片的id則是&quot;mangaFile&quot;, 透過同樣的方式也可以取得檔名</p>
+<p>雖然在phantom.js可以用page.render來直接存圖檔, 但缺點是不能指定檔名跟存放位置, 所以我這邊的作法是直接輸出成shell script, 使用curl來做圖形抓取的動作</p>
+<p>完整的範例在: <a href="https://github.com/julianshen/comic_grabber">https://github.com/julianshen/comic_grabber</a> (沒完全測試, 可能有bug)</p>
+<p>補充一點, phantom.js有個bug, 在evaluate裡的array如果傳到外面來用的話, 使用pop(), shift()會出問題, 這也就是範例中, 要先把array給變成JSON string再轉回去的原因</p>
+
+  </div><!-- /.entry-content -->
+</article><!-- /.hentry -->
+
 <article class="hentry">
   <header>
     
@@ -300,57 +378,6 @@ Reading time ~1 minute
 <p>
 <script src="https://gist.github.com/julianshen/7914805.js" type="text/javascript"></script></p>
 <p>這函數第一個參數是REST命令的名字, 第二個則是處理這命令的函數, 相當簡單</p>
-
-  </div><!-- /.entry-content -->
-</article><!-- /.hentry -->
-
-<article class="hentry">
-  <header>
-    
-    <div class="entry-meta">
-      <span class="entry-date date published updated"><time datetime="2013-12-09T09:15:00+08:00"><a href="http://blog.jln.co/spark-core-spark-cloud/">December 09, 2013</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
-      
-      <span class="entry-reading-time">
-        <i class="fa fa-clock-o"></i>
-        
-Reading time ~1 minute
-      </span><!-- /.entry-reading-time -->
-      
-    </div><!-- /.entry-meta -->
-    
-      <h1 class="entry-title"><a href="http://blog.jln.co/spark-core-spark-cloud/" rel="bookmark" title="Spark core & Spark cloud" itemprop="url">Spark core & Spark cloud</a></h1>
-    
-  </header>
-  <div class="entry-content">
-    <p><img alt="image" src="http://67.media.tumblr.com/0a4f7bd098a99f604b05c5d4b640ea0f/tumblr_inline_mxik2nylQO1qzg4zq.png"/></p>
-<p>Spark core跟一般Arduino不同, 它並沒有一個在PC上的IDE供你寫及編譯程式, 這動作完全是在雲端, 開發者在Web IDE上攥寫程式, 之後server會去編譯並下載firmware到Spark core端執行</p>
-<p>明明電腦跟Spark core都在眼前, 但程式卻不是在眼前編譯反而繞了一段路從Spark cloud下來, 感覺是有點多此一舉, 但其實Spark cloud的功能不僅於此, 它還提供了一個叫<a href="http://docs.spark.io/#/start/tinkering-with-tinker-the-tinker-api">TINKER</a>的服務</p>
-<p>TINKER分為兩部分, 一個是手機上的TINKER APP</p>
-<p><img alt="image" height="400" src="http://docs.spark.io/images/tinker.png"/></p>
-<p>這App的用途就是讓你可以在不用寫任何一行程式的情況下, 就可以測試你的Spark core, 它背後的作法就是發送REST API, 也就是另一部分, 所謂的TINKER API, 到Spark cloud上, Spark cloud在把對應的命令轉到core上面, 由於core設定只要一打開就會連上網連到Spark cloud上, 因此可以用如此的方式控制它</p>
-<p>因為可以透過TINKER API來控制core, 加上TINKER API也是公開的REST API, 因此, 我們未必要用Arduino的程式寫法來控制core, 我們也可以透過TINKER API用自己想用的程式語言來做開發</p>
-<p>以以下的閃爍LED當做例子:</p>
-<p><img alt="image" src="http://67.media.tumblr.com/216e79553b156474a48bfc5c36381bb4/tumblr_inline_mxil05iRQw1qzg4zq.gif"/></p>
-
-<p>以傳統Arduino的寫法, 這樣一個程式(這範例應該老到掉牙了), 應該是這樣的:</p>
-<p>
-<script src="https://gist.github.com/julianshen/7865855.js" type="text/javascript"></script></p>
-<p>跟C有點像, 當然啦,你不用期待它有啥多執行緒(Multiple threading), 或是啥事件驅動(event driven)等等東西可以用啦, 基本上它也是編譯好跑在Spark core上, core並沒有強大的運算能力跟複雜的硬體可以搞這麼複雜的東西, 有一點要注意的是, 這樣一個程式從Spark cloud燒錄到core去, 原本的TINKER就會被取代而失效, 必須由TINKER APP重新燒錄</p>
-<p>至於說到<a href="http://docs.spark.io/#/start/tinkering-with-tinker-the-tinker-api">TINKER API</a>, 由於是REST API, 因此你可以用你習慣的語言去包裝, 不管是java, javascript, 或是go也好, 包裝它相當容易, 基本上目前也只有四個API: digitalwrite, digitalread, analogread, analogwrite</p>
-<p>我包裝了Node.js跟Go可以使用的版本, 需要的人可以直接取用:</p>
-<ol><li>Node.js module: <a href="https://github.com/julianshen/SparkCoreJs">https://github.com/julianshen/SparkCoreJs</a></li>
-<li>Go: <a href="https://github.com/julianshen/SparkGo">https://github.com/julianshen/SparkGo</a></li>
-</ol><p>如果改用了Node.js或是Go, 那這個閃爍程式該如何寫?</p>
-<p>Node.js:</p>
-<p>
-<script src="https://gist.github.com/julianshen/7865942.js" type="text/javascript"></script></p>
-<p>這邊就可以把原本用&quot;delay&quot;的方式改用javascript中的setTimeout來實作</p>
-<p>Go:</p>
-<p>
-<script src="https://gist.github.com/julianshen/7865955.js" type="text/javascript"></script></p>
-<p>Go這邊則就是用了Tick</p>
-<p>Access token跟device ID其實是可以去你的Web IDE上查到的</p>
-<p>透過TINKER API, 這樣程式就不用一定得要&quot;on board&quot;去執行, 而且使用的程式語言也不會有侷限, 但缺點是, 首先要考慮到網路所造成的時間差問題, 另一個問題是, 現在提供的API像是digitalread這樣的API都非常的基本, 如果所有程式全部放在遠端, 遠端程式就必須要很頻繁的透過Spark cloud來發號司令, 如果連上Spark cloud的core越多, Spark cloud的負擔就相當可觀, 如果能提供custom command或custom api的方式, 把部分常態的邏輯變成在core端執行的內儲程序被呼叫, 或許可以減輕些Spark cloud的負擔</p>
 
   </div><!-- /.entry-content -->
 </article><!-- /.hentry -->

@@ -1,4 +1,80 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.1.6">Jekyll</generator><link href="http://blog.jln.co/feed.xml" rel="self" type="application/atom+xml" /><link href="http://blog.jln.co/" rel="alternate" type="text/html" /><updated>2016-08-18T00:39:41+08:00</updated><id>http://blog.jln.co/</id><title>Le murmure de Julian</title><subtitle>朱隸安貓囈語錄</subtitle><entry><title>[筆記]製作自己的Icon font</title><link href="http://blog.jln.co/%E7%AD%86%E8%A8%98-%E8%A3%BD%E4%BD%9C%E8%87%AA%E5%B7%B1%E7%9A%84icon-font/" rel="alternate" type="text/html" title="[筆記]製作自己的Icon font" /><published>2016-08-17T23:46:04+08:00</published><updated>2016-08-17T23:46:04+08:00</updated><id>http://blog.jln.co/[筆記]製作自己的icon-font</id><content type="html" xml:base="http://blog.jln.co/%E7%AD%86%E8%A8%98-%E8%A3%BD%E4%BD%9C%E8%87%AA%E5%B7%B1%E7%9A%84icon-font/">&lt;p&gt;承續&lt;a href=&quot;http://blog.jln.co/筆記-ios開發-使用icon-font來節省圖示空間/&quot;&gt;上篇&lt;/a&gt;的用icon font來製作圖示, 之前所提到的都是利用現成的icon font, 但似乎大部分的icon font都沒有像material icon有支援ligatures, 沒支援的話, 在xcode裡面就無法像上一篇一樣, 直接在UI designer顯示對應的圖示, 另外如果需要使用自己的圖示呢?其實是有方法用SVG圖檔來製作自己的icon font的, 這篇就來介紹兩種用SVG圖檔製作一個有ligatures支援的字型檔&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.1.6">Jekyll</generator><link href="http://blog.jln.co/feed.xml" rel="self" type="application/atom+xml" /><link href="http://blog.jln.co/" rel="alternate" type="text/html" /><updated>2016-08-31T18:31:56+08:00</updated><id>http://blog.jln.co/</id><title>Le murmure de Julian</title><subtitle>朱隸安貓囈語錄</subtitle><entry><title>[Blog] 替Jekyll的markdown加上簡易流程圖功能</title><link href="http://blog.jln.co/blog-%E6%9B%BFjekyll%E7%9A%84markdown%E5%8A%A0%E4%B8%8A%E7%B0%A1%E6%98%93%E6%B5%81%E7%A8%8B%E5%9C%96%E5%8A%9F%E8%83%BD/" rel="alternate" type="text/html" title="[Blog] 替Jekyll的markdown加上簡易流程圖功能" /><published>2016-08-31T16:33:15+08:00</published><updated>2016-08-31T16:33:15+08:00</updated><id>http://blog.jln.co/[blog]-替jekyll的markdown加上簡易流程圖功能</id><content type="html" xml:base="http://blog.jln.co/blog-%E6%9B%BFjekyll%E7%9A%84markdown%E5%8A%A0%E4%B8%8A%E7%B0%A1%E6%98%93%E6%B5%81%E7%A8%8B%E5%9C%96%E5%8A%9F%E8%83%BD/">&lt;p&gt;對一個developer的blog來說, 流程圖似乎是蠻需要的, 比較能夠清楚來解釋一些東西, 但每個東西都轉圖檔還蠻麻煩的, 下面介紹一個有用的Jekyll plugin, 可以做到像下面這樣的效果:&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;第一例&lt;/strong&gt;&lt;/p&gt;
+
+&lt;script src=&quot;https://cdn.rawgit.com/knsv/mermaid/6.0.0/dist/mermaid.js&quot;&gt;&lt;/script&gt;
+&lt;div class=&quot;mermaid&quot;&gt;
+graph TD;
+    A--&amp;gt;B;
+    A--&amp;gt;C;
+    B--&amp;gt;D;
+    C--&amp;gt;D;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;第二例&lt;/strong&gt;&lt;/p&gt;
+
+&lt;script src=&quot;https://cdn.rawgit.com/knsv/mermaid/6.0.0/dist/mermaid.js&quot;&gt;&lt;/script&gt;
+&lt;div class=&quot;mermaid&quot;&gt;
+sequenceDiagram
+    participant John
+    participant Alice
+    Alice-&amp;gt;&amp;gt;John: Hello John, how are you?
+    John--&amp;gt;&amp;gt;Alice: Great!
+&lt;/div&gt;
+
+&lt;p&gt;這是利用一個叫做&lt;a href=&quot;https://github.com/jasonbellamy/jekyll-mermaid&quot;&gt;Jekyll-mermaid&lt;/a&gt; 來達成的&lt;/p&gt;
+
+&lt;p&gt;而這plugin其實也沒做很多事, 它是包裝了&lt;a href=&quot;https://github.com/knsv/mermaid&quot;&gt;mermaid&lt;/a&gt;這個工具, 而mermaid這工具他是利用了&lt;a href=&quot;https://d3js.org&quot;&gt;ds.js&lt;/a&gt;來讓你用很簡單的方式來繪製流程, 以上面兩個例子為例&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;第一例&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-markdown highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;graph TD;
+    A--&amp;gt;B;
+    A--&amp;gt;C;
+    B--&amp;gt;D;
+    C--&amp;gt;D;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;第二例&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-markdown highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sequenceDiagram
+    participant John
+    participant Alice
+    Alice-&amp;gt;&amp;gt;John: Hello John, how are you?
+    John--&amp;gt;&amp;gt;Alice: Great!
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;所以你在markdown裡面只要加上&lt;/p&gt;
+
+&lt;div class=&quot;language-markdown highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;{ % mermaid % }
+sequenceDiagram
+    participant John
+    participant Alice
+    Alice-&amp;gt;&amp;gt;John: Hello John, how are you?
+    John--&amp;gt;&amp;gt;Alice: Great!
+{ % endmermaid % }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;他就會幫你render出相關的流程了&lt;/p&gt;
+
+&lt;h4 id=&quot;section&quot;&gt;安裝方法&lt;/h4&gt;
+&lt;p&gt;這邊以我自己blog的安裝方法來說明&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;把jekyll-mermaid.rb放到_plugins目錄去&lt;/li&gt;
+  &lt;li&gt;在_config.yml加上 (這邊以6.0.0的mermaid為例):&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class=&quot;language-markdown highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mermaid:
+  src: &#39;https://cdn.rawgit.com/knsv/mermaid/6.0.0/dist/mermaid.js&#39;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;ol&gt;
+  &lt;li&gt;還要在head.html加上css (要配合版面顏色), 可以用這個 : https://cdn.rawgit.com/knsv/mermaid/6.0.0/dist/mermaid.css&lt;/li&gt;
+&lt;/ol&gt;</content><category term="Jekyll" /><category term="Blog" /><summary>對一個developer的blog來說, 流程圖似乎是蠻需要的, 比較能夠清楚來解釋一些東西, 但每個東西都轉圖檔還蠻麻煩的, 下面介紹一個有用的Jekyll plugin, 可以做到像下面這樣的效果:</summary></entry><entry><title>[筆記]製作自己的Icon font</title><link href="http://blog.jln.co/%E7%AD%86%E8%A8%98-%E8%A3%BD%E4%BD%9C%E8%87%AA%E5%B7%B1%E7%9A%84icon-font/" rel="alternate" type="text/html" title="[筆記]製作自己的Icon font" /><published>2016-08-17T23:46:04+08:00</published><updated>2016-08-17T23:46:04+08:00</updated><id>http://blog.jln.co/[筆記]製作自己的icon-font</id><content type="html" xml:base="http://blog.jln.co/%E7%AD%86%E8%A8%98-%E8%A3%BD%E4%BD%9C%E8%87%AA%E5%B7%B1%E7%9A%84icon-font/">&lt;p&gt;承續&lt;a href=&quot;http://blog.jln.co/筆記-ios開發-使用icon-font來節省圖示空間/&quot;&gt;上篇&lt;/a&gt;的用icon font來製作圖示, 之前所提到的都是利用現成的icon font, 但似乎大部分的icon font都沒有像material icon有支援ligatures, 沒支援的話, 在xcode裡面就無法像上一篇一樣, 直接在UI designer顯示對應的圖示, 另外如果需要使用自己的圖示呢?其實是有方法用SVG圖檔來製作自己的icon font的, 這篇就來介紹兩種用SVG圖檔製作一個有ligatures支援的字型檔&lt;/p&gt;
 
 &lt;h3 id=&quot;grunt-webfont&quot;&gt;grunt-webfont&lt;/h3&gt;
 &lt;p&gt;第一個方法就是利用&lt;a href=&quot;https://github.com/sapegin/grunt-webfont&quot;&gt;grunt-webfont&lt;/a&gt;, &lt;a href=&quot;http://gruntjs.com&quot;&gt;Grunt&lt;/a&gt;是一個前端常用的建構工具, 而&lt;a href=&quot;https://github.com/sapegin/grunt-webfont&quot;&gt;grunt-webfont&lt;/a&gt;是一個用來產生字型的task&lt;/p&gt;
@@ -703,4 +779,4 @@ mongo@3.service         fbc2675e.../10.0.0.5    active      running
 
 &lt;p&gt;有了這個後就可以遠端用mongodb cli或是相關的工具連上這台mongodb了&lt;/p&gt;
 
-&lt;p&gt;心得: fleet在這邊的作用感覺並不是很大, 同樣的東西應該也可以用chef或ansible來佈署, 這邊沒太多異質性的服務需要部屬(也只有一個服務), 而且我常會有連不上的狀況, 不過它算是蠻簡單的, 下次應該來試試kubernetes或是docker swarm&lt;/p&gt;</content><summary>把我過年假期試的先來紀錄一下，這篇基本上有兩個部分:</summary></entry><entry><title>[iOS生手筆記] Swift練習曲之2 - SwSelect (快速生產抓圖神器)</title><link href="http://blog.jln.co/ios%E7%94%9F%E6%89%8B%E7%AD%86%E8%A8%98-swift%E7%B7%B4%E7%BF%92%E6%9B%B2%E4%B9%8B2-swselect-%E5%BF%AB%E9%80%9F%E7%94%9F%E7%94%A2%E6%8A%93%E5%9C%96%E7%A5%9E%E5%99%A8/" rel="alternate" type="text/html" title="[iOS生手筆記] Swift練習曲之2 - SwSelect (快速生產抓圖神器)" /><published>2015-10-05T23:37:39+08:00</published><updated>2015-10-05T23:37:39+08:00</updated><id>http://blog.jln.co/ios生手筆記-swift練習曲之2-swselect-快速生產抓圖神器</id><content type="html" xml:base="http://blog.jln.co/ios%E7%94%9F%E6%89%8B%E7%AD%86%E8%A8%98-swift%E7%B7%B4%E7%BF%92%E6%9B%B2%E4%B9%8B2-swselect-%E5%BF%AB%E9%80%9F%E7%94%9F%E7%94%A2%E6%8A%93%E5%9C%96%E7%A5%9E%E5%99%A8/">&lt;p&gt;既然講到抓圖神器, 就先幫友人Wisely宣傳一下: &lt;a href=&quot;https://play.google.com/store/apps/details?id=com.wisely.imagedownloader&quot;&gt;https://play.google.com/store/apps/details?id=com.wisely.imagedownloader&lt;/a&gt;&lt;/p&gt;&lt;p&gt;不過在這並不是要宣傳抓圖神器的, 之前在找題目練習Swift時, 就想到要寫一個解析HTML的工具, 然後可以像是&lt;a href=&quot;http://jsoup.org/&quot;&gt;jsoup&lt;/a&gt;, 或是&lt;a href=&quot;https://github.com/PuerkitoBio/goquery&quot;&gt;goquery&lt;/a&gt;一樣方便, 至少用來解析網頁內的連結或圖片連結方便的, 比如說像是下面的code:&lt;/p&gt;&lt;blockquote&gt;&lt;p&gt;let $ = SwSelect(html)&lt;br/&gt;let imgUrls = $(”img”).attrs(”src”)&lt;br/&gt;for url in imgUrls {&lt;br/&gt;    print(url)&lt;br/&gt;}&lt;/p&gt;&lt;/blockquote&gt;&lt;p&gt;這個例子就這幾行就可以把網頁裡面圖片的Url給抓出來了, 又或, 如果我們只想抓某特定class的tag內包含的圖片(如：”&amp;lt;div class=“a1“&amp;gt;&amp;lt;img src=“aa.jpg”/&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=“a2″&amp;gt;&amp;lt;img src=“a2.jpg”/&amp;gt;&amp;lt;/div&amp;gt;” 我們只想要包含在a1裡面卻不想要a2裡面的就可以用:&lt;/p&gt;&lt;blockquote&gt;&lt;p&gt;let $ = SwSelect(html)&lt;br/&gt;let imgUrls = $(”.a1″).find(”img”).attrs(”src”)&lt;/p&gt;&lt;/blockquote&gt;&lt;p&gt;本來我是想學&lt;a href=&quot;https://github.com/PuerkitoBio/goquery&quot;&gt;goquery&lt;/a&gt;一樣, 複刻出一套&lt;a href=&quot;http://jquery.com/&quot;&gt;jQuery&lt;/a&gt;出來的, 順便複習一下&lt;a href=&quot;http://jquery.com/&quot;&gt;jQuery&lt;/a&gt;, 上面的範例其實也像是&lt;a href=&quot;http://jquery.com/&quot;&gt;jQuery&lt;/a&gt;的API(不得不說這API還有selector設計真的是神來一筆), 因此選擇要把&lt;a href=&quot;https://github.com/PuerkitoBio/goquery&quot;&gt;goquery&lt;/a&gt;從golang po到swift來, 其實是蠻可行的, 因為這兩個語言相似度還蠻高的, 但做到一半發現, 要複製整個&lt;a href=&quot;http://jquery.com/&quot;&gt;jQuery&lt;/a&gt;其實蠻龐大的, 而且我只需要解析HTML的部分並不需要修改HTML的部分, 因此中途急轉彎, 把寫到一半的code, 重新包裝成這個&lt;a href=&quot;https://github.com/julianshen/SwSelect&quot;&gt;SwSelect&lt;/a&gt;, 剛好也足夠達到上面兩個例子想要的啦&lt;/p&gt;&lt;p&gt;由於原本就是想從goquery po過來,  因此包裝了libxml2, 也把goquery用的selector parser的核心 - &lt;a href=&quot;https://github.com/andybalholm/cascadia&quot;&gt;Cascadia&lt;/a&gt;給移植到Swift來, 整個&lt;a href=&quot;https://github.com/julianshen/SwSelect&quot;&gt;SwSelect&lt;/a&gt;可以說是基於&lt;a href=&quot;https://github.com/andybalholm/cascadia&quot;&gt;Cascadia&lt;/a&gt;, 這次也順便練習了Swift 2的一些新特色, 不過在整合libxml2上面也吃了些苦頭, 這以後有機會再寫, 目前其實應該可以使用了, 說明還沒補, Cathage的支援也還沒試過, 不過一些用法可以看一下Unit test來當範例:&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/julianshen/SwSelect/blob/master/SwSelectTests/SwSelectTests.swift&quot;&gt;https://github.com/julianshen/SwSelect/blob/master/SwSelectTests/SwSelectTests.swift&lt;/a&gt;&lt;/p&gt;&lt;p&gt;這週應該會找時間補上說明&lt;/p&gt;&lt;p&gt;如果有需要的話歡迎拿去使用:&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/julianshen/SwSelect&quot;&gt;https://github.com/julianshen/SwSelect&lt;/a&gt;&lt;br/&gt;&lt;/p&gt;</content><category term="iOS Development" /><category term="Swift" /><summary>既然講到抓圖神器, 就先幫友人Wisely宣傳一下: https://play.google.com/store/apps/details?id=com.wisely.imagedownloader不過在這並不是要宣傳抓圖神器的, 之前在找題目練習Swift時, 就想到要寫一個解析HTML的工具, 然後可以像是jsoup, 或是goquery一樣方便, 至少用來解析網頁內的連結或圖片連結方便的, 比如說像是下面的code:let $ = SwSelect(html)let imgUrls = $(”img”).attrs(”src”)for url in imgUrls {    print(url)}這個例子就這幾行就可以把網頁裡面圖片的Url給抓出來了, 又或, 如果我們只想抓某特定class的tag內包含的圖片(如：”&amp;lt;div class=“a1“&amp;gt;&amp;lt;img src=“aa.jpg”/&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=“a2″&amp;gt;&amp;lt;img src=“a2.jpg”/&amp;gt;&amp;lt;/div&amp;gt;” 我們只想要包含在a1裡面卻不想要a2裡面的就可以用:let $ = SwSelect(html)let imgUrls = $(”.a1″).find(”img”).attrs(”src”)本來我是想學goquery一樣, 複刻出一套jQuery出來的, 順便複習一下jQuery, 上面的範例其實也像是jQuery的API(不得不說這API還有selector設計真的是神來一筆), 因此選擇要把goquery從golang po到swift來, 其實是蠻可行的, 因為這兩個語言相似度還蠻高的, 但做到一半發現, 要複製整個jQuery其實蠻龐大的, 而且我只需要解析HTML的部分並不需要修改HTML的部分, 因此中途急轉彎, 把寫到一半的code, 重新包裝成這個SwSelect, 剛好也足夠達到上面兩個例子想要的啦由於原本就是想從goquery po過來,  因此包裝了libxml2, 也把goquery用的selector parser的核心 - Cascadia給移植到Swift來, 整個SwSelect可以說是基於Cascadia, 這次也順便練習了Swift 2的一些新特色, 不過在整合libxml2上面也吃了些苦頭, 這以後有機會再寫, 目前其實應該可以使用了, 說明還沒補, Cathage的支援也還沒試過, 不過一些用法可以看一下Unit test來當範例:https://github.com/julianshen/SwSelect/blob/master/SwSelectTests/SwSelectTests.swift這週應該會找時間補上說明如果有需要的話歡迎拿去使用:https://github.com/julianshen/SwSelect</summary></entry></feed>
+&lt;p&gt;心得: fleet在這邊的作用感覺並不是很大, 同樣的東西應該也可以用chef或ansible來佈署, 這邊沒太多異質性的服務需要部屬(也只有一個服務), 而且我常會有連不上的狀況, 不過它算是蠻簡單的, 下次應該來試試kubernetes或是docker swarm&lt;/p&gt;</content><summary>把我過年假期試的先來紀錄一下，這篇基本上有兩個部分:</summary></entry></feed>

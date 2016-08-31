@@ -39,6 +39,7 @@
 
 <!-- For all browsers -->
 <link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.rawgit.com/knsv/mermaid/6.0.0/dist/mermaid.css">
 <!-- Webfonts -->
 <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel="stylesheet" type="text/css">
 
@@ -149,6 +150,29 @@
   <header>
     
     <div class="entry-meta">
+      <span class="entry-date date published updated"><time datetime="2010-12-24T23:42:22+08:00"><a href="http://blog.jln.co/android-getting-package-signature-in-runtime/">December 24, 2010</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
+      
+      <span class="entry-reading-time">
+        <i class="fa fa-clock-o"></i>
+        
+Reading time ~1 minute
+      </span><!-- /.entry-reading-time -->
+      
+    </div><!-- /.entry-meta -->
+    
+      <h1 class="entry-title"><a href="http://blog.jln.co/android-getting-package-signature-in-runtime/" rel="bookmark" title="[Android] Getting package signature in runtime" itemprop="url">[Android] Getting package signature in runtime</a></h1>
+    
+  </header>
+  <div class="entry-content">
+    <div class="posterous_autopost"><p>如果使用過Google MapView你會發現G社會叫你用你的package signature去申請map key(<a href="http://code.google.com/intl/zh-TW/android/add-ons/google-apis/mapkey.html">參考這邊</a>)</p>  <p>那MapView本身又是如何取得你的package signature的呢? </p>  <p>其實很簡單, 可以透過目前的Context用<a href="http://developer.android.com/reference/android/content/Context.html#getPackageName()">Context.getPackageName()</a>取得package name, 然後再利用package name去<a href="http://developer.android.com/reference/android/content/pm/PackageManager.html#getPackageInfo(java.lang.String,%20int)">PackageManager.getPackageInfo()</a>去查詢package的資訊(<a href="http://developer.android.com/reference/android/content/pm/PackageInfo.html">PackageInfo</a>), 裡面有項資訊&quot;signatures&quot;就是我們所要的(一個package是可以被sign多次的)</p>  <p><a href="https://github.com/facebook/facebook-android-sdk">Facebook Android SDK</a>所提供的Single sign on (SSO)也是得先在server端註冊你的package signature, 這樣它可以避免別人偷用你的API key去做single sign on的動作(因為別人的AP可能不會跟你sign同一個signature)</p>  <p>但Facebook的SSO是透過Facebook for Android來做login的動作的, 你的application是透過startActivityForResult去叫Facebook for Android, 這牽涉到兩個不同的package, 如果依上面的例子的話, MapView其實是鑲嵌在你的UI上, 跟你的application是同一個package, 所以可以拿context來取得這資訊</p>  <p>Facebook for Android是如何取得call他的人的signature呢?</p>  <p>其實也是用<a href="http://developer.android.com/reference/android/content/pm/PackageManager.html#getPackageInfo(java.lang.String,%20int)">PackageManager.getPackageInfo()</a> 來取得, 但它如何知道呼叫他的人是哪個package的?</p>  <p>這只要組合兩個API就可以辦到了</p>  <p>第一個是<a href="http://developer.android.com/reference/android/os/Binder.html#getCallingUid()">Binder.getCallingUid()</a> , 這可以讓你取得你的Calling process的UID</p>  <p>第二個是<a href="http://developer.android.com/reference/android/content/pm/PackageManager.html#getPackagesForUid(int)">PackageManager.getPackagesForUid()</a> , 這可以讓你取得屬於這UID的所有package</p>  <p>或許這邊你可能會有點疑問, 不是不同的package可以share UID嗎? 這樣取出來的package可能有很多個, 我怎知道用哪個? 我們目的只是要取得signature, 所以用哪個都一樣, 因為share UID的必要條件就是這些相同UID的package都是要sign同一把key, 所以只要找出所有package共通的signature就大功告成了 </p>  </div>
+
+  </div><!-- /.entry-content -->
+</article><!-- /.hentry -->
+
+<article class="hentry">
+  <header>
+    
+    <div class="entry-meta">
       <span class="entry-date date published updated"><time datetime="2010-12-24T18:32:04+08:00"><a href="http://blog.jln.co/android%E7%AD%86%E8%A8%98-single-sign-on-with-facebook-sdk/">December 24, 2010</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
       
       <span class="entry-reading-time">
@@ -233,29 +257,6 @@ Reading time ~1 minute
   </header>
   <div class="entry-content">
     <div class="posterous_autopost"><p>好久沒po個幾篇胡言亂語了</p>  <p>這陣子聽了不少觀念, 也想了不少東西, 也開始抽時間做一些自己想study的, 很久沒去做這類的事了</p>  <p>昨天去了Trend Micro, 也趁機跟老弟聊了一下, 交換經驗</p>  <p>又開始想, 自己到底想要做些什麼? 又是想以什麼樣的態度來處事?</p>  <p>一天過去, 其實也還沒啥結論, 不過有幾個字一直在腦海繞來繞去&hellip;. Simple, Creative, Fun</p>  <p>或許, 如果做事可以just for fun應該可以快樂很多, 如果做事情可以用更creative的方式來做, 也應該會快樂很多, 至於生活, 簡單, 或許才可以多活幾年吧&hellip;.</p></div>
-
-  </div><!-- /.entry-content -->
-</article><!-- /.hentry -->
-
-<article class="hentry">
-  <header>
-    
-    <div class="entry-meta">
-      <span class="entry-date date published updated"><time datetime="2010-12-23T01:10:09+08:00"><a href="http://blog.jln.co/safari-extension-safari2phone/">December 23, 2010</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
-      
-      <span class="entry-reading-time">
-        <i class="fa fa-clock-o"></i>
-        
-Reading time ~1 minute
-      </span><!-- /.entry-reading-time -->
-      
-    </div><!-- /.entry-meta -->
-    
-      <h1 class="entry-title"><a href="http://blog.jln.co/safari-extension-safari2phone/" rel="bookmark" title="[Safari Extension] Safari2Phone" itemprop="url">[Safari Extension] Safari2Phone</a></h1>
-    
-  </header>
-  <div class="entry-content">
-    <div class="posterous_autopost"><p>其實這是我自己無聊寫的啦, 這是我第一隻Safari Extension, 不過我不打算publish到Safari extension網站, 放這邊就好, <a href="http://dl.dropbox.com/u/2789919/safari2phone.safariextz">請點此下載</a></p>  <p>這是從Chrome2Phone porting來的, 如果不知道Chrome2Phone是啥東西, 可以先看一下這段影片:</p>  <p><iframe src="http://www.youtube.com/embed/pQb243niMlg" frameborder="0" height="345" width="560"></iframe></p>  <p>要玩這個東西, 首先你必須要有隻Android手機&hellip;.</p>  <p>然後Android手機上必須裝<a>Chrome2Phone</a>:</p>  <p><img src="http://posterous.com/getfile/files.posterous.com/temp-2010-12-22/qqIlkezHEarwqmyslivbEizCxoEjmmioxheqxynljIyjDkszGkevbgxqsEdA/1120233-1289334697434.png.scaled500.png" width="164" height="164"/> 裝完後, 你會發現有個烏七媽黑的button <img src="http://posterous.com/getfile/files.posterous.com/temp-2010-12-22/tkdcvsftlvEfpsvClImBxmbEtygwhIwgkGrEdnHaiFFdtdwnAurJFgiCIgrk/_2010-12-23_1.00.59.png.scaled500.png" width="43" height="31"/> 在你的tool bar上(抱歉, 沒做美工&hellip; orz)</p>  <p>當你想把正在看的網頁送到手機上, 就按下這個button, 如果沒有登入, 會有一條新的bar上面有顯示訊息叫你登入, 點選連結即可登入</p>    <p>Chrome extension跟Safari extension本質上蠻像的, 所以要po蠻容易的, 基本上花了我一晚上的時間, 從開始看Safari extension的文件開始, 到這個可以正常工作, 今晚回來後又稍微小修點bug再release</p>  <p>Chrome2Phone本身原理也蠻簡單的, 加上也open source, server端跟Chrome extension端都有source可看, extension端其實只是透過XMLHttpRequest把資料傳送過去, 這部份甚至可以原封不動reuse</p>  <p>讓我花比較多時間才發現的是, redirect url居然hard code在server端, 導致我的extension最後登入完只能被導到醜醜的圖, 本來想透過injected script讓他碰到那張圖的url就導到我的page, 但似乎好像沒辦法在tab內開啟extension package裡的一個HTML</p>  <p>總之, 先這樣, 有空再修好了, 繼續找看看有沒其他好玩的來玩..</p></div>
 
   </div><!-- /.entry-content -->
 </article><!-- /.hentry -->
