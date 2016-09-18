@@ -1,4 +1,298 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.1.6">Jekyll</generator><link href="http://blog.jln.co/feed.xml" rel="self" type="application/atom+xml" /><link href="http://blog.jln.co/" rel="alternate" type="text/html" /><updated>2016-08-31T18:31:56+08:00</updated><id>http://blog.jln.co/</id><title>Le murmure de Julian</title><subtitle>朱隸安貓囈語錄</subtitle><entry><title>[Blog] 替Jekyll的markdown加上簡易流程圖功能</title><link href="http://blog.jln.co/blog-%E6%9B%BFjekyll%E7%9A%84markdown%E5%8A%A0%E4%B8%8A%E7%B0%A1%E6%98%93%E6%B5%81%E7%A8%8B%E5%9C%96%E5%8A%9F%E8%83%BD/" rel="alternate" type="text/html" title="[Blog] 替Jekyll的markdown加上簡易流程圖功能" /><published>2016-08-31T16:33:15+08:00</published><updated>2016-08-31T16:33:15+08:00</updated><id>http://blog.jln.co/[blog]-替jekyll的markdown加上簡易流程圖功能</id><content type="html" xml:base="http://blog.jln.co/blog-%E6%9B%BFjekyll%E7%9A%84markdown%E5%8A%A0%E4%B8%8A%E7%B0%A1%E6%98%93%E6%B5%81%E7%A8%8B%E5%9C%96%E5%8A%9F%E8%83%BD/">&lt;p&gt;對一個developer的blog來說, 流程圖似乎是蠻需要的, 比較能夠清楚來解釋一些東西, 但每個東西都轉圖檔還蠻麻煩的, 下面介紹一個有用的Jekyll plugin, 可以做到像下面這樣的效果:&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.1.6">Jekyll</generator><link href="http://blog.jln.co/feed.xml" rel="self" type="application/atom+xml" /><link href="http://blog.jln.co/" rel="alternate" type="text/html" /><updated>2016-09-19T02:11:27+08:00</updated><id>http://blog.jln.co/</id><title>Le murmure de Julian</title><subtitle>朱隸安貓囈語錄</subtitle><entry><title>[筆記] 中秋連假小實驗</title><link href="http://blog.jln.co/%E7%AD%86%E8%A8%98-%E4%B8%AD%E7%A7%8B%E9%80%A3%E5%81%87%E5%B0%8F%E5%AF%A6%E9%A9%97/" rel="alternate" type="text/html" title="[筆記] 中秋連假小實驗" /><published>2016-09-18T22:41:43+08:00</published><updated>2016-09-18T22:41:43+08:00</updated><id>http://blog.jln.co/[筆記]-中秋連假小實驗</id><content type="html" xml:base="http://blog.jln.co/%E7%AD%86%E8%A8%98-%E4%B8%AD%E7%A7%8B%E9%80%A3%E5%81%87%E5%B0%8F%E5%AF%A6%E9%A9%97/">&lt;p&gt;最近直播蠻火紅的, 直播服務也不少, 連Facebook都做了直播功能, 最近也跟人聊了不少這方面的東西, 所以想說趁中秋連假來自己研究看看, 只是中秋節連假雖然多, 做的事情還真是不少, 看電影, 打球, 打電動, 看球的, 又碰上颱風天, 不過還是先搞個簡單的雛形唄&lt;/p&gt;
+
+&lt;h3 id=&quot;section&quot;&gt;相關應用&lt;/h3&gt;
+&lt;p&gt;市面上有不少關於直播的應用, 應該說, 簡直是氾濫, 而且每一種人氣似乎都是很旺, 還不是很了解在旺啥的, 現在可能也不少人認為當個網紅就可以一炮而紅之類的&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Live.me
+    &lt;ul&gt;
+      &lt;li&gt;&lt;img src=&quot;/images/posts/IMG_9517.PNG&quot; alt=&quot;&quot; /&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;小米直播
+    &lt;ul&gt;
+      &lt;li&gt;&lt;img src=&quot;/images/posts/IMG_9519.PNG&quot; alt=&quot;&quot; /&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;img src=&quot;/images/posts/IMG_9520.PNG&quot; alt=&quot;&quot; /&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;17
+    &lt;ul&gt;
+      &lt;li&gt;&lt;img src=&quot;/images/posts/IMG_9521.PNG&quot; alt=&quot;&quot; /&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;img src=&quot;/images/posts/IMG_9522.PNG&quot; alt=&quot;&quot; /&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;麥卡貝
+    &lt;ul&gt;
+      &lt;li&gt;&lt;img src=&quot;/images/posts/IMG_9523.PNG&quot; alt=&quot;&quot; /&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;這邊其實可以看出, 根本大同小異, 大多是賣肉…喔, 不是, 賣網紅, 後面故意舉了一個麥卡貝當例子, 它是稍微不一樣, 以賣直播節目像是運動比賽的轉播(嗚~~金鋒退休了). 而不是一般的UGC(User generated), 當然這邊也沒舉一般很流行的遊戲直播像是&lt;a href=&quot;https://www.twitch.tv&quot;&gt;Twitch&lt;/a&gt;, 不過這類早已為大家所熟知了&lt;/p&gt;
+
+&lt;p&gt;不管是哪一種, 大部分的設計都是大同小異, 都是以單向直播為主, 輔以文字聊天室, 可以送個愛心或禮物, Facebook稍稍進階點, 會將直播過程錄製下來, 不只錄製節目, 還有過程中的互動, 不過大家都是蠻近似的&lt;/p&gt;
+
+&lt;h3 id=&quot;section-1&quot;&gt;基本原理&lt;/h3&gt;
+&lt;p&gt;如果照以上的功能設計, 簡單的可以畫成兩個部分, 一個是直播串流(Video Stream)的部分, 一個則是聊天室的部分, 大致上的後端可以以這兩個為核心&lt;/p&gt;
+
+&lt;p&gt;關於直播串流的技術部分, Facebook 曾分享了一篇關於他們做直播串流經驗的文章:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://code.facebook.com/posts/1653074404941839/under-the-hood-broadcasting-live-video-to-millions/&quot;&gt;Under the hood: Broadcasting live video to millions&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;從這邊可以了解到, 串流需要能夠支撐到非常多人同時觀賞, 網紅可能數百到數千, 像是蘋果的發表會, 或是Google I/O, WWDC 這種會議則可能是數萬到數十萬, 所以服務的高並發, 高流量是可以預期的, 架構上也要能夠承受這樣的強度, 簡化的畫起來應該像是這樣:&lt;/p&gt;
+
+&lt;script src=&quot;https://cdn.rawgit.com/knsv/mermaid/6.0.0/dist/mermaid.js&quot;&gt;&lt;/script&gt;
+&lt;div class=&quot;mermaid&quot;&gt;
+graph LR;
+    C[Client]--publish--&amp;gt;M[Media Server];
+    M--forward--&amp;gt;E(Edge Server);
+    M--forward--&amp;gt;E2(Edge Server);
+    M--forward--&amp;gt;E3(Edge Server);
+    E--&amp;gt;V(Viewer);
+    E--&amp;gt;V2(Viewer);
+    E2--&amp;gt;V3(Viewer);
+    E2--&amp;gt;V4(Viewer);
+    E3--&amp;gt;CDN;
+    CDN--&amp;gt;V5(Viewer);
+    CDN--&amp;gt;V6(Viewer);
+    CDN--&amp;gt;V7(Viewer);
+&lt;/div&gt;
+
+&lt;p&gt;Viewer不直接從Media Server取串流內容是考量到Media server通常要接收多個Client發佈的串流, 一個假設性的想法是, 對於UGC(User generated content), 主播應該遠少於觀眾, 假設就算一個服務可以吸引到百萬級別的觀眾, 同時線上的主播應該了不起是幾千個而已, 即便如此, Media server本身從Client接收發布的串流資料後, 可能還需要做轉碼(transcoding), 和轉送的動作, 尤其是轉碼是較為耗CPU資源的工作, 如果把主播跟觀眾放在同一個伺服器上, 除了影響品質外, 也會不方便擴充, 因此減少Media server上的”觀眾”(讓觀眾只是其他少數的edge servers), 便可以在觀眾增加時相對好擴充容量(增加edge的數量)&lt;/p&gt;
+
+&lt;p&gt;但大部分的狀況來說, 每個直播的觀眾不一定是非常大量, 在Facebook那篇文章內也有提到, 在小量觀眾的狀況下, 分流到多個edge的效率應該就沒那麼的好了, 反而這時候放在同一台server減少延遲會是更好的選擇&lt;/p&gt;
+
+&lt;p&gt;串流的通訊協定有不少, 像是&lt;a href=&quot;https://en.wikipedia.org/wiki/Real-time_Transport_Protocol&quot;&gt;RTP&lt;/a&gt;, &lt;a href=&quot;https://en.wikipedia.org/wiki/Real_Time_Streaming_Protocol&quot;&gt;RTSP&lt;/a&gt;, &lt;a href=&quot;https://en.wikipedia.org/wiki/Real-Time_Messaging_Protocol&quot;&gt;RTMP&lt;/a&gt;, &lt;a href=&quot;https://en.wikipedia.org/wiki/HTTP_Live_Streaming&quot;&gt;HLS&lt;/a&gt;, &lt;a href=&quot;https://webrtc.org&quot;&gt;WebRTC&lt;/a&gt;等等, Facebook那篇文章主要提到的是&lt;a href=&quot;https://en.wikipedia.org/wiki/Real-Time_Messaging_Protocol&quot;&gt;RTMP&lt;/a&gt;, &lt;a href=&quot;https://en.wikipedia.org/wiki/HTTP_Live_Streaming&quot;&gt;HLS&lt;/a&gt;, 查了一下資料, 似乎這兩個也是目前比較主流做直播用的, 雖然WebRTC被討論的也蠻多的, 但似乎比較沒被應用在大量的直播, RTMP跟HLS都是可以透過HTTP來做傳輸(RTMP需要做封裝 - RTMPT), 讓他們具有穿越防火牆的優勢, 而HLS是以檔案為基礎的, 所以適合用一般的CDN來做快取, 在做大量的直播優勢較大, 缺點是延遲太長了, 但這兩者其實也是可以合併使用的, 在小群體時用RTMP, 等觀眾成長到一定數量實再導流到HLS去&lt;/p&gt;
+
+&lt;h3 id=&quot;proof-of-concept-&quot;&gt;Proof of concept 的初步想法與簡單的設計&lt;/h3&gt;
+&lt;p&gt;幾個初步的想法&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;直播 = live stream + chat room&lt;/li&gt;
+  &lt;li&gt;現在直播應用很多, 所以應該不少現成的open source解決方案可以套用, POC可以從這些東西下手, 不用重造輪子&lt;/li&gt;
+  &lt;li&gt;需求: Client發布直播後, Viewer可以知道現在有誰在直播並觀看, 並可以透過訊息聊天&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;strong&gt;發布&lt;/strong&gt;&lt;/p&gt;
+
+&lt;script src=&quot;https://cdn.rawgit.com/knsv/mermaid/6.0.0/dist/mermaid.js&quot;&gt;&lt;/script&gt;
+&lt;div class=&quot;mermaid&quot;&gt;
+sequenceDiagram
+    participant Client
+    participant Register
+    participant MediaServer
+    participant Viewer
+    Client-&amp;gt;&amp;gt;Register: I want to go live
+    activate Register
+    Register--&amp;gt;&amp;gt;Client: Here is your ID and token
+    deactivate Register
+    Client-&amp;gt;&amp;gt;MediaServer: Publish(id,token)
+    activate MediaServer
+    MediaServer-&amp;gt;&amp;gt;Register: token valid?
+    activate Register
+    Register--&amp;gt;&amp;gt;MediaServer: Yes
+    deactivate Register
+    MediaServer--&amp;gt;&amp;gt;Client: OK
+    deactivate MediaServer
+    Client-&amp;gt;&amp;gt;Register: I am ready to live
+    activate Register
+    Register-&amp;gt;&amp;gt;Viewer: Somebody is ready to live
+    activate Viewer
+    deactivate Register
+    Viewer-&amp;gt;Viewer: Update UI
+    deactivate Viewer
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;觀賞直播&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;這部分就沒什麼特別的了, 當一般的chat room做就好&lt;/p&gt;
+
+&lt;h3 id=&quot;section-2&quot;&gt;先看一下成果&lt;/h3&gt;
+
+&lt;p&gt;這成品有點粗劣, 有點不好意思 :P&lt;/p&gt;
+
+&lt;div class=&quot;video&quot;&gt;&lt;figure&gt;&lt;iframe width=&quot;640&quot; height=&quot;480&quot; src=&quot;//www.youtube.com/embed/DyF27GlfuZ8&quot; frameborder=&quot;0&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;&lt;/figure&gt;&lt;/div&gt;
+
+&lt;p&gt;我publish client只實作iOS版本, 而Viewer只實作了Android版本(根本只各做一半嘛!!/翻桌), 後端用&lt;a href=&quot;firebase.google.com&quot;&gt;firebase&lt;/a&gt;處理資料的部分, 所以即時通知新的直播, 和聊天沒啥問題(但我聊天的UI還是沒刻 &amp;gt;”&amp;lt;)&lt;/p&gt;
+
+&lt;h3 id=&quot;section-3&quot;&gt;相關解決方案&lt;/h3&gt;
+
+&lt;p&gt;既然沒有重新做輪子, 自然用了不少Open source的解決方案來達成, 從Server到Android, iOS要找到相關可用的實在不難, 可以說這部份實在是太成熟了, 研究完後覺得Facebook那篇文章也只是一般般而已&lt;/p&gt;
+
+&lt;h4 id=&quot;steaming-server&quot;&gt;Steaming server&lt;/h4&gt;
+
+&lt;p&gt;RTMP相關的解決方案還算不少, 這邊列幾個&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/arut/nginx-rtmp-module&quot;&gt;Nginx RTMP Module&lt;/a&gt; - 架構在Nginx之上, 也算老牌了, 支援RTMP和HLS, 但看code base, 實在也沒啥在更新&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.monaserver.ovh&quot;&gt;Mona server&lt;/a&gt; - 支援RTMP, HTTP(非HLS), Web socket等等&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://red5.org&quot;&gt;Red5 Media Server&lt;/a&gt; - 支援RTMP, HLS, WebSocket, RTSP, 好像是要錢&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/ossrs/srs/&quot;&gt;Simpe RTMP Server&lt;/a&gt; - 這是由中國的觀止雲這家開源出來的, 講”Simple”其實一點都不Simple, 輕量, 穩定(至少我試直播一晚上都還蠻順利的), 好擴展(支援forward to edge), 可RTMP轉HLS, 因此我最後選擇這個方案&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h5 id=&quot;srs-simple-rtmp-server&quot;&gt;SRS (Simple RTMP Server)&lt;/h5&gt;
+
+&lt;p&gt;&lt;strong&gt;硬體&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;我沒看到文件有寫硬體需求, 但我用Digital Ocean 1GB RAM, 30GB SSD的Droplet跑, 單一個直播, 直播好幾個鐘頭, CPU都不超過5%, 所以應該足夠&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;安裝&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;安裝上相當簡單&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;從git上抓下來: &lt;code class=&quot;highlighter-rouge&quot;&gt;git clone https://github.com/ossrs/srs.git&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;切換到相對應版本的branch(我是用2.0release) - &lt;code class=&quot;highlighter-rouge&quot;&gt;git checkout 2.0release&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;cd srs/trunk; ./configure ; make ;&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;建置好的執行檔會在srs/trunk/objs目錄下, 可以直接執行&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;設定&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;conf目錄下有很多不同的設定檔可以參考, 因為我要試RTMP, HLS所以我用的設定檔如下:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;listen              1935;
+max_connections     1000;
+srs_log_tank        file;
+srs_log_file        ./objs/srs.log;
+http_api {
+    enabled         on;
+    listen          1985;
+}
+http_server {
+    enabled         on;
+    listen          8080;
+    dir             ./objs/nginx/html;
+}
+stats {
+    network         0;
+    disk            sda sdb xvda xvdb;
+}
+vhost __defaultVhost__ {
+    hls {
+        enabled         on;
+		hls_fragment    10;
+        hls_window      60;
+        hls_path        ./objs/nginx/html;
+        hls_m3u8_file   [app]/[stream].m3u8;
+        hls_ts_file     [app]/[stream]-[seq].ts;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;相對應的設定可以參考文件&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;執行&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;很簡單: &lt;code class=&quot;highlighter-rouge&quot;&gt;srs -c my.conf&lt;/code&gt; 即可&lt;/p&gt;
+
+&lt;h4 id=&quot;ios-rtmp-publish&quot;&gt;iOS RTMP Publish&lt;/h4&gt;
+
+&lt;p&gt;找到iOS支援RTMP publish的解決方案有幾種:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/jgh-/VideoCore&quot;&gt;VideoCore&lt;/a&gt; - 這個我還沒去試過, 不知道好不好用, 但似乎有支援Filter和Watermark, 感覺蠻威的&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/shogo4405/lf.swift&quot;&gt;lf.swift&lt;/a&gt; - 簡單, Swift做的, 這兩個是優點, 對我這個只看得懂Swift看不懂ObjC的, debug是比較方便, 但除此之外好像也沒啥特色了&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/runner365/LiveVideoCoreSDK&quot;&gt;LiveVideoCoreSDK&lt;/a&gt; - 這文件不多, 我暫時就沒試了, 也支援濾鏡, 而且似乎這個作者也提供了Android版本, 只是好像沒支援Cocoapods或Cathage, 有空再來玩玩&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/LaiFengiOS/LFLiveKit&quot;&gt;LFLiveKit&lt;/a&gt; - 我最後是選用這個, 簡單, 且”自帶美顏”(現在騙人是很基本的)&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h5 id=&quot;lfswift&quot;&gt;lf.swift&lt;/h5&gt;
+
+&lt;p&gt;雖然文件上有提供cocoapods跟Carhtage的安裝方式, 但絕對不要用Carthage的那個, 第一原因是它Carthage支援似乎尚未搞定, 就算改點東西解決了它, 是可以安裝成功沒錯, 但會崩潰在XCGLogger, 似乎用framework含進來的方式會導致XCGLogger == nil, 這害我花了好多時間, 畢竟我是Carthage的愛用者, 後來轉用Cocoapods就沒事了&lt;/p&gt;
+
+&lt;p&gt;幾個需要加的部分:&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;AppDelegate.swift&lt;/em&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;application&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;application&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UIApplication&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;didFinishLaunchingWithOptions&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;launchOptions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;NSObject&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;AnyObject&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]?)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Bool&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+
+        &lt;span class=&quot;kt&quot;&gt;XCGLogger&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;defaultInstance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;outputLogLevel&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Info&lt;/span&gt;
+        &lt;span class=&quot;kt&quot;&gt;XCGLogger&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;defaultInstance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;xcodeColorsEnabled&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;
+        
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;這兩行是設定logger要記錄的東西, 方便debug用&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;ViewController&lt;/em&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;viewDidLoad&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;rtmpStream&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;RTMPStream&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;rtmpConnection&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rtmpConnection&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;rtmpStream&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;syncOrientation&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;rtmpStream&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;attachAudio&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;AVCaptureDevice&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;defaultDeviceWithMediaType&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;AVMediaTypeAudio&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;rtmpStream&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;attachCamera&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;DeviceUtil&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;deviceWithPosition&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Back&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;rtmpStream&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;addObserver&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;forKeyPath&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;currentFPS&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;options&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSKeyValueObservingOptions&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;New&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        
+    &lt;span class=&quot;n&quot;&gt;rtmpStream&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;captureSettings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+            &lt;span class=&quot;s&quot;&gt;&quot;sessionPreset&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;AVCaptureSessionPreset1280x720&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;s&quot;&gt;&quot;continuousAutofocus&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;s&quot;&gt;&quot;continuousExposure&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;rtmpStream&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;videoSettings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+            &lt;span class=&quot;s&quot;&gt;&quot;width&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1280&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;s&quot;&gt;&quot;height&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;720&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;lfView&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;attachStream&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rtmpStream&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;view&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;addSubview&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lfView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;直播的部分會跟他的LFView綁一起&lt;/p&gt;
+
+&lt;h5 id=&quot;lflivekithttpsgithubcomlaifengioslflivekit&quot;&gt;&lt;a href=&quot;https://github.com/LaiFengiOS/LFLiveKit&quot;&gt;LFLiveKit&lt;/a&gt;&lt;/h5&gt;
+
+&lt;p&gt;後來選用LFLiveKit的原因不是因為他自帶美顏 :D, 他寫法跟lf.swift一樣簡單, 而且不一定要把preview加到UI裡面, 而且他的preview不用用特定的class,只要是UIView就可&lt;/p&gt;
+
+&lt;p&gt;範例直接貼他文件裡的就很清楚了:&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// import LFLiveKit in [ProjectName]-Bridging-Header.h&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;LFLiveKit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;h&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; 
+
+&lt;span class=&quot;c1&quot;&gt;//MARK: - Getters and Setters&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;lazy&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;session&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;LFLiveSession&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;audioConfiguration&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;LFLiveAudioConfiguration&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;defaultConfiguration&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;videoConfiguration&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;LFLiveVideoConfiguration&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;defaultConfigurationForQuality&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;LFLiveVideoQuality&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Low3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;landscape&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;session&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;LFLiveSession&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;audioConfiguration&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;audioConfiguration&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;videoConfiguration&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;videoConfiguration&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;session&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;delegate&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;session&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;preView&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;view&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;session&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}()&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;//MARK: - Event&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;startLive&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Void&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; 
+    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;stream&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;LFLiveStreamInfo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;stream&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;url&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;your server rtmp url&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;session&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;startLive&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stream&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;stopLive&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Void&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;session&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;stopLive&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;//MARK: - Callback&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;liveSession&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;session&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;LFLiveSession&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;debugInfo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;LFLiveDebug&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?)&lt;/span&gt; 
+&lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;liveSession&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;session&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;LFLiveSession&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;errorCode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;LFLiveSocketErrorCode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;liveSession&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;session&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;LFLiveSession&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;liveStateDidChange&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;state&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;LFLiveState&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;android-stream-player&quot;&gt;Android stream player&lt;/h4&gt;
+
+&lt;p&gt;寫到後面有點累了, 也有點懶了, 還剩下Android這塊沒寫, 這邊就只列出方案不寫細節了, 主要我測過:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/google/ExoPlayer/&quot;&gt;ExoPlayer&lt;/a&gt;: Google開源的Media player, 之前在做另一個東西時我有用過, 所以第一時間就想起這個, 不過, 原生的完全不支援RTMP, 不過可以參考&lt;a href=&quot;https://github.com/ButterflyTV/ExoPlayer-with-RTMP-and-FLV-seek/blob/master/demo/src/main/java/com/google/android/exoplayer/demo/player/RtmpDataSource.java&quot;&gt;這邊&lt;/a&gt;, 但我實際上用, RTMP完全沒成功過, 一直出現FLV parse的問題, 倒是HLS沒問題&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/Bilibili/ijkplayer&quot;&gt;Ijkplayer&lt;/a&gt; - 這同時有Android和iOS版本, 是Bilibili開源的, 有點強大, 但基於ffmpeg, 不知道在license上會不會有風險, 使用起來還有點複雜, 但HLS, RTMP都是沒問題&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/pili-engineering/PLDroidPlayer&quot;&gt;PLDroidPlayer&lt;/a&gt; - 七牛雲針對ijkplayer的再製品, 比較方便的是, 它有封裝出一個video view可以直接使用, 相較於ijkplayer來說比較簡單易用&lt;/li&gt;
+&lt;/ol&gt;</content><category term="iOSDev" /><category term="Swift" /><category term="AndroidDev" /><category term="server" /><category term="SRS" /><category term="RTMP" /><category term="mobiledev" /><category term="livestream" /><summary>最近直播蠻火紅的, 直播服務也不少, 連Facebook都做了直播功能, 最近也跟人聊了不少這方面的東西, 所以想說趁中秋連假來自己研究看看, 只是中秋節連假雖然多, 做的事情還真是不少, 看電影, 打球, 打電動, 看球的, 又碰上颱風天, 不過還是先搞個簡單的雛形唄</summary></entry><entry><title>[Blog] 替Jekyll的markdown加上簡易流程圖功能</title><link href="http://blog.jln.co/blog-%E6%9B%BFjekyll%E7%9A%84markdown%E5%8A%A0%E4%B8%8A%E7%B0%A1%E6%98%93%E6%B5%81%E7%A8%8B%E5%9C%96%E5%8A%9F%E8%83%BD/" rel="alternate" type="text/html" title="[Blog] 替Jekyll的markdown加上簡易流程圖功能" /><published>2016-08-31T16:33:15+08:00</published><updated>2016-08-31T16:33:15+08:00</updated><id>http://blog.jln.co/[blog]-替jekyll的markdown加上簡易流程圖功能</id><content type="html" xml:base="http://blog.jln.co/blog-%E6%9B%BFjekyll%E7%9A%84markdown%E5%8A%A0%E4%B8%8A%E7%B0%A1%E6%98%93%E6%B5%81%E7%A8%8B%E5%9C%96%E5%8A%9F%E8%83%BD/">&lt;p&gt;對一個developer的blog來說, 流程圖似乎是蠻需要的, 比較能夠清楚來解釋一些東西, 但每個東西都轉圖檔還蠻麻煩的, 下面介紹一個有用的Jekyll plugin, 可以做到像下面這樣的效果:&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;第一例&lt;/strong&gt;&lt;/p&gt;
 
@@ -637,146 +931,4 @@ coreos:
 &lt;li&gt;執行&lt;code&gt;pushd.sh up&lt;/code&gt;啟動redis和pushd兩個containers&lt;/li&gt;
 &lt;li&gt;執行&lt;code&gt;pushd.sh ps&lt;/code&gt;確認是不是兩個都已經正確啟動&lt;/li&gt;
 &lt;li&gt;PUSHD的port是對應到host的8081, 所以直接對8081操作即可&lt;/li&gt;
-&lt;/ul&gt;&lt;p&gt;接下來可能要想一些方法來測試, 和把Parse的資料給串一起&lt;/p&gt;</content><summary>Parse自從宣布要收掉後, 雖然也放出open source的仿製品Parse Server, 這東西不是實際上Parse真正跑得那個app server, 而是一個nodejs/express的相容版, 這個版本的故事可以看這邊 Parse 2.0</summary></entry><entry><title>[筆記] Deploy Mongodb replica set to coreos/fleet cluster on Azure</title><link href="http://blog.jln.co/%E7%AD%86%E8%A8%98-deploy-mongodb-replica-set-to-coreosfleet/" rel="alternate" type="text/html" title="[筆記] Deploy Mongodb replica set to coreos/fleet cluster on Azure" /><published>2016-02-12T00:34:07+08:00</published><updated>2016-02-12T00:34:07+08:00</updated><id>http://blog.jln.co/筆記-deploy-mongodb-replica-set-to-coreosfleet</id><content type="html" xml:base="http://blog.jln.co/%E7%AD%86%E8%A8%98-deploy-mongodb-replica-set-to-coreosfleet/">&lt;p&gt;把我過年假期試的先來紀錄一下，這篇基本上有兩個部分:&lt;/p&gt;
-
-&lt;p&gt;第一部份是在Azure上部署一個coreos cluster，這部份可以參考以下幾篇：&lt;/p&gt;
-
-&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://m.youtube.com/watch?v=wxUxtflalE4&quot;&gt;Scaling Docker #1 - High Availability Docker DevOps with CoreOS, Etcd, Fleet, Flannel &amp;amp; Nginx&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://github.com/willrstern/production-docker-ha-architecture&quot;&gt;willrstern/production-docker-ha-architecture&lt;/a&gt; - 這是上一段影片用的source codes, 那段影片有好幾段, 講的蠻清楚的, 但是佈署在Digital Ocean上, 這邊我借用他的cloud-config&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://azure.microsoft.com/zh-tw/documentation/articles/virtual-machines-linux-coreos-how-to/&quot;&gt;如何在 Azure 上使用 CoreOS&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://azure.microsoft.com/zh-tw/documentation/articles/virtual-machines-linux-coreos-fleet-get-started/&quot;&gt;開始在 Azure 上的 CoreOS VM 叢集使用 Fleet&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;p&gt;這邊我使用的不是Azure的classic vm而是用了resource manager，這部份 可以參考這篇：
-&lt;a href=&quot;https://azure.microsoft.com/en-us/documentation/articles/resource-group-template-deploy/&quot;&gt;Deploy an application with Azure Resource Manager template&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;要使用arm的話，首先要把模式切到arm:&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;em&gt;azure config mode arm&lt;/em&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;接下來得建立一個resource group:&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;em&gt;azure group create -n &amp;ldquo;group_name&amp;rdquo; -l &amp;ldquo;West US&amp;rdquo;&lt;/em&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;-n 後面是這個群組的名字, -l 後面則是它所在區域&lt;/p&gt;
-
-&lt;p&gt;接下來可以利用resource group templates來建立相關的資源, resource group template 除了可以自己寫以外(參考這邊 &lt;a href=&quot;https://azure.microsoft.com/en-us/documentation/articles/resource-group-authoring-templates/&quot;&gt;Authoring Azure Resource Manager templates&lt;/a&gt;), 也可以上&lt;a href=&quot;https://azure.microsoft.com/zh-tw/documentation/templates/&quot;&gt;Azure 快速入門範本去找現成的&lt;/a&gt;, 至於coreos + fleet, 就有一個現成的:&lt;a href=&quot;https://azure.microsoft.com/zh-tw/documentation/templates/coreos-with-fleet-multivm/&quot;&gt;Deploy a CoreOS cluster hosting Fleet&lt;/a&gt;, 它的&lt;a href=&quot;https://github.com/Azure/azure-quickstart-templates/tree/master/coreos-with-fleet-multivm&quot;&gt;source code在github上也可以找到&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;基本上應該是改一下azuredeploy.parameters.json再執行下面指令就可以:&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;em&gt;azure group deployment create GroupName DeploymentName &amp;ndash;template-file azuredeploy.json &amp;ndash;parameters-file azuredeploy.parameters.json&lt;/em&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;而裡面的discovery url部分, 則是要去: &lt;a href=&quot;https://discovery.etcd.io/new?size=3&quot;&gt;https://discovery.etcd.io/new?size=3&lt;/a&gt; 產生一個貼上去&lt;/p&gt;
-
-&lt;p&gt;但我前幾天在試的時候, 似乎它azuredeploy.json的換行有點問題(寫這篇文章時再看它已經是修正了), 以至於我執行起來有點問題, 再加上, 新的coreos stable似乎也改用etcd2取代原本的etcd, 因此我想要用另一個版本的cloud-config(即借用Scaling Docker那段影片裡用的那個cloud-config, 那個即是使用etcd2), 此外他的vm name也全是以coreos開頭的(我想要自己命名)&lt;/p&gt;
-
-&lt;p&gt;因此, 我修改了一個自己的版本, 也放在github上: &lt;a href=&quot;https://github.com/julianshen/azure-core-fleet&quot;&gt;julianshen/azure-core-fleet&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;這版本把cloud-config獨立成一個template而非寫死在azuredeploy.json, 並借用上面所述的版本, 並且寫了一隻&lt;em&gt;paramgen.go&lt;/em&gt;來產生azuredeploy.parameters.json, discovery url不用自己去產生, 這支程式會自動幫你取得, 用法:&lt;/p&gt;
-
-&lt;ul&gt;&lt;li&gt;&lt;em&gt;go get github.com/parnurzeal/gorequest&lt;/em&gt;&lt;/li&gt;
-&lt;li&gt;&lt;em&gt;go run paramgen.go &amp;ndash;numberOfNodes 3 &amp;ndash;location &amp;ldquo;East US&amp;rdquo; &amp;ndash;newStorageAccountName &amp;ldquo;mystorageaccount&amp;rdquo; &amp;ndash;vmSize &amp;ldquo;Standard_A1&amp;rdquo; &amp;ndash;adminUserName &amp;ldquo;admin&amp;rdquo; &amp;ndash;vmNamePrefix &amp;ldquo;myvm&amp;rdquo; &amp;ndash;sshKeyFile ~/.ssh/azure_rsa.pub&lt;/em&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;p&gt;參數如下:&lt;/p&gt;
-
-&lt;ul&gt;&lt;li&gt;numberOfNodes 要開的vm數量&lt;/li&gt;
-&lt;li&gt;location vm位置(還是得跟你的resource group所在位置一樣)&lt;/li&gt;
-&lt;li&gt;newStorageAccountName storage account name&lt;/li&gt;
-&lt;li&gt;vmSize VM的大小&lt;/li&gt;
-&lt;li&gt;adminUserName 管理者的名稱&lt;/li&gt;
-&lt;li&gt;vmNamePrefix vm名字的開頭&lt;/li&gt;
-&lt;li&gt;sshKeyFile ssk key的檔案位置(如果沒有,預設是~/.ssh/id_rsa.pub)&lt;/li&gt;
-&lt;/ul&gt;&lt;p&gt;接著跑前面提到那段:&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;em&gt;azure group deployment create GroupName DeploymentName &amp;ndash;template-file azuredeploy.json &amp;ndash;parameters-file azuredeploy.parameters.json&lt;/em&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;執行結束後就會得到三頭牛, ㄟ,是三台VM(取決於numberOfNodes數目)及相關資源, 而且依據這個範本, 這三台VM跑得都會是coreos, 擁有我們指定的cloud-config, 這cloud-config會在coreos上啟用etcd2, fleet, 和flanneld (如Scaling Docker那段裡面的一樣)&lt;/p&gt;
-
-&lt;p&gt;用ARM的模式的好處是,這三台VM會是在同一個虛擬網路上, 有各自的私有的IP, 當然也有各自的公開IP&lt;/p&gt;
-
-&lt;p&gt;裝好後, 有碰到一個問題, 就是不知道為何, 重啟vm時, 會碰到etcd也跑起來了取代了etcd2, 而etcdctl 2.0.9又跟etcd有相容性問題, 導致fleet出問題, 因此在原本的cloud-config加上了:&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;ul&gt;&lt;li&gt;name: etcd.service
-    mask: true&lt;/li&gt;
-  &lt;/ul&gt;&lt;/blockquote&gt;
-
-&lt;p&gt;這樣一來etcd就不會去執行了&lt;/p&gt;
-
-&lt;p&gt;再來就要測試剛剛的佈署是不是成功沒問題了&lt;/p&gt;
-
-&lt;p&gt;首先我們需要fleetctl, 如果不希望登入vm就可以使用, 還是可以在本地端安裝, 在mac下可用&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;em&gt;brew install fleetctl&lt;/em&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;然後要設定兩個環境變數:&lt;/p&gt;
-
-&lt;ul&gt;&lt;li&gt;&lt;em&gt;export FLEETCTL_TUNNEL=xxx.xxx.xxx.xxx&lt;/em&gt;&lt;/li&gt;
-&lt;li&gt;&lt;em&gt;export FLEETCTL_SSH_USERNAME=admin&lt;/em&gt; (你設定的admin user名字)&lt;/li&gt;
-&lt;/ul&gt;&lt;p&gt;接下來用:&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;em&gt;fleetctl list-machines&lt;/em&gt; &amp;ndash;full&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;會得到像這樣的結果:&lt;/p&gt;
-
-&lt;pre&gt;
-MACHINE     IP      METADATA
-291c678da14841a7bec4c9aa0dfe168c    10.0.0.6    -
-8e63696268c54a62a3f21043669997c6    10.0.0.4    -
-fbc2675e0aa940e1b11eb6640b62906f    10.0.0.5    -
-&lt;/pre&gt;
-
-&lt;p&gt;這表示這三台vm已經都跑起來了, 如果我們要ssh連上第一台可以用這種方式:&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;em&gt;fleetctl ssh 291c678da14841a7bec4c9aa0dfe168c&lt;/em&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;完全不用知道這台機器的public IP&lt;/p&gt;
-
-&lt;p&gt;有了這三台VM, 接下來要做的事就是要deploy Mongodb的replica set了&lt;/p&gt;
-
-&lt;p&gt;這邊我找到兩個參考:&lt;/p&gt;
-
-&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/19hz/coreos-mongodb-cluster&quot;&gt;19hz/coreos-mongodb-cluster&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://github.com/auth0/coreos-mongodb&quot;&gt;auth0/coreos-mongodb&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;p&gt;第一個其實是參考第二個寫出來的, 這兩個的差異在於第一個使用了data volume container&lt;/p&gt;
-
-&lt;p&gt;Data volume container的優缺點及使用方法可以參考這篇: &lt;a href=&quot;https://docs.docker.com/engine/userguide/containers/dockervolumes/&quot;&gt;Manage data in containers&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;本來我想直接採用第一個的, 不過弄了半天, 每次都是在加好admin user後restart mongo時就失敗了, 加上他的方法其實沒辦法保證db container剛好跟data volume container一定在同一台機器(可以參考&lt;a href=&quot;https://github.com/19hz/coreos-mongodb-cluster/issues/2&quot;&gt;這一個issue&lt;/a&gt;), 後來就有點懶得看, 所以改採用第二個方法&lt;/p&gt;
-
-&lt;p&gt;第二個方法還蠻簡單的:&lt;/p&gt;
-
-&lt;ul&gt;&lt;li&gt;先ssh到任一台(可以用fleetctl ssh),用etcdctl設定這個變數: &lt;em&gt;etcdctl set /mongo/replica/name myreplica&lt;/em&gt;&lt;/li&gt;
-&lt;li&gt;執行 &lt;em&gt;fleetctl start mongo@{1..3}.service&lt;/em&gt; 以及 &lt;em&gt;fleetctl start  mongo-replica-config.service&lt;/em&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;p&gt;在第一個node跑起來後, 它會建立admin user自動產生它的密碼, 建立replica key, 然後再重啟mongodb, 相關參數像是admin user的密碼就會存在etcd, 會需要花一點時間&lt;/p&gt;
-
-&lt;p&gt;用 &lt;code&gt;fleetctl list-units&lt;/code&gt; 就可以看各個的執行結果了, 像這樣&lt;/p&gt;
-
-&lt;pre&gt;
-UNIT                MACHINE         ACTIVE      SUB
-mongo-replica-config.service    8e636962.../10.0.0.4    inactive    dead
-mongo@1.service         8e636962.../10.0.0.4    active      running
-mongo@2.service         291c678d.../10.0.0.6    active      running
-mongo@3.service         fbc2675e.../10.0.0.5    active      running
-&lt;/pre&gt;
-
-&lt;p&gt;mongo-replica-config由於只會跑一次, 所以你會看到他最後的狀態是dead&lt;/p&gt;
-
-&lt;p&gt;這裡建立出來的admin使用者為 &lt;em&gt;siteRootAdmin&lt;/em&gt; , 密碼則可以連上任一台, 用etcdctl取得:&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;etcdctl get /mongo/replica/siteRootAdmin/pwd&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;有了這個後就可以遠端用mongodb cli或是相關的工具連上這台mongodb了&lt;/p&gt;
-
-&lt;p&gt;心得: fleet在這邊的作用感覺並不是很大, 同樣的東西應該也可以用chef或ansible來佈署, 這邊沒太多異質性的服務需要部屬(也只有一個服務), 而且我常會有連不上的狀況, 不過它算是蠻簡單的, 下次應該來試試kubernetes或是docker swarm&lt;/p&gt;</content><summary>把我過年假期試的先來紀錄一下，這篇基本上有兩個部分:</summary></entry></feed>
+&lt;/ul&gt;&lt;p&gt;接下來可能要想一些方法來測試, 和把Parse的資料給串一起&lt;/p&gt;</content><summary>Parse自從宣布要收掉後, 雖然也放出open source的仿製品Parse Server, 這東西不是實際上Parse真正跑得那個app server, 而是一個nodejs/express的相容版, 這個版本的故事可以看這邊 Parse 2.0</summary></entry></feed>

@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://blog.jln.co/%25E7%25AD%2586%25E8%25A8%2598-%25E4%25B8%25AD%25E7%25A7%258B%25E9%2580%25A3%25E5%2581%2587%25E5%25B0%258F%25E5%25AF%25A6%25E9%25A9%2597/</loc>
+<lastmod>2016-09-18T22:41:43+08:00</lastmod>
+</url>
+<url>
 <loc>http://blog.jln.co/blog-%25E6%259B%25BFjekyll%25E7%259A%2584markdown%25E5%258A%25A0%25E4%25B8%258A%25E7%25B0%25A1%25E6%2598%2593%25E6%25B5%2581%25E7%25A8%258B%25E5%259C%2596%25E5%258A%259F%25E8%2583%25BD/</loc>
 <lastmod>2016-08-31T16:33:15+08:00</lastmod>
 </url>

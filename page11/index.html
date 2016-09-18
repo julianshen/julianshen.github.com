@@ -150,6 +150,30 @@
   <header>
     
     <div class="entry-meta">
+      <span class="entry-date date published updated"><time datetime="2013-08-15T10:01:19+08:00"><a href="http://blog.jln.co/%E7%9C%8B%E8%91%97%E6%B5%B7%E5%AF%AB%E7%A8%8B%E5%BC%8F%E6%9C%83%E4%B8%8D%E6%9C%83%E5%A4%AA%E5%AE%85%E9%BB%9E-pinterestrssaggregator/">August 15, 2013</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
+      
+      <span class="entry-reading-time">
+        <i class="fa fa-clock-o"></i>
+        
+Reading time ~1 minute
+      </span><!-- /.entry-reading-time -->
+      
+    </div><!-- /.entry-meta -->
+    
+      <h1 class="entry-title"><a href="http://blog.jln.co/%E7%9C%8B%E8%91%97%E6%B5%B7%E5%AF%AB%E7%A8%8B%E5%BC%8F%E6%9C%83%E4%B8%8D%E6%9C%83%E5%A4%AA%E5%AE%85%E9%BB%9E-pinterestrssaggregator/" rel="bookmark" title="看著海寫程式會不會太宅點? - PinterestRSSAggregator" itemprop="url">看著海寫程式會不會太宅點? - PinterestRSSAggregator</a></h1>
+    
+  </header>
+  <div class="entry-content">
+    <div class="separator" style="clear: both; text-align: center;"><a href="http://bit.ly/16QMjak" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="225" src="http://bit.ly/1bxhUyX" width="400"/></a></div><div class="separator" style="clear: both; text-align: center;"><br/></div>陽光&hellip;.跟沙灘呀&hellip;&hellip;真是好風景呀&hellip;.躺著寫程式真不錯 (其實在顧包包)<br/><br/>昨天上飛機前, 把這兩天晚上寫的東西, <a href="http://bit.ly/16QMjam" target="_blank">PinterestRSSAggregator</a>, 在上飛機之前放上了github&hellip;.趁現在來補一些內容<br/><br/>會寫這東西的緣起在於這篇: <a href="http://bit.ly/1bxhUyZ">http://bit.ly/1bxhUyZ</a><br/><br/>Pinterest目前沒API, 這RSS也只能取得一個人最近的資訊, 但常常我們要看的不會是自己去pin的, 而是自己所follow的人pin的最新資訊, 所以這樣的RSS用處就嫌少了點, 所以想說如果可以把自己所follow的全部集結成一個rss應該會很不錯, 因此就寫了這些東西<br/><br/>一開始碰到的問題點是, 沒API, 怎抓following的資訊? 從 <a href="http://bit.ly/1bxhUz2,">http://bit.ly/1bxhUz2,</a> 似乎每個被follow的人的link都有userWrapper這class, 這或許是個出發點, 所以第一個版本做了一個直接去抓網頁回來解析抓出含有這class的連結&hellip;.但是&hellip;失敗了&hellip;因為抓回來的靜態網頁, 最多只有十二個人的連結, 超過就抓不到, 網頁上要滑鼠捲到最下面才會再load出其他的<br/><br/>後來想到的方法就是利用CasperJS, 模擬捲頁捲到最後的行為, 再把所有followings都抓回來&hellip;.喔耶&hellip;.這招居然行的通&hellip;.把所有rss 的url再用Google Feed API去抓內容(我懶得parse RSS了), 再用feed這module生成新的RSS&hellip;.大功告成&hellip;.接下來只要讓他固定一段時間跑一次, 就有一個土炮的Pinterest API用了&hellip; (還真heavy的API :( )<br/><br/>
+via Blogger <a href="http://bit.ly/16QMjqT">http://bit.ly/16QMjqT</a>
+
+  </div><!-- /.entry-content -->
+</article><!-- /.hentry -->
+
+<article class="hentry">
+  <header>
+    
+    <div class="entry-meta">
       <span class="entry-date date published updated"><time datetime="2013-06-29T08:31:32+08:00"><a href="http://blog.jln.co/android-retrofit-signpost/">June 29, 2013</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
       
       <span class="entry-reading-time">
@@ -242,30 +266,6 @@ via Blogger <a href="http://bit.ly/11DoEVG">http://bit.ly/11DoEVG</a>
   </div><!-- /.entry-content -->
 </article><!-- /.hentry -->
 
-<article class="hentry">
-  <header>
-    
-    <div class="entry-meta">
-      <span class="entry-date date published updated"><time datetime="2013-06-20T20:16:26+08:00"><a href="http://blog.jln.co/android-%E4%B8%80%E9%96%83%E4%B8%80%E9%96%83%E4%BA%AE%E6%99%B6%E6%99%B6%E7%9A%84blinklayout/">June 20, 2013</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
-      
-      <span class="entry-reading-time">
-        <i class="fa fa-clock-o"></i>
-        
-Reading time ~1 minute
-      </span><!-- /.entry-reading-time -->
-      
-    </div><!-- /.entry-meta -->
-    
-      <h1 class="entry-title"><a href="http://blog.jln.co/android-%E4%B8%80%E9%96%83%E4%B8%80%E9%96%83%E4%BA%AE%E6%99%B6%E6%99%B6%E7%9A%84blinklayout/" rel="bookmark" title="[Android] 一閃一閃亮晶晶的BlinkLayout" itemprop="url">[Android] 一閃一閃亮晶晶的BlinkLayout</a></h1>
-    
-  </header>
-  <div class="entry-content">
-    <p>在<a href="https://developers.google.com/events/io/sessions/324958375" target="_blank">Androids Do Daydream</a>裡有提到Romain Guy要他提(大概假的吧)在layout裡面放&quot;&lt;blink&gt;&ldquo;可以做到view閃爍的效果而不用寫到一行code<br/><br/>查了一下AOSP的原始碼也的確有這東西, 它是一個躲在<a href="https://github.com/android/platform_frameworks_base/blob/5cb0f2184656642160e9ac032d0646f766058a5b/core/java/android/view/LayoutInflater.java" target="_blank">LayoutInflater</a>的一個叫BlinkLayout的東西, 這樣一來就可以配合<a href="http://developer.android.com/reference/android/widget/TextClock.html" target="_blank">TextClock</a> (API Level 17)來做一個閃爍的時鐘了<br/><br/><script src="https://gist.github.com/julianshen/5822197.js"></script><br/>不過, 這樣, 是整個TextClock在閃, 而不是像一般數字鐘一樣是只有&rdquo;:&ldquo;閃, 如果要做到只有&rdquo;:&ldquo;在閃, 那只好把&quot;時&quot;跟&quot;分&quot;給拆開, 像這樣: <br/><br/><script src="https://gist.github.com/julianshen/5822234.js"></script><br/><br/>
-via Blogger <a href="http://julianshen.blogspot.com/2013/06/android-blinklayout.html">http://julianshen.blogspot.com/2013/06/android-blinklayout.html</a></p>
-
-  </div><!-- /.entry-content -->
-</article><!-- /.hentry -->
-
 
 
 <div class="pagination">
@@ -333,7 +333,7 @@ via Blogger <a href="http://julianshen.blogspot.com/2013/06/android-blinklayout.
     
 
     
-      <li><a href="http://blog.jln.co/page64/">64</a></li>
+      <li><a href="http://blog.jln.co/page65/">65</a></li>
     
 
     
