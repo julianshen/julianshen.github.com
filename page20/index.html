@@ -150,6 +150,29 @@
   <header>
     
     <div class="entry-meta">
+      <span class="entry-date date published updated"><time datetime="2012-04-16T22:55:49+08:00"><a href="http://blog.jln.co/%E7%AD%86%E8%A8%98-deploy-mojito-app-to-heroku/">April 16, 2012</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
+      
+      <span class="entry-reading-time">
+        <i class="fa fa-clock-o"></i>
+        
+Reading time ~1 minute
+      </span><!-- /.entry-reading-time -->
+      
+    </div><!-- /.entry-meta -->
+    
+      <h1 class="entry-title"><a href="http://blog.jln.co/%E7%AD%86%E8%A8%98-deploy-mojito-app-to-heroku/" rel="bookmark" title="[筆記] Deploy Mojito app to Heroku" itemprop="url">[筆記] Deploy Mojito app to Heroku</a></h1>
+    
+  </header>
+  <div class="entry-content">
+    <div class="posterous_autopost"><p> First, you need to follow this doc (<a href="http://developer.yahoo.com/cocktails/mojito/docs/quickstart/" title="" target="_blank">http://developer.yahoo.com/cocktails/mojito/docs/quickstart/</a><a href="http://developer.yahoo.com/cocktails/mojito/docs/quickstart/" title="http://developer.yahoo.com/cocktails/mojito/docs/quickstart/" target="_blank"></a><a href="http://developer.yahoo.com/cocktails/mojito/docs/quickstart/" title="http://developer.yahoo.com/cocktails/mojito/docs/quickstart/" target="_blank"></a><a href="http://developer.yahoo.com/cocktails/mojito/docs/quickstart/" title="" target="_self"></a>) to install Mojito as a global node module. Why install it globally? Because you need the Mojito command line to create your first app.</p><p>Create application with command line:</p><blockquote class="posterous_short_quote"><p>mojito create app mymojito</p></blockquote><p>Change working directory to &ldquo;mymojito&rdquo;.</p><p>Create a &ldquo;Procfile&rdquo; whose content is:</p><blockquote class="posterous_short_quote"><p>web: mojito start $PORT</p></blockquote><p>Use the following command to create an application on heroku and deploy codes to it.</p><blockquote><ul><li>git init</li><li>git add .</li><li>git commit -am init</li><li>heroku create mymojitotest &ndash;stack cedar</li><li>git push heroku master</li></ul></blockquote><p>After successfully commit codes to heroku, you could check running process with &ldquo;heroku ps&rdquo;. However, you cannot find any running process. That is because there is one important step missed:</p><blockquote class="posterous_short_quote"><p>heroku ps:scale web=1</p></blockquote><p> This command adds one dyno for web process. After that, you will find one web process when you check with &ldquo;heroku ps&rdquo;. And the server is now started up. You can check your app with browser.</p></div>
+
+  </div><!-- /.entry-content -->
+</article><!-- /.hentry -->
+
+<article class="hentry">
+  <header>
+    
+    <div class="entry-meta">
       <span class="entry-date date published updated"><time datetime="2012-04-13T02:51:13+08:00"><a href="http://blog.jln.co/%E7%AD%86%E8%A8%98-practice-open-graph-with-facebook-javascript/">April 13, 2012</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
       
       <span class="entry-reading-time">
@@ -234,29 +257,6 @@ Reading time ~1 minute
   </header>
   <div class="entry-content">
     <div class="posterous_autopost"><p>[[posterous-content:pid___0]]</p>  <p>昨天Amy說, 這家是尼克大大推薦的台北最好吃的拉麵, 剛好這家也在我預計嘗試的清單內, 所以昨天晚上就跑去吃了</p>  <p>台灣吃到的拉麵大多是豚骨系的, 味噌系的不多, 有得話大多也只是吃起來像是味噌湯加麵, 但這家吃起來還真是紮實的味噌拉麵</p>  <p>我點的是季節限定的北海道粉雪拉麵, 就是味噌拉麵上加上一大堆的cheese粉, 湯頭甘口, 也就是比較甜, 但夠厚實, 麵條嚼勁不錯, 還蠻好吃的, 叉燒還算OK, 裡面還有兩條馬鈴薯, 建議不要在一開始就吃, 不然會覺得太硬裡面又涼涼的, 吸收過湯之後就很不錯了</p>  <p>比較大的缺點是, 選錯chesse了, 我以前也吃過這種加上chesse粉的, 不過跟湯頭融合的都不錯, 不會吃到後面, 碗底黏了一大堆黏黏的cheese, 這碗就是這樣, 吃到後面看到那一堆還真有點噁</p>  <p>[[posterous-content:pid___1]]</p>  <p>另外還點了叉燒飯</p>  <p>[[posterous-content:pid___2]]</p>  <p>這碗我沒有很推, 醬汁淋不夠, 叉燒有吃到軟骨沒剃除乾淨, 那個咬也咬不下去, 還得啃出來, 我不是很喜歡</p>  <p>下次想去試試信州味噌的&hellip;.</p></div>
-
-  </div><!-- /.entry-content -->
-</article><!-- /.hentry -->
-
-<article class="hentry">
-  <header>
-    
-    <div class="entry-meta">
-      <span class="entry-date date published updated"><time datetime="2012-03-08T01:09:02+08:00"><a href="http://blog.jln.co/%E7%AD%86%E8%A8%98-unsafe-javascript-attempt-to-access-frame/">March 08, 2012</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
-      
-      <span class="entry-reading-time">
-        <i class="fa fa-clock-o"></i>
-        
-Reading time ~1 minute
-      </span><!-- /.entry-reading-time -->
-      
-    </div><!-- /.entry-meta -->
-    
-      <h1 class="entry-title"><a href="http://blog.jln.co/%E7%AD%86%E8%A8%98-unsafe-javascript-attempt-to-access-frame/" rel="bookmark" title="[筆記] "Unsafe JavaScript attempt to access frame with URL"  error with Facebook Javascript API" itemprop="url">[筆記] "Unsafe JavaScript attempt to access frame with URL"  error with Facebook Javascript API</a></h1>
-    
-  </header>
-  <div class="entry-content">
-    <div class="posterous_autopost"><p>The following example shows how to create a simple Facebook login button with Facebook javascript API:</p>  <p>  <script src="https://gist.github.com/1994297.js?file=gistfile1.phtml"></script></p>  <p>Normally, this page would be reloaded if user finished authorized your app. But it won&rsquo;t be reloaded in Chrome due to the follwing error:</p>  <blockquote>  <p><span style="color: #ff0000;">Unsafe JavaScript attempt to access frame with URL</span> <a href="https://s-static.ak.fbcdn.net/connect/xd_proxy.php?version=3#cb=f363e58d9">https://s-static.ak.fbcdn.net/connect/xd_proxy.php?version=3#cb=f363e58d9</a>&amp;origin=http%3A%2F%2Fwww.ab.com%2Ffcb27588&amp;relation=opener&amp;transport=postmessage&amp;frame=fac4c0f18&amp;access_token=AAAEHZBpoK3B0BALv8Cf96gaKEnn4ZBtXgjCOQCFFhVDL4K0rZAE2NGDcqZCPlZByNNKEDmYSGKHQv8jAUM2yGZCHkOcyXUKhoZD&amp;expires_in=0&amp;signed_request=g7sYd_XQx-EBPtQQGk-0ISRMrUDnT4L4WHAmlNsVFBU.eyJhbGdvcml0aG0iOiJITUFDLVNIQTI1NiIsImNvZGUiOiJBUURKYkZBNjZuemduSDBBN0dXWmd2SGxZZkQxQVp4Qm1MSnc0Z3ppUV9FQ25VeEYyZmcyTmJGcFh3UHZDeWhyYnFrT1RxNmRVc2xsb0d4dlFCd290UjRyV0ZsSnJtVjFoNy1QUTlJbTRROXh3MmNKMGU1b0NReWtmT1ZZcXhMUDRVRldVSDgwVU5ic1BLTHdyNk80cFlSVVItQzNIYjhyRWgxek40ZFEzSkpreXhBcU1KSHljcWxETzh2dF96T3ZpN0EiLCJpc3N1ZWRfYXQiOjEzMzExMzg3MjQsInVzZXJfaWQiOiIxMTI5MjgzNDM3In0 from frame with URL <a href="http://www.ab.com/login.html">http://www.ab.com/login.html</a>. Domains, protocols and ports must match.</p>  </blockquote>  <p>Some people use FB.getLoginStatus() to check if user authorized app at page loaded. If page could be reloaded, it&rsquo;s no problem. However, in this case, it&rsquo;s not. </p>  <p>There are several questions on StackOverflow related to this:</p>  <p><a href="http://stackoverflow.com/questions/3577947/facebook-gives-unsafe-javascript-attempt-to-access-frame-with-url-error-in-chr">http://stackoverflow.com/questions/3577947/facebook-gives-unsafe-javascript-attempt-to-access-frame-with-url-error-in-chr</a></p>  <p><a href="http://stackoverflow.com/questions/8013008/facebook-authentication-unsafe-javascript-attempt-to-access-frame-with-url">http://stackoverflow.com/questions/8013008/facebook-authentication-unsafe-javascript-attempt-to-access-frame-with-url</a></p>  <p><a href="http://stackoverflow.com/questions/3010170/unsafe-javascript-attempt-to-access-frame-with-url-error-being-continuously">http://stackoverflow.com/questions/3010170/unsafe-javascript-attempt-to-access-frame-with-url-error-being-continuously</a></p>  <p>But none of these solves my problem. I don&rsquo;t want to solve this with introduce PHP sdk. I would like to solve it with pure front end codes. </p>  <p>Therefore, I find 3 solutions:</p>  <ol><li>Ignore the error and register login event to solve the problem:</li>  <li>Add attribute &ldquo;show-faces=&quot;true&rdquo;&ldquo; to &lt;fb:login-button&gt; to solve</li>  <li>Add attribute &quot;render-in-iframe=&quot;true&rdquo;&ldquo; to &lt;fb:login-button&gt; to solve. This is a bad idea since this is an undocumented attribute.</li>  </ol><p>In solution 2 and 3, login-button seems to be placed into an iframe. And 3 would display an incomplete login button (bug?)</p>  <ol></ol></div>
 
   </div><!-- /.entry-content -->
 </article><!-- /.hentry -->
