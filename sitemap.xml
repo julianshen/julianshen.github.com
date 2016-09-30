@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://blog.jln.co/android-%25E4%25BD%25BF%25E7%2594%25A8retrofit%25E5%25A6%2582%25E4%25BD%2595%25E9%2581%25BF%25E5%2585%258Dman-in-the-middle%25E6%2594%25BB%25E6%2593%258A/</loc>
+<lastmod>2016-09-30T21:47:36+08:00</lastmod>
+</url>
+<url>
 <loc>http://blog.jln.co/%25E4%25BD%25BF%25E7%2594%25A8aws-lambda%25E5%2592%258Cgithub%25E4%25BE%2586%25E6%258F%2590%25E4%25BE%259B%25E4%25B8%25AD%25E8%258F%25AF%25E8%2581%25B7%25E6%25A3%2592%25E8%25B3%25BD%25E7%25A8%258B%25E8%25B3%2587%25E6%2596%2599/</loc>
 <lastmod>2016-09-28T02:17:12+08:00</lastmod>
 </url>

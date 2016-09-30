@@ -150,6 +150,29 @@
   <header>
     
     <div class="entry-meta">
+      <span class="entry-date date published updated"><time datetime="2011-07-10T19:50:31+08:00"><a href="http://blog.jln.co/android-%E7%B0%A1%E5%96%AE%E7%AF%84%E4%BE%8B-nfc-push/">July 10, 2011</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
+      
+      <span class="entry-reading-time">
+        <i class="fa fa-clock-o"></i>
+        
+Reading time ~1 minute
+      </span><!-- /.entry-reading-time -->
+      
+    </div><!-- /.entry-meta -->
+    
+      <h1 class="entry-title"><a href="http://blog.jln.co/android-%E7%B0%A1%E5%96%AE%E7%AF%84%E4%BE%8B-nfc-push/" rel="bookmark" title="[Android] 簡單範例: NFC Push" itemprop="url">[Android] 簡單範例: NFC Push</a></h1>
+    
+  </header>
+  <div class="entry-content">
+    <div class="posterous_autopost"><div class="p_embed p_image_embed"> <img alt="Nfc" height="245" src="http://posterous.com/getfile/files.posterous.com/temp-2011-07-10/BpmjJvxpDnJbrChvpkHltlorqJuosFsichkeqrAnwDIGprkzDcnitelkklyc/nfc.png.scaled500.png" width="306"/></div>   <p>想不出啥好idea來利用NFC, 所以呢, 身體力行勝於一切, 寫隻小範例體驗一下比較真切, 所幸Android NFC API並不難, 從研究API到寫出這個範例, 比我畫上面那張圖花的時間還更短&hellip;.</p>  <p>接收的範例已經有了<a href="http://developer.android.com/resources/samples/NFCDemo/index.html">NFC Demo</a>, 而且我比較想體驗一下P2P的狀況, 所以就寫了隻push的範例</p>  <p>這範例的功能如:</p>  <div class="p_embed p_image_embed"> <a href="http://posterous.com/getfile/files.posterous.com/temp-2011-07-10/ihpulibzHnkvjBeiAznxkrvyqJhGCchpzcIpwFFiesFkeAJyhzypaBjAAcph/idea.png.scaled1000.png"><img alt="Idea" height="297" src="http://posterous.com/getfile/files.posterous.com/temp-2011-07-10/ihpulibzHnkvjBeiAznxkrvyqJhGCchpzcIpwFFiesFkeAJyhzypaBjAAcph/idea.png.scaled500.png" width="500"/></a> </div>   <p>功能很簡單: 在Browser瀏覽網頁時按下Menu-&gt;Share page-&gt;NFC Push demo, 然後拿另一支NFC裝置來讀取分享的頁面, 因此這一頁面需要能透過NFC push去發送一個含有欲分享的URL的Message</p>  <p>首先要讓這隻程式支援NFC, 在<a href="https://github.com/julianshen/NFCPushDemo/blob/master/AndroidManifest.xml">AndroidManifest.xml</a>有三個必要的要素:</p>  <ol><li>SDK level &gt;= 10: <span style="font-family: Bitstream Vera Sans Mono, Courier, monospace; font-size: 12px; line-height: 16px;"><span class="nt" style="color: #000080; padding: 0px; margin: 0px;">&lt;uses-sdk</span> <span class="na" style="color: #008080; padding: 0px; margin: 0px;">android:minSdkVersion=</span><span class="s" style="color: #dd1144; padding: 0px; margin: 0px;">&ldquo;10&rdquo;</span> <span class="nt" style="color: #000080; padding: 0px; margin: 0px;">/&gt;</span></span></li>  <li>NFC feature : <span style="font-family: Bitstream Vera Sans Mono, Courier, monospace; font-size: 12px; line-height: 16px;"><span class="nt" style="color: #000080; padding: 0px; margin: 0px;">&lt;uses-feature</span> <span class="na" style="color: #008080; padding: 0px; margin: 0px;">android:required=</span><span class="s" style="color: #dd1144; padding: 0px; margin: 0px;">&ldquo;true&rdquo;</span> <span class="na" style="color: #008080; padding: 0px; margin: 0px;">android:name=</span><span class="s" style="color: #dd1144; padding: 0px; margin: 0px;">&ldquo;android.hardware.nfc&rdquo;</span><span class="nt" style="color: #000080; padding: 0px; margin: 0px;">&gt;&lt;/uses-feature&gt;</span></span></li>  <li>Permission for NFC: <span style="font-family: Bitstream Vera Sans Mono, Courier, monospace; font-size: 12px; line-height: 16px;"><span class="nt" style="color: #000080; padding: 0px; margin: 0px;">&lt;uses-permission</span> <span class="na" style="color: #008080; padding: 0px; margin: 0px;">android:name=</span><span class="s" style="color: #dd1144; padding: 0px; margin: 0px;">&ldquo;android.permission.NFC&rdquo;</span><span class="nt" style="color: #000080; padding: 0px; margin: 0px;">&gt;&lt;/uses-permission&gt;</span></span></li>  </ol><p>然後我們必須要一個<a href="https://github.com/julianshen/NFCPushDemo/blob/master/src/com/jlnshen/nfcpushdemo/NFCPushDemo.java">Activity</a>來支援URL的發送, 這個URL要包裝成NdefMessage</p>  <blockquote class="posterous_medium_quote">  <p><strong>NdefRecord</strong> rec = new <strong>NdefRecord</strong>(NdefRecord.<em><strong>TNF_ABSOLUTE_URI</strong></em>, NdefRecord.<em><strong>RTD_URI</strong></em>, new byte[0],share.getBytes());</p>  <p>new <strong>NdefMessage</strong>(new <strong>NdefRecord</strong>[]{rec})</p>  </blockquote>  <p>要支援push, 只需要在onResume時使用<a href="http://developer.android.com/reference/android/nfc/NfcAdapter.html#enableForegroundNdefPush(android.app.Activity,%20android.nfc.NdefMessage)">enableForegroundNdefPush</a>就可以了, onPause記得把它disable (沒disable會怎樣? 我碰到狀況是, 沒disable, 可能連之後讀取似乎都有問題) , 文件裡面是說要在main thread裡呼叫, 但試驗結果是, 也不能放在onCreate</p>  <p>Android API 網站上有<a href="http://developer.android.com/guide/topics/nfc/index.html">一篇介紹NFC的</a>, 還算蠻簡單的</p>  <p><a href="https://github.com/julianshen/NFCPushDemo"><span style="font-size: x-large;">完整的範例程式在此</span></a></p></div>
+
+  </div><!-- /.entry-content -->
+</article><!-- /.hentry -->
+
+<article class="hentry">
+  <header>
+    
+    <div class="entry-meta">
       <span class="entry-date date published updated"><time datetime="2011-07-10T01:58:28+08:00"><a href="http://blog.jln.co/android-%E9%9A%A8%E4%BE%BF%E4%BB%8B%E7%B4%B9-%E5%B0%8F%E7%B1%B3miui-rom/">July 10, 2011</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
       
       <span class="entry-reading-time">
@@ -234,29 +257,6 @@ Reading time ~1 minute
   </header>
   <div class="entry-content">
     <div class="posterous_autopost"><p>今天吃了兩家, 黑潮跟一蘭&hellip;</p>  <p>先說說黑潮吧, 有點像踩到雷了, 點了兩碗拉麵, 豚骨還有一個寶拉麵</p>  <p><a href="http://www.flickr.com/photos/julianshen/5872732227/" title="P1050654 by Julian Shen, on Flickr"><img src="http://farm4.static.flickr.com/3258/5872732227_694baf8fe9.jpg" height="334" alt="P1050654" width="500"/></a></p>  <p><a href="http://www.flickr.com/photos/julianshen/5872733053/" title="P1050658 by Julian Shen, on Flickr"><img src="http://farm6.static.flickr.com/5262/5872733053_29a6eda52f.jpg" height="334" alt="P1050658" width="500"/></a></p>  <p>豚骨拉麵真的是地雷, 沒啥特色, 只是濃油而已&hellip;.不說也罷&hellip;至於寶拉麵, 號稱鮪魚湯頭(我從網路上看來的), 雖沒有魚介類湯頭的腥味, 但不知怎, 稠到一個不行, 不是濃而已喔, 是稠&hellip;.像是勾過芡, 但日本拉麵不勾芡的吧&hellip;又不是大滷麵, 不知道怎會稠到像勾過芡, 除了濃稠外, 我實在也想不出啥形容詞, 只能說這碗還OK不會太爛</p>    <p>接下來是聞名天下的&quot;一蘭&quot;</p>  <p><a href="http://www.flickr.com/photos/julianshen/5872736145/" title="P1050666 by Julian Shen, on Flickr"><img src="http://farm7.static.flickr.com/6028/5872736145_c536c16f20.jpg" height="334" alt="P1050666" width="500"/></a></p>  <p>一蘭讓我學到&hellip;要如何製造排隊? 就是位子弄少一點, 這樣外面大排長龍, 看起來就很熱門, 不過本身也有他獨到之處啦!</p>  <p>要說一蘭的特色在哪? 我覺就兩個字&hellip;&ldquo;專注&rdquo;&hellip;整個菜單上的拉麵不像其他店那麼多樣化, 就是&quot;拉麵&quot;而已, 其他的就是客製化了&hellip;</p>  <p>這碗拉麵就長這樣:</p>  <p><a href="http://www.flickr.com/photos/julianshen/5872737425/" title="P1050669 by Julian Shen, on Flickr"><img src="http://farm4.static.flickr.com/3130/5872737425_b045c8aa63.jpg" height="334" alt="P1050669" width="500"/></a></p>  <p>要不是昨天吃過一風堂, 我可能今天就覺得光吃這碗就不虛此行了, 不過, 我覺得他湯頭跟一風堂比起來只能算不相上下, 甚至我還喜歡一風堂多些, 不過比到麵條&hellip;.一蘭的麵條的口感就明顯勝了, 我今天故意選偏軟一點的, 口感還是一樣棒&hellip;叉燒入口即化, 也是很優</p>  <p>不管怎說, 湯頭還是很棒, 還是要讓他見底, 讓碗底出來見見天日</p>  <p><a href="http://www.flickr.com/photos/julianshen/5873294796/" title="P1050671 by Julian Shen, on Flickr"><img src="http://farm6.static.flickr.com/5107/5873294796_297ba2bc95.jpg" height="334" alt="P1050671" width="500"/></a></p>  <p>晚上這碗的確很棒, 比起中午的黑潮好太多了</p></div>
-
-  </div><!-- /.entry-content -->
-</article><!-- /.hentry -->
-
-<article class="hentry">
-  <header>
-    
-    <div class="entry-meta">
-      <span class="entry-date date published updated"><time datetime="2011-06-25T23:33:46+08:00"><a href="http://blog.jln.co/%E6%97%A5%E6%9C%AC%E6%8B%89%E9%BA%B5%E6%97%A5-day3-%E5%8D%9A%E5%A4%9A%E4%B8%80%E9%A2%A8%E5%A0%82%E6%8B%89%E9%BA%B5/">June 25, 2011</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
-      
-      <span class="entry-reading-time">
-        <i class="fa fa-clock-o"></i>
-        
-Reading time ~1 minute
-      </span><!-- /.entry-reading-time -->
-      
-    </div><!-- /.entry-meta -->
-    
-      <h1 class="entry-title"><a href="http://blog.jln.co/%E6%97%A5%E6%9C%AC%E6%8B%89%E9%BA%B5%E6%97%A5-day3-%E5%8D%9A%E5%A4%9A%E4%B8%80%E9%A2%A8%E5%A0%82%E6%8B%89%E9%BA%B5/" rel="bookmark" title="日本拉麵日 Day3 - 博多一風堂拉麵" itemprop="url">日本拉麵日 Day3 - 博多一風堂拉麵</a></h1>
-    
-  </header>
-  <div class="entry-content">
-    <div class="posterous_autopost"><p>今天吃的是<a href="http://www.ippudo.com/top.html">博多一風堂</a>, 這家可是擁有許多分店包含國外, 紐約和新加坡, 能開這麼多家分店, 要嘛就是有他一套, 要嘛就是亂開, 地雷很多, 不過, 這家應該是前者才對</p>  <p>本來今天也不是預計吃這家, 本想吃作ノ作, 黑潮, 離飯店也比較近, 無奈從海遊館回來後, 從都營地鐵的迷宮重見天日後, 又繼續迷路, 往了心齋橋反方向走, 不小心遇到這家(但也離飯店越來越遠導致今天腳都沒力了), 不過雖是名店的分店, 但店面跟一般拉麵店一樣, 很小間(比起這邊到處可見的金龍, 算很小, 金龍也不知道在紅啥的)</p>  <p><a href="http://www.flickr.com/photos/julianshen/5869636452/" title="P1050642 by Julian Shen, on Flickr"><img src="http://farm4.static.flickr.com/3044/5869636452_40d747fe75.jpg" height="500" alt="P1050642" width="334"/></a></p>  <p>好吧, 無能老爸的錯, 到了時已經累翻了&hellip;</p>  <p><a href="http://www.flickr.com/photos/julianshen/5869636888/" title="finally by Julian Shen, on Flickr"><img src="http://farm4.static.flickr.com/3247/5869636888_86b2588835.jpg" height="500" alt="finally" width="334"/></a></p>  <p>說起博多, 自然就是豚骨湯底囉! 這邊當然就是正統的白湯底, 又濃又厚的豚骨湯, 菜單上當然也不需要太多選項囉!!</p>  <p><a href="http://www.flickr.com/photos/julianshen/5869637772/" title="P1050647 by Julian Shen, on Flickr"><img src="http://farm6.static.flickr.com/5115/5869637772_b666e779bf.jpg" height="334" alt="P1050647" width="500"/></a></p>  <p>我們點了兩碗, 一碗赤丸(照例, 還是我的),一碗傳統的白丸</p>  <p><a href="http://www.flickr.com/photos/julianshen/5869638578/" title="P1050649 by Julian Shen, on Flickr"><img src="http://farm6.static.flickr.com/5271/5869638578_e88f21db71.jpg" height="334" alt="P1050649" width="500"/></a></p>  <p><a href="http://www.flickr.com/photos/julianshen/5869080459/" title="P1050652 by Julian Shen, on Flickr"><img src="http://farm6.static.flickr.com/5238/5869080459_6a57e1b460.jpg" height="334" alt="P1050652" width="500"/></a></p>  <p>白丸赤丸差哪裡呢? 赤丸就是白丸加上一團辣肉團, 和胡麻油(黑黑那個), 原本是不含半熟玉的, 要的話要加點</p>  <p>桌上有生大蒜和辣豆苗可取用</p>  <p><a href="http://www.flickr.com/photos/julianshen/5869078695/" title="P1050645 by Julian Shen, on Flickr"><img src="http://farm7.static.flickr.com/6028/5869078695_23babf09b0.jpg" height="334" alt="P1050645" width="500"/></a></p>  <p>不得不說, 這家是我這三天吃的最好吃的一家, 比起前天的神座, 又更上一級, 豚骨湯則是比黑門屋跟河童還來的鮮甜, 湯頭的鹹度和鮮甜搭配的剛剛好, 雖然上面浮著一層豬脂, 但吃起來卻不覺油膩, 赤丸加上胡麻油, 多了一股香氣, 卻沒昨天吃的黑河童的苦味, 麵條也是細麵, 硬度中等, 麵條口感雖沒河童好, 但差不多啦, 也是很好吃</p>  <p>不過, 我每碗都說好吃, 可能比較會被覺得唬人&hellip;.小朋友總比較不會說謊了吧&hellip;.這是這三天吃的唯一一家我兒子說了好吃後悶著頭一直吃的(他很少停下來不講話的, 而且在這之前一個多小時前才吃過漢堡)</p>  <p>吃到滿臉都是:</p>  <p><a href="http://www.flickr.com/photos/julianshen/5869639640/" title="還有麵條在臉上啦!! by Julian Shen, on Flickr"><img src="http://farm6.static.flickr.com/5266/5869639640_e12b472463.jpg" height="500" alt="還有麵條在臉上啦!!" width="334"/></a></p></div>
 
   </div><!-- /.entry-content -->
 </article><!-- /.hentry -->

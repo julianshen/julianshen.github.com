@@ -1,4 +1,309 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.1.6">Jekyll</generator><link href="http://blog.jln.co/feed.xml" rel="self" type="application/atom+xml" /><link href="http://blog.jln.co/" rel="alternate" type="text/html" /><updated>2016-09-28T03:05:40+08:00</updated><id>http://blog.jln.co/</id><title>Le murmure de Julian</title><subtitle>朱隸安貓囈語錄</subtitle><entry><title>使用AWS lambda和Github來提供中華職棒賽程資料</title><link href="http://blog.jln.co/%E4%BD%BF%E7%94%A8aws-lambda%E5%92%8Cgithub%E4%BE%86%E6%8F%90%E4%BE%9B%E4%B8%AD%E8%8F%AF%E8%81%B7%E6%A3%92%E8%B3%BD%E7%A8%8B%E8%B3%87%E6%96%99/" rel="alternate" type="text/html" title="使用AWS lambda和Github來提供中華職棒賽程資料" /><published>2016-09-28T02:17:12+08:00</published><updated>2016-09-28T02:17:12+08:00</updated><id>http://blog.jln.co/使用aws-lambda和github來提供中華職棒賽程資料</id><content type="html" xml:base="http://blog.jln.co/%E4%BD%BF%E7%94%A8aws-lambda%E5%92%8Cgithub%E4%BE%86%E6%8F%90%E4%BE%9B%E4%B8%AD%E8%8F%AF%E8%81%B7%E6%A3%92%E8%B3%BD%E7%A8%8B%E8%B3%87%E6%96%99/">&lt;p&gt;不知不覺的突然就多出了兩天颱風假, 這颱風實在很威, 乒乒乓乓的, 不過, 也沒做什麼, 時間就快過完了, 現在才想到, 還是來寫點什麼, 嚴格說來這些東西並不完全是颱風假時弄的, 只是拖得有點久&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.1.6">Jekyll</generator><link href="http://blog.jln.co/feed.xml" rel="self" type="application/atom+xml" /><link href="http://blog.jln.co/" rel="alternate" type="text/html" /><updated>2016-09-30T23:10:16+08:00</updated><id>http://blog.jln.co/</id><title>Le murmure de Julian</title><subtitle>朱隸安貓囈語錄</subtitle><entry><title>[Android] 使用Retrofit如何避免Man in the middle攻擊</title><link href="http://blog.jln.co/android-%E4%BD%BF%E7%94%A8retrofit%E5%A6%82%E4%BD%95%E9%81%BF%E5%85%8Dman-in-the-middle%E6%94%BB%E6%93%8A/" rel="alternate" type="text/html" title="[Android] 使用Retrofit如何避免Man in the middle攻擊" /><published>2016-09-30T21:47:36+08:00</published><updated>2016-09-30T21:47:36+08:00</updated><id>http://blog.jln.co/[android]-使用retrofit如何避免man-in-the-middle攻擊</id><content type="html" xml:base="http://blog.jln.co/android-%E4%BD%BF%E7%94%A8retrofit%E5%A6%82%E4%BD%95%E9%81%BF%E5%85%8Dman-in-the-middle%E6%94%BB%E6%93%8A/">&lt;p&gt;前幾天看到朋友寫如何用&lt;a href=&quot;https://www.charlesproxy.com&quot;&gt;Charles Proxy&lt;/a&gt;來debug REST API, 
+突然就想到了這個問題, &lt;a href=&quot;https://www.charlesproxy.com&quot;&gt;Charles Proxy&lt;/a&gt;是一個不錯的工具, 我自己也蠻常用的
+, 除了可以用來debug HTTP以外, 其實HTTPS也可以(參照&lt;a href=&quot;https://www.charlesproxy.com/documentation/proxying/ssl-proxying/&quot;&gt;SSL proxying&lt;/a&gt;)
+, 只要在手機上安裝好它的SSL certificate即可&lt;/p&gt;
+
+&lt;p&gt;不過這不是這篇要講的重點, 這種debugging的方式原理即是用Proxy作為一個中間人來紀錄HTTP/HTTPS的傳輸內容
+, 這也帶來一個問題, 也就是你的資料是可以這樣簡單的暴露出去, 這種即是所謂的MITM (Man in the middle) 中間人攻擊&lt;/p&gt;
+
+&lt;script src=&quot;https://cdn.rawgit.com/knsv/mermaid/6.0.0/dist/mermaid.js&quot;&gt;&lt;/script&gt;
+&lt;div class=&quot;mermaid&quot;&gt;
+graph LR;
+    Client--&amp;gt;Proxy[Proxy - Middle man];
+    Proxy[Proxy - Middle man]--&amp;gt;Client;
+    Proxy[Proxy - Middle man]--&amp;gt;Server;
+    Server--&amp;gt;Proxy[Proxy - Middle man];
+&lt;/div&gt;
+
+&lt;p&gt;一般來說, 用了SSL/HTTPS後, 也不是那麼容易安插一個中間人的 ,像&lt;a href=&quot;https://www.charlesproxy.com&quot;&gt;Charles Proxy&lt;/a&gt;這樣的東西,
+還是需要使用者自己去手機上的安全性設定裝信任憑證(trusted certificate), 一般常見的問題反而來自於開發者本身
+, 很多人常以為走了HTTPS就安全了, 卻常常為了debug方便, 或是省錢用Self-signed certificate 而去覆寫了系統預設的
+X509TrustManager, 以至於整個檢查機制被跳過, 真的漏洞都來自於人的惰性,
+更多資訊可以參考:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;a href=&quot;https://security.tencent.com/index.php/blog/msg/41&quot;&gt;窃听风暴： Android平台https嗅探劫持漏洞&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://yaq.qq.com/blog/13&quot;&gt;Android安全之Https中间人攻击漏洞&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.droidsec.cn/android-https中间人劫持漏洞浅析/&quot;&gt;Android HTTPS中间人劫持漏洞浅析&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://blog.csdn.net/u013107656/article/details/52036158&quot;&gt;Android客户端安全 -&amp;gt; HTTPS敏感数据劫持漏洞&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://pingguohe.net/2016/02/26/Android-App-secure-ssl.html&quot;&gt;Android App 安全的HTTPS 通信&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://devco.re/blog/2014/08/15/ssl-mishandling-on-mobile-app-development/&quot;&gt;手機應用程式開發上被忽略的 SSL 處理&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://blog.heckel.xyz/2013/07/01/how-to-use-mitmproxy-to-read-and-modify-https-traffic-of-your-phone/&quot;&gt;How To: Use mitmproxy to read and modify HTTPS traffic&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.7xter.com/2015/07/intercepting-android-ssl-traffic.html&quot;&gt;INTERCEPTING ANDROID SSL / HTTPS TRAFFIC&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;該避免去寫的, 就該避掉, 以免產生不必要的漏洞, 但不過也有可能碰到使用者的手機被(有意/無意)安裝了攻擊者的憑證到系統的信任憑證中, 
+那麼碰到這種, 應用程式本身該如何保護自己?&lt;/p&gt;
+
+&lt;p&gt;這邊有兩個方式可以採用 -&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;certificate pinning&lt;/li&gt;
+  &lt;li&gt;在程式中寫死certificate&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;以下的範例以Android最紅, 常被使用的&lt;a href=&quot;https://square.github.io/retrofit/&quot;&gt;Retrofit&lt;/a&gt;為範例(雖說是&lt;a href=&quot;https://square.github.io/retrofit/&quot;&gt;Retrofit&lt;/a&gt;, 但其實是在&lt;a href=&quot;https://github.com/square/okhttp&quot;&gt;okhttp&lt;/a&gt;動的手腳)&lt;/p&gt;
+
+&lt;h4 id=&quot;certificate-pinning&quot;&gt;Certificate Pinning&lt;/h4&gt;
+
+&lt;p&gt;或叫&lt;a href=&quot;https://en.wikipedia.org/wiki/HTTP_Public_Key_Pinning&quot;&gt;HTTP Public Key Pinning (HPKP)&lt;/a&gt;, 
+簡單的說, 就是在程式內綁定Certificate的public key, 如果今天中間人存在, certificate不同了, 連接就不會成功&lt;/p&gt;
+
+&lt;p&gt;先來看範例&lt;/p&gt;
+
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;OkHttpClient&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;client&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;OkHttpClient&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;Builder&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;certificatePinner&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CertificatePinner&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;Builder&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;cdn.rawgit.com&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;sha256/p0962nIqD0mv1APQ1mgmRiuwrhZXBuj+t6dey/Adk0U=&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;build&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;())&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;build&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;Retrofit&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;retrofit&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Retrofit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;Builder&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;baseUrl&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;https://cdn.rawgit.com/julianshen/cpblschedule/&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;addConverterFactory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;GsonConverterFactory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;create&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;())&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;client&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;client&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;build&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;這邊所動的手腳(&lt;del&gt;跟Retrofit沒啥鳥關係&lt;/del&gt;)是在OkHttpClient上加上一個CertificatePinner,
+利用了certificate pinner加上了一個host name跟public key的對應,
+以這例子來說: &lt;strong&gt;“sha256/p0962nIqD0mv1APQ1mgmRiuwrhZXBuj+t6dey/Adk0U=”&lt;/strong&gt; 這個public key對應的是 &lt;strong&gt;“cdn.rawgit.com”&lt;/strong&gt;
+, 因此碰到”cdn.rawgit.com”來的url, 會檢查public key是否符合,
+這邊public key的參數字串是要以”sha1/”或”sha256/”開始的, 依使用的演算法而不同&lt;/p&gt;
+
+&lt;p&gt;但又要怎取得這串”天書”呢?&lt;/p&gt;
+
+&lt;p&gt;很簡單, 首先確認你的電腦裡面有沒安裝openssl , 有的話就用以下的指令:&lt;/p&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;openssl s_client -connect cdn.rawgit.com:443 -servername cdn.rawgit.com | openssl x509 -pubkey -noout | openssl rsa -pubin -outform der | openssl
+dgst -sha256 -binary | openssl enc -base64
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;最後產生的內容如下&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;depth=2 /C=GB/ST=Greater Manchester/L=Salford/O=COMODO CA Limited/CN=COMODO RSA Certification Authority
+verify error:num=20:unable to get local issuer certificate
+verify return:0
+writing RSA key
+p0962nIqD0mv1APQ1mgmRiuwrhZXBuj+t6dey/Adk0U=
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;所以我們要填的參數就是 &lt;strong&gt;“sha256/p0962nIqD0mv1APQ1mgmRiuwrhZXBuj+t6dey/Adk0U=”&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;關於HPKP的openssl相關的指令可以參考&lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/Security/Public_Key_Pinning&quot;&gt;Public Key Pinning&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;如果你用&lt;a href=&quot;https://www.charlesproxy.com&quot;&gt;Charles Proxy&lt;/a&gt;當中間人來測試這段程式的話, 你會得到下面這樣的exception&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;javax.net.ssl.SSLPeerUnverifiedException: Certificate pinning failure!
+                                            Peer certificate chain:
+                                            sha256/ENlqFHtfARof3AK50Hbc1sj47M5hWhc5kQ5Z2vyfxq4=: CN=rawgit.com,OU=PositiveSSL Multi-Domain,OU=Domain Control Validated
+                                            sha256/mXmLzo8k5ANwi11PlLSW/b4OC/Anjw1OeACDyZxD/WM=: C=NZ,ST=Auckland,L=Auckland,O=XK72 Ltd,OU=http://charlesproxy.com/ssl,CN=Charles Proxy Custom Root Certificate (built on Jlnmbp-retina.local\, 11 十二月 2015)
+                                            Pinned certificates for cdn.rawgit.com:
+                                            sha256/p0962nIqD0mv1APQ1mgmRiuwrhZXBuj+t6dey/Adk0U=
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;certificate&quot;&gt;在程式中寫死certificate&lt;/h4&gt;
+
+&lt;p&gt;這方法聽起來暴力了一點, 但原理其實跟前一個沒啥太大差別, 只是一個寫死public key一個寫死certificate&lt;/p&gt;
+
+&lt;p&gt;一樣先來看個範例:&lt;/p&gt;
+
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cert&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;-----BEGIN CERTIFICATE-----\n&quot;&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;MIIFdjCCBF6gAwIBAgIRAPbTBHdHHseM4hArA7n6uREwDQYJKoZIhvcNAQELBQAw\n&quot;&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;gZAxCzAJBgNVBAYTAkdCMRswGQYDVQQIExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAO\n&quot;&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;BgNVBAcTB1NhbGZvcmQxGjAYBgNVBAoTEUNPTU9ETyBDQSBMaW1pdGVkMTYwNAYD\n&quot;&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;VQQDEy1DT01PRE8gUlNBIERvbWFpbiBWYWxpZGF0aW9uIFNlY3VyZSBTZXJ2ZXIg\n&quot;&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Q0EwHhcNMTYwMTAxMDAwMDAwWhcNMTcwMTEzMjM1OTU5WjBbMSEwHwYDVQQLExhE\n&quot;&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;b21haW4gQ29udHJvbCBWYWxpZGF0ZWQxITAfBgNVBAsTGFBvc2l0aXZlU1NMIE11\n&quot;&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bHRpLURvbWFpbjETMBEGA1UEAxMKcmF3Z2l0LmNvbTCCASIwDQYJKoZIhvcNAQEB\n&quot;&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;BQADggEPADCCAQoCggEBALD2sUNSYp2R+mSEMF2qKvMS780qTkltvqP4rwEGKOLV\n&quot;&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;rR5QQWo8vzSlgZvxVsguRHi0pPBtVAH794L43tD+IuyQlDlNU2qc1aMqBkn3S2wN\n&quot;&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Way8BS9w80pgeFnObZiFJtPI9pdwcB72Bgq8Nlc25oVrDVWr/Q8nLIKS/9FkNs+C\n&quot;&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;MPU00vGFZSFbR7s15ORj9+qPCskWZcHpQ+m9EKmZD3IVKj3QQyBD17cBoVkYoIpj\n&quot;&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;I8/r+NfVfKetlsB7Pcv8P3yLFVFC4+PGrnW9TLZK9aRtbDTvjElXwCQIPK5B2fKw\n&quot;&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;SJK26IJPDX0r1JkeuR53Afr509iEx3xAHcRz/kR5uo8CAwEAAaOCAf0wggH5MB8G\n&quot;&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;A1UdIwQYMBaAFJCvajqUWgvYkOoSVnPfQ7Q6KNrnMB0GA1UdDgQWBBSI83Kqafo7\n&quot;&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;kg9cmyT1vnceH4fAUjAOBgNVHQ8BAf8EBAMCBaAwDAYDVR0TAQH/BAIwADAdBgNV\n&quot;&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;HSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwTwYDVR0gBEgwRjA6BgsrBgEEAbIx\n&quot;&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;AQICBzArMCkGCCsGAQUFBwIBFh1odHRwczovL3NlY3VyZS5jb21vZG8uY29tL0NQ\n&quot;&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;UzAIBgZngQwBAgEwVAYDVR0fBE0wSzBJoEegRYZDaHR0cDovL2NybC5jb21vZG9j\n&quot;&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;YS5jb20vQ09NT0RPUlNBRG9tYWluVmFsaWRhdGlvblNlY3VyZVNlcnZlckNBLmNy\n&quot;&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bDCBhQYIKwYBBQUHAQEEeTB3ME8GCCsGAQUFBzAChkNodHRwOi8vY3J0LmNvbW9k\n&quot;&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;b2NhLmNvbS9DT01PRE9SU0FEb21haW5WYWxpZGF0aW9uU2VjdXJlU2VydmVyQ0Eu\n&quot;&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Y3J0MCQGCCsGAQUFBzABhhhodHRwOi8vb2NzcC5jb21vZG9jYS5jb20wSwYDVR0R\n&quot;&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;BEQwQoIKcmF3Z2l0LmNvbYIVY2RuLW9yaWdpbi5yYXdnaXQuY29tgg5jZG4ucmF3\n&quot;&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Z2l0LmNvbYINcmF3Z2l0aHViLmNvbTANBgkqhkiG9w0BAQsFAAOCAQEASx3e6y9e\n&quot;&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;9F67N5NIDausDHDL+/fz6uj2DDNJdaQvALAYDV8hKpz7+QGotlQfI042U2i83J7m\n&quot;&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;DGZiKDpzaXa7IFfGiq6PFPUjntElHoU2E4vRb5LApg1sJ5YueYmRd3X7x0/jPYg6\n&quot;&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;TiTtHyXOnlMuqL2FUYJM0BP7cMfOppvUF0R2zHUVA0rVHuLrSStg8bMg8aVUIkKg\n&quot;&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;n3NS+eg4ofo95jaMRVykhLnylkYBk9dWBM6B19Yw7LgQd94MZSa+Xix4HxeFgvAM\n&quot;&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;BF+oeDMaY7mEN4Xm5hnrIS1FElRDq/ckpDV8JVpR4SQqB+tzSZPPIiep8EvgRDzd\n&quot;&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;2EkL187FF3MQ+w==\n&quot;&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;-----END CERTIFICATE-----\n&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;X509TrustManager&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;trustManager&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;SSLSocketFactory&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sslSocketFactory&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;try&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;CertificateFactory&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;certificateFactory&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CertificateFactory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getInstance&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;X.509&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;Collection&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;?&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Certificate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;certificates&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;certificateFactory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;generateCertificates&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Buffer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;writeUtf8&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cert&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;inputStream&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;());&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;certificates&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;isEmpty&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;())&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;throw&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;IllegalArgumentException&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;expected non-empty set of trusted certificates&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;password&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;password&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;toCharArray&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// Any password will work.&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;KeyStore&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;keyStore&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;KeyStore&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getInstance&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;KeyStore&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getDefaultType&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;());&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;keyStore&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;load&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;password&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+
+        &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;index&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Certificate&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;certificate&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;certificates&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;certificateAlias&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Integer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;toString&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;index&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++);&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;keyStore&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setCertificateEntry&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;certificateAlias&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;certificate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+        &lt;span class=&quot;n&quot;&gt;TrustManagerFactory&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;trustManagerFactory&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TrustManagerFactory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getInstance&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TrustManagerFactory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getDefaultAlgorithm&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;());&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;trustManagerFactory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;init&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;keyStore&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+
+        &lt;span class=&quot;n&quot;&gt;TrustManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;trustManagers&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;trustManagerFactory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getTrustManagers&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;trustManagers&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;length&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;||&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;trustManagers&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;instanceof&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;X509TrustManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;throw&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;IllegalStateException&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Unexpected default trust managers:&quot;&lt;/span&gt;
+                    &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Arrays&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;toString&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;trustManagers&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;));&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;trustManager&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;X509TrustManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;trustManagers&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;];&lt;/span&gt;
+
+        &lt;span class=&quot;n&quot;&gt;SSLContext&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sslContext&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SSLContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getInstance&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;TLS&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;sslContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;init&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TrustManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;trustManager&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;},&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;sslSocketFactory&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sslContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getSocketFactory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CertificateException&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;printStackTrace&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NoSuchAlgorithmException&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;printStackTrace&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;KeyStoreException&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;printStackTrace&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;IOException&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;printStackTrace&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;KeyManagementException&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;printStackTrace&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;OkHttpClient&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;client&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;OkHttpClient&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;Builder&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;sslSocketFactory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sslSocketFactory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;trustManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;build&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;Retrofit&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;retrofit&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Retrofit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;Builder&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;baseUrl&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;https://cdn.rawgit.com/julianshen/cpblschedule/&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;addConverterFactory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;GsonConverterFactory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;create&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;())&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;client&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;client&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;build&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;看到這麼長的東西大概就不會想看了吧?(老實說我也寫的很懶, 這邊要特別提到有用到一個Class叫做Buffer,這是來自於&lt;a href=&quot;https://github.com/square/okio&quot;&gt;okio&lt;/a&gt;, 蠻方便的東西), 跟前一個不同的地方在於, 前一個利用了CertificatePinner,
+而這一個則是改了sslSocketFactory的TrustManager(喂!!!前面不是隱約有提到這樣不太好?!),
+這個TrustManager全部也只信任這一個certifcate, 如果碰到其他的, 就會發生以下的exception:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;javax.net.ssl.SSLHandshakeException: java.security.cert.CertPathValidatorException: Trust anchor for certification path not found.
+        at com.android.org.conscrypt.OpenSSLSocketImpl.startHandshake(OpenSSLSocketImpl.java:328)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;那, 上面那一大坨憑證資料是怎樣取得的? 方法其實差不多:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;openssl s_client -connect cdn.rawgit.com:443 -showcerts
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;會得到這樣的結果:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;CONNECTED(00000003)
+depth=2 /C=GB/ST=Greater Manchester/L=Salford/O=COMODO CA Limited/CN=COMODO RSA Certification Authority
+verify error:num=20:unable to get local issuer certificate
+verify return:0
+---
+Certificate chain
+ 0 s:/OU=Domain Control Validated/OU=PositiveSSL Multi-Domain/CN=rawgit.com
+   i:/C=GB/ST=Greater Manchester/L=Salford/O=COMODO CA Limited/CN=COMODO RSA Domain Validation Secure Server CA
+ 1 s:/OU=Domain Control Validated/OU=PositiveSSL Multi-Domain/CN=rawgit.com
+   i:/C=GB/ST=Greater Manchester/L=Salford/O=COMODO CA Limited/CN=COMODO RSA Domain Validation Secure Server CA
+ 2 s:/C=GB/ST=Greater Manchester/L=Salford/O=COMODO CA Limited/CN=COMODO RSA Domain Validation Secure Server CA
+   i:/C=GB/ST=Greater Manchester/L=Salford/O=COMODO CA Limited/CN=COMODO RSA Certification Authority
+ 3 s:/C=GB/ST=Greater Manchester/L=Salford/O=COMODO CA Limited/CN=COMODO RSA Certification Authority
+   i:/C=SE/O=AddTrust AB/OU=AddTrust External TTP Network/CN=AddTrust External CA Root
+---
+Server certificate
+-----BEGIN CERTIFICATE-----
+MIIFdjCCBF6gAwIBAgIRAPbTBHdHHseM4hArA7n6uREwDQYJKoZIhvcNAQELBQAw
+gZAxCzAJBgNVBAYTAkdCMRswGQYDVQQIExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAO
+BgNVBAcTB1NhbGZvcmQxGjAYBgNVBAoTEUNPTU9ETyBDQSBMaW1pdGVkMTYwNAYD
+VQQDEy1DT01PRE8gUlNBIERvbWFpbiBWYWxpZGF0aW9uIFNlY3VyZSBTZXJ2ZXIg
+Q0EwHhcNMTYwMTAxMDAwMDAwWhcNMTcwMTEzMjM1OTU5WjBbMSEwHwYDVQQLExhE
+b21haW4gQ29udHJvbCBWYWxpZGF0ZWQxITAfBgNVBAsTGFBvc2l0aXZlU1NMIE11
+bHRpLURvbWFpbjETMBEGA1UEAxMKcmF3Z2l0LmNvbTCCASIwDQYJKoZIhvcNAQEB
+BQADggEPADCCAQoCggEBALD2sUNSYp2R+mSEMF2qKvMS780qTkltvqP4rwEGKOLV
+rR5QQWo8vzSlgZvxVsguRHi0pPBtVAH794L43tD+IuyQlDlNU2qc1aMqBkn3S2wN
+Way8BS9w80pgeFnObZiFJtPI9pdwcB72Bgq8Nlc25oVrDVWr/Q8nLIKS/9FkNs+C
+MPU00vGFZSFbR7s15ORj9+qPCskWZcHpQ+m9EKmZD3IVKj3QQyBD17cBoVkYoIpj
+I8/r+NfVfKetlsB7Pcv8P3yLFVFC4+PGrnW9TLZK9aRtbDTvjElXwCQIPK5B2fKw
+SJK26IJPDX0r1JkeuR53Afr509iEx3xAHcRz/kR5uo8CAwEAAaOCAf0wggH5MB8G
+A1UdIwQYMBaAFJCvajqUWgvYkOoSVnPfQ7Q6KNrnMB0GA1UdDgQWBBSI83Kqafo7
+kg9cmyT1vnceH4fAUjAOBgNVHQ8BAf8EBAMCBaAwDAYDVR0TAQH/BAIwADAdBgNV
+HSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwTwYDVR0gBEgwRjA6BgsrBgEEAbIx
+AQICBzArMCkGCCsGAQUFBwIBFh1odHRwczovL3NlY3VyZS5jb21vZG8uY29tL0NQ
+UzAIBgZngQwBAgEwVAYDVR0fBE0wSzBJoEegRYZDaHR0cDovL2NybC5jb21vZG9j
+YS5jb20vQ09NT0RPUlNBRG9tYWluVmFsaWRhdGlvblNlY3VyZVNlcnZlckNBLmNy
+bDCBhQYIKwYBBQUHAQEEeTB3ME8GCCsGAQUFBzAChkNodHRwOi8vY3J0LmNvbW9k
+b2NhLmNvbS9DT01PRE9SU0FEb21haW5WYWxpZGF0aW9uU2VjdXJlU2VydmVyQ0Eu
+Y3J0MCQGCCsGAQUFBzABhhhodHRwOi8vb2NzcC5jb21vZG9jYS5jb20wSwYDVR0R
+BEQwQoIKcmF3Z2l0LmNvbYIVY2RuLW9yaWdpbi5yYXdnaXQuY29tgg5jZG4ucmF3
+Z2l0LmNvbYINcmF3Z2l0aHViLmNvbTANBgkqhkiG9w0BAQsFAAOCAQEASx3e6y9e
+9F67N5NIDausDHDL+/fz6uj2DDNJdaQvALAYDV8hKpz7+QGotlQfI042U2i83J7m
+DGZiKDpzaXa7IFfGiq6PFPUjntElHoU2E4vRb5LApg1sJ5YueYmRd3X7x0/jPYg6
+TiTtHyXOnlMuqL2FUYJM0BP7cMfOppvUF0R2zHUVA0rVHuLrSStg8bMg8aVUIkKg
+n3NS+eg4ofo95jaMRVykhLnylkYBk9dWBM6B19Yw7LgQd94MZSa+Xix4HxeFgvAM
+BF+oeDMaY7mEN4Xm5hnrIS1FElRDq/ckpDV8JVpR4SQqB+tzSZPPIiep8EvgRDzd
+2EkL187FF3MQ+w==
+-----END CERTIFICATE-----
+subject=/OU=Domain Control Validated/OU=PositiveSSL Multi-Domain/CN=rawgit.com
+issuer=/C=GB/ST=Greater Manchester/L=Salford/O=COMODO CA Limited/CN=COMODO RSA Domain Validation Secure Server CA
+---
+No client certificate CA names sent
+---
+SSL handshake has read 6716 bytes and written 456 bytes
+---
+New, TLSv1/SSLv3, Cipher is DHE-RSA-AES256-SHA
+Server public key is 2048 bit
+Secure Renegotiation IS supported
+Compression: NONE
+Expansion: NONE
+SSL-Session:
+    Protocol  : TLSv1
+    Cipher    : DHE-RSA-AES256-SHA
+    Session-ID: ACFED5197F4B5F64DBAAC97A47380CD9283EFD1797E27EF43A215B06982698F4
+    Session-ID-ctx: 
+    Master-Key: 856DFB81C863F461FE75EE11E633EA5CAB3CD6683563F597F406EF19AB37CD3F45B4FE659AB8726F9291360CBE856F48
+    Key-Arg   : None
+    Start Time: 1475223830
+    Timeout   : 300 (sec)
+    Verify return code: 0 (ok)
+---
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;BEGIN到END那段剪貼下來即是&lt;/p&gt;
+
+&lt;h2 id=&quot;section&quot;&gt;缺點&lt;/h2&gt;
+
+&lt;p&gt;這兩個方法有一個極大的缺點, 如果沒有解決方案還是最好別用(&lt;del&gt;啊講那麼多, 最後不能用?!&lt;/del&gt;)
+, 這缺點就是SSL Certificate是有時效性的, 因此server端的憑證是會換會改變的,
+只要server端一換, 就可能造成client端的失效, 所以如果要使用這兩個方法,
+前提必須先解決的是如何更新Client端要檢查的public key或certificate, 
+這邊就不討論這部份的機制了, 這應該有很多方法可以來作才對&lt;/p&gt;
+
+&lt;p&gt;#好久沒寫關於Android的內容了&lt;/p&gt;</content><category term="Android" /><category term="Retrofit" /><category term="MITM" /><category term="Security" /><category term="HTTPS" /><category term="SSL" /><summary>前幾天看到朋友寫如何用Charles Proxy來debug REST API, 
+突然就想到了這個問題, Charles Proxy是一個不錯的工具, 我自己也蠻常用的
+, 除了可以用來debug HTTP以外, 其實HTTPS也可以(參照SSL proxying)
+, 只要在手機上安裝好它的SSL certificate即可</summary></entry><entry><title>使用AWS lambda和Github來提供中華職棒賽程資料</title><link href="http://blog.jln.co/%E4%BD%BF%E7%94%A8aws-lambda%E5%92%8Cgithub%E4%BE%86%E6%8F%90%E4%BE%9B%E4%B8%AD%E8%8F%AF%E8%81%B7%E6%A3%92%E8%B3%BD%E7%A8%8B%E8%B3%87%E6%96%99/" rel="alternate" type="text/html" title="使用AWS lambda和Github來提供中華職棒賽程資料" /><published>2016-09-28T02:17:12+08:00</published><updated>2016-09-28T02:17:12+08:00</updated><id>http://blog.jln.co/使用aws-lambda和github來提供中華職棒賽程資料</id><content type="html" xml:base="http://blog.jln.co/%E4%BD%BF%E7%94%A8aws-lambda%E5%92%8Cgithub%E4%BE%86%E6%8F%90%E4%BE%9B%E4%B8%AD%E8%8F%AF%E8%81%B7%E6%A3%92%E8%B3%BD%E7%A8%8B%E8%B3%87%E6%96%99/">&lt;p&gt;不知不覺的突然就多出了兩天颱風假, 這颱風實在很威, 乒乒乓乓的, 不過, 也沒做什麼, 時間就快過完了, 現在才想到, 還是來寫點什麼, 嚴格說來這些東西並不完全是颱風假時弄的, 只是拖得有點久&lt;/p&gt;
 
 &lt;p&gt;起因是, 之前(很久…追朔到去年)想寫個App, 需要用到中華職棒賽程的資料, 拖了很久一直沒真的去做, 斷斷續續的, 最近才先把資料這部分補齊, 首先需求是:&lt;/p&gt;
 
@@ -1005,27 +1310,4 @@ ruby -rubygems -e &lt;span class=&quot;s1&quot;&gt;&#39;require &quot;jekyll-imp
 
 &lt;p&gt;不過要以Parse server的為基礎拆出push的部分也不是很難, 做了一個簡單的範例: &lt;a href=&quot;https://github.com/julianshen/parse_push_js&quot;&gt;github.com/julianshen/parse_push_js&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;在這範例裡, 使用了Parse Server的ParsePushAdapter, 並且利用了Redis當作queue來做成的簡單的push server, 這樣應該就加減堪用了, 不過這邊有一個還需要再改的是, ParsePushAdapter 並不會把產生的push id回傳到上一層, 這樣要做追蹤紀錄其實有點比較不方便, 這邊還需要再加強一下&lt;/p&gt;</content><summary>今天追完了綠箭, 該來點功課, 不過今天忘了買啤酒了:(</summary></entry><entry><title>[筆記] 被冤枉的MongoDB</title><link href="http://blog.jln.co/%E7%AD%86%E8%A8%98-%E8%A2%AB%E5%86%A4%E6%9E%89%E7%9A%84mongodb/" rel="alternate" type="text/html" title="[筆記] 被冤枉的MongoDB" /><published>2016-02-18T09:23:42+08:00</published><updated>2016-02-18T09:23:42+08:00</updated><id>http://blog.jln.co/筆記-被冤枉的mongodb</id><content type="html" xml:base="http://blog.jln.co/%E7%AD%86%E8%A8%98-%E8%A2%AB%E5%86%A4%E6%9E%89%E7%9A%84mongodb/">&lt;p&gt;續&lt;a href=&quot;http://blog.jln.co/post/139117302737/%E7%AD%86%E8%A8%98-deploy-mongodb-replica-set-to-coreosfleet&quot;&gt;前篇&lt;/a&gt; 裝好了MongoDB的Cluster後(1 Primary, 2 Secondaries)就開始進行大量的資料移轉&lt;/p&gt;
-
-&lt;p&gt;結果資料寫到一半, 突然發現Primary換人了, 雖然因為有Secondaries, 會有人上來替代, 因為Mongo只有Primary才可以被寫入, 這使得client必須重新建立對新的primary的connection, 一度以為機器被reboot了, 但查logs並沒這現象, 後來又以為, MongoDB也太不濟了吧, 這種量級的寫入居然可以擊倒它, 結果後來查了log發現, 他的確被restart了, 只是兇手不是他, 是別人叫他去死的&lt;/p&gt;
-
-&lt;p&gt;一切是Fleet惹的禍, 根據這篇&lt;a href=&quot;https://github.com/coreos/fleet/issues/1289&quot;&gt;Fleet engine stops units when etcd leadership change or has connectivity issues #1289&lt;/a&gt;, Fleet只要聯絡不到etcd, 就會認為不能獨活了, 就會把其他人也給殺了(可惡的殺人兇手),追根據底就是timeout設的太短了, 以至於當系統稍微(只是稍微而已)一忙, 就很容易超過timeout, 然後他就認為, 他的情人死了!(也太玻璃心了)&lt;/p&gt;
-
-&lt;p&gt;解決方案就是延長timeout, 修改cloud-config加上如下的東西(把etcd的heartbeat跟election timeout延長, 把fleet相關的也給延長):&lt;/p&gt;
-
-&lt;pre&gt;
-
-#cloud-config
-
-coreos:
-  etcd2:
-    heartbeat-interval: 600
-    election-timeout: 6000
-  fleet:
-    engine-reconcile-interval: 10
-    etcd-request-timeout: 5
-    agent-ttl: 120s
-
-&lt;/pre&gt;
-
-&lt;p&gt;至於Azure上裝的coreos, cloud-config位置是在: &lt;code&gt;/var/lib/waagent/CustomData&lt;/code&gt;, 改完restart機器就好&lt;/p&gt;</content><summary>續前篇 裝好了MongoDB的Cluster後(1 Primary, 2 Secondaries)就開始進行大量的資料移轉</summary></entry></feed>
+&lt;p&gt;在這範例裡, 使用了Parse Server的ParsePushAdapter, 並且利用了Redis當作queue來做成的簡單的push server, 這樣應該就加減堪用了, 不過這邊有一個還需要再改的是, ParsePushAdapter 並不會把產生的push id回傳到上一層, 這樣要做追蹤紀錄其實有點比較不方便, 這邊還需要再加強一下&lt;/p&gt;</content><summary>今天追完了綠箭, 該來點功課, 不過今天忘了買啤酒了:(</summary></entry></feed>
