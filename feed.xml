@@ -1,4 +1,378 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.1.6">Jekyll</generator><link href="http://blog.jln.co/feed.xml" rel="self" type="application/atom+xml" /><link href="http://blog.jln.co/" rel="alternate" type="text/html" /><updated>2016-09-30T23:10:16+08:00</updated><id>http://blog.jln.co/</id><title>Le murmure de Julian</title><subtitle>朱隸安貓囈語錄</subtitle><entry><title>[Android] 使用Retrofit如何避免Man in the middle攻擊</title><link href="http://blog.jln.co/android-%E4%BD%BF%E7%94%A8retrofit%E5%A6%82%E4%BD%95%E9%81%BF%E5%85%8Dman-in-the-middle%E6%94%BB%E6%93%8A/" rel="alternate" type="text/html" title="[Android] 使用Retrofit如何避免Man in the middle攻擊" /><published>2016-09-30T21:47:36+08:00</published><updated>2016-09-30T21:47:36+08:00</updated><id>http://blog.jln.co/[android]-使用retrofit如何避免man-in-the-middle攻擊</id><content type="html" xml:base="http://blog.jln.co/android-%E4%BD%BF%E7%94%A8retrofit%E5%A6%82%E4%BD%95%E9%81%BF%E5%85%8Dman-in-the-middle%E6%94%BB%E6%93%8A/">&lt;p&gt;前幾天看到朋友寫如何用&lt;a href=&quot;https://www.charlesproxy.com&quot;&gt;Charles Proxy&lt;/a&gt;來debug REST API, 
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.1.6">Jekyll</generator><link href="http://blog.jln.co/feed.xml" rel="self" type="application/atom+xml" /><link href="http://blog.jln.co/" rel="alternate" type="text/html" /><updated>2016-10-05T12:10:36+08:00</updated><id>http://blog.jln.co/</id><title>Le murmure de Julian</title><subtitle>朱隸安貓囈語錄</subtitle><entry><title>一些做爬蟲的工具與方法</title><link href="http://blog.jln.co/%E4%B8%80%E4%BA%9B%E5%81%9A%E7%88%AC%E8%9F%B2%E7%9A%84%E5%B7%A5%E5%85%B7%E8%88%87%E6%96%B9%E6%B3%95/" rel="alternate" type="text/html" title="一些做爬蟲的工具與方法" /><published>2016-10-04T23:41:22+08:00</published><updated>2016-10-04T23:41:22+08:00</updated><id>http://blog.jln.co/一些做爬蟲的工具與方法</id><content type="html" xml:base="http://blog.jln.co/%E4%B8%80%E4%BA%9B%E5%81%9A%E7%88%AC%E8%9F%B2%E7%9A%84%E5%B7%A5%E5%85%B7%E8%88%87%E6%96%B9%E6%B3%95/">&lt;p&gt;之前寫了一些爬蟲, 想說來補一篇這樣的文章好了&lt;/p&gt;
+
+&lt;p&gt;可能是之前”所謂”的大數據(Big Data)太過流行, 以至於網路爬蟲好像是一種顯學, 隨便Google一下都可以找到一堆用python加上&lt;a href=&quot;https://www.crummy.com/software/BeautifulSoup/bs4/doc/#&quot;&gt;BeautifulSoup&lt;/a&gt;
+相關的文章, 這可能也是因為, 現在網路上的資料, Open data的, 提供API的, 在比例上還是非常的少數, 但網頁的數量真的多到很難統計(想到早期還真是屈指可數)
+要取得網頁內的內容, 解析HTML, 做字串的處理就是一個必要的基礎, 這也難怪python + &lt;a href=&quot;https://www.crummy.com/software/BeautifulSoup/bs4/doc/#&quot;&gt;BeautifulSoup&lt;/a&gt;
+一直廣泛的被採用&lt;/p&gt;
+
+&lt;p&gt;不過, 當你真的去寫一個爬蟲, 突然就會發現了, 代誌不是這麼單純呀, 不是去抓個html回來解析一下就有自己想要的資料了呀, 而是會發現, 怎麼大家正正當當的網頁不寫,
+一堆奇技淫巧, 繞來繞去的, 網頁廣告內容也一堆, 很多網頁都很難抓到自己想要的資料呀!!!&lt;/p&gt;
+
+&lt;p&gt;真的來說, 做爬蟲是一種Hacking的活動, 天下網頁萬萬種, 為了總總不同的目的, 早已不是幾個簡單的html標籤就做出來的了, 還搭配了很多程式的技巧在內,
+因此要從裡面萃取資料出來, 常常還真的是要無所不用其極&lt;/p&gt;
+
+&lt;h3 id=&quot;section&quot;&gt;那到底做爬蟲會先需要懂什麼?&lt;/h3&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;HTML&lt;/li&gt;
+  &lt;li&gt;CSS&lt;/li&gt;
+  &lt;li&gt;DOM&lt;/li&gt;
+  &lt;li&gt;DOM Selectors&lt;/li&gt;
+  &lt;li&gt;Javascript&lt;/li&gt;
+  &lt;li&gt;Regular Expression (正規表示式)&lt;/li&gt;
+  &lt;li&gt;Chrome dev tool&lt;/li&gt;
+  &lt;li&gt;Curl&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;以上這幾個東西可能是基本必須懂得, 而不是程式語言, 那反而其次, 很多程式語言都有很好的能力跟工具來做, 另外需要具備的是耐心, 眼力, 直覺, 和運氣&lt;/p&gt;
+
+&lt;p&gt;底下就拿我之前弄過的幾個東西當範例, 由於我寫比較多Go和nodejs, 所以就不用(主流的)Python來做範例了&lt;/p&gt;
+
+&lt;h3 id=&quot;section-1&quot;&gt;範例一 : 文章內容分析 (如新聞, 部落格文章等等)&lt;/h3&gt;
+
+&lt;p&gt;這應該是比較常見的應用, 單純抓取文章內容去做分析, 常碰到的麻煩是現在網站放了大大小小的(補釘)廣告, 那些跟內容不相干, 也不會是我們想拿來分析的目標&lt;/p&gt;
+
+&lt;p&gt;底下這個範例是從Yahoo! News的RSS抓取新聞文章連結, 再從這些連結的文章內找出關鍵字:&lt;/p&gt;
+
+&lt;noscript&gt;&lt;pre&gt;package main
+
+import (
+	&amp;quot;fmt&amp;quot;
+
+	&amp;quot;github.com/SlyMarbo/rss&amp;quot;
+	&amp;quot;github.com/julianshen/go-readability&amp;quot;
+	&amp;quot;github.com/parnurzeal/gorequest&amp;quot;
+	&amp;quot;github.com/yanyiwu/gojieba&amp;quot;
+)
+
+func main() {
+	x := gojieba.NewJieba()
+	defer x.Free()
+
+	feed, err := rss.Fetch(&amp;quot;https://tw.news.yahoo.com/rss/finance&amp;quot;)
+	if err != nil {
+		// handle error.
+		fmt.Println(err)
+		panic(1)
+	}
+
+	request := gorequest.New()
+	for _, item := range feed.Items {
+		_, body, err := request.Get(item.Link).End()
+
+		if err == nil {
+			doc, err := readability.NewDocument(body)
+
+			if err == nil {
+				keywords := x.ExtractWithWeight(doc.Text(), 5)
+				fmt.Println(keywords)
+			}
+		}
+	}
+}&lt;/pre&gt;&lt;/noscript&gt;
+&lt;script src=&quot;https://gist.github.com/julianshen/2c21aa1e83e1e7b20f0d2560600383f2.js&quot;&gt; &lt;/script&gt;
+
+&lt;p&gt;這段code非常的簡單, 主要也只用到以下這幾種東西:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;rss parser&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/mauidude/go-readability&quot;&gt;go-readability&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/yanyiwu/gojieba&quot;&gt;結巴&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;簡單的來說就是先從rss內找出所有新聞的連結再一個個去爬, 然後用&lt;a href=&quot;https://github.com/mauidude/go-readability&quot;&gt;go-readability&lt;/a&gt;精簡出網頁內文, 再用&lt;a href=&quot;https://github.com/yanyiwu/gojieba&quot;&gt;結巴&lt;/a&gt;取出關鍵字&lt;/p&gt;
+
+&lt;h4 id=&quot;readability&quot;&gt;readability&lt;/h4&gt;
+
+&lt;p&gt;這一個library以往的用途就是清除不必要的html tags跟內容(像是廣告), 只留下易讀的內文（純文字), 以這個例子來說, 這是一個最適合的工具了&lt;/p&gt;
+
+&lt;p&gt;最早的readability應該是&lt;a href=&quot;https://www.readability.com/arc90/&quot;&gt;arc90&lt;/a&gt;這人開源出來的, 最早應該是javascript的版本, 
+但就算你不是用javascript, 它老早也被翻唱成其他語言的版本了, 像是:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Python - &lt;a href=&quot;https://github.com/timbertson/python-readability&quot;&gt;python-readability&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Node.js - &lt;a href=&quot;https://github.com/luin/readability&quot;&gt;node.js readability&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Java - &lt;a href=&quot;https://github.com/wuman/JReadability&quot;&gt;JReadability&lt;/a&gt; 和  &lt;a href=&quot;https://github.com/karussell/snacktory&quot;&gt;snacktory&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Go - &lt;a href=&quot;https://github.com/mauidude/go-readability&quot;&gt;go-readability&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h4 id=&quot;jieba&quot;&gt;結巴 jieba&lt;/h4&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/fxsjy/jieba&quot;&gt;結巴 jieba&lt;/a&gt; 是一個用在做中文分詞的工具, 英文每個單詞都是用空白分開的, 但中文就不是那麼回事了, &lt;a href=&quot;https://github.com/fxsjy/jieba&quot;&gt;結巴 jieba&lt;/a&gt; 可以幫忙作掉這部份的工作, 這可以拿來做文章分析或是找關鍵字用&lt;/p&gt;
+
+&lt;p&gt;一樣有好幾種語言的版本 - Java, C++, Node.js, Erlang, R, iOS, PHP, C#, Go (參照結巴的說明內文), 算蠻齊全的了&lt;/p&gt;
+
+&lt;h3 id=&quot;bilibili&quot;&gt;範例二 : 抓取Bilibili的視訊檔位址&lt;/h3&gt;
+
+&lt;p&gt;這個範例稍微做了點弊, 但還是從頭把分析過程來講一下好了&lt;/p&gt;
+
+&lt;p&gt;Bilibili視頻網頁長得就像這樣: &lt;a href=&quot;http://www.bilibili.com/video/av6467776/&quot;&gt;範例 - http://www.bilibili.com/video/av6467776/&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;先簡單的從網址猜一下….”av6467776”應該是某個ID之類的東西, 再進一步, ID可能就是這個”6467776”&lt;/p&gt;
+
+&lt;p&gt;接下來我們就需要借助一下&lt;a href=&quot;https://developer.chrome.com/devtools&quot;&gt;Chrome的”開發人員工具”&lt;/a&gt;, 這是一個強大也重要的工具, 不要只傻傻的用View source而已, View source能看到的也只有原始HTML的內容&lt;/p&gt;
+
+&lt;p&gt;開了網頁後, 用Ctrl+Shift+I (windows)或是Cmd+Opt+I (mac)打開他, 打開後先選到elements, 像這樣:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/crw_1.jpg&quot; alt=&quot;Chrome devtools elements&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;這邊標示了四個部分, 先點選了&lt;strong&gt;1&lt;/strong&gt;, 再用滑鼠游標點你想知道的元件(以這邊來說是那個視訊框 &lt;strong&gt;2&lt;/strong&gt; 的地方), 然後他就會幫你跳到相關的HTML位置（如&lt;strong&gt;3&lt;/strong&gt;), 而&lt;strong&gt;4&lt;/strong&gt;所標示出的是css屬性&lt;/p&gt;
+
+&lt;p&gt;把object這部份點開, 果然, 在flashvars那邊我們可以找到”cid=10519268&amp;amp;aid=6467776&amp;amp;pre_ad=0”這樣的字串, 表示”6467776”的確是某種叫aid的東西,
+但, 這不代表找到結案了!! 我們再用curl檢查一下:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;curl http://www.bilibili.com/video/av6467776/ --compressed
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;抓原始的html檔來比對一下(可以把這指令的輸出存成檔案在來看會方便點), 怎麼沒”object”這標籤呀?到哪去了?可見剛剛那段html是某段javascript去產生的&lt;/p&gt;
+
+&lt;p&gt;再回頭看DevTools上object那段, 可以發現它是一個div包起來的, 這div的class是scontent, id是bofqi, 再回頭去看原始的HTML, 整段也只有一個這樣的block, 內容是這樣:&lt;/p&gt;
+
+&lt;div class=&quot;language-html highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;scontent&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;id=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bofqi&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;id=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&#39;player_placeholder&#39;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&#39;player&#39;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;script &lt;/span&gt;&lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&#39;text/javascript&#39;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;EmbedPlayer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;player&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;http://static.hdslb.com/play.swf&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;cid=10519268&amp;amp;aid=6467776&amp;amp;pre_ad=0&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;OK, 這邊就很容易可以確定從scontent這區塊就可以找到兩個id - aid和cid , 但這能做什麼用? 還不知道&lt;/p&gt;
+
+&lt;p&gt;接著切換到Network那邊去, 然後再重新整理一下頁面:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/crw_2.jpg&quot; alt=&quot;Chrome devtools network&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;左下角的部分是瀏覽器在畫出這個頁面所載入的內容跟檔案, 一開使用時序排序的, 當然你可以用其他方式排序, 這邊就是可以挖寶的地方了&lt;/p&gt;
+
+&lt;p&gt;先看到上面那一堆長長短短的線, 這是瀏覽器載入檔案的時間線, 點選這邊可以只看特定時間區間的部分, 最後面可以發現有一條長長的藍線, 那可能就是視訊檔了(因為通常較大), 因此我們可知這視訊檔的URL是&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;http://61.221.181.215/ws.acgvideo.com/3/46/10519268-1.flv?wsTime=1475663926&amp;amp;wsSecret2=893ba83b8f13d8700d2ae0cddab96c55&amp;amp;oi=3699654085&amp;amp;rate=0&amp;amp;wshc_tag=0&amp;amp;wsts_tag=57f467b8&amp;amp;wsid_tag=dc843dc5&amp;amp;wsiphost=ipdbm
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;但這串怎麼來的, 依我們手上只有兩個id的資訊是拼湊不起來的, 它一定從某個地方由這兩個id轉換出來的(合理的猜測), 因此, 我們可以再把aid, cid拿去搜尋檔案(點選檔案列表那區塊, 按ctrl-f或command-f開搜尋框)&lt;/p&gt;
+
+&lt;p&gt;一個個看, 找出可能的檔案, 由於aid可以找出22個結果而cid只有10個, 從cid開始找起會比較簡單點, 這邊篩選出幾個可能性:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;http://interface.bilibili.com/player?id=cid:10519268&amp;amp;aid=6467776 - 回傳是一個xml, 有一些相關資訊, 但沒影片位址&lt;/li&gt;
+  &lt;li&gt;http://interface.bilibili.com/playurl?accel=1&amp;amp;cid=10519268&amp;amp;player=1&amp;amp;ts=1475635126&amp;amp;sign=e1e2ae9d2d34e4be94f46f77a4a107ce - 從這回傳裡面有個durl &amp;gt; url, 跟上面url比對, 似乎就是他了, 後面再來講這段&lt;/li&gt;
+  &lt;li&gt;http://comment.bilibili.com/playtag,10519268 - 這應該是”看过该视频的还喜欢”裡的內容&lt;/li&gt;
+  &lt;li&gt;http://comment.bilibili.com/10519268.xml - 喔喔喔, 看起來這就是彈幕檔喔!&lt;/li&gt;
+  &lt;li&gt;http://comment.bilibili.com/recommendnew,6467776 - 這似乎是推薦視頻的內容&lt;/li&gt;
+  &lt;li&gt;http://api.bilibili.com/x/tag/archive/tags?jsonp=jsonp&amp;amp;aid=6467776&amp;amp;nomid=1 - 看起來這是tag&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;看來, &lt;strong&gt;2&lt;/strong&gt; 應該就是我們所要的了, 不過這邊有兩個麻煩, 一個是…我討厭XML!!!!!不過這好像還好, 似乎有個HTML5版本, 點點看好了, 果不其然, 發現另一個:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;https://interface.bilibili.com/playurl?cid=10519268&amp;amp;appkey=6f90a59ac58a4123&amp;amp;otype=json&amp;amp;type=flv&amp;amp;quality=3&amp;amp;sign=571f239a0a3d4c304e8ea0e0f255992a
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;表示我們是可以用otype=json來抓取json格式的, 但後面這個更麻煩了, 那個sign是什麼東西? 從他有個appkey來看, 合理的猜測, 他是某種API的signature, 通常這種東西的規則是把所有的參數先依名字排序成新的query string, 加上某個secret, 再算出他的MD5即是他的sign&lt;/p&gt;
+
+&lt;p&gt;但如果真是這樣, 這下有點麻煩, 到哪裡找這個secret, 不過凡走過必有痕跡, 這串既然是由瀏覽器端產生的, 那應該會在哪裡找到點線索, 或許可以先用appkey的內容去每個javascript檔案搜尋吧&lt;/p&gt;
+
+&lt;p&gt;不過, 不出所料, 找不到, 那, 還有一個可能性, 它寫在flash內, 從上面抓到的資訊來看, 他的flash檔案應該是: http://static.hdslb.com/play.swf&lt;/p&gt;
+
+&lt;p&gt;可以把它抓回來反編譯(decompile), 有個工具叫&lt;a href=&quot;https://www.free-decompiler.com/flash/&quot;&gt;JPEX Flash decompiler&lt;/a&gt;的, 可以做到這件事&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/crw_3.jpg&quot; alt=&quot;JPEX&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;在script裡面有它的程式原始碼, 應該可以在裡面找到, 不過有點辛苦, 因為你也沒辦法從appkey找到那個secret, 這邊直接跳轉答案, 應該就如同截圖所示是”com.bilibili.interfaces.getSign”這邊, 只是被混淆到很難看, 看得很頭痛, 會短命的&lt;/p&gt;
+
+&lt;p&gt;理論上, 把這段源碼翻譯一遍後應該就解決了, 但一來我看不太懂action script, 二來我實在懶得看, 想偷懶, 有沒作弊的方法? 凡走過必留下痕跡嘛, 一定還會有前人走過這條路, 所以直接把”6f90a59ac58a4123”這串appkey拿去搜尋, 果然, 找到secret了, 寫個程式驗證一下, 果然是沒錯的&lt;/p&gt;
+
+&lt;noscript&gt;&lt;pre&gt;package main
+
+import (
+	&amp;quot;crypto/md5&amp;quot;
+	&amp;quot;encoding/json&amp;quot;
+	&amp;quot;errors&amp;quot;
+	&amp;quot;fmt&amp;quot;
+	&amp;quot;io&amp;quot;
+	&amp;quot;log&amp;quot;
+	&amp;quot;regexp&amp;quot;
+	&amp;quot;sort&amp;quot;
+	&amp;quot;strings&amp;quot;
+
+	&amp;quot;github.com/PuerkitoBio/goquery&amp;quot;
+	&amp;quot;github.com/parnurzeal/gorequest&amp;quot;
+)
+
+type DocId struct {
+	CID string
+	AID string
+}
+
+const (
+	APP_KEY  = &amp;quot;6f90a59ac58a4123&amp;quot;
+	APP_SEC  = &amp;quot;0bfd84cc3940035173f35e6777508326&amp;quot;
+	BASE_URL = &amp;quot;https://interface.bilibili.com/playurl&amp;quot;
+)
+
+func signParam(param map[string]string) {
+	param[&amp;quot;appkey&amp;quot;] = APP_KEY
+
+	keys := make([]string, len(param))
+
+	i := 0
+	for k, _ := range param {
+		keys[i] = k
+		i++
+	}
+
+	sort.Strings(keys)
+
+	data := &amp;quot;&amp;quot;
+	for _, v := range keys {
+		if data != &amp;quot;&amp;quot; {
+			data += &amp;quot;&amp;amp;&amp;quot;
+		}
+		data += v + &amp;quot;=&amp;quot; + param[v]
+	}
+	data += APP_SEC
+	param[&amp;quot;sign&amp;quot;] = fmt.Sprintf(&amp;quot;%x&amp;quot;, md5.Sum([]byte(data)))
+}
+
+func parseId(id string) (*DocId, error) {
+	url := fmt.Sprintf(&amp;quot;http://www.bilibili.com/video/av%s&amp;quot;, id)
+	doc, err := goquery.NewDocument(url)
+
+	if err != nil {
+		return nil, err
+	}
+
+	sel := doc.Find(&amp;quot;.scontent&amp;gt;script&amp;quot;)
+	if sel != nil {
+		script := sel.Text()
+		regex := regexp.MustCompile(&amp;quot;cid=(\\d+)&amp;amp;aid=(\\d+)&amp;amp;pre_ad=.*&amp;quot;)
+
+		result := regex.FindStringSubmatch(script)
+		if result == nil {
+			return nil, errors.New(&amp;quot;ID not found&amp;quot;)
+		}
+
+		var id DocId
+		id.CID = result[1]
+		id.AID = result[2]
+
+		return &amp;amp;id, nil
+	} else {
+		return nil, errors.New(&amp;quot;ID not found&amp;quot;)
+	}
+}
+
+func GrabVideoUrl(aid string) (string, error) {
+	id, err := parseId(aid)
+
+	if err != nil {
+		return &amp;quot;&amp;quot;, err
+	}
+
+	var param map[string]string = make(map[string]string)
+	param[&amp;quot;cid&amp;quot;] = id.CID
+	param[&amp;quot;otype&amp;quot;] = &amp;quot;json&amp;quot;
+	param[&amp;quot;type&amp;quot;] = &amp;quot;mp4&amp;quot;
+	param[&amp;quot;quality&amp;quot;] = &amp;quot;3&amp;quot;
+
+	signParam(param)
+
+	data := &amp;quot;&amp;quot;
+	for k, v := range param {
+		if data != &amp;quot;&amp;quot; {
+			data += &amp;quot;&amp;amp;&amp;quot;
+		}
+		data += k + &amp;quot;=&amp;quot; + v
+	}
+
+	url := fmt.Sprintf(&amp;quot;%s?%s&amp;quot;, BASE_URL, data)
+	request := gorequest.New()
+	_, body, errs := request.Get(url).End()
+
+	if errs != nil &amp;amp;&amp;amp; len(errs) &amp;gt; 0 {
+		return &amp;quot;&amp;quot;, errs[0]
+	}
+
+	//log.Println(body)
+	dec := json.NewDecoder(strings.NewReader(body))
+	video_url := &amp;quot;&amp;quot;
+	for {
+		t, err := dec.Token()
+		if err == io.EOF {
+			break
+		}
+
+		if err != nil {
+			return &amp;quot;&amp;quot;, err
+		}
+		//fmt.Printf(&amp;quot;%T: %v&amp;quot;, t, t)
+		if t == &amp;quot;url&amp;quot; {
+			t, err := dec.Token()
+			if err != nil {
+				return &amp;quot;&amp;quot;, err
+			}
+			video_url = fmt.Sprintf(&amp;quot;%v&amp;quot;, t)
+		}
+
+		//fmt.Printf(&amp;quot;\n&amp;quot;)
+	}
+
+	return video_url, nil
+}
+
+func main() {
+	//url := &amp;quot;http://www.bilibili.com/video/av6467776/&amp;quot;
+	url, _ := GrabVideoUrl(&amp;quot;6467776&amp;quot;)
+	log.Println(url)
+}
+&lt;/pre&gt;&lt;/noscript&gt;
+&lt;script src=&quot;https://gist.github.com/julianshen/137c3584ef805ae5cf74147ae737b697.js&quot;&gt; &lt;/script&gt;
+
+&lt;h3 id=&quot;http8dramacom&quot;&gt;範例三: &lt;a href=&quot;http://8drama.com&quot;&gt;楓林網&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://8drama.com&quot;&gt;楓林網&lt;/a&gt;是一個非法的電視劇來源, 有相當齊全的電視劇內容, 我這個是之前寫的一個工具了, 可以把一整部劇可以抓回本地端, 原始碼跟使用方法在這:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/julianshen/d8&quot;&gt;d8 - https://github.com/julianshen/d8&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;這邊就不再說明怎麼使用它了, 主要著重它是怎做出來的, 這一個跟上面幾個不一樣的地方在於我是用nodejs寫的, 之所以用nodejs是有原因的, 後面再解釋, 主要的程式碼在&lt;a href=&quot;https://github.com/julianshen/d8/blob/master/88.js&quot;&gt;88.js&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;楓林網的電視劇集的網址長成這樣: http://8drama.com/178372/ , 當然178372又是ID了, 但它裡面所有的東西ID長得都是一個樣, 一整部劇跟單一集的ID都是同一個格式, 所以是無法從ID判斷出他是哪類&lt;/p&gt;
+
+&lt;p&gt;一樣打開Chrome DevTools, 點選到每一集的列表區塊, 我們可以發現在”&amp;lt;div class=&quot;entry-content rich-content&quot;&amp;gt;“裡面的&amp;lt;td&amp;gt;可以找到每一集的URL, 而他的格式都是http://8drama.com/(ID), 所以我們可以輕易的用regular expression分辨出來&lt;/p&gt;
+
+&lt;p&gt;接下來就要掃每一集的內容把影片檔找出來了&lt;/p&gt;
+
+&lt;p&gt;當然可以用前面的方法試試看, 不過那方法在這邊沒啥用, 因為這邊影片的網址編碼是用好多亂七八糟的javascript堆積起來, 沒記錯的話, 我是從&lt;a href=&quot;http://8drama.com/play5/video.js&quot;&gt;video.js&lt;/a&gt;找到線索的(這有點時間之前做的了, 有點沒印象了)&lt;/p&gt;
+
+&lt;p&gt;所以該怎麼面對那一大段javascript的code呢? 這就是我這工具為何選nodejs的原因了, 抄過來就好了!!! 去除掉跟瀏覽器相關的部分, 它就是不折不扣nodejs可以跑的程式碼, 所以這也就是&lt;a href=&quot;https://github.com/julianshen/d8/blob/master/88.js&quot;&gt;88.js&lt;/a&gt;一些怪怪程式碼的由來&lt;/p&gt;
+
+&lt;p&gt;除了這版本外, 我本來也有想要做一個Java的版本, 做了一半, 用Java也是可以用類似的技巧, 不過就得要導入Javascript的runtime了, 而我採用的是&lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Mozilla/Projects/Rhino&quot;&gt;Mozilla Rhino&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;section-2&quot;&gt;更進階一點的&lt;/h3&gt;
+
+&lt;p&gt;做爬蟲大部分的時間都是要跟html, javascript, css這類的東西搏鬥, 但其實很多東西本來就是原本瀏覽器就會處理的, 因此如果可以直接用瀏覽器或甚至是WebKit來處理, 可以處理的事應該就會多一點, 這時候就可以利用所謂的Headless browser來簡化, 這種東西本來是用在網頁自動化測試的, 不過, 用在這應用也一樣強大, 這類的解決方案有:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;a href=&quot;http://phantomjs.org/&quot;&gt;Phantomjs&lt;/a&gt; - 這是以WebKit為基礎的, 我比較常用&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://slimerjs.org/&quot;&gt;Slimerjs&lt;/a&gt; - 這是以Mozilla Geco為基礎的&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.seleniumhq.org/&quot;&gt;Selenium&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/sourcegraph/webloop&quot;&gt;Webloop&lt;/a&gt; - Go版本的&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;關於&lt;a href=&quot;http://phantomjs.org/&quot;&gt;Phantomjs&lt;/a&gt;的應用, 我很久之前已經有寫過一篇了:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://blog.jln.co/颱風天的宅code教學-抓漫畫/&quot;&gt;颱風天的宅code教學: 抓漫畫&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;android&quot;&gt;Android上呢?&lt;/h3&gt;
+
+&lt;p&gt;Java上, 大多是用&lt;a href=&quot;https://jsoup.org/&quot;&gt;jsoup&lt;/a&gt;來解析html的, 像我之前這篇:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://blog.jln.co/android-土製play-store-api/&quot;&gt;[Android] 土製Play store API&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;當然應該也是可以用Webkit/WebView做成headless的解決方案, 不過這部份我目前還沒試過, 留待以後有機會再試吧&lt;/p&gt;</content><category term="golang" /><category term="nodejs" /><category term="crawler" /><category term="dev" /><category term="Web Scraping" /><category term="web" /><category term="spider" /><summary>之前寫了一些爬蟲, 想說來補一篇這樣的文章好了</summary></entry><entry><title>[Android] 使用Retrofit如何避免Man in the middle攻擊</title><link href="http://blog.jln.co/android-%E4%BD%BF%E7%94%A8retrofit%E5%A6%82%E4%BD%95%E9%81%BF%E5%85%8Dman-in-the-middle%E6%94%BB%E6%93%8A/" rel="alternate" type="text/html" title="[Android] 使用Retrofit如何避免Man in the middle攻擊" /><published>2016-09-30T21:47:36+08:00</published><updated>2016-09-30T21:47:36+08:00</updated><id>http://blog.jln.co/[android]-使用retrofit如何避免man-in-the-middle攻擊</id><content type="html" xml:base="http://blog.jln.co/android-%E4%BD%BF%E7%94%A8retrofit%E5%A6%82%E4%BD%95%E9%81%BF%E5%85%8Dman-in-the-middle%E6%94%BB%E6%93%8A/">&lt;p&gt;前幾天看到朋友寫如何用&lt;a href=&quot;https://www.charlesproxy.com&quot;&gt;Charles Proxy&lt;/a&gt;來debug REST API, 
 突然就想到了這個問題, &lt;a href=&quot;https://www.charlesproxy.com&quot;&gt;Charles Proxy&lt;/a&gt;是一個不錯的工具, 我自己也蠻常用的
 , 除了可以用來debug HTTP以外, 其實HTTPS也可以(參照&lt;a href=&quot;https://www.charlesproxy.com/documentation/proxying/ssl-proxying/&quot;&gt;SSL proxying&lt;/a&gt;)
 , 只要在手機上安裝好它的SSL certificate即可&lt;/p&gt;
@@ -1293,21 +1667,4 @@ ruby -rubygems -e &lt;span class=&quot;s1&quot;&gt;&#39;require &quot;jekyll-imp
 &lt;p&gt;這當然是用&lt;a href=&quot;http://ifttt.com&quot;&gt;ifttt&lt;/a&gt;囉, 因為有用到jekyll-feed這個plugin, 所以會產生一個feed.xml的檔案, 所以就利用ifttt的feed channel來設定觸發&lt;/p&gt;
 
 &lt;h4 id=&quot;section-5&quot;&gt;結語&lt;/h4&gt;
-&lt;p&gt;本來明明不想花太多功夫的, 結果不但花了很多功夫, 還花了一頁來紀錄這篇 orz&lt;/p&gt;</content><category term="Blog" /><category term="Jekyll" /><category term="Ruby" /><summary>一直把Blog當作紀錄一些事情用的地方, 想法, 或是學習過的一些東西, 雖然不是很頻繁的在寫, 不過也寫了好幾年了, 從以前到現在, 換過好幾次平台, 從自己架的wordpress, 到posterous, blogger, 一直到現在用的Tumblr, 這中間最喜歡的還是posterous, 不過它已經不存在了, 而Tumblr也用了好一陣子了, 雖然加減湊合著用好像還OK, 不過編輯上也一直不是那麼順手, 尤其是貼source code, 因此也一直想把它換掉</summary></entry><entry><title>[筆記] 移植Parse Push</title><link href="http://blog.jln.co/%E7%AD%86%E8%A8%98-%E7%A7%BB%E6%A4%8Dparse-push/" rel="alternate" type="text/html" title="[筆記] 移植Parse Push" /><published>2016-02-25T01:13:36+08:00</published><updated>2016-02-25T01:13:36+08:00</updated><id>http://blog.jln.co/筆記-移植parse-push</id><content type="html" xml:base="http://blog.jln.co/%E7%AD%86%E8%A8%98-%E7%A7%BB%E6%A4%8Dparse-push/">&lt;p&gt;今天追完了綠箭, 該來點功課, 不過今天忘了買啤酒了:(&lt;/p&gt;
-
-&lt;p&gt;Parse Push, 這功能無疑應該是Parse本身比較受歡迎的部分, 既然Parse明年要關門大吉了,這部份也是必須要搬家的, 但搬家比較麻煩的不是要搬到哪去, 而是之前累積的使用者, 總不希望一搬了就找不到他們了, Parse Push支援了包含了Google的GCM和Apple的APNS,以及他們自己的PPNS,以GCM來說, 在_Installation裡面, Parse是有儲存了GCM的deviceToken, 如果你之前用的是自己的GCM Sender ID, 那這部份直接搬了就可以用了, 但如果不是, 那預設用的是Parse自己的, 這樣這些deviceToken就不能夠使用自己的Sender ID來送, 必須要用用下面的方法來補救:&lt;/p&gt;
-
-&lt;ul&gt;&lt;li&gt;從Google的&lt;a href=&quot;https://console.developers.google.com/&quot;&gt;Developer console&lt;/a&gt;取的Sender ID跟API Key&lt;/li&gt;
-&lt;li&gt;在AndroidManifest.xml加入 &lt;code&gt;&amp;lt;meta-data android:name=&quot;com.parse.push.gcm_sender_id&quot; android:value=&quot;id:12345678&quot;&amp;gt;&lt;/code&gt; (必須要以&amp;quot;id:&amp;ldquo;加上你的sender id)&lt;/li&gt;
-&lt;li&gt;發布新的升級到Play store&lt;/li&gt;
-&lt;li&gt;使用者更新後至少發送一次Push (如果你在Application中有去儲存Installation, 這時候因為有了新的sender, 所以deviceToken會被更新)&lt;/li&gt;
-&lt;li&gt;可以用你自己的API key送給新的device token了(可以不用透過Parse console去送, 也可以用其他程式)&lt;/li&gt;
-&lt;/ul&gt;&lt;p&gt;這個Go的範例可以用來試驗送PUSH到你的手機上:&lt;/p&gt;
-
-&lt;script src=&quot;https://gist.github.com/julianshen/90a7b5c4a24eb13f41fa.js&quot;&gt;&lt;/script&gt;&lt;p&gt;找出你手機的deviceToken後即可用這個來驗證是否能夠成功送出push&lt;/p&gt;
-
-&lt;p&gt;但這樣還不夠, 我們還需要一個負責幫我們送push的server, 在之前那篇&lt;a href=&quot;http://blog.jln.co/post/139174339467/%E7%AD%86%E8%A8%98-parse-%E8%87%AA%E6%95%91%E6%96%B9%E6%A1%88%E4%B9%8B%E4%B8%80-pushd&quot;&gt;Parse自救方案&lt;/a&gt;裡有提到一個Pushd, 這是其中一個作法, 不過需要改一些東西才可以符合Parse Android SDK接收的格式, 另一個作法是透過open source的&lt;a href=&quot;https://github.com/ParsePlatform/parse-server/&quot;&gt;Parse Server&lt;/a&gt;, 原本它剛一出來時, 並沒支援Push, 但後來有其他人幫它加了上去了, 但它的方式是提供了API給你送PUSH, 但一來把API server跟PUSH server放一起並不是件好事, 二來當送大量的PUSH這樣的設計並不保險(並沒有queue, 送到一半server死了就麻煩了)&lt;/p&gt;
-
-&lt;p&gt;不過要以Parse server的為基礎拆出push的部分也不是很難, 做了一個簡單的範例: &lt;a href=&quot;https://github.com/julianshen/parse_push_js&quot;&gt;github.com/julianshen/parse_push_js&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;在這範例裡, 使用了Parse Server的ParsePushAdapter, 並且利用了Redis當作queue來做成的簡單的push server, 這樣應該就加減堪用了, 不過這邊有一個還需要再改的是, ParsePushAdapter 並不會把產生的push id回傳到上一層, 這樣要做追蹤紀錄其實有點比較不方便, 這邊還需要再加強一下&lt;/p&gt;</content><summary>今天追完了綠箭, 該來點功課, 不過今天忘了買啤酒了:(</summary></entry></feed>
+&lt;p&gt;本來明明不想花太多功夫的, 結果不但花了很多功夫, 還花了一頁來紀錄這篇 orz&lt;/p&gt;</content><category term="Blog" /><category term="Jekyll" /><category term="Ruby" /><summary>一直把Blog當作紀錄一些事情用的地方, 想法, 或是學習過的一些東西, 雖然不是很頻繁的在寫, 不過也寫了好幾年了, 從以前到現在, 換過好幾次平台, 從自己架的wordpress, 到posterous, blogger, 一直到現在用的Tumblr, 這中間最喜歡的還是posterous, 不過它已經不存在了, 而Tumblr也用了好一陣子了, 雖然加減湊合著用好像還OK, 不過編輯上也一直不是那麼順手, 尤其是貼source code, 因此也一直想把它換掉</summary></entry></feed>

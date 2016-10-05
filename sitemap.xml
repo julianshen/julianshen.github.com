@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://blog.jln.co/%25E4%25B8%2580%25E4%25BA%259B%25E5%2581%259A%25E7%2588%25AC%25E8%259F%25B2%25E7%259A%2584%25E5%25B7%25A5%25E5%2585%25B7%25E8%2588%2587%25E6%2596%25B9%25E6%25B3%2595/</loc>
+<lastmod>2016-10-04T23:41:22+08:00</lastmod>
+</url>
+<url>
 <loc>http://blog.jln.co/android-%25E4%25BD%25BF%25E7%2594%25A8retrofit%25E5%25A6%2582%25E4%25BD%2595%25E9%2581%25BF%25E5%2585%258Dman-in-the-middle%25E6%2594%25BB%25E6%2593%258A/</loc>
 <lastmod>2016-09-30T21:47:36+08:00</lastmod>
 </url>

@@ -1,0 +1,616 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>一些做爬蟲的工具與方法 &#8211; Le murmure de Julian</title>
+<meta name="description" content="朱隸安貓囈語錄">
+<meta name="keywords" content="golang, nodejs, crawler, dev, Web Scraping, web, spider">
+
+<!-- Twitter Cards -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog.jln.co/images/posts/crw_1.jpg">
+<meta name="twitter:title" content="一些做爬蟲的工具與方法">
+<meta name="twitter:description" content="朱隸安貓囈語錄">
+<meta name="twitter:creator" content="@jlnshen">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一些做爬蟲的工具與方法">
+<meta property="og:description" content="朱隸安貓囈語錄">
+<meta property="og:url" content="http://blog.jln.co/%E4%B8%80%E4%BA%9B%E5%81%9A%E7%88%AC%E8%9F%B2%E7%9A%84%E5%B7%A5%E5%85%B7%E8%88%87%E6%96%B9%E6%B3%95/">
+<meta property="og:site_name" content="Le murmure de Julian">
+<meta name="og:image" content="http://blog.jln.co/images/posts/crw_1.jpg">
+<meta name="google-site-verification" content="Fwa4TQMXvroZpNT7rrwHzdf-rWBe1RDuTu75Enx_DWA">
+
+
+
+<link rel="canonical" href="http://blog.jln.co/%E4%B8%80%E4%BA%9B%E5%81%9A%E7%88%AC%E8%9F%B2%E7%9A%84%E5%B7%A5%E5%85%B7%E8%88%87%E6%96%B9%E6%B3%95/">
+<link href="http://blog.jln.co/feed.xml" type="application/atom+xml" rel="alternate" title="Le murmure de Julian Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.rawgit.com/knsv/mermaid/6.0.0/dist/mermaid.css">
+<!-- Webfonts -->
+<link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel="stylesheet" type="text/css">
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- Load Modernizr -->
+<script src="/assets/js/vendor/modernizr-2.6.2.custom.min.js"></script>
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="http://blog.jln.co/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="http://blog.jln.co/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="http://blog.jln.co/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://blog.jln.co/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://blog.jln.co/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://blog.jln.co/images/apple-touch-icon-144x144-precomposed.png">
+
+
+
+  
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({
+        google_ad_client: "ca-pub-1789797875470932",
+        enable_page_level_ads: true
+    });
+    </script>
+  
+
+</head>
+
+<body id="post" >
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+<nav id="dl-menu" class="dl-menuwrapper" role="navigation">
+	<button class="dl-trigger">Open Menu</button>
+	<ul class="dl-menu">
+		<li><a href="http://blog.jln.co/">Home</a></li>
+		<li>
+			<a href="#">About</a>
+			<ul class="dl-submenu">
+				<li>
+					<img src="http://blog.jln.co/images/avatar.png" alt="Julian Shen photo" class="author-photo">
+					<h4>Julian Shen</h4>
+					<p>software deverloper</p>
+				</li>
+				<li>
+					<a href="mailto:julianshen22@gmail.com"><i class="fa fa-fw fa-envelope"></i> Email</a>
+				</li>
+				<li>
+					<a href="https://twitter.com/jlnshen"><i class="fa fa-fw fa-twitter"></i> Twitter</a>
+				</li>
+				<li>
+					<a href="https://facebook.com/julianshen"><i class="fa fa-fw fa-facebook"></i> Facebook</a>
+				</li>
+				
+				<li>
+					<a href="https://linkedin.com/in/julianshen"><i class="fa fa-fw fa-linkedin"></i> LinkedIn</a>
+				</li>
+				<li>
+					<a href="https://github.com/julianshen"><i class="fa fa-fw fa-github"></i> GitHub</a>
+				</li>
+				
+				<li>
+					<a href="https://instagram.com/julianshen"><i class="fa fa-fw fa-instagram"></i> Instagram</a>
+				</li>
+				<li>
+					<a href="https://www.flickr.com/photos/julianshen"><i class="fa fa-fw fa-flickr"></i> Flickr</a>
+				</li>
+				
+			</ul><!-- /.dl-submenu -->
+		</li>
+		<li>
+			<a href="#">Posts</a>
+			<ul class="dl-submenu">
+				<li><a href="http://blog.jln.co/posts/">All Posts</a></li>
+				<li><a href="http://blog.jln.co/tags/">All Tags</a></li>
+			</ul>
+		</li>
+		
+	</ul><!-- /.dl-menu -->
+</nav><!-- /.dl-menuwrapper -->
+
+
+
+
+<div id="main" role="main">
+  <article class="hentry">
+    <header class="header-title">
+      <div class="header-title-wrap">
+        
+          <h1 class="entry-title"><a href="http://blog.jln.co/%E4%B8%80%E4%BA%9B%E5%81%9A%E7%88%AC%E8%9F%B2%E7%9A%84%E5%B7%A5%E5%85%B7%E8%88%87%E6%96%B9%E6%B3%95/" rel="bookmark" title="一些做爬蟲的工具與方法">一些做爬蟲的工具與方法</a></h1>
+        
+        <h2><span class="entry-date date published"><time datetime="2016-10-04T23:41:22+08:00">October 04, 2016</time></span></h2>
+        
+        <p class="entry-reading-time">
+          <i class="fa fa-clock-o"></i>
+          
+Reading time ~4 minutes
+        </p><!-- /.entry-reading-time -->
+        
+      </div><!-- /.header-title-wrap -->
+    </header>
+    <div class="entry-content">
+      <p>之前寫了一些爬蟲, 想說來補一篇這樣的文章好了</p>
+
+<p>可能是之前”所謂”的大數據(Big Data)太過流行, 以至於網路爬蟲好像是一種顯學, 隨便Google一下都可以找到一堆用python加上<a href="https://www.crummy.com/software/BeautifulSoup/bs4/doc/#">BeautifulSoup</a>
+相關的文章, 這可能也是因為, 現在網路上的資料, Open data的, 提供API的, 在比例上還是非常的少數, 但網頁的數量真的多到很難統計(想到早期還真是屈指可數)
+要取得網頁內的內容, 解析HTML, 做字串的處理就是一個必要的基礎, 這也難怪python + <a href="https://www.crummy.com/software/BeautifulSoup/bs4/doc/#">BeautifulSoup</a>
+一直廣泛的被採用</p>
+
+<p>不過, 當你真的去寫一個爬蟲, 突然就會發現了, 代誌不是這麼單純呀, 不是去抓個html回來解析一下就有自己想要的資料了呀, 而是會發現, 怎麼大家正正當當的網頁不寫,
+一堆奇技淫巧, 繞來繞去的, 網頁廣告內容也一堆, 很多網頁都很難抓到自己想要的資料呀!!!</p>
+
+<p>真的來說, 做爬蟲是一種Hacking的活動, 天下網頁萬萬種, 為了總總不同的目的, 早已不是幾個簡單的html標籤就做出來的了, 還搭配了很多程式的技巧在內,
+因此要從裡面萃取資料出來, 常常還真的是要無所不用其極</p>
+
+<h3 id="section">那到底做爬蟲會先需要懂什麼?</h3>
+
+<ol>
+  <li>HTML</li>
+  <li>CSS</li>
+  <li>DOM</li>
+  <li>DOM Selectors</li>
+  <li>Javascript</li>
+  <li>Regular Expression (正規表示式)</li>
+  <li>Chrome dev tool</li>
+  <li>Curl</li>
+</ol>
+
+<p>以上這幾個東西可能是基本必須懂得, 而不是程式語言, 那反而其次, 很多程式語言都有很好的能力跟工具來做, 另外需要具備的是耐心, 眼力, 直覺, 和運氣</p>
+
+<p>底下就拿我之前弄過的幾個東西當範例, 由於我寫比較多Go和nodejs, 所以就不用(主流的)Python來做範例了</p>
+
+<h3 id="section-1">範例一 : 文章內容分析 (如新聞, 部落格文章等等)</h3>
+
+<p>這應該是比較常見的應用, 單純抓取文章內容去做分析, 常碰到的麻煩是現在網站放了大大小小的(補釘)廣告, 那些跟內容不相干, 也不會是我們想拿來分析的目標</p>
+
+<p>底下這個範例是從Yahoo! News的RSS抓取新聞文章連結, 再從這些連結的文章內找出關鍵字:</p>
+
+<noscript><pre>package main
+
+import (
+	&quot;fmt&quot;
+
+	&quot;github.com/SlyMarbo/rss&quot;
+	&quot;github.com/julianshen/go-readability&quot;
+	&quot;github.com/parnurzeal/gorequest&quot;
+	&quot;github.com/yanyiwu/gojieba&quot;
+)
+
+func main() {
+	x := gojieba.NewJieba()
+	defer x.Free()
+
+	feed, err := rss.Fetch(&quot;https://tw.news.yahoo.com/rss/finance&quot;)
+	if err != nil {
+		// handle error.
+		fmt.Println(err)
+		panic(1)
+	}
+
+	request := gorequest.New()
+	for _, item := range feed.Items {
+		_, body, err := request.Get(item.Link).End()
+
+		if err == nil {
+			doc, err := readability.NewDocument(body)
+
+			if err == nil {
+				keywords := x.ExtractWithWeight(doc.Text(), 5)
+				fmt.Println(keywords)
+			}
+		}
+	}
+}</pre></noscript>
+<script src="https://gist.github.com/julianshen/2c21aa1e83e1e7b20f0d2560600383f2.js"> </script>
+
+<p>這段code非常的簡單, 主要也只用到以下這幾種東西:</p>
+
+<ol>
+  <li>rss parser</li>
+  <li><a href="https://github.com/mauidude/go-readability">go-readability</a></li>
+  <li><a href="https://github.com/yanyiwu/gojieba">結巴</a></li>
+</ol>
+
+<p>簡單的來說就是先從rss內找出所有新聞的連結再一個個去爬, 然後用<a href="https://github.com/mauidude/go-readability">go-readability</a>精簡出網頁內文, 再用<a href="https://github.com/yanyiwu/gojieba">結巴</a>取出關鍵字</p>
+
+<h4 id="readability">readability</h4>
+
+<p>這一個library以往的用途就是清除不必要的html tags跟內容(像是廣告), 只留下易讀的內文（純文字), 以這個例子來說, 這是一個最適合的工具了</p>
+
+<p>最早的readability應該是<a href="https://www.readability.com/arc90/">arc90</a>這人開源出來的, 最早應該是javascript的版本, 
+但就算你不是用javascript, 它老早也被翻唱成其他語言的版本了, 像是:</p>
+
+<ol>
+  <li>Python - <a href="https://github.com/timbertson/python-readability">python-readability</a></li>
+  <li>Node.js - <a href="https://github.com/luin/readability">node.js readability</a></li>
+  <li>Java - <a href="https://github.com/wuman/JReadability">JReadability</a> 和  <a href="https://github.com/karussell/snacktory">snacktory</a></li>
+  <li>Go - <a href="https://github.com/mauidude/go-readability">go-readability</a></li>
+</ol>
+
+<h4 id="jieba">結巴 jieba</h4>
+
+<p><a href="https://github.com/fxsjy/jieba">結巴 jieba</a> 是一個用在做中文分詞的工具, 英文每個單詞都是用空白分開的, 但中文就不是那麼回事了, <a href="https://github.com/fxsjy/jieba">結巴 jieba</a> 可以幫忙作掉這部份的工作, 這可以拿來做文章分析或是找關鍵字用</p>
+
+<p>一樣有好幾種語言的版本 - Java, C++, Node.js, Erlang, R, iOS, PHP, C#, Go (參照結巴的說明內文), 算蠻齊全的了</p>
+
+<h3 id="bilibili">範例二 : 抓取Bilibili的視訊檔位址</h3>
+
+<p>這個範例稍微做了點弊, 但還是從頭把分析過程來講一下好了</p>
+
+<p>Bilibili視頻網頁長得就像這樣: <a href="http://www.bilibili.com/video/av6467776/">範例 - http://www.bilibili.com/video/av6467776/</a></p>
+
+<p>先簡單的從網址猜一下….”av6467776”應該是某個ID之類的東西, 再進一步, ID可能就是這個”6467776”</p>
+
+<p>接下來我們就需要借助一下<a href="https://developer.chrome.com/devtools">Chrome的”開發人員工具”</a>, 這是一個強大也重要的工具, 不要只傻傻的用View source而已, View source能看到的也只有原始HTML的內容</p>
+
+<p>開了網頁後, 用Ctrl+Shift+I (windows)或是Cmd+Opt+I (mac)打開他, 打開後先選到elements, 像這樣:</p>
+
+<p><img src="/images/posts/crw_1.jpg" alt="Chrome devtools elements" /></p>
+
+<p>這邊標示了四個部分, 先點選了<strong>1</strong>, 再用滑鼠游標點你想知道的元件(以這邊來說是那個視訊框 <strong>2</strong> 的地方), 然後他就會幫你跳到相關的HTML位置（如<strong>3</strong>), 而<strong>4</strong>所標示出的是css屬性</p>
+
+<p>把object這部份點開, 果然, 在flashvars那邊我們可以找到”cid=10519268&amp;aid=6467776&amp;pre_ad=0”這樣的字串, 表示”6467776”的確是某種叫aid的東西,
+但, 這不代表找到結案了!! 我們再用curl檢查一下:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>curl http://www.bilibili.com/video/av6467776/ --compressed
+</code></pre>
+</div>
+
+<p>抓原始的html檔來比對一下(可以把這指令的輸出存成檔案在來看會方便點), 怎麼沒”object”這標籤呀?到哪去了?可見剛剛那段html是某段javascript去產生的</p>
+
+<p>再回頭看DevTools上object那段, 可以發現它是一個div包起來的, 這div的class是scontent, id是bofqi, 再回頭去看原始的HTML, 整段也只有一個這樣的block, 內容是這樣:</p>
+
+<div class="language-html highlighter-rouge"><pre class="highlight"><code>    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"scontent"</span> <span class="na">id=</span><span class="s">"bofqi"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">'player_placeholder'</span> <span class="na">class=</span><span class="s">'player'</span><span class="nt">&gt;&lt;/div&gt;</span>
+<span class="nt">&lt;script </span><span class="na">type=</span><span class="s">'text/javascript'</span><span class="nt">&gt;</span><span class="nx">EmbedPlayer</span><span class="p">(</span><span class="s1">'player'</span><span class="p">,</span> <span class="s2">"http://static.hdslb.com/play.swf"</span><span class="p">,</span> <span class="s2">"cid=10519268&amp;aid=6467776&amp;pre_ad=0"</span><span class="p">);</span><span class="nt">&lt;/script&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+</code></pre>
+</div>
+
+<p>OK, 這邊就很容易可以確定從scontent這區塊就可以找到兩個id - aid和cid , 但這能做什麼用? 還不知道</p>
+
+<p>接著切換到Network那邊去, 然後再重新整理一下頁面:</p>
+
+<p><img src="/images/posts/crw_2.jpg" alt="Chrome devtools network" /></p>
+
+<p>左下角的部分是瀏覽器在畫出這個頁面所載入的內容跟檔案, 一開使用時序排序的, 當然你可以用其他方式排序, 這邊就是可以挖寶的地方了</p>
+
+<p>先看到上面那一堆長長短短的線, 這是瀏覽器載入檔案的時間線, 點選這邊可以只看特定時間區間的部分, 最後面可以發現有一條長長的藍線, 那可能就是視訊檔了(因為通常較大), 因此我們可知這視訊檔的URL是</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>http://61.221.181.215/ws.acgvideo.com/3/46/10519268-1.flv?wsTime=1475663926&amp;wsSecret2=893ba83b8f13d8700d2ae0cddab96c55&amp;oi=3699654085&amp;rate=0&amp;wshc_tag=0&amp;wsts_tag=57f467b8&amp;wsid_tag=dc843dc5&amp;wsiphost=ipdbm
+</code></pre>
+</div>
+
+<p>但這串怎麼來的, 依我們手上只有兩個id的資訊是拼湊不起來的, 它一定從某個地方由這兩個id轉換出來的(合理的猜測), 因此, 我們可以再把aid, cid拿去搜尋檔案(點選檔案列表那區塊, 按ctrl-f或command-f開搜尋框)</p>
+
+<p>一個個看, 找出可能的檔案, 由於aid可以找出22個結果而cid只有10個, 從cid開始找起會比較簡單點, 這邊篩選出幾個可能性:</p>
+
+<ol>
+  <li>http://interface.bilibili.com/player?id=cid:10519268&amp;aid=6467776 - 回傳是一個xml, 有一些相關資訊, 但沒影片位址</li>
+  <li>http://interface.bilibili.com/playurl?accel=1&amp;cid=10519268&amp;player=1&amp;ts=1475635126&amp;sign=e1e2ae9d2d34e4be94f46f77a4a107ce - 從這回傳裡面有個durl &gt; url, 跟上面url比對, 似乎就是他了, 後面再來講這段</li>
+  <li>http://comment.bilibili.com/playtag,10519268 - 這應該是”看过该视频的还喜欢”裡的內容</li>
+  <li>http://comment.bilibili.com/10519268.xml - 喔喔喔, 看起來這就是彈幕檔喔!</li>
+  <li>http://comment.bilibili.com/recommendnew,6467776 - 這似乎是推薦視頻的內容</li>
+  <li>http://api.bilibili.com/x/tag/archive/tags?jsonp=jsonp&amp;aid=6467776&amp;nomid=1 - 看起來這是tag</li>
+</ol>
+
+<p>看來, <strong>2</strong> 應該就是我們所要的了, 不過這邊有兩個麻煩, 一個是…我討厭XML!!!!!不過這好像還好, 似乎有個HTML5版本, 點點看好了, 果不其然, 發現另一個:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>https://interface.bilibili.com/playurl?cid=10519268&amp;appkey=6f90a59ac58a4123&amp;otype=json&amp;type=flv&amp;quality=3&amp;sign=571f239a0a3d4c304e8ea0e0f255992a
+</code></pre>
+</div>
+
+<p>表示我們是可以用otype=json來抓取json格式的, 但後面這個更麻煩了, 那個sign是什麼東西? 從他有個appkey來看, 合理的猜測, 他是某種API的signature, 通常這種東西的規則是把所有的參數先依名字排序成新的query string, 加上某個secret, 再算出他的MD5即是他的sign</p>
+
+<p>但如果真是這樣, 這下有點麻煩, 到哪裡找這個secret, 不過凡走過必有痕跡, 這串既然是由瀏覽器端產生的, 那應該會在哪裡找到點線索, 或許可以先用appkey的內容去每個javascript檔案搜尋吧</p>
+
+<p>不過, 不出所料, 找不到, 那, 還有一個可能性, 它寫在flash內, 從上面抓到的資訊來看, 他的flash檔案應該是: http://static.hdslb.com/play.swf</p>
+
+<p>可以把它抓回來反編譯(decompile), 有個工具叫<a href="https://www.free-decompiler.com/flash/">JPEX Flash decompiler</a>的, 可以做到這件事</p>
+
+<p><img src="/images/posts/crw_3.jpg" alt="JPEX" /></p>
+
+<p>在script裡面有它的程式原始碼, 應該可以在裡面找到, 不過有點辛苦, 因為你也沒辦法從appkey找到那個secret, 這邊直接跳轉答案, 應該就如同截圖所示是”com.bilibili.interfaces.getSign”這邊, 只是被混淆到很難看, 看得很頭痛, 會短命的</p>
+
+<p>理論上, 把這段源碼翻譯一遍後應該就解決了, 但一來我看不太懂action script, 二來我實在懶得看, 想偷懶, 有沒作弊的方法? 凡走過必留下痕跡嘛, 一定還會有前人走過這條路, 所以直接把”6f90a59ac58a4123”這串appkey拿去搜尋, 果然, 找到secret了, 寫個程式驗證一下, 果然是沒錯的</p>
+
+<noscript><pre>package main
+
+import (
+	&quot;crypto/md5&quot;
+	&quot;encoding/json&quot;
+	&quot;errors&quot;
+	&quot;fmt&quot;
+	&quot;io&quot;
+	&quot;log&quot;
+	&quot;regexp&quot;
+	&quot;sort&quot;
+	&quot;strings&quot;
+
+	&quot;github.com/PuerkitoBio/goquery&quot;
+	&quot;github.com/parnurzeal/gorequest&quot;
+)
+
+type DocId struct {
+	CID string
+	AID string
+}
+
+const (
+	APP_KEY  = &quot;6f90a59ac58a4123&quot;
+	APP_SEC  = &quot;0bfd84cc3940035173f35e6777508326&quot;
+	BASE_URL = &quot;https://interface.bilibili.com/playurl&quot;
+)
+
+func signParam(param map[string]string) {
+	param[&quot;appkey&quot;] = APP_KEY
+
+	keys := make([]string, len(param))
+
+	i := 0
+	for k, _ := range param {
+		keys[i] = k
+		i++
+	}
+
+	sort.Strings(keys)
+
+	data := &quot;&quot;
+	for _, v := range keys {
+		if data != &quot;&quot; {
+			data += &quot;&amp;&quot;
+		}
+		data += v + &quot;=&quot; + param[v]
+	}
+	data += APP_SEC
+	param[&quot;sign&quot;] = fmt.Sprintf(&quot;%x&quot;, md5.Sum([]byte(data)))
+}
+
+func parseId(id string) (*DocId, error) {
+	url := fmt.Sprintf(&quot;http://www.bilibili.com/video/av%s&quot;, id)
+	doc, err := goquery.NewDocument(url)
+
+	if err != nil {
+		return nil, err
+	}
+
+	sel := doc.Find(&quot;.scontent&gt;script&quot;)
+	if sel != nil {
+		script := sel.Text()
+		regex := regexp.MustCompile(&quot;cid=(\\d+)&amp;aid=(\\d+)&amp;pre_ad=.*&quot;)
+
+		result := regex.FindStringSubmatch(script)
+		if result == nil {
+			return nil, errors.New(&quot;ID not found&quot;)
+		}
+
+		var id DocId
+		id.CID = result[1]
+		id.AID = result[2]
+
+		return &amp;id, nil
+	} else {
+		return nil, errors.New(&quot;ID not found&quot;)
+	}
+}
+
+func GrabVideoUrl(aid string) (string, error) {
+	id, err := parseId(aid)
+
+	if err != nil {
+		return &quot;&quot;, err
+	}
+
+	var param map[string]string = make(map[string]string)
+	param[&quot;cid&quot;] = id.CID
+	param[&quot;otype&quot;] = &quot;json&quot;
+	param[&quot;type&quot;] = &quot;mp4&quot;
+	param[&quot;quality&quot;] = &quot;3&quot;
+
+	signParam(param)
+
+	data := &quot;&quot;
+	for k, v := range param {
+		if data != &quot;&quot; {
+			data += &quot;&amp;&quot;
+		}
+		data += k + &quot;=&quot; + v
+	}
+
+	url := fmt.Sprintf(&quot;%s?%s&quot;, BASE_URL, data)
+	request := gorequest.New()
+	_, body, errs := request.Get(url).End()
+
+	if errs != nil &amp;&amp; len(errs) &gt; 0 {
+		return &quot;&quot;, errs[0]
+	}
+
+	//log.Println(body)
+	dec := json.NewDecoder(strings.NewReader(body))
+	video_url := &quot;&quot;
+	for {
+		t, err := dec.Token()
+		if err == io.EOF {
+			break
+		}
+
+		if err != nil {
+			return &quot;&quot;, err
+		}
+		//fmt.Printf(&quot;%T: %v&quot;, t, t)
+		if t == &quot;url&quot; {
+			t, err := dec.Token()
+			if err != nil {
+				return &quot;&quot;, err
+			}
+			video_url = fmt.Sprintf(&quot;%v&quot;, t)
+		}
+
+		//fmt.Printf(&quot;\n&quot;)
+	}
+
+	return video_url, nil
+}
+
+func main() {
+	//url := &quot;http://www.bilibili.com/video/av6467776/&quot;
+	url, _ := GrabVideoUrl(&quot;6467776&quot;)
+	log.Println(url)
+}
+</pre></noscript>
+<script src="https://gist.github.com/julianshen/137c3584ef805ae5cf74147ae737b697.js"> </script>
+
+<h3 id="http8dramacom">範例三: <a href="http://8drama.com">楓林網</a></h3>
+
+<p><a href="http://8drama.com">楓林網</a>是一個非法的電視劇來源, 有相當齊全的電視劇內容, 我這個是之前寫的一個工具了, 可以把一整部劇可以抓回本地端, 原始碼跟使用方法在這:</p>
+
+<ul>
+  <li><a href="https://github.com/julianshen/d8">d8 - https://github.com/julianshen/d8</a></li>
+</ul>
+
+<p>這邊就不再說明怎麼使用它了, 主要著重它是怎做出來的, 這一個跟上面幾個不一樣的地方在於我是用nodejs寫的, 之所以用nodejs是有原因的, 後面再解釋, 主要的程式碼在<a href="https://github.com/julianshen/d8/blob/master/88.js">88.js</a></p>
+
+<p>楓林網的電視劇集的網址長成這樣: http://8drama.com/178372/ , 當然178372又是ID了, 但它裡面所有的東西ID長得都是一個樣, 一整部劇跟單一集的ID都是同一個格式, 所以是無法從ID判斷出他是哪類</p>
+
+<p>一樣打開Chrome DevTools, 點選到每一集的列表區塊, 我們可以發現在”&lt;div class="entry-content rich-content"&gt;“裡面的&lt;td&gt;可以找到每一集的URL, 而他的格式都是http://8drama.com/(ID), 所以我們可以輕易的用regular expression分辨出來</p>
+
+<p>接下來就要掃每一集的內容把影片檔找出來了</p>
+
+<p>當然可以用前面的方法試試看, 不過那方法在這邊沒啥用, 因為這邊影片的網址編碼是用好多亂七八糟的javascript堆積起來, 沒記錯的話, 我是從<a href="http://8drama.com/play5/video.js">video.js</a>找到線索的(這有點時間之前做的了, 有點沒印象了)</p>
+
+<p>所以該怎麼面對那一大段javascript的code呢? 這就是我這工具為何選nodejs的原因了, 抄過來就好了!!! 去除掉跟瀏覽器相關的部分, 它就是不折不扣nodejs可以跑的程式碼, 所以這也就是<a href="https://github.com/julianshen/d8/blob/master/88.js">88.js</a>一些怪怪程式碼的由來</p>
+
+<p>除了這版本外, 我本來也有想要做一個Java的版本, 做了一半, 用Java也是可以用類似的技巧, 不過就得要導入Javascript的runtime了, 而我採用的是<a href="https://developer.mozilla.org/en-US/docs/Mozilla/Projects/Rhino">Mozilla Rhino</a></p>
+
+<h3 id="section-2">更進階一點的</h3>
+
+<p>做爬蟲大部分的時間都是要跟html, javascript, css這類的東西搏鬥, 但其實很多東西本來就是原本瀏覽器就會處理的, 因此如果可以直接用瀏覽器或甚至是WebKit來處理, 可以處理的事應該就會多一點, 這時候就可以利用所謂的Headless browser來簡化, 這種東西本來是用在網頁自動化測試的, 不過, 用在這應用也一樣強大, 這類的解決方案有:</p>
+
+<ol>
+  <li><a href="http://phantomjs.org/">Phantomjs</a> - 這是以WebKit為基礎的, 我比較常用</li>
+  <li><a href="http://slimerjs.org/">Slimerjs</a> - 這是以Mozilla Geco為基礎的</li>
+  <li><a href="http://www.seleniumhq.org/">Selenium</a></li>
+  <li><a href="https://github.com/sourcegraph/webloop">Webloop</a> - Go版本的</li>
+</ol>
+
+<p>關於<a href="http://phantomjs.org/">Phantomjs</a>的應用, 我很久之前已經有寫過一篇了:</p>
+
+<p><a href="http://blog.jln.co/颱風天的宅code教學-抓漫畫/">颱風天的宅code教學: 抓漫畫</a></p>
+
+<h3 id="android">Android上呢?</h3>
+
+<p>Java上, 大多是用<a href="https://jsoup.org/">jsoup</a>來解析html的, 像我之前這篇:</p>
+
+<p><a href="http://blog.jln.co/android-土製play-store-api/">[Android] 土製Play store API</a></p>
+
+<p>當然應該也是可以用Webkit/WebView做成headless的解決方案, 不過這部份我目前還沒試過, 留待以後有機會再試吧</p>
+
+      <footer class="entry-meta">
+        <span class="entry-tags"><a href="http://blog.jln.co/tags/#golang" title="Pages tagged golang" class="tag"><span class="term">golang</span></a><a href="http://blog.jln.co/tags/#nodejs" title="Pages tagged nodejs" class="tag"><span class="term">nodejs</span></a><a href="http://blog.jln.co/tags/#crawler" title="Pages tagged crawler" class="tag"><span class="term">crawler</span></a><a href="http://blog.jln.co/tags/#dev" title="Pages tagged dev" class="tag"><span class="term">dev</span></a><a href="http://blog.jln.co/tags/#Web Scraping" title="Pages tagged Web Scraping" class="tag"><span class="term">Web Scraping</span></a><a href="http://blog.jln.co/tags/#web" title="Pages tagged web" class="tag"><span class="term">web</span></a><a href="http://blog.jln.co/tags/#spider" title="Pages tagged spider" class="tag"><span class="term">spider</span></a></span>
+        
+        <div class="social-share">
+  <ul class="socialcount socialcount-small inline-list">
+    <li class="facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=http://blog.jln.co/%E4%B8%80%E4%BA%9B%E5%81%9A%E7%88%AC%E8%9F%B2%E7%9A%84%E5%B7%A5%E5%85%B7%E8%88%87%E6%96%B9%E6%B3%95/" title="Share on Facebook"><span class="count"><i class="fa fa-facebook-square"></i> Like</span></a></li>
+    <li class="twitter"><a href="https://twitter.com/intent/tweet?text=http://blog.jln.co/%E4%B8%80%E4%BA%9B%E5%81%9A%E7%88%AC%E8%9F%B2%E7%9A%84%E5%B7%A5%E5%85%B7%E8%88%87%E6%96%B9%E6%B3%95/" title="Share on Twitter"><span class="count"><i class="fa fa-twitter-square"></i> Tweet</span></a></li>
+    <li class="googleplus"><a href="https://plus.google.com/share?url=http://blog.jln.co/%E4%B8%80%E4%BA%9B%E5%81%9A%E7%88%AC%E8%9F%B2%E7%9A%84%E5%B7%A5%E5%85%B7%E8%88%87%E6%96%B9%E6%B3%95/" title="Share on Google Plus"><span class="count"><i class="fa fa-google-plus-square"></i> +1</span></a></li>
+  </ul>
+</div><!-- /.social-share -->
+      </footer>
+    </div><!-- /.entry-content -->
+    <section id="disqus_thread"></section><!-- /#disqus_thread -->
+    <div class="read-more">
+  
+    <div class="read-more-header">
+      <a href="http://blog.jln.co/android-%E4%BD%BF%E7%94%A8retrofit%E5%A6%82%E4%BD%95%E9%81%BF%E5%85%8Dman-in-the-middle%E6%94%BB%E6%93%8A/" class="read-more-btn">Read More</a>
+    </div><!-- /.read-more-header -->
+    <div class="read-more-content">
+      <h3><a href="http://blog.jln.co/android-%E4%BD%BF%E7%94%A8retrofit%E5%A6%82%E4%BD%95%E9%81%BF%E5%85%8Dman-in-the-middle%E6%94%BB%E6%93%8A/" title="[Android] 使用Retrofit如何避免Man in the middle攻擊">[Android] 使用Retrofit如何避免Man in the middle攻擊</a></h3>
+      <p>前幾天看到朋友寫如何用Charles Proxy來debug REST API, 突然就想到了這個問題, Charles Proxy是一個不錯的工具, 我自己也蠻常用的, 除了可以用來debug HTTP以外, 其實HTTPS也可以(參照SSL proxying), 只要在...&hellip; <a href="http://blog.jln.co/android-%E4%BD%BF%E7%94%A8retrofit%E5%A6%82%E4%BD%95%E9%81%BF%E5%85%8Dman-in-the-middle%E6%94%BB%E6%93%8A/">Continue reading</a></p>
+    </div><!-- /.read-more-content -->
+  
+  <div class="read-more-list">
+    
+      <div class="list-item">
+        <h4><a href="http://blog.jln.co/%E4%BD%BF%E7%94%A8aws-lambda%E5%92%8Cgithub%E4%BE%86%E6%8F%90%E4%BE%9B%E4%B8%AD%E8%8F%AF%E8%81%B7%E6%A3%92%E8%B3%BD%E7%A8%8B%E8%B3%87%E6%96%99/" title="使用AWS lambda和Github來提供中華職棒賽程資料">使用AWS lambda和Github來提供中華職棒賽程資料</a></h4>
+        <span>Published on September 28, 2016</span>
+      </div><!-- /.list-item -->
+    
+      <div class="list-item">
+        <h4><a href="http://blog.jln.co/%E7%AD%86%E8%A8%98-%E4%B8%AD%E7%A7%8B%E9%80%A3%E5%81%87%E5%B0%8F%E5%AF%A6%E9%A9%97/" title="[筆記] 中秋連假小實驗">[筆記] 中秋連假小實驗</a></h4>
+        <span>Published on September 18, 2016</span>
+      </div><!-- /.list-item -->
+    
+  </div><!-- /.read-more-list -->
+</div><!-- /.read-more -->
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrapper">
+  <footer role="contentinfo">
+    <span>&copy; 2016 Julian Shen. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> using the <a href="https://mademistakes.com/work/hpstr-jekyll-theme/" rel="nofollow">HPSTR Theme</a>.</span>
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="http://blog.jln.co/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="http://blog.jln.co/assets/js/scripts.min.js"></script>
+
+
+<!-- Asynchronous Google Analytics snippet -->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-79243751-1', 'auto');  
+  ga('require', 'linkid', 'linkid.js');
+  ga('send', 'pageview');
+</script>
+
+
+
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'julianshen'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function () {
+            var s = document.createElement('script'); s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+	        
+
+</body>
+</html>
