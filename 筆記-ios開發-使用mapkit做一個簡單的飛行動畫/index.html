@@ -1,0 +1,524 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>[筆記][ios開發] 使用MapKit做一個簡單的飛行動畫 &#8211; Le murmure de Julian</title>
+<meta name="description" content="朱隸安貓囈語錄">
+<meta name="keywords" content="iOS, Swift, MapKit, mobiledev">
+
+<!-- Twitter Cards -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog.jln.co/images/ide_2x.png">
+<meta name="twitter:title" content="[筆記][ios開發] 使用MapKit做一個簡單的飛行動畫">
+<meta name="twitter:description" content="朱隸安貓囈語錄">
+<meta name="twitter:creator" content="@jlnshen">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[筆記][ios開發] 使用MapKit做一個簡單的飛行動畫">
+<meta property="og:description" content="朱隸安貓囈語錄">
+<meta property="og:url" content="http://blog.jln.co/%E7%AD%86%E8%A8%98-ios%E9%96%8B%E7%99%BC-%E4%BD%BF%E7%94%A8mapkit%E5%81%9A%E4%B8%80%E5%80%8B%E7%B0%A1%E5%96%AE%E7%9A%84%E9%A3%9B%E8%A1%8C%E5%8B%95%E7%95%AB/">
+<meta property="og:site_name" content="Le murmure de Julian">
+<meta name="og:image" content="http://blog.jln.co/images/ide_2x.png">
+<meta name="google-site-verification" content="Fwa4TQMXvroZpNT7rrwHzdf-rWBe1RDuTu75Enx_DWA">
+
+
+
+<link rel="canonical" href="http://blog.jln.co/%E7%AD%86%E8%A8%98-ios%E9%96%8B%E7%99%BC-%E4%BD%BF%E7%94%A8mapkit%E5%81%9A%E4%B8%80%E5%80%8B%E7%B0%A1%E5%96%AE%E7%9A%84%E9%A3%9B%E8%A1%8C%E5%8B%95%E7%95%AB/">
+<link href="http://blog.jln.co/feed.xml" type="application/atom+xml" rel="alternate" title="Le murmure de Julian Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.rawgit.com/knsv/mermaid/6.0.0/dist/mermaid.css">
+<!-- Webfonts -->
+<link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel="stylesheet" type="text/css">
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- Load Modernizr -->
+<script src="/assets/js/vendor/modernizr-2.6.2.custom.min.js"></script>
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="http://blog.jln.co/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="http://blog.jln.co/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="http://blog.jln.co/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://blog.jln.co/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://blog.jln.co/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://blog.jln.co/images/apple-touch-icon-144x144-precomposed.png">
+
+
+
+  
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({
+        google_ad_client: "ca-pub-1789797875470932",
+        enable_page_level_ads: true
+    });
+    </script>
+  
+
+</head>
+
+<body id="post" >
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+<nav id="dl-menu" class="dl-menuwrapper" role="navigation">
+	<button class="dl-trigger">Open Menu</button>
+	<ul class="dl-menu">
+		<li><a href="http://blog.jln.co/">Home</a></li>
+		<li>
+			<a href="#">About</a>
+			<ul class="dl-submenu">
+				<li>
+					<img src="http://blog.jln.co/images/avatar.png" alt="Julian Shen photo" class="author-photo">
+					<h4>Julian Shen</h4>
+					<p>software deverloper</p>
+				</li>
+				<li>
+					<a href="mailto:julianshen22@gmail.com"><i class="fa fa-fw fa-envelope"></i> Email</a>
+				</li>
+				<li>
+					<a href="https://twitter.com/jlnshen"><i class="fa fa-fw fa-twitter"></i> Twitter</a>
+				</li>
+				<li>
+					<a href="https://facebook.com/julianshen"><i class="fa fa-fw fa-facebook"></i> Facebook</a>
+				</li>
+				
+				<li>
+					<a href="https://linkedin.com/in/julianshen"><i class="fa fa-fw fa-linkedin"></i> LinkedIn</a>
+				</li>
+				<li>
+					<a href="https://github.com/julianshen"><i class="fa fa-fw fa-github"></i> GitHub</a>
+				</li>
+				
+				<li>
+					<a href="https://instagram.com/julianshen"><i class="fa fa-fw fa-instagram"></i> Instagram</a>
+				</li>
+				<li>
+					<a href="https://www.flickr.com/photos/julianshen"><i class="fa fa-fw fa-flickr"></i> Flickr</a>
+				</li>
+				
+			</ul><!-- /.dl-submenu -->
+		</li>
+		<li>
+			<a href="#">Posts</a>
+			<ul class="dl-submenu">
+				<li><a href="http://blog.jln.co/posts/">All Posts</a></li>
+				<li><a href="http://blog.jln.co/tags/">All Tags</a></li>
+			</ul>
+		</li>
+		
+	</ul><!-- /.dl-menu -->
+</nav><!-- /.dl-menuwrapper -->
+
+
+
+
+<div id="main" role="main">
+  <article class="hentry">
+    <header class="header-title">
+      <div class="header-title-wrap">
+        
+          <h1 class="entry-title"><a href="http://blog.jln.co/%E7%AD%86%E8%A8%98-ios%E9%96%8B%E7%99%BC-%E4%BD%BF%E7%94%A8mapkit%E5%81%9A%E4%B8%80%E5%80%8B%E7%B0%A1%E5%96%AE%E7%9A%84%E9%A3%9B%E8%A1%8C%E5%8B%95%E7%95%AB/" rel="bookmark" title="[筆記][ios開發] 使用MapKit做一個簡單的飛行動畫">[筆記][ios開發] 使用MapKit做一個簡單的飛行動畫</a></h1>
+        
+        <h2><span class="entry-date date published"><time datetime="2016-10-06T23:10:04+08:00">October 06, 2016</time></span></h2>
+        
+        <p class="entry-reading-time">
+          <i class="fa fa-clock-o"></i>
+          
+Reading time ~3 minutes
+        </p><!-- /.entry-reading-time -->
+        
+      </div><!-- /.header-title-wrap -->
+    </header>
+    <div class="entry-content">
+      <p>小時候很喜歡Indiana Jones系列的電影, 對於它裡面的地圖片段也一直覺得很有趣</p>
+
+<div class="video"><figure><iframe width="640" height="480" src="//www.youtube.com/embed/FhoPTyMUgX0" frameborder="0" allowfullscreen=""></iframe></figure></div>
+
+<p>如果這樣的動畫, 用在遊記類的blog上, 應該也蠻酷的, 但好像也沒一個比較好的工具, 因此想說用MapKit來實作一個試試</p>
+
+<h3 id="section">功能需求</h3>
+
+<p>先來定義一個簡單的功能需求</p>
+
+<ol>
+  <li>在起點跟終點畫一條連結線</li>
+  <li>一架飛機延這條線飛到終點</li>
+  <li>地圖視角跟著飛機走</li>
+</ol>
+
+<h3 id="section-1">實作</h3>
+
+<h4 id="section-2">在起點跟終點畫一條連結線</h4>
+
+<p>這部份要用到MKGeodesicPolyline, 給它兩個點, 它就會自動連結成一條線, 但這條線並不是完美的直線, 因為地球表面是曲面的, 所以它是一條弧線</p>
+
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="k">let</span> <span class="nv">coords</span> <span class="o">=</span> <span class="p">[</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">]</span>
+
+<span class="n">geodesicPolyline</span> <span class="o">=</span> <span class="kt">MKGeodesicPolyline</span><span class="p">(</span><span class="nv">coordinates</span><span class="p">:</span> <span class="n">coords</span><span class="p">,</span> <span class="nv">count</span><span class="p">:</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="n">geodesicPolyline</span><span class="o">!.</span><span class="n">pointCount</span><span class="p">)</span>
+<span class="n">mapView</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span><span class="n">geodesicPolyline</span><span class="o">!</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>這邊coors只要給訂起始點跟終點的位置就好, 印出pointCount就會發現它把經由的點都補足了(實際上印出來的會多出2很多很多)</p>
+
+<p>MKGeodesicPolyline裡的參數coordinates是一個UnsafeMutablePointer, 在Swift 3之前要寫成&amp;coords, 但在Swift 3大改之後, “&amp;”就不需要了</p>
+
+<p>由於MKGeodesicPolyline是一個Overlay, 因此最後只需要用mapView.add (Swift 3之前是addOverlay)加入mapView就可以了, 但加入之後, 會發現, 這條線根本沒被畫出來, 那是因為少寫了一部分</p>
+
+<p>在MapView裡面要畫出Overlay, 就必須要跟MapView說怎麼畫出這個Overlay, 這就要實作MKMapViewDelegate裡的mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay)</p>
+
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">func</span> <span class="nf">mapView</span><span class="p">(</span><span class="n">_</span> <span class="nv">mapView</span><span class="p">:</span> <span class="kt">MKMapView</span><span class="p">,</span> <span class="n">rendererFor</span> <span class="nv">overlay</span><span class="p">:</span> <span class="kt">MKOverlay</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">MKOverlayRenderer</span> <span class="p">{</span>
+    <span class="k">guard</span> <span class="k">let</span> <span class="nv">polyline</span> <span class="o">=</span> <span class="n">overlay</span> <span class="k">as?</span> <span class="kt">MKPolyline</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="kt">MKOverlayRenderer</span><span class="p">()</span>
+    <span class="p">}</span>
+    
+    <span class="k">let</span> <span class="nv">renderer</span> <span class="o">=</span> <span class="kt">MKPolylineRenderer</span><span class="p">(</span><span class="nv">polyline</span><span class="p">:</span> <span class="n">polyline</span><span class="p">)</span>
+    <span class="n">renderer</span><span class="o">.</span><span class="n">lineWidth</span> <span class="o">=</span> <span class="mf">3.0</span>
+    <span class="n">renderer</span><span class="o">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.5</span>
+    <span class="n">renderer</span><span class="o">.</span><span class="n">strokeColor</span> <span class="o">=</span> <span class="kt">UIColor</span><span class="o">.</span><span class="n">blue</span>
+    
+    <span class="k">return</span> <span class="n">renderer</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>由於我們是要畫Poly line, 因此這邊回傳給它一個MKPolylineRenderer, 線寬是3.0, 線的顏色是藍色(alpha = 0.5)</p>
+
+<p>這樣就可以很完美的畫出那條線了</p>
+
+<h4 id="section-3">在地圖上畫出飛機</h4>
+
+<p>這部份就要借重到MKPointAnnotation</p>
+
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="k">let</span> <span class="nv">thePlane</span> <span class="o">=</span> <span class="kt">MKPointAnnotation</span><span class="p">()</span>
+<span class="n">thePlane</span><span class="o">.</span><span class="n">coordinate</span> <span class="o">=</span> <span class="n">start</span> <span class="c1">//給定起始座標</span>
+        
+<span class="n">mapView</span><span class="o">.</span><span class="nf">addAnnotation</span><span class="p">(</span><span class="n">thePlane</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>一樣, 這邊如果沒告訴MapView怎畫這Annotation, 它是會用預設的取代, 因此我們一樣要去實作MKMapViewDelegate</p>
+
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">func</span> <span class="nf">mapView</span><span class="p">(</span><span class="n">_</span> <span class="nv">mapView</span><span class="p">:</span> <span class="kt">MKMapView</span><span class="p">,</span> <span class="n">viewFor</span> <span class="nv">annotation</span><span class="p">:</span> <span class="kt">MKAnnotation</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">MKAnnotationView</span><span class="p">?</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">planeIdentifier</span> <span class="o">=</span> <span class="s">"Plane"</span>
+    
+    <span class="k">let</span> <span class="nv">annotationView</span> <span class="o">=</span> <span class="n">mapView</span><span class="o">.</span><span class="nf">dequeueReusableAnnotationView</span><span class="p">(</span><span class="nv">withIdentifier</span><span class="p">:</span> <span class="n">planeIdentifier</span><span class="p">)</span>
+        <span class="p">??</span> <span class="kt">MKAnnotationView</span><span class="p">(</span><span class="nv">annotation</span><span class="p">:</span> <span class="n">annotation</span><span class="p">,</span> <span class="nv">reuseIdentifier</span><span class="p">:</span> <span class="n">planeIdentifier</span><span class="p">)</span>
+    
+    <span class="n">annotationView</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="kt">UIImage</span><span class="p">(</span><span class="nv">named</span><span class="p">:</span> <span class="s">"ic_flight_48pt"</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">annotationView</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>這邊用一個UIImage來指定飛機的圖標</p>
+
+<h4 id="section-4">地圖視角</h4>
+
+<p>把飛機置於地圖正中央, 我們才看得到他, 因此, 需要設定可視的區域, 包含中心點跟範圍, 如下:</p>
+
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="k">let</span> <span class="nv">span</span> <span class="o">=</span> <span class="kt">MKCoordinateSpanMake</span><span class="p">(</span><span class="mf">8.0</span><span class="p">,</span> <span class="mf">8.0</span><span class="p">)</span>
+<span class="k">let</span> <span class="nv">region1</span> <span class="o">=</span> <span class="kt">MKCoordinateRegion</span><span class="p">(</span><span class="nv">center</span><span class="p">:</span> <span class="n">start</span><span class="p">,</span> <span class="nv">span</span><span class="p">:</span> <span class="n">span</span><span class="p">)</span>
+<span class="k">self</span><span class="o">.</span><span class="n">mapView</span><span class="o">.</span><span class="nf">setRegion</span><span class="p">(</span><span class="n">region1</span><span class="p">,</span> <span class="nv">animated</span><span class="p">:</span> <span class="kc">true</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<h4 id="section-5">沿著線飛</h4>
+
+<p>這時候要利用到 perform(#selector(updatePlane), with: self, afterDelay: 0.4) 讓它每隔0.4秒去更新一次飛機位置, 直到到終點為止, 當然也要一直更新region, 以讓飛機維持在正中央</p>
+
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">func</span> <span class="nf">updatePlane</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">planePositionIndex</span> <span class="o">=</span> <span class="n">planePositionIndex</span> <span class="o">+</span> <span class="n">step</span><span class="p">;</span>
+    
+    <span class="k">if</span> <span class="p">(</span><span class="n">planePositionIndex</span> <span class="o">&gt;=</span> <span class="n">geodesicPolyline</span><span class="o">!.</span><span class="n">pointCount</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="c1">//plane has reached end, stop moving</span>
+        <span class="n">planePositionIndex</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="k">let</span> <span class="nv">s</span> <span class="o">=</span> <span class="mf">8.0</span>
+    
+    <span class="k">let</span> <span class="nv">nextMapPoint</span> <span class="o">=</span> <span class="n">geodesicPolyline</span><span class="p">?</span><span class="o">.</span><span class="nf">points</span><span class="p">()[</span><span class="n">planePositionIndex</span><span class="p">]</span>
+
+    <span class="n">thePlane</span><span class="o">.</span><span class="n">coordinate</span> <span class="o">=</span> <span class="kt">MKCoordinateForMapPoint</span><span class="p">(</span><span class="n">nextMapPoint</span><span class="o">!</span><span class="p">)</span> 
+    <span class="n">mapView</span><span class="o">.</span><span class="n">region</span> <span class="o">=</span> <span class="kt">MKCoordinateRegionMake</span><span class="p">(</span><span class="n">thePlane</span><span class="o">.</span><span class="n">coordinate</span><span class="p">,</span> <span class="kt">MKCoordinateSpan</span><span class="p">(</span><span class="nv">latitudeDelta</span><span class="p">:</span> <span class="n">s</span><span class="p">,</span> <span class="nv">longitudeDelta</span><span class="p">:</span> <span class="n">s</span><span class="p">))</span>
+
+    <span class="nf">perform</span><span class="p">(</span><span class="kd">#selector(</span><span class="nf">updatePlane</span><span class="kd">)</span><span class="p">,</span> <span class="nv">with</span><span class="p">:</span> <span class="k">self</span><span class="p">,</span> <span class="nv">afterDelay</span><span class="p">:</span> <span class="mf">0.4</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<h3 id="section-6">結果</h3>
+
+<div class="video"><figure><iframe width="640" height="480" src="//www.youtube.com/embed/GSAd1Vygkhw" frameborder="0" allowfullscreen=""></iframe></figure></div>
+
+<p>這邊有幾個缺點尚待改進</p>
+
+<ol>
+  <li>飛機閃爍</li>
+  <li>如果把可視區域範圍縮小, 或是位置更新過快, 就會造成地圖來不及載入的現象(可能需要預跑幾次將map tile載入cache內)</li>
+  <li>飛機頭永遠保持往上, 應該要朝著線方向轉</li>
+</ol>
+
+<h3 id="section-7">完整程式碼</h3>
+
+<noscript><pre>//
+//  ViewController.swift
+//  mapanitest
+//
+//  Created by Julian Shen on 2016/10/4.
+//  Copyright © 2016年 cowbay.wtf. All rights reserved.
+//
+
+import UIKit
+import MapKit
+import LocationPickerViewController
+
+class ViewController: UIViewController, MKMapViewDelegate {
+    @IBOutlet weak var mapView: MKMapView!
+    
+    
+    var planePositionIndex:Int = 0
+    var geodesicPolyline:MKGeodesicPolyline?
+    let thePlane = MKPointAnnotation()
+    var startloc, endloc: CLLocationCoordinate2D?
+    var step:Int = 50
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Do any additional setup after loading the view, typically from a nib.
+        print(&quot;view did load&quot;)
+        
+        mapView.delegate = self
+    }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+
+    func updatePlane() {
+        planePositionIndex = planePositionIndex + step;
+        
+        if (planePositionIndex &gt;= geodesicPolyline!.pointCount)
+        {
+            //plane has reached end, stop moving
+            planePositionIndex = 0
+            return;
+        }
+        
+        let s = 8.0
+        
+        let nextMapPoint = geodesicPolyline?.points()[planePositionIndex]
+        
+        thePlane.coordinate = MKCoordinateForMapPoint(nextMapPoint!)
+        
+        mapView.region = MKCoordinateRegionMake(thePlane.coordinate, MKCoordinateSpan(latitudeDelta: s, longitudeDelta: s))
+
+        perform(#selector(updatePlane), with: self, afterDelay: 0.4)
+    }
+    
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -&gt; MKOverlayRenderer {
+        guard let polyline = overlay as? MKPolyline else {
+            return MKOverlayRenderer()
+        }
+        
+        let renderer = MKPolylineRenderer(polyline: polyline)
+        renderer.lineWidth = 3.0
+        renderer.alpha = 0.5
+        renderer.strokeColor = UIColor.blue
+        
+        return renderer
+    }
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -&gt; MKAnnotationView? {
+        let planeIdentifier = &quot;Plane&quot;
+        
+        let annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: planeIdentifier)
+            ?? MKAnnotationView(annotation: annotation, reuseIdentifier: planeIdentifier)
+        
+        annotationView.image = UIImage(named: &quot;ic_flight_48pt&quot;)
+        
+        return annotationView
+    }
+    
+    @IBAction func pickLocation(_ sender: AnyObject) {
+        let button = sender as! UIButton
+        
+        
+        let locationPicker = LocationPicker()
+        locationPicker.pickCompletion = { (pickedLocationItem) in
+            // Do something with the location the user picked.
+            print(pickedLocationItem.coordinate)
+            print(button.accessibilityIdentifier)
+            
+            let coord = pickedLocationItem.coordinate!
+            
+            if button.accessibilityIdentifier == &quot;startloc&quot; {
+                self.startloc = CLLocationCoordinate2D(latitude: coord.latitude, longitude: coord.longitude)
+            } else if button.accessibilityIdentifier == &quot;endloc&quot; {
+                self.endloc = CLLocationCoordinate2D(latitude: coord.latitude, longitude: coord.longitude)
+            }
+        }
+        locationPicker.addBarButtons()
+        
+        let navigationController = UINavigationController(rootViewController: locationPicker)
+            present(navigationController, animated: true) {
+        }
+
+        
+    }
+    
+    @IBAction func displayPath(_ sender: AnyObject) {
+        guard let sl = startloc else {
+            print(&quot;error: no startloc&quot;)
+            return
+        }
+        
+        guard let el = endloc else {
+            print(&quot;error: no endloc&quot;)
+            return
+        }
+        
+        let coordinates = [sl, el]
+        
+        if let gl = geodesicPolyline {
+            mapView.remove(gl)
+        }
+        
+        geodesicPolyline = MKGeodesicPolyline(coordinates: coordinates, count: 2)
+        
+        print(geodesicPolyline!.pointCount)
+        step = geodesicPolyline!.pointCount/(Int)(20/0.4)
+        mapView.add(geodesicPolyline!)
+        
+        thePlane.coordinate = sl
+        
+        mapView.addAnnotation(thePlane)
+        
+        UIView.animate(withDuration: 1.5) {
+            let span = MKCoordinateSpanMake(8.0, 8.0)
+            let region1 = MKCoordinateRegion(center: sl, span: span)
+            self.mapView.setRegion(region1, animated: true)
+            
+            self.perform(#selector(self.updatePlane), with: self, afterDelay: 0.4)
+        }
+    }
+}
+
+</pre></noscript>
+<script src="https://gist.github.com/julianshen/229f4ac32b3893816bd7636b96fe6f7d.js"> </script>
+
+
+      <footer class="entry-meta">
+        <span class="entry-tags"><a href="http://blog.jln.co/tags/#iOS" title="Pages tagged iOS" class="tag"><span class="term">iOS</span></a><a href="http://blog.jln.co/tags/#Swift" title="Pages tagged Swift" class="tag"><span class="term">Swift</span></a><a href="http://blog.jln.co/tags/#MapKit" title="Pages tagged MapKit" class="tag"><span class="term">MapKit</span></a><a href="http://blog.jln.co/tags/#mobiledev" title="Pages tagged mobiledev" class="tag"><span class="term">mobiledev</span></a></span>
+        
+        <div class="social-share">
+  <ul class="socialcount socialcount-small inline-list">
+    <li class="facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=http://blog.jln.co/%E7%AD%86%E8%A8%98-ios%E9%96%8B%E7%99%BC-%E4%BD%BF%E7%94%A8mapkit%E5%81%9A%E4%B8%80%E5%80%8B%E7%B0%A1%E5%96%AE%E7%9A%84%E9%A3%9B%E8%A1%8C%E5%8B%95%E7%95%AB/" title="Share on Facebook"><span class="count"><i class="fa fa-facebook-square"></i> Like</span></a></li>
+    <li class="twitter"><a href="https://twitter.com/intent/tweet?text=http://blog.jln.co/%E7%AD%86%E8%A8%98-ios%E9%96%8B%E7%99%BC-%E4%BD%BF%E7%94%A8mapkit%E5%81%9A%E4%B8%80%E5%80%8B%E7%B0%A1%E5%96%AE%E7%9A%84%E9%A3%9B%E8%A1%8C%E5%8B%95%E7%95%AB/" title="Share on Twitter"><span class="count"><i class="fa fa-twitter-square"></i> Tweet</span></a></li>
+    <li class="googleplus"><a href="https://plus.google.com/share?url=http://blog.jln.co/%E7%AD%86%E8%A8%98-ios%E9%96%8B%E7%99%BC-%E4%BD%BF%E7%94%A8mapkit%E5%81%9A%E4%B8%80%E5%80%8B%E7%B0%A1%E5%96%AE%E7%9A%84%E9%A3%9B%E8%A1%8C%E5%8B%95%E7%95%AB/" title="Share on Google Plus"><span class="count"><i class="fa fa-google-plus-square"></i> +1</span></a></li>
+  </ul>
+</div><!-- /.social-share -->
+      </footer>
+    </div><!-- /.entry-content -->
+    <section id="disqus_thread"></section><!-- /#disqus_thread -->
+    <div class="read-more">
+  
+    <div class="read-more-header">
+      <a href="http://blog.jln.co/%E4%B8%80%E4%BA%9B%E5%81%9A%E7%88%AC%E8%9F%B2%E7%9A%84%E5%B7%A5%E5%85%B7%E8%88%87%E6%96%B9%E6%B3%95/" class="read-more-btn">Read More</a>
+    </div><!-- /.read-more-header -->
+    <div class="read-more-content">
+      <h3><a href="http://blog.jln.co/%E4%B8%80%E4%BA%9B%E5%81%9A%E7%88%AC%E8%9F%B2%E7%9A%84%E5%B7%A5%E5%85%B7%E8%88%87%E6%96%B9%E6%B3%95/" title="一些做爬蟲的工具與方法">一些做爬蟲的工具與方法</a></h3>
+      <p>之前寫了一些爬蟲, 想說來補一篇這樣的文章好了可能是之前”所謂”的大數據(Big Data)太過流行, 以至於網路爬蟲好像是一種顯學, 隨便Google一下都可以找到一堆用python加上BeautifulSoup相關的文章, 這可能也是因為, 現在網路上的資料, Open...&hellip; <a href="http://blog.jln.co/%E4%B8%80%E4%BA%9B%E5%81%9A%E7%88%AC%E8%9F%B2%E7%9A%84%E5%B7%A5%E5%85%B7%E8%88%87%E6%96%B9%E6%B3%95/">Continue reading</a></p>
+    </div><!-- /.read-more-content -->
+  
+  <div class="read-more-list">
+    
+      <div class="list-item">
+        <h4><a href="http://blog.jln.co/android-%E4%BD%BF%E7%94%A8retrofit%E5%A6%82%E4%BD%95%E9%81%BF%E5%85%8Dman-in-the-middle%E6%94%BB%E6%93%8A/" title="[Android] 使用Retrofit如何避免Man in the middle攻擊">[Android] 使用Retrofit如何避免Man in the middle攻擊</a></h4>
+        <span>Published on September 30, 2016</span>
+      </div><!-- /.list-item -->
+    
+      <div class="list-item">
+        <h4><a href="http://blog.jln.co/%E4%BD%BF%E7%94%A8aws-lambda%E5%92%8Cgithub%E4%BE%86%E6%8F%90%E4%BE%9B%E4%B8%AD%E8%8F%AF%E8%81%B7%E6%A3%92%E8%B3%BD%E7%A8%8B%E8%B3%87%E6%96%99/" title="使用AWS lambda和Github來提供中華職棒賽程資料">使用AWS lambda和Github來提供中華職棒賽程資料</a></h4>
+        <span>Published on September 28, 2016</span>
+      </div><!-- /.list-item -->
+    
+  </div><!-- /.read-more-list -->
+</div><!-- /.read-more -->
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrapper">
+  <footer role="contentinfo">
+    <span>&copy; 2016 Julian Shen. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> using the <a href="https://mademistakes.com/work/hpstr-jekyll-theme/" rel="nofollow">HPSTR Theme</a>.</span>
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="http://blog.jln.co/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="http://blog.jln.co/assets/js/scripts.min.js"></script>
+
+
+<!-- Asynchronous Google Analytics snippet -->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-79243751-1', 'auto');  
+  ga('require', 'linkid', 'linkid.js');
+  ga('send', 'pageview');
+</script>
+
+
+
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'julianshen'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function () {
+            var s = document.createElement('script'); s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+	        
+
+</body>
+</html>
