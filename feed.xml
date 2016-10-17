@@ -1,4 +1,35 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.1.6">Jekyll</generator><link href="http://blog.jln.co/feed.xml" rel="self" type="application/atom+xml" /><link href="http://blog.jln.co/" rel="alternate" type="text/html" /><updated>2016-10-07T13:12:49+08:00</updated><id>http://blog.jln.co/</id><title>Le murmure de Julian</title><subtitle>朱隸安貓囈語錄</subtitle><entry><title>[筆記][ios開發] 使用MapKit做一個簡單的飛行動畫</title><link href="http://blog.jln.co/%E7%AD%86%E8%A8%98-ios%E9%96%8B%E7%99%BC-%E4%BD%BF%E7%94%A8mapkit%E5%81%9A%E4%B8%80%E5%80%8B%E7%B0%A1%E5%96%AE%E7%9A%84%E9%A3%9B%E8%A1%8C%E5%8B%95%E7%95%AB/" rel="alternate" type="text/html" title="[筆記][ios開發] 使用MapKit做一個簡單的飛行動畫" /><published>2016-10-06T23:10:04+08:00</published><updated>2016-10-06T23:10:04+08:00</updated><id>http://blog.jln.co/[筆記][ios開發]-使用mapkit做一個簡單的飛行動畫</id><content type="html" xml:base="http://blog.jln.co/%E7%AD%86%E8%A8%98-ios%E9%96%8B%E7%99%BC-%E4%BD%BF%E7%94%A8mapkit%E5%81%9A%E4%B8%80%E5%80%8B%E7%B0%A1%E5%96%AE%E7%9A%84%E9%A3%9B%E8%A1%8C%E5%8B%95%E7%95%AB/">&lt;p&gt;小時候很喜歡Indiana Jones系列的電影, 對於它裡面的地圖片段也一直覺得很有趣&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.1.6">Jekyll</generator><link href="http://blog.jln.co/feed.xml" rel="self" type="application/atom+xml" /><link href="http://blog.jln.co/" rel="alternate" type="text/html" /><updated>2016-10-17T20:52:30+08:00</updated><id>http://blog.jln.co/</id><title>Le murmure de Julian</title><subtitle>朱隸安貓囈語錄</subtitle><entry><title>在Ubuntu下mount box.com的內容</title><link href="http://blog.jln.co/%E5%9C%A8ubuntu%E4%B8%8Bmount-box.com%E7%9A%84%E5%85%A7%E5%AE%B9/" rel="alternate" type="text/html" title="在Ubuntu下mount box.com的內容" /><published>2016-10-17T20:38:54+08:00</published><updated>2016-10-17T20:38:54+08:00</updated><id>http://blog.jln.co/在ubuntu下mount-box.com的內容</id><content type="html" xml:base="http://blog.jln.co/%E5%9C%A8ubuntu%E4%B8%8Bmount-box.com%E7%9A%84%E5%85%A7%E5%AE%B9/">&lt;p&gt;雖然很久沒用box.com的服務了, 不過既然老婆大人問起, 就來寫一下這解法吧&lt;/p&gt;
+
+&lt;p&gt;box.com是一個像Dropbox一樣的網路磁碟, 不過它目標客戶跟Dropbox不同, 是比較傾向企業用戶, 可以讓用戶很簡單的分享檔案,
+存取box.com除了一般使用Web介面的方式外, 還有其他的方式, 像是透過它的REST API, 另外還有一種就是透過WebDav, 
+如果要寫程式去存取它, 一般可以用這兩種方式, 用REST稍微複雜一點, 還要搞定OAuth2的部分, 但透過WebDav的話就簡單多了, 可以掛載成為你作業系統底下的目錄, 當本地檔案來處理&lt;/p&gt;
+
+&lt;h4 id=&quot;davfs2&quot;&gt;安裝davfs2&lt;/h4&gt;
+
+&lt;p&gt;首先, 你會需要的是davfs2, 在Ubuntu下用apt-get安裝:&lt;/p&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo apt-get install davfs2
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;section&quot;&gt;設定帳號密碼&lt;/h4&gt;
+
+&lt;p&gt;修改&lt;code class=&quot;highlighter-rouge&quot;&gt;/etc/davfs2/secrets&lt;/code&gt;, 加入&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;https://dav.box.com/dav box.com帳號 密碼
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;section-1&quot;&gt;掛載&lt;/h4&gt;
+
+&lt;p&gt;執行底下指令掛載&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo mkdir /mnt/box.com
+sudo -t davfs https://dav.box.com/dav /mnt/box.com
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;成功之後,就會在/mnt/box.com底下看到你的檔案了(包含人家分享給你協作的檔案根目錄), 之後當本地端檔案存取即可, 設定好auto mount即可在開機後掛載&lt;/p&gt;</content><category term="box.com" /><category term="Ubuntu" /><category term="Linux" /><summary>雖然很久沒用box.com的服務了, 不過既然老婆大人問起, 就來寫一下這解法吧</summary></entry><entry><title>[筆記][ios開發] 使用MapKit做一個簡單的飛行動畫</title><link href="http://blog.jln.co/%E7%AD%86%E8%A8%98-ios%E9%96%8B%E7%99%BC-%E4%BD%BF%E7%94%A8mapkit%E5%81%9A%E4%B8%80%E5%80%8B%E7%B0%A1%E5%96%AE%E7%9A%84%E9%A3%9B%E8%A1%8C%E5%8B%95%E7%95%AB/" rel="alternate" type="text/html" title="[筆記][ios開發] 使用MapKit做一個簡單的飛行動畫" /><published>2016-10-06T23:10:04+08:00</published><updated>2016-10-06T23:10:04+08:00</updated><id>http://blog.jln.co/[筆記][ios開發]-使用mapkit做一個簡單的飛行動畫</id><content type="html" xml:base="http://blog.jln.co/%E7%AD%86%E8%A8%98-ios%E9%96%8B%E7%99%BC-%E4%BD%BF%E7%94%A8mapkit%E5%81%9A%E4%B8%80%E5%80%8B%E7%B0%A1%E5%96%AE%E7%9A%84%E9%A3%9B%E8%A1%8C%E5%8B%95%E7%95%AB/">&lt;p&gt;小時候很喜歡Indiana Jones系列的電影, 對於它裡面的地圖片段也一直覺得很有趣&lt;/p&gt;
 
 &lt;div class=&quot;video&quot;&gt;&lt;figure&gt;&lt;iframe width=&quot;640&quot; height=&quot;480&quot; src=&quot;//www.youtube.com/embed/FhoPTyMUgX0&quot; frameborder=&quot;0&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;&lt;/figure&gt;&lt;/div&gt;
 
@@ -1610,134 +1641,4 @@ sequenceDiagram
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;p&gt;&lt;a href=&quot;https://developer.apple.com/reference/uikit/uiblureffect&quot;&gt;UIBlurEffect&lt;/a&gt;有三種樣式, Dark, Light, 和ExtraLight, 上面的範例是Dark, 蠻適合用在這地方的, 利用這個方法就可以不用自己擷取screenshot再算模糊化了&lt;/p&gt;</content><category term="iOS" /><category term="Swift" /><category term="mobiledev" /><summary>去年為了參加WWDC, 開始練了Swift, 寫了兩個library, 不過好像一直都沒寫過完整的App, 連UI好像都沒真的去刻過(去年寫的東西跟UI比較無關), 因此最近利用了一些時間開始了個side project, 做side project就常常會把時間花在一些枝微末節的地方, 比如說, 為了做一個像Android那樣的Floating action button, 去找來一個現成的3rd party lib - yoavlt/LiquidFloatingActionButton , 那個像水珠一樣突出去的效果, 我還蠻愛的:</summary></entry><entry><title>[Golang] 一個簡單的Mongo db proxy</title><link href="http://blog.jln.co/golang-%E4%B8%80%E5%80%8B%E7%B0%A1%E5%96%AE%E7%9A%84mongo-db-proxy/" rel="alternate" type="text/html" title="[Golang] 一個簡單的Mongo db proxy" /><published>2016-06-19T13:17:04+08:00</published><updated>2016-06-19T13:17:04+08:00</updated><id>http://blog.jln.co/[golang]-一個簡單的mongo-db-proxy</id><content type="html" xml:base="http://blog.jln.co/golang-%E4%B8%80%E5%80%8B%E7%B0%A1%E5%96%AE%E7%9A%84mongo-db-proxy/">&lt;p&gt;之前被Parse搞的半死, 一直很好奇它的API到Mongodb的request之間到底是怎樣的對應&lt;/p&gt;
-
-&lt;p&gt;要弄清楚這個其實也不難, 把Mongodb的profiler全打開去看log就好了(&lt;code class=&quot;highlighter-rouge&quot;&gt;db.setProfilingLevel(2)&lt;/code&gt;), 但這也是有缺點, profiler會寫到&lt;code class=&quot;highlighter-rouge&quot;&gt;system.profile&lt;/code&gt;這個collection去, 而它是固定大小, 不能無限制的放, 再加上它還要多寫入這段, 多多少少影響效能&lt;/p&gt;
-
-&lt;p&gt;我需要的是一個從外部來觀察的工具, 不會影響到DB本身, 並且也可以將網路本身所花費的時間也包含進去, 所以想到的是在中間插一個proxy server&lt;/p&gt;
-
-&lt;p&gt;在現成的工具找到一個叫&lt;a href=&quot;https://github.com/christkv/mongodb-proxy&quot;&gt;MonoDB Proxy&lt;/a&gt;的工具, 這是用nodejs寫的, 勉強可以, 也證明了這個方法是可行的, 但這工具雖然有做到代理這部份, 但在log部分, 由於它並未解析bson, 所以詳細的內容並不好看, 所以就自己來寫一個&lt;/p&gt;
-
-&lt;h4 id=&quot;section&quot;&gt;功能需求&lt;/h4&gt;
-&lt;ol&gt;
-  &lt;li&gt;支援&lt;a href=&quot;https://docs.mongodb.com/manual/reference/mongodb-wire-protocol/&quot;&gt;mongodb wire protocol&lt;/a&gt;, 而不是只是單純的轉送資料&lt;/li&gt;
-  &lt;li&gt;印出request跟response內JSON的內容&lt;/li&gt;
-  &lt;li&gt;要能夠知道每個request所需要的時間(含網路)&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h4 id=&quot;section-1&quot;&gt;成品&lt;/h4&gt;
-&lt;p&gt;最後寫出的的成品在這: &lt;a href=&quot;https://github.com/julianshen/mongoproxy&quot;&gt;https://github.com/julianshen/mongoproxy&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;整個還蠻簡單的:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;wire.go 實作wire protocol&lt;/li&gt;
-  &lt;li&gt;proxy.go 實作從client收資料並轉寫到server端&lt;/li&gt;
-  &lt;li&gt;cmd/mp/main.go command line主程式的部分&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h4 id=&quot;section-2&quot;&gt;使用方法&lt;/h4&gt;
-&lt;p&gt;這個工具是用Go寫的, 所以使用之前需要先安裝go&lt;/p&gt;
-
-&lt;h5 id=&quot;section-3&quot;&gt;安裝&lt;/h5&gt;
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;go get julianshen/mongoproxy/mp&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;這個步驟做完後, 就可以把mp這個指令裝好了, 確定 $GOPATH/bin是在你路徑內, mp這個檔也是在那邊&lt;/p&gt;
-
-&lt;h5 id=&quot;section-4&quot;&gt;使用&lt;/h5&gt;
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;mp --port=6001 --remote=mydb:27017 --response&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;其中:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;port是你這個proxy server的服務點&lt;/li&gt;
-  &lt;li&gt;remote是遠端的mongodb (host:port)&lt;/li&gt;
-  &lt;li&gt;Reponse是需不需要log回傳的部分&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h4 id=&quot;wire-protocol&quot;&gt;實作Wire protocol&lt;/h4&gt;
-
-&lt;p&gt;本來覺得Wire protocol會蠻複雜的, 結果, 其實是蠻簡單的&lt;/p&gt;
-
-&lt;p&gt;所有的wire protocol request都會有一個標準的表頭:&lt;/p&gt;
-
-&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;MsgHeader&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;int32&lt;/span&gt;   &lt;span class=&quot;n&quot;&gt;messageLength&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// total message size, including this
-&lt;/span&gt;    &lt;span class=&quot;n&quot;&gt;int32&lt;/span&gt;   &lt;span class=&quot;n&quot;&gt;requestID&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;     &lt;span class=&quot;c1&quot;&gt;// identifier for this message
-&lt;/span&gt;    &lt;span class=&quot;n&quot;&gt;int32&lt;/span&gt;   &lt;span class=&quot;n&quot;&gt;responseTo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;    &lt;span class=&quot;c1&quot;&gt;// requestID from the original request
-&lt;/span&gt;                           &lt;span class=&quot;c1&quot;&gt;//   (used in responses from db)
-&lt;/span&gt;    &lt;span class=&quot;n&quot;&gt;int32&lt;/span&gt;   &lt;span class=&quot;n&quot;&gt;opCode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;        &lt;span class=&quot;c1&quot;&gt;// request type - see table below
-&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;對應golang, 我定義成這樣:&lt;/p&gt;
-
-&lt;div class=&quot;language-go highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;MsgHeader&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-	&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;MessageLength&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int32&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;c&quot;&gt;// total message size, including this&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-	&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RequestID&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;     &lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int32&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;c&quot;&gt;// identifier for this message&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-	&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ResponseTo&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;    &lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int32&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;c&quot;&gt;// requestID from the original request&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-	&lt;/span&gt;&lt;span class=&quot;c&quot;&gt;//   (used in responses from db)&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-	&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Opcode&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;c&quot;&gt;// request type - see table below&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;因為一開始就可以讀到整個訊息長度的, 所以就蠻好解析的, wire protocol的實作我是有參考了&lt;a href=&quot;https://github.com/facebookgo/dvara&quot;&gt;dvara&lt;/a&gt;, 本來是有想拿它的code來改, 但看了一下發現它也沒完整實作wire protocol, 秉著自己也來了解一下這部份的想法, 就重頭自己刻了&lt;/p&gt;
-
-&lt;p&gt;跟&lt;a href=&quot;https://github.com/facebookgo/dvara&quot;&gt;dvara&lt;/a&gt;不同的地方是, 我用go的binary package來讀header而非自己刻一個, binary.Read的確是一個蠻好用的工具, 用底下的code就可以讀出header這個資料結構:&lt;/p&gt;
-
-&lt;div class=&quot;language-go highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;h&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;MsgHeader&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{}&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;binary&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Read&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;r&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;binary&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;LittleEndian&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;h&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;另外, 除header外, 各request的所帶的欄位各自不同, 這部份的作法就是定好各個所需的資料結構, 用reflection的方式來讀取各相關資料:&lt;/p&gt;
-
-&lt;div class=&quot;language-go highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;v&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;reflect&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ValueOf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;req&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Elem&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-
-&lt;/span&gt;&lt;span class=&quot;c&quot;&gt;// 根據資料結構內定義的每個欄位用相關的方法讀取&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NumField&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Field&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Type&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-
-    &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bytesRead&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;==&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;h&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;MessageLength&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-        &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;break&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bytesRead&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;h&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;MessageLength&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-        &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ErrorWrongLen&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-
-    &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;switch&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;case&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;==&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;reflect&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TypeOf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bson&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;D&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)(&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-        &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;readDoc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bufferReader&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h4 id=&quot;bson&quot;&gt;解析bson&lt;/h4&gt;
-
-&lt;p&gt;這部份就沒再重新造輪子了, 直接用golang著名的mongodb driver mgo裡的bson lib: https://godoc.org/gopkg.in/mgo.v2/bson , 這個bson lib已經寫的很不錯了, 直接拿來用即可&lt;/p&gt;
-
-&lt;p&gt;在這個package內, 泛用的bson資料結構有兩種: &lt;a href=&quot;https://godoc.org/gopkg.in/mgo.v2/bson#M&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;bson.M&lt;/code&gt;&lt;/a&gt; 和 &lt;a href=&quot;https://godoc.org/gopkg.in/mgo.v2/bson#D&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;bson.D&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;這兩個是不同用途的,仔細看一下M跟D的定義:&lt;/p&gt;
-
-&lt;div class=&quot;language-go highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;M&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;interface&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{}&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;p&gt;和&lt;/p&gt;
-
-&lt;div class=&quot;language-go highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;D&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DocElem&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;如果你是要把解析出的資料用map來操作, M是蠻方便的, 一開始我也是依著之前我寫相關的東西的習慣用M, 不過這邊卻是不可以用M的, 這也是我碰到bug的地方&lt;/p&gt;
-
-&lt;p&gt;由於M解析出的是Map, 所以每個field的順序它並沒記住, 但偏偏在wire protocol裡, 尤其是 $cmd, 順序是重要的, 所以Unmarshal出的M再Marshal回去, 順序可能不是原本的順序了, 而這在這個proxy應用上, client寫什麼東西過來就要寫什麼到server才不至於出錯&lt;/p&gt;
-
-&lt;h4 id=&quot;debug&quot;&gt;測試和Debug&lt;/h4&gt;
-
-&lt;p&gt;我是用&lt;a href=&quot;https://www.wireshark.org&quot;&gt;Wireshark&lt;/a&gt;來驗證我的實作有沒問題, Wireshark預設會把到27017 port的資料解析成wire protocol的內容供閱讀, 當然也可以自己手動請它解析&lt;/p&gt;
-
-&lt;h4 id=&quot;section-5&quot;&gt;其他應用&lt;/h4&gt;
-&lt;p&gt;這樣的proxy應該可以不只應用在debug, 像是Parse open source的&lt;a href=&quot;https://github.com/facebookgo/dvara&quot;&gt;dvara&lt;/a&gt;, 它也是利用了proxy來做connection pooling, 應該也可以用在request routing和caching的應用上&lt;/p&gt;</content><category term="golang" /><category term="mongodb" /><summary>之前被Parse搞的半死, 一直很好奇它的API到Mongodb的request之間到底是怎樣的對應</summary></entry></feed>
+&lt;p&gt;&lt;a href=&quot;https://developer.apple.com/reference/uikit/uiblureffect&quot;&gt;UIBlurEffect&lt;/a&gt;有三種樣式, Dark, Light, 和ExtraLight, 上面的範例是Dark, 蠻適合用在這地方的, 利用這個方法就可以不用自己擷取screenshot再算模糊化了&lt;/p&gt;</content><category term="iOS" /><category term="Swift" /><category term="mobiledev" /><summary>去年為了參加WWDC, 開始練了Swift, 寫了兩個library, 不過好像一直都沒寫過完整的App, 連UI好像都沒真的去刻過(去年寫的東西跟UI比較無關), 因此最近利用了一些時間開始了個side project, 做side project就常常會把時間花在一些枝微末節的地方, 比如說, 為了做一個像Android那樣的Floating action button, 去找來一個現成的3rd party lib - yoavlt/LiquidFloatingActionButton , 那個像水珠一樣突出去的效果, 我還蠻愛的:</summary></entry></feed>
