@@ -1,4 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.1.6">Jekyll</generator><link href="http://blog.jln.co/feed.xml" rel="self" type="application/atom+xml" /><link href="http://blog.jln.co/" rel="alternate" type="text/html" /><updated>2016-10-17T20:52:30+08:00</updated><id>http://blog.jln.co/</id><title>Le murmure de Julian</title><subtitle>朱隸安貓囈語錄</subtitle><entry><title>在Ubuntu下mount box.com的內容</title><link href="http://blog.jln.co/%E5%9C%A8ubuntu%E4%B8%8Bmount-box.com%E7%9A%84%E5%85%A7%E5%AE%B9/" rel="alternate" type="text/html" title="在Ubuntu下mount box.com的內容" /><published>2016-10-17T20:38:54+08:00</published><updated>2016-10-17T20:38:54+08:00</updated><id>http://blog.jln.co/在ubuntu下mount-box.com的內容</id><content type="html" xml:base="http://blog.jln.co/%E5%9C%A8ubuntu%E4%B8%8Bmount-box.com%E7%9A%84%E5%85%A7%E5%AE%B9/">&lt;p&gt;雖然很久沒用box.com的服務了, 不過既然老婆大人問起, 就來寫一下這解法吧&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.1.6">Jekyll</generator><link href="http://blog.jln.co/feed.xml" rel="self" type="application/atom+xml" /><link href="http://blog.jln.co/" rel="alternate" type="text/html" /><updated>2016-10-18T21:17:21+08:00</updated><id>http://blog.jln.co/</id><title>Le murmure de Julian</title><subtitle>朱隸安貓囈語錄</subtitle><entry><title>Account Kit samples for Swift</title><link href="http://blog.jln.co/account-kit-samples-for-swift/" rel="alternate" type="text/html" title="Account Kit samples for Swift" /><published>2016-10-18T21:01:31+08:00</published><updated>2016-10-18T21:01:31+08:00</updated><id>http://blog.jln.co/account-kit-samples-for-swift</id><content type="html" xml:base="http://blog.jln.co/account-kit-samples-for-swift/">&lt;p&gt;做一個網路服務, 使用者驗證是蠻麻煩的一件事, 我們是可以裝作沒看到, 不做驗證, 但這樣的下場就是有假使用者, 有殭屍, 最簡單的方式是信任第三方服務像是Google, Facebook,
+現在的人大多數都有Google, Facebook帳號了, 這樣其實也沒多大的問題, 但還是還是有人沒有, 而且也不是每個人都放心把Facebook帳號交給我們, 因此退而求其次就是用E-mail,
+用E-mail認證雖然也是一個好方式, 但還是要建置整套發信機制(或是花錢買mailgun來送信), 而且在手機上就麻煩了, 來回在App跟e-mail間切換很不方便,
+因此就會想用簡訊認證, 至於簡訊認證, 除了一個”貴”字以外, 要搞定各個國家的也是一個麻煩(當然, 花錢可解, 有Twilio這種服務可以用)&lt;/p&gt;
+
+&lt;p&gt;所幸有Facebook提供的這個可以用&lt;a href=&quot;https://developers.facebook.com/docs/accountkit&quot;&gt;Account Kit&lt;/a&gt;, 在初期使用者不太多的時候, 不收費的確很吸引人呀(雖然他不是唯一一個這樣的服務, 之後再介紹其他的),
+但由於他&lt;a href=&quot;https://github.com/fbsamples/account-kit-samples-for-ios&quot;&gt;iOS的範例&lt;/a&gt;是用Objective C寫的, 我的Objective C實在不太行,
+加上, 要了解一個東西, 寫一遍就知道了, 所以順手翻譯了一個Swift的版本, Source如下:&lt;/p&gt;
+
+&lt;h2 id=&quot;account-kit-samples-for-swifthttpsgithubcomjulianshenaccount-kit-samples-for-swift&quot;&gt;&lt;a href=&quot;https://github.com/julianshen/account-kit-samples-for-swift&quot;&gt;Account Kit samples for Swift&lt;/a&gt;&lt;/h2&gt;
+
+&lt;p&gt;原本的版本, 我是覺得寫的不是太好, 花了好一些功夫看, 自己翻過來的這個版本, 也還沒debug過, 基礎的應該堪用啦! 至於iOS的account kit文件可以參考: &lt;a href=&quot;https://developers.facebook.com/docs/accountkit/ios&quot;&gt;iOS 專用 Account Kit&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;註: plist裡面寫的app id不是我的喔!是原本Sample用的&lt;/p&gt;</content><category term="Swift" /><category term="Facebook" /><category term="Account Kit" /><summary>做一個網路服務, 使用者驗證是蠻麻煩的一件事, 我們是可以裝作沒看到, 不做驗證, 但這樣的下場就是有假使用者, 有殭屍, 最簡單的方式是信任第三方服務像是Google, Facebook,
+現在的人大多數都有Google, Facebook帳號了, 這樣其實也沒多大的問題, 但還是還是有人沒有, 而且也不是每個人都放心把Facebook帳號交給我們, 因此退而求其次就是用E-mail,
+用E-mail認證雖然也是一個好方式, 但還是要建置整套發信機制(或是花錢買mailgun來送信), 而且在手機上就麻煩了, 來回在App跟e-mail間切換很不方便,
+因此就會想用簡訊認證, 至於簡訊認證, 除了一個”貴”字以外, 要搞定各個國家的也是一個麻煩(當然, 花錢可解, 有Twilio這種服務可以用)</summary></entry><entry><title>在Ubuntu下mount box.com的內容</title><link href="http://blog.jln.co/%E5%9C%A8ubuntu%E4%B8%8Bmount-box.com%E7%9A%84%E5%85%A7%E5%AE%B9/" rel="alternate" type="text/html" title="在Ubuntu下mount box.com的內容" /><published>2016-10-17T20:38:54+08:00</published><updated>2016-10-17T20:38:54+08:00</updated><id>http://blog.jln.co/在ubuntu下mount-box.com的內容</id><content type="html" xml:base="http://blog.jln.co/%E5%9C%A8ubuntu%E4%B8%8Bmount-box.com%E7%9A%84%E5%85%A7%E5%AE%B9/">&lt;p&gt;雖然很久沒用box.com的服務了, 不過既然老婆大人問起, 就來寫一下這解法吧&lt;/p&gt;
 
 &lt;p&gt;box.com是一個像Dropbox一樣的網路磁碟, 不過它目標客戶跟Dropbox不同, 是比較傾向企業用戶, 可以讓用戶很簡單的分享檔案,
 存取box.com除了一般使用Web介面的方式外, 還有其他的方式, 像是透過它的REST API, 另外還有一種就是透過WebDav, 
@@ -1622,23 +1638,4 @@ sequenceDiagram
 
 &lt;p&gt;因為這個字型有支援Ligatures, 所以在這邊contacts就會被直接代換成它對應的圖示了, 我們就不用寄那種完全看不懂的unicode碼了&lt;/p&gt;
 
-&lt;p&gt;但大部分的字型其實也都沒有, 所以自訂字型該怎做?那就留待之後研究了&lt;/p&gt;</content><category term="iOS" /><category term="Swift" /><category term="mobiledev" /><summary>寫App有一個讓人頭痛的是App大小的問題, 而這大小有部分是由App裡面所用的圖所貢獻, 為了減少這部份消耗掉的資源, 不管是用較大壓縮率的格式來壓縮圖檔, 還是其他, 大家都想盡辦法想解決這問題, 現在由於平面化的UI設計, 使得又有不錯的方法來解決這問題, 平面化UI設計的特色是大部分的圖檔都是單色而非五顏六色, 這使得用向量圖, 甚至用字型來解決這問題變得可行</summary></entry><entry><title>[iOS開發筆記] 模糊背景</title><link href="http://blog.jln.co/ios%E9%96%8B%E7%99%BC%E7%AD%86%E8%A8%98-%E6%A8%A1%E7%B3%8A%E8%83%8C%E6%99%AF/" rel="alternate" type="text/html" title="[iOS開發筆記] 模糊背景" /><published>2016-07-05T22:10:51+08:00</published><updated>2016-07-05T22:10:51+08:00</updated><id>http://blog.jln.co/[ios開發筆記]-模糊背景</id><content type="html" xml:base="http://blog.jln.co/ios%E9%96%8B%E7%99%BC%E7%AD%86%E8%A8%98-%E6%A8%A1%E7%B3%8A%E8%83%8C%E6%99%AF/">&lt;p&gt;去年為了參加WWDC, 開始練了Swift, 寫了兩個library, 不過好像一直都沒寫過完整的App, 連UI好像都沒真的去刻過(去年寫的東西跟UI比較無關), 因此最近利用了一些時間開始了個side project, 做side project就常常會把時間花在一些枝微末節的地方, 比如說, 為了做一個像Android那樣的Floating action button, 去找來一個現成的3rd party lib - &lt;a href=&quot;https://github.com/yoavlt/LiquidFloatingActionButton&quot;&gt;yoavlt/LiquidFloatingActionButton&lt;/a&gt; , 那個像水珠一樣突出去的效果, 我還蠻愛的:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/posts/gt1.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;但缺點是, 後面缺一個擋住背景元件的, 以致於要去點伸上來的小按鈕容易誤按後面的元件, 因此就想自己改一個後面多一個overlay的版本, 當然也不想隨便貼一張白白的就交差, 起碼要像這樣:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/posts/fg2.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;這邊不是單純蓋一個深色半透明的背景而已, 還需要作一點模糊的部分&lt;/p&gt;
-
-&lt;p&gt;在iOS上(iOS8 之後), 作這樣的東西很簡單, 只要利用&lt;a href=&quot;https://developer.apple.com/reference/uikit/uivisualeffectview&quot;&gt;UIVisualEffectView&lt;/a&gt;和&lt;a href=&quot;https://developer.apple.com/reference/uikit/uiblureffect&quot;&gt;UIBlurEffect&lt;/a&gt;這兩個東西, 寫法很簡單:&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;blurEffect&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UIBlurEffect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;style&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Dark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;uiEffectView&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UIVisualEffectView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;effect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;blurEffect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;uiEffectView&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;frame&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;overlayView&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bounds&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;overlayView&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;addSubview&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;uiEffectView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://developer.apple.com/reference/uikit/uiblureffect&quot;&gt;UIBlurEffect&lt;/a&gt;有三種樣式, Dark, Light, 和ExtraLight, 上面的範例是Dark, 蠻適合用在這地方的, 利用這個方法就可以不用自己擷取screenshot再算模糊化了&lt;/p&gt;</content><category term="iOS" /><category term="Swift" /><category term="mobiledev" /><summary>去年為了參加WWDC, 開始練了Swift, 寫了兩個library, 不過好像一直都沒寫過完整的App, 連UI好像都沒真的去刻過(去年寫的東西跟UI比較無關), 因此最近利用了一些時間開始了個side project, 做side project就常常會把時間花在一些枝微末節的地方, 比如說, 為了做一個像Android那樣的Floating action button, 去找來一個現成的3rd party lib - yoavlt/LiquidFloatingActionButton , 那個像水珠一樣突出去的效果, 我還蠻愛的:</summary></entry></feed>
+&lt;p&gt;但大部分的字型其實也都沒有, 所以自訂字型該怎做?那就留待之後研究了&lt;/p&gt;</content><category term="iOS" /><category term="Swift" /><category term="mobiledev" /><summary>寫App有一個讓人頭痛的是App大小的問題, 而這大小有部分是由App裡面所用的圖所貢獻, 為了減少這部份消耗掉的資源, 不管是用較大壓縮率的格式來壓縮圖檔, 還是其他, 大家都想盡辦法想解決這問題, 現在由於平面化的UI設計, 使得又有不錯的方法來解決這問題, 平面化UI設計的特色是大部分的圖檔都是單色而非五顏六色, 這使得用向量圖, 甚至用字型來解決這問題變得可行</summary></entry></feed>
