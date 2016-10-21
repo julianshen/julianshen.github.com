@@ -1,4 +1,191 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.1.6">Jekyll</generator><link href="http://blog.jln.co/feed.xml" rel="self" type="application/atom+xml" /><link href="http://blog.jln.co/" rel="alternate" type="text/html" /><updated>2016-10-18T21:17:21+08:00</updated><id>http://blog.jln.co/</id><title>Le murmure de Julian</title><subtitle>朱隸安貓囈語錄</subtitle><entry><title>Account Kit samples for Swift</title><link href="http://blog.jln.co/account-kit-samples-for-swift/" rel="alternate" type="text/html" title="Account Kit samples for Swift" /><published>2016-10-18T21:01:31+08:00</published><updated>2016-10-18T21:01:31+08:00</updated><id>http://blog.jln.co/account-kit-samples-for-swift</id><content type="html" xml:base="http://blog.jln.co/account-kit-samples-for-swift/">&lt;p&gt;做一個網路服務, 使用者驗證是蠻麻煩的一件事, 我們是可以裝作沒看到, 不做驗證, 但這樣的下場就是有假使用者, 有殭屍, 最簡單的方式是信任第三方服務像是Google, Facebook,
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.1.6">Jekyll</generator><link href="http://blog.jln.co/feed.xml" rel="self" type="application/atom+xml" /><link href="http://blog.jln.co/" rel="alternate" type="text/html" /><updated>2016-10-21T17:06:42+08:00</updated><id>http://blog.jln.co/</id><title>Le murmure de Julian</title><subtitle>朱隸安貓囈語錄</subtitle><entry><title>淺談Social Feed - 概念篇</title><link href="http://blog.jln.co/%E6%B7%BA%E8%AB%87social-feed-%E6%A6%82%E5%BF%B5%E7%AF%87/" rel="alternate" type="text/html" title="淺談Social Feed - 概念篇" /><published>2016-10-20T09:07:59+08:00</published><updated>2016-10-20T09:07:59+08:00</updated><id>http://blog.jln.co/淺談social-feed---概念篇</id><content type="html" xml:base="http://blog.jln.co/%E6%B7%BA%E8%AB%87social-feed-%E6%A6%82%E5%BF%B5%E7%AF%87/">&lt;p&gt;如果要找出一個我過去幾年工作中比較具有代表性的東西, 想了一下, 應該就是social feed這東西了(寫這篇時, 想了一下該用啥名詞, 以往我會叫Timeline, 不過Social feed應該更為貼切一點),
+趁現在才剛離職有些時間, 把這些東西整理一下, 主要還是以以前做過的東西的概念為主, 希望沒忘掉太多&lt;/p&gt;
+
+&lt;p&gt;這系列打算由三篇來構成, 除了這篇概念篇外, 另外還會有兩篇比較細節一點的內容, 分為client和server的部分(之後寫完會再更新鏈結):&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;淺談Social Feed - 多服務彙整式的social feed (Client)&lt;/li&gt;
+  &lt;li&gt;淺談Social Feed - 後端架構實作 (Server)&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;social-feed&quot;&gt;什麼是Social feed?&lt;/h2&gt;
+
+&lt;p&gt;如果要簡單的來解釋, 應該可以說是一條依時間線排序的社群動態, 來看看下面這張Twitter的畫面:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/p1021_twitter1.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;這算是一個簡單的例子, 基本上就是把社群動態一條線的排下來(所以之前我也比較習慣的把它叫做Timeline, 不過這邊會改叫Social feed是因為考慮到也有不是依時間排序的),
+我不太確定最早是誰採用這樣的設計, 找了一些早期社群網站(Frienster, Myspace), 最早都還沒有這樣的設計:&lt;/p&gt;
+
+&lt;p&gt;Friendster (2002 原來那時候有繁中版?!):&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://cbsnews2.cbsistatic.com/hub/i/r/2011/07/06/4a83463d-a643-11e2-a3f0-029118418759/resize/620x465/d16e61e54ecd40c300fa4a6d0e52bd37/friendster-AP070927023229.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Myspace (2003):&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://linapps.s3.amazonaws.com/linapps/photomojo/kxan.com/photos/2014/12/g15554-popular-releases-since-perry-took-office/287973-myspace-was-launched-in-july-2003-45b2f.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;即使是Facebook也要到2008年才有這樣的雛形(看下面這段video還蠻有趣的, 我好像也是那段時間開始跟這東西結下了孽緣)&lt;/p&gt;
+
+&lt;div class=&quot;video&quot;&gt;&lt;figure&gt;&lt;iframe width=&quot;640&quot; height=&quot;480&quot; src=&quot;//www.youtube.com/embed/Nl7igMfeOvo&quot; frameborder=&quot;0&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;&lt;/figure&gt;&lt;/div&gt;
+
+&lt;p&gt;再看看2006年的Twitter, 似乎就比較像是一個雛形的樣了, 不過那時似乎還像是一個粗劣的網站&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://robbiesblog.com/wp-content/uploads/2015/08/Twitter-2006-1024x350.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;當然也不是所有的Social feed都是由上而下的, 另一個有名的變形就是創了河道的Plurk, Plurk在2008創立, 在台灣紅了一陣子, 但在智慧型手機的浪潮沒跟的很好, 到了手機上就很難發揮河道這樣的特色了&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/post1021_plurk1.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;section&quot;&gt;現今的設計&lt;/h2&gt;
+
+&lt;p&gt;現在這時代, 智慧型手機當道, mobile first曾經流行過一陣子, 大家放很多心力在手機上, 但Social feed這東西, 到了手機上, 各家變化就不太大了, 大致上都很類似, 來看幾個手機上的範例:&lt;/p&gt;
+
+&lt;h4 id=&quot;facebook&quot;&gt;Facebook:&lt;/h4&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/post1021_facebook1.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;twitter&quot;&gt;Twitter:&lt;/h4&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/post1021_twitter2.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;google&quot;&gt;Google+:&lt;/h4&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/post1021_googlep1.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;linkedin&quot;&gt;Linkedin:&lt;/h4&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/post1021_linkedin.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;instagram&quot;&gt;Instagram&lt;/h4&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/post1021_instagram1.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;section-1&quot;&gt;新浪微博&lt;/h4&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/post1021_weibao.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;pinterest&quot;&gt;Pinterest&lt;/h4&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/post1021_pinterest.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;這邊可以見到的是Pinterest採取了一個跟其他人不同的呈現方式, 但, 大體上的構成還是跟大家都相似的&lt;/p&gt;
+
+&lt;p&gt;另外可以發覺的是, 從2006在PC Web到現在2016手機上, 內容變複雜了, 從純粹文字到多媒體內容, 我個人其實不是那麼愛這種轉變, 因為要接收的資訊變多了, 雖然畫面變豐富更多,
+但另外帶來的一個缺點, 尤其是在手機上, 螢幕已經不夠付載一則動態的資訊量了&lt;/p&gt;
+
+&lt;h2 id=&quot;section-2&quot;&gt;使用者介面構成與行為&lt;/h2&gt;
+
+&lt;p&gt;先以Facebook的介面當做例子來解釋(其他各家都大同小異啦):&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/post1021_facebook2.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;大致上可以分做為三部分 - 作者資訊(藍色, 黃色區域), 內文資訊(綠色, 紅色, 咖啡色區域), 社群互動功能(紫色區域)&lt;/p&gt;
+
+&lt;h3 id=&quot;section-3&quot;&gt;作者資訊 (藍色, 黃色區)&lt;/h3&gt;
+
+&lt;p&gt;光字面上意思就已經表達完這部分了, 大致上都是放作者的圖像跟ID(或名字), 在Twitter因為還有轉推的動作, 所以還包含了轉貼人的資訊, 近年比較流行的設計是會用圓形的頭像(像上面例子的Instgram, 微博, Google+),
+圓形的頭像大半在client app要顯示時處理掉就好, 只是一個圓形的mask, 就如同我以前寫過這篇:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;/android-圓形大頭貼-使用picasso的transformation/&quot;&gt;圓形大頭貼 - 使用Picasso的Transformation&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;section-4&quot;&gt;發布時間 (綠色區域)&lt;/h3&gt;
+
+&lt;p&gt;一般說來, 發布時間這部分, 不會直接用絕對時間(幾年幾月幾日幾時幾分), 而是用”3分鐘前”, “4天前”這樣的絕對時間, 這樣的顯示方式似乎就已經是一個約定俗成的默契了&lt;/p&gt;
+
+&lt;p&gt;這種時間格式有個好處, 不用管時差問題, social feed的內容可能來自於世界各地不同的朋友, 每個人時區不同, 與其轉成當地時區的時間格式, 還不如以這種方式表示來得直接一點, 也不用管字串會不會有太長的問題&lt;/p&gt;
+
+&lt;p&gt;做這樣一個東西, 也是不用重新造輪子啦, 已經有了&lt;a href=&quot;http://momentjs.com&quot;&gt;moment.js&lt;/a&gt;這樣方便的東西可以用了, 當然他也是有被移植到Javascript以外的, 比如說&lt;a href=&quot;https://github.com/akosma/SwiftMoment&quot;&gt;SwiftMoment&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;section-5&quot;&gt;內文以及相關資訊(紅, 橘, 咖啡區域)&lt;/h3&gt;
+
+&lt;p&gt;早期的social feed, 內容大多只有文字, 就算有連結的轉貼, 也只是多一個hyper link, 整體上讀起來還是文字, 接下來圖片被帶入後, 就變成有圖文夾雜格式出現,
+Facebook這種通用的social network服務, 內容種類較多, 因此就會夾雜不同格式的內容, 除了純文字內容外, 還有圖片, 影像, 甚至, 現在多了個直播, 而像是Instagram這類以影像為主的,
+格式就較為統一, 不過, 基本上也只是不同內容的內文顯示格式略有不同外, 在後面的資料結構理應大同小異&lt;/p&gt;
+
+&lt;p&gt;後來可能人們(不見得是使用者吧)不再滿足於單調的內容, 尤其是在社群網路上分享文章鏈結(像是分享新聞的)越來越多, 一堆超連結看起來也醜,
+後來就出現了Twitter Card 和 Open graph這類的東西:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;a href=&quot;https://developers.facebook.com/docs/sharing/webmasters&quot;&gt;Open graph&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://dev.twitter.com/cards/overview&quot;&gt;Twitter Card&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;這進一步讓你可以去定義你自己的網站, 而社群服務像是Facebook再把你的網站當作一個物件, 以物件的類別來決定怎麼去呈現這個鏈結, 在視覺上就再更加的豐富&lt;/p&gt;
+
+&lt;p&gt;不過不管內容有多少種, 差別真的就是呈現方式的多寡, 呈現方式也是有限的, 在Client顯示設計上是可以設計靈活點可以擴展, 不過倒也不用考慮到會有無窮無盡的形式&lt;/p&gt;
+
+&lt;p&gt;另外跟內文相關的資訊常見的還會有喜歡這個動態的數目(Facebook還有多種情緒表示), 回文數目, 分享數目(不見得每個服務都有), 使用者可以透過這些數字來了解到這篇貼文的熱門程度,
+但這些數字, 其實在大部分的服務裡都只能單參考用, 數字未必準確, 這是因為一來很難及時地把某則貼文按讚的狀態更新給所有人(對Server的負擔大, Client實作也複雜),
+或許在視覺上可以用一些比較相對的表示方式而非絕對數量的表示&lt;/p&gt;
+
+&lt;p&gt;另外有些服務會節錄幾則(通常最多三則)回文跟著文章下面一起顯示, 像Facebook網頁版, 但一樣, 它也是難於即時的更新&lt;/p&gt;
+
+&lt;h3 id=&quot;section-6&quot;&gt;社群互動功能 (紫色區域)&lt;/h3&gt;
+
+&lt;p&gt;一般常見就是“喜歡(like)”, “回文(comment)”, “分享(share)”, 社群網路的精神主要還是在互動跟分享, 因此這幾個也差不多是最精簡也必備的了&lt;/p&gt;
+
+&lt;h3 id=&quot;section-7&quot;&gt;更進階一點的內容&lt;/h3&gt;
+
+&lt;p&gt;通常還會有所謂的 hashtag和mention (這邊以Twitter用詞)&lt;/p&gt;
+
+&lt;p&gt;所謂的hashtag是由User自訂, 跟這則內文相關的關鍵詞, 以”#”開頭, 差不多也是個約定俗成, 最早應該早在IRC時代就有在使用了,
+什麼?沒聽過IRC?沒關係, 知道從很古早時代就有了, 設計上通常會把 #hashtag 作成連結的形式, 點下去顯示相關的文章&lt;/p&gt;
+
+&lt;p&gt;而mention指的是”提到”某某人, 所以通常的形式都是”@”後面加User ID, 這也已經是一種約定俗成的方式了, 設計上也都會是一個點下去就到那個人的資訊頁面的連結&lt;/p&gt;
+
+&lt;h3 id=&quot;section-8&quot;&gt;時間線回朔&lt;/h3&gt;
+
+&lt;p&gt;這部分我們以前都把它稱作”load more”, 不過覺得這樣講好像很難知其所以然, 先看一下圖:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/loadmore1.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;一般來說, 從Server端抓回來的文章不會一次傳回所有的, 因為那會實在太多了, 尤其對重度使用者來說, 從開始使用以來到現在可能為數不少, 因此當我們把整social feed (或time line或說stream)往下一直拉時,
+總是會見底的&lt;/p&gt;
+
+&lt;p&gt;在以往的UI設計上大多會放一條”touch to load more”之類的讓使用者再讀取舊一點的資料(所以以往我們都會把它叫做load more),
+但這樣的缺點是使用者體驗不會太好, 通常看到這條後就跳掉不看了, 因此後來就流行做成上圖那樣, 快拉到最下面時就預先抓取, 來不及抓完, 使用者就會看到轉圈圈的進度&lt;/p&gt;
+
+&lt;p&gt;最好的體驗應該是讓使用者無縫接軌, 可以一直一直往下拉不用中斷, 但這邊就存在有調整的空間了, 太晚觸發的話, 使用者滑到最下面還是會有等待時間, 等待時間只要一長了, 常常就沒耐性跑了,
+所以如果可以提早一點抓取, 是可以減少拉到最下面的等待時間, 但到底要提早多少? 太早也不是一件好事, 可能會導致client太過頻繁跟server索取資料, 但實際上又用不到那麼多,
+以至於浪費了太多的網路傳輸量, 以及增加了server的負擔, 但使用者滑動的速率每個都不同, 所以這是一件不好拿捏的事, 可能要經過多次試驗才會有比較好的體驗&lt;/p&gt;
+
+&lt;h3 id=&quot;section-9&quot;&gt;資料更新&lt;/h3&gt;
+
+&lt;p&gt;這比較會出現在有背景更新的場合, 如果每次使用者要看最新內容要自己觸發更新, 更新結束前他不能做任何動作, 那就沒這問題, 這問題主要出現在使用者在瀏覽過程中, 背景更新有了新資料進來,
+輕微的話, 資料從最上頭插入導致他正在看的位置跑掉了, 嚴重的話, 可能整個刷新後, 內容都不同了, 這當然對使用者體驗很不好, 現在大部分的設計都會設計成非同步更新, 也就是就算是由使用者觸發,
+更新時, 使用者還是有機會做動作, 更新時間如果太長了, 就容易發生這狀況&lt;/p&gt;
+
+&lt;p&gt;這部分的解法通常像下圖Twitter的做法:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/IMG_9618.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;不直接刷新頁面, 而是先提示使用者有新的貼文, 這樣的感覺就好多了&lt;/p&gt;
+
+&lt;h2 id=&quot;social-feed-1&quot;&gt;聚合式的social feed&lt;/h2&gt;
+
+&lt;p&gt;所謂的聚合式的, 就是把一堆Social service的feeds全部串在一起, 因為多數的使用者擁有不止一個社群網路帳號, 把所有放在一起在瀏覽上就不用一個個網站跑或一個app跳過一個app&lt;/p&gt;
+
+&lt;p&gt;最早著名的有Friendfeed, 它早已經被Facebook買下不存在了, 不過它就是這樣一個概念:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://d2chgkz0kdtxdm.cloudfront.net/wp-content/uploads/2009/04/friendfeed-after.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;另外手機上還有HTC的&lt;a href=&quot;http://mobile.htc.com/learnmore/desires/eng/howtos/GUID-89A364D2-2043-46BD-9249-AA7BE00577A9.html&quot;&gt;Friend stream&lt;/a&gt;,
+不過這個血和汗做來的產品也不在了 orz&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://mobile.htc.com/learnmore/chacha/cht/howtos/GUID-9619718F-A721-4BAF-A4B4-C202E2A0D2B1-web.png&quot; alt=&quot;&quot; /&gt;
+(好, 我拿chacha的畫面的確是故意的 :P)&lt;/p&gt;
+
+&lt;p&gt;另外還有一個叫做&lt;a href=&quot;https://hootsuite.com&quot;&gt;HootSuite&lt;/a&gt;的也是類似:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/post1021_hootsuite.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;不過HootSuite跟前兩者有所不同的地方是它並未把Social feed全部整合在一個時間線, 而只是並列顯示, 全部整合的難度稍高, 這就留待下一篇來說明了&lt;/p&gt;
+
+&lt;h2 id=&quot;section-10&quot;&gt;小結&lt;/h2&gt;
+
+&lt;p&gt;整理了這麼多, 是後面兩篇的前置, 這邊的概念等於是設計一個social feeds的”需求”, 後面兩篇會再用到這些概念&lt;/p&gt;</content><category term="concept" /><category term="idea" /><category term="social network" /><summary>如果要找出一個我過去幾年工作中比較具有代表性的東西, 想了一下, 應該就是social feed這東西了(寫這篇時, 想了一下該用啥名詞, 以往我會叫Timeline, 不過Social feed應該更為貼切一點),
+趁現在才剛離職有些時間, 把這些東西整理一下, 主要還是以以前做過的東西的概念為主, 希望沒忘掉太多</summary></entry><entry><title>Account Kit samples for Swift</title><link href="http://blog.jln.co/account-kit-samples-for-swift/" rel="alternate" type="text/html" title="Account Kit samples for Swift" /><published>2016-10-18T21:01:31+08:00</published><updated>2016-10-18T21:01:31+08:00</updated><id>http://blog.jln.co/account-kit-samples-for-swift</id><content type="html" xml:base="http://blog.jln.co/account-kit-samples-for-swift/">&lt;p&gt;做一個網路服務, 使用者驗證是蠻麻煩的一件事, 我們是可以裝作沒看到, 不做驗證, 但這樣的下場就是有假使用者, 有殭屍, 最簡單的方式是信任第三方服務像是Google, Facebook,
 現在的人大多數都有Google, Facebook帳號了, 這樣其實也沒多大的問題, 但還是還是有人沒有, 而且也不是每個人都放心把Facebook帳號交給我們, 因此退而求其次就是用E-mail,
 用E-mail認證雖然也是一個好方式, 但還是要建置整套發信機制(或是花錢買mailgun來送信), 而且在手機上就麻煩了, 來回在App跟e-mail間切換很不方便,
 因此就會想用簡訊認證, 至於簡訊認證, 除了一個”貴”字以外, 要搞定各個國家的也是一個麻煩(當然, 花錢可解, 有Twilio這種服務可以用)&lt;/p&gt;
@@ -1558,84 +1745,4 @@ sequenceDiagram
 
 &lt;p&gt;&lt;img src=&quot;/images/posts/icomoon3.png&quot; alt=&quot;Icomoon&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;所有都沒問題後按下右下角的&lt;code class=&quot;highlighter-rouge&quot;&gt;Download&lt;/code&gt;就沒問題了&lt;/p&gt;</content><category term="iOS" /><category term="Swift" /><category term="mobiledev" /><category term="webdev" /><summary>承續上篇的用icon font來製作圖示, 之前所提到的都是利用現成的icon font, 但似乎大部分的icon font都沒有像material icon有支援ligatures, 沒支援的話, 在xcode裡面就無法像上一篇一樣, 直接在UI designer顯示對應的圖示, 另外如果需要使用自己的圖示呢?其實是有方法用SVG圖檔來製作自己的icon font的, 這篇就來介紹兩種用SVG圖檔製作一個有ligatures支援的字型檔</summary></entry><entry><title>[iOS開發筆記] 使用Icon font來節省圖示空間</title><link href="http://blog.jln.co/%E7%AD%86%E8%A8%98-ios%E9%96%8B%E7%99%BC-%E4%BD%BF%E7%94%A8icon-font%E4%BE%86%E7%AF%80%E7%9C%81%E5%9C%96%E7%A4%BA%E7%A9%BA%E9%96%93/" rel="alternate" type="text/html" title="[iOS開發筆記] 使用Icon font來節省圖示空間" /><published>2016-08-04T21:48:57+08:00</published><updated>2016-08-04T21:48:57+08:00</updated><id>http://blog.jln.co/[筆記][ios開發]-使用icon-font來節省圖示空間</id><content type="html" xml:base="http://blog.jln.co/%E7%AD%86%E8%A8%98-ios%E9%96%8B%E7%99%BC-%E4%BD%BF%E7%94%A8icon-font%E4%BE%86%E7%AF%80%E7%9C%81%E5%9C%96%E7%A4%BA%E7%A9%BA%E9%96%93/">&lt;p&gt;寫App有一個讓人頭痛的是App大小的問題, 而這大小有部分是由App裡面所用的圖所貢獻, 為了減少這部份消耗掉的資源, 不管是用較大壓縮率的格式來壓縮圖檔, 還是其他, 大家都想盡辦法想解決這問題, 現在由於平面化的UI設計, 使得又有不錯的方法來解決這問題, 平面化UI設計的特色是大部分的圖檔都是單色而非五顏六色, 這使得用向量圖, 甚至用字型來解決這問題變得可行&lt;/p&gt;
-
-&lt;h4 id=&quot;icon-font&quot;&gt;免費的圖標字型(icon font)&lt;/h4&gt;
-
-&lt;p&gt;把所有的向量圖示變成字型檔可以節省不少空間, 以流行的&lt;a href=&quot;http://fontawesome.io&quot;&gt;Font Awesome&lt;/a&gt; 來說, 它包含了634個圖標, 卻只佔了153KB, 這在以往可能是不到十個圖標的檔案就會達到的大小, 相較之下節省了不少空間, 像這樣開放的圖示字型, 可以找到不少:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;http://fontawesome.io&quot;&gt;Font Awesome&lt;/a&gt; : 蠻流行的一個開放icon組, 提供了ttf, woff等字型檔格式&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://design.google.com/icons/&quot;&gt;Google material icons&lt;/a&gt; : Google開放源碼的免費icon組, 它不只提供Android, iOS可使用的圖檔外, 也提供了字型檔的部分, 而且它的字型檔支援了Ligatures (後面會再提到它好用的地方),這也使得它比Font Awesome來的好用&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://erikflowers.github.io/weather-icons/&quot;&gt;Weather Icons&lt;/a&gt; : 顧名思義, 這提供了222個可以用於表示天氣的icons, 不過對於風向的表示的部分, 它是用同一個圖示只是在web上利用css旋轉來顯示不同方向的風, 這一點應用到App上的話, 我是還沒找到比較適合表達的方式&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://octicons.github.com&quot;&gt;Octicons&lt;/a&gt; : 由GitHub開源出來的圖標字型, 圖標不多, 但自己新增應該蠻方便的(自己增加svg檔用grunt去build)&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;除了這些之外, 應該還可以找到不少免費的圖標字型(icon font)可以用, &lt;a href=&quot;https://github.com/ElfSundae/IconFontKit&quot;&gt;IconFontKit&lt;/a&gt;這邊就列了不少(它也整合了)可用的圖標字型&lt;/p&gt;
-
-&lt;p&gt;使用這些, 除了可以節省app的大小, 也可以省下不少設計圖標的時間, 但也不是沒缺點, 因為是字型的關係, 它每一個icon都是對應到一個unicode字元, 這字元大多數跟icon的形狀沒關係, 也就不是那麼好對應, 通常都要查一下對照表找出字元碼&lt;/p&gt;
-
-&lt;h4 id=&quot;framework&quot;&gt;利用現成的framework整合&lt;/h4&gt;
-&lt;p&gt;要在iOS上使用這些圖標字型(icon font)的方式好幾種,寫程式去load字型是一種, 當然就有不少大德, 寫好包裝可以讓你用cocoapods或是cathage直接引入, 這邊有幾個不錯的:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/ElfSundae/IconFontKit&quot;&gt;IconFontKit&lt;/a&gt; : 這個整合應該是最完整的, 以Objective C寫的, 缺點是, 整合太多了, 反而變肥了&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/thii/FontAwesome.swift&quot;&gt;FontAwesome.swift&lt;/a&gt; : 這一個是針對FontAwesome, 還蠻輕量的, 以Swift時做的, 類似的有用Objective C寫的&lt;a href=&quot;https://github.com/PrideChung/FontAwesomeKit&quot;&gt;FontAwesomeKit&lt;/a&gt;, 不過比較起來還是&lt;a href=&quot;https://github.com/thii/FontAwesome.swift&quot;&gt;FontAwesome.swift&lt;/a&gt;比較輕量, 如果用的只是FontAwesome, 那還是這個好&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/julianshen/FontWeather.swift&quot;&gt;FontWeather.swift&lt;/a&gt; : 老王賣瓜一下, 因為想寫的東西剛好有需要用到&lt;a href=&quot;https://erikflowers.github.io/weather-icons/&quot;&gt;Weather Icons&lt;/a&gt;, 所以我就用了&lt;a href=&quot;https://github.com/thii/FontAwesome.swift&quot;&gt;FontAwesome.swift&lt;/a&gt; 的方式做了包裝&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;用這些現成的framework的好處是, 一來減去自己手動包裝字型進app的複雜度, 二來是, 這些已經幫你定義好一些對應圖標的常數, 讓你用比較方便的方式而不是記憶unicode字元來對應這些圖標&lt;/p&gt;
-
-&lt;p&gt;但它也是有缺點的, 大部分這些的作法都是runtime才去載入跟註冊字型, 因此你必須是在程式內設定你的UILabel, UIButton的字型, 無法事先就在Interface Builder做預覽, 所以個人比較喜歡的方式就是自己動手來&lt;/p&gt;
-
-&lt;h4 id=&quot;xcode&quot;&gt;手動在xcode上使用自訂字型&lt;/h4&gt;
-
-&lt;p&gt;自己手動加的好處就是, Interface Builder上就可以套用, 直接就可以看到結果, 但就是稍微繁瑣了一點&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/posts/p1608041.png&quot; alt=&quot;Interface Builder直接看結果&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;首先, 要把字型檔拖入你的Project裡面:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/posts/p1608042.png&quot; alt=&quot;ttf files in project&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;接著打開Info.plist, 加上一個新的項目叫做&lt;em&gt;“Fonts provided by application”&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;這個是一個陣列(Array), 它的內容就是你要加入的字型檔檔名, 把你要加的每一個都列進去&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/posts/p1608043.png&quot; alt=&quot;Info.plist&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;接著, 在Interface Builder裡你所要使用icon font的地方, 比如說UILabel設定你的字型, 原本的字型是設定為&lt;em&gt;“System”&lt;/em&gt;, 把它改成&lt;em&gt;“Custom”&lt;/em&gt;, 並選定你所需要的字型名稱, 例如FontAwesome, 要注意的是, 字型名稱不一定等同於你字型檔的名字:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/posts/p1608044.png&quot; alt=&quot;Interface builder&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/posts/p1608045.png&quot; alt=&quot;Interface builder&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;接下來在&lt;strong&gt;Text&lt;/strong&gt;的部分輸入這個圖示的代表的Unicode字元就好, 不是Unicode碼, 而是那個字元本身, 這挺不方便的, 可能用copy paste的才有辦法, 這是這個方法最大的缺點&lt;/p&gt;
-
-&lt;p&gt;這問題還是有方法克服, 這也就是前面為何提到會比較推薦使用&lt;a href=&quot;https://design.google.com/icons/&quot;&gt;Google material icons&lt;/a&gt;而不是&lt;a href=&quot;http://fontawesome.io&quot;&gt;Font Awesome&lt;/a&gt; , 這原因就是Ligatures&lt;/p&gt;
-
-&lt;h4 id=&quot;ligatures&quot;&gt;Ligatures&lt;/h4&gt;
-
-&lt;p&gt;Ligatures是一個字型上蠻方便的特色的, 關於Ligatures可以先看一下這篇, 這是在&lt;a href=&quot;https://design.google.com/icons/&quot;&gt;Google material icons&lt;/a&gt;提到的一篇文章:&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;a href=&quot;http://alistapart.com/article/the-era-of-symbol-fonts&quot;&gt;The Era of Symbol Fonts&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;剛剛提到的一個很大的缺點是, 你要知道圖示對應的Unicode碼才可以在你的UI上顯示你想要的圖示, 這相當不方便, 尤其那些Unicode碼可能根本完全不代表任何意義&lt;/p&gt;
-
-&lt;p&gt;比較人性點的作法是當你想要一個圖示代表藍芽, 用bluetooth就可以找到對應圖示, 而Ligatures就是一個這樣的存在&lt;/p&gt;
-
-&lt;p&gt;我們先來看看, 如果使用沒有而Ligatures的FontAwesome, 你在Text打上&lt;strong&gt;“Contacts”&lt;/strong&gt;會是怎樣一個情形?&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/posts/p1608046.png&quot; alt=&quot;Ligatures1&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;它會直接一字不漏的呈現&lt;strong&gt;“Contacts”&lt;/strong&gt;,這還是因為FontAwesome有包含原本英數字字型在裡面, 有些其他的自行更慘, 根本就是一片白&lt;/p&gt;
-
-&lt;p&gt;讓我們再看看用&lt;a href=&quot;https://design.google.com/icons/&quot;&gt;Google material icons&lt;/a&gt;的字型,同樣的東西會有什麼結果&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/posts/p1608047.png&quot; alt=&quot;Ligatures2&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;因為這個字型有支援Ligatures, 所以在這邊contacts就會被直接代換成它對應的圖示了, 我們就不用寄那種完全看不懂的unicode碼了&lt;/p&gt;
-
-&lt;p&gt;但大部分的字型其實也都沒有, 所以自訂字型該怎做?那就留待之後研究了&lt;/p&gt;</content><category term="iOS" /><category term="Swift" /><category term="mobiledev" /><summary>寫App有一個讓人頭痛的是App大小的問題, 而這大小有部分是由App裡面所用的圖所貢獻, 為了減少這部份消耗掉的資源, 不管是用較大壓縮率的格式來壓縮圖檔, 還是其他, 大家都想盡辦法想解決這問題, 現在由於平面化的UI設計, 使得又有不錯的方法來解決這問題, 平面化UI設計的特色是大部分的圖檔都是單色而非五顏六色, 這使得用向量圖, 甚至用字型來解決這問題變得可行</summary></entry></feed>
+&lt;p&gt;所有都沒問題後按下右下角的&lt;code class=&quot;highlighter-rouge&quot;&gt;Download&lt;/code&gt;就沒問題了&lt;/p&gt;</content><category term="iOS" /><category term="Swift" /><category term="mobiledev" /><category term="webdev" /><summary>承續上篇的用icon font來製作圖示, 之前所提到的都是利用現成的icon font, 但似乎大部分的icon font都沒有像material icon有支援ligatures, 沒支援的話, 在xcode裡面就無法像上一篇一樣, 直接在UI designer顯示對應的圖示, 另外如果需要使用自己的圖示呢?其實是有方法用SVG圖檔來製作自己的icon font的, 這篇就來介紹兩種用SVG圖檔製作一個有ligatures支援的字型檔</summary></entry></feed>
