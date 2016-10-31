@@ -1,0 +1,758 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>淺談Social Feed - 多服務彙整式的social feed [Client] &#8211; Le murmure de Julian</title>
+<meta name="description" content="朱隸安貓囈語錄">
+<meta name="keywords" content="concept, idea, social network">
+
+<!-- Twitter Cards -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://farm4.static.flickr.com/3607/3418465682_acacbe7147_o.jpg">
+<meta name="twitter:title" content="淺談Social Feed - 多服務彙整式的social feed [Client]">
+<meta name="twitter:description" content="朱隸安貓囈語錄">
+<meta name="twitter:creator" content="@jlnshen">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="淺談Social Feed - 多服務彙整式的social feed [Client]">
+<meta property="og:description" content="朱隸安貓囈語錄">
+<meta property="og:url" content="http://blog.jln.co/%E6%B7%BA%E8%AB%87social-feed-%E5%A4%9A%E6%9C%8D%E5%8B%99%E5%BD%99%E6%95%B4%E5%BC%8F%E7%9A%84social-feed-client/">
+<meta property="og:site_name" content="Le murmure de Julian">
+<meta name="og:image" content="http://farm4.static.flickr.com/3607/3418465682_acacbe7147_o.jpg">
+<meta name="google-site-verification" content="Fwa4TQMXvroZpNT7rrwHzdf-rWBe1RDuTu75Enx_DWA">
+
+
+
+<link rel="canonical" href="http://blog.jln.co/%E6%B7%BA%E8%AB%87social-feed-%E5%A4%9A%E6%9C%8D%E5%8B%99%E5%BD%99%E6%95%B4%E5%BC%8F%E7%9A%84social-feed-client/">
+<link href="http://blog.jln.co/feed.xml" type="application/atom+xml" rel="alternate" title="Le murmure de Julian Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.rawgit.com/knsv/mermaid/6.0.0/dist/mermaid.css">
+<!-- Webfonts -->
+<link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel="stylesheet" type="text/css">
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- Load Modernizr -->
+<script src="/assets/js/vendor/modernizr-2.6.2.custom.min.js"></script>
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="http://blog.jln.co/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="http://blog.jln.co/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="http://blog.jln.co/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://blog.jln.co/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://blog.jln.co/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://blog.jln.co/images/apple-touch-icon-144x144-precomposed.png">
+
+
+
+  
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({
+        google_ad_client: "ca-pub-1789797875470932",
+        enable_page_level_ads: true
+    });
+    </script>
+  
+
+</head>
+
+<body id="post" >
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+<nav id="dl-menu" class="dl-menuwrapper" role="navigation">
+	<button class="dl-trigger">Open Menu</button>
+	<ul class="dl-menu">
+		<li><a href="http://blog.jln.co/">Home</a></li>
+		<li>
+			<a href="#">About</a>
+			<ul class="dl-submenu">
+				<li>
+					<img src="http://blog.jln.co/images/avatar.png" alt="Julian Shen photo" class="author-photo">
+					<h4>Julian Shen</h4>
+					<p>software deverloper</p>
+				</li>
+				<li>
+					<a href="mailto:julianshen22@gmail.com"><i class="fa fa-fw fa-envelope"></i> Email</a>
+				</li>
+				<li>
+					<a href="https://twitter.com/jlnshen"><i class="fa fa-fw fa-twitter"></i> Twitter</a>
+				</li>
+				<li>
+					<a href="https://facebook.com/julianshen"><i class="fa fa-fw fa-facebook"></i> Facebook</a>
+				</li>
+				
+				<li>
+					<a href="https://linkedin.com/in/julianshen"><i class="fa fa-fw fa-linkedin"></i> LinkedIn</a>
+				</li>
+				<li>
+					<a href="https://github.com/julianshen"><i class="fa fa-fw fa-github"></i> GitHub</a>
+				</li>
+				
+				<li>
+					<a href="https://instagram.com/julianshen"><i class="fa fa-fw fa-instagram"></i> Instagram</a>
+				</li>
+				<li>
+					<a href="https://www.flickr.com/photos/julianshen"><i class="fa fa-fw fa-flickr"></i> Flickr</a>
+				</li>
+				
+			</ul><!-- /.dl-submenu -->
+		</li>
+		<li>
+			<a href="#">Posts</a>
+			<ul class="dl-submenu">
+				<li><a href="http://blog.jln.co/posts/">All Posts</a></li>
+				<li><a href="http://blog.jln.co/tags/">All Tags</a></li>
+			</ul>
+		</li>
+		
+	</ul><!-- /.dl-menu -->
+</nav><!-- /.dl-menuwrapper -->
+
+
+
+
+<div id="main" role="main">
+  <article class="hentry">
+    <header class="header-title">
+      <div class="header-title-wrap">
+        
+          <h1 class="entry-title"><a href="http://blog.jln.co/%E6%B7%BA%E8%AB%87social-feed-%E5%A4%9A%E6%9C%8D%E5%8B%99%E5%BD%99%E6%95%B4%E5%BC%8F%E7%9A%84social-feed-client/" rel="bookmark" title="淺談Social Feed - 多服務彙整式的social feed [Client]">淺談Social Feed - 多服務彙整式的social feed [Client]</a></h1>
+        
+        <h2><span class="entry-date date published"><time datetime="2016-10-31T08:49:18+08:00">October 31, 2016</time></span></h2>
+        
+        <p class="entry-reading-time">
+          <i class="fa fa-clock-o"></i>
+          
+Reading time ~5 minutes
+        </p><!-- /.entry-reading-time -->
+        
+      </div><!-- /.header-title-wrap -->
+    </header>
+    <div class="entry-content">
+      <p>出去放空玩一陣子了, 也該接下來整理一下剩下的東西了, 這篇主要要來談一下彙整式的social feed (aggregation feeds), 這功用是什麼呢?
+由於現代人擁有了很多社群網路的帳號, 但如果要一個個網站或App開著看才能看到所有的動態, 未免太累了, 因此變有這種彙整式的服務出現, 讓使用者在一個地方可以看到所有的社群動態</p>
+
+<p>這種形態的應用, 有幾個有代表性的, <a href="/淺談social-feed-概念篇/">前一篇的概念篇</a>裡所提到的<a href="https://zh.wikipedia.org/wiki/FriendFeed">Friendfeed</a>,
+還有就是<a href="https://flipboard.com">Flipboard</a>, 另外就是HTC的<a href="http://mobile.htc.com/learnmore/desires/eng/howtos/GUID-89A364D2-2043-46BD-9249-AA7BE00577A9.html">Friend stream</a>和<a href="http://www.htc.com/tw/support/htc-one-m8/howto/cat_71459.html">Blinkfeed</a> (私心提這兩個我所參與過的)</p>
+
+<p><img src="http://farm4.static.flickr.com/3607/3418465682_acacbe7147_o.jpg" alt="Friendfeed" />
+<img src="/images/posts/flipboard_i1.png" alt="Flipboard" /></p>
+<div class="video"><figure><iframe width="640" height="480" src="//www.youtube.com/embed/6Ss4bM1XmTA" frameborder="0" allowfullscreen=""></iframe></figure></div>
+<div class="video"><figure><iframe width="640" height="480" src="//www.youtube.com/embed/GdJInzTJI0U" frameborder="0" allowfullscreen=""></iframe></figure></div>
+
+<p>前兩者跟後兩者的差異是在於, 前兩者在彙整social feeds是在server端, 所以client僅需要從server抓取彙整過的資料下來就好, 複雜度在於服務端並不是在client app,
+而Blinkfeed跟Friendstream的差異點則是在Friendstream整合了跟社群網路相關的動態, Blinkfeed則是多了新聞的部分, 後來實作的方式為了有更多的彈性, 底層架構的部分也有所改變,
+這篇會稍微提到如果是在Server端實作的一些可能做法, 但主要還是著重在client端實作的問題</p>
+
+<p>做這樣一個東西, 不就是去呼叫各社群網路的API抓資料, 回來全部混在一起就好了? 如果單純只是實作一個”可以用的”, 那這樣可能就可以了, 但實際上還是有些問題存在, 如</p>
+
+<ol>
+  <li>各家API雖類似但個家還是有很多不同</li>
+  <li>各家server回應時間不盡相同</li>
+  <li>資料時間線交錯問題</li>
+  <li>資料更新問題</li>
+  <li>網路流量問題</li>
+</ol>
+
+<p>在看這些東西之前, 先來看看各家API的部分</p>
+
+<h3 id="social-feed-api">Social Feed API</h3>
+
+<p>很多社群網站都有提供公開的API讓你去獲取使用者的Social feeds, API定義各家各有不同, 但特色都一致的, 也就是大家都是以REST API設計為主, 採資料拉取(Pull)的方式, 分頁(pagination)的方式</p>
+
+<h4 id="rest-polling-and-pagination">REST, Polling, and Pagination</h4>
+
+<p>因為採用了REST API的定義方式, 所以資料傳輸上大多(幾乎是全部了啦)以JSON為主, 用REST + JSON的好處是簡單, 彈性, 資料也比較適合閱讀, 不過, 別騙人了啦, 你有多少次會直接去閱讀JSON, 除非你要做啥hacking,
+這連帶的也有人在實作client直接把JSON資料拿來儲存或暫存, 不過, 帶來的壞處是, 解析JSON其實並不是很經濟(後面會再稍提一下)</p>
+
+<p>前面也有提到, 這樣的API設計是以”拉取”(Pull)為主, 也就是server並不會主動給你最新的資料, 而是必須你的client自行呼叫API去取得, 因此要隨時保持有最新的動態,
+必須要不斷的輪詢(polling) server, 這其實也是相當不經濟的做法, 就算在熱門如Facebook, Twitter, 使用者的Social feeds不見得隨時會有最新的動態,
+因此多久的輪詢間隔才是最好的, 這會是一個很頭痛的事, 太過頻繁易造成浪費, 也會造成server的負擔, 太久則會造成使用者看到的動態並不總是會是最新的,
+其實少數像是Twitter, 有提供所謂的Streaming API, 這種就不是以拉取為主, 而是server會主動更新資料</p>
+
+<p>一般來說, 社群網站上面”跟隨”(Follow)了越多人, 看得到的動態越多, 總不可能每次抓取資料就從頭一筆給到最新的一筆, 這樣的話, 不但花時間, 浪費流量, 也增加了server的負擔,
+所以絕大部分的API, 都是從最新的往回給一定數量(比如說25則)的內容, 這樣稱之為一頁, 因此如果使用者需要往回捲回之前的資料, 就再抓取再前面一個分頁, 這樣的設計就是分頁(Pagination),
+分頁的問題點在於, 社群動態的最頂頭的部分常常會再有更新的動態加入, 導致分頁會整個位移, 像下圖, 這樣會導致client有可能抓取到重複的資料, 甚至時間線錯亂</p>
+
+<p><img src="/images/posts/pagination.001.jpeg" alt="" /></p>
+
+<h4 id="twitter-api">Twitter API</h4>
+
+<p>先來看看<a href="https://dev.twitter.com/rest/public/timelines">Twitter API</a>的例子, 這邊就有很詳細地解釋前述的Pagination的問題, 並且講解如何用max_id和since_id來解決這一問題</p>
+
+<p>Twitter在這部分經驗豐富, 他們用的解法是以”id”, 有些社群網站的since會用”時間”, 用時間是不好的做法, 因為就算你時間記錄到微秒, 還是很有可能有兩則以上的動態可能是相同時間的, 這樣錯亂的問題一樣存在</p>
+
+<p>Twitter在抓取使用者的social feed用的API是<a href="https://dev.twitter.com/rest/reference/get/statuses/home_timeline">“GET statuses/home_timeline.json”</a>,
+回傳的資料是一個Tweets的陣列如下:</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="p">[</span>
+  <span class="p">{</span>
+    <span class="s2">"coordinates"</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+    <span class="s2">"truncated"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="s2">"created_at"</span><span class="p">:</span> <span class="s2">"Tue Aug 28 21:16:23 +0000 2012"</span><span class="p">,</span>
+    <span class="s2">"favorited"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="s2">"id_str"</span><span class="p">:</span> <span class="s2">"240558470661799936"</span><span class="p">,</span>
+    <span class="s2">"in_reply_to_user_id_str"</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+    <span class="s2">"entities"</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s2">"urls"</span><span class="p">:</span> <span class="p">[</span>
+
+      <span class="p">],</span>
+      <span class="s2">"hashtags"</span><span class="p">:</span> <span class="p">[</span>
+
+      <span class="p">],</span>
+      <span class="s2">"user_mentions"</span><span class="p">:</span> <span class="p">[</span>
+
+      <span class="p">]</span>
+    <span class="p">},</span>
+    <span class="s2">"text"</span><span class="err">:</span> <span class="s2">"just another test"</span><span class="p">,</span>
+    <span class="s2">"contributors"</span><span class="err">:</span> <span class="kc">null</span><span class="p">,</span>
+    <span class="s2">"id"</span><span class="err">:</span> <span class="mi">240558470661799936</span><span class="p">,</span>
+    <span class="s2">"retweet_count"</span><span class="err">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s2">"in_reply_to_status_id_str"</span><span class="err">:</span> <span class="kc">null</span><span class="p">,</span>
+    <span class="s2">"geo"</span><span class="err">:</span> <span class="kc">null</span><span class="p">,</span>
+    <span class="s2">"retweeted"</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="s2">"in_reply_to_user_id"</span><span class="err">:</span> <span class="kc">null</span><span class="p">,</span>
+    <span class="s2">"place"</span><span class="err">:</span> <span class="kc">null</span><span class="p">,</span>
+    <span class="s2">"source"</span><span class="err">:</span> <span class="s2">"OAuth Dancer Reborn"</span><span class="p">,</span>
+    <span class="s2">"user"</span><span class="err">:</span> <span class="p">{</span>
+      <span class="s2">"name"</span><span class="err">:</span> <span class="s2">"OAuth Dancer"</span><span class="p">,</span>
+      <span class="s2">"profile_sidebar_fill_color"</span><span class="err">:</span> <span class="s2">"DDEEF6"</span><span class="p">,</span>
+      <span class="s2">"profile_background_tile"</span><span class="err">:</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="s2">"profile_sidebar_border_color"</span><span class="err">:</span> <span class="s2">"C0DEED"</span><span class="p">,</span>
+      <span class="s2">"profile_image_url"</span><span class="err">:</span> <span class="s2">"http://a0.twimg.com/profile_images/730275945/oauth-dancer_normal.jpg"</span><span class="p">,</span>
+      <span class="s2">"created_at"</span><span class="err">:</span> <span class="s2">"Wed Mar 03 19:37:35 +0000 2010"</span><span class="p">,</span>
+      <span class="s2">"location"</span><span class="err">:</span> <span class="s2">"San Francisco, CA"</span><span class="p">,</span>
+      <span class="s2">"follow_request_sent"</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="s2">"id_str"</span><span class="err">:</span> <span class="s2">"119476949"</span><span class="p">,</span>
+      <span class="s2">"is_translator"</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="s2">"profile_link_color"</span><span class="err">:</span> <span class="s2">"0084B4"</span><span class="p">,</span>
+      <span class="s2">"entities"</span><span class="err">:</span> <span class="p">{</span>
+        <span class="s2">"url"</span><span class="err">:</span> <span class="p">{</span>
+          <span class="s2">"urls"</span><span class="err">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+              <span class="s2">"expanded_url"</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+              <span class="s2">"url"</span><span class="p">:</span> <span class="s2">"http://bit.ly/oauth-dancer"</span><span class="p">,</span>
+              <span class="s2">"indices"</span><span class="p">:</span> <span class="p">[</span>
+                <span class="mi">0</span><span class="p">,</span>
+                <span class="mi">26</span>
+              <span class="p">],</span>
+              <span class="s2">"display_url"</span><span class="p">:</span> <span class="kc">null</span>
+            <span class="p">}</span>
+          <span class="p">]</span>
+        <span class="p">},</span>
+        <span class="s2">"description"</span><span class="err">:</span> <span class="kc">null</span>
+      <span class="p">},</span>
+      <span class="s2">"default_profile"</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="s2">"url"</span><span class="err">:</span> <span class="s2">"http://bit.ly/oauth-dancer"</span><span class="p">,</span>
+      <span class="s2">"contributors_enabled"</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="s2">"favourites_count"</span><span class="err">:</span> <span class="mi">7</span><span class="p">,</span>
+      <span class="s2">"utc_offset"</span><span class="err">:</span> <span class="kc">null</span><span class="p">,</span>
+      <span class="s2">"profile_image_url_https"</span><span class="err">:</span> <span class="s2">"https://si0.twimg.com/profile_images/730275945/oauth-dancer_normal.jpg"</span><span class="p">,</span>
+      <span class="s2">"id"</span><span class="err">:</span> <span class="mi">119476949</span><span class="p">,</span>
+      <span class="s2">"listed_count"</span><span class="err">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="s2">"profile_use_background_image"</span><span class="err">:</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="s2">"profile_text_color"</span><span class="err">:</span> <span class="s2">"333333"</span><span class="p">,</span>
+      <span class="s2">"followers_count"</span><span class="err">:</span> <span class="mi">28</span><span class="p">,</span>
+      <span class="s2">"lang"</span><span class="err">:</span> <span class="s2">"en"</span><span class="p">,</span>
+      <span class="s2">"protected"</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="s2">"geo_enabled"</span><span class="err">:</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="s2">"notifications"</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="s2">"description"</span><span class="err">:</span> <span class="s2">""</span><span class="p">,</span>
+      <span class="s2">"profile_background_color"</span><span class="err">:</span> <span class="s2">"C0DEED"</span><span class="p">,</span>
+      <span class="s2">"verified"</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="s2">"time_zone"</span><span class="err">:</span> <span class="kc">null</span><span class="p">,</span>
+      <span class="s2">"profile_background_image_url_https"</span><span class="err">:</span> <span class="s2">"https://si0.twimg.com/profile_background_images/80151733/oauth-dance.png"</span><span class="p">,</span>
+      <span class="s2">"statuses_count"</span><span class="err">:</span> <span class="mi">166</span><span class="p">,</span>
+      <span class="s2">"profile_background_image_url"</span><span class="err">:</span> <span class="s2">"http://a0.twimg.com/profile_background_images/80151733/oauth-dance.png"</span><span class="p">,</span>
+      <span class="s2">"default_profile_image"</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="s2">"friends_count"</span><span class="err">:</span> <span class="mi">14</span><span class="p">,</span>
+      <span class="s2">"following"</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="s2">"show_all_inline_media"</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="s2">"screen_name"</span><span class="err">:</span> <span class="s2">"oauth_dancer"</span>
+    <span class="p">},</span>
+    <span class="s2">"in_reply_to_screen_name"</span><span class="err">:</span> <span class="kc">null</span><span class="p">,</span>
+    <span class="s2">"in_reply_to_status_id"</span><span class="err">:</span> <span class="kc">null</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="s2">"coordinates"</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s2">"coordinates"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="o">-</span><span class="mf">122.25831</span><span class="p">,</span>
+        <span class="mf">37.871609</span>
+      <span class="p">],</span>
+      <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"Point"</span>
+    <span class="p">},</span>
+    <span class="s2">"truncated"</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="s2">"created_at"</span><span class="err">:</span> <span class="s2">"Tue Aug 28 21:08:15 +0000 2012"</span><span class="p">,</span>
+    <span class="s2">"favorited"</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="s2">"id_str"</span><span class="err">:</span> <span class="s2">"240556426106372096"</span><span class="p">,</span>
+    <span class="s2">"in_reply_to_user_id_str"</span><span class="err">:</span> <span class="kc">null</span><span class="p">,</span>
+    <span class="s2">"entities"</span><span class="err">:</span> <span class="p">{</span>
+      <span class="s2">"urls"</span><span class="err">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="s2">"expanded_url"</span><span class="p">:</span> <span class="s2">"http://blogs.ischool.berkeley.edu/i290-abdt-s12/"</span><span class="p">,</span>
+          <span class="s2">"url"</span><span class="p">:</span> <span class="s2">"http://t.co/bfj7zkDJ"</span><span class="p">,</span>
+          <span class="s2">"indices"</span><span class="p">:</span> <span class="p">[</span>
+            <span class="mi">79</span><span class="p">,</span>
+            <span class="mi">99</span>
+          <span class="p">],</span>
+          <span class="s2">"display_url"</span><span class="p">:</span> <span class="s2">"blogs.ischool.berkeley.edu/i290-abdt-s12/"</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="s2">"hashtags"</span><span class="err">:</span> <span class="p">[</span>
+
+      <span class="p">],</span>
+      <span class="s2">"user_mentions"</span><span class="err">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"Cal"</span><span class="p">,</span>
+          <span class="s2">"id_str"</span><span class="p">:</span> <span class="s2">"17445752"</span><span class="p">,</span>
+          <span class="s2">"id"</span><span class="p">:</span> <span class="mi">17445752</span><span class="p">,</span>
+          <span class="s2">"indices"</span><span class="p">:</span> <span class="p">[</span>
+            <span class="mi">60</span><span class="p">,</span>
+            <span class="mi">64</span>
+          <span class="p">],</span>
+          <span class="s2">"screen_name"</span><span class="p">:</span> <span class="s2">"Cal"</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"Othman Laraki"</span><span class="p">,</span>
+          <span class="s2">"id_str"</span><span class="p">:</span> <span class="s2">"20495814"</span><span class="p">,</span>
+          <span class="s2">"id"</span><span class="p">:</span> <span class="mi">20495814</span><span class="p">,</span>
+          <span class="s2">"indices"</span><span class="p">:</span> <span class="p">[</span>
+            <span class="mi">70</span><span class="p">,</span>
+            <span class="mi">77</span>
+          <span class="p">],</span>
+          <span class="s2">"screen_name"</span><span class="p">:</span> <span class="s2">"othman"</span>
+        <span class="p">}</span>
+      <span class="p">]</span>
+    <span class="p">},</span>
+    <span class="s2">"text"</span><span class="err">:</span> <span class="s2">"lecturing at the \"analyzing big data with twitter\" class at @cal with @othman  http://t.co/bfj7zkDJ"</span><span class="p">,</span>
+    <span class="s2">"contributors"</span><span class="err">:</span> <span class="kc">null</span><span class="p">,</span>
+    <span class="s2">"id"</span><span class="err">:</span> <span class="mi">240556426106372096</span><span class="p">,</span>
+    <span class="s2">"retweet_count"</span><span class="err">:</span> <span class="mi">3</span><span class="p">,</span>
+    <span class="s2">"in_reply_to_status_id_str"</span><span class="err">:</span> <span class="kc">null</span><span class="p">,</span>
+    <span class="s2">"geo"</span><span class="err">:</span> <span class="p">{</span>
+      <span class="s2">"coordinates"</span><span class="err">:</span> <span class="p">[</span>
+        <span class="mf">37.871609</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">122.25831</span>
+      <span class="p">],</span>
+      <span class="s2">"type"</span><span class="err">:</span> <span class="s2">"Point"</span>
+    <span class="p">},</span>
+    <span class="s2">"retweeted"</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="s2">"possibly_sensitive"</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="s2">"in_reply_to_user_id"</span><span class="err">:</span> <span class="kc">null</span><span class="p">,</span>
+    <span class="s2">"place"</span><span class="err">:</span> <span class="p">{</span>
+      <span class="s2">"name"</span><span class="err">:</span> <span class="s2">"Berkeley"</span><span class="p">,</span>
+      <span class="s2">"country_code"</span><span class="err">:</span> <span class="s2">"US"</span><span class="p">,</span>
+      <span class="s2">"country"</span><span class="err">:</span> <span class="s2">"United States"</span><span class="p">,</span>
+      <span class="s2">"attributes"</span><span class="err">:</span> <span class="p">{</span>
+      <span class="p">},</span>
+      <span class="s2">"url"</span><span class="err">:</span> <span class="s2">"http://api.twitter.com/1/geo/id/5ef5b7f391e30aff.json"</span><span class="p">,</span>
+      <span class="s2">"id"</span><span class="err">:</span> <span class="s2">"5ef5b7f391e30aff"</span><span class="p">,</span>
+      <span class="s2">"bounding_box"</span><span class="err">:</span> <span class="p">{</span>
+        <span class="s2">"coordinates"</span><span class="err">:</span> <span class="p">[</span>
+          <span class="p">[</span>
+            <span class="p">[</span>
+              <span class="o">-</span><span class="mf">122.367781</span><span class="p">,</span>
+              <span class="mf">37.835727</span>
+            <span class="p">],</span>
+            <span class="p">[</span>
+              <span class="o">-</span><span class="mf">122.234185</span><span class="p">,</span>
+              <span class="mf">37.835727</span>
+            <span class="p">],</span>
+            <span class="p">[</span>
+              <span class="o">-</span><span class="mf">122.234185</span><span class="p">,</span>
+              <span class="mf">37.905824</span>
+            <span class="p">],</span>
+            <span class="p">[</span>
+              <span class="o">-</span><span class="mf">122.367781</span><span class="p">,</span>
+              <span class="mf">37.905824</span>
+            <span class="p">]</span>
+          <span class="p">]</span>
+        <span class="p">],</span>
+        <span class="s2">"type"</span><span class="err">:</span> <span class="s2">"Polygon"</span>
+      <span class="p">},</span>
+      <span class="s2">"full_name"</span><span class="err">:</span> <span class="s2">"Berkeley, CA"</span><span class="p">,</span>
+      <span class="s2">"place_type"</span><span class="err">:</span> <span class="s2">"city"</span>
+    <span class="p">},</span>
+    <span class="s2">"source"</span><span class="err">:</span> <span class="s2">"Safari on iOS"</span><span class="p">,</span>
+    <span class="s2">"user"</span><span class="err">:</span> <span class="p">{</span>
+      <span class="s2">"name"</span><span class="err">:</span> <span class="s2">"Raffi Krikorian"</span><span class="p">,</span>
+      <span class="s2">"profile_sidebar_fill_color"</span><span class="err">:</span> <span class="s2">"DDEEF6"</span><span class="p">,</span>
+      <span class="s2">"profile_background_tile"</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="s2">"profile_sidebar_border_color"</span><span class="err">:</span> <span class="s2">"C0DEED"</span><span class="p">,</span>
+      <span class="s2">"profile_image_url"</span><span class="err">:</span> <span class="s2">"http://a0.twimg.com/profile_images/1270234259/raffi-headshot-casual_normal.png"</span><span class="p">,</span>
+      <span class="s2">"created_at"</span><span class="err">:</span> <span class="s2">"Sun Aug 19 14:24:06 +0000 2007"</span><span class="p">,</span>
+      <span class="s2">"location"</span><span class="err">:</span> <span class="s2">"San Francisco, California"</span><span class="p">,</span>
+      <span class="s2">"follow_request_sent"</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="s2">"id_str"</span><span class="err">:</span> <span class="s2">"8285392"</span><span class="p">,</span>
+      <span class="s2">"is_translator"</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="s2">"profile_link_color"</span><span class="err">:</span> <span class="s2">"0084B4"</span><span class="p">,</span>
+      <span class="s2">"entities"</span><span class="err">:</span> <span class="p">{</span>
+        <span class="s2">"url"</span><span class="err">:</span> <span class="p">{</span>
+          <span class="s2">"urls"</span><span class="err">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+              <span class="s2">"expanded_url"</span><span class="p">:</span> <span class="s2">"http://about.me/raffi.krikorian"</span><span class="p">,</span>
+              <span class="s2">"url"</span><span class="p">:</span> <span class="s2">"http://t.co/eNmnM6q"</span><span class="p">,</span>
+              <span class="s2">"indices"</span><span class="p">:</span> <span class="p">[</span>
+                <span class="mi">0</span><span class="p">,</span>
+                <span class="mi">19</span>
+              <span class="p">],</span>
+              <span class="s2">"display_url"</span><span class="p">:</span> <span class="s2">"about.me/raffi.krikorian"</span>
+            <span class="p">}</span>
+          <span class="p">]</span>
+        <span class="p">},</span>
+        <span class="s2">"description"</span><span class="err">:</span> <span class="p">{</span>
+          <span class="s2">"urls"</span><span class="err">:</span> <span class="p">[</span>
+
+          <span class="p">]</span>
+        <span class="p">}</span>
+      <span class="p">},</span>
+      <span class="s2">"default_profile"</span><span class="err">:</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="s2">"url"</span><span class="err">:</span> <span class="s2">"http://t.co/eNmnM6q"</span><span class="p">,</span>
+      <span class="s2">"contributors_enabled"</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="s2">"favourites_count"</span><span class="err">:</span> <span class="mi">724</span><span class="p">,</span>
+      <span class="s2">"utc_offset"</span><span class="err">:</span> <span class="o">-</span><span class="mi">28800</span><span class="p">,</span>
+      <span class="s2">"profile_image_url_https"</span><span class="err">:</span> <span class="s2">"https://si0.twimg.com/profile_images/1270234259/raffi-headshot-casual_normal.png"</span><span class="p">,</span>
+      <span class="s2">"id"</span><span class="err">:</span> <span class="mi">8285392</span><span class="p">,</span>
+      <span class="s2">"listed_count"</span><span class="err">:</span> <span class="mi">619</span><span class="p">,</span>
+      <span class="s2">"profile_use_background_image"</span><span class="err">:</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="s2">"profile_text_color"</span><span class="err">:</span> <span class="s2">"333333"</span><span class="p">,</span>
+      <span class="s2">"followers_count"</span><span class="err">:</span> <span class="mi">18752</span><span class="p">,</span>
+      <span class="s2">"lang"</span><span class="err">:</span> <span class="s2">"en"</span><span class="p">,</span>
+      <span class="s2">"protected"</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="s2">"geo_enabled"</span><span class="err">:</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="s2">"notifications"</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="s2">"description"</span><span class="err">:</span> <span class="s2">"Director of @twittereng's Platform Services. I break things."</span><span class="p">,</span>
+      <span class="s2">"profile_background_color"</span><span class="err">:</span> <span class="s2">"C0DEED"</span><span class="p">,</span>
+      <span class="s2">"verified"</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="s2">"time_zone"</span><span class="err">:</span> <span class="s2">"Pacific Time (US &amp; Canada)"</span><span class="p">,</span>
+      <span class="s2">"profile_background_image_url_https"</span><span class="err">:</span> <span class="s2">"https://si0.twimg.com/images/themes/theme1/bg.png"</span><span class="p">,</span>
+      <span class="s2">"statuses_count"</span><span class="err">:</span> <span class="mi">5007</span><span class="p">,</span>
+      <span class="s2">"profile_background_image_url"</span><span class="err">:</span> <span class="s2">"http://a0.twimg.com/images/themes/theme1/bg.png"</span><span class="p">,</span>
+      <span class="s2">"default_profile_image"</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="s2">"friends_count"</span><span class="err">:</span> <span class="mi">701</span><span class="p">,</span>
+      <span class="s2">"following"</span><span class="err">:</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="s2">"show_all_inline_media"</span><span class="err">:</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="s2">"screen_name"</span><span class="err">:</span> <span class="s2">"raffi"</span>
+    <span class="p">},</span>
+    <span class="s2">"in_reply_to_screen_name"</span><span class="err">:</span> <span class="kc">null</span><span class="p">,</span>
+    <span class="s2">"in_reply_to_status_id"</span><span class="err">:</span> <span class="kc">null</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="s2">"coordinates"</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+    <span class="s2">"truncated"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="s2">"created_at"</span><span class="p">:</span> <span class="s2">"Tue Aug 28 19:59:34 +0000 2012"</span><span class="p">,</span>
+    <span class="s2">"favorited"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="s2">"id_str"</span><span class="p">:</span> <span class="s2">"240539141056638977"</span><span class="p">,</span>
+    <span class="s2">"in_reply_to_user_id_str"</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+    <span class="s2">"entities"</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s2">"urls"</span><span class="p">:</span> <span class="p">[</span>
+
+      <span class="p">],</span>
+      <span class="s2">"hashtags"</span><span class="p">:</span> <span class="p">[</span>
+
+      <span class="p">],</span>
+      <span class="s2">"user_mentions"</span><span class="p">:</span> <span class="p">[</span>
+
+      <span class="p">]</span>
+    <span class="p">},</span>
+    <span class="s2">"text"</span><span class="err">:</span> <span class="s2">"You'd be right more often if you thought you were wrong."</span><span class="p">,</span>
+    <span class="s2">"contributors"</span><span class="err">:</span> <span class="kc">null</span><span class="p">,</span>
+    <span class="s2">"id"</span><span class="err">:</span> <span class="mi">240539141056638977</span><span class="p">,</span>
+    <span class="s2">"retweet_count"</span><span class="err">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s2">"in_reply_to_status_id_str"</span><span class="err">:</span> <span class="kc">null</span><span class="p">,</span>
+    <span class="s2">"geo"</span><span class="err">:</span> <span class="kc">null</span><span class="p">,</span>
+    <span class="s2">"retweeted"</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="s2">"in_reply_to_user_id"</span><span class="err">:</span> <span class="kc">null</span><span class="p">,</span>
+    <span class="s2">"place"</span><span class="err">:</span> <span class="kc">null</span><span class="p">,</span>
+    <span class="s2">"source"</span><span class="err">:</span> <span class="s2">"web"</span><span class="p">,</span>
+    <span class="s2">"user"</span><span class="err">:</span> <span class="p">{</span>
+      <span class="s2">"name"</span><span class="err">:</span> <span class="s2">"Taylor Singletary"</span><span class="p">,</span>
+      <span class="s2">"profile_sidebar_fill_color"</span><span class="err">:</span> <span class="s2">"FBFBFB"</span><span class="p">,</span>
+      <span class="s2">"profile_background_tile"</span><span class="err">:</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="s2">"profile_sidebar_border_color"</span><span class="err">:</span> <span class="s2">"000000"</span><span class="p">,</span>
+      <span class="s2">"profile_image_url"</span><span class="err">:</span> <span class="s2">"http://a0.twimg.com/profile_images/2546730059/f6a8zq58mg1hn0ha8vie_normal.jpeg"</span><span class="p">,</span>
+      <span class="s2">"created_at"</span><span class="err">:</span> <span class="s2">"Wed Mar 07 22:23:19 +0000 2007"</span><span class="p">,</span>
+      <span class="s2">"location"</span><span class="err">:</span> <span class="s2">"San Francisco, CA"</span><span class="p">,</span>
+      <span class="s2">"follow_request_sent"</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="s2">"id_str"</span><span class="err">:</span> <span class="s2">"819797"</span><span class="p">,</span>
+      <span class="s2">"is_translator"</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="s2">"profile_link_color"</span><span class="err">:</span> <span class="s2">"c71818"</span><span class="p">,</span>
+      <span class="s2">"entities"</span><span class="err">:</span> <span class="p">{</span>
+        <span class="s2">"url"</span><span class="err">:</span> <span class="p">{</span>
+          <span class="s2">"urls"</span><span class="err">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+              <span class="s2">"expanded_url"</span><span class="p">:</span> <span class="s2">"http://www.rebelmouse.com/episod/"</span><span class="p">,</span>
+              <span class="s2">"url"</span><span class="p">:</span> <span class="s2">"http://t.co/Lxw7upbN"</span><span class="p">,</span>
+              <span class="s2">"indices"</span><span class="p">:</span> <span class="p">[</span>
+                <span class="mi">0</span><span class="p">,</span>
+                <span class="mi">20</span>
+              <span class="p">],</span>
+              <span class="s2">"display_url"</span><span class="p">:</span> <span class="s2">"rebelmouse.com/episod/"</span>
+            <span class="p">}</span>
+          <span class="p">]</span>
+        <span class="p">},</span>
+        <span class="s2">"description"</span><span class="err">:</span> <span class="p">{</span>
+          <span class="s2">"urls"</span><span class="err">:</span> <span class="p">[</span>
+
+          <span class="p">]</span>
+        <span class="p">}</span>
+      <span class="p">},</span>
+      <span class="s2">"default_profile"</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="s2">"url"</span><span class="err">:</span> <span class="s2">"http://t.co/Lxw7upbN"</span><span class="p">,</span>
+      <span class="s2">"contributors_enabled"</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="s2">"favourites_count"</span><span class="err">:</span> <span class="mi">15990</span><span class="p">,</span>
+      <span class="s2">"utc_offset"</span><span class="err">:</span> <span class="o">-</span><span class="mi">28800</span><span class="p">,</span>
+      <span class="s2">"profile_image_url_https"</span><span class="err">:</span> <span class="s2">"https://si0.twimg.com/profile_images/2546730059/f6a8zq58mg1hn0ha8vie_normal.jpeg"</span><span class="p">,</span>
+      <span class="s2">"id"</span><span class="err">:</span> <span class="mi">819797</span><span class="p">,</span>
+      <span class="s2">"listed_count"</span><span class="err">:</span> <span class="mi">340</span><span class="p">,</span>
+      <span class="s2">"profile_use_background_image"</span><span class="err">:</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="s2">"profile_text_color"</span><span class="err">:</span> <span class="s2">"D20909"</span><span class="p">,</span>
+      <span class="s2">"followers_count"</span><span class="err">:</span> <span class="mi">7126</span><span class="p">,</span>
+      <span class="s2">"lang"</span><span class="err">:</span> <span class="s2">"en"</span><span class="p">,</span>
+      <span class="s2">"protected"</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="s2">"geo_enabled"</span><span class="err">:</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="s2">"notifications"</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="s2">"description"</span><span class="err">:</span> <span class="s2">"Reality Technician, Twitter API team, synthesizer enthusiast; a most excellent adventure in timelines. I know it's hard to believe in something you can't see."</span><span class="p">,</span>
+      <span class="s2">"profile_background_color"</span><span class="err">:</span> <span class="s2">"000000"</span><span class="p">,</span>
+      <span class="s2">"verified"</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="s2">"time_zone"</span><span class="err">:</span> <span class="s2">"Pacific Time (US &amp; Canada)"</span><span class="p">,</span>
+      <span class="s2">"profile_background_image_url_https"</span><span class="err">:</span> <span class="s2">"https://si0.twimg.com/profile_background_images/643655842/hzfv12wini4q60zzrthg.png"</span><span class="p">,</span>
+      <span class="s2">"statuses_count"</span><span class="err">:</span> <span class="mi">18076</span><span class="p">,</span>
+      <span class="s2">"profile_background_image_url"</span><span class="err">:</span> <span class="s2">"http://a0.twimg.com/profile_background_images/643655842/hzfv12wini4q60zzrthg.png"</span><span class="p">,</span>
+      <span class="s2">"default_profile_image"</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="s2">"friends_count"</span><span class="err">:</span> <span class="mi">5444</span><span class="p">,</span>
+      <span class="s2">"following"</span><span class="err">:</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="s2">"show_all_inline_media"</span><span class="err">:</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="s2">"screen_name"</span><span class="err">:</span> <span class="s2">"episod"</span>
+    <span class="p">},</span>
+    <span class="s2">"in_reply_to_screen_name"</span><span class="err">:</span> <span class="kc">null</span><span class="p">,</span>
+    <span class="s2">"in_reply_to_status_id"</span><span class="err">:</span> <span class="kc">null</span>
+  <span class="p">}</span>
+<span class="p">]</span>
+</code></pre>
+</div>
+
+<p>眼花撩亂了吧? 這邊先不細部探討每個部分的意義, 你只需要先知道, 這雖然看來很複雜, 但有一大半你做client時”並用不上!!!”
+通常只會需要內文, 連結, 回文數量, 喜愛數量, 使用者基本資料(大概就ID, 名字, 圖像就已經差不多了)</p>
+
+<h4 id="facebook-api">Facebook API</h4>
+
+<p>Facebook有相當多的功能, 因此相較於Twitter, 他的API自然複雜很多, 這邊要看的還是只有<a href="https://developers.facebook.com/docs/graph-api/reference/v2.8/user/feed">User Feed</a>這部分,
+不過似乎Facebook Graph API已經不再允許存取home timeline了, User Feed其實只能存取自己po的文</p>
+
+<p>在處理Pagination上, Facebook API並不是很一致, 從<a href="https://developers.facebook.com/docs/graph-api/using-graph-api">這篇</a>來看, 有幾種分頁的形式:</p>
+
+<ol>
+  <li>游標型分頁</li>
+  <li>時間型分頁</li>
+  <li>位移型分頁</li>
+</ol>
+
+<p>並不是所有的API節點都支援這三種分頁型態, 例如”/user/albums”用的是游標型, 但User Feed用的是時間型, 時間型的缺點就是有可能會發生有相同時間的動態的問題, 但不管是哪一個類型
+在Paging的資訊都會有一個previuos跟next的連結(如下), 因此不用太擔心要根據不同型態去組出URL這部分</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="c1">//游標型分頁</span>
+<span class="p">{</span>
+  <span class="s2">"data"</span><span class="err">:</span><span class="p">[</span>
+     
+  <span class="p">],</span>
+  <span class="s2">"paging"</span><span class="err">:</span><span class="p">{</span>
+    <span class="s2">"cursors"</span><span class="err">:</span><span class="p">{</span>
+      <span class="s2">"after"</span><span class="err">:</span><span class="s2">"MTAxNTExOTQ1MjAwNzI5NDE="</span><span class="p">,</span>
+      <span class="s2">"before"</span><span class="err">:</span><span class="s2">"NDMyNzQyODI3OTQw"</span>
+    <span class="p">},</span>
+    <span class="s2">"previous"</span><span class="err">:</span><span class="s2">"https://graph.facebook.com/me/albums?limit=25&amp;before=NDMyNzQyODI3OTQw"</span>
+    <span class="s2">"next"</span><span class="err">:</span><span class="s2">"https://graph.facebook.com/me/albums?limit=25&amp;after=MTAxNTExOTQ1MjAwNzI5NDE="</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+<span class="c1">//時間型分頁</span>
+<span class="p">{</span>
+  <span class="s2">"data"</span><span class="err">:</span><span class="p">[</span>
+    <span class="p">{</span>
+      <span class="s2">"message"</span><span class="p">:</span> <span class="s2">"真專業，還有空橋耶"</span><span class="p">,</span>
+      <span class="s2">"created_time"</span><span class="p">:</span> <span class="s2">"2016-10-30T11:41:36+0000"</span><span class="p">,</span>
+      <span class="s2">"id"</span><span class="p">:</span> <span class="s2">"1129283437_10210116929056272"</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="s2">"message"</span><span class="p">:</span> <span class="s2">"兄弟藍瘦香菇了"</span><span class="p">,</span>
+      <span class="s2">"created_time"</span><span class="p">:</span> <span class="s2">"2016-10-29T12:45:58+0000"</span><span class="p">,</span>
+      <span class="s2">"id"</span><span class="p">:</span> <span class="s2">"1129283437_10210105741976602"</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="s2">"message"</span><span class="p">:</span> <span class="s2">"又被拖著跑了"</span><span class="p">,</span>
+      <span class="s2">"created_time"</span><span class="p">:</span> <span class="s2">"2016-10-29T06:39:29+0000"</span><span class="p">,</span>
+      <span class="s2">"id"</span><span class="p">:</span> <span class="s2">"1129283437_10210103402598119"</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="s2">"paging"</span><span class="err">:</span><span class="p">{</span>
+    <span class="s2">"previous"</span><span class="err">:</span><span class="s2">"https://graph.facebook.com/me/feed?limit=25&amp;since=1364849754"</span><span class="p">,</span>
+    <span class="s2">"next"</span><span class="err">:</span><span class="s2">"https://graph.facebook.com/me/feed?limit=25&amp;until=1364587774"</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>在資料內容方面, Facebook回應的資料比起Twitter反而就相當的精簡, 這是有助於減低回應時間的(response time)</p>
+
+<h3 id="section">時間線回朔問題</h3>
+
+<p>剛提到Pagination時有講到在Client的設計上, 在使用者往回滑完一頁時必須要再獲取上一頁的資料, 這在單一資料源的時候問題不大, 但對彙整式的social feed, 尤其完全在Client端實作的, 會有這樣一個問題</p>
+
+<p>先來看看下圖:</p>
+
+<p><img src="/images/posts/aggregation.002.jpeg" alt="" /></p>
+
+<p>假設我們有S1, S2, S3, S4四個服務的動態要整合, 垂直每個線段是每次API call抓取到的資料的時間段(每個分頁的匙間段)</p>
+
+<p>如果我們先不考慮S2-S4, 而是只有一個S1, 第一次載入的分頁內容的時間點在t1-t2間, 所以照理來說當使用者滑到快t2時, 要再發出一個新的API call抓取下一個分頁, 也就是t3-t5這段,
+但如果把S2-S4列入考慮後, 會發現, 當第一次從四個服務那邊取得資料, 資料涵括的時間是從t1-t9, 如果什麼都不做處理而是照前面的邏輯來看, 必須要使用者滑到快t9時,
+才會第二次抓取資料, 但由於第一次抓取時, S1缺了t2-t9間的資料, S2缺了t3之後的, S4的資料也只到t4, 因此第二次抓取資料時, 會造成這三者的資料往前回填,
+這在UI顯示上會是一個比較大的災難</p>
+
+<p>因此, 以這圖來說, 第一次抓取完畢後, UI上只能顯示t1-t2間的資料, 使用者滑到t2時, 就必須觸發第二次資料的抓取, 但以這例子來說, 其實第二次是不需要包含S3
+的, 因為它第一次抓取的資料時間還在t5之後, 所以這邊如果能夠做省略, 而不是每次抓取資料都包含了S1-S4, 那可以省卻不少回應時間</p>
+
+<h3 id="data-normalization">資料格式的一致化(Data normalization)</h3>
+
+<p>剛剛看了Twitter, Facebook兩個API, 它的資料格式雖然都是JSON, 但內容差異很大, 但實際上來說, 以上次那篇的一張圖來做解釋:</p>
+
+<p><img src="/images/posts/post1021_facebook2.jpg" alt="" /></p>
+
+<p>從這張圖可以發現, 我們需要的資料並不多, 即使各家型態有所不同(例如Twitter重文字, Instagram是以圖為主), 我們還是可以歸納出我們UI所需要顯示的型態有哪些類別,
+因此我們需要的也只是顯示UI所需要的部分而已, 所以我們可以把這些不同來源的資料格式一致化成同一種我們所需要的資料格式</p>
+
+<p>那為何需要先一致化呢? 每次API抓回來的資料解析完直接顯示到UI上不就好了? 一般這樣的App的UI設計上, 會讓使用者一直捲頁, 因此你還是會需要把舊資料先暫存,
+不管是在記憶體或是在資料庫內, 這樣使用者回捲再多也不需要再從server抓取舊資料, 但你如果把原本資料原封不動的拿來存, 像Twitter那個就會存了很多不必要的資料,
+如果更偷懶直接存JSON, 那就會是效率問題了, 解析JSON過程中其實會產生不少垃圾, 效率也不高, 可能會影響UI的效能, 因此如果能夠在一開始把解析完的資料序列化到資料庫內,
+會是比較理想, 因為你只需要從資料庫取相對應解析完的資料就好, 不用再一次解析JSON</p>
+
+<h3 id="section-1">背景更新</h3>
+
+<p>偷偷在背景更新動態是一種解決時間線回朔這個問題的方法, 因為所有資料都預先抓回資料庫, 所以也不需要煩惱什麼時後該去抓下一個分頁, 每個服務都可以獨立抓取, 丟到本地的資料庫彙整就好
+,在使用者使用程式時, 也不需要解析太多JSON, 但這帶來一個缺點是因為在背景抓資料, 會有浪費頻寬的問題, 假設使用者一天最多只看了50則動態, 但一天其實會產生一百則, 那就會有50則的資訊量是浪費了,
+再加上Social API都是用輪詢(polling)的方式, 並不是會時時有資料, 所以常常很多API calls其實是不需要也浪費的</p>
+
+<h3 id="friendfeed">那Friendfeed的做法?</h3>
+
+<p>Facebook的前CTO, 也是Friendfeed創辦人之一的Brett Taylor在這篇 <a href="https://www.quora.com/How-do-sites-such-as-FriendFeed-and-Flipboard-scale-out-their-social-data-aggregators">How do sites such as FriendFeed and Flipboard scale out their social data-aggregators?</a>
+的回答可窺知一二</p>
+
+<p>在server端的做法就像背景更新差不多, 定期用crawler發api去抓取各服務的資料, 然後塞到資料庫內, 因此就沒有時間線回朔的問題了, 但問題就在於抓取的間隔, 因此在server端實作的難題就是該怎樣去取這間隔,
+在OSCON 2008有一篇<a href="http://cdn.oreillystatic.com/en/assets/1/event/12/Beyond%20REST_%20Building%20Data%20Services%20with%20XMPP%20PubSub%20Presentation.pdf">Beyond REST? Building Data Services with XMPP PubSub</a>有提到:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>on july 21st, 2008, they friendfeed crawled flickr 2.9 million times. to get the latest photos of 45,754 users of which 6,721 of that 45,754 visited Flickr in that 24 hour period, and could have *potentially* uploaded a photo. 
+- Beyond REST? Building data services with XMPP PubSub (Evan Henshaw-Plath, ENTP.com, Kellan Elliott-McCrea, Flickr.com)
+</code></pre>
+</div>
+
+<p>但實際上來說, 並沒有那麼多的更新, 也不需要那麼頻繁的去抓取, 但這是這類型的API先天的缺陷, 也不是Friendfeed的問題, 或許在下一篇講一下怎麼設計API來改善這狀況</p>
+
+      <footer class="entry-meta">
+        <span class="entry-tags"><a href="http://blog.jln.co/tags/#concept" title="Pages tagged concept" class="tag"><span class="term">concept</span></a><a href="http://blog.jln.co/tags/#idea" title="Pages tagged idea" class="tag"><span class="term">idea</span></a><a href="http://blog.jln.co/tags/#social network" title="Pages tagged social network" class="tag"><span class="term">social network</span></a></span>
+        
+        <div class="social-share">
+  <ul class="socialcount socialcount-small inline-list">
+    <li class="facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=http://blog.jln.co/%E6%B7%BA%E8%AB%87social-feed-%E5%A4%9A%E6%9C%8D%E5%8B%99%E5%BD%99%E6%95%B4%E5%BC%8F%E7%9A%84social-feed-client/" title="Share on Facebook"><span class="count"><i class="fa fa-facebook-square"></i> Like</span></a></li>
+    <li class="twitter"><a href="https://twitter.com/intent/tweet?text=http://blog.jln.co/%E6%B7%BA%E8%AB%87social-feed-%E5%A4%9A%E6%9C%8D%E5%8B%99%E5%BD%99%E6%95%B4%E5%BC%8F%E7%9A%84social-feed-client/" title="Share on Twitter"><span class="count"><i class="fa fa-twitter-square"></i> Tweet</span></a></li>
+    <li class="googleplus"><a href="https://plus.google.com/share?url=http://blog.jln.co/%E6%B7%BA%E8%AB%87social-feed-%E5%A4%9A%E6%9C%8D%E5%8B%99%E5%BD%99%E6%95%B4%E5%BC%8F%E7%9A%84social-feed-client/" title="Share on Google Plus"><span class="count"><i class="fa fa-google-plus-square"></i> +1</span></a></li>
+  </ul>
+</div><!-- /.social-share -->
+      </footer>
+    </div><!-- /.entry-content -->
+    <section id="disqus_thread"></section><!-- /#disqus_thread -->
+    <div class="read-more">
+  
+    <div class="read-more-header">
+      <a href="http://blog.jln.co/%E6%B7%BA%E8%AB%87social-feed-%E6%A6%82%E5%BF%B5%E7%AF%87/" class="read-more-btn">Read More</a>
+    </div><!-- /.read-more-header -->
+    <div class="read-more-content">
+      <h3><a href="http://blog.jln.co/%E6%B7%BA%E8%AB%87social-feed-%E6%A6%82%E5%BF%B5%E7%AF%87/" title="淺談Social Feed - 概念篇">淺談Social Feed - 概念篇</a></h3>
+      <p>如果要找出一個我過去幾年工作中比較具有代表性的東西, 想了一下, 應該就是social feed這東西了(寫這篇時, 想了一下該用啥名詞, 以往我會叫Timeline, 不過Social feed應該更為貼切一點),趁現在才剛離職有些時間, 把這些東西整理一下, 主要還是以...&hellip; <a href="http://blog.jln.co/%E6%B7%BA%E8%AB%87social-feed-%E6%A6%82%E5%BF%B5%E7%AF%87/">Continue reading</a></p>
+    </div><!-- /.read-more-content -->
+  
+  <div class="read-more-list">
+    
+      <div class="list-item">
+        <h4><a href="http://blog.jln.co/account-kit-samples-for-swift/" title="Account Kit samples for Swift">Account Kit samples for Swift</a></h4>
+        <span>Published on October 18, 2016</span>
+      </div><!-- /.list-item -->
+    
+      <div class="list-item">
+        <h4><a href="http://blog.jln.co/%E5%9C%A8ubuntu%E4%B8%8Bmount-box.com%E7%9A%84%E5%85%A7%E5%AE%B9/" title="在Ubuntu下mount box.com的內容">在Ubuntu下mount box.com的內容</a></h4>
+        <span>Published on October 17, 2016</span>
+      </div><!-- /.list-item -->
+    
+  </div><!-- /.read-more-list -->
+</div><!-- /.read-more -->
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrapper">
+  <footer role="contentinfo">
+    <span>&copy; 2016 Julian Shen. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> using the <a href="https://mademistakes.com/work/hpstr-jekyll-theme/" rel="nofollow">HPSTR Theme</a>.</span>
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="http://blog.jln.co/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="http://blog.jln.co/assets/js/scripts.min.js"></script>
+
+
+<!-- Asynchronous Google Analytics snippet -->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-79243751-1', 'auto');  
+  ga('require', 'linkid', 'linkid.js');
+  ga('send', 'pageview');
+</script>
+
+
+
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'julianshen'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function () {
+            var s = document.createElement('script'); s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+	        
+
+</body>
+</html>
