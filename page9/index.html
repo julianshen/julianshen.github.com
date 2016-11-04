@@ -150,6 +150,35 @@
   <header>
     
     <div class="entry-meta">
+      <span class="entry-date date published updated"><time datetime="2015-04-26T15:18:22+08:00"><a href="http://blog.jln.co/%E7%B5%A6github-page%E4%B8%80%E5%80%8B%E8%87%AA%E5%AE%9A%E7%9A%84domain-name/">April 26, 2015</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
+      
+      <span class="entry-reading-time">
+        <i class="fa fa-clock-o"></i>
+        
+Reading time ~1 minute
+      </span><!-- /.entry-reading-time -->
+      
+    </div><!-- /.entry-meta -->
+    
+      <h1 class="entry-title"><a href="http://blog.jln.co/%E7%B5%A6github-page%E4%B8%80%E5%80%8B%E8%87%AA%E5%AE%9A%E7%9A%84domain-name/" rel="bookmark" title="給Github page一個自定的domain name" itemprop="url">給Github page一個自定的domain name</a></h1>
+    
+  </header>
+  <div class="entry-content">
+    <p>正常來說Github page可以有一個自己的url像是http://julianshen.github.io (使用者名稱.github.io),但如果想用自己申請的domain name取代(例如以我的例子我想改成http://github.jln.co)該怎做呢?</p>
+
+<p>首先, 你要到你domain name的管理那邊(像我是host在godaddy,所以就直接用它的了), 新增一筆CNAME的record指向到你的github page 原本的domain(如把github.jln.co對應到julianshen.github.io), 不過光這樣還不夠, 你會發現連到http://github.jln.co還是會有錯誤</p>
+
+<p>在你page的repository裡新增一個檔案叫做CNAME(全大寫喔), 裡面的內容就是你新指定的domain name(github.jln.co, 注意, 並沒有&quot;http://&ldquo;)</p>
+
+<p>OK, 完成</p>
+
+  </div><!-- /.entry-content -->
+</article><!-- /.hentry -->
+
+<article class="hentry">
+  <header>
+    
+    <div class="entry-meta">
       <span class="entry-date date published updated"><time datetime="2015-04-18T12:42:15+08:00"><a href="http://blog.jln.co/angularjs-style-ng-style%E5%92%8C%E5%A4%A9%E6%AE%BA%E7%9A%84ie/">April 18, 2015</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
       
       <span class="entry-reading-time">
@@ -312,51 +341,6 @@ Elements elements = doc.select("span[itemprop=genre]");
   </div><!-- /.entry-content -->
 </article><!-- /.hentry -->
 
-<article class="hentry">
-  <header>
-    
-    <div class="entry-meta">
-      <span class="entry-date date published updated"><time datetime="2014-07-29T00:36:15+08:00"><a href="http://blog.jln.co/android%E9%96%8B%E7%99%BC-%E6%8A%93%E5%8F%96%E7%B6%B2%E9%A0%81%E7%B8%AE%E5%9C%96/">July 29, 2014</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
-      
-      <span class="entry-reading-time">
-        <i class="fa fa-clock-o"></i>
-        
-Reading time ~1 minute
-      </span><!-- /.entry-reading-time -->
-      
-    </div><!-- /.entry-meta -->
-    
-      <h1 class="entry-title"><a href="http://blog.jln.co/android%E9%96%8B%E7%99%BC-%E6%8A%93%E5%8F%96%E7%B6%B2%E9%A0%81%E7%B8%AE%E5%9C%96/" rel="bookmark" title="[Android開發] 抓取網頁縮圖" itemprop="url">[Android開發] 抓取網頁縮圖</a></h1>
-    
-  </header>
-  <div class="entry-content">
-    <p>Phantom.js好用的地方就是可以以下面這一段簡單的程式來抓取網頁的縮圖:</p>
-<pre>var page = require('webpage').create();
-page.open('http://github.com/', function() {
-  page.render('github.png');
-  phantom.exit();
-});    
-</pre>
-<p>結果是像這樣:</p>
-<p><img src="http://67.media.tumblr.com/97773b87c9fb0f318848c4faf603fdae/tumblr_inline_n9fjyu6dIP1qzg4zq.png"/></p>
-<p>不過, 這邊要說的並不是Phantom.js, 而是在Android上怎像這樣抓網頁縮圖</p>
-<p>在KitKat (API level 19)之前, WebView有<a href="https://developer.android.com/reference/android/webkit/WebView.html#capturePicture()">capturePicture()</a>這個API可以達成類似的效果, 不過, 這API在API level 19已經被deprecated掉了, 並且建議改用onDraw()</p>
-<p>改用onDraw()其實也不太難, 只要在WebViewClient.onPageFinished()裡做:</p>
-<pre>    Bitmap mBitmap = Bitmap.createBitmap(view.getMeasuredWidth(), view.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
-    Canvas canvas = new Canvas(mBitmap);
-    view.draw(canvas);
-</pre>
-<p>注意, 必須是在page finish之後才可以去做, 因為這時候網頁才算載入完畢, 不過結果有點不是很完美, 並非是整頁的</p>
-<p><img src="http://66.media.tumblr.com/ecad33303c898431d72bbe73a4ae33ae/tumblr_inline_n9fkelSBCh1qzg4zq.png"/></p>
-
-<p>為了方便, 我寫成一個IntentService之後可以拿來重複利用:</p>
-<p><a href="https://github.com/julianshen/WebThumbGrabber">WebThumbGrabber</a></p>
-<p>寫成IntentService的好處是讓他可以在background thread去做, 前景的activity可以完全不用管它, 不過幾個webview的methods還是需要在main thread去跑, 為此, 在Service onCreate()引入了一個Handler, 為了避免IntentService在頁面還沒載入回來前就結束掉, 用了一個Semaphore來等待縮圖完成才結束整項工作</p>
-<p>縮圖產生後, 必須要把產生的結果回傳給Activity, 這邊用的是&quot;<a href="https://developer.android.com/reference/android/app/Activity.html#createPendingResult(int,%20android.content.Intent,%20int)">Activity.createPendingResult()</a>&ldquo;, 把產生的PendingIntent傳給IntentService來回傳結果, 這動作跟startActivityForResult類似, 回傳的結果也是由Activity.onActivityResult()來接收(可參考DemoActivity)</p>
-
-  </div><!-- /.entry-content -->
-</article><!-- /.hentry -->
-
 
 
 <div class="pagination">
@@ -424,7 +408,7 @@ page.open('http://github.com/', function() {
     
 
     
-      <li><a href="http://blog.jln.co/page66/">66</a></li>
+      <li><a href="http://blog.jln.co/page67/">67</a></li>
     
 
     

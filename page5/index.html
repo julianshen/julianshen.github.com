@@ -150,6 +150,171 @@
   <header>
     
     <div class="entry-meta">
+      <span class="entry-date date published updated"><time datetime="2016-02-12T00:34:07+08:00"><a href="http://blog.jln.co/%E7%AD%86%E8%A8%98-deploy-mongodb-replica-set-to-coreosfleet/">February 12, 2016</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
+      
+      <span class="entry-reading-time">
+        <i class="fa fa-clock-o"></i>
+        
+Reading time ~1 minute
+      </span><!-- /.entry-reading-time -->
+      
+    </div><!-- /.entry-meta -->
+    
+      <h1 class="entry-title"><a href="http://blog.jln.co/%E7%AD%86%E8%A8%98-deploy-mongodb-replica-set-to-coreosfleet/" rel="bookmark" title="[筆記] Deploy Mongodb replica set to coreos/fleet cluster on Azure" itemprop="url">[筆記] Deploy Mongodb replica set to coreos/fleet cluster on Azure</a></h1>
+    
+  </header>
+  <div class="entry-content">
+    <p>把我過年假期試的先來紀錄一下，這篇基本上有兩個部分:</p>
+
+<p>第一部份是在Azure上部署一個coreos cluster，這部份可以參考以下幾篇：</p>
+
+<ul><li><a href="https://m.youtube.com/watch?v=wxUxtflalE4">Scaling Docker #1 - High Availability Docker DevOps with CoreOS, Etcd, Fleet, Flannel &amp; Nginx</a></li>
+<li><a href="https://github.com/willrstern/production-docker-ha-architecture">willrstern/production-docker-ha-architecture</a> - 這是上一段影片用的source codes, 那段影片有好幾段, 講的蠻清楚的, 但是佈署在Digital Ocean上, 這邊我借用他的cloud-config</li>
+<li><a href="https://azure.microsoft.com/zh-tw/documentation/articles/virtual-machines-linux-coreos-how-to/">如何在 Azure 上使用 CoreOS</a></li>
+<li><a href="https://azure.microsoft.com/zh-tw/documentation/articles/virtual-machines-linux-coreos-fleet-get-started/">開始在 Azure 上的 CoreOS VM 叢集使用 Fleet</a></li>
+</ul><p>這邊我使用的不是Azure的classic vm而是用了resource manager，這部份 可以參考這篇：
+<a href="https://azure.microsoft.com/en-us/documentation/articles/resource-group-template-deploy/">Deploy an application with Azure Resource Manager template</a></p>
+
+<p>要使用arm的話，首先要把模式切到arm:</p>
+
+<blockquote>
+  <p><em>azure config mode arm</em></p>
+</blockquote>
+
+<p>接下來得建立一個resource group:</p>
+
+<blockquote>
+  <p><em>azure group create -n &ldquo;group_name&rdquo; -l &ldquo;West US&rdquo;</em></p>
+</blockquote>
+
+<p>-n 後面是這個群組的名字, -l 後面則是它所在區域</p>
+
+<p>接下來可以利用resource group templates來建立相關的資源, resource group template 除了可以自己寫以外(參考這邊 <a href="https://azure.microsoft.com/en-us/documentation/articles/resource-group-authoring-templates/">Authoring Azure Resource Manager templates</a>), 也可以上<a href="https://azure.microsoft.com/zh-tw/documentation/templates/">Azure 快速入門範本去找現成的</a>, 至於coreos + fleet, 就有一個現成的:<a href="https://azure.microsoft.com/zh-tw/documentation/templates/coreos-with-fleet-multivm/">Deploy a CoreOS cluster hosting Fleet</a>, 它的<a href="https://github.com/Azure/azure-quickstart-templates/tree/master/coreos-with-fleet-multivm">source code在github上也可以找到</a></p>
+
+<p>基本上應該是改一下azuredeploy.parameters.json再執行下面指令就可以:</p>
+
+<blockquote>
+  <p><em>azure group deployment create GroupName DeploymentName &ndash;template-file azuredeploy.json &ndash;parameters-file azuredeploy.parameters.json</em></p>
+</blockquote>
+
+<p>而裡面的discovery url部分, 則是要去: <a href="https://discovery.etcd.io/new?size=3">https://discovery.etcd.io/new?size=3</a> 產生一個貼上去</p>
+
+<p>但我前幾天在試的時候, 似乎它azuredeploy.json的換行有點問題(寫這篇文章時再看它已經是修正了), 以至於我執行起來有點問題, 再加上, 新的coreos stable似乎也改用etcd2取代原本的etcd, 因此我想要用另一個版本的cloud-config(即借用Scaling Docker那段影片裡用的那個cloud-config, 那個即是使用etcd2), 此外他的vm name也全是以coreos開頭的(我想要自己命名)</p>
+
+<p>因此, 我修改了一個自己的版本, 也放在github上: <a href="https://github.com/julianshen/azure-core-fleet">julianshen/azure-core-fleet</a></p>
+
+<p>這版本把cloud-config獨立成一個template而非寫死在azuredeploy.json, 並借用上面所述的版本, 並且寫了一隻<em>paramgen.go</em>來產生azuredeploy.parameters.json, discovery url不用自己去產生, 這支程式會自動幫你取得, 用法:</p>
+
+<ul><li><em>go get github.com/parnurzeal/gorequest</em></li>
+<li><em>go run paramgen.go &ndash;numberOfNodes 3 &ndash;location &ldquo;East US&rdquo; &ndash;newStorageAccountName &ldquo;mystorageaccount&rdquo; &ndash;vmSize &ldquo;Standard_A1&rdquo; &ndash;adminUserName &ldquo;admin&rdquo; &ndash;vmNamePrefix &ldquo;myvm&rdquo; &ndash;sshKeyFile ~/.ssh/azure_rsa.pub</em></li>
+</ul><p>參數如下:</p>
+
+<ul><li>numberOfNodes 要開的vm數量</li>
+<li>location vm位置(還是得跟你的resource group所在位置一樣)</li>
+<li>newStorageAccountName storage account name</li>
+<li>vmSize VM的大小</li>
+<li>adminUserName 管理者的名稱</li>
+<li>vmNamePrefix vm名字的開頭</li>
+<li>sshKeyFile ssk key的檔案位置(如果沒有,預設是~/.ssh/id_rsa.pub)</li>
+</ul><p>接著跑前面提到那段:</p>
+
+<blockquote>
+  <p><em>azure group deployment create GroupName DeploymentName &ndash;template-file azuredeploy.json &ndash;parameters-file azuredeploy.parameters.json</em></p>
+</blockquote>
+
+<p>執行結束後就會得到三頭牛, ㄟ,是三台VM(取決於numberOfNodes數目)及相關資源, 而且依據這個範本, 這三台VM跑得都會是coreos, 擁有我們指定的cloud-config, 這cloud-config會在coreos上啟用etcd2, fleet, 和flanneld (如Scaling Docker那段裡面的一樣)</p>
+
+<p>用ARM的模式的好處是,這三台VM會是在同一個虛擬網路上, 有各自的私有的IP, 當然也有各自的公開IP</p>
+
+<p>裝好後, 有碰到一個問題, 就是不知道為何, 重啟vm時, 會碰到etcd也跑起來了取代了etcd2, 而etcdctl 2.0.9又跟etcd有相容性問題, 導致fleet出問題, 因此在原本的cloud-config加上了:</p>
+
+<blockquote>
+  <ul><li>name: etcd.service
+    mask: true</li>
+  </ul></blockquote>
+
+<p>這樣一來etcd就不會去執行了</p>
+
+<p>再來就要測試剛剛的佈署是不是成功沒問題了</p>
+
+<p>首先我們需要fleetctl, 如果不希望登入vm就可以使用, 還是可以在本地端安裝, 在mac下可用</p>
+
+<blockquote>
+  <p><em>brew install fleetctl</em></p>
+</blockquote>
+
+<p>然後要設定兩個環境變數:</p>
+
+<ul><li><em>export FLEETCTL_TUNNEL=xxx.xxx.xxx.xxx</em></li>
+<li><em>export FLEETCTL_SSH_USERNAME=admin</em> (你設定的admin user名字)</li>
+</ul><p>接下來用:</p>
+
+<blockquote>
+  <p><em>fleetctl list-machines</em> &ndash;full</p>
+</blockquote>
+
+<p>會得到像這樣的結果:</p>
+
+<pre>
+MACHINE     IP      METADATA
+291c678da14841a7bec4c9aa0dfe168c    10.0.0.6    -
+8e63696268c54a62a3f21043669997c6    10.0.0.4    -
+fbc2675e0aa940e1b11eb6640b62906f    10.0.0.5    -
+</pre>
+
+<p>這表示這三台vm已經都跑起來了, 如果我們要ssh連上第一台可以用這種方式:</p>
+
+<blockquote>
+  <p><em>fleetctl ssh 291c678da14841a7bec4c9aa0dfe168c</em></p>
+</blockquote>
+
+<p>完全不用知道這台機器的public IP</p>
+
+<p>有了這三台VM, 接下來要做的事就是要deploy Mongodb的replica set了</p>
+
+<p>這邊我找到兩個參考:</p>
+
+<ul><li><a href="https://github.com/19hz/coreos-mongodb-cluster">19hz/coreos-mongodb-cluster</a></li>
+<li><a href="https://github.com/auth0/coreos-mongodb">auth0/coreos-mongodb</a></li>
+</ul><p>第一個其實是參考第二個寫出來的, 這兩個的差異在於第一個使用了data volume container</p>
+
+<p>Data volume container的優缺點及使用方法可以參考這篇: <a href="https://docs.docker.com/engine/userguide/containers/dockervolumes/">Manage data in containers</a></p>
+
+<p>本來我想直接採用第一個的, 不過弄了半天, 每次都是在加好admin user後restart mongo時就失敗了, 加上他的方法其實沒辦法保證db container剛好跟data volume container一定在同一台機器(可以參考<a href="https://github.com/19hz/coreos-mongodb-cluster/issues/2">這一個issue</a>), 後來就有點懶得看, 所以改採用第二個方法</p>
+
+<p>第二個方法還蠻簡單的:</p>
+
+<ul><li>先ssh到任一台(可以用fleetctl ssh),用etcdctl設定這個變數: <em>etcdctl set /mongo/replica/name myreplica</em></li>
+<li>執行 <em>fleetctl start mongo@{1..3}.service</em> 以及 <em>fleetctl start  mongo-replica-config.service</em></li>
+</ul><p>在第一個node跑起來後, 它會建立admin user自動產生它的密碼, 建立replica key, 然後再重啟mongodb, 相關參數像是admin user的密碼就會存在etcd, 會需要花一點時間</p>
+
+<p>用 <code>fleetctl list-units</code> 就可以看各個的執行結果了, 像這樣</p>
+
+<pre>
+UNIT                MACHINE         ACTIVE      SUB
+mongo-replica-config.service    8e636962.../10.0.0.4    inactive    dead
+mongo@1.service         8e636962.../10.0.0.4    active      running
+mongo@2.service         291c678d.../10.0.0.6    active      running
+mongo@3.service         fbc2675e.../10.0.0.5    active      running
+</pre>
+
+<p>mongo-replica-config由於只會跑一次, 所以你會看到他最後的狀態是dead</p>
+
+<p>這裡建立出來的admin使用者為 <em>siteRootAdmin</em> , 密碼則可以連上任一台, 用etcdctl取得:</p>
+
+<p><code>etcdctl get /mongo/replica/siteRootAdmin/pwd</code></p>
+
+<p>有了這個後就可以遠端用mongodb cli或是相關的工具連上這台mongodb了</p>
+
+<p>心得: fleet在這邊的作用感覺並不是很大, 同樣的東西應該也可以用chef或ansible來佈署, 這邊沒太多異質性的服務需要部屬(也只有一個服務), 而且我常會有連不上的狀況, 不過它算是蠻簡單的, 下次應該來試試kubernetes或是docker swarm</p>
+
+  </div><!-- /.entry-content -->
+</article><!-- /.hentry -->
+
+<article class="hentry">
+  <header>
+    
+    <div class="entry-meta">
       <span class="entry-date date published updated"><time datetime="2015-10-05T23:37:39+08:00"><a href="http://blog.jln.co/ios%E7%94%9F%E6%89%8B%E7%AD%86%E8%A8%98-swift%E7%B7%B4%E7%BF%92%E6%9B%B2%E4%B9%8B2-swselect-%E5%BF%AB%E9%80%9F%E7%94%9F%E7%94%A2%E6%8A%93%E5%9C%96%E7%A5%9E%E5%99%A8/">October 05, 2015</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
       
       <span class="entry-reading-time">
@@ -238,29 +403,6 @@ Reading time ~1 minute
   </div><!-- /.entry-content -->
 </article><!-- /.hentry -->
 
-<article class="hentry">
-  <header>
-    
-    <div class="entry-meta">
-      <span class="entry-date date published updated"><time datetime="2015-09-13T16:55:55+08:00"><a href="http://blog.jln.co/golang-streaming-json-parser-in-go/">September 13, 2015</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
-      
-      <span class="entry-reading-time">
-        <i class="fa fa-clock-o"></i>
-        
-Reading time ~1 minute
-      </span><!-- /.entry-reading-time -->
-      
-    </div><!-- /.entry-meta -->
-    
-      <h1 class="entry-title"><a href="http://blog.jln.co/golang-streaming-json-parser-in-go/" rel="bookmark" title="[Golang] Streaming JSON Parser in Go" itemprop="url">[Golang] Streaming JSON Parser in Go</a></h1>
-    
-  </header>
-  <div class="entry-content">
-    <p>目前Json已經可以說是Internet上相當流行的格式了, 雖然說他缺點還算蠻多的, 但很多主流的程式語言都有成熟的parser可供使用,  在Golang則可利用內建的encoding/json這個package來達成</p><p>用“encoding/json”來解析Json其實很簡單, 基本上就是建立一個Decoder然後把json內容”解”到你對應的資料結構去, 可以參考這範例: <a href="http://golang.org/pkg/encoding/json/#example_Decoder">http://golang.org/pkg/encoding/json/#example_Decoder</a></p><p>但在某些狀況下並不是很好的解法, 舉個例子來說, 我這兩天打算拿從<a href="http://parse.com">Parse</a>那邊匯出的使用者資料來做一些處理, <a href="http://parse.com">Parse</a>輸出給我的JSON檔大約長得像這樣: <br/></p><p>{<br/>       results: [<br/>             {<br/>                  “objectId”:”zzreueaWq4″,<br/>                  “username”:”julian”,<br/>             }<br/>       ]<br/>}</p><p>按照這定義寫出的程式碼就類似這樣:</p><p><script src="https://gist.github.com/julianshen/ba805faa6f2ff41fc139.js"></script></p><p>但這有一個很大的問題, <a href="http://parse.com">Parse</a>那邊輸出給我的Json檔就有400MB之多(二十多萬筆), 可想而知的, 這程式直接先因為out of memory炸掉了, Decode需要把所有內容載入到記憶體才做解析, 而且以這範例, 解析完的結果全部存到我們的資料結構內, 自然有這問題, 常常這種應用我們都不是很需要把所有內容在記憶體放一份, 而是來一個處理一個</p><p>這時候就需要用Streaming parser的作法來解決這問題了, Golang的Json package也有支援這一模式, 但這也是在最新的1.5之後才有支援這模式, 使用這方法, 程式可以改成如下:</p><p><script src="https://gist.github.com/julianshen/2416ee3dc15c7358340f.js"></script></p><p>在這邊由於我只需要results這陣列的內容而已, 因此我先用Token找到第一個”[”(以這範例來說, 第一個”[”代表的就是results的陣列了), 之後就是用迴圈一個個去解些個別的User物件, 由於這20多萬筆資料, 我也只是要印出來而已, 我也不用特地用一個大的資料結構來存, 自然記憶體的問題就比較沒那麼吃緊</p>
-
-  </div><!-- /.entry-content -->
-</article><!-- /.hentry -->
-
 
 
 <div class="pagination">
@@ -328,7 +470,7 @@ Reading time ~1 minute
     
 
     
-      <li><a href="http://blog.jln.co/page66/">66</a></li>
+      <li><a href="http://blog.jln.co/page67/">67</a></li>
     
 
     

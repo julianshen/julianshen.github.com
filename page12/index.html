@@ -150,6 +150,34 @@
   <header>
     
     <div class="entry-meta">
+      <span class="entry-date date published updated"><time datetime="2013-10-20T10:51:29+08:00"><a href="http://blog.jln.co/%E7%AD%86%E8%A8%98-android-library/">October 20, 2013</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
+      
+      <span class="entry-reading-time">
+        <i class="fa fa-clock-o"></i>
+        
+Reading time ~1 minute
+      </span><!-- /.entry-reading-time -->
+      
+    </div><!-- /.entry-meta -->
+    
+      <h1 class="entry-title"><a href="http://blog.jln.co/%E7%AD%86%E8%A8%98-android-library/" rel="bookmark" title="[筆記] Android library project和manifestmerger.enabled" itemprop="url">[筆記] Android library project和manifestmerger.enabled</a></h1>
+    
+  </header>
+  <div class="entry-content">
+    <p>Android library project是為了解決Android開發中在不同專案間分享原始碼以及資源檔(resource)而出現的, 傳統的jar並未考慮資源檔的問題, 因此便需要靠Android library project來解決</p>
+<p>目前, Android library project已經被廣泛運用, 舉凡ActionbarSherlock, Facebook Android SDK, 很多都已採用這形式</p>
+<p>不過現在一般用法還是比較廣泛應用在跟UI相關這類的應用上, 這也合理, 這類的應用常需要包含原始碼和資源檔, 不過它也適合在其他應用上, 舉個例子(好吧, 這例子有點不清不楚), 我們也有可能需要讓所有使用某個library project的應用程式自動加上一個Intent Receiver, 假設這receiver實作上是固定的, 並不需要使用的應用程式自行去繼承, 或是, 我們希望某個Activity的實作是被連結到各個應用程式中, 這類應用使用Android library project也是可以辦到的</p>
+<p>這類的應用, 通常還需要在AndroidManifest裡宣告, 除了receiver, activity, 也有可能加上一些service, 甚至是permission, 正常來說, 在建置使用了Android library project的專案時, library project裡的AndroidManifest的內容並不會合併到最後的AndroidManifest裡, 以致於, 雖然在library project內這些都被宣告了, 但成品內可能無法被使用, 這解法也很單純, 只要在應用程式(不是library project)的project.properties裡加上:</p>
+<p><em><strong>manifestmerger.enabled = true</strong></em></p>
+<p>Manifest merger似乎存在有一段時間了, 但似乎也沒看到啥正式的官方文件, 不過目前這方法是可行的就是了</p>
+
+  </div><!-- /.entry-content -->
+</article><!-- /.hentry -->
+
+<article class="hentry">
+  <header>
+    
+    <div class="entry-meta">
       <span class="entry-date date published updated"><time datetime="2013-09-18T21:02:11+08:00"><a href="http://blog.jln.co/city-of-bones/">September 18, 2013</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
       
       <span class="entry-reading-time">
@@ -241,30 +269,6 @@ via Blogger <a href="http://bit.ly/1d1GH2c">http://bit.ly/1d1GH2c</a>
   </div><!-- /.entry-content -->
 </article><!-- /.hentry -->
 
-<article class="hentry">
-  <header>
-    
-    <div class="entry-meta">
-      <span class="entry-date date published updated"><time datetime="2013-08-15T10:01:19+08:00"><a href="http://blog.jln.co/%E7%9C%8B%E8%91%97%E6%B5%B7%E5%AF%AB%E7%A8%8B%E5%BC%8F%E6%9C%83%E4%B8%8D%E6%9C%83%E5%A4%AA%E5%AE%85%E9%BB%9E-pinterestrssaggregator/">August 15, 2013</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
-      
-      <span class="entry-reading-time">
-        <i class="fa fa-clock-o"></i>
-        
-Reading time ~1 minute
-      </span><!-- /.entry-reading-time -->
-      
-    </div><!-- /.entry-meta -->
-    
-      <h1 class="entry-title"><a href="http://blog.jln.co/%E7%9C%8B%E8%91%97%E6%B5%B7%E5%AF%AB%E7%A8%8B%E5%BC%8F%E6%9C%83%E4%B8%8D%E6%9C%83%E5%A4%AA%E5%AE%85%E9%BB%9E-pinterestrssaggregator/" rel="bookmark" title="看著海寫程式會不會太宅點? - PinterestRSSAggregator" itemprop="url">看著海寫程式會不會太宅點? - PinterestRSSAggregator</a></h1>
-    
-  </header>
-  <div class="entry-content">
-    <div class="separator" style="clear: both; text-align: center;"><a href="http://bit.ly/16QMjak" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="225" src="http://bit.ly/1bxhUyX" width="400"/></a></div><div class="separator" style="clear: both; text-align: center;"><br/></div>陽光&hellip;.跟沙灘呀&hellip;&hellip;真是好風景呀&hellip;.躺著寫程式真不錯 (其實在顧包包)<br/><br/>昨天上飛機前, 把這兩天晚上寫的東西, <a href="http://bit.ly/16QMjam" target="_blank">PinterestRSSAggregator</a>, 在上飛機之前放上了github&hellip;.趁現在來補一些內容<br/><br/>會寫這東西的緣起在於這篇: <a href="http://bit.ly/1bxhUyZ">http://bit.ly/1bxhUyZ</a><br/><br/>Pinterest目前沒API, 這RSS也只能取得一個人最近的資訊, 但常常我們要看的不會是自己去pin的, 而是自己所follow的人pin的最新資訊, 所以這樣的RSS用處就嫌少了點, 所以想說如果可以把自己所follow的全部集結成一個rss應該會很不錯, 因此就寫了這些東西<br/><br/>一開始碰到的問題點是, 沒API, 怎抓following的資訊? 從 <a href="http://bit.ly/1bxhUz2,">http://bit.ly/1bxhUz2,</a> 似乎每個被follow的人的link都有userWrapper這class, 這或許是個出發點, 所以第一個版本做了一個直接去抓網頁回來解析抓出含有這class的連結&hellip;.但是&hellip;失敗了&hellip;因為抓回來的靜態網頁, 最多只有十二個人的連結, 超過就抓不到, 網頁上要滑鼠捲到最下面才會再load出其他的<br/><br/>後來想到的方法就是利用CasperJS, 模擬捲頁捲到最後的行為, 再把所有followings都抓回來&hellip;.喔耶&hellip;.這招居然行的通&hellip;.把所有rss 的url再用Google Feed API去抓內容(我懶得parse RSS了), 再用feed這module生成新的RSS&hellip;.大功告成&hellip;.接下來只要讓他固定一段時間跑一次, 就有一個土炮的Pinterest API用了&hellip; (還真heavy的API :( )<br/><br/>
-via Blogger <a href="http://bit.ly/16QMjqT">http://bit.ly/16QMjqT</a>
-
-  </div><!-- /.entry-content -->
-</article><!-- /.hentry -->
-
 
 
 <div class="pagination">
@@ -332,7 +336,7 @@ via Blogger <a href="http://bit.ly/16QMjqT">http://bit.ly/16QMjqT</a>
     
 
     
-      <li><a href="http://blog.jln.co/page66/">66</a></li>
+      <li><a href="http://blog.jln.co/page67/">67</a></li>
     
 
     
