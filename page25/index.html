@@ -150,6 +150,29 @@
   <header>
     
     <div class="entry-meta">
+      <span class="entry-date date published updated"><time datetime="2012-01-29T13:52:40+08:00"><a href="http://blog.jln.co/%E7%AD%86%E8%A8%98-%E7%94%A8ssh-x11-forwarding%E9%80%A3%E7%B5%90mac-linux/">January 29, 2012</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
+      
+      <span class="entry-reading-time">
+        <i class="fa fa-clock-o"></i>
+        
+Reading time ~1 minute
+      </span><!-- /.entry-reading-time -->
+      
+    </div><!-- /.entry-meta -->
+    
+      <h1 class="entry-title"><a href="http://blog.jln.co/%E7%AD%86%E8%A8%98-%E7%94%A8ssh-x11-forwarding%E9%80%A3%E7%B5%90mac-linux/" rel="bookmark" title="[筆記] 用SSH X11 forwarding連結Mac & Linux" itemprop="url">[筆記] 用SSH X11 forwarding連結Mac & Linux</a></h1>
+    
+  </header>
+  <div class="entry-content">
+    <div class="posterous_autopost"><p>兩台電腦沒兩台螢幕還挺不方便的, 用ssh連到另一台Linux用command line的缺點是一些X11 apps都沒辦法用, 不過好像ssh也不是只有文字可用</p>  <blockquote>  <p><span style="font-size: medium;"><em><strong>ssh -X my_host</strong></em></span></p>  </blockquote>  <p>用上面的方式就可以用X11 forwarding的模式連到Linux的那台, 這時候執行任何一個X11程式, 視窗就會在你的電腦顯示而非遠端那台Linux, 舉個例, 我從mac mini連到一台遠端的Linux執行banshee, 這就是mac mini上得到的結果（這screenshot有兩個視窗, 上頭是banshee run on X11, 下頭是terminal, 用ssh -X連到Linux並執行banshee）:</p>  <div class="p_embed p_image_embed"> <a href="http://getfile3.posterous.com/getfile/files.posterous.com/temp-2012-01-28/GqgeFectoEGjzoogIEituexjHjBnoqbiFJeAGvsnvninqixozfsAIFpxAGeE/_2012-01-29_1.36.03.png.scaled1000.png"><img alt="_2012-01-29_1" height="407" src="http://getfile5.posterous.com/getfile/files.posterous.com/temp-2012-01-28/GqgeFectoEGjzoogIEituexjHjBnoqbiFJeAGvsnvninqixozfsAIFpxAGeE/_2012-01-29_1.36.03.png.scaled500.png" width="500"/></a> </div>   <p>&ldquo;男人&rdquo;(man)的說明是這樣寫的:</p>  <blockquote>    <p>-X      Enables X11 forwarding.  This can also be specified on a per-host basis in a configuration file.</p>  <p>             X11 forwarding should be enabled with caution.  Users with the ability to bypass file permissions on the remote host (for the user&rsquo;s X authorization database) can access the local X11 display through the forwarded connection.  An attacker may then be able to perform activities such as keystroke monitoring.</p>  <p>             For this reason, X11 forwarding is subjected to X11 SECURITY extension restrictions by default.  Please refer to the ssh -Y option and the ForwardX11Trusted directive in ssh_config(5) for more information.</p>    </blockquote>  <p> </p>    <p> </p></div>
+
+  </div><!-- /.entry-content -->
+</article><!-- /.hentry -->
+
+<article class="hentry">
+  <header>
+    
+    <div class="entry-meta">
       <span class="entry-date date published updated"><time datetime="2012-01-23T23:45:28+08:00"><a href="http://blog.jln.co/%E6%8B%89%E9%BA%B5%E9%A3%9F%E8%A8%98-%E6%9D%B1%E4%BA%AC%E9%A7%85%E4%B8%80%E7%95%AA%E8%A1%97-%E6%B1%9F%E6%88%B6%E7%94%98%E9%BA%B5%E3%82%84%E4%B8%83%E5%BD%A9/">January 23, 2012</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
       
       <span class="entry-reading-time">
@@ -234,29 +257,6 @@ Reading time ~1 minute
   </header>
   <div class="entry-content">
     <div class="posterous_autopost"><p><a href="http://thrift.apache.org/">Thrift</a>是由Facebook開發的一套RPC system, 廣泛的被很多軟體應用, 像是HBase, Hadoop, Cassandra&hellip; 也支援了<a href="http://wiki.apache.org/thrift/LibraryFeatures?action=show&amp;redirect=LanguageSupport">許多語言</a> , 可以跨語言做RPC</p>  <p>但&hellip;.Thrift的document真是么壽的少&hellip;少的實在有夠可憐&hellip;.本來想說實作一個java client連到node.js寫的server, 搞半天東挖挖西挖挖後才搞定&hellip;..</p>  <p>首先是安裝到我的mac就把我搞暈了(加上感冒本來就暈), 一開始我用macport裝, 但裝完後, 找不到libthrift.jar, 所以只好上網站抓source來build, 所幸可以只build java library的部份, 不用整個thrift都build, 這部份倒不難, 用ant就搞定了</p>  <p>裝完thrift後, 寫好程式, build java版本時就出了問題了, javac說TClient不是個interface, 追進code才發現, 我自己build的jar是最新版的 (0.8), 但port幫我裝的是0.6, 產生的codes完全不相容, 後來改用brew裝(就是不想從頭從Source build), 終於是0.8版的了(port上的也太舊了吧)</p>  <p>這邊實作一個簡單的加法器, Server side是跑node.js, Client是java, 有空在來試試別的組合, 建一個新檔&quot;computer.thrift&quot;, 內容如下:</p>  <p>  <script src="https://gist.github.com/1523633.js?file=gistfile1.txt"></script></p>    <p>這邊定義一個簡單的Service - &ldquo;Computer&rdquo;, 只含有一個方法&quot;add&quot;, 內容很簡單, 就是用來回傳a+b的值, &ldquo;<em><strong>namespace java com.thrift.gen</strong></em>&quot;的用途就是指定產生的java code的package, 如果沒指定就是沒package, i64指得就是64bit integer</p>  <p>接下來就是要用thrift產生對應的程式碼:</p>  <blockquote class="posterous_short_quote">  <p>thrift &ndash;gen js:node &ndash;gen java computer.thrift</p>  </blockquote>  <p>這行指令同時產生for node.js的版本(在gen-nodejs目錄), 跟java版本</p>  <p><strong>Server implementation</strong></p>  <p>先安裝thrift module (for node.js)</p>  <blockquote class="posterous_short_quote">  <p>npm install thrift</p>  </blockquote>  <p>實作server.js:</p>  <p><a href="https://gist.github.com/1523666.js?file=gistfile1">https://gist.github.com/1523666.js?file=gistfile1</a></p>      <p>在Server裡面實作add, 由於是asynchronous的, 所以結果由callback回傳</p>  <p>至於Client端的部份也蠻簡單的:</p>  <p>  <script src="https://gist.github.com/1523729.js?file=gistfile1.java"></script></p>    <p>在網路上找到的sample, 都使用TSocket, 但用TSocket在這範例, client/server都會掛掉, 追了server code發現, node.js server default應該是用Framed transport, 所以在Client端加上TFramedTransport就OK了</p></div>
-
-  </div><!-- /.entry-content -->
-</article><!-- /.hentry -->
-
-<article class="hentry">
-  <header>
-    
-    <div class="entry-meta">
-      <span class="entry-date date published updated"><time datetime="2011-12-09T01:27:43+08:00"><a href="http://blog.jln.co/%E9%96%8B%E7%AE%B1-%E9%80%81%E8%87%AA%E5%B7%B1%E7%9A%84%E9%81%B2%E4%BE%86%E7%9A%84%E7%94%9F%E6%97%A5%E7%A6%AE%E7%89%A9-%E4%BE%86%E8%87%AA%E5%A5%A7%E5%9C%B0%E5%88%A9%E7%9A%84%E8%80%B3%E6%A9%9F-akg-k-701-%E9%9D%9Ebeats%E5%96%94/">December 09, 2011</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
-      
-      <span class="entry-reading-time">
-        <i class="fa fa-clock-o"></i>
-        
-Reading time ~1 minute
-      </span><!-- /.entry-reading-time -->
-      
-    </div><!-- /.entry-meta -->
-    
-      <h1 class="entry-title"><a href="http://blog.jln.co/%E9%96%8B%E7%AE%B1-%E9%80%81%E8%87%AA%E5%B7%B1%E7%9A%84%E9%81%B2%E4%BE%86%E7%9A%84%E7%94%9F%E6%97%A5%E7%A6%AE%E7%89%A9-%E4%BE%86%E8%87%AA%E5%A5%A7%E5%9C%B0%E5%88%A9%E7%9A%84%E8%80%B3%E6%A9%9F-akg-k-701-%E9%9D%9Ebeats%E5%96%94/" rel="bookmark" title="[開箱] 送自己的遲來的生日禮物 - 來自奧地利的耳機 AKG K-701 (非Beats喔.. XD)" itemprop="url">[開箱] 送自己的遲來的生日禮物 - 來自奧地利的耳機 AKG K-701 (非Beats喔.. XD)</a></h1>
-    
-  </header>
-  <div class="entry-content">
-    <div class="posterous_autopost"><p>想買個生日禮物給自己想半天終於決定是這個了, 只是今天收到已經早過生日很久了.. :P</p>  <p>剛收到, 聲音雖然還沒開, 不過已經很不錯了, 不過現在評論還太早, 所以先來寫寫開箱文吧..</p>  <div class="p_embed p_image_embed"> <a href="http://getfile5.posterous.com/getfile/files.posterous.com/temp-2011-12-08/vweqojzeoeaFoCdAziFJIdAujvErtxqcbsDkqoeCCjevfIGnjinrDyewrvEm/P1060973.jpg.scaled1000.jpg"><img alt="P1060973" height="334" src="http://getfile0.posterous.com/getfile/files.posterous.com/temp-2011-12-08/vweqojzeoeaFoCdAziFJIdAujvErtxqcbsDkqoeCCjevfIGnjinrDyewrvEm/P1060973.jpg.scaled500.jpg" width="500"/></a> </div>   <p>耳機大, 盒子大是很正常的, 不過這包裝的設計不錯, 有種開箱的驚喜感&hellip;</p>  <p>一打開箱子看到第一個字是:</p>  <div class="p_embed p_image_embed"> <a href="http://getfile4.posterous.com/getfile/files.posterous.com/temp-2011-12-08/lGfADlAbclhnAjeneJjqysAhJhfctBJtlsmrsxlprcvjnJFikcndngmvkErJ/P1060974.jpg.scaled1000.jpg"><img alt="P1060974" height="334" src="http://getfile2.posterous.com/getfile/files.posterous.com/temp-2011-12-08/lGfADlAbclhnAjeneJjqysAhJhfctBJtlsmrsxlprcvjnJFikcndngmvkErJ/P1060974.jpg.scaled500.jpg" width="500"/></a> </div>   <p><span style="font-size: medium;"><strong>&ldquo;Expect&rdquo;</strong></span>&hellip;..的確&hellip;還蠻期待裡面的東西&hellip;</p>  <p>再來的是</p>  <div class="p_embed p_image_embed"> <a href="http://getfile4.posterous.com/getfile/files.posterous.com/temp-2011-12-08/HHcftsgvBtmvJDajFzmyJpqzywpFeJozccwhxzpAlwwGeunkoxoecyFxhiGj/P1060976.jpg.scaled1000.jpg"><img alt="P1060976" height="334" src="http://getfile9.posterous.com/getfile/files.posterous.com/temp-2011-12-08/HHcftsgvBtmvJDajFzmyJpqzywpFeJozccwhxzpAlwwGeunkoxoecyFxhiGj/P1060976.jpg.scaled500.jpg" width="500"/></a> </div>   <p><span style="font-size: medium;"><strong>&ldquo;and discover&rdquo;</strong></span>&hellip;..這層開下去就真的會發現耳機了&hellip;..</p>  <div class="p_embed p_image_embed"> <a href="http://getfile7.posterous.com/getfile/files.posterous.com/temp-2011-12-08/uJxhsrskFoBkloAJzmbAAyubyelAkbdtkmxmyzrcFzypyqyvhozfmyEtktFn/P1060977.jpg.scaled1000.jpg"><img alt="P1060977" height="334" src="http://getfile1.posterous.com/getfile/files.posterous.com/temp-2011-12-08/uJxhsrskFoBkloAJzmbAAyubyelAkbdtkmxmyzrcFzypyqyvhozfmyEtktFn/P1060977.jpg.scaled500.jpg" width="500"/></a> </div>   <p>喔耶..我買K-701而非K-702就是因為這個&quot;白&quot;&hellip;.而且這又多一個底座(雖然這也沒很好)&hellip;.整個就有高尚感(我不要潮Beats.. :P)</p>  <div class="p_embed p_image_embed"> <a href="http://getfile6.posterous.com/getfile/files.posterous.com/temp-2011-12-08/DuhmxrfFJhqyHiEzbtqgIcnqJcHFzwxqtJahIoDIsaGfutBukFrFwtChlkki/P1060979.jpg.scaled1000.jpg"><img alt="P1060979" height="334" src="http://getfile5.posterous.com/getfile/files.posterous.com/temp-2011-12-08/DuhmxrfFJhqyHiEzbtqgIcnqJcHFzwxqtJahIoDIsaGfutBukFrFwtChlkki/P1060979.jpg.scaled500.jpg" width="500"/></a> </div>   <p>耳機拿出來之後又有這個字: <span style="font-size: medium;"><strong>&ldquo;Perfection&rdquo;</strong></span></p>  <p>Expect&hellip;and discover&hellip;Perfection!</p>  <div class="p_embed p_image_embed"> <a href="http://getfile3.posterous.com/getfile/files.posterous.com/temp-2011-12-08/gcdFmdmxzfzcjyDzfqxuihDHmspIezDhthjAGCsmbelooFogJDaGDvrnAAnD/P1060980.jpg.scaled1000.jpg"><img alt="P1060980" height="749" src="http://getfile2.posterous.com/getfile/files.posterous.com/temp-2011-12-08/gcdFmdmxzfzcjyDzfqxuihDHmspIezDhthjAGCsmbelooFogJDaGDvrnAAnD/P1060980.jpg.scaled500.jpg" width="500"/></a> </div> 全身照<div class="p_embed p_image_embed"> <a href="http://getfile2.posterous.com/getfile/files.posterous.com/temp-2011-12-08/umyDAgGrdBrcvmAfpgltfkmGrDmlqtnyoncFinAwfdsuCnmlAzvAAcuJECuc/P1060981.jpg.scaled1000.jpg"><img alt="P1060981" height="334" src="http://getfile5.posterous.com/getfile/files.posterous.com/temp-2011-12-08/umyDAgGrdBrcvmAfpgltfkmGrDmlqtnyoncFinAwfdsuCnmlAzvAAcuJECuc/P1060981.jpg.scaled500.jpg" width="500"/></a> </div> 白色大耳罩&hellip;挺舒服的<div class="p_embed p_image_embed"> <a href="http://getfile3.posterous.com/getfile/files.posterous.com/temp-2011-12-08/wrbywEfpvfhtEJaBdglzolHsJcdmfwIGcCuavzmnexsbAEljAyJBsuovcyAp/P1060982.jpg.scaled1000.jpg"><img alt="P1060982" height="334" src="http://getfile6.posterous.com/getfile/files.posterous.com/temp-2011-12-08/wrbywEfpvfhtEJaBdglzolHsJcdmfwIGcCuavzmnexsbAEljAyJBsuovcyAp/P1060982.jpg.scaled500.jpg" width="500"/></a> </div> 上頭這應該是皮的吧  <p> </p>  <p>剛剛聽了一整個小時, 有流行樂, 古典, 爵士&hellip;.有層次每種樂器分離感不錯, 鋼琴聲好清脆喔.. :P</p></div>
 
   </div><!-- /.entry-content -->
 </article><!-- /.hentry -->
