@@ -1,4 +1,50 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.1.6">Jekyll</generator><link href="http://blog.jln.co/feed.xml" rel="self" type="application/atom+xml" /><link href="http://blog.jln.co/" rel="alternate" type="text/html" /><updated>2016-12-11T21:33:51+08:00</updated><id>http://blog.jln.co/</id><title>Le murmure de Julian</title><subtitle>朱隸安貓囈語錄</subtitle><entry><title>[Android] 在Android Studio取得certificate fingerprints</title><link href="http://blog.jln.co/android-%E5%9C%A8android-studio%E5%8F%96%E5%BE%97certificate-fingerprints/" rel="alternate" type="text/html" title="[Android] 在Android Studio取得certificate fingerprints" /><published>2016-12-11T21:27:45+08:00</published><updated>2016-12-11T21:27:45+08:00</updated><id>http://blog.jln.co/[android]-在android-studio取得certificate-fingerprints</id><content type="html" xml:base="http://blog.jln.co/android-%E5%9C%A8android-studio%E5%8F%96%E5%BE%97certificate-fingerprints/">&lt;p&gt;在使用很多API服務像是Google的API或是Facebook的API, 常常會需要拿簽署APK的Key的signature登錄,
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.1.6">Jekyll</generator><link href="http://blog.jln.co/feed.xml" rel="self" type="application/atom+xml" /><link href="http://blog.jln.co/" rel="alternate" type="text/html" /><updated>2016-12-27T16:14:45+08:00</updated><id>http://blog.jln.co/</id><title>Le murmure de Julian</title><subtitle>朱隸安貓囈語錄</subtitle><entry><title>[Android] 把Github當Maven repository用</title><link href="http://blog.jln.co/android-%E6%8A%8Agithub%E7%95%B6maven-repository%E7%94%A8/" rel="alternate" type="text/html" title="[Android] 把Github當Maven repository用" /><published>2016-12-27T15:39:59+08:00</published><updated>2016-12-27T15:39:59+08:00</updated><id>http://blog.jln.co/[android]-把github當maven-repository用</id><content type="html" xml:base="http://blog.jln.co/android-%E6%8A%8Agithub%E7%95%B6maven-repository%E7%94%A8/">&lt;p&gt;自從Android導入gradle之後, 使用開放的第三方的程式庫就越來越方便了, 雖然方便, 但也不免會碰到這類的問題:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;想要的功能在master branch上更新了, 但卻遲遲不release以至於想用新的功能無法用&lt;/li&gt;
+  &lt;li&gt;程式碼已經沒在維護了, maven repository上一直都還是有問題的舊版本, 明知道怎麼修卻無法代他release到maven repository上去, PR又遲遲沒人理&lt;/li&gt;
+  &lt;li&gt;想加上自己的私有功能, 又不想包整包source codes到app裡面去&lt;/li&gt;
+  &lt;li&gt;想要開放自己做的程式庫卻覺得release到maven很麻煩&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;還好有&lt;a href=&quot;https://jitpack.io/&quot;&gt;Jitpack&lt;/a&gt;這東西, 剛剛就是碰到一個東西有問題, 想把它修掉直接用, 研究了一下&lt;/p&gt;
+
+&lt;p&gt;用法很簡單, 首先要先把&lt;code class=&quot;highlighter-rouge&quot;&gt;maven { url &#39;https://jitpack.io&#39; }&lt;/code&gt;加入到repositories裡面去&lt;/p&gt;
+
+&lt;div class=&quot;language-groovy highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;allprojects&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;repositories&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;maven&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;url&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;https://jitpack.io&#39;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;然後在你的&lt;code class=&quot;highlighter-rouge&quot;&gt;dependencies&lt;/code&gt;裡面加入:&lt;/p&gt;
+
+&lt;div class=&quot;language-groovy highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;compile&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;com.github.User:Repo:Tag&#39;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;User就是你Github的user name, Repo是Repository的名稱, Tag是Git的tag名稱, 舉個例：https://github.com/CowBayStudio/wire-gradle-plugin ,
+像這樣的Url, User name就是CowBayStudio, repo就是wire-gradle-plugin , 如果你的Git repo並沒有任何的Tag, 可以用Commit hash或是branch-SNAPSHOT(例如master-SNAPSHOT), 當然
+自己加上tag會是比較好的做法, 比較好控管&lt;/p&gt;
+
+&lt;p&gt;當你去build你的app時, 在抓這個dependency時, Jitpack就會自動幫你把code從github抓下來build好,
+當然是developer就免不了有bug, 導致build fail, 去 Jitpack網站把你Github的URL貼上去就可以找到build log了, 像是&lt;a href=&quot;https://jitpack.io/com/github/CowBayStudio/wire-gradle-plugin/ver11/build.log&quot;&gt;這個&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;我在弄我的東西時, 就發生了build fail的狀況, 而問題的原因是其中一個依賴的jar是JAVA 8 build出來的, 但jitpack用Java 7去build我的程式庫(文件說default應該是Java 8呀, 騙我!),
+這時候可以加一個jitpack.yml, 內容如下:&lt;/p&gt;
+
+&lt;div class=&quot;language-yml highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;s&quot;&gt;jdk&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;oraclejdk8&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;透過jitpack.yml可以有很多客制可設定, 詳情就看一下&lt;a href=&quot;https://jitpack.io/docs/BUILDING/#build-customization&quot;&gt;文件&lt;/a&gt;吧!&lt;/p&gt;
+
+&lt;p&gt;所以碰到自己想動的程式庫, 可以直接fork出來改, 改出來的就可以直接這樣用了&lt;/p&gt;
+
+&lt;p&gt;那private repo呢?付錢給&lt;a href=&quot;https://jitpack.io/private#subscribe&quot;&gt;Jitpack&lt;/a&gt;就有啦! XD&lt;/p&gt;</content><category term="Android" /><category term="Github" /><category term="jitpack.io" /><category term="maven" /><category term="gradle" /><category term="java" /><summary>自從Android導入gradle之後, 使用開放的第三方的程式庫就越來越方便了, 雖然方便, 但也不免會碰到這類的問題:</summary></entry><entry><title>[Android] 在Android Studio取得certificate fingerprints</title><link href="http://blog.jln.co/android-%E5%9C%A8android-studio%E5%8F%96%E5%BE%97certificate-fingerprints/" rel="alternate" type="text/html" title="[Android] 在Android Studio取得certificate fingerprints" /><published>2016-12-11T21:27:45+08:00</published><updated>2016-12-11T21:27:45+08:00</updated><id>http://blog.jln.co/[android]-在android-studio取得certificate-fingerprints</id><content type="html" xml:base="http://blog.jln.co/android-%E5%9C%A8android-studio%E5%8F%96%E5%BE%97certificate-fingerprints/">&lt;p&gt;在使用很多API服務像是Google的API或是Facebook的API, 常常會需要拿簽署APK的Key的signature登錄,
 取得這sigature的方法有很多種, 剛學到一種是直接可以從Android studio的Gardle選單內取得的, 方法如下:&lt;/p&gt;
 
 &lt;p&gt;Gradle-&amp;gt;(Project name)-&amp;gt;Tasks-&amp;gt;singningReports&lt;/p&gt;
@@ -1568,35 +1614,4 @@ Facebook這種通用的social network服務, 內容種類較多, 因此就會夾
 &lt;p&gt;註: plist裡面寫的app id不是我的喔!是原本Sample用的&lt;/p&gt;</content><category term="Swift" /><category term="Facebook" /><category term="Account Kit" /><summary>做一個網路服務, 使用者驗證是蠻麻煩的一件事, 我們是可以裝作沒看到, 不做驗證, 但這樣的下場就是有假使用者, 有殭屍, 最簡單的方式是信任第三方服務像是Google, Facebook,
 現在的人大多數都有Google, Facebook帳號了, 這樣其實也沒多大的問題, 但還是還是有人沒有, 而且也不是每個人都放心把Facebook帳號交給我們, 因此退而求其次就是用E-mail,
 用E-mail認證雖然也是一個好方式, 但還是要建置整套發信機制(或是花錢買mailgun來送信), 而且在手機上就麻煩了, 來回在App跟e-mail間切換很不方便,
-因此就會想用簡訊認證, 至於簡訊認證, 除了一個”貴”字以外, 要搞定各個國家的也是一個麻煩(當然, 花錢可解, 有Twilio這種服務可以用)</summary></entry><entry><title>在Ubuntu下mount box.com的內容</title><link href="http://blog.jln.co/%E5%9C%A8ubuntu%E4%B8%8Bmount-box.com%E7%9A%84%E5%85%A7%E5%AE%B9/" rel="alternate" type="text/html" title="在Ubuntu下mount box.com的內容" /><published>2016-10-17T20:38:54+08:00</published><updated>2016-10-17T20:38:54+08:00</updated><id>http://blog.jln.co/在ubuntu下mount-box.com的內容</id><content type="html" xml:base="http://blog.jln.co/%E5%9C%A8ubuntu%E4%B8%8Bmount-box.com%E7%9A%84%E5%85%A7%E5%AE%B9/">&lt;p&gt;雖然很久沒用box.com的服務了, 不過既然老婆大人問起, 就來寫一下這解法吧&lt;/p&gt;
-
-&lt;p&gt;box.com是一個像Dropbox一樣的網路磁碟, 不過它目標客戶跟Dropbox不同, 是比較傾向企業用戶, 可以讓用戶很簡單的分享檔案,
-存取box.com除了一般使用Web介面的方式外, 還有其他的方式, 像是透過它的REST API, 另外還有一種就是透過WebDav, 
-如果要寫程式去存取它, 一般可以用這兩種方式, 用REST稍微複雜一點, 還要搞定OAuth2的部分, 但透過WebDav的話就簡單多了, 可以掛載成為你作業系統底下的目錄, 當本地檔案來處理&lt;/p&gt;
-
-&lt;h4 id=&quot;davfs2&quot;&gt;安裝davfs2&lt;/h4&gt;
-
-&lt;p&gt;首先, 你會需要的是davfs2, 在Ubuntu下用apt-get安裝:&lt;/p&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo apt-get install davfs2
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h4 id=&quot;section&quot;&gt;設定帳號密碼&lt;/h4&gt;
-
-&lt;p&gt;修改&lt;code class=&quot;highlighter-rouge&quot;&gt;/etc/davfs2/secrets&lt;/code&gt;, 加入&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;https://dav.box.com/dav box.com帳號 密碼
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h4 id=&quot;section-1&quot;&gt;掛載&lt;/h4&gt;
-
-&lt;p&gt;執行底下指令掛載&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo mkdir /mnt/box.com
-sudo -t davfs https://dav.box.com/dav /mnt/box.com
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;成功之後,就會在/mnt/box.com底下看到你的檔案了(包含人家分享給你協作的檔案根目錄), 之後當本地端檔案存取即可, 設定好auto mount即可在開機後掛載&lt;/p&gt;</content><category term="box.com" /><category term="Ubuntu" /><category term="Linux" /><summary>雖然很久沒用box.com的服務了, 不過既然老婆大人問起, 就來寫一下這解法吧</summary></entry></feed>
+因此就會想用簡訊認證, 至於簡訊認證, 除了一個”貴”字以外, 要搞定各個國家的也是一個麻煩(當然, 花錢可解, 有Twilio這種服務可以用)</summary></entry></feed>
