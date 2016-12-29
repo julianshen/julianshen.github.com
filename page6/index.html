@@ -150,6 +150,43 @@
   <header>
     
     <div class="entry-meta">
+      <span class="entry-date date published updated"><time datetime="2016-02-12T23:41:25+08:00"><a href="http://blog.jln.co/%E7%AD%86%E8%A8%98-parse-%E8%87%AA%E6%95%91%E6%96%B9%E6%A1%88%E4%B9%8B%E4%B8%80-pushd/">February 12, 2016</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
+      
+      <span class="entry-reading-time">
+        <i class="fa fa-clock-o"></i>
+        
+Reading time ~1 minute
+      </span><!-- /.entry-reading-time -->
+      
+    </div><!-- /.entry-meta -->
+    
+      <h1 class="entry-title"><a href="http://blog.jln.co/%E7%AD%86%E8%A8%98-parse-%E8%87%AA%E6%95%91%E6%96%B9%E6%A1%88%E4%B9%8B%E4%B8%80-pushd/" rel="bookmark" title="[筆記] Parse 自救方案之一 - Pushd" itemprop="url">[筆記] Parse 自救方案之一 - Pushd</a></h1>
+    
+  </header>
+  <div class="entry-content">
+    <p>Parse自從宣布要收掉後, 雖然也放出open source的仿製品<a href="https://github.com/ParsePlatform/parse-server">Parse Server</a>, 這東西不是實際上Parse真正跑得那個app server, 而是一個nodejs/express的相容版, 這個版本的故事可以看這邊 <a href="https://medium.com/@newfosco/parse-2-0-600839abebdf#.vcv4l2lg2">Parse 2.0</a></p>
+
+<p>想當然爾, 這版本並不是完整支援Parse原本的功能, 尤其是Push, 這功能是完全沒有, 雖然說source codes放出來後, 大家熱烈的玩起來了, 最近幾天一個簡單的PUSH功能的pull request也被收錄進去了: <a href="https://github.com/ParsePlatform/parse-server/pull/311">Add support for push</a>, 不過這畢竟比較陽春</p>
+
+<p>一些收費不收費的替代方案也不算少, 不過如果想自救, 自己建置自己管的話, 也是不用完全重來, <a href="https://github.com/rs/pushd">rs/pushd</a> 這是目前看到還算蠻完整的, 採用了nodejs/coffee script + Redis, 在佈署方面也不算太難(不過也就兩個東西而已), 不過實際上的效能可能還是得測試一下(有沒好方法可以測大量的push呀?總不可能去生一堆機器)</p>
+
+<p>為了方便測試, 包裝成docker-compose.yml和一個方便使用的shell script: <a href="https://github.com/julianshen/pushd-docker-compose-sample">julianshen/pushd-docker-compose-sample</a></p>
+
+<p>使用方法:</p>
+
+<ul><li>修改<code>pushd.sh</code>裡跟你的app相關的push設定如GCM_KEY</li>
+<li>執行<code>pushd.sh up</code>啟動redis和pushd兩個containers</li>
+<li>執行<code>pushd.sh ps</code>確認是不是兩個都已經正確啟動</li>
+<li>PUSHD的port是對應到host的8081, 所以直接對8081操作即可</li>
+</ul><p>接下來可能要想一些方法來測試, 和把Parse的資料給串一起</p>
+
+  </div><!-- /.entry-content -->
+</article><!-- /.hentry -->
+
+<article class="hentry">
+  <header>
+    
+    <div class="entry-meta">
       <span class="entry-date date published updated"><time datetime="2016-02-12T00:34:07+08:00"><a href="http://blog.jln.co/%E7%AD%86%E8%A8%98-deploy-mongodb-replica-set-to-coreosfleet/">February 12, 2016</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
       
       <span class="entry-reading-time">
@@ -376,29 +413,6 @@ Reading time ~1 minute
   </header>
   <div class="entry-content">
     <p>實在有點詭異的問題, 解決後又覺得實在有點蠢, 結果這問題足足花了我一個半小時才得到答案</p><p>問題是這樣的, 我拿了這一個字串 <i><b>&ldquo;&lsquo;x\\r\nx&rsquo;&rdquo;</b></i> 來做解析, 一個個Character去檢查是不是”\r”, 如:</p><blockquote><p><i>let x=&ldquo;'x\\r\nx&rsquo;&rdquo;<br/>for s in x.characters {<br/>    if s == “\r” {<br/>         print(”got you!”)<br/>    }<br/>}</i><br/></p></blockquote><p>邏輯上看起來沒啥問題, 但執行結果一直不如預期(沒印出”got you”), 把第四個字元substring出來它也不等於字串”\r”</p><p>百思不得其解, 結果最後在\r\n中間加一個空白後, 就得到預期的結果了, 原來&hellip;.它是把”\r\n”整個當成一個字元!!!</p>
-
-  </div><!-- /.entry-content -->
-</article><!-- /.hentry -->
-
-<article class="hentry">
-  <header>
-    
-    <div class="entry-meta">
-      <span class="entry-date date published updated"><time datetime="2015-09-26T03:30:05+08:00"><a href="http://blog.jln.co/%E9%96%8B%E7%AE%B1%E6%96%87-sentri%E5%88%9D%E9%AB%94%E9%A9%97/">September 26, 2015</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
-      
-      <span class="entry-reading-time">
-        <i class="fa fa-clock-o"></i>
-        
-Reading time ~1 minute
-      </span><!-- /.entry-reading-time -->
-      
-    </div><!-- /.entry-meta -->
-    
-      <h1 class="entry-title"><a href="http://blog.jln.co/%E9%96%8B%E7%AE%B1%E6%96%87-sentri%E5%88%9D%E9%AB%94%E9%A9%97/" rel="bookmark" title="[開箱文] Sentri初體驗" itemprop="url">[開箱文] Sentri初體驗</a></h1>
-    
-  </header>
-  <div class="entry-content">
-    <figure data-orig-width="3264" data-orig-height="2448" class="tmblr-full"><img data-orig-width="3264" data-orig-height="2448" src="http://66.media.tumblr.com/2d31d9c77645bf21f41ff9a13343f256/tumblr_inline_nv8y6kTYwi1qzg4zq_540.jpg"/></figure><p>Sentri這個產品之前在Kick starter上的熱門程度, 可說是台灣之光呀, 加上它又是有幾個優秀的前同事的加持, 因此一開始我就在Kick starter上下訂了, 直到昨天終於收到他了, 本來想說晚點再來寫這篇的, 不過現在也沒啥睡意, 就先來寫寫</p><p>可能是剛開始的第一個產品, 其實還有些未盡完善的地方吧, 也有可能有些我體驗還沒很充足, 這篇參考參考就好, 不用太認真 :P</p><p><b>開箱</b></p><figure data-orig-width="3264" data-orig-height="2448" class="tmblr-full"><img data-orig-width="3264" data-orig-height="2448" src="http://67.media.tumblr.com/55f694986540162c317f19b494b3ad35/tumblr_inline_nv8xniKapb1qzg4zq_540.jpg"/></figure><figure data-orig-width="3264" data-orig-height="2448" class="tmblr-full"><img data-orig-width="3264" data-orig-height="2448" src="http://66.media.tumblr.com/1d0b23d6ad10a93ffdf361bc8c88c370/tumblr_inline_nv8xo2ZYbb1qzg4zq_540.jpg"/></figure><figure data-orig-width="2448" data-orig-height="3264" class="tmblr-full"><img data-orig-width="2448" data-orig-height="3264" src="http://66.media.tumblr.com/edfbe8e079f5a21aba71a5fc3b2f9a55/tumblr_inline_nv8xqw4lyr1qzg4zq_540.jpg"/></figure><figure data-orig-width="2448" data-orig-height="3264" class="tmblr-full"><img data-orig-width="2448" data-orig-height="3264" src="http://66.media.tumblr.com/f3b32ddf3e6ac1aa960b4be8714518bf/tumblr_inline_nv8xre0LpD1qzg4zq_540.jpg"/></figure><p>包裝外觀還蠻用心的, 不像一般台灣3C產品的草率, 裡面也用了不少泡綿做保護, 背面則是寫滿了一堆功能性的解說, 不過這部份我比較不喜歡, 密密麻麻的字, 其實不太會想去看, 或許有一些生動的圖示, 減少一半的文字會更好一點</p><p>一打開後, 它就方方正正的(啊本來就方的)躺在中間, 配件(不多)則是在下面, 下面還有很多多餘空間, 這樣剛剛好, 也不算浪費空間, 翻到背面, 有兩個孔是可以釘牆上的, 還有一個kickstand是可以讓你立在桌上, 前者的設計其實有點怪異, 因為它必須是要接著電源的, 一般牆上掛鐘的位子比較少有插座</p><p>隱藏在腳座後面的則有USB, 網路孔, 電源開關, 跟Reset, 電源開關的設計, 是”一根”, 形狀我是覺得怪怪的, 怎不是圓圓的按鈕, 或許我比較習慣那樣 XD 不過, reset那個孔, 也太小了吧, 穿針線的針不知道會不會也太粗</p><p><b>軟體</b></p><figure data-orig-width="3264" data-orig-height="2448" class="tmblr-full"><img data-orig-width="3264" data-orig-height="2448" src="http://67.media.tumblr.com/2de21d76f9b97e819e13dd7ac6c499d9/tumblr_inline_nv8y8kHGaG1qzg4zq_540.jpg"/></figure><p>一開機之後, 自然是要做設定, “Welcome Home”這段字, 看起來是特別溫馨 :D</p><p>而緊接著, 就是要設定網路跟註冊帳號, 這邊我碰到一個小小的bug, 起先我是接著Ethernet, 但忘了把另一頭接到Hub上, 然後又因為它還是提示我設定Wifi, 我就也設定了, 結果在註冊階段, 它一直說我沒連上Internet, 最後才發現網路線的狀況, 此時我並不是接上另一頭而是把它拔掉, 拔掉之後就可以連上了, 看起來它默認先走有線的, 但卻不會因為有線的連不上切換成Wifi</p><p>初始設定都是利用觸控螢幕操作, 輸入文字時我是覺得有點彆扭, 我是覺得, 如果家裡有Wifi, 手機又是連上同一個網路, 或許可以讓使用者在手機登入後就可以同步完設定了<br/></p><figure data-orig-width="3264" data-orig-height="2448" class="tmblr-full"><img data-orig-width="3264" data-orig-height="2448" src="http://66.media.tumblr.com/ffd527ebcad717229899d1e5679b0449/tumblr_inline_nv8yigc6ww1qzg4zq_540.jpg"/></figure><p>首頁的操作介面很簡單</p><p>首先映入眼簾的當然就是時鐘跟幾個資訊, 向左滑是設定, 向右則是Alerts</p><p>攝影機是用來監控的, 也有動態偵測, 所以一開始就可以在Alerts看到我被偷拍到的照片(小偷是我?!), 比較像是一個有螢幕的Dropcam</p><p>設定上可以設Away Mode (開啟Alerts) 和 Home mode (關閉Alerts), 以及可以設定桌面主題, 美中不足的是不可以用自己照片(也沒辦法用camera拍), 手機上的app也沒辦法用自己的圖設定這塊</p><p>相機則可設定夜視模式, 除了開關還有自動, 但自動好像沒啥用處, 我把房間燈關了, 用手機遠端看, 還是一片黑暗, 但我設定成打開就可以:</p><p>夜視效果不錯<br/></p><figure data-orig-width="1242" data-orig-height="2208" class="tmblr-full"><img data-orig-width="1242" data-orig-height="2208" src="http://65.media.tumblr.com/6dccf73c889bec15d6cd72856598c22e/tumblr_inline_nv8z392BxU1qzg4zq_540.png"/></figure><p>效能上, 有點失望, 隨便點功能都要等待1~2秒以上, 會以為沒反應, 然後它就又突然出來了, 可能硬體不夠好或是效能還沒調整好, 如以下影片:</p><p><a href="https://goo.gl/photos/SUog336k8cNyXZ5E6">https://goo.gl/photos/SUog336k8cNyXZ5E6</a></p><p>另外一個小缺點是沒有夜晚模式, 我把燈關了後它還是很亮, 它不適合擺臥房呀!<a href="https://goo.gl/photos/SUog336k8cNyXZ5E6"><br/></a></p><p><b>手機App</b></p><p>我目前只測了iPhone, 但這App的介面實在不像iPhone介面, 也還有點陽春, 目前還沒試太多, 但碰到幾個待改進的跟BUG</p><p>手機上的設定似乎跟Sentri不是同步的, 比如說, 我已經在Sentri上設定我是用攝氏為單位, 但手機登入後, 還是華氏</p><figure data-orig-width="1242" data-orig-height="2208" class="tmblr-full"><img data-orig-width="1242" data-orig-height="2208" src="http://66.media.tumblr.com/54ab9451b5323683caf1cd4d3f972c8b/tumblr_inline_nv8za0z37P1qzg4zq_540.png"/></figure><p>Alerts影片播放有會變成上圖那樣</p><p><br/></p><p><b>小結</b><br/></p><p>初感覺就比較像是有螢幕的Dropcam, 目前可顯示的資訊還不太多, 我也沒啥裝置可以跟他互動, 如果可以把它當一個比較大的Android Wear或許也會不錯, 不過目前對它還沒太多想法, 可能需要再多體驗一陣子<br/></p>
 
   </div><!-- /.entry-content -->
 </article><!-- /.hentry -->

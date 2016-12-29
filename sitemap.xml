@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://blog.jln.co/android-retrofit-+-protobuf-+-wire/</loc>
+<lastmod>2016-12-29T15:33:25+08:00</lastmod>
+</url>
+<url>
 <loc>http://blog.jln.co/android-%25E6%258A%258Agithub%25E7%2595%25B6maven-repository%25E7%2594%25A8/</loc>
 <lastmod>2016-12-27T15:39:59+08:00</lastmod>
 </url>

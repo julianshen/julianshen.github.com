@@ -1,4 +1,97 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.1.6">Jekyll</generator><link href="http://blog.jln.co/feed.xml" rel="self" type="application/atom+xml" /><link href="http://blog.jln.co/" rel="alternate" type="text/html" /><updated>2016-12-27T16:14:45+08:00</updated><id>http://blog.jln.co/</id><title>Le murmure de Julian</title><subtitle>朱隸安貓囈語錄</subtitle><entry><title>[Android] 把Github當Maven repository用</title><link href="http://blog.jln.co/android-%E6%8A%8Agithub%E7%95%B6maven-repository%E7%94%A8/" rel="alternate" type="text/html" title="[Android] 把Github當Maven repository用" /><published>2016-12-27T15:39:59+08:00</published><updated>2016-12-27T15:39:59+08:00</updated><id>http://blog.jln.co/[android]-把github當maven-repository用</id><content type="html" xml:base="http://blog.jln.co/android-%E6%8A%8Agithub%E7%95%B6maven-repository%E7%94%A8/">&lt;p&gt;自從Android導入gradle之後, 使用開放的第三方的程式庫就越來越方便了, 雖然方便, 但也不免會碰到這類的問題:&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.1.6">Jekyll</generator><link href="http://blog.jln.co/feed.xml" rel="self" type="application/atom+xml" /><link href="http://blog.jln.co/" rel="alternate" type="text/html" /><updated>2016-12-29T16:07:15+08:00</updated><id>http://blog.jln.co/</id><title>Le murmure de Julian</title><subtitle>朱隸安貓囈語錄</subtitle><entry><title>[Android] Retrofit + Protobuf + Wire</title><link href="http://blog.jln.co/android-retrofit-+-protobuf-+-wire/" rel="alternate" type="text/html" title="[Android] Retrofit + Protobuf + Wire" /><published>2016-12-29T15:33:25+08:00</published><updated>2016-12-29T15:33:25+08:00</updated><id>http://blog.jln.co/[android]-retrofit-+-protobuf-+-wire</id><content type="html" xml:base="http://blog.jln.co/android-retrofit-+-protobuf-+-wire/">&lt;p&gt;&lt;a href=&quot;https://square.github.io/retrofit/&quot;&gt;Retrofit&lt;/a&gt;目前已然成為最熱門的呼叫REST API的開源程式庫了,不過,
+大部分的Retrofit多是用來處理Json類的REST API, 但Retrofit的能力卻不僅限於此&lt;/p&gt;
+
+&lt;p&gt;透過Converter, Retrofit可以處理的不只是Json, 還包含了XML, &lt;a href=&quot;https://developers.google.com/protocol-buffers/&quot;&gt;Protobuf&lt;/a&gt;, 甚至你自己的自訂格式, 剛好最近看Json不太順眼,
+想來試試&lt;a href=&quot;https://developers.google.com/protocol-buffers/&quot;&gt;Protobuf&lt;/a&gt;, 就來試試這部分&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://square.github.io/retrofit/&quot;&gt;Retrofit&lt;/a&gt;官方網頁上列的&lt;a href=&quot;https://developers.google.com/protocol-buffers/&quot;&gt;Protobuf&lt;/a&gt; converter有兩種,
+一種是使用Google親生的&lt;a href=&quot;https://developers.google.com/protocol-buffers/&quot;&gt;Protobuf&lt;/a&gt;, 這個只要引入&lt;code class=&quot;highlighter-rouge&quot;&gt;com.squareup.retrofit2:converter-protobuf&lt;/code&gt;即可使用,
+另一種是有點比較吸引我的是Square自己開發出來的&lt;a href=&quot;https://github.com/square/wire&quot;&gt;Wire&lt;/a&gt;, Sqaure真的是蠻喜歡打造自己的東西的, 打造出來的又比別人威,
+這點讓我對&lt;a href=&quot;https://github.com/square/wire&quot;&gt;Wire&lt;/a&gt;的興趣比較大, 因此這篇主要是以&lt;a href=&quot;https://github.com/square/wire&quot;&gt;Wire&lt;/a&gt;當範例來介紹&lt;/p&gt;
+
+&lt;p&gt;使用Wire converter其實相當簡單的:&lt;/p&gt;
+
+&lt;p&gt;在build.gradle內加入相關的dependencies, 包含了wire runtime跟retorfit的converter:&lt;/p&gt;
+
+&lt;div class=&quot;language-groovy highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;compile&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;com.squareup.retrofit2:converter-wire:2.1.0&#39;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;compile&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;com.squareup.wire:wire-runtime:2.2.0&#39;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;在build service時, 用&lt;code class=&quot;highlighter-rouge&quot;&gt;addConverterFactory&lt;/code&gt;將&lt;code class=&quot;highlighter-rouge&quot;&gt;WireConverterFactory&lt;/code&gt;加入即可&lt;/p&gt;
+
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;Retrofit&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;retrofit&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Retrofit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;Builder&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
+		&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;baseUrl&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;baseUrl&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+		&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;addConverterFactory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;WireConverterFactory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;create&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;())&lt;/span&gt;
+		&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;addCallAdapterFactory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RxJava2CallAdapterFactory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;create&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;())&lt;/span&gt;
+		&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;build&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;DataService&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;service&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;retrofit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;create&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DataService&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;class&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;DataService的定義如下(這範例搭配了rxjava2):&lt;/p&gt;
+
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;interface&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;DataService&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nd&quot;&gt;@GET&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;data&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;Single&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Posts&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;getPosts&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;這邊有個問題, &lt;code class=&quot;highlighter-rouge&quot;&gt;Posts&lt;/code&gt;這個class並不是直接用Java刻出來的, 而是由&lt;code class=&quot;highlighter-rouge&quot;&gt;.proto&lt;/code&gt;檔產生的, 內容如下:&lt;/p&gt;
+
+&lt;div class=&quot;language-protobuf highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;na&quot;&gt;syntax&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;proto3&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;package&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;wtf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cowbay.dp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;message&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;FBPost&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+	&lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+	&lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;title&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+	&lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;message&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+	&lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;imgsrc&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+	&lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;target&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+	&lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;createdtime&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;message&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Posts&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;repeated&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;FBPost&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;必須要用工具產生Java class才能使用, Google的Protobuf有自己的工具, 而Wire也有自己的, 如果手動自己執行工具產生檔案後再加入, 未免太鳥,&lt;/p&gt;
+
+&lt;p&gt;還好Wire有&lt;a href=&quot;https://github.com/square/wire-gradle-plugin&quot;&gt;wire-gradle-plugin&lt;/a&gt;, 不過這個有個大問題, 雖然放在Square的repo下, 但似乎
+不是官方版本, 而是有人貢獻的, 因此並沒有跟上最新的2.x的版本, &lt;a href=&quot;https://github.com/square/wire-gradle-plugin/issues/11&quot;&gt;JakeWharton大神說將會有官方版本&lt;/a&gt;,
+但似乎從六月到現在都沒出現, 所以只好&lt;a href=&quot;https://github.com/CowBayStudio/wire-gradle-plugin&quot;&gt;自力救濟自己改 - 我的版本&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;使用這個plugin很簡單, 先在第一層的build.gradle裡的buildscript加入:&lt;/p&gt;
+
+&lt;div class=&quot;language-groovy highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;buildscript&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;repositories&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;jcenter&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;maven&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;url&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;https://jitpack.io&quot;&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;dependencies&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;classpath&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;com.android.tools.build:gradle:2.2.3&#39;&lt;/span&gt;
+
+        &lt;span class=&quot;n&quot;&gt;classpath&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;com.github.CowBayStudio:wire-gradle-plugin:ver12&#39;&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;主要是加入jitpack.io, 並把我的版本的plugin放到dependencies去&lt;/p&gt;
+
+&lt;p&gt;接下來在app的build.gradle裡加入:&lt;/p&gt;
+
+&lt;div class=&quot;language-groovy highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;apply&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;plugin:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;com.squareup.wire&#39;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;.proto&lt;/code&gt;檔案放置的位子在&lt;code class=&quot;highlighter-rouge&quot;&gt;app/src/main/proto&lt;/code&gt;, 把檔案放在這邊, build的時候就會自動產生這些對應的Java classes了&lt;/p&gt;</content><category term="Retrofit" /><category term="Android" /><category term="Protobuf" /><summary>Retrofit目前已然成為最熱門的呼叫REST API的開源程式庫了,不過,
+大部分的Retrofit多是用來處理Json類的REST API, 但Retrofit的能力卻不僅限於此</summary></entry><entry><title>[Android] 把Github當Maven repository用</title><link href="http://blog.jln.co/android-%E6%8A%8Agithub%E7%95%B6maven-repository%E7%94%A8/" rel="alternate" type="text/html" title="[Android] 把Github當Maven repository用" /><published>2016-12-27T15:39:59+08:00</published><updated>2016-12-27T15:39:59+08:00</updated><id>http://blog.jln.co/[android]-把github當maven-repository用</id><content type="html" xml:base="http://blog.jln.co/android-%E6%8A%8Agithub%E7%95%B6maven-repository%E7%94%A8/">&lt;p&gt;自從Android導入gradle之後, 使用開放的第三方的程式庫就越來越方便了, 雖然方便, 但也不免會碰到這類的問題:&lt;/p&gt;
 
 &lt;ol&gt;
   &lt;li&gt;想要的功能在master branch上更新了, 但卻遲遲不release以至於想用新的功能無法用&lt;/li&gt;
@@ -1598,20 +1691,4 @@ Facebook這種通用的social network服務, 內容種類較多, 因此就會夾
 &lt;h2 id=&quot;section-10&quot;&gt;小結&lt;/h2&gt;
 
 &lt;p&gt;整理了這麼多, 是後面兩篇的前置, 這邊的概念等於是設計一個social feeds的”需求”, 後面兩篇會再用到這些概念&lt;/p&gt;</content><category term="concept" /><category term="idea" /><category term="social network" /><summary>如果要找出一個我過去幾年工作中比較具有代表性的東西, 想了一下, 應該就是social feed這東西了(寫這篇時, 想了一下該用啥名詞, 以往我會叫Timeline, 不過Social feed應該更為貼切一點),
-趁現在才剛離職有些時間, 把這些東西整理一下, 主要還是以以前做過的東西的概念為主, 希望沒忘掉太多</summary></entry><entry><title>Account Kit samples for Swift</title><link href="http://blog.jln.co/account-kit-samples-for-swift/" rel="alternate" type="text/html" title="Account Kit samples for Swift" /><published>2016-10-18T21:01:31+08:00</published><updated>2016-10-18T21:01:31+08:00</updated><id>http://blog.jln.co/account-kit-samples-for-swift</id><content type="html" xml:base="http://blog.jln.co/account-kit-samples-for-swift/">&lt;p&gt;做一個網路服務, 使用者驗證是蠻麻煩的一件事, 我們是可以裝作沒看到, 不做驗證, 但這樣的下場就是有假使用者, 有殭屍, 最簡單的方式是信任第三方服務像是Google, Facebook,
-現在的人大多數都有Google, Facebook帳號了, 這樣其實也沒多大的問題, 但還是還是有人沒有, 而且也不是每個人都放心把Facebook帳號交給我們, 因此退而求其次就是用E-mail,
-用E-mail認證雖然也是一個好方式, 但還是要建置整套發信機制(或是花錢買mailgun來送信), 而且在手機上就麻煩了, 來回在App跟e-mail間切換很不方便,
-因此就會想用簡訊認證, 至於簡訊認證, 除了一個”貴”字以外, 要搞定各個國家的也是一個麻煩(當然, 花錢可解, 有Twilio這種服務可以用)&lt;/p&gt;
-
-&lt;p&gt;所幸有Facebook提供的這個可以用&lt;a href=&quot;https://developers.facebook.com/docs/accountkit&quot;&gt;Account Kit&lt;/a&gt;, 在初期使用者不太多的時候, 不收費的確很吸引人呀(雖然他不是唯一一個這樣的服務, 之後再介紹其他的),
-但由於他&lt;a href=&quot;https://github.com/fbsamples/account-kit-samples-for-ios&quot;&gt;iOS的範例&lt;/a&gt;是用Objective C寫的, 我的Objective C實在不太行,
-加上, 要了解一個東西, 寫一遍就知道了, 所以順手翻譯了一個Swift的版本, Source如下:&lt;/p&gt;
-
-&lt;h2 id=&quot;account-kit-samples-for-swifthttpsgithubcomjulianshenaccount-kit-samples-for-swift&quot;&gt;&lt;a href=&quot;https://github.com/julianshen/account-kit-samples-for-swift&quot;&gt;Account Kit samples for Swift&lt;/a&gt;&lt;/h2&gt;
-
-&lt;p&gt;原本的版本, 我是覺得寫的不是太好, 花了好一些功夫看, 自己翻過來的這個版本, 也還沒debug過, 基礎的應該堪用啦! 至於iOS的account kit文件可以參考: &lt;a href=&quot;https://developers.facebook.com/docs/accountkit/ios&quot;&gt;iOS 專用 Account Kit&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;註: plist裡面寫的app id不是我的喔!是原本Sample用的&lt;/p&gt;</content><category term="Swift" /><category term="Facebook" /><category term="Account Kit" /><summary>做一個網路服務, 使用者驗證是蠻麻煩的一件事, 我們是可以裝作沒看到, 不做驗證, 但這樣的下場就是有假使用者, 有殭屍, 最簡單的方式是信任第三方服務像是Google, Facebook,
-現在的人大多數都有Google, Facebook帳號了, 這樣其實也沒多大的問題, 但還是還是有人沒有, 而且也不是每個人都放心把Facebook帳號交給我們, 因此退而求其次就是用E-mail,
-用E-mail認證雖然也是一個好方式, 但還是要建置整套發信機制(或是花錢買mailgun來送信), 而且在手機上就麻煩了, 來回在App跟e-mail間切換很不方便,
-因此就會想用簡訊認證, 至於簡訊認證, 除了一個”貴”字以外, 要搞定各個國家的也是一個麻煩(當然, 花錢可解, 有Twilio這種服務可以用)</summary></entry></feed>
+趁現在才剛離職有些時間, 把這些東西整理一下, 主要還是以以前做過的東西的概念為主, 希望沒忘掉太多</summary></entry></feed>
