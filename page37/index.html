@@ -150,6 +150,29 @@
   <header>
     
     <div class="entry-meta">
+      <span class="entry-date date published updated"><time datetime="2011-05-14T15:27:41+08:00"><a href="http://blog.jln.co/androidtip-how-twitter-for-android-implements/">May 14, 2011</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
+      
+      <span class="entry-reading-time">
+        <i class="fa fa-clock-o"></i>
+        
+Reading time ~1 minute
+      </span><!-- /.entry-reading-time -->
+      
+    </div><!-- /.entry-meta -->
+    
+      <h1 class="entry-title"><a href="http://blog.jln.co/androidtip-how-twitter-for-android-implements/" rel="bookmark" title="[Android][Tip] How Twitter for Android implements auto completion in post screen?" itemprop="url">[Android][Tip] How Twitter for Android implements auto completion in post screen?</a></h1>
+    
+  </header>
+  <div class="entry-content">
+    <div class="posterous_autopost"><p>Twitter for Android popup a user list when you enter &ldquo;@&rdquo; in post screen. Like this:</p>  <div class="p_embed p_image_embed"> <a href="http://posterous.com/getfile/files.posterous.com/temp-2011-05-14/sBGyFmhynhgeFmfsfCqjzIqEuBCwzpzkbhcwhuHnroxdmiHtylrzHyCtpeJD/t1.png.scaled1000.png"><img alt="T1" height="455" src="http://posterous.com/getfile/files.posterous.com/temp-2011-05-14/sBGyFmhynhgeFmfsfCqjzIqEuBCwzpzkbhcwhuHnroxdmiHtylrzHyCtpeJD/t1.png.scaled500.png" width="500"/></a> </div>   <p>How it implement such feature? The solution can&rsquo;t be simpler - You could use <strong><span style="font-size: medium;"><a href="http://developer.android.com/reference/android/widget/MultiAutoCompleteTextView.html">MultiAutoCompeleteTextView</a></span></strong> to do this.</p>  <p>Here is the sample codes:</p>  <p>  <script src="https://gist.github.com/972014.js?file=gistfile1.java"></script></p>  <p>And the result:</p>  <div class="p_embed p_image_embed"> <img alt="T2" height="554" src="http://posterous.com/getfile/files.posterous.com/temp-2011-05-14/jokbfzsgrCCDIirGFyluGlsiqwbpDsasxnvvGxlbmCjfHhdInJzDvogofucm/t2.png.scaled500.png" width="475"/></div>   <p>To use this widget, you need to implement a Tokenizer to tell it where the sub text is. In this case, just find the string between &rsquo;@&rsquo; and space.</p></div>
+
+  </div><!-- /.entry-content -->
+</article><!-- /.hentry -->
+
+<article class="hentry">
+  <header>
+    
+    <div class="entry-meta">
       <span class="entry-date date published updated"><time datetime="2011-05-12T11:15:39+08:00"><a href="http://blog.jln.co/google-io-day-2-chrome-keynote%E6%84%9F%E6%83%B3/">May 12, 2011</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
       
       <span class="entry-reading-time">
@@ -238,29 +261,6 @@ Reading time ~1 minute
   </div><!-- /.entry-content -->
 </article><!-- /.hentry -->
 
-<article class="hentry">
-  <header>
-    
-    <div class="entry-meta">
-      <span class="entry-date date published updated"><time datetime="2011-05-09T10:09:58+08:00"><a href="http://blog.jln.co/mos-%E6%98%A5%E8%8F%87%E8%B1%86%E8%85%90%E9%9B%9E%E8%82%89%E5%A0%A1/">May 09, 2011</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
-      
-      <span class="entry-reading-time">
-        <i class="fa fa-clock-o"></i>
-        
-Reading time ~1 minute
-      </span><!-- /.entry-reading-time -->
-      
-    </div><!-- /.entry-meta -->
-    
-      <h1 class="entry-title"><a href="http://blog.jln.co/mos-%E6%98%A5%E8%8F%87%E8%B1%86%E8%85%90%E9%9B%9E%E8%82%89%E5%A0%A1/" rel="bookmark" title="Mos 春菇豆腐雞肉堡" itemprop="url">Mos 春菇豆腐雞肉堡</a></h1>
-    
-  </header>
-  <div class="entry-content">
-    <div class="posterous_autopost"><a href="http://instagr.am/p/ECW-w/"><div class="p_embed p_image_embed"> <a href="http://posterous.com/getfile/files.posterous.com/julianshen/kcHzGJkkhmIJEsyakIbFsElouDFlIpmfubundgwcDJdeFxofJqsuxcovfvyr/media_httpimagesinsta_jqwvp.jpg.scaled1000.jpg"><img alt="Media_httpimagesinsta_jqwvp" height="500" src="http://posterous.com/getfile/files.posterous.com/julianshen/kcHzGJkkhmIJEsyakIbFsElouDFlIpmfubundgwcDJdeFxofJqsuxcovfvyr/media_httpimagesinsta_jqwvp.jpg.scaled500.jpg" width="500"/></a> </div> </a><br/>Taken at 新竹高鐵摩斯漢堡</div>
-
-  </div><!-- /.entry-content -->
-</article><!-- /.hentry -->
-
 
 
 <div class="pagination">
@@ -343,7 +343,7 @@ Reading time ~1 minute
 
 <div class="footer-wrapper">
   <footer role="contentinfo">
-    <span>&copy; 2016 Julian Shen. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> using the <a href="https://mademistakes.com/work/hpstr-jekyll-theme/" rel="nofollow">HPSTR Theme</a>.</span>
+    <span>&copy; 2017 Julian Shen. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> using the <a href="https://mademistakes.com/work/hpstr-jekyll-theme/" rel="nofollow">HPSTR Theme</a>.</span>
   </footer>
 </div><!-- /.footer-wrapper -->
 
