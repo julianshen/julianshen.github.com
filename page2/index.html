@@ -150,6 +150,298 @@
   <header>
     
     <div class="entry-meta">
+      <span class="entry-date date published updated"><time datetime="2016-11-29T17:39:41+08:00"><a href="http://blog.jln.co/android-firebase-+-webrtc-on-android/">November 29, 2016</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
+      
+      <span class="entry-reading-time">
+        <i class="fa fa-clock-o"></i>
+        
+Reading time ~3 minutes
+      </span><!-- /.entry-reading-time -->
+      
+    </div><!-- /.entry-meta -->
+    
+      <h1 class="entry-title"><a href="http://blog.jln.co/android-firebase-+-webrtc-on-android/" rel="bookmark" title="[Android] Firebase + WebRTC on Android" itemprop="url">[Android] Firebase + WebRTC on Android</a></h1>
+    
+  </header>
+  <div class="entry-content">
+    <p><a href="https://webrtc.org/">WebRTC</a>是一個支援瀏覽器的即時影音對話的架構, 算是一個業界標(W3C,IETF), 最近由於想做一個有影音通話的應用, 就研究了一下這東西</p>
+
+<p>如果只是想嘗試一下<a href="https://webrtc.org/">WebRTC</a>, 是可以直接是可以直接試<a href="https://appr.tc/">AppRTC</a>這個Google的範例, 不過這個是Web的版本, 我想要做的是
+手機的版本(Android, iOS), <a href="https://appr.tc/">AppRTC</a>其實也有Android的版本可搭配</p>
+
+<p>為了熟悉一下整個用WebRTC建立video call的流程, 因此我就決定改一下這個Android版本, 原本Google的版本是透過Web Socket</p>
+
+<p>至於流程與架構我會建議看這影片:</p>
+
+<div class="video"><figure><iframe width="640" height="480" src="//www.youtube.com/embed/HS1eKPL4f1o" frameborder="0" allowfullscreen=""></iframe></figure></div>
+
+<p>如果不想看太長, 就看這個:</p>
+
+<div class="video"><figure><iframe width="640" height="480" src="//www.youtube.com/embed/nDPlGcoArdM" frameborder="0" allowfullscreen=""></iframe></figure></div>
+
+<p>把Web RTC那段換成Firebase(好, 其實我蠻後悔選Firebase來實作的)其實就是把Signaling這段給換掉, 而這段流程是(節錄自影片):</p>
+
+<p><img src="/images/posts/webrtc.png" alt="" /></p>
+
+<p>這部分其實就是交換兩邊的SDP和ICE candidate的過程, 詳細可以參考<a href="http://blog.mozilla.com.tw/posts/3261/webrtc-%E7%9B%B8%E9%97%9C%E7%B8%AE%E5%AF%AB%E5%90%8D%E8%A9%9E%E7%B0%A1%E4%BB%8B">這邊:WebRTC 相關縮寫名詞簡介</a></p>
+
+<p>結果的source code放在<a href="https://github.com/julianshen/apprtc-android-demo">這邊 : apprtc-android-demo</a></p>
+
+<h3 id="building-webrtc-lib-on-android">Building WebRTC lib on Android</h3>
+
+<p>其實現在寫WebRTC的應用的話, 也不用從頭實作, Google老早就把它實作在<a href="http://chromium.org">Chromium</a>裡面了, 也可以單獨build出library用</p>
+
+<p>這邊有官方的<a href="https://webrtc.org/native-code/android/">如何建置出Android版本的Web RTC library</a>, 不過, 不要照著這份文件做呀, 不然頭髮會白好幾根, 可能還build不太起來,
+找了一堆網路上人家的建議也都是不要直接build, 直接用人家build好現成的, 不過, 現成的雖然有一些, 但大多是過時的, API跟現今的也不太一樣, 如果
+要套用到現在的Android版本AppRTC的source code內, 大多都沒辦法用</p>
+
+<p>所幸找到這個<a href="https://github.com/pristineio/webrtc-build-scripts/tree/master/android">build script: pristineio/webrtc-build-scripts</a>,
+這個從下載最新的source code到build出library一律包辦, 用法也很簡單, 只要執行下面的:</p>
+
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code><span class="nb">source </span>android/build.sh
+install_dependencies
+get_webrtc
+build_apprtc
+</code></pre>
+</div>
+
+<p>簡單明暸, 但…有幾個問題, 第一個是只能在Linux下build, 因此在Mac跟Windows下要透過<a href="https://www.vagrantup.com/">Vagrant</a>這類的工具,
+而且對硬體需求也很高, 我的2012年中版的Macbook Pro retina實在是跑不動, 後來跑去Digital Ocean租了台VM來build, 本以為最便宜的可以勝任,
+後來發現, 至少要4G RAM, 硬碟要20G以上的instance(哭哭, 浪費好多時間)</p>
+
+<p>build出來後, 所需要的東西包含了libjingle_peerconnection.jar和libjingle_peerconnection_so.so, 把這幾個備份起來就是了, 待會build apk需要用</p>
+
+<h3 id="apprtc-android-source-codes">AppRTC 範例的Android source codes</h3>
+
+<p>Android的範例的source codes<a href="https://chromium.googlesource.com/external/webrtc/+/master/webrtc/examples/androidapp/">可以在這邊下載</a></p>
+
+<p>不過這並不是Android studio的project格式, 因此需要用匯入的方式, 或是可以直接fork<a href="https://github.com/julianshen/apprtc-android-demo">我的版本</a>去改,
+由於原本的版本使用了Web socket做singaling的管道, 因此需要<a href="http://autobahn.ws/">Autobahn</a>,	但你切記絕對不能用<a href="http://autobahn.ws/">Autobahn</a>官方最新的jar檔,
+而是要用Google放在third_party裡面那個autobanh.jar(啊, 我到現在才發現名字有些許不同), 這邊的差異是, 原本<a href="http://autobahn.ws/">Autobahn</a>是沒有支援SSL的websocket的,
+但AppRTC的websocket則是要透過SSL來連接</p>
+
+<p>把jar跟so檔放到對應的目錄去後, 記得改一下app目錄下的build.gradle加入 (因為import產生的不會幫你加):</p>
+
+<div class="language-gradle highlighter-rouge"><pre class="highlight"><code><span class="k">dependencies</span> <span class="o">{</span>
+    <span class="n">compile</span> <span class="nf">fileTree</span><span class="o">(</span><span class="nl">dir:</span> <span class="s1">'libs'</span><span class="o">,</span> <span class="nl">include:</span> <span class="o">[</span><span class="s1">'*.jar'</span><span class="o">])</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<h3 id="firebase">加上firebase</h3>
+
+<p>除了原本的Webcoket和Direct connect兩種方式外, 為了跑一次他的流程我多加了Firebase的部分, 利用它的realtime database來做Signaling這部分,
+至於怎樣開始開發firebase, 就參考一下他的<a href="https://firebase.google.com/docs/database/android/start/">官方文件</a>吧</p>
+
+<h3 id="signaling">Signaling的實作</h3>
+
+<h4 id="callactivity">CallActivity</h4>
+
+<p>選擇哪種signaling的方式是在CallActivity裡面依據roomId來看使用哪一個signaling client, 程式碼如下:</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>    <span class="c1">// Create connection client. Use DirectRTCClient if room name is an IP otherwise use the</span>
+    <span class="c1">// standard WebSocketRTCClient.</span>
+    <span class="k">if</span><span class="o">(</span><span class="s">"firebase"</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">roomId</span><span class="o">))</span> <span class="o">{</span>
+      <span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">"firebase"</span><span class="o">);</span>
+      <span class="n">appRtcClient</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FirebaseRTCClient</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">loopback</span> <span class="o">||</span> <span class="o">!</span><span class="n">DirectRTCClient</span><span class="o">.</span><span class="na">IP_PATTERN</span><span class="o">.</span><span class="na">matcher</span><span class="o">(</span><span class="n">roomId</span><span class="o">).</span><span class="na">matches</span><span class="o">())</span> <span class="o">{</span>
+      <span class="n">appRtcClient</span> <span class="o">=</span> <span class="k">new</span> <span class="n">WebSocketRTCClient</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+      <span class="n">Log</span><span class="o">.</span><span class="na">i</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">"Using DirectRTCClient because room name looks like an IP."</span><span class="o">);</span>
+      <span class="n">appRtcClient</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DirectRTCClient</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+    <span class="o">}</span>
+</code></pre>
+</div>
+
+<p>原本有WebSocketRTCClient和DirectRTCClient, 如果是IP的話就用DirectRTCClient,這邊我多加一個FirebaseRTCClient, 只要roomId是firebase就會使用這個(我偷懶)</p>
+
+<h4 id="firebasertcclient">FirebaseRTCClient</h4>
+
+<p>XXXRTCClient這部分實作了signaling的部分, 因此我參考了WebSocketRTCClient和DirectRTCClient的內容來寫FirebaseRTCClient</p>
+
+<p>跟WebSocketRTCClinet一樣, 它必須實作AppRTCClient, AppRTCClient這個Interface定義如下:</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="cm">/**
+ * AppRTCClient is the interface representing an AppRTC client.
+ */</span>
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">AppRTCClient</span> <span class="o">{</span>
+  <span class="cm">/**
+   * Struct holding the connection parameters of an AppRTC room.
+   */</span>
+  <span class="kd">class</span> <span class="nc">RoomConnectionParameters</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">roomUrl</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">roomId</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="kd">final</span> <span class="kt">boolean</span> <span class="n">loopback</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="nf">RoomConnectionParameters</span><span class="o">(</span><span class="n">String</span> <span class="n">roomUrl</span><span class="o">,</span> <span class="n">String</span> <span class="n">roomId</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">loopback</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">this</span><span class="o">.</span><span class="na">roomUrl</span> <span class="o">=</span> <span class="n">roomUrl</span><span class="o">;</span>
+      <span class="k">this</span><span class="o">.</span><span class="na">roomId</span> <span class="o">=</span> <span class="n">roomId</span><span class="o">;</span>
+      <span class="k">this</span><span class="o">.</span><span class="na">loopback</span> <span class="o">=</span> <span class="n">loopback</span><span class="o">;</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+
+  <span class="cm">/**
+   * Asynchronously connect to an AppRTC room URL using supplied connection
+   * parameters. Once connection is established onConnectedToRoom()
+   * callback with room parameters is invoked.
+   */</span>
+  <span class="kt">void</span> <span class="nf">connectToRoom</span><span class="o">(</span><span class="n">RoomConnectionParameters</span> <span class="n">connectionParameters</span><span class="o">);</span>
+
+  <span class="cm">/**
+   * Send offer SDP to the other participant.
+   */</span>
+  <span class="kt">void</span> <span class="nf">sendOfferSdp</span><span class="o">(</span><span class="kd">final</span> <span class="n">SessionDescription</span> <span class="n">sdp</span><span class="o">);</span>
+
+  <span class="cm">/**
+   * Send answer SDP to the other participant.
+   */</span>
+  <span class="kt">void</span> <span class="nf">sendAnswerSdp</span><span class="o">(</span><span class="kd">final</span> <span class="n">SessionDescription</span> <span class="n">sdp</span><span class="o">);</span>
+
+  <span class="cm">/**
+   * Send Ice candidate to the other participant.
+   */</span>
+  <span class="kt">void</span> <span class="nf">sendLocalIceCandidate</span><span class="o">(</span><span class="kd">final</span> <span class="n">IceCandidate</span> <span class="n">candidate</span><span class="o">);</span>
+
+  <span class="cm">/**
+   * Send removed ICE candidates to the other participant.
+   */</span>
+  <span class="kt">void</span> <span class="nf">sendLocalIceCandidateRemovals</span><span class="o">(</span><span class="kd">final</span> <span class="n">IceCandidate</span><span class="o">[]</span> <span class="n">candidates</span><span class="o">);</span>
+
+  <span class="cm">/**
+   * Disconnect from room.
+   */</span>
+  <span class="kt">void</span> <span class="nf">disconnectFromRoom</span><span class="o">();</span>
+
+  <span class="cm">/**
+   * Struct holding the signaling parameters of an AppRTC room.
+   */</span>
+  <span class="kd">class</span> <span class="nc">SignalingParameters</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">final</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">PeerConnection</span><span class="o">.</span><span class="na">IceServer</span><span class="o">&gt;</span> <span class="n">iceServers</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="kd">final</span> <span class="kt">boolean</span> <span class="n">initiator</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">clientId</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">wssUrl</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">wssPostUrl</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="kd">final</span> <span class="n">SessionDescription</span> <span class="n">offerSdp</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="kd">final</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">IceCandidate</span><span class="o">&gt;</span> <span class="n">iceCandidates</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">SignalingParameters</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">PeerConnection</span><span class="o">.</span><span class="na">IceServer</span><span class="o">&gt;</span> <span class="n">iceServers</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">initiator</span><span class="o">,</span>
+        <span class="n">String</span> <span class="n">clientId</span><span class="o">,</span> <span class="n">String</span> <span class="n">wssUrl</span><span class="o">,</span> <span class="n">String</span> <span class="n">wssPostUrl</span><span class="o">,</span> <span class="n">SessionDescription</span> <span class="n">offerSdp</span><span class="o">,</span>
+        <span class="n">List</span><span class="o">&lt;</span><span class="n">IceCandidate</span><span class="o">&gt;</span> <span class="n">iceCandidates</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">this</span><span class="o">.</span><span class="na">iceServers</span> <span class="o">=</span> <span class="n">iceServers</span><span class="o">;</span>
+      <span class="k">this</span><span class="o">.</span><span class="na">initiator</span> <span class="o">=</span> <span class="n">initiator</span><span class="o">;</span>
+      <span class="k">this</span><span class="o">.</span><span class="na">clientId</span> <span class="o">=</span> <span class="n">clientId</span><span class="o">;</span>
+      <span class="k">this</span><span class="o">.</span><span class="na">wssUrl</span> <span class="o">=</span> <span class="n">wssUrl</span><span class="o">;</span>
+      <span class="k">this</span><span class="o">.</span><span class="na">wssPostUrl</span> <span class="o">=</span> <span class="n">wssPostUrl</span><span class="o">;</span>
+      <span class="k">this</span><span class="o">.</span><span class="na">offerSdp</span> <span class="o">=</span> <span class="n">offerSdp</span><span class="o">;</span>
+      <span class="k">this</span><span class="o">.</span><span class="na">iceCandidates</span> <span class="o">=</span> <span class="n">iceCandidates</span><span class="o">;</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+
+  <span class="cm">/**
+   * Callback interface for messages delivered on signaling channel.
+   *
+   * &lt;p&gt;Methods are guaranteed to be invoked on the UI thread of |activity|.
+   */</span>
+  <span class="kd">interface</span> <span class="nc">SignalingEvents</span> <span class="o">{</span>
+    <span class="cm">/**
+     * Callback fired once the room's signaling parameters
+     * SignalingParameters are extracted.
+     */</span>
+    <span class="kt">void</span> <span class="nf">onConnectedToRoom</span><span class="o">(</span><span class="kd">final</span> <span class="n">SignalingParameters</span> <span class="n">params</span><span class="o">);</span>
+
+    <span class="cm">/**
+     * Callback fired once remote SDP is received.
+     */</span>
+    <span class="kt">void</span> <span class="nf">onRemoteDescription</span><span class="o">(</span><span class="kd">final</span> <span class="n">SessionDescription</span> <span class="n">sdp</span><span class="o">);</span>
+
+    <span class="cm">/**
+     * Callback fired once remote Ice candidate is received.
+     */</span>
+    <span class="kt">void</span> <span class="nf">onRemoteIceCandidate</span><span class="o">(</span><span class="kd">final</span> <span class="n">IceCandidate</span> <span class="n">candidate</span><span class="o">);</span>
+
+    <span class="cm">/**
+     * Callback fired once remote Ice candidate removals are received.
+     */</span>
+    <span class="kt">void</span> <span class="nf">onRemoteIceCandidatesRemoved</span><span class="o">(</span><span class="kd">final</span> <span class="n">IceCandidate</span><span class="o">[]</span> <span class="n">candidates</span><span class="o">);</span>
+
+    <span class="cm">/**
+     * Callback fired once channel is closed.
+     */</span>
+    <span class="kt">void</span> <span class="nf">onChannelClose</span><span class="o">();</span>
+
+    <span class="cm">/**
+     * Callback fired once channel error happened.
+     */</span>
+    <span class="kt">void</span> <span class="nf">onChannelError</span><span class="o">(</span><span class="kd">final</span> <span class="n">String</span> <span class="n">description</span><span class="o">);</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>主要就是定義了如何處理connect, disconnect, 還有怎麼去註冊SDP和ICE candidate, 在確定好連接成功後, AppRTCClient要負責呼叫onConnectedToRoom來通知
+CallActivity已經可以準備建立video call的後續流程, 且要負責處理如果Signal server(這邊是firebase)有傳來遠端的SDP跟ICE candidate, 要負責呼叫SignalingEvents對應的處理
+(這邊一樣會叫到CallActivity, 而CallActivity則會使用PeerConnectionClient來處理需要傳遞給PeerConnection相關的參數)</p>
+
+<p>這邊用Firebase處理Signaling的方式是監聽某一個key的改變, 有新的裝置連接, 註冊SDP, ICE Candidate, 就寫到這下面去, 這其實不是一個很好的方式,
+因為這下面只要有值的改變, 就會觸發, 不像是WebSocket那個版本是一來一往的API calls, 而且你不知道每次觸發被更動的是哪一部分, 一開始發生了好幾次PeerConnection重複註冊SDP才讓我發現因為這原因被重複呼叫的問題</p>
+
+<h3 id="turn-server">TURN server</h3>
+
+<p>WebRTC是P2P的, 因此如果不具備穿牆能力的話, 在牆外就會被擋掉, 一開始我本來想說試驗P2P而不走TURN Server穿牆的(因為我一時也懶得架一台), 結果測試時老是連不上, 後來才發現我阿呆,
+我的測試環境是一台實體手機, 另一台是電腦上跑模擬器, 本以為兩個(手機, 電腦)是同一個區網沒問題, 後來才想到模擬器是在另一個虛擬網路, 因此還是有需要TURN server</p>
+
+<p>如果不想架一台, 要怎辦? 用Google免錢的, 他們做了這個demo, 一定有! 因此就偷看了一下WebRTCClient的code跟傳輸內容,發現它跟https://networktraversal.googleapis.com/v1alpha/iceconfig?key=AIzaSyAJdh2HkajseEIltlZ3SIXO02Tze9sO3NY
+去要TURN server list, 所以基本上只要照copy下面這段就好:</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>   <span class="kd">private</span> <span class="n">LinkedList</span><span class="o">&lt;</span><span class="n">PeerConnection</span><span class="o">.</span><span class="na">IceServer</span><span class="o">&gt;</span> <span class="nf">requestTurnServers</span><span class="o">(</span><span class="n">String</span> <span class="n">url</span><span class="o">)</span>
+            <span class="kd">throws</span> <span class="n">IOException</span><span class="o">,</span> <span class="n">JSONException</span> <span class="o">{</span>
+        <span class="n">LinkedList</span><span class="o">&lt;</span><span class="n">PeerConnection</span><span class="o">.</span><span class="na">IceServer</span><span class="o">&gt;</span> <span class="n">turnServers</span> <span class="o">=</span> <span class="k">new</span> <span class="n">LinkedList</span><span class="o">&lt;</span><span class="n">PeerConnection</span><span class="o">.</span><span class="na">IceServer</span><span class="o">&gt;();</span>
+        <span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">"Request TURN from: "</span> <span class="o">+</span> <span class="n">url</span><span class="o">);</span>
+        <span class="n">HttpURLConnection</span> <span class="n">connection</span> <span class="o">=</span> <span class="o">(</span><span class="n">HttpURLConnection</span><span class="o">)</span> <span class="k">new</span> <span class="n">URL</span><span class="o">(</span><span class="n">url</span><span class="o">).</span><span class="na">openConnection</span><span class="o">();</span>
+        <span class="n">connection</span><span class="o">.</span><span class="na">setDoOutput</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+        <span class="n">connection</span><span class="o">.</span><span class="na">setRequestProperty</span><span class="o">(</span><span class="s">"REFERER"</span><span class="o">,</span> <span class="s">"https://appr.tc"</span><span class="o">);</span>
+        <span class="n">connection</span><span class="o">.</span><span class="na">setConnectTimeout</span><span class="o">(</span><span class="n">TURN_HTTP_TIMEOUT_MS</span><span class="o">);</span>
+        <span class="n">connection</span><span class="o">.</span><span class="na">setReadTimeout</span><span class="o">(</span><span class="n">TURN_HTTP_TIMEOUT_MS</span><span class="o">);</span>
+        <span class="kt">int</span> <span class="n">responseCode</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="na">getResponseCode</span><span class="o">();</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">responseCode</span> <span class="o">!=</span> <span class="mi">200</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nf">IOException</span><span class="o">(</span><span class="s">"Non-200 response when requesting TURN server from "</span> <span class="o">+</span> <span class="n">url</span> <span class="o">+</span> <span class="s">" : "</span>
+                    <span class="o">+</span> <span class="n">connection</span><span class="o">.</span><span class="na">getHeaderField</span><span class="o">(</span><span class="kc">null</span><span class="o">));</span>
+        <span class="o">}</span>
+        <span class="n">InputStream</span> <span class="n">responseStream</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="na">getInputStream</span><span class="o">();</span>
+        <span class="n">String</span> <span class="n">response</span> <span class="o">=</span> <span class="n">drainStream</span><span class="o">(</span><span class="n">responseStream</span><span class="o">);</span>
+        <span class="n">connection</span><span class="o">.</span><span class="na">disconnect</span><span class="o">();</span>
+        <span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">"TURN response: "</span> <span class="o">+</span> <span class="n">response</span><span class="o">);</span>
+        <span class="n">JSONObject</span> <span class="n">responseJSON</span> <span class="o">=</span> <span class="k">new</span> <span class="n">JSONObject</span><span class="o">(</span><span class="n">response</span><span class="o">);</span>
+        <span class="n">JSONArray</span> <span class="n">iceServers</span> <span class="o">=</span> <span class="n">responseJSON</span><span class="o">.</span><span class="na">getJSONArray</span><span class="o">(</span><span class="s">"iceServers"</span><span class="o">);</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">iceServers</span><span class="o">.</span><span class="na">length</span><span class="o">();</span> <span class="o">++</span><span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">JSONObject</span> <span class="n">server</span> <span class="o">=</span> <span class="n">iceServers</span><span class="o">.</span><span class="na">getJSONObject</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+            <span class="n">JSONArray</span> <span class="n">turnUrls</span> <span class="o">=</span> <span class="n">server</span><span class="o">.</span><span class="na">getJSONArray</span><span class="o">(</span><span class="s">"urls"</span><span class="o">);</span>
+            <span class="n">String</span> <span class="n">username</span> <span class="o">=</span> <span class="n">server</span><span class="o">.</span><span class="na">has</span><span class="o">(</span><span class="s">"username"</span><span class="o">)</span> <span class="o">?</span> <span class="n">server</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="s">"username"</span><span class="o">)</span> <span class="o">:</span> <span class="s">""</span><span class="o">;</span>
+            <span class="n">String</span> <span class="n">credential</span> <span class="o">=</span> <span class="n">server</span><span class="o">.</span><span class="na">has</span><span class="o">(</span><span class="s">"credential"</span><span class="o">)</span> <span class="o">?</span> <span class="n">server</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="s">"credential"</span><span class="o">)</span> <span class="o">:</span> <span class="s">""</span><span class="o">;</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">turnUrls</span><span class="o">.</span><span class="na">length</span><span class="o">();</span> <span class="n">j</span><span class="o">++)</span> <span class="o">{</span>
+                <span class="n">String</span> <span class="n">turnUrl</span> <span class="o">=</span> <span class="n">turnUrls</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="n">j</span><span class="o">);</span>
+                <span class="n">turnServers</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">PeerConnection</span><span class="o">.</span><span class="na">IceServer</span><span class="o">(</span><span class="n">turnUrl</span><span class="o">,</span> <span class="n">username</span><span class="o">,</span> <span class="n">credential</span><span class="o">));</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">turnServers</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="c1">// Return the contents of an InputStream as a String.</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="n">String</span> <span class="nf">drainStream</span><span class="o">(</span><span class="n">InputStream</span> <span class="n">in</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">Scanner</span> <span class="n">s</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Scanner</span><span class="o">(</span><span class="n">in</span><span class="o">).</span><span class="na">useDelimiter</span><span class="o">(</span><span class="s">"\\A"</span><span class="o">);</span>
+        <span class="k">return</span> <span class="n">s</span><span class="o">.</span><span class="na">hasNext</span><span class="o">()</span> <span class="o">?</span> <span class="n">s</span><span class="o">.</span><span class="na">next</span><span class="o">()</span> <span class="o">:</span> <span class="s">""</span><span class="o">;</span>
+    <span class="o">}</span>
+</code></pre>
+</div>
+
+<p>把這邊拿來的list當ICE candidate, 就可以成功透過Google的TURN server去穿牆了(長久之計還是自己架一台吧)</p>
+
+  </div><!-- /.entry-content -->
+</article><!-- /.hentry -->
+
+<article class="hentry">
+  <header>
+    
+    <div class="entry-meta">
       <span class="entry-date date published updated"><time datetime="2016-11-23T12:05:38+08:00"><a href="http://blog.jln.co/rate-limit-with-go-and-gin/">November 23, 2016</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
       
       <span class="entry-reading-time">
@@ -807,545 +1099,6 @@ Client都是會常常來server查詢資料, 這對server可能會是夢靨, 因�
 <p>另外這篇也是值得去參考(只是這個還要帶入XMPP):</p>
 
 <p><a href="http://cdn.oreillystatic.com/en/assets/1/event/12/Beyond%20REST_%20Building%20Data%20Services%20with%20XMPP%20PubSub%20Presentation.pdf">Beyond REST?Building data services with XMPP PubSub</a></p>
-
-  </div><!-- /.entry-content -->
-</article><!-- /.hentry -->
-
-<article class="hentry">
-  <header>
-    
-    <div class="entry-meta">
-      <span class="entry-date date published updated"><time datetime="2016-10-31T08:49:18+08:00"><a href="http://blog.jln.co/%E6%B7%BA%E8%AB%87social-feed-%E5%A4%9A%E6%9C%8D%E5%8B%99%E5%BD%99%E6%95%B4%E5%BC%8F%E7%9A%84social-feed-client/">October 31, 2016</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
-      
-      <span class="entry-reading-time">
-        <i class="fa fa-clock-o"></i>
-        
-Reading time ~5 minutes
-      </span><!-- /.entry-reading-time -->
-      
-    </div><!-- /.entry-meta -->
-    
-      <h1 class="entry-title"><a href="http://blog.jln.co/%E6%B7%BA%E8%AB%87social-feed-%E5%A4%9A%E6%9C%8D%E5%8B%99%E5%BD%99%E6%95%B4%E5%BC%8F%E7%9A%84social-feed-client/" rel="bookmark" title="淺談Social Feed - 多服務彙整式的social feed [Client]" itemprop="url">淺談Social Feed - 多服務彙整式的social feed [Client]</a></h1>
-    
-  </header>
-  <div class="entry-content">
-    <p>出去放空玩一陣子了, 也該接下來整理一下剩下的東西了, 這篇主要要來談一下彙整式的social feed (aggregation feeds), 這功用是什麼呢?
-由於現代人擁有了很多社群網路的帳號, 但如果要一個個網站或App開著看才能看到所有的動態, 未免太累了, 因此變有這種彙整式的服務出現, 讓使用者在一個地方可以看到所有的社群動態</p>
-
-<p>這種形態的應用, 有幾個有代表性的, <a href="/淺談social-feed-概念篇/">前一篇的概念篇</a>裡所提到的<a href="https://zh.wikipedia.org/wiki/FriendFeed">Friendfeed</a>,
-還有就是<a href="https://flipboard.com">Flipboard</a>, 另外就是HTC的<a href="http://mobile.htc.com/learnmore/desires/eng/howtos/GUID-89A364D2-2043-46BD-9249-AA7BE00577A9.html">Friend stream</a>和<a href="http://www.htc.com/tw/support/htc-one-m8/howto/cat_71459.html">Blinkfeed</a> (私心提這兩個我所參與過的)</p>
-
-<p><img src="http://farm4.static.flickr.com/3607/3418465682_acacbe7147_o.jpg" alt="Friendfeed" />
-<img src="/images/posts/flipboard_i1.png" alt="Flipboard" /></p>
-<div class="video"><figure><iframe width="640" height="480" src="//www.youtube.com/embed/6Ss4bM1XmTA" frameborder="0" allowfullscreen=""></iframe></figure></div>
-<div class="video"><figure><iframe width="640" height="480" src="//www.youtube.com/embed/GdJInzTJI0U" frameborder="0" allowfullscreen=""></iframe></figure></div>
-
-<p>前兩者跟後兩者的差異是在於, 前兩者在彙整social feeds是在server端, 所以client僅需要從server抓取彙整過的資料下來就好, 複雜度在於服務端並不是在client app,
-而Blinkfeed跟Friendstream的差異點則是在Friendstream整合了跟社群網路相關的動態, Blinkfeed則是多了新聞的部分, 後來實作的方式為了有更多的彈性, 底層架構的部分也有所改變,
-這篇會稍微提到如果是在Server端實作的一些可能做法, 但主要還是著重在client端實作的問題</p>
-
-<p>做這樣一個東西, 不就是去呼叫各社群網路的API抓資料, 回來全部混在一起就好了? 如果單純只是實作一個”可以用的”, 那這樣可能就可以了, 但實際上還是有些問題存在, 如</p>
-
-<ol>
-  <li>各家API雖類似但個家還是有很多不同</li>
-  <li>各家server回應時間不盡相同</li>
-  <li>資料時間線交錯問題</li>
-  <li>資料更新問題</li>
-  <li>網路流量問題</li>
-</ol>
-
-<p>在看這些東西之前, 先來看看各家API的部分</p>
-
-<h3 id="social-feed-api">Social Feed API</h3>
-
-<p>很多社群網站都有提供公開的API讓你去獲取使用者的Social feeds, API定義各家各有不同, 但特色都一致的, 也就是大家都是以REST API設計為主, 採資料拉取(Pull)的方式, 分頁(pagination)的方式</p>
-
-<h4 id="rest-polling-and-pagination">REST, Polling, and Pagination</h4>
-
-<p>因為採用了REST API的定義方式, 所以資料傳輸上大多(幾乎是全部了啦)以JSON為主, 用REST + JSON的好處是簡單, 彈性, 資料也比較適合閱讀, 不過, 別騙人了啦, 你有多少次會直接去閱讀JSON, 除非你要做啥hacking,
-這連帶的也有人在實作client直接把JSON資料拿來儲存或暫存, 不過, 帶來的壞處是, 解析JSON其實並不是很經濟(後面會再稍提一下)</p>
-
-<p>前面也有提到, 這樣的API設計是以”拉取”(Pull)為主, 也就是server並不會主動給你最新的資料, 而是必須你的client自行呼叫API去取得, 因此要隨時保持有最新的動態,
-必須要不斷的輪詢(polling) server, 這其實也是相當不經濟的做法, 就算在熱門如Facebook, Twitter, 使用者的Social feeds不見得隨時會有最新的動態,
-因此多久的輪詢間隔才是最好的, 這會是一個很頭痛的事, 太過頻繁易造成浪費, 也會造成server的負擔, 太久則會造成使用者看到的動態並不總是會是最新的,
-其實少數像是Twitter, 有提供所謂的Streaming API, 這種就不是以拉取為主, 而是server會主動更新資料</p>
-
-<p>一般來說, 社群網站上面”跟隨”(Follow)了越多人, 看得到的動態越多, 總不可能每次抓取資料就從頭一筆給到最新的一筆, 這樣的話, 不但花時間, 浪費流量, 也增加了server的負擔,
-所以絕大部分的API, 都是從最新的往回給一定數量(比如說25則)的內容, 這樣稱之為一頁, 因此如果使用者需要往回捲回之前的資料, 就再抓取再前面一個分頁, 這樣的設計就是分頁(Pagination),
-分頁的問題點在於, 社群動態的最頂頭的部分常常會再有更新的動態加入, 導致分頁會整個位移, 像下圖, 這樣會導致client有可能抓取到重複的資料, 甚至時間線錯亂</p>
-
-<p><img src="/images/posts/pagination.001.jpeg" alt="" /></p>
-
-<h4 id="twitter-api">Twitter API</h4>
-
-<p>先來看看<a href="https://dev.twitter.com/rest/public/timelines">Twitter API</a>的例子, 這邊就有很詳細地解釋前述的Pagination的問題, 並且講解如何用max_id和since_id來解決這一問題</p>
-
-<p>Twitter在這部分經驗豐富, 他們用的解法是以”id”, 有些社群網站的since會用”時間”, 用時間是不好的做法, 因為就算你時間記錄到微秒, 還是很有可能有兩則以上的動態可能是相同時間的, 這樣錯亂的問題一樣存在</p>
-
-<p>Twitter在抓取使用者的social feed用的API是<a href="https://dev.twitter.com/rest/reference/get/statuses/home_timeline">“GET statuses/home_timeline.json”</a>,
-回傳的資料是一個Tweets的陣列如下:</p>
-
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="p">[</span>
-  <span class="p">{</span>
-    <span class="s2">"coordinates"</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
-    <span class="s2">"truncated"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
-    <span class="s2">"created_at"</span><span class="p">:</span> <span class="s2">"Tue Aug 28 21:16:23 +0000 2012"</span><span class="p">,</span>
-    <span class="s2">"favorited"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
-    <span class="s2">"id_str"</span><span class="p">:</span> <span class="s2">"240558470661799936"</span><span class="p">,</span>
-    <span class="s2">"in_reply_to_user_id_str"</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
-    <span class="s2">"entities"</span><span class="p">:</span> <span class="p">{</span>
-      <span class="s2">"urls"</span><span class="p">:</span> <span class="p">[</span>
-
-      <span class="p">],</span>
-      <span class="s2">"hashtags"</span><span class="p">:</span> <span class="p">[</span>
-
-      <span class="p">],</span>
-      <span class="s2">"user_mentions"</span><span class="p">:</span> <span class="p">[</span>
-
-      <span class="p">]</span>
-    <span class="p">},</span>
-    <span class="s2">"text"</span><span class="err">:</span> <span class="s2">"just another test"</span><span class="p">,</span>
-    <span class="s2">"contributors"</span><span class="err">:</span> <span class="kc">null</span><span class="p">,</span>
-    <span class="s2">"id"</span><span class="err">:</span> <span class="mi">240558470661799936</span><span class="p">,</span>
-    <span class="s2">"retweet_count"</span><span class="err">:</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="s2">"in_reply_to_status_id_str"</span><span class="err">:</span> <span class="kc">null</span><span class="p">,</span>
-    <span class="s2">"geo"</span><span class="err">:</span> <span class="kc">null</span><span class="p">,</span>
-    <span class="s2">"retweeted"</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span>
-    <span class="s2">"in_reply_to_user_id"</span><span class="err">:</span> <span class="kc">null</span><span class="p">,</span>
-    <span class="s2">"place"</span><span class="err">:</span> <span class="kc">null</span><span class="p">,</span>
-    <span class="s2">"source"</span><span class="err">:</span> <span class="s2">"OAuth Dancer Reborn"</span><span class="p">,</span>
-    <span class="s2">"user"</span><span class="err">:</span> <span class="p">{</span>
-      <span class="s2">"name"</span><span class="err">:</span> <span class="s2">"OAuth Dancer"</span><span class="p">,</span>
-      <span class="s2">"profile_sidebar_fill_color"</span><span class="err">:</span> <span class="s2">"DDEEF6"</span><span class="p">,</span>
-      <span class="s2">"profile_background_tile"</span><span class="err">:</span> <span class="kc">true</span><span class="p">,</span>
-      <span class="s2">"profile_sidebar_border_color"</span><span class="err">:</span> <span class="s2">"C0DEED"</span><span class="p">,</span>
-      <span class="s2">"profile_image_url"</span><span class="err">:</span> <span class="s2">"http://a0.twimg.com/profile_images/730275945/oauth-dancer_normal.jpg"</span><span class="p">,</span>
-      <span class="s2">"created_at"</span><span class="err">:</span> <span class="s2">"Wed Mar 03 19:37:35 +0000 2010"</span><span class="p">,</span>
-      <span class="s2">"location"</span><span class="err">:</span> <span class="s2">"San Francisco, CA"</span><span class="p">,</span>
-      <span class="s2">"follow_request_sent"</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span>
-      <span class="s2">"id_str"</span><span class="err">:</span> <span class="s2">"119476949"</span><span class="p">,</span>
-      <span class="s2">"is_translator"</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span>
-      <span class="s2">"profile_link_color"</span><span class="err">:</span> <span class="s2">"0084B4"</span><span class="p">,</span>
-      <span class="s2">"entities"</span><span class="err">:</span> <span class="p">{</span>
-        <span class="s2">"url"</span><span class="err">:</span> <span class="p">{</span>
-          <span class="s2">"urls"</span><span class="err">:</span> <span class="p">[</span>
-            <span class="p">{</span>
-              <span class="s2">"expanded_url"</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
-              <span class="s2">"url"</span><span class="p">:</span> <span class="s2">"http://bit.ly/oauth-dancer"</span><span class="p">,</span>
-              <span class="s2">"indices"</span><span class="p">:</span> <span class="p">[</span>
-                <span class="mi">0</span><span class="p">,</span>
-                <span class="mi">26</span>
-              <span class="p">],</span>
-              <span class="s2">"display_url"</span><span class="p">:</span> <span class="kc">null</span>
-            <span class="p">}</span>
-          <span class="p">]</span>
-        <span class="p">},</span>
-        <span class="s2">"description"</span><span class="err">:</span> <span class="kc">null</span>
-      <span class="p">},</span>
-      <span class="s2">"default_profile"</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span>
-      <span class="s2">"url"</span><span class="err">:</span> <span class="s2">"http://bit.ly/oauth-dancer"</span><span class="p">,</span>
-      <span class="s2">"contributors_enabled"</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span>
-      <span class="s2">"favourites_count"</span><span class="err">:</span> <span class="mi">7</span><span class="p">,</span>
-      <span class="s2">"utc_offset"</span><span class="err">:</span> <span class="kc">null</span><span class="p">,</span>
-      <span class="s2">"profile_image_url_https"</span><span class="err">:</span> <span class="s2">"https://si0.twimg.com/profile_images/730275945/oauth-dancer_normal.jpg"</span><span class="p">,</span>
-      <span class="s2">"id"</span><span class="err">:</span> <span class="mi">119476949</span><span class="p">,</span>
-      <span class="s2">"listed_count"</span><span class="err">:</span> <span class="mi">1</span><span class="p">,</span>
-      <span class="s2">"profile_use_background_image"</span><span class="err">:</span> <span class="kc">true</span><span class="p">,</span>
-      <span class="s2">"profile_text_color"</span><span class="err">:</span> <span class="s2">"333333"</span><span class="p">,</span>
-      <span class="s2">"followers_count"</span><span class="err">:</span> <span class="mi">28</span><span class="p">,</span>
-      <span class="s2">"lang"</span><span class="err">:</span> <span class="s2">"en"</span><span class="p">,</span>
-      <span class="s2">"protected"</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span>
-      <span class="s2">"geo_enabled"</span><span class="err">:</span> <span class="kc">true</span><span class="p">,</span>
-      <span class="s2">"notifications"</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span>
-      <span class="s2">"description"</span><span class="err">:</span> <span class="s2">""</span><span class="p">,</span>
-      <span class="s2">"profile_background_color"</span><span class="err">:</span> <span class="s2">"C0DEED"</span><span class="p">,</span>
-      <span class="s2">"verified"</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span>
-      <span class="s2">"time_zone"</span><span class="err">:</span> <span class="kc">null</span><span class="p">,</span>
-      <span class="s2">"profile_background_image_url_https"</span><span class="err">:</span> <span class="s2">"https://si0.twimg.com/profile_background_images/80151733/oauth-dance.png"</span><span class="p">,</span>
-      <span class="s2">"statuses_count"</span><span class="err">:</span> <span class="mi">166</span><span class="p">,</span>
-      <span class="s2">"profile_background_image_url"</span><span class="err">:</span> <span class="s2">"http://a0.twimg.com/profile_background_images/80151733/oauth-dance.png"</span><span class="p">,</span>
-      <span class="s2">"default_profile_image"</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span>
-      <span class="s2">"friends_count"</span><span class="err">:</span> <span class="mi">14</span><span class="p">,</span>
-      <span class="s2">"following"</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span>
-      <span class="s2">"show_all_inline_media"</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span>
-      <span class="s2">"screen_name"</span><span class="err">:</span> <span class="s2">"oauth_dancer"</span>
-    <span class="p">},</span>
-    <span class="s2">"in_reply_to_screen_name"</span><span class="err">:</span> <span class="kc">null</span><span class="p">,</span>
-    <span class="s2">"in_reply_to_status_id"</span><span class="err">:</span> <span class="kc">null</span>
-  <span class="p">},</span>
-  <span class="p">{</span>
-    <span class="s2">"coordinates"</span><span class="p">:</span> <span class="p">{</span>
-      <span class="s2">"coordinates"</span><span class="p">:</span> <span class="p">[</span>
-        <span class="o">-</span><span class="mf">122.25831</span><span class="p">,</span>
-        <span class="mf">37.871609</span>
-      <span class="p">],</span>
-      <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"Point"</span>
-    <span class="p">},</span>
-    <span class="s2">"truncated"</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span>
-    <span class="s2">"created_at"</span><span class="err">:</span> <span class="s2">"Tue Aug 28 21:08:15 +0000 2012"</span><span class="p">,</span>
-    <span class="s2">"favorited"</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span>
-    <span class="s2">"id_str"</span><span class="err">:</span> <span class="s2">"240556426106372096"</span><span class="p">,</span>
-    <span class="s2">"in_reply_to_user_id_str"</span><span class="err">:</span> <span class="kc">null</span><span class="p">,</span>
-    <span class="s2">"entities"</span><span class="err">:</span> <span class="p">{</span>
-      <span class="s2">"urls"</span><span class="err">:</span> <span class="p">[</span>
-        <span class="p">{</span>
-          <span class="s2">"expanded_url"</span><span class="p">:</span> <span class="s2">"http://blogs.ischool.berkeley.edu/i290-abdt-s12/"</span><span class="p">,</span>
-          <span class="s2">"url"</span><span class="p">:</span> <span class="s2">"http://t.co/bfj7zkDJ"</span><span class="p">,</span>
-          <span class="s2">"indices"</span><span class="p">:</span> <span class="p">[</span>
-            <span class="mi">79</span><span class="p">,</span>
-            <span class="mi">99</span>
-          <span class="p">],</span>
-          <span class="s2">"display_url"</span><span class="p">:</span> <span class="s2">"blogs.ischool.berkeley.edu/i290-abdt-s12/"</span>
-        <span class="p">}</span>
-      <span class="p">],</span>
-      <span class="s2">"hashtags"</span><span class="err">:</span> <span class="p">[</span>
-
-      <span class="p">],</span>
-      <span class="s2">"user_mentions"</span><span class="err">:</span> <span class="p">[</span>
-        <span class="p">{</span>
-          <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"Cal"</span><span class="p">,</span>
-          <span class="s2">"id_str"</span><span class="p">:</span> <span class="s2">"17445752"</span><span class="p">,</span>
-          <span class="s2">"id"</span><span class="p">:</span> <span class="mi">17445752</span><span class="p">,</span>
-          <span class="s2">"indices"</span><span class="p">:</span> <span class="p">[</span>
-            <span class="mi">60</span><span class="p">,</span>
-            <span class="mi">64</span>
-          <span class="p">],</span>
-          <span class="s2">"screen_name"</span><span class="p">:</span> <span class="s2">"Cal"</span>
-        <span class="p">},</span>
-        <span class="p">{</span>
-          <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"Othman Laraki"</span><span class="p">,</span>
-          <span class="s2">"id_str"</span><span class="p">:</span> <span class="s2">"20495814"</span><span class="p">,</span>
-          <span class="s2">"id"</span><span class="p">:</span> <span class="mi">20495814</span><span class="p">,</span>
-          <span class="s2">"indices"</span><span class="p">:</span> <span class="p">[</span>
-            <span class="mi">70</span><span class="p">,</span>
-            <span class="mi">77</span>
-          <span class="p">],</span>
-          <span class="s2">"screen_name"</span><span class="p">:</span> <span class="s2">"othman"</span>
-        <span class="p">}</span>
-      <span class="p">]</span>
-    <span class="p">},</span>
-    <span class="s2">"text"</span><span class="err">:</span> <span class="s2">"lecturing at the \"analyzing big data with twitter\" class at @cal with @othman  http://t.co/bfj7zkDJ"</span><span class="p">,</span>
-    <span class="s2">"contributors"</span><span class="err">:</span> <span class="kc">null</span><span class="p">,</span>
-    <span class="s2">"id"</span><span class="err">:</span> <span class="mi">240556426106372096</span><span class="p">,</span>
-    <span class="s2">"retweet_count"</span><span class="err">:</span> <span class="mi">3</span><span class="p">,</span>
-    <span class="s2">"in_reply_to_status_id_str"</span><span class="err">:</span> <span class="kc">null</span><span class="p">,</span>
-    <span class="s2">"geo"</span><span class="err">:</span> <span class="p">{</span>
-      <span class="s2">"coordinates"</span><span class="err">:</span> <span class="p">[</span>
-        <span class="mf">37.871609</span><span class="p">,</span>
-        <span class="o">-</span><span class="mf">122.25831</span>
-      <span class="p">],</span>
-      <span class="s2">"type"</span><span class="err">:</span> <span class="s2">"Point"</span>
-    <span class="p">},</span>
-    <span class="s2">"retweeted"</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span>
-    <span class="s2">"possibly_sensitive"</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span>
-    <span class="s2">"in_reply_to_user_id"</span><span class="err">:</span> <span class="kc">null</span><span class="p">,</span>
-    <span class="s2">"place"</span><span class="err">:</span> <span class="p">{</span>
-      <span class="s2">"name"</span><span class="err">:</span> <span class="s2">"Berkeley"</span><span class="p">,</span>
-      <span class="s2">"country_code"</span><span class="err">:</span> <span class="s2">"US"</span><span class="p">,</span>
-      <span class="s2">"country"</span><span class="err">:</span> <span class="s2">"United States"</span><span class="p">,</span>
-      <span class="s2">"attributes"</span><span class="err">:</span> <span class="p">{</span>
-      <span class="p">},</span>
-      <span class="s2">"url"</span><span class="err">:</span> <span class="s2">"http://api.twitter.com/1/geo/id/5ef5b7f391e30aff.json"</span><span class="p">,</span>
-      <span class="s2">"id"</span><span class="err">:</span> <span class="s2">"5ef5b7f391e30aff"</span><span class="p">,</span>
-      <span class="s2">"bounding_box"</span><span class="err">:</span> <span class="p">{</span>
-        <span class="s2">"coordinates"</span><span class="err">:</span> <span class="p">[</span>
-          <span class="p">[</span>
-            <span class="p">[</span>
-              <span class="o">-</span><span class="mf">122.367781</span><span class="p">,</span>
-              <span class="mf">37.835727</span>
-            <span class="p">],</span>
-            <span class="p">[</span>
-              <span class="o">-</span><span class="mf">122.234185</span><span class="p">,</span>
-              <span class="mf">37.835727</span>
-            <span class="p">],</span>
-            <span class="p">[</span>
-              <span class="o">-</span><span class="mf">122.234185</span><span class="p">,</span>
-              <span class="mf">37.905824</span>
-            <span class="p">],</span>
-            <span class="p">[</span>
-              <span class="o">-</span><span class="mf">122.367781</span><span class="p">,</span>
-              <span class="mf">37.905824</span>
-            <span class="p">]</span>
-          <span class="p">]</span>
-        <span class="p">],</span>
-        <span class="s2">"type"</span><span class="err">:</span> <span class="s2">"Polygon"</span>
-      <span class="p">},</span>
-      <span class="s2">"full_name"</span><span class="err">:</span> <span class="s2">"Berkeley, CA"</span><span class="p">,</span>
-      <span class="s2">"place_type"</span><span class="err">:</span> <span class="s2">"city"</span>
-    <span class="p">},</span>
-    <span class="s2">"source"</span><span class="err">:</span> <span class="s2">"Safari on iOS"</span><span class="p">,</span>
-    <span class="s2">"user"</span><span class="err">:</span> <span class="p">{</span>
-      <span class="s2">"name"</span><span class="err">:</span> <span class="s2">"Raffi Krikorian"</span><span class="p">,</span>
-      <span class="s2">"profile_sidebar_fill_color"</span><span class="err">:</span> <span class="s2">"DDEEF6"</span><span class="p">,</span>
-      <span class="s2">"profile_background_tile"</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span>
-      <span class="s2">"profile_sidebar_border_color"</span><span class="err">:</span> <span class="s2">"C0DEED"</span><span class="p">,</span>
-      <span class="s2">"profile_image_url"</span><span class="err">:</span> <span class="s2">"http://a0.twimg.com/profile_images/1270234259/raffi-headshot-casual_normal.png"</span><span class="p">,</span>
-      <span class="s2">"created_at"</span><span class="err">:</span> <span class="s2">"Sun Aug 19 14:24:06 +0000 2007"</span><span class="p">,</span>
-      <span class="s2">"location"</span><span class="err">:</span> <span class="s2">"San Francisco, California"</span><span class="p">,</span>
-      <span class="s2">"follow_request_sent"</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span>
-      <span class="s2">"id_str"</span><span class="err">:</span> <span class="s2">"8285392"</span><span class="p">,</span>
-      <span class="s2">"is_translator"</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span>
-      <span class="s2">"profile_link_color"</span><span class="err">:</span> <span class="s2">"0084B4"</span><span class="p">,</span>
-      <span class="s2">"entities"</span><span class="err">:</span> <span class="p">{</span>
-        <span class="s2">"url"</span><span class="err">:</span> <span class="p">{</span>
-          <span class="s2">"urls"</span><span class="err">:</span> <span class="p">[</span>
-            <span class="p">{</span>
-              <span class="s2">"expanded_url"</span><span class="p">:</span> <span class="s2">"http://about.me/raffi.krikorian"</span><span class="p">,</span>
-              <span class="s2">"url"</span><span class="p">:</span> <span class="s2">"http://t.co/eNmnM6q"</span><span class="p">,</span>
-              <span class="s2">"indices"</span><span class="p">:</span> <span class="p">[</span>
-                <span class="mi">0</span><span class="p">,</span>
-                <span class="mi">19</span>
-              <span class="p">],</span>
-              <span class="s2">"display_url"</span><span class="p">:</span> <span class="s2">"about.me/raffi.krikorian"</span>
-            <span class="p">}</span>
-          <span class="p">]</span>
-        <span class="p">},</span>
-        <span class="s2">"description"</span><span class="err">:</span> <span class="p">{</span>
-          <span class="s2">"urls"</span><span class="err">:</span> <span class="p">[</span>
-
-          <span class="p">]</span>
-        <span class="p">}</span>
-      <span class="p">},</span>
-      <span class="s2">"default_profile"</span><span class="err">:</span> <span class="kc">true</span><span class="p">,</span>
-      <span class="s2">"url"</span><span class="err">:</span> <span class="s2">"http://t.co/eNmnM6q"</span><span class="p">,</span>
-      <span class="s2">"contributors_enabled"</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span>
-      <span class="s2">"favourites_count"</span><span class="err">:</span> <span class="mi">724</span><span class="p">,</span>
-      <span class="s2">"utc_offset"</span><span class="err">:</span> <span class="o">-</span><span class="mi">28800</span><span class="p">,</span>
-      <span class="s2">"profile_image_url_https"</span><span class="err">:</span> <span class="s2">"https://si0.twimg.com/profile_images/1270234259/raffi-headshot-casual_normal.png"</span><span class="p">,</span>
-      <span class="s2">"id"</span><span class="err">:</span> <span class="mi">8285392</span><span class="p">,</span>
-      <span class="s2">"listed_count"</span><span class="err">:</span> <span class="mi">619</span><span class="p">,</span>
-      <span class="s2">"profile_use_background_image"</span><span class="err">:</span> <span class="kc">true</span><span class="p">,</span>
-      <span class="s2">"profile_text_color"</span><span class="err">:</span> <span class="s2">"333333"</span><span class="p">,</span>
-      <span class="s2">"followers_count"</span><span class="err">:</span> <span class="mi">18752</span><span class="p">,</span>
-      <span class="s2">"lang"</span><span class="err">:</span> <span class="s2">"en"</span><span class="p">,</span>
-      <span class="s2">"protected"</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span>
-      <span class="s2">"geo_enabled"</span><span class="err">:</span> <span class="kc">true</span><span class="p">,</span>
-      <span class="s2">"notifications"</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span>
-      <span class="s2">"description"</span><span class="err">:</span> <span class="s2">"Director of @twittereng's Platform Services. I break things."</span><span class="p">,</span>
-      <span class="s2">"profile_background_color"</span><span class="err">:</span> <span class="s2">"C0DEED"</span><span class="p">,</span>
-      <span class="s2">"verified"</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span>
-      <span class="s2">"time_zone"</span><span class="err">:</span> <span class="s2">"Pacific Time (US &amp; Canada)"</span><span class="p">,</span>
-      <span class="s2">"profile_background_image_url_https"</span><span class="err">:</span> <span class="s2">"https://si0.twimg.com/images/themes/theme1/bg.png"</span><span class="p">,</span>
-      <span class="s2">"statuses_count"</span><span class="err">:</span> <span class="mi">5007</span><span class="p">,</span>
-      <span class="s2">"profile_background_image_url"</span><span class="err">:</span> <span class="s2">"http://a0.twimg.com/images/themes/theme1/bg.png"</span><span class="p">,</span>
-      <span class="s2">"default_profile_image"</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span>
-      <span class="s2">"friends_count"</span><span class="err">:</span> <span class="mi">701</span><span class="p">,</span>
-      <span class="s2">"following"</span><span class="err">:</span> <span class="kc">true</span><span class="p">,</span>
-      <span class="s2">"show_all_inline_media"</span><span class="err">:</span> <span class="kc">true</span><span class="p">,</span>
-      <span class="s2">"screen_name"</span><span class="err">:</span> <span class="s2">"raffi"</span>
-    <span class="p">},</span>
-    <span class="s2">"in_reply_to_screen_name"</span><span class="err">:</span> <span class="kc">null</span><span class="p">,</span>
-    <span class="s2">"in_reply_to_status_id"</span><span class="err">:</span> <span class="kc">null</span>
-  <span class="p">},</span>
-  <span class="p">{</span>
-    <span class="s2">"coordinates"</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
-    <span class="s2">"truncated"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
-    <span class="s2">"created_at"</span><span class="p">:</span> <span class="s2">"Tue Aug 28 19:59:34 +0000 2012"</span><span class="p">,</span>
-    <span class="s2">"favorited"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
-    <span class="s2">"id_str"</span><span class="p">:</span> <span class="s2">"240539141056638977"</span><span class="p">,</span>
-    <span class="s2">"in_reply_to_user_id_str"</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
-    <span class="s2">"entities"</span><span class="p">:</span> <span class="p">{</span>
-      <span class="s2">"urls"</span><span class="p">:</span> <span class="p">[</span>
-
-      <span class="p">],</span>
-      <span class="s2">"hashtags"</span><span class="p">:</span> <span class="p">[</span>
-
-      <span class="p">],</span>
-      <span class="s2">"user_mentions"</span><span class="p">:</span> <span class="p">[</span>
-
-      <span class="p">]</span>
-    <span class="p">},</span>
-    <span class="s2">"text"</span><span class="err">:</span> <span class="s2">"You'd be right more often if you thought you were wrong."</span><span class="p">,</span>
-    <span class="s2">"contributors"</span><span class="err">:</span> <span class="kc">null</span><span class="p">,</span>
-    <span class="s2">"id"</span><span class="err">:</span> <span class="mi">240539141056638977</span><span class="p">,</span>
-    <span class="s2">"retweet_count"</span><span class="err">:</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="s2">"in_reply_to_status_id_str"</span><span class="err">:</span> <span class="kc">null</span><span class="p">,</span>
-    <span class="s2">"geo"</span><span class="err">:</span> <span class="kc">null</span><span class="p">,</span>
-    <span class="s2">"retweeted"</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span>
-    <span class="s2">"in_reply_to_user_id"</span><span class="err">:</span> <span class="kc">null</span><span class="p">,</span>
-    <span class="s2">"place"</span><span class="err">:</span> <span class="kc">null</span><span class="p">,</span>
-    <span class="s2">"source"</span><span class="err">:</span> <span class="s2">"web"</span><span class="p">,</span>
-    <span class="s2">"user"</span><span class="err">:</span> <span class="p">{</span>
-      <span class="s2">"name"</span><span class="err">:</span> <span class="s2">"Taylor Singletary"</span><span class="p">,</span>
-      <span class="s2">"profile_sidebar_fill_color"</span><span class="err">:</span> <span class="s2">"FBFBFB"</span><span class="p">,</span>
-      <span class="s2">"profile_background_tile"</span><span class="err">:</span> <span class="kc">true</span><span class="p">,</span>
-      <span class="s2">"profile_sidebar_border_color"</span><span class="err">:</span> <span class="s2">"000000"</span><span class="p">,</span>
-      <span class="s2">"profile_image_url"</span><span class="err">:</span> <span class="s2">"http://a0.twimg.com/profile_images/2546730059/f6a8zq58mg1hn0ha8vie_normal.jpeg"</span><span class="p">,</span>
-      <span class="s2">"created_at"</span><span class="err">:</span> <span class="s2">"Wed Mar 07 22:23:19 +0000 2007"</span><span class="p">,</span>
-      <span class="s2">"location"</span><span class="err">:</span> <span class="s2">"San Francisco, CA"</span><span class="p">,</span>
-      <span class="s2">"follow_request_sent"</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span>
-      <span class="s2">"id_str"</span><span class="err">:</span> <span class="s2">"819797"</span><span class="p">,</span>
-      <span class="s2">"is_translator"</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span>
-      <span class="s2">"profile_link_color"</span><span class="err">:</span> <span class="s2">"c71818"</span><span class="p">,</span>
-      <span class="s2">"entities"</span><span class="err">:</span> <span class="p">{</span>
-        <span class="s2">"url"</span><span class="err">:</span> <span class="p">{</span>
-          <span class="s2">"urls"</span><span class="err">:</span> <span class="p">[</span>
-            <span class="p">{</span>
-              <span class="s2">"expanded_url"</span><span class="p">:</span> <span class="s2">"http://www.rebelmouse.com/episod/"</span><span class="p">,</span>
-              <span class="s2">"url"</span><span class="p">:</span> <span class="s2">"http://t.co/Lxw7upbN"</span><span class="p">,</span>
-              <span class="s2">"indices"</span><span class="p">:</span> <span class="p">[</span>
-                <span class="mi">0</span><span class="p">,</span>
-                <span class="mi">20</span>
-              <span class="p">],</span>
-              <span class="s2">"display_url"</span><span class="p">:</span> <span class="s2">"rebelmouse.com/episod/"</span>
-            <span class="p">}</span>
-          <span class="p">]</span>
-        <span class="p">},</span>
-        <span class="s2">"description"</span><span class="err">:</span> <span class="p">{</span>
-          <span class="s2">"urls"</span><span class="err">:</span> <span class="p">[</span>
-
-          <span class="p">]</span>
-        <span class="p">}</span>
-      <span class="p">},</span>
-      <span class="s2">"default_profile"</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span>
-      <span class="s2">"url"</span><span class="err">:</span> <span class="s2">"http://t.co/Lxw7upbN"</span><span class="p">,</span>
-      <span class="s2">"contributors_enabled"</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span>
-      <span class="s2">"favourites_count"</span><span class="err">:</span> <span class="mi">15990</span><span class="p">,</span>
-      <span class="s2">"utc_offset"</span><span class="err">:</span> <span class="o">-</span><span class="mi">28800</span><span class="p">,</span>
-      <span class="s2">"profile_image_url_https"</span><span class="err">:</span> <span class="s2">"https://si0.twimg.com/profile_images/2546730059/f6a8zq58mg1hn0ha8vie_normal.jpeg"</span><span class="p">,</span>
-      <span class="s2">"id"</span><span class="err">:</span> <span class="mi">819797</span><span class="p">,</span>
-      <span class="s2">"listed_count"</span><span class="err">:</span> <span class="mi">340</span><span class="p">,</span>
-      <span class="s2">"profile_use_background_image"</span><span class="err">:</span> <span class="kc">true</span><span class="p">,</span>
-      <span class="s2">"profile_text_color"</span><span class="err">:</span> <span class="s2">"D20909"</span><span class="p">,</span>
-      <span class="s2">"followers_count"</span><span class="err">:</span> <span class="mi">7126</span><span class="p">,</span>
-      <span class="s2">"lang"</span><span class="err">:</span> <span class="s2">"en"</span><span class="p">,</span>
-      <span class="s2">"protected"</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span>
-      <span class="s2">"geo_enabled"</span><span class="err">:</span> <span class="kc">true</span><span class="p">,</span>
-      <span class="s2">"notifications"</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span>
-      <span class="s2">"description"</span><span class="err">:</span> <span class="s2">"Reality Technician, Twitter API team, synthesizer enthusiast; a most excellent adventure in timelines. I know it's hard to believe in something you can't see."</span><span class="p">,</span>
-      <span class="s2">"profile_background_color"</span><span class="err">:</span> <span class="s2">"000000"</span><span class="p">,</span>
-      <span class="s2">"verified"</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span>
-      <span class="s2">"time_zone"</span><span class="err">:</span> <span class="s2">"Pacific Time (US &amp; Canada)"</span><span class="p">,</span>
-      <span class="s2">"profile_background_image_url_https"</span><span class="err">:</span> <span class="s2">"https://si0.twimg.com/profile_background_images/643655842/hzfv12wini4q60zzrthg.png"</span><span class="p">,</span>
-      <span class="s2">"statuses_count"</span><span class="err">:</span> <span class="mi">18076</span><span class="p">,</span>
-      <span class="s2">"profile_background_image_url"</span><span class="err">:</span> <span class="s2">"http://a0.twimg.com/profile_background_images/643655842/hzfv12wini4q60zzrthg.png"</span><span class="p">,</span>
-      <span class="s2">"default_profile_image"</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span>
-      <span class="s2">"friends_count"</span><span class="err">:</span> <span class="mi">5444</span><span class="p">,</span>
-      <span class="s2">"following"</span><span class="err">:</span> <span class="kc">true</span><span class="p">,</span>
-      <span class="s2">"show_all_inline_media"</span><span class="err">:</span> <span class="kc">true</span><span class="p">,</span>
-      <span class="s2">"screen_name"</span><span class="err">:</span> <span class="s2">"episod"</span>
-    <span class="p">},</span>
-    <span class="s2">"in_reply_to_screen_name"</span><span class="err">:</span> <span class="kc">null</span><span class="p">,</span>
-    <span class="s2">"in_reply_to_status_id"</span><span class="err">:</span> <span class="kc">null</span>
-  <span class="p">}</span>
-<span class="p">]</span>
-</code></pre>
-</div>
-
-<p>眼花撩亂了吧? 這邊先不細部探討每個部分的意義, 你只需要先知道, 這雖然看來很複雜, 但有一大半你做client時”並用不上!!!”
-通常只會需要內文, 連結, 回文數量, 喜愛數量, 使用者基本資料(大概就ID, 名字, 圖像就已經差不多了)</p>
-
-<h4 id="facebook-api">Facebook API</h4>
-
-<p>Facebook有相當多的功能, 因此相較於Twitter, 他的API自然複雜很多, 這邊要看的還是只有<a href="https://developers.facebook.com/docs/graph-api/reference/v2.8/user/feed">User Feed</a>這部分,
-不過似乎Facebook Graph API已經不再允許存取home timeline了, User Feed其實只能存取自己po的文</p>
-
-<p>在處理Pagination上, Facebook API並不是很一致, 從<a href="https://developers.facebook.com/docs/graph-api/using-graph-api">這篇</a>來看, 有幾種分頁的形式:</p>
-
-<ol>
-  <li>游標型分頁</li>
-  <li>時間型分頁</li>
-  <li>位移型分頁</li>
-</ol>
-
-<p>並不是所有的API節點都支援這三種分頁型態, 例如”/user/albums”用的是游標型, 但User Feed用的是時間型, 時間型的缺點就是有可能會發生有相同時間的動態的問題, 但不管是哪一個類型
-在Paging的資訊都會有一個previuos跟next的連結(如下), 因此不用太擔心要根據不同型態去組出URL這部分</p>
-
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="c1">//游標型分頁</span>
-<span class="p">{</span>
-  <span class="s2">"data"</span><span class="err">:</span><span class="p">[</span>
-     
-  <span class="p">],</span>
-  <span class="s2">"paging"</span><span class="err">:</span><span class="p">{</span>
-    <span class="s2">"cursors"</span><span class="err">:</span><span class="p">{</span>
-      <span class="s2">"after"</span><span class="err">:</span><span class="s2">"MTAxNTExOTQ1MjAwNzI5NDE="</span><span class="p">,</span>
-      <span class="s2">"before"</span><span class="err">:</span><span class="s2">"NDMyNzQyODI3OTQw"</span>
-    <span class="p">},</span>
-    <span class="s2">"previous"</span><span class="err">:</span><span class="s2">"https://graph.facebook.com/me/albums?limit=25&amp;before=NDMyNzQyODI3OTQw"</span>
-    <span class="s2">"next"</span><span class="err">:</span><span class="s2">"https://graph.facebook.com/me/albums?limit=25&amp;after=MTAxNTExOTQ1MjAwNzI5NDE="</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-<span class="c1">//時間型分頁</span>
-<span class="p">{</span>
-  <span class="s2">"data"</span><span class="err">:</span><span class="p">[</span>
-    <span class="p">{</span>
-      <span class="s2">"message"</span><span class="p">:</span> <span class="s2">"真專業，還有空橋耶"</span><span class="p">,</span>
-      <span class="s2">"created_time"</span><span class="p">:</span> <span class="s2">"2016-10-30T11:41:36+0000"</span><span class="p">,</span>
-      <span class="s2">"id"</span><span class="p">:</span> <span class="s2">"1129283437_10210116929056272"</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="s2">"message"</span><span class="p">:</span> <span class="s2">"兄弟藍瘦香菇了"</span><span class="p">,</span>
-      <span class="s2">"created_time"</span><span class="p">:</span> <span class="s2">"2016-10-29T12:45:58+0000"</span><span class="p">,</span>
-      <span class="s2">"id"</span><span class="p">:</span> <span class="s2">"1129283437_10210105741976602"</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="s2">"message"</span><span class="p">:</span> <span class="s2">"又被拖著跑了"</span><span class="p">,</span>
-      <span class="s2">"created_time"</span><span class="p">:</span> <span class="s2">"2016-10-29T06:39:29+0000"</span><span class="p">,</span>
-      <span class="s2">"id"</span><span class="p">:</span> <span class="s2">"1129283437_10210103402598119"</span>
-    <span class="p">}</span>
-  <span class="p">],</span>
-  <span class="s2">"paging"</span><span class="err">:</span><span class="p">{</span>
-    <span class="s2">"previous"</span><span class="err">:</span><span class="s2">"https://graph.facebook.com/me/feed?limit=25&amp;since=1364849754"</span><span class="p">,</span>
-    <span class="s2">"next"</span><span class="err">:</span><span class="s2">"https://graph.facebook.com/me/feed?limit=25&amp;until=1364587774"</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</code></pre>
-</div>
-
-<p>在資料內容方面, Facebook回應的資料比起Twitter反而就相當的精簡, 這是有助於減低回應時間的(response time)</p>
-
-<h3 id="section">時間線回朔問題</h3>
-
-<p>剛提到Pagination時有講到在Client的設計上, 在使用者往回滑完一頁時必須要再獲取上一頁的資料, 這在單一資料源的時候問題不大, 但對彙整式的social feed, 尤其完全在Client端實作的, 會有這樣一個問題</p>
-
-<p>先來看看下圖:</p>
-
-<p><img src="/images/posts/aggregation.002.jpeg" alt="" /></p>
-
-<p>假設我們有S1, S2, S3, S4四個服務的動態要整合, 垂直每個線段是每次API call抓取到的資料的時間段(每個分頁的匙間段)</p>
-
-<p>如果我們先不考慮S2-S4, 而是只有一個S1, 第一次載入的分頁內容的時間點在t1-t2間, 所以照理來說當使用者滑到快t2時, 要再發出一個新的API call抓取下一個分頁, 也就是t3-t5這段,
-但如果把S2-S4列入考慮後, 會發現, 當第一次從四個服務那邊取得資料, 資料涵括的時間是從t1-t9, 如果什麼都不做處理而是照前面的邏輯來看, 必須要使用者滑到快t9時,
-才會第二次抓取資料, 但由於第一次抓取時, S1缺了t2-t9間的資料, S2缺了t3之後的, S4的資料也只到t4, 因此第二次抓取資料時, 會造成這三者的資料往前回填,
-這在UI顯示上會是一個比較大的災難</p>
-
-<p>因此, 以這圖來說, 第一次抓取完畢後, UI上只能顯示t1-t2間的資料, 使用者滑到t2時, 就必須觸發第二次資料的抓取, 但以這例子來說, 其實第二次是不需要包含S3
-的, 因為它第一次抓取的資料時間還在t5之後, 所以這邊如果能夠做省略, 而不是每次抓取資料都包含了S1-S4, 那可以省卻不少回應時間</p>
-
-<h3 id="data-normalization">資料格式的一致化(Data normalization)</h3>
-
-<p>剛剛看了Twitter, Facebook兩個API, 它的資料格式雖然都是JSON, 但內容差異很大, 但實際上來說, 以上次那篇的一張圖來做解釋:</p>
-
-<p><img src="/images/posts/post1021_facebook2.jpg" alt="" /></p>
-
-<p>從這張圖可以發現, 我們需要的資料並不多, 即使各家型態有所不同(例如Twitter重文字, Instagram是以圖為主), 我們還是可以歸納出我們UI所需要顯示的型態有哪些類別,
-因此我們需要的也只是顯示UI所需要的部分而已, 所以我們可以把這些不同來源的資料格式一致化成同一種我們所需要的資料格式</p>
-
-<p>那為何需要先一致化呢? 每次API抓回來的資料解析完直接顯示到UI上不就好了? 一般這樣的App的UI設計上, 會讓使用者一直捲頁, 因此你還是會需要把舊資料先暫存,
-不管是在記憶體或是在資料庫內, 這樣使用者回捲再多也不需要再從server抓取舊資料, 但你如果把原本資料原封不動的拿來存, 像Twitter那個就會存了很多不必要的資料,
-如果更偷懶直接存JSON, 那就會是效率問題了, 解析JSON過程中其實會產生不少垃圾, 效率也不高, 可能會影響UI的效能, 因此如果能夠在一開始把解析完的資料序列化到資料庫內,
-會是比較理想, 因為你只需要從資料庫取相對應解析完的資料就好, 不用再一次解析JSON</p>
-
-<h3 id="section-1">背景更新</h3>
-
-<p>偷偷在背景更新動態是一種解決時間線回朔這個問題的方法, 因為所有資料都預先抓回資料庫, 所以也不需要煩惱什麼時後該去抓下一個分頁, 每個服務都可以獨立抓取, 丟到本地的資料庫彙整就好
-,在使用者使用程式時, 也不需要解析太多JSON, 但這帶來一個缺點是因為在背景抓資料, 會有浪費頻寬的問題, 假設使用者一天最多只看了50則動態, 但一天其實會產生一百則, 那就會有50則的資訊量是浪費了,
-再加上Social API都是用輪詢(polling)的方式, 並不是會時時有資料, 所以常常很多API calls其實是不需要也浪費的</p>
-
-<h3 id="friendfeed">那Friendfeed的做法?</h3>
-
-<p>Facebook的前CTO, 也是Friendfeed創辦人之一的Brett Taylor在這篇 <a href="https://www.quora.com/How-do-sites-such-as-FriendFeed-and-Flipboard-scale-out-their-social-data-aggregators">How do sites such as FriendFeed and Flipboard scale out their social data-aggregators?</a>
-的回答可窺知一二</p>
-
-<p>在server端的做法就像背景更新差不多, 定期用crawler發api去抓取各服務的資料, 然後塞到資料庫內, 因此就沒有時間線回朔的問題了, 但問題就在於抓取的間隔, 因此在server端實作的難題就是該怎樣去取這間隔,
-在OSCON 2008有一篇<a href="http://cdn.oreillystatic.com/en/assets/1/event/12/Beyond%20REST_%20Building%20Data%20Services%20with%20XMPP%20PubSub%20Presentation.pdf">Beyond REST? Building Data Services with XMPP PubSub</a>有提到:</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>on july 21st, 2008, they friendfeed crawled flickr 2.9 million times. to get the latest photos of 45,754 users of which 6,721 of that 45,754 visited Flickr in that 24 hour period, and could have *potentially* uploaded a photo. 
-- Beyond REST? Building data services with XMPP PubSub (Evan Henshaw-Plath, ENTP.com, Kellan Elliott-McCrea, Flickr.com)
-</code></pre>
-</div>
-
-<p>但實際上來說, 並沒有那麼多的更新, 也不需要那麼頻繁的去抓取, 但這是這類型的API先天的缺陷, 也不是Friendfeed的問題, 或許在下一篇講一下怎麼設計API來改善這狀況</p>
 
   </div><!-- /.entry-content -->
 </article><!-- /.hentry -->
