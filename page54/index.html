@@ -150,6 +150,29 @@
   <header>
     
     <div class="entry-meta">
+      <span class="entry-date date published updated"><time datetime="2011-02-22T01:37:45+08:00"><a href="http://blog.jln.co/android%E7%AD%86%E8%A8%98-remote-debugging/">February 22, 2011</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
+      
+      <span class="entry-reading-time">
+        <i class="fa fa-clock-o"></i>
+        
+Reading time ~1 minute
+      </span><!-- /.entry-reading-time -->
+      
+    </div><!-- /.entry-meta -->
+    
+      <h1 class="entry-title"><a href="http://blog.jln.co/android%E7%AD%86%E8%A8%98-remote-debugging/" rel="bookmark" title="[Android][筆記] Remote debugging" itemprop="url">[Android][筆記] Remote debugging</a></h1>
+    
+  </header>
+  <div class="entry-content">
+    <div class="posterous_autopost"><p>本來這技巧應該沒啥用上, 不過最近一台開發的機器, usb一直不通不通的, adb logcat自然就不能用了, 不過好在現在adb有支援adb over tcpip</p>  <p>啟用的方法是</p>  <blockquote class="posterous_short_quote">  <p>adb tcpip port</p>  </blockquote>  <p>這就會把手機上的adb轉成可以透過tcpip連接</p>  <p>不過, USB不通又怎下這指令, 當然是沒辦法&hellip;.</p>  <p>所幸Market上下載的到相關的程式:</p>  <ol><li><a href="https://market.android.com/details?id=siir.es.adbWireless&amp;feature=search_result">adbWireless</a></li>  <li><a href="https://market.android.com/details?id=bohlool.net.wifiadb">adb over wifi widget</a></li>  </ol><p>我比較喜歡adb over wifi widget, 只要按一下就可以enable/disable, IP/PORT還直接顯示在widget上, 還蠻方便的</p>  <p>啟動之後, 只要在PC端下</p>  <blockquote class="posterous_short_quote">  <p>adb connect IP:PORT</p>  </blockquote>  <p>這樣adb就會連結到這台手機上了, 之後下adb command像是adb logcat或是adb install都是透過tcpip連結到這台機器上</p></div>
+
+  </div><!-- /.entry-content -->
+</article><!-- /.hentry -->
+
+<article class="hentry">
+  <header>
+    
+    <div class="entry-meta">
       <span class="entry-date date published updated"><time datetime="2011-02-16T04:54:47+08:00"><a href="http://blog.jln.co/%E6%88%91%E7%9A%84%E6%9C%AA%E4%BE%86%E4%B8%8D%E6%98%AF%E5%A4%A2/">February 16, 2011</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
       
       <span class="entry-reading-time">
@@ -234,29 +257,6 @@ Reading time ~1 minute
   </header>
   <div class="entry-content">
     <div class="posterous_autopost">我一點都不羨慕人家擁有名車，比較起來我反而喜歡搭大眾交通工具，就算會比較花時間，不喜歡開車<p>搭車，很好呀，這年紀平常公司家庭兩頭跑，步調越來越快，只有在車上才有自己的時間，可以隨便亂想，做自己想做的</p><p>兩年多來搭高鐵上下班，其實倒有點樂在其中了</p></div>
-
-  </div><!-- /.entry-content -->
-</article><!-- /.hentry -->
-
-<article class="hentry">
-  <header>
-    
-    <div class="entry-meta">
-      <span class="entry-date date published updated"><time datetime="2011-02-13T01:20:48+08:00"><a href="http://blog.jln.co/android-decompiler-apkdex-in-2-steps/">February 13, 2011</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
-      
-      <span class="entry-reading-time">
-        <i class="fa fa-clock-o"></i>
-        
-Reading time ~1 minute
-      </span><!-- /.entry-reading-time -->
-      
-    </div><!-- /.entry-meta -->
-    
-      <h1 class="entry-title"><a href="http://blog.jln.co/android-decompiler-apkdex-in-2-steps/" rel="bookmark" title="[Android] DeCompiler APK/DEX in 2 steps" itemprop="url">[Android] DeCompiler APK/DEX in 2 steps</a></h1>
-    
-  </header>
-  <div class="entry-content">
-    <div class="posterous_autopost"><p>真的, 這真的很簡單, 只要兩個步驟</p>  <p>首先, 你要有兩個工具:</p>  <ul><li><a href="http://code.google.com/p/dex2jar/">dex2jar</a></li>  <li><a href="http://java.decompiler.free.fr/">JD-GU</a>I 或其他Java decompliler (這邊我用JD-GUI當範例)</li>  </ul><p>步驟1: 拿dex2jar把apk或是dex轉成jar (裡面包含從dex轉譯過來的class file)</p>  <blockquote>  <p><span style="font-size: medium;"><em><strong>command &gt; </strong></em></span>./dex2jar.sh ~/SKeyTest.apk </p>  <p>version:0.0.7.8-SNAPSHOT</p>  <p>5 [main] INFO pxb.android.dex2jar.v3.Main - dex2jar /Users/julianshen/SKeyTest.apk -&gt; /Users/julianshen/SKeyTest.apk.dex2jar.jar</p>  <p>Done.</p>    </blockquote>  <p>步驟2: 拿JD-GUI開啟/Users/julianshen/SKeyTest.apk.dex2jar.jar (轉出的檔名即是原始檔SKeyTest.apk加上dex2jar.jar)</p>  <p>結果就像這樣:</p>  <p><a href="http://posterous.com/getfile/files.posterous.com/temp-2011-02-12/vJBtjoHhrGIChJllstkEFiJAgehzpHsEDkhqhnchgAIxqJcdfkIGwzJmlEJE/_2011-02-13_1.14.21.png.scaled1000.png"><img src="http://posterous.com/getfile/files.posterous.com/temp-2011-02-12/vJBtjoHhrGIChJllstkEFiJAgehzpHsEDkhqhnchgAIxqJcdfkIGwzJmlEJE/_2011-02-13_1.14.21.png.scaled500.png" width="500" height="304"/></a> </p>    <p> </p>  </div>
 
   </div><!-- /.entry-content -->
 </article><!-- /.hentry -->
