@@ -150,6 +150,29 @@
   <header>
     
     <div class="entry-meta">
+      <span class="entry-date date published updated"><time datetime="2015-09-13T16:55:55+08:00"><a href="http://blog.jln.co/golang-streaming-json-parser-in-go/">September 13, 2015</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
+      
+      <span class="entry-reading-time">
+        <i class="fa fa-clock-o"></i>
+        
+Reading time ~1 minute
+      </span><!-- /.entry-reading-time -->
+      
+    </div><!-- /.entry-meta -->
+    
+      <h1 class="entry-title"><a href="http://blog.jln.co/golang-streaming-json-parser-in-go/" rel="bookmark" title="[Golang] Streaming JSON Parser in Go" itemprop="url">[Golang] Streaming JSON Parser in Go</a></h1>
+    
+  </header>
+  <div class="entry-content">
+    <p>目前Json已經可以說是Internet上相當流行的格式了, 雖然說他缺點還算蠻多的, 但很多主流的程式語言都有成熟的parser可供使用,  在Golang則可利用內建的encoding/json這個package來達成</p><p>用“encoding/json”來解析Json其實很簡單, 基本上就是建立一個Decoder然後把json內容”解”到你對應的資料結構去, 可以參考這範例: <a href="http://golang.org/pkg/encoding/json/#example_Decoder">http://golang.org/pkg/encoding/json/#example_Decoder</a></p><p>但在某些狀況下並不是很好的解法, 舉個例子來說, 我這兩天打算拿從<a href="http://parse.com">Parse</a>那邊匯出的使用者資料來做一些處理, <a href="http://parse.com">Parse</a>輸出給我的JSON檔大約長得像這樣: <br/></p><p>{<br/>       results: [<br/>             {<br/>                  “objectId”:”zzreueaWq4″,<br/>                  “username”:”julian”,<br/>             }<br/>       ]<br/>}</p><p>按照這定義寫出的程式碼就類似這樣:</p><p><script src="https://gist.github.com/julianshen/ba805faa6f2ff41fc139.js"></script></p><p>但這有一個很大的問題, <a href="http://parse.com">Parse</a>那邊輸出給我的Json檔就有400MB之多(二十多萬筆), 可想而知的, 這程式直接先因為out of memory炸掉了, Decode需要把所有內容載入到記憶體才做解析, 而且以這範例, 解析完的結果全部存到我們的資料結構內, 自然有這問題, 常常這種應用我們都不是很需要把所有內容在記憶體放一份, 而是來一個處理一個</p><p>這時候就需要用Streaming parser的作法來解決這問題了, Golang的Json package也有支援這一模式, 但這也是在最新的1.5之後才有支援這模式, 使用這方法, 程式可以改成如下:</p><p><script src="https://gist.github.com/julianshen/2416ee3dc15c7358340f.js"></script></p><p>在這邊由於我只需要results這陣列的內容而已, 因此我先用Token找到第一個”[”(以這範例來說, 第一個”[”代表的就是results的陣列了), 之後就是用迴圈一個個去解些個別的User物件, 由於這20多萬筆資料, 我也只是要印出來而已, 我也不用特地用一個大的資料結構來存, 自然記憶體的問題就比較沒那麼吃緊</p>
+
+  </div><!-- /.entry-content -->
+</article><!-- /.hentry -->
+
+<article class="hentry">
+  <header>
+    
+    <div class="entry-meta">
       <span class="entry-date date published updated"><time datetime="2015-09-06T22:45:37+08:00"><a href="http://blog.jln.co/%E4%BD%BF%E7%94%A8go%E7%94%A2%E7%94%9F%E5%8B%95%E6%85%8Bgif/">September 06, 2015</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
       
       <span class="entry-reading-time">
@@ -248,29 +271,6 @@ Reading time ~1 minute
   </div><!-- /.entry-content -->
 </article><!-- /.hentry -->
 
-<article class="hentry">
-  <header>
-    
-    <div class="entry-meta">
-      <span class="entry-date date published updated"><time datetime="2015-06-10T04:00:14+08:00"><a href="http://blog.jln.co/wwdc-day-2-%E7%9C%9F%E7%9A%84%E9%83%BD%E5%BE%97%E6%8F%90%E6%97%A9%E5%8D%8A%E5%80%8B%E5%B0%8F%E6%99%82%E4%BE%86%E6%8E%92%E9%9A%8A%E3%84%A7%E4%B8%8D%E5%B0%8F%E5%BF%83%E5%B0%B1%E9%95%B7%E9%95%B7%E7%9A%84%E4%BA%BA%E9%BE%8D%E4%BA%86%E7%9C%9F%E6%98%AF%E6%81%90%E6%80%96google/">June 10, 2015</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
-      
-      <span class="entry-reading-time">
-        <i class="fa fa-clock-o"></i>
-        
-Reading time ~1 minute
-      </span><!-- /.entry-reading-time -->
-      
-    </div><!-- /.entry-meta -->
-    
-      <h1 class="entry-title"><a href="http://blog.jln.co/wwdc-day-2-%E7%9C%9F%E7%9A%84%E9%83%BD%E5%BE%97%E6%8F%90%E6%97%A9%E5%8D%8A%E5%80%8B%E5%B0%8F%E6%99%82%E4%BE%86%E6%8E%92%E9%9A%8A%E3%84%A7%E4%B8%8D%E5%B0%8F%E5%BF%83%E5%B0%B1%E9%95%B7%E9%95%B7%E7%9A%84%E4%BA%BA%E9%BE%8D%E4%BA%86%E7%9C%9F%E6%98%AF%E6%81%90%E6%80%96google/" rel="bookmark" title="wwdc day 2 真的都得提早半個小時來排隊ㄧ不小心就長長的人龍了真是恐怖google" itemprop="url">wwdc day 2 真的都得提早半個小時來排隊ㄧ不小心就長長的人龍了真是恐怖google</a></h1>
-    
-  </header>
-  <div class="entry-content">
-    <img src="/tumblr_files/tumblr_npp0we67iM1qzj38go1_1280.jpg"/><br/><p>wwdc day 2 - 真的都得提早半個小時來排隊，ㄧ不小心就長長的人龍了，真是恐怖，Google IO大概只有非常熱門的才會這樣，參加這種developer conference 最大的好處是，吸收到的能量都很正向，常常看到很多很開心的到處跟人聊天介紹自己做的東西，交換心得和技術，看到一堆happy developers是很開心的事，大家似乎對自己身為developer都很驕傲呀！</p>
-
-  </div><!-- /.entry-content -->
-</article><!-- /.hentry -->
-
 
 
 <div class="pagination">
@@ -338,7 +338,7 @@ Reading time ~1 minute
     
 
     
-      <li><a href="http://blog.jln.co/page68/">68</a></li>
+      <li><a href="http://blog.jln.co/page69/">69</a></li>
     
 
     

@@ -150,6 +150,142 @@
   <header>
     
     <div class="entry-meta">
+      <span class="entry-date date published updated"><time datetime="2016-11-04T15:11:58+08:00"><a href="http://blog.jln.co/es6-generator-function/">November 04, 2016</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
+      
+      <span class="entry-reading-time">
+        <i class="fa fa-clock-o"></i>
+        
+Reading time ~1 minute
+      </span><!-- /.entry-reading-time -->
+      
+    </div><!-- /.entry-meta -->
+    
+      <h1 class="entry-title"><a href="http://blog.jln.co/es6-generator-function/" rel="bookmark" title="[ES6] Generators" itemprop="url">[ES6] Generators</a></h1>
+    
+  </header>
+  <div class="entry-content">
+    <p>這個語法蠻有趣的, 早上一直都在看這個想能拿來幹嘛? 結果早上有個phone interview就有點腦袋小小的轉不過來,
+不過這不是重點, 先簡單的來講一下<a href="https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Statements/function*">Generators</a></p>
+
+<p>產生器? 顧名思義或許是這樣, 可以先看一下MDN上的<a href="https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Statements/function*">文件</a>,
+這是一個從ES6開始才有的功能, 因此要在比較新的瀏覽器, 或是nodejs 6之後才有支援, 先來看看MDN上那個簡單的例子:</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">function</span><span class="o">*</span> <span class="nx">idMaker</span><span class="p">(){</span>
+  <span class="kd">var</span> <span class="nx">index</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="k">while</span><span class="p">(</span><span class="nx">index</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="k">yield</span> <span class="nx">index</span><span class="o">++</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">var</span> <span class="nx">gen</span> <span class="o">=</span> <span class="nx">idMaker</span><span class="p">();</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">gen</span><span class="p">.</span><span class="nx">next</span><span class="p">().</span><span class="nx">value</span><span class="p">);</span> <span class="c1">// 0</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">gen</span><span class="p">.</span><span class="nx">next</span><span class="p">().</span><span class="nx">value</span><span class="p">);</span> <span class="c1">// 1</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">gen</span><span class="p">.</span><span class="nx">next</span><span class="p">().</span><span class="nx">value</span><span class="p">);</span> <span class="c1">// 2</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">gen</span><span class="p">.</span><span class="nx">next</span><span class="p">().</span><span class="nx">value</span><span class="p">);</span> <span class="c1">// undefined</span>
+</code></pre>
+</div>
+
+<p>一個generator是以”function*“宣告的, 可以說它是一種特別的function, 跟一般的function一次跑到結束不同,
+它是可以中途暫停的, 以上面這例子來說, 如果習慣傳統的寫法, 可能會有點小暈, while loop在idMaker裡面不是一次做到完嗎?
+剛剛說generator是可被中途暫停的, 因此, 在第一輪的時候會先停在”yield”處, 當你呼叫next()才會到下一個yield位置停下來並回傳,
+我的感覺是比較像一種有帶state的function之類的</p>
+
+<p>有什麼用途? 從上面的例子, 當然最直覺想到的是ID產生器或是計數器之類的東西, 網路上應該可以找到一些不同的用法, 比如說搭配Promise, 有興趣可以自己找找,
+是不只可以用在產生器, 拿我早上interview被問到的實作strstr, 不是很難的東西, 我原本拿go寫,出了點小槌, 而且也只能找第一個發生的字串, 後來用generator改了這版本:</p>
+
+<noscript><pre>function _strstr(str1, str2){
+    var i = 0;
+    for(var c of str2) {
+        if(str1[i++] != c) {
+            return false;
+        }
+    }
+    return true;
+}
+
+function* strstr(str1, str2) {
+    var last = str1;
+    var i = 0;
+    while(last.length &gt;= str2.length) {
+        if(_strstr(last, str2)) {
+            yield i;
+        }
+        i++;
+        last = last.substr(1);
+    }
+    return -1;
+}
+
+var s = &quot;122wasdasds121&quot;;
+
+var gen = strstr(&quot;a1f123abc123ce123aaa123456123as1112233123333&quot;, &quot;123&quot;);
+
+for(var i of gen) {
+    console.log(i);
+}</pre></noscript>
+<script src="https://gist.github.com/julianshen/6c06ccfa0942829ea24973778a96ab64.js"> </script>
+
+<p>以這個來說, 第一次呼叫會找出第一個發生的點, 可以持續呼叫到所有的都找出來為止, generator是可以被iterate的, 因此這邊可以用</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="nx">of</span> <span class="nx">gen</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">i</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>不需要一直call next(), next()回傳回來的會是{value:…, done:…}, 因此可以看done知道是否已經結束</p>
+
+<p>下面這範例則是一個質數產生器, 一直call next就可以產生下一個質數:</p>
+
+<noscript><pre>function isPrime(n) {
+    if(isNaN(n) || !isFinite(n) || n%1 || n&lt;2) {
+        return false;
+    }
+
+    if(n%2==0) return (n==2);
+    if(n%3==0) return (n==3);
+
+    var m = Math.sqrt(n);
+    for(var i = 5 ; i &lt; m; i++) {
+        if(n%i == 0) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+function* primeGen(x) {
+    var last = x;
+    if(isNaN(last)) {
+        last = 2
+    }
+
+    while(true) {
+        if(isPrime(last)) {
+            yield last;
+        } 
+
+        last++
+    }
+}
+
+var pgen = primeGen() 
+
+pgen.next();
+for(var i = 0;i &lt; 100;i++) {
+    console.log(pgen.next().value);
+}</pre></noscript>
+<script src="https://gist.github.com/julianshen/0c283f6f76abf258f9c0d4292a1e14f9.js"> </script>
+
+
+  </div><!-- /.entry-content -->
+</article><!-- /.hentry -->
+
+<article class="hentry">
+  <header>
+    
+    <div class="entry-meta">
       <span class="entry-date date published updated"><time datetime="2016-11-02T09:15:35+08:00"><a href="http://blog.jln.co/%E6%B7%BA%E8%AB%87social-feed-%E5%BE%8C%E7%AB%AF%E6%9E%B6%E6%A7%8B%E5%AF%A6%E4%BD%9C-server/">November 02, 2016</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
       
       <span class="entry-reading-time">
@@ -1146,60 +1282,6 @@ Reading time ~1 minute
   </div><!-- /.entry-content -->
 </article><!-- /.hentry -->
 
-<article class="hentry">
-  <header>
-    
-    <div class="entry-meta">
-      <span class="entry-date date published updated"><time datetime="2016-10-17T20:38:54+08:00"><a href="http://blog.jln.co/%E5%9C%A8ubuntu%E4%B8%8Bmount-box.com%E7%9A%84%E5%85%A7%E5%AE%B9/">October 17, 2016</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
-      
-      <span class="entry-reading-time">
-        <i class="fa fa-clock-o"></i>
-        
-Reading time ~1 minute
-      </span><!-- /.entry-reading-time -->
-      
-    </div><!-- /.entry-meta -->
-    
-      <h1 class="entry-title"><a href="http://blog.jln.co/%E5%9C%A8ubuntu%E4%B8%8Bmount-box.com%E7%9A%84%E5%85%A7%E5%AE%B9/" rel="bookmark" title="在Ubuntu下mount box.com的內容" itemprop="url">在Ubuntu下mount box.com的內容</a></h1>
-    
-  </header>
-  <div class="entry-content">
-    <p>雖然很久沒用box.com的服務了, 不過既然老婆大人問起, 就來寫一下這解法吧</p>
-
-<p>box.com是一個像Dropbox一樣的網路磁碟, 不過它目標客戶跟Dropbox不同, 是比較傾向企業用戶, 可以讓用戶很簡單的分享檔案,
-存取box.com除了一般使用Web介面的方式外, 還有其他的方式, 像是透過它的REST API, 另外還有一種就是透過WebDav, 
-如果要寫程式去存取它, 一般可以用這兩種方式, 用REST稍微複雜一點, 還要搞定OAuth2的部分, 但透過WebDav的話就簡單多了, 可以掛載成為你作業系統底下的目錄, 當本地檔案來處理</p>
-
-<h4 id="davfs2">安裝davfs2</h4>
-
-<p>首先, 你會需要的是davfs2, 在Ubuntu下用apt-get安裝:</p>
-
-<div class="language-sh highlighter-rouge"><pre class="highlight"><code>sudo apt-get install davfs2
-</code></pre>
-</div>
-
-<h4 id="section">設定帳號密碼</h4>
-
-<p>修改<code class="highlighter-rouge">/etc/davfs2/secrets</code>, 加入</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>https://dav.box.com/dav box.com帳號 密碼
-</code></pre>
-</div>
-
-<h4 id="section-1">掛載</h4>
-
-<p>執行底下指令掛載</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>sudo mkdir /mnt/box.com
-sudo -t davfs https://dav.box.com/dav /mnt/box.com
-</code></pre>
-</div>
-
-<p>成功之後,就會在/mnt/box.com底下看到你的檔案了(包含人家分享給你協作的檔案根目錄), 之後當本地端檔案存取即可, 設定好auto mount即可在開機後掛載</p>
-
-  </div><!-- /.entry-content -->
-</article><!-- /.hentry -->
-
 
 
 <div class="pagination">
@@ -1256,7 +1338,7 @@ sudo -t davfs https://dav.box.com/dav /mnt/box.com
     
 
     
-      <li><a href="http://blog.jln.co/page68/">68</a></li>
+      <li><a href="http://blog.jln.co/page69/">69</a></li>
     
 
     

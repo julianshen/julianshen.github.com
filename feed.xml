@@ -1,4 +1,31 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.1.6">Jekyll</generator><link href="http://blog.jln.co/feed.xml" rel="self" type="application/atom+xml" /><link href="http://blog.jln.co/" rel="alternate" type="text/html" /><updated>2017-01-19T11:56:45+08:00</updated><id>http://blog.jln.co/</id><title>Le murmure de Julian</title><subtitle>朱隸安貓囈語錄</subtitle><entry><title>[Go] 用Go抓PTT文章</title><link href="http://blog.jln.co/go-%E7%94%A8go%E6%8A%93ptt%E6%96%87%E7%AB%A0/" rel="alternate" type="text/html" title="[Go] 用Go抓PTT文章" /><published>2017-01-19T11:45:30+08:00</published><updated>2017-01-19T11:45:30+08:00</updated><id>http://blog.jln.co/[go]-用go抓ptt文章</id><content type="html" xml:base="http://blog.jln.co/go-%E7%94%A8go%E6%8A%93ptt%E6%96%87%E7%AB%A0/">&lt;p&gt;好, 這算我以為我寫過但實際上沒有系列….啥? 剛剛把我以前寫的一個&lt;a href=&quot;https://github.com/julianshen/gopttcrawler&quot;&gt;Go package - gopttcrawler&lt;/a&gt;更新後,
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.1.6">Jekyll</generator><link href="http://blog.jln.co/feed.xml" rel="self" type="application/atom+xml" /><link href="http://blog.jln.co/" rel="alternate" type="text/html" /><updated>2017-01-21T00:45:31+08:00</updated><id>http://blog.jln.co/</id><title>Le murmure de Julian</title><subtitle>朱隸安貓囈語錄</subtitle><entry><title>在Heroku上用apt-get安裝套件</title><link href="http://blog.jln.co/%E5%9C%A8heroku%E4%B8%8A%E7%94%A8apt-get%E5%AE%89%E8%A3%9D%E5%A5%97%E4%BB%B6/" rel="alternate" type="text/html" title="在Heroku上用apt-get安裝套件" /><published>2017-01-21T00:22:49+08:00</published><updated>2017-01-21T00:22:49+08:00</updated><id>http://blog.jln.co/在heroku上用apt-get安裝套件</id><content type="html" xml:base="http://blog.jln.co/%E5%9C%A8heroku%E4%B8%8A%E7%94%A8apt-get%E5%AE%89%E8%A3%9D%E5%A5%97%E4%BB%B6/">&lt;p&gt;&lt;a href=&quot;https://www.heroku.com&quot;&gt;Heroku&lt;/a&gt;蠻好用的, 也用了好幾年了, 拿來做prototype真是方便, 不過慚愧的是, 我還沒付過錢給他(真惡劣)
+最近chatbot玩得比較多, 不想花錢租server, 所以就比較頻繁的用它, 說到這裡, 照例, 先來廣告一下:&lt;/p&gt;
+
+&lt;p&gt;新的&lt;a href=&quot;https://line.me/R/ti/p/%40dlk1367a&quot;&gt;Line叭寇(Barcode)小幫手&lt;/a&gt; (轉含有條碼的圖片給它, 它會幫你解讀):&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://line.me/R/ti/p/%40dlk1367a&quot;&gt;&lt;img src=&quot;http://qr-official.line.me/L/zMCfmfxLHk.png&quot; alt=&quot;&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;好了, 回歸正題, Heroku 雖然是一個Paas的服務, 但它彈性非常大, 透過不同的buildpack也可以支援不同的語言跟框架,
+不像Google的GAE, 支援的平台就比較有限&lt;/p&gt;
+
+&lt;p&gt;Heroku本身也是跑在Linux上, 因此, 如果你需要額外的套件, 其實也是沒問題的, 舉個例子, 雖然我這個叭寇小幫手是用Go來寫的
+但卻會用到&lt;a href=&quot;http://zbar.sourceforge.net/&quot;&gt;ZBar&lt;/a&gt;這個讀取條碼的C程式庫, Heroku上當然沒裝, 所以建置Go時, 會因為找不到
+程式庫而失敗&lt;/p&gt;
+
+&lt;p&gt;在Linux上, 我們可以用&lt;code class=&quot;highlighter-rouge&quot;&gt;apt-get&lt;/code&gt;去安裝套件, 以zbar這例子是&lt;code class=&quot;highlighter-rouge&quot;&gt;apt-get install libzbar-dev&lt;/code&gt;, 但在Heroku上又該怎麼裝呢?&lt;/p&gt;
+
+&lt;p&gt;還是要透過buildpack, 在command line下執行下面指令:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;heroku buildpacks:add --index 1 https://github.com/heroku/heroku-buildpack-apt
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;apt這個build pack是放在官方的Github上, 因為我們希望該需要的, 軟體在一開始就把它準備好了&lt;/p&gt;
+
+&lt;p&gt;除了加build pack外, 還是不夠的, 你的套件還是沒被安裝, 因此繼續加一個叫&lt;code class=&quot;highlighter-rouge&quot;&gt;Aptfile&lt;/code&gt;的檔案, 內容是你需要安裝的套件&lt;/p&gt;
+
+&lt;p&gt;當你push你的程式到heroku上後, 它就會根據&lt;code class=&quot;highlighter-rouge&quot;&gt;Aptfile&lt;/code&gt;去安裝相對應的套件了&lt;/p&gt;</content><category term="server" /><category term="heroku" /><summary>Heroku蠻好用的, 也用了好幾年了, 拿來做prototype真是方便, 不過慚愧的是, 我還沒付過錢給他(真惡劣)
+最近chatbot玩得比較多, 不想花錢租server, 所以就比較頻繁的用它, 說到這裡, 照例, 先來廣告一下:</summary></entry><entry><title>[Go] 用Go抓PTT文章</title><link href="http://blog.jln.co/go-%E7%94%A8go%E6%8A%93ptt%E6%96%87%E7%AB%A0/" rel="alternate" type="text/html" title="[Go] 用Go抓PTT文章" /><published>2017-01-19T11:45:30+08:00</published><updated>2017-01-19T11:45:30+08:00</updated><id>http://blog.jln.co/[go]-用go抓ptt文章</id><content type="html" xml:base="http://blog.jln.co/go-%E7%94%A8go%E6%8A%93ptt%E6%96%87%E7%AB%A0/">&lt;p&gt;好, 這算我以為我寫過但實際上沒有系列….啥? 剛剛把我以前寫的一個&lt;a href=&quot;https://github.com/julianshen/gopttcrawler&quot;&gt;Go package - gopttcrawler&lt;/a&gt;更新後,
 想說之前好像有寫過相關文章, 但實際上又沒找到(老了?)&lt;/p&gt;
 
 &lt;p&gt;沒關係, 把Readme拿來貼一貼就可以混一篇文了(混蛋!!!偷懶!!!)&lt;/p&gt;
@@ -1256,117 +1283,4 @@ CallActivity已經可以準備建立video call的後續流程, 且要負責處�
 &lt;/div&gt;
 
 &lt;p&gt;這只是一個sample而已, 還有一些待改進的&lt;/p&gt;</content><category term="Golang" /><summary>在之前工作的時候, 做了一個專門用來產生thumbnail(縮圖)的服務, 當時這東西主要的目的是為了因應Zencircle會有不同尺寸的縮圖的需求,
-而且每次client app改版又可能多新的尺寸, 因此當時寫了這個叫Minami的服務, 當時幾個簡單的需求是:</summary></entry><entry><title>[ES6] Generators</title><link href="http://blog.jln.co/es6-generator-function/" rel="alternate" type="text/html" title="[ES6] Generators" /><published>2016-11-04T15:11:58+08:00</published><updated>2016-11-04T15:11:58+08:00</updated><id>http://blog.jln.co/[es6]-generator-function</id><content type="html" xml:base="http://blog.jln.co/es6-generator-function/">&lt;p&gt;這個語法蠻有趣的, 早上一直都在看這個想能拿來幹嘛? 結果早上有個phone interview就有點腦袋小小的轉不過來,
-不過這不是重點, 先簡單的來講一下&lt;a href=&quot;https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Statements/function*&quot;&gt;Generators&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;產生器? 顧名思義或許是這樣, 可以先看一下MDN上的&lt;a href=&quot;https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Statements/function*&quot;&gt;文件&lt;/a&gt;,
-這是一個從ES6開始才有的功能, 因此要在比較新的瀏覽器, 或是nodejs 6之後才有支援, 先來看看MDN上那個簡單的例子:&lt;/p&gt;
-
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;idMaker&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(){&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;index&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;while&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;index&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;yield&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;index&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;gen&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;idMaker&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
-
-&lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;gen&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;next&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 0&lt;/span&gt;
-&lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;gen&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;next&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 1&lt;/span&gt;
-&lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;gen&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;next&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 2&lt;/span&gt;
-&lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;gen&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;next&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// undefined&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;一個generator是以”function*“宣告的, 可以說它是一種特別的function, 跟一般的function一次跑到結束不同,
-它是可以中途暫停的, 以上面這例子來說, 如果習慣傳統的寫法, 可能會有點小暈, while loop在idMaker裡面不是一次做到完嗎?
-剛剛說generator是可被中途暫停的, 因此, 在第一輪的時候會先停在”yield”處, 當你呼叫next()才會到下一個yield位置停下來並回傳,
-我的感覺是比較像一種有帶state的function之類的&lt;/p&gt;
-
-&lt;p&gt;有什麼用途? 從上面的例子, 當然最直覺想到的是ID產生器或是計數器之類的東西, 網路上應該可以找到一些不同的用法, 比如說搭配Promise, 有興趣可以自己找找,
-是不只可以用在產生器, 拿我早上interview被問到的實作strstr, 不是很難的東西, 我原本拿go寫,出了點小槌, 而且也只能找第一個發生的字串, 後來用generator改了這版本:&lt;/p&gt;
-
-&lt;noscript&gt;&lt;pre&gt;function _strstr(str1, str2){
-    var i = 0;
-    for(var c of str2) {
-        if(str1[i++] != c) {
-            return false;
-        }
-    }
-    return true;
-}
-
-function* strstr(str1, str2) {
-    var last = str1;
-    var i = 0;
-    while(last.length &amp;gt;= str2.length) {
-        if(_strstr(last, str2)) {
-            yield i;
-        }
-        i++;
-        last = last.substr(1);
-    }
-    return -1;
-}
-
-var s = &amp;quot;122wasdasds121&amp;quot;;
-
-var gen = strstr(&amp;quot;a1f123abc123ce123aaa123456123as1112233123333&amp;quot;, &amp;quot;123&amp;quot;);
-
-for(var i of gen) {
-    console.log(i);
-}&lt;/pre&gt;&lt;/noscript&gt;
-&lt;script src=&quot;https://gist.github.com/julianshen/6c06ccfa0942829ea24973778a96ab64.js&quot;&gt; &lt;/script&gt;
-
-&lt;p&gt;以這個來說, 第一次呼叫會找出第一個發生的點, 可以持續呼叫到所有的都找出來為止, generator是可以被iterate的, 因此這邊可以用&lt;/p&gt;
-
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;of&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;gen&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;不需要一直call next(), next()回傳回來的會是{value:…, done:…}, 因此可以看done知道是否已經結束&lt;/p&gt;
-
-&lt;p&gt;下面這範例則是一個質數產生器, 一直call next就可以產生下一個質數:&lt;/p&gt;
-
-&lt;noscript&gt;&lt;pre&gt;function isPrime(n) {
-    if(isNaN(n) || !isFinite(n) || n%1 || n&amp;lt;2) {
-        return false;
-    }
-
-    if(n%2==0) return (n==2);
-    if(n%3==0) return (n==3);
-
-    var m = Math.sqrt(n);
-    for(var i = 5 ; i &amp;lt; m; i++) {
-        if(n%i == 0) {
-            return false;
-        }
-    }
-
-    return true;
-}
-
-function* primeGen(x) {
-    var last = x;
-    if(isNaN(last)) {
-        last = 2
-    }
-
-    while(true) {
-        if(isPrime(last)) {
-            yield last;
-        } 
-
-        last++
-    }
-}
-
-var pgen = primeGen() 
-
-pgen.next();
-for(var i = 0;i &amp;lt; 100;i++) {
-    console.log(pgen.next().value);
-}&lt;/pre&gt;&lt;/noscript&gt;
-&lt;script src=&quot;https://gist.github.com/julianshen/0c283f6f76abf258f9c0d4292a1e14f9.js&quot;&gt; &lt;/script&gt;</content><category term="javascript" /><category term="ES6" /><summary>這個語法蠻有趣的, 早上一直都在看這個想能拿來幹嘛? 結果早上有個phone interview就有點腦袋小小的轉不過來,
-不過這不是重點, 先簡單的來講一下Generators</summary></entry></feed>
+而且每次client app改版又可能多新的尺寸, 因此當時寫了這個叫Minami的服務, 當時幾個簡單的需求是:</summary></entry></feed>
