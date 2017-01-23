@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://blog.jln.co/go-open-graph-parser/</loc>
+<lastmod>2017-01-24T01:38:19+08:00</lastmod>
+</url>
+<url>
 <loc>http://blog.jln.co/%25E5%259C%25A8heroku%25E4%25B8%258A%25E7%2594%25A8apt-get%25E5%25AE%2589%25E8%25A3%259D%25E5%25A5%2597%25E4%25BB%25B6/</loc>
 <lastmod>2017-01-21T00:22:49+08:00</lastmod>
 </url>
