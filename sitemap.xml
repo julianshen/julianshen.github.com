@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://blog.jln.co/%25E7%2594%25A8ifttt-+-heroku%25E8%25B7%2591%25E5%25AE%259A%25E6%2599%2582%25E7%259A%2584tasks/</loc>
+<lastmod>2017-02-04T16:17:19+08:00</lastmod>
+</url>
+<url>
 <loc>http://blog.jln.co/go-open-graph-parser/</loc>
 <lastmod>2017-01-24T01:38:19+08:00</lastmod>
 </url>
