@@ -1,4 +1,119 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.1.6">Jekyll</generator><link href="http://blog.jln.co/feed.xml" rel="self" type="application/atom+xml" /><link href="http://blog.jln.co/" rel="alternate" type="text/html" /><updated>2017-02-07T17:12:16+08:00</updated><id>http://blog.jln.co/</id><title>Le murmure de Julian</title><subtitle>朱隸安貓囈語錄</subtitle><entry><title>[Go] Bleve - 自帶全文搜尋</title><link href="http://blog.jln.co/go-bleve-%E8%87%AA%E5%B8%B6%E5%85%A8%E6%96%87%E6%90%9C%E5%B0%8B/" rel="alternate" type="text/html" title="[Go] Bleve - 自帶全文搜尋" /><published>2017-02-07T16:20:37+08:00</published><updated>2017-02-07T16:20:37+08:00</updated><id>http://blog.jln.co/[go]-bleve---自帶全文搜尋</id><content type="html" xml:base="http://blog.jln.co/go-bleve-%E8%87%AA%E5%B8%B6%E5%85%A8%E6%96%87%E6%90%9C%E5%B0%8B/">&lt;p&gt;最近在把之前弄的新聞萬事通做優化, 話說, 好久沒來宣傳一下新聞萬事通了(毆飛~~)&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.1.6">Jekyll</generator><link href="http://blog.jln.co/feed.xml" rel="self" type="application/atom+xml" /><link href="http://blog.jln.co/" rel="alternate" type="text/html" /><updated>2017-02-07T18:14:17+08:00</updated><id>http://blog.jln.co/</id><title>Le murmure de Julian</title><subtitle>朱隸安貓囈語錄</subtitle><entry><title>[Swift] 漫畫爬蟲</title><link href="http://blog.jln.co/swift-%E6%BC%AB%E7%95%AB%E7%88%AC%E8%9F%B2/" rel="alternate" type="text/html" title="[Swift] 漫畫爬蟲" /><published>2017-02-07T17:18:05+08:00</published><updated>2017-02-07T17:18:05+08:00</updated><id>http://blog.jln.co/[swift]-漫畫爬蟲</id><content type="html" xml:base="http://blog.jln.co/swift-%E6%BC%AB%E7%95%AB%E7%88%AC%E8%9F%B2/">&lt;p&gt;最近搬家又讓我挖出了Amazon Kindle, 又覺得拿來看漫畫很方便(這戲演了幾次了呀?), 雖然說好像也有網站可以下載漫畫.mobi檔, 不過似乎是會員制的, 不喜歡&lt;/p&gt;
+
+&lt;p&gt;因此又讓我想寫漫畫的爬蟲了, 這次的目標是: &lt;a href=&quot;http://www.comicbus.com/&quot;&gt;無限動漫&lt;/a&gt; (他們的app實在做得有夠差)&lt;/p&gt;
+
+&lt;p&gt;這次幾個需求是:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Command line下就可以跑了(這也沒必要做UI吧?)&lt;/li&gt;
+  &lt;li&gt;在os x下可以執行(我自己電腦是mac)&lt;/li&gt;
+  &lt;li&gt;出來的檔案可以放到kindle看(.mobi檔或epub)&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;mobi或epub的檔案格式似乎有點麻煩, 也不太好做得好, 所以決定用cbz檔再用&lt;a href=&quot;https://calibre-ebook.com/&quot;&gt;Calibre&lt;/a&gt;轉mobi&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://calibre-ebook.com/&quot;&gt;Calibre&lt;/a&gt;有一個方便的command line tool叫ebook-convert, 可以用來轉檔, 而cbz本身非常的簡單
+, 它就是一個zip檔, 裡面的圖片檔名照編號就好, 這code還算好寫&lt;/p&gt;
+
+&lt;p&gt;再來就是看一下怎麼解析&lt;a href=&quot;http://www.comicbus.com/&quot;&gt;無限動漫&lt;/a&gt;的內容了, 它的URL是長這樣的:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;http://v.comicbus.com/online/comic-653.html?ch=1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;以上範例是名偵探柯南第一卷, 大膽猜測, 653是漫畫編號, ch是集數, 選到第二頁, URL會變成這樣&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;http://v.comicbus.com/online/comic-653.html?ch=4-2
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;這樣其實就很明顯了, 接下來是內容的部分&lt;/p&gt;
+
+&lt;p&gt;每一集的頭上有一個”正在觀看:[ 名偵探柯南 1 ]”, “[]”內就是標題了吧, 另外還有一個”select”, 裡面有這集所有的頁數資訊, 而圖片的id是”TheImg”&lt;/p&gt;
+
+&lt;p&gt;不過麻煩的是, 這些資訊似乎隱藏在javascript中, page載入後才會出現&lt;/p&gt;
+
+&lt;p&gt;這如果使用headless browser像是&lt;a href=&quot;http://phantomjs.org/&quot;&gt;Phantomjs&lt;/a&gt;就沒啥問題, 但這邊我不想用它, 因為使用這工具還要再裝它&lt;/p&gt;
+
+&lt;p&gt;我下一個選擇是Go + &lt;a href=&quot;https://github.com/sourcegraph/webloop&quot;&gt;Webloop&lt;/a&gt;, &lt;a href=&quot;https://github.com/sourcegraph/webloop&quot;&gt;Webloop&lt;/a&gt;是一個Go的headless browser lib, 它是基於WebkitGtk+做成的,
+不過我在mac上裝WebkitGTK+裝好久一直有問題, 所以…放棄….&lt;/p&gt;
+
+&lt;p&gt;接下來的選擇呢? 還有其他的headless browser嗎?有的! &lt;a href=&quot;https://github.com/phimage/Erik&quot;&gt;Erik&lt;/a&gt;, 這是一個Swift的head less browser,
+用Swift寫爬蟲好像挺酷的, 查了一下, 有人用&lt;a href=&quot;https://github.com/Alamofire/Alamofire&quot;&gt;Alamofire&lt;/a&gt; + &lt;a href=&quot;https://github.com/tid-kijyun/Kanna&quot;&gt;Kanna&lt;/a&gt;, 不過這在這例子不適用, 這例子還是比較適合&lt;a href=&quot;https://github.com/phimage/Erik&quot;&gt;Erik&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;section&quot;&gt;成品&lt;/h3&gt;
+
+&lt;p&gt;先給成果: &lt;a href=&quot;https://drive.google.com/open?id=0B5rbRldWhe82MWRnVkpMQlExTHc&quot;&gt;ComicGo&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;這已經是一個OS X的可執行檔, 在Command line下執行 &lt;code class=&quot;highlighter-rouge&quot;&gt;ComicGo 653 1&lt;/code&gt;就可以抓名偵探柯南第一集, 相關的漫畫編號集數, 就去&lt;a href=&quot;http://www.comicbus.com/&quot;&gt;無限動漫&lt;/a&gt;查吧&lt;/p&gt;
+
+&lt;p&gt;抓完會在你的Download目錄出現”名偵探柯南 1.cbz”再用ebook-covert去轉成你要的格式就可以了&lt;/p&gt;
+
+&lt;p&gt;少少的時間隨便寫寫而已, 有bug就見諒囉&lt;/p&gt;
+
+&lt;h3 id=&quot;os-x-command-line-tool&quot;&gt;OS X Command line tool&lt;/h3&gt;
+
+&lt;p&gt;XCode + Swift是可以拿來寫command line tool的, 新增一個專案選”Command line tool”:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/xcodecmd.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;這樣就可以開始寫了&lt;/p&gt;
+
+&lt;p&gt;一開始在專案內部會發現一個”main.swift”, 由於用swift寫command line app並沒有像其他語言有main function這類的東西
+所以程式就寫在這吧&lt;/p&gt;
+
+&lt;h3 id=&quot;command-line-tool&quot;&gt;開發Command line tool的坑&lt;/h3&gt;
+
+&lt;p&gt;坑…真的不少&lt;/p&gt;
+
+&lt;p&gt;首先, 你不能使用任何的framework, 因為command line tool產出會是一個可執行檔, 不是一個app bundle, 所以不能包含任何的framework&lt;/p&gt;
+
+&lt;p&gt;第二, swift framework不能static link, 像是Erik, Kanna這些swift module, 都是dynamic lib&lt;/p&gt;
+
+&lt;p&gt;慘, 光前面這兩點就麻煩了, 開發這個ComicGo, 我用到了&lt;a href=&quot;https://github.com/phimage/Erik&quot;&gt;Erik&lt;/a&gt;, &lt;a href=&quot;https://github.com/tid-kijyun/Kanna&quot;&gt;Kanna&lt;/a&gt;, &lt;a href=&quot;https://github.com/marmelroy/Zip&quot;&gt;Zip&lt;/a&gt;等等
+, 這樣到底要怎麼辦? 跑起來就image not found&lt;/p&gt;
+
+&lt;p&gt;所以呢?土法煉鋼, 把這些module的codes全部引入到我的專案內(所以沒打算Open ssource, 太醜了), 這樣一來就解決掉問題了, 不過這功不算小, 因為Kanna相依libxml, Zip相依libz這些native lib&lt;/p&gt;
+
+&lt;p&gt;第三個坑, Erik是利用OS X裡面原生的WebKit去讀取網頁的, 因此他的設計是把載入網頁放到另一個DispatchQueue(javascript執行又是另一個),
+但Command line邏輯很單線, 它並不會等callback回來才結束程式, 因此會發現怎麼Erik都沒動作就結束程式了, 因此必須要有個機制來卡住&lt;/p&gt;
+
+&lt;p&gt;這個機制就是&lt;a href=&quot;https://www.google.com.tw/webhp?sourceid=chrome-instant&amp;amp;ion=1&amp;amp;espv=2&amp;amp;ie=UTF-8#q=swift+runloop&quot;&gt;RunLoop&lt;/a&gt;, 關於RunLoop這邊不多做解釋, 看一下&lt;a href=&quot;https://www.google.com.tw/webhp?sourceid=chrome-instant&amp;amp;ion=1&amp;amp;espv=2&amp;amp;ie=UTF-8#q=swift+runloop&quot;&gt;官方文件&lt;/a&gt;
+在程式內則是這樣:&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;rl&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;RunLoop&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;current&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;finished&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;while&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;finished&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;rl&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;mode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;RunLoopMode&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;defaultRunLoopMode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;before&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Date&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;timeIntervalSinceNow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;當callback完畢後, 把finished設成true就可以結束整個程式了&lt;/p&gt;
+
+&lt;h3 id=&quot;erik&quot;&gt;Erik&lt;/h3&gt;
+
+&lt;p&gt;好像還沒介紹&lt;a href=&quot;https://github.com/phimage/Erik&quot;&gt;Erik&lt;/a&gt;喔?其實有點想偷懶跳過了 :P&lt;/p&gt;
+
+&lt;p&gt;使用&lt;a href=&quot;https://github.com/phimage/Erik&quot;&gt;Erik&lt;/a&gt;來爬網頁其實很簡單,&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kt&quot;&gt;Erik&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;visit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;object&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;e&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;doc&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;object&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;// HTML Inspection&lt;/span&gt;
+		&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;link&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;doc&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;querySelectorAll&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;a, link&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    		&lt;span class=&quot;nf&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;link&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    		&lt;span class=&quot;nf&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;link&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;href&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+		&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;只要有些CSS selector的觀念就可以了, 連querySelectorAll這名字都是一樣的, Erik並不是直接用Webkit去做CSS query的, 而是把webkit的內容拿來用&lt;a href=&quot;https://github.com/tid-kijyun/Kanna&quot;&gt;Kanna&lt;/a&gt;解析,
+javascript的執行也一樣, 因此如果對html node有任何變動, 是不會反映到webkit裡面去的, 用Erik來爬的優點是專門針對那些動態網頁的, 有這個就簡單太多了!&lt;/p&gt;</content><category term="Swift" /><category term="crawler" /><summary>最近搬家又讓我挖出了Amazon Kindle, 又覺得拿來看漫畫很方便(這戲演了幾次了呀?), 雖然說好像也有網站可以下載漫畫.mobi檔, 不過似乎是會員制的, 不喜歡</summary></entry><entry><title>[Go] Bleve - 自帶全文搜尋</title><link href="http://blog.jln.co/go-bleve-%E8%87%AA%E5%B8%B6%E5%85%A8%E6%96%87%E6%90%9C%E5%B0%8B/" rel="alternate" type="text/html" title="[Go] Bleve - 自帶全文搜尋" /><published>2017-02-07T16:20:37+08:00</published><updated>2017-02-07T16:20:37+08:00</updated><id>http://blog.jln.co/[go]-bleve---自帶全文搜尋</id><content type="html" xml:base="http://blog.jln.co/go-bleve-%E8%87%AA%E5%B8%B6%E5%85%A8%E6%96%87%E6%90%9C%E5%B0%8B/">&lt;p&gt;最近在把之前弄的新聞萬事通做優化, 話說, 好久沒來宣傳一下新聞萬事通了(毆飛~~)&lt;/p&gt;
 
 &lt;p&gt;加入新聞萬事通請按 :&lt;/p&gt;
 
@@ -1086,50 +1201,4 @@
 &lt;/div&gt;
 
 &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;.proto&lt;/code&gt;檔案放置的位子在&lt;code class=&quot;highlighter-rouge&quot;&gt;app/src/main/proto&lt;/code&gt;, 把檔案放在這邊, build的時候就會自動產生這些對應的Java classes了&lt;/p&gt;</content><category term="Retrofit" /><category term="Android" /><category term="Protobuf" /><summary>Retrofit目前已然成為最熱門的呼叫REST API的開源程式庫了,不過,
-大部分的Retrofit多是用來處理Json類的REST API, 但Retrofit的能力卻不僅限於此</summary></entry><entry><title>[Android] 把Github當Maven repository用</title><link href="http://blog.jln.co/android-%E6%8A%8Agithub%E7%95%B6maven-repository%E7%94%A8/" rel="alternate" type="text/html" title="[Android] 把Github當Maven repository用" /><published>2016-12-27T15:39:59+08:00</published><updated>2016-12-27T15:39:59+08:00</updated><id>http://blog.jln.co/[android]-把github當maven-repository用</id><content type="html" xml:base="http://blog.jln.co/android-%E6%8A%8Agithub%E7%95%B6maven-repository%E7%94%A8/">&lt;p&gt;自從Android導入gradle之後, 使用開放的第三方的程式庫就越來越方便了, 雖然方便, 但也不免會碰到這類的問題:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;想要的功能在master branch上更新了, 但卻遲遲不release以至於想用新的功能無法用&lt;/li&gt;
-  &lt;li&gt;程式碼已經沒在維護了, maven repository上一直都還是有問題的舊版本, 明知道怎麼修卻無法代他release到maven repository上去, PR又遲遲沒人理&lt;/li&gt;
-  &lt;li&gt;想加上自己的私有功能, 又不想包整包source codes到app裡面去&lt;/li&gt;
-  &lt;li&gt;想要開放自己做的程式庫卻覺得release到maven很麻煩&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;還好有&lt;a href=&quot;https://jitpack.io/&quot;&gt;Jitpack&lt;/a&gt;這東西, 剛剛就是碰到一個東西有問題, 想把它修掉直接用, 研究了一下&lt;/p&gt;
-
-&lt;p&gt;用法很簡單, 首先要先把&lt;code class=&quot;highlighter-rouge&quot;&gt;maven { url &#39;https://jitpack.io&#39; }&lt;/code&gt;加入到repositories裡面去&lt;/p&gt;
-
-&lt;div class=&quot;language-groovy highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;allprojects&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;repositories&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;maven&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;url&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;https://jitpack.io&#39;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;然後在你的&lt;code class=&quot;highlighter-rouge&quot;&gt;dependencies&lt;/code&gt;裡面加入:&lt;/p&gt;
-
-&lt;div class=&quot;language-groovy highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;compile&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;com.github.User:Repo:Tag&#39;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;User就是你Github的user name, Repo是Repository的名稱, Tag是Git的tag名稱, 舉個例：https://github.com/CowBayStudio/wire-gradle-plugin ,
-像這樣的Url, User name就是CowBayStudio, repo就是wire-gradle-plugin , 如果你的Git repo並沒有任何的Tag, 可以用Commit hash或是branch-SNAPSHOT(例如master-SNAPSHOT), 當然
-自己加上tag會是比較好的做法, 比較好控管&lt;/p&gt;
-
-&lt;p&gt;當你去build你的app時, 在抓這個dependency時, Jitpack就會自動幫你把code從github抓下來build好,
-當然是developer就免不了有bug, 導致build fail, 去 Jitpack網站把你Github的URL貼上去就可以找到build log了, 像是&lt;a href=&quot;https://jitpack.io/com/github/CowBayStudio/wire-gradle-plugin/ver11/build.log&quot;&gt;這個&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;我在弄我的東西時, 就發生了build fail的狀況, 而問題的原因是其中一個依賴的jar是JAVA 8 build出來的, 但jitpack用Java 7去build我的程式庫(文件說default應該是Java 8呀, 騙我!),
-這時候可以加一個jitpack.yml, 內容如下:&lt;/p&gt;
-
-&lt;div class=&quot;language-yml highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;s&quot;&gt;jdk&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;oraclejdk8&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;透過jitpack.yml可以有很多客制可設定, 詳情就看一下&lt;a href=&quot;https://jitpack.io/docs/BUILDING/#build-customization&quot;&gt;文件&lt;/a&gt;吧!&lt;/p&gt;
-
-&lt;p&gt;所以碰到自己想動的程式庫, 可以直接fork出來改, 改出來的就可以直接這樣用了&lt;/p&gt;
-
-&lt;p&gt;那private repo呢?付錢給&lt;a href=&quot;https://jitpack.io/private#subscribe&quot;&gt;Jitpack&lt;/a&gt;就有啦! XD&lt;/p&gt;</content><category term="Android" /><category term="Github" /><category term="jitpack.io" /><category term="maven" /><category term="gradle" /><category term="java" /><summary>自從Android導入gradle之後, 使用開放的第三方的程式庫就越來越方便了, 雖然方便, 但也不免會碰到這類的問題:</summary></entry></feed>
+大部分的Retrofit多是用來處理Json類的REST API, 但Retrofit的能力卻不僅限於此</summary></entry></feed>
