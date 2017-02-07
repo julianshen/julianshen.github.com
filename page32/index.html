@@ -150,6 +150,29 @@
   <header>
     
     <div class="entry-meta">
+      <span class="entry-date date published updated"><time datetime="2011-07-16T22:43:14+08:00"><a href="http://blog.jln.co/startactivityforresult-and-callback-in-webview/">July 16, 2011</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
+      
+      <span class="entry-reading-time">
+        <i class="fa fa-clock-o"></i>
+        
+Reading time ~1 minute
+      </span><!-- /.entry-reading-time -->
+      
+    </div><!-- /.entry-meta -->
+    
+      <h1 class="entry-title"><a href="http://blog.jln.co/startactivityforresult-and-callback-in-webview/" rel="bookmark" title="startActivityForResult and callback in WebView" itemprop="url">startActivityForResult and callback in WebView</a></h1>
+    
+  </header>
+  <div class="entry-content">
+    <div class="posterous_autopost"><p>想半天標題不知道怎下, 有點不是很貼切, 內容也寫的有點懶 :P 有可能會看不懂吧</p>  <p>最近開始想要一個禮拜想一個東西來實踐一下(不知道可以持續多久:P), 這禮拜想到的是這個: 從WebView內的javascript去叫起一個Activity, 然後把這Activity回傳的結果回傳給WebView內的javascript</p>  <p>具體的假想應用範例: import contact information, 從Javascript內叫contact picker, 並把所選的contact資訊匯入WebView內的form中</p>  <p>首先, 呼叫contact picker的範例如下:</p>  <blockquote class="posterous_medium_quote">  <p>public void launch()</p>  <p>{ <br/>    Intent intent = new Intent(Intent.<strong>ACTION_PICK</strong>); <br/>    intent.setType(<strong>ContactsContract.Contacts.CONTENT_TYPE</strong>); <br/>    startActivityForResult(intent, PICK_CONTACT); <br/> }</p>  </blockquote>  <p>基本上, 是要使用startActivityForResult, 這樣才能把所選定的contact給回傳給我們的Activity</p>  <p>但如何讓這lauch被javascript call到呢? 我們必須把這個method封裝到一個class內, 我用一個名叫ContactLauncher的class來做封裝, 並且將這個interface指定給WebView：</p>  <blockquote class="posterous_short_quote">  <p>webView.addJavascriptInterface(new ContactLauncher(), &ldquo;contactPicker&rdquo;);</p>  </blockquote>  <p>這樣一來, 我們在javascript內就有一個contactPicker可以供呼叫了, javascript的範例如下:</p>  <blockquote>  <p>function launchPicker() <br/>{ <br/>    if(contactPicker) { <br/>         <span style="color: #00ff00;"><em>//register callback </em></span><br/><span style="color: #00ff00;"><em>          window.activitycallback = function(response) { </em></span><br/><span style="color: #00ff00;"><em>                  $(&rsquo;#name&rsquo;).val(response.name); </em></span><br/><span style="color: #00ff00;"><em>          }; </em></span></p>          <span style="color: #ffff00;"><strong>//call picker </strong></span><br/><span style="color: #ffff00;"><strong>         contactPicker.launch(); </strong></span><br/>    } else { 			//no picker 		} <br/> }  </blockquote>  <p>我們可以在javascript內透過&quot;contactPicker.launch()&ldquo;來叫起Contact picker, 這個就會直接呼叫ContactLauncher裡的lauch()</p>  <p>那在這之前的程式碼是幹啥用的呢? 由於launch()並不是一個blocking call, 並不會等到結果回傳後才結束, 而我們又要startActivityForResult回傳回來的資料, 因此我們需要一個callback來接收回傳的資料</p>  <p>那怎讓javascript可以接收回傳回來後的資料呢, 這邊我利用一個類似javascript injection的方式來做(原理是利用WebView可以接收&quot;javascript:&quot;這種形態的url)</p>  <p>以下是onActivityResult的實作 (這邊偷懶只取一個Display name):</p>  <blockquote>    <div class="CodeRay"> <div class="code"><pre>protected void onActivityResult(int requestCode, int resultCode, Intent data) { if(requestCode == PICK_CONTACT) { Cursor c = managedQuery(data.getData(), null, null, null, null); c.moveToNext(); String name = c.getString(c.getColumnIndexOrThrow(ContactsContract.Contacts.DISPLAY_NAME));  String json = "{name:'"+name+"'}"; webView.loadUrl("javascript:window.activitycallback("+json+");"); } }</pre></div> </div>   <p> </p>  </blockquote>  <p>因為在WebView內的那個javascript page我已經先安插了一個activitycallback, 所以就利用loadUrl來呼叫它, 這樣就大功告成了!</p>  <p>這只是一個簡單的範例, 還可以做的更generic一點, 比如說把傳入的資料轉化成json這段, 這招應該還可以做一些應用才對</p>  </div>
+
+  </div><!-- /.entry-content -->
+</article><!-- /.hentry -->
+
+<article class="hentry">
+  <header>
+    
+    <div class="entry-meta">
       <span class="entry-date date published updated"><time datetime="2011-07-11T21:33:19+08:00"><a href="http://blog.jln.co/flickr-to-picasa-%E6%90%AC%E5%AE%B6script/">July 11, 2011</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
       
       <span class="entry-reading-time">
@@ -234,29 +257,6 @@ Reading time ~1 minute
   </header>
   <div class="entry-content">
     <div class="posterous_autopost"><p>用了iOS 5大約一個多星期了, 感覺上是差不多可以出了, 雖然大大小小bug還是有, 不過, 之前正式版的iOS 4我也常遇到bug呀~</p>  <p>比較方便的改進就是新的notification吧, 以前的notification難用到我直接關掉, 這次這個Android notification的copycat就好多了&hellip;..</p>  <p>跟Android一樣也是下拉就會出現, 不過跟Android不同的是, 會是以應用程式為主分群, 另外可以加兩個widget(天氣, 股票), 但Android如果在Full screen狀況下是無法知道有notification的, iOS這個是連在Full screen 的狀況下也可以下拉使用(就由上往下的手勢操作), 試過在玩Angry birds時也可以, 這樣就比在Android上方便一點</p>  <div class="p_embed p_image_embed"> <a href="http://posterous.com/getfile/files.posterous.com/temp-2011-07-09/ogjCyuDjbwrGyimEEkotxwnmEFlsdzCxkJbhawiniGJqiJlBhgksEdqywaBE/_3.PNG.scaled1000.png"><img alt="_3" height="750" src="http://posterous.com/getfile/files.posterous.com/temp-2011-07-09/ogjCyuDjbwrGyimEEkotxwnmEFlsdzCxkJbhawiniGJqiJlBhgksEdqywaBE/_3.PNG.scaled500.png" width="500"/></a> </div>   <p>設定上就稍嫌複雜太多</p>  <div class="p_embed p_image_embed"> <a href="http://posterous.com/getfile/files.posterous.com/temp-2011-07-09/hmpJjECroiIaabbsBtJzzrdisGvtigIcgJsaniiyiDryEtBfDEirCAhEikuq/_4.PNG.scaled1000.png"><img alt="_4" height="750" src="http://posterous.com/getfile/files.posterous.com/temp-2011-07-09/hmpJjECroiIaabbsBtJzzrdisGvtigIcgJsaniiyiDryEtBfDEirCAhEikuq/_4.PNG.scaled500.png" width="500"/></a> </div>   <p>在Lock screen上也蠻方便的, 直接解鎖就到該AP去了</p>  <div class="p_embed p_image_embed"> <a href="http://posterous.com/getfile/files.posterous.com/temp-2011-07-09/dquifdCzJaGFqziCuGdApnkpJxhCsfHCFeBkvgBvHeAvrilbypscelbiAHra/_1.PNG.scaled1000.png"><img alt="_1" height="750" src="http://posterous.com/getfile/files.posterous.com/temp-2011-07-09/dquifdCzJaGFqziCuGdApnkpJxhCsfHCFeBkvgBvHeAvrilbypscelbiAHra/_1.PNG.scaled500.png" width="500"/></a> </div> <div class="p_embed p_image_embed"> <a href="http://posterous.com/getfile/files.posterous.com/temp-2011-07-09/npywtdJGtFhjmxBoluDhgufBAnGfznbvIobrolJpzFFyDBBwaDwIamuxHjIA/_2.PNG.scaled1000.png"><img alt="_2" height="750" src="http://posterous.com/getfile/files.posterous.com/temp-2011-07-09/npywtdJGtFhjmxBoluDhgufBAnGfznbvIobrolJpzFFyDBBwaDwIamuxHjIA/_2.PNG.scaled500.png" width="500"/></a> </div>   <p> </p>  <p>說實在的, 這一點都不算創新, 反而比較像完全的抄襲, 但又稍微有點小小的改良後, 還算方便啦&hellip;</p></div>
-
-  </div><!-- /.entry-content -->
-</article><!-- /.hentry -->
-
-<article class="hentry">
-  <header>
-    
-    <div class="entry-meta">
-      <span class="entry-date date published updated"><time datetime="2011-06-26T23:59:32+08:00"><a href="http://blog.jln.co/iphone-japan/">June 26, 2011</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
-      
-      <span class="entry-reading-time">
-        <i class="fa fa-clock-o"></i>
-        
-Reading time ~1 minute
-      </span><!-- /.entry-reading-time -->
-      
-    </div><!-- /.entry-meta -->
-    
-      <h1 class="entry-title"><a href="http://blog.jln.co/iphone-japan/" rel="bookmark" title="iPhone, Japan" itemprop="url">iPhone, Japan</a></h1>
-    
-  </header>
-  <div class="entry-content">
-    <div class="posterous_autopost"><p>這只是這幾天觀察的一個小心得&hellip;</p>  <p>在日本, 路上看到的iPhone並不算少, 但總覺得比例上比在台灣上看到的還少, 雖然說我目前看的只有大阪地區, 不過, 不能說iPhone賣不好, 只是想說, 在這市場, Android的機會會比iPhone來得大</p>  <p>來過好幾次日本, 也有注意到日本人換新機的速度之快, 每個人用的手機幾乎都是比新的, 足以見得日本人對手機喜新厭舊的程度, 大家都要最新最好</p>  <p>加上, 日本手機其實客製化的程度頗高, 同一款手機, au KDDI和Softbank裡面欲裝的AP一定不同, 甚至還有像Disney phone這種針對特殊族群設計不同功能的手機</p>  <p>這兩點其實正好就是iPhone做不到的, iPhone一年才出一支新的, 應該滿足不了喜新厭舊的, 至於客製化, iPhone幾乎不客製化的吧&hellip;.但這兩點確是Android的強項, 幾乎滿滿的機海, 加上可以任意客製, 要滿足這市場應該比較容易</p>  <p>這幾天外面看到smart phine的除了iPhone外, 最常看到的就是Sharp那隻3D的手機了&hellip;</p></div>
 
   </div><!-- /.entry-content -->
 </article><!-- /.hentry -->

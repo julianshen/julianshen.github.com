@@ -1,0 +1,417 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>[Go] Bleve - 自帶全文搜尋 &#8211; Le murmure de Julian</title>
+<meta name="description" content="朱隸安貓囈語錄">
+<meta name="keywords" content="Go, Search, Bleve">
+
+<!-- Twitter Cards -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://scdn.line-apps.com/n/line_add_friends/btn/zh-Hant.png">
+<meta name="twitter:title" content="[Go] Bleve - 自帶全文搜尋">
+<meta name="twitter:description" content="朱隸安貓囈語錄">
+<meta name="twitter:creator" content="@jlnshen">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[Go] Bleve - 自帶全文搜尋">
+<meta property="og:description" content="朱隸安貓囈語錄">
+<meta property="og:url" content="http://blog.jln.co/go-bleve-%E8%87%AA%E5%B8%B6%E5%85%A8%E6%96%87%E6%90%9C%E5%B0%8B/">
+<meta property="og:site_name" content="Le murmure de Julian">
+<meta name="og:image" content="https://scdn.line-apps.com/n/line_add_friends/btn/zh-Hant.png">
+<meta name="google-site-verification" content="Fwa4TQMXvroZpNT7rrwHzdf-rWBe1RDuTu75Enx_DWA">
+
+
+
+<link rel="canonical" href="http://blog.jln.co/go-bleve-%E8%87%AA%E5%B8%B6%E5%85%A8%E6%96%87%E6%90%9C%E5%B0%8B/">
+<link href="http://blog.jln.co/feed.xml" type="application/atom+xml" rel="alternate" title="Le murmure de Julian Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.rawgit.com/knsv/mermaid/6.0.0/dist/mermaid.css">
+<!-- Webfonts -->
+<link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel="stylesheet" type="text/css">
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- Load Modernizr -->
+<script src="/assets/js/vendor/modernizr-2.6.2.custom.min.js"></script>
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="http://blog.jln.co/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="http://blog.jln.co/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="http://blog.jln.co/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://blog.jln.co/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://blog.jln.co/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://blog.jln.co/images/apple-touch-icon-144x144-precomposed.png">
+
+
+
+  
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({
+        google_ad_client: "ca-pub-1789797875470932",
+        enable_page_level_ads: true
+    });
+    </script>
+  
+
+</head>
+
+<body id="post" >
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+<nav id="dl-menu" class="dl-menuwrapper" role="navigation">
+	<button class="dl-trigger">Open Menu</button>
+	<ul class="dl-menu">
+		<li><a href="http://blog.jln.co/">Home</a></li>
+		<li>
+			<a href="#">About</a>
+			<ul class="dl-submenu">
+				<li>
+					<img src="http://blog.jln.co/images/avatar.png" alt="Julian Shen photo" class="author-photo">
+					<h4>Julian Shen</h4>
+					<p>software deverloper</p>
+				</li>
+				<li>
+					<a href="mailto:julianshen22@gmail.com"><i class="fa fa-fw fa-envelope"></i> Email</a>
+				</li>
+				<li>
+					<a href="https://twitter.com/jlnshen"><i class="fa fa-fw fa-twitter"></i> Twitter</a>
+				</li>
+				<li>
+					<a href="https://facebook.com/julianshen"><i class="fa fa-fw fa-facebook"></i> Facebook</a>
+				</li>
+				
+				<li>
+					<a href="https://linkedin.com/in/julianshen"><i class="fa fa-fw fa-linkedin"></i> LinkedIn</a>
+				</li>
+				<li>
+					<a href="https://github.com/julianshen"><i class="fa fa-fw fa-github"></i> GitHub</a>
+				</li>
+				
+				<li>
+					<a href="https://instagram.com/julianshen"><i class="fa fa-fw fa-instagram"></i> Instagram</a>
+				</li>
+				<li>
+					<a href="https://www.flickr.com/photos/julianshen"><i class="fa fa-fw fa-flickr"></i> Flickr</a>
+				</li>
+				
+			</ul><!-- /.dl-submenu -->
+		</li>
+		<li>
+			<a href="#">Posts</a>
+			<ul class="dl-submenu">
+				<li><a href="http://blog.jln.co/posts/">All Posts</a></li>
+				<li><a href="http://blog.jln.co/tags/">All Tags</a></li>
+			</ul>
+		</li>
+		
+	</ul><!-- /.dl-menu -->
+</nav><!-- /.dl-menuwrapper -->
+
+
+
+
+<div id="main" role="main">
+  <article class="hentry">
+    <header class="header-title">
+      <div class="header-title-wrap">
+        
+          <h1 class="entry-title"><a href="http://blog.jln.co/go-bleve-%E8%87%AA%E5%B8%B6%E5%85%A8%E6%96%87%E6%90%9C%E5%B0%8B/" rel="bookmark" title="[Go] Bleve - 自帶全文搜尋">[Go] Bleve - 自帶全文搜尋</a></h1>
+        
+        <h2><span class="entry-date date published"><time datetime="2017-02-07T16:20:37+08:00">February 07, 2017</time></span></h2>
+        
+        <p class="entry-reading-time">
+          <i class="fa fa-clock-o"></i>
+          
+Reading time ~1 minute
+        </p><!-- /.entry-reading-time -->
+        
+      </div><!-- /.header-title-wrap -->
+    </header>
+    <div class="entry-content">
+      <p>最近在把之前弄的新聞萬事通做優化, 話說, 好久沒來宣傳一下新聞萬事通了(毆飛~~)</p>
+
+<p>加入新聞萬事通請按 :</p>
+
+<p><a href="https://line.me/R/ti/p/%40cur4648v"><img src="http://qr-official.line.me/L/8J7Xfy_Tas.png" alt="加入好友" /> <img src="https://scdn.line-apps.com/n/line_add_friends/btn/zh-Hant.png" alt="加入好友" /></a></p>
+
+<p>好, 回歸正題, 之前新聞萬事通檢查假新聞的邏輯是:</p>
+
+<ol>
+  <li>載入新聞小幫手資料庫到記憶體(server啟動時), 四千多筆資料存放在一個map的資料結構</li>
+  <li>使用者輸入的訊息如果含有url去map裡面找到對應的url</li>
+  <li>但常常有類似內容的新聞有不同來源, 因此會用<a href="https://github.com/yanyiwu/gojieba">Gojieba</a>取出標題的關鍵字去四千多筆資料的標題對應關鍵字出現的次數</li>
+</ol>
+
+<p>聽起來很沒效率(四千筆在記憶體內, 其實也不算慢啦, 但就吃記憶體), 那就要優化囉? 那需要一個搜尋引擎囉?</p>
+
+<p>第一個先想到的是<a href="https://www.elastic.co/products/elasticsearch">Elastic search</a>, 但我還不想搞那麼大, 為了四千多筆資料多拉一台search server,我只想
+一台respberry pi就能搞定</p>
+
+<p>從<a href="https://github.com/yanyiwu/gojieba">Gojieba</a>知道, 有<a href="http://www.blevesearch.com/">Bleve Search</a>這東西, <a href="http://www.blevesearch.com/">Bleve Search</a>也是一個full text index engine,
+但跟<a href="https://www.elastic.co/products/elasticsearch">Elastic search</a>不同的是, 它是內嵌在你的程式內, 而不是獨立的server, 而且它是用Go寫的(開心), 而不是Java</p>
+
+<h3 id="bleve">Bleve</h3>
+
+<p><a href="http://www.blevesearch.com/">Bleve Search</a>的來頭也不小,它是來自於著名的ＮoSQL DB : <a href="https://www.couchbase.com/">Couchbase</a>, 這篇有介紹一下他的功能 : <a href="http://www.infoq.com/cn/news/2015/03/bleve-couchbase-go">Bleve:来自Couchbase、基于Go语言的全文索引与检索库</a></p>
+
+<p>使用<a href="http://www.blevesearch.com/">Bleve Search</a>也很簡單, 就建立index, 然後search:</p>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="k">import</span><span class="x"> </span><span class="s">"github.com/blevesearch/bleve"</span><span class="x">
+
+</span><span class="k">func</span><span class="x"> </span><span class="n">main</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="c">// open a new index</span><span class="x">
+    </span><span class="n">mapping</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">bleve</span><span class="o">.</span><span class="n">NewIndexMapping</span><span class="p">()</span><span class="x">
+    </span><span class="n">index</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">bleve</span><span class="o">.</span><span class="n">New</span><span class="p">(</span><span class="s">"example.bleve"</span><span class="p">,</span><span class="x"> </span><span class="n">mapping</span><span class="p">)</span><span class="x">
+
+    </span><span class="c">// index some data</span><span class="x">
+    </span><span class="n">err</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">index</span><span class="o">.</span><span class="n">Index</span><span class="p">(</span><span class="n">identifier</span><span class="p">,</span><span class="x"> </span><span class="n">your_data</span><span class="p">)</span><span class="x">
+
+    </span><span class="c">// search for some text</span><span class="x">
+    </span><span class="n">query</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">bleve</span><span class="o">.</span><span class="n">NewMatchQuery</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span><span class="x">
+    </span><span class="n">search</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">bleve</span><span class="o">.</span><span class="n">NewSearchRequest</span><span class="p">(</span><span class="n">query</span><span class="p">)</span><span class="x">
+    </span><span class="n">searchResults</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">index</span><span class="o">.</span><span class="n">Search</span><span class="p">(</span><span class="n">search</span><span class="p">)</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre>
+</div>
+
+<p><a href="http://www.blevesearch.com/">Bleve Search</a>會把indexes放到資料庫內, 預設是使用<a href="https://github.com/boltdb/bolt">Bolt DB</a>, Bolt跟<a href="https://github.com/google/leveldb">leveldb</a>和<a href="http://rocksdb.org/">RocksDb</a>
+類似, 都是一種Key-Value database, 只是Bolt是純粹以Go開發的</p>
+
+<p>如果你不想要用Bolt, Bleve也是支援使用leveldb和Rocksdb的, 純粹是作者想做成全Go的方案才預設Bolt db, 我自己有實測幾次, 使用這三種DB, 搜尋的速度差不多, 但建立index時bolt較快, 需求的磁碟空間則是Rocksdb優(比Bolt好很多)</p>
+
+<p><a href="http://www.blevesearch.com/">Bleve Search</a>的架構做成很有彈性, 除了可以使用不同的DB(我自己也有實作以Redis當KV database的plugin, 不過實在也沒好多少就作罷了), 文字分析(Text Analysis)比如說斷詞, 也是可以用plugin擴增的</p>
+
+<p>官方支援的語言為: Danish, Dutch, English, Finnish, French, German, Hungarian, Italian, Norwegian, Persian, Portuguese, Romanian, Russian, Sorani, Spanish, Swedish, Thai, Turkish</p>
+
+<p>就是沒中文!</p>
+
+<p>還好<a href="https://github.com/yanyiwu/gojieba">Gojieba</a>後來也加入了bleve的analyzer和tokenizer, 這一部分可以獲得解決</p>
+
+<p>使用<a href="https://github.com/yanyiwu/gojieba">Gojieba</a>斷詞:</p>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="x">	</span><span class="n">indexMapping</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">bleve</span><span class="o">.</span><span class="n">NewIndexMapping</span><span class="p">()</span><span class="x">
+    </span><span class="n">os</span><span class="o">.</span><span class="n">RemoveAll</span><span class="p">(</span><span class="n">INDEX_DIR</span><span class="p">)</span><span class="x">
+    </span><span class="c">// clean index when example finished</span><span class="x">
+    </span><span class="k">defer</span><span class="x"> </span><span class="n">os</span><span class="o">.</span><span class="n">RemoveAll</span><span class="p">(</span><span class="n">INDEX_DIR</span><span class="p">)</span><span class="x">
+
+    </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">indexMapping</span><span class="o">.</span><span class="n">AddCustomTokenizer</span><span class="p">(</span><span class="s">"gojieba"</span><span class="p">,</span><span class="x">
+        </span><span class="k">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="k">interface</span><span class="p">{}{</span><span class="x">
+            </span><span class="s">"dictpath"</span><span class="o">:</span><span class="x">     </span><span class="n">gojieba</span><span class="o">.</span><span class="n">DICT_PATH</span><span class="p">,</span><span class="x">
+            </span><span class="s">"hmmpath"</span><span class="o">:</span><span class="x">      </span><span class="n">gojieba</span><span class="o">.</span><span class="n">HMM_PATH</span><span class="p">,</span><span class="x">
+            </span><span class="s">"userdictpath"</span><span class="o">:</span><span class="x"> </span><span class="n">gojieba</span><span class="o">.</span><span class="n">USER_DICT_PATH</span><span class="p">,</span><span class="x">
+            </span><span class="s">"type"</span><span class="o">:</span><span class="x">         </span><span class="s">"gojieba"</span><span class="p">,</span><span class="x">
+        </span><span class="p">},</span><span class="x">
+    </span><span class="p">)</span><span class="x">
+    </span><span class="k">if</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">!=</span><span class="x"> </span><span class="no">nil</span><span class="x"> </span><span class="p">{</span><span class="x">
+        </span><span class="nb">panic</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="x">
+    </span><span class="p">}</span><span class="x">
+    </span><span class="n">err</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">indexMapping</span><span class="o">.</span><span class="n">AddCustomAnalyzer</span><span class="p">(</span><span class="s">"gojieba"</span><span class="p">,</span><span class="x">
+        </span><span class="k">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="k">interface</span><span class="p">{}{</span><span class="x">
+            </span><span class="s">"type"</span><span class="o">:</span><span class="x">      </span><span class="s">"gojieba"</span><span class="p">,</span><span class="x">
+            </span><span class="s">"tokenizer"</span><span class="o">:</span><span class="x"> </span><span class="s">"gojieba"</span><span class="p">,</span><span class="x">
+        </span><span class="p">},</span><span class="x">
+    </span><span class="p">)</span><span class="x">
+    </span><span class="k">if</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">!=</span><span class="x"> </span><span class="no">nil</span><span class="x"> </span><span class="p">{</span><span class="x">
+        </span><span class="nb">panic</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="x">
+    </span><span class="p">}</span><span class="x">
+    </span><span class="n">indexMapping</span><span class="o">.</span><span class="n">DefaultAnalyzer</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="s">"gojieba"</span><span class="x">
+</span></code></pre>
+</div>
+
+<h3 id="wukong">Wukong</h3>
+
+<p>除了Bleve外, 還有一個<a href="https://github.com/huichen/wukong">悟空 Wukong</a>, 這孫猴子也好像蠻識字的嘛</p>
+
+<p>這個<a href="https://github.com/huichen/wukong">Wukong</a>是由阿里巴巴的陳輝所開發的, 一樣是內嵌的全文檢索引擎</p>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="k">package</span><span class="x"> </span><span class="n">main</span><span class="x">
+
+</span><span class="k">import</span><span class="x"> </span><span class="p">(</span><span class="x">
+    </span><span class="s">"github.com/huichen/wukong/engine"</span><span class="x">
+    </span><span class="s">"github.com/huichen/wukong/types"</span><span class="x">
+    </span><span class="s">"log"</span><span class="x">
+</span><span class="p">)</span><span class="x">
+
+</span><span class="k">var</span><span class="x"> </span><span class="p">(</span><span class="x">
+    </span><span class="c">// searcher是协程安全的</span><span class="x">
+    </span><span class="n">searcher</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">engine</span><span class="o">.</span><span class="n">Engine</span><span class="p">{}</span><span class="x">
+</span><span class="p">)</span><span class="x">
+
+</span><span class="k">func</span><span class="x"> </span><span class="n">main</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="c">// 初始化</span><span class="x">
+    </span><span class="n">searcher</span><span class="o">.</span><span class="n">Init</span><span class="p">(</span><span class="n">types</span><span class="o">.</span><span class="n">EngineInitOptions</span><span class="p">{</span><span class="x">
+        </span><span class="n">SegmenterDictionaries</span><span class="o">:</span><span class="x"> </span><span class="s">"github.com/huichen/wukong/data/dictionary.txt"</span><span class="p">})</span><span class="x">
+    </span><span class="k">defer</span><span class="x"> </span><span class="n">searcher</span><span class="o">.</span><span class="n">Close</span><span class="p">()</span><span class="x">
+
+    </span><span class="c">// 将文档加入索引，docId 从1开始</span><span class="x">
+    </span><span class="n">searcher</span><span class="o">.</span><span class="n">IndexDocument</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="x"> </span><span class="n">types</span><span class="o">.</span><span class="n">DocumentIndexData</span><span class="p">{</span><span class="n">Content</span><span class="o">:</span><span class="x"> </span><span class="s">"此次百度收购将成中国互联网最大并购"</span><span class="p">},</span><span class="x"> </span><span class="no">false</span><span class="p">)</span><span class="x">
+    </span><span class="n">searcher</span><span class="o">.</span><span class="n">IndexDocument</span><span class="p">(</span><span class="m">2</span><span class="p">,</span><span class="x"> </span><span class="n">types</span><span class="o">.</span><span class="n">DocumentIndexData</span><span class="p">{</span><span class="n">Content</span><span class="o">:</span><span class="x"> </span><span class="s">"百度宣布拟全资收购91无线业务"</span><span class="p">},</span><span class="x"> </span><span class="no">false</span><span class="p">)</span><span class="x">
+    </span><span class="n">searcher</span><span class="o">.</span><span class="n">IndexDocument</span><span class="p">(</span><span class="m">3</span><span class="p">,</span><span class="x"> </span><span class="n">types</span><span class="o">.</span><span class="n">DocumentIndexData</span><span class="p">{</span><span class="n">Content</span><span class="o">:</span><span class="x"> </span><span class="s">"百度是中国最大的搜索引擎"</span><span class="p">},</span><span class="x"> </span><span class="no">false</span><span class="p">)</span><span class="x">
+
+    </span><span class="c">// 等待索引刷新完毕</span><span class="x">
+    </span><span class="n">searcher</span><span class="o">.</span><span class="n">FlushIndex</span><span class="p">()</span><span class="x">
+
+    </span><span class="c">// 搜索输出格式见types.SearchResponse结构体</span><span class="x">
+    </span><span class="n">log</span><span class="o">.</span><span class="n">Print</span><span class="p">(</span><span class="n">searcher</span><span class="o">.</span><span class="n">Search</span><span class="p">(</span><span class="n">types</span><span class="o">.</span><span class="n">SearchRequest</span><span class="p">{</span><span class="n">Text</span><span class="o">:</span><span class="s">"百度中国"</span><span class="p">}))</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre>
+</div>
+
+<p>架構上跟Bleve有點接近, 寫法也差不多, 但效率上來說, Bleve根本不能比, index的效率快上許多, 它的docId不像是Bleve用string而是uint64</p>
+
+<p>比較快的原因目前我也還沒深究, 不過它存儲並沒用到BoltDB或LevelDB之類的, 而是自己的格式, 它也像Bleve一樣支援換資料庫引擎, 我嘗試想用BoltDB來取代它原生的, 想試看看是不是這原因, 但一直沒換成功過(後來也懶得追了)</p>
+
+<p>另一點的差別在於是, 剛剛Bleve我用的斷詞器是<a href="https://github.com/yanyiwu/gojieba">Gojieba</a>, 而Wukong用的是陳輝自己寫的<a href="https://github.com/huichen/sego">sego</a>,
+這時我就好奇這會不會有影響?</p>
+
+<h3 id="blevesego">BleveSego</h3>
+
+<p>好, 既然要確認斷詞器對index效率有沒影響, 我就得自己實作一個基於Sego的Bleve text analyzer和Tokenizer, 因此仿Gojieba的做了:</p>
+
+<p><a href="https://github.com/julianshen/blevesego">blevesego</a></p>
+
+<p>使用<a href="https://github.com/julianshen/blevesego">blevesego</a>跟使用Gojieba的有點類似:</p>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="x">	</span><span class="n">indexMapping</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">bleve</span><span class="o">.</span><span class="n">NewIndexMapping</span><span class="p">()</span><span class="x">
+	</span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">indexMapping</span><span class="o">.</span><span class="n">AddCustomTokenizer</span><span class="p">(</span><span class="s">"sego"</span><span class="p">,</span><span class="x">
+		</span><span class="k">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="k">interface</span><span class="p">{}{</span><span class="x">
+			</span><span class="s">"dictpath"</span><span class="o">:</span><span class="x"> </span><span class="s">"dictionary.txt"</span><span class="p">,</span><span class="x">
+			</span><span class="s">"type"</span><span class="o">:</span><span class="x">     </span><span class="s">"sego"</span><span class="p">,</span><span class="x">
+		</span><span class="p">},</span><span class="x">
+	</span><span class="p">)</span><span class="x">
+
+	</span><span class="k">if</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">!=</span><span class="x"> </span><span class="no">nil</span><span class="x"> </span><span class="p">{</span><span class="x">
+		</span><span class="n">getLogger</span><span class="p">()</span><span class="o">.</span><span class="n">Fatal</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="x">
+		</span><span class="k">return</span><span class="x"> </span><span class="no">nil</span><span class="x">
+	</span><span class="p">}</span><span class="x">
+
+	</span><span class="n">err</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">indexMapping</span><span class="o">.</span><span class="n">AddCustomAnalyzer</span><span class="p">(</span><span class="s">"sego"</span><span class="p">,</span><span class="x">
+		</span><span class="k">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="k">interface</span><span class="p">{}{</span><span class="x">
+			</span><span class="s">"type"</span><span class="o">:</span><span class="x">      </span><span class="s">"sego"</span><span class="p">,</span><span class="x">
+			</span><span class="s">"tokenizer"</span><span class="o">:</span><span class="x"> </span><span class="s">"sego"</span><span class="p">,</span><span class="x">
+		</span><span class="p">},</span><span class="x">
+	</span><span class="p">)</span><span class="x">
+
+	</span><span class="k">if</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">!=</span><span class="x"> </span><span class="no">nil</span><span class="x"> </span><span class="p">{</span><span class="x">
+		</span><span class="n">getLogger</span><span class="p">()</span><span class="o">.</span><span class="n">Fatal</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="x">
+		</span><span class="k">return</span><span class="x"> </span><span class="no">nil</span><span class="x">
+	</span><span class="p">}</span><span class="x">
+
+	</span><span class="n">newsHelperIndexMapping</span><span class="o">.</span><span class="n">DefaultAnalyzer</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="s">"sego"</span><span class="x">
+</span></code></pre>
+</div>
+
+<p>實驗的結果, 同樣Bleve, 用不同的斷詞, 似乎用sego有稍微快一點(在raspberry pi下, 約五千多筆資料大約快個一秒鐘), 但似乎不是Wukong效率高過於Bleve的主因</p>
+
+<p>到最後, 我是選擇了Bleve, 原因是, 它目前看起來比較活躍, 而Wukong就比較沒啥更新</p>
+
+      <footer class="entry-meta">
+        <span class="entry-tags"><a href="http://blog.jln.co/tags/#Go" title="Pages tagged Go" class="tag"><span class="term">Go</span></a><a href="http://blog.jln.co/tags/#Search" title="Pages tagged Search" class="tag"><span class="term">Search</span></a><a href="http://blog.jln.co/tags/#Bleve" title="Pages tagged Bleve" class="tag"><span class="term">Bleve</span></a></span>
+        
+        <div class="social-share">
+  <ul class="socialcount socialcount-small inline-list">
+    <li class="facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=http://blog.jln.co/go-bleve-%E8%87%AA%E5%B8%B6%E5%85%A8%E6%96%87%E6%90%9C%E5%B0%8B/" title="Share on Facebook"><span class="count"><i class="fa fa-facebook-square"></i> Like</span></a></li>
+    <li class="twitter"><a href="https://twitter.com/intent/tweet?text=http://blog.jln.co/go-bleve-%E8%87%AA%E5%B8%B6%E5%85%A8%E6%96%87%E6%90%9C%E5%B0%8B/" title="Share on Twitter"><span class="count"><i class="fa fa-twitter-square"></i> Tweet</span></a></li>
+    <li class="googleplus"><a href="https://plus.google.com/share?url=http://blog.jln.co/go-bleve-%E8%87%AA%E5%B8%B6%E5%85%A8%E6%96%87%E6%90%9C%E5%B0%8B/" title="Share on Google Plus"><span class="count"><i class="fa fa-google-plus-square"></i> +1</span></a></li>
+  </ul>
+</div><!-- /.social-share -->
+      </footer>
+    </div><!-- /.entry-content -->
+    <section id="disqus_thread"></section><!-- /#disqus_thread -->
+    <div class="read-more">
+  
+    <div class="read-more-header">
+      <a href="http://blog.jln.co/dynamic-dns-with-cloudflare/" class="read-more-btn">Read More</a>
+    </div><!-- /.read-more-header -->
+    <div class="read-more-content">
+      <h3><a href="http://blog.jln.co/dynamic-dns-with-cloudflare/" title="Dynamic DNS with Cloudflare">Dynamic DNS with Cloudflare</a></h3>
+      <p>這陣子都在寫line bot, 本來都host在heroku上面的, 簡單且方便, 後來突發奇想, 想用Rasberry pi 跑看看(跑得動喔)Line的webhook有一個需求就是要有SSL連結, 走https, 但我不想申請一個certificate, 在raspbe...&hellip; <a href="http://blog.jln.co/dynamic-dns-with-cloudflare/">Continue reading</a></p>
+    </div><!-- /.read-more-content -->
+  
+  <div class="read-more-list">
+    
+      <div class="list-item">
+        <h4><a href="http://blog.jln.co/%E7%94%A8ifttt-+-heroku%E8%B7%91%E5%AE%9A%E6%99%82%E7%9A%84tasks/" title="用ifttt + heroku跑定時的tasks">用ifttt + heroku跑定時的tasks</a></h4>
+        <span>Published on February 04, 2017</span>
+      </div><!-- /.list-item -->
+    
+      <div class="list-item">
+        <h4><a href="http://blog.jln.co/go-open-graph-parser/" title="[Go] Open graph parser">[Go] Open graph parser</a></h4>
+        <span>Published on January 24, 2017</span>
+      </div><!-- /.list-item -->
+    
+  </div><!-- /.read-more-list -->
+</div><!-- /.read-more -->
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrapper">
+  <footer role="contentinfo">
+    <span>&copy; 2017 Julian Shen. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> using the <a href="https://mademistakes.com/work/hpstr-jekyll-theme/" rel="nofollow">HPSTR Theme</a>.</span>
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="http://blog.jln.co/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="http://blog.jln.co/assets/js/scripts.min.js"></script>
+
+
+<!-- Asynchronous Google Analytics snippet -->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-79243751-1', 'auto');  
+  ga('require', 'linkid', 'linkid.js');
+  ga('send', 'pageview');
+</script>
+
+
+
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'julianshen'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function () {
+            var s = document.createElement('script'); s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+	        
+
+</body>
+</html>
