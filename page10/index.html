@@ -150,6 +150,54 @@
   <header>
     
     <div class="entry-meta">
+      <span class="entry-date date published updated"><time datetime="2015-05-23T00:29:59+08:00"><a href="http://blog.jln.co/ios-%E7%94%9F%E6%89%8B%E7%AD%86%E8%A8%98-%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E5%80%8Bswift-open-source-lib-swpalette/">May 23, 2015</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
+      
+      <span class="entry-reading-time">
+        <i class="fa fa-clock-o"></i>
+        
+Reading time ~1 minute
+      </span><!-- /.entry-reading-time -->
+      
+    </div><!-- /.entry-meta -->
+    
+      <h1 class="entry-title"><a href="http://blog.jln.co/ios-%E7%94%9F%E6%89%8B%E7%AD%86%E8%A8%98-%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E5%80%8Bswift-open-source-lib-swpalette/" rel="bookmark" title="[iOS 生手筆記] 我的第一個Swift open source lib- SWPalette" itemprop="url">[iOS 生手筆記] 我的第一個Swift open source lib- SWPalette</a></h1>
+    
+  </header>
+  <div class="entry-content">
+    <p>基本上, 應該不算完全完成, 所以還沒打算真正的寫README, 不過實際上看起來應該是有點效果了</p>
+
+<p><a href="https://github.com/julianshen/SWPalette">https://github.com/julianshen/SWPalette</a></p>
+
+<p>這個lib主要是由Android support lib v7 那邊porting過來的, 它應該是屬於material design設計上的一個元素, 關於Android版本的Palette可以參考:</p>
+
+<p><a href="https://developer.android.com/reference/android/support/v7/graphics/Palette.html">https://developer.android.com/reference/android/support/v7/graphics/Palette.html</a>
+<a href="https://www.bignerdranch.com/blog/extracting-colors-to-a-palette-with-android-lollipop/">https://www.bignerdranch.com/blog/extracting-colors-to-a-palette-with-android-lollipop/</a>
+<a href="http://baoyz.com/android/2014/10/21/android-palette-use/">http://baoyz.com/android/2014/10/21/android-palette-use/</a></p>
+
+<p>它的用途就是從Image裡面取得一些顏色, 讓你融入UI配色之中, 不過現在也好像沒看到幾個Android app目前有用這個設計, 它原理也不難, 就是做historgram quantization 而已, 我一開始照著原本的邏輯照po並不是用同樣的演算法重寫, 導致需要花很多時間debug, 到目前應該也還有很多bug, 不過主要的目的是練習Swift, 想說從一個很熟悉的語言的東西出發用新的東西來改寫可能更容易上手, 還蠻有趣的就是Swift一些語言上的特性, 讓一些地方簡化了不少  以下是目前的結果(有請Lena小姐示範一下):</p>
+
+<p><img src="http://i.imgur.com/RLUmL13l.png" alt="Imgur"/></p>
+
+<p>API基本上跟原本差不多, 分sync (swp_generatePalette)跟async (swp_generatePaletteAsync)兩種型態, 只是把method附掛到UIImage:</p>
+
+<pre>
+let p = image.swp_generatePalette(maxColors: 32)
+        
+if let s = p.lightMutedSwatch {
+   self.textView?.textColor = s.bodyTextColor
+   self.textView?.backgroundColor = s.color
+}
+</pre>
+
+<p>目前產生的結果可能跟Android版本的結果會有落差, 可能還需要很用力的debug吧&hellip;.</p>
+
+  </div><!-- /.entry-content -->
+</article><!-- /.hentry -->
+
+<article class="hentry">
+  <header>
+    
+    <div class="entry-meta">
       <span class="entry-date date published updated"><time datetime="2015-05-18T02:16:37+08:00"><a href="http://blog.jln.co/ios%E9%96%8B%E7%99%BC%E7%94%9F%E6%89%8B%E7%AD%86%E8%A8%98-%E6%8A%8Aunsafemutablepointerunsafepointer/">May 18, 2015</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
       
       <span class="entry-reading-time">
@@ -370,56 +418,6 @@ signalForImage(url!)
 <p>startOn(QueueScheduler())的目的就是要讓載入圖片這件事不要在主線程(main thead)發生, 而是把它丟到GCD queue, 最後UI thread接到通之後再把它顯示出來</p>
 
 <p>好了, 先到這邊, 整個程式看起來很簡單, 但很多觀念還花了不少時間呀 orz</p>
-
-  </div><!-- /.entry-content -->
-</article><!-- /.hentry -->
-
-<article class="hentry">
-  <header>
-    
-    <div class="entry-meta">
-      <span class="entry-date date published updated"><time datetime="2015-05-05T21:35:09+08:00"><a href="http://blog.jln.co/ios%E9%96%8B%E7%99%BC%E7%94%9F%E6%89%8B%E7%AD%86%E8%A8%98-%E5%88%9D%E8%A9%A6reactivecocoa/">May 05, 2015</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
-      
-      <span class="entry-reading-time">
-        <i class="fa fa-clock-o"></i>
-        
-Reading time ~1 minute
-      </span><!-- /.entry-reading-time -->
-      
-    </div><!-- /.entry-meta -->
-    
-      <h1 class="entry-title"><a href="http://blog.jln.co/ios%E9%96%8B%E7%99%BC%E7%94%9F%E6%89%8B%E7%AD%86%E8%A8%98-%E5%88%9D%E8%A9%A6reactivecocoa/" rel="bookmark" title="[iOS開發生手筆記] 初試ReactiveCocoa" itemprop="url">[iOS開發生手筆記] 初試ReactiveCocoa</a></h1>
-    
-  </header>
-  <div class="entry-content">
-    <p>對FRP跟Swift還沒很熟, 直接玩<a href="https://github.com/ReactiveCocoa/ReactiveCocoa">ReactiveCocoa</a> 有點苦手, 不過, 還挺好玩的</p>
-<p>狀況設計: 畫面上有一個輸入框, 和一個文字標籤, 在輸入框輸入文字後, 標籤要同步顯示一樣的文字, 文字框輸入不滿三個字母時背景要顯示紅色,像這樣:
-<img src="http://66.media.tumblr.com/f1c851fbc75ebffca37e7656a2f3791a/tumblr_inline_nnvikzOMn21qzg4zq_540.png" alt=""/><img src="http://67.media.tumblr.com/db637264f9db9135387840229ad35f96/tumblr_inline_nnvilcyh921qzg4zq_540.png" alt=""/></p>
-<p>所以會有一個標籤(myLabel)和一個輸入框(myInput):</p>
-<pre>
-    @IBOutlet weak var myLabel: UILabel!
-    @IBOutlet weak var myInput: UITextField!
-</pre>
-<p>要做到這樣的功能, 不只有一種作法, 像是也可以用KVO去observe一個變數由那個來改變myLabel的值,但KVO的缺點是, 被observe的那個必須是dynamic的, 所以沒辦法直接observer <code>myInput.text</code></p>
-<p>但用ReactiveCocoa來做的話就簡單的有趣, 首先如果要達到第一個需求, 只需要</p>
-<pre>
-    var text_signal = myInput.rac_textSignal()
-    text_signal.setKeyPath("text", onObject: myLabel)
-</pre>
-<p>這還真是么壽簡單, 只是把myInput.text跟myLabel.text抓條線連一起就好了!</p>
-<p>那第二項呢?</p>
-
-<pre>
-
-text_signal.map({
-  (textObj:AnyObject!)-&gt;AnyObject in
-    var text = textObj as! String
-    return count(text) &lt; 3 ? UIColor.redColor():UIColor.whiteColor()
-}).setKeyPath("backgroundColor", onObject: myInput)
-
-</pre>
-
-<p>這也是簡單的不行, 把輸入的Signal用map轉換成UIColor, 而轉換的條件就是以text的長度來計算, 最後連到myInput.backgroundColor去, 挺有趣的(雖然也不是很好懂)</p>
 
   </div><!-- /.entry-content -->
 </article><!-- /.hentry -->

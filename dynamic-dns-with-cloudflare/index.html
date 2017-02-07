@@ -5,30 +5,30 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
 <head>
 <meta charset="utf-8">
-<title>美麗 &#8211; Le murmure de Julian</title>
+<title>Dynamic DNS with Cloudflare &#8211; Le murmure de Julian</title>
 <meta name="description" content="朱隸安貓囈語錄">
-<meta name="keywords" content="胡言亂語">
+<meta name="keywords" content="DNS, Cloudflare">
 
 <!-- Twitter Cards -->
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="avatar.png">
-<meta name="twitter:title" content="美麗">
+<meta name="twitter:image" content="https://support.cloudflare.com/hc/en-us/article_attachments/206124658/cfssl_flexible.png">
+<meta name="twitter:title" content="Dynamic DNS with Cloudflare">
 <meta name="twitter:description" content="朱隸安貓囈語錄">
 <meta name="twitter:creator" content="@jlnshen">
 
 <!-- Open Graph -->
 <meta property="og:locale" content="en_US">
 <meta property="og:type" content="article">
-<meta property="og:title" content="美麗">
+<meta property="og:title" content="Dynamic DNS with Cloudflare">
 <meta property="og:description" content="朱隸安貓囈語錄">
-<meta property="og:url" content="http://blog.jln.co/%E7%BE%8E%E9%BA%97/">
+<meta property="og:url" content="http://blog.jln.co/dynamic-dns-with-cloudflare/">
 <meta property="og:site_name" content="Le murmure de Julian">
-<meta name="og:image" content="avatar.png">
+<meta name="og:image" content="https://support.cloudflare.com/hc/en-us/article_attachments/206124658/cfssl_flexible.png">
 <meta name="google-site-verification" content="Fwa4TQMXvroZpNT7rrwHzdf-rWBe1RDuTu75Enx_DWA">
 
 
 
-<link rel="canonical" href="http://blog.jln.co/%E7%BE%8E%E9%BA%97/">
+<link rel="canonical" href="http://blog.jln.co/dynamic-dns-with-cloudflare/">
 <link href="http://blog.jln.co/feed.xml" type="application/atom+xml" rel="alternate" title="Le murmure de Julian Feed">
 
 <!-- http://t.co/dKP3o1e -->
@@ -135,9 +135,9 @@
     <header class="header-title">
       <div class="header-title-wrap">
         
-          <h1 class="entry-title"><a href="http://blog.jln.co/%E7%BE%8E%E9%BA%97/" rel="bookmark" title="美麗">美麗</a></h1>
+          <h1 class="entry-title"><a href="http://blog.jln.co/dynamic-dns-with-cloudflare/" rel="bookmark" title="Dynamic DNS with Cloudflare">Dynamic DNS with Cloudflare</a></h1>
         
-        <h2><span class="entry-date date published"><time datetime="2011-02-26T23:21:47+08:00">February 26, 2011</time></span></h2>
+        <h2><span class="entry-date date published"><time datetime="2017-02-07T15:40:05+08:00">February 07, 2017</time></span></h2>
         
         <p class="entry-reading-time">
           <i class="fa fa-clock-o"></i>
@@ -148,16 +148,47 @@ Reading time ~1 minute
       </div><!-- /.header-title-wrap -->
     </header>
     <div class="entry-content">
-      <div class="posterous_autopost"><p>昨天去看醫生時, 在診所時看了一個節目, 我忘了是什麼節目了, 那集在討論有些小牌的模特兒為了吸引目光(或說是相機, 攝影機的焦點), 想盡辦法露出事業線(或擠出)</p>  <p>說實在的, 很不懂為啥把這叫事業線, 感覺有點把人物化了, 不過每個人條件本來就不同, 如果身材比例不好, 胸前再偉大也不好看吧? 比例好的話, 就算不大, 擠不出線, 看起來也是會很順眼的</p>  <p>今天在Yamaha等小遠上課時, 隔壁座位一群女士(還是太太?)在聊天, 突然其中一位很高興的大聲說到: &ldquo;嘿, 你們看, 我有沒變很瘦?&rdquo;, 然後一群人就這樣很熱烈的討論起來了, 好像女人都還蠻在乎胖瘦的, 不過應該也不只是女人, 愛美人的天性, 無可厚非, 肥胖對健康是不好(我也不想胖呀 T.T), 不過太瘦也不見得是好是呀, 不影響健康的體型, 應該都是好的吧, 不過很多人都會把胖瘦當做一個美麗的指標, 不過, 這應該因時因人不同吧, 傳說楊玉環不是也挺豐腴的?</p>  <p>我個人是認為, 美是由心生的, 善良, 聰明的人就蠻美的呀~~~其實說起來也算是種偏見吧.. :P</p>  <p>不過不管怎樣, 只要有人欣賞就是美, 全世界的人都死光只剩一個人的話, 美醜也沒那麼重要了, 所以只要有人懂得欣賞, 不就都是正妹帥哥(我這是歪理嗎?)</p>  <p>嗯, 這標題實在很難下&hellip;..單純只是突然的一個想法而已&hellip;.</p></div>
+      <p>這陣子都在寫line bot, 本來都host在heroku上面的, 簡單且方便, 後來突發奇想, 想用Rasberry pi 跑看看(跑得動喔)</p>
+
+<p>Line的webhook有一個需求就是要有SSL連結, 走https, 但我不想申請一個certificate, 在raspberry pi上弄, 所幸<a href="https://www.cloudflare.com/">Cloudflare</a>
+有提供免費的SSL certificate, 利用他們的flexible SSL就可以了</p>
+
+<p><img src="https://support.cloudflare.com/hc/en-us/article_attachments/206124658/cfssl_flexible.png" alt="" /></p>
+
+<p>flexible SSL的方式是client到他們CDN server走的是SSL沒錯, 但他們server到你的server則是可以走一般的http connection,
+再來的第二個問題是, 我家的網路是浮動IP的（後來才去申請固定IP）, 所以必須能動態更新<a href="https://www.cloudflare.com/">Cloudflare</a>上的DNS紀錄</p>
+
+<p>還好Cloudflare是有<a href="https://api.cloudflare.com/">API</a>的</p>
+
+<p>直接自己自幹一個也是可以啦, 但Cloudflare其實也有一個客製版的ddclient:</p>
+
+<p><a href="https://www.cloudflare.com/technical-resources/#ddclient">Dynamic DNS Client: ddclient</a></p>
+
+<p>步驟可以照著上面文件的步驟來做, 可以從My settings -&gt; Account -&gt; Global API Key取得API key當作ddclient的密碼</p>
+
+<p>接下來碰到的問題是, 我ddclient是跑在raspberry pi上, ddclient預設是用local IP, 這很明顯不對, 因為會用到內部的IP而不是對外那個, 而我家的ASUS無線分享器並沒支援Cloudflare, 我也不太想改firmware,
+但這還是有解的, 把ddclient.conf裡加上這行:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>use=web, web=checkip.dyndns.org/, web-skip='IP Address' # found after IP Address
+</code></pre>
+</div>
+
+<p>這是告訴ddclient不要用local ip而是用web api去找出IP</p>
+
+<p>但這一切….都還是太麻煩了….raspbeery pi總是會不小心碰掉電源, 總是會當機或跑不動, 更何況, 我都已經跑一個server了, ddclient不要再來搶記憶體了啦</p>
+
+<p>最後我的解法是: <a href="https://www.dnsomatic.com/">DNS-O-Matic</a></p>
+
+<p>這是一個Dynamic DNS的服務, 我的無線分享器也有支援, 它不是自身有DNS server, 而是可以代你去更新妳的DNS紀錄, 而且, 有支援Cloudflare!!! OK, 結案 (偷懶!)</p>
 
       <footer class="entry-meta">
-        <span class="entry-tags"><a href="http://blog.jln.co/tags/#胡言亂語" title="Pages tagged 胡言亂語" class="tag"><span class="term">胡言亂語</span></a></span>
+        <span class="entry-tags"><a href="http://blog.jln.co/tags/#DNS" title="Pages tagged DNS" class="tag"><span class="term">DNS</span></a><a href="http://blog.jln.co/tags/#Cloudflare" title="Pages tagged Cloudflare" class="tag"><span class="term">Cloudflare</span></a></span>
         
         <div class="social-share">
   <ul class="socialcount socialcount-small inline-list">
-    <li class="facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=http://blog.jln.co/%E7%BE%8E%E9%BA%97/" title="Share on Facebook"><span class="count"><i class="fa fa-facebook-square"></i> Like</span></a></li>
-    <li class="twitter"><a href="https://twitter.com/intent/tweet?text=http://blog.jln.co/%E7%BE%8E%E9%BA%97/" title="Share on Twitter"><span class="count"><i class="fa fa-twitter-square"></i> Tweet</span></a></li>
-    <li class="googleplus"><a href="https://plus.google.com/share?url=http://blog.jln.co/%E7%BE%8E%E9%BA%97/" title="Share on Google Plus"><span class="count"><i class="fa fa-google-plus-square"></i> +1</span></a></li>
+    <li class="facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=http://blog.jln.co/dynamic-dns-with-cloudflare/" title="Share on Facebook"><span class="count"><i class="fa fa-facebook-square"></i> Like</span></a></li>
+    <li class="twitter"><a href="https://twitter.com/intent/tweet?text=http://blog.jln.co/dynamic-dns-with-cloudflare/" title="Share on Twitter"><span class="count"><i class="fa fa-twitter-square"></i> Tweet</span></a></li>
+    <li class="googleplus"><a href="https://plus.google.com/share?url=http://blog.jln.co/dynamic-dns-with-cloudflare/" title="Share on Google Plus"><span class="count"><i class="fa fa-google-plus-square"></i> +1</span></a></li>
   </ul>
 </div><!-- /.social-share -->
       </footer>
@@ -166,23 +197,23 @@ Reading time ~1 minute
     <div class="read-more">
   
     <div class="read-more-header">
-      <a href="http://blog.jln.co/%E5%91%8A%E7%99%BD/" class="read-more-btn">Read More</a>
+      <a href="http://blog.jln.co/%E7%94%A8ifttt-+-heroku%E8%B7%91%E5%AE%9A%E6%99%82%E7%9A%84tasks/" class="read-more-btn">Read More</a>
     </div><!-- /.read-more-header -->
     <div class="read-more-content">
-      <h3><a href="http://blog.jln.co/dynamic-dns-with-cloudflare/" title="Dynamic DNS with Cloudflare">Dynamic DNS with Cloudflare</a></h3>
-      <p>這陣子都在寫line bot, 本來都host在heroku上面的, 簡單且方便, 後來突發奇想, 想用Rasberry pi 跑看看(跑得動喔)Line的webhook有一個需求就是要有SSL連結, 走https, 但我不想申請一個certificate, 在raspbe...&hellip; <a href="http://blog.jln.co/dynamic-dns-with-cloudflare/">Continue reading</a></p>
+      <h3><a href="http://blog.jln.co/%E7%94%A8ifttt-+-heroku%E8%B7%91%E5%AE%9A%E6%99%82%E7%9A%84tasks/" title="用ifttt + heroku跑定時的tasks">用ifttt + heroku跑定時的tasks</a></h3>
+      <p>這篇是延續”使用AWS lambda和Github來提供中華職棒賽程資料”,之前的做法是用Cloud watch加上lambda來做這件事, 但我跑的東西並不是那麼的頻繁, 在AWS上還是會被收到流量的費用,因此就打算用更經濟的方式, 利用heroku免費的額度來做這事(真...&hellip; <a href="http://blog.jln.co/%E7%94%A8ifttt-+-heroku%E8%B7%91%E5%AE%9A%E6%99%82%E7%9A%84tasks/">Continue reading</a></p>
     </div><!-- /.read-more-content -->
   
   <div class="read-more-list">
     
       <div class="list-item">
-        <h4><a href="http://blog.jln.co/%E7%94%A8ifttt-+-heroku%E8%B7%91%E5%AE%9A%E6%99%82%E7%9A%84tasks/" title="用ifttt + heroku跑定時的tasks">用ifttt + heroku跑定時的tasks</a></h4>
-        <span>Published on February 04, 2017</span>
+        <h4><a href="http://blog.jln.co/go-open-graph-parser/" title="[Go] Open graph parser">[Go] Open graph parser</a></h4>
+        <span>Published on January 24, 2017</span>
       </div><!-- /.list-item -->
     
       <div class="list-item">
-        <h4><a href="http://blog.jln.co/go-open-graph-parser/" title="[Go] Open graph parser">[Go] Open graph parser</a></h4>
-        <span>Published on January 24, 2017</span>
+        <h4><a href="http://blog.jln.co/%E5%9C%A8heroku%E4%B8%8A%E7%94%A8apt-get%E5%AE%89%E8%A3%9D%E5%A5%97%E4%BB%B6/" title="在Heroku上用apt-get安裝套件">在Heroku上用apt-get安裝套件</a></h4>
+        <span>Published on January 21, 2017</span>
       </div><!-- /.list-item -->
     
   </div><!-- /.read-more-list -->
