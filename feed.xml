@@ -1,4 +1,23 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.1.6">Jekyll</generator><link href="http://blog.jln.co/feed.xml" rel="self" type="application/atom+xml" /><link href="http://blog.jln.co/" rel="alternate" type="text/html" /><updated>2017-02-07T18:14:17+08:00</updated><id>http://blog.jln.co/</id><title>Le murmure de Julian</title><subtitle>朱隸安貓囈語錄</subtitle><entry><title>[Swift] 漫畫爬蟲</title><link href="http://blog.jln.co/swift-%E6%BC%AB%E7%95%AB%E7%88%AC%E8%9F%B2/" rel="alternate" type="text/html" title="[Swift] 漫畫爬蟲" /><published>2017-02-07T17:18:05+08:00</published><updated>2017-02-07T17:18:05+08:00</updated><id>http://blog.jln.co/[swift]-漫畫爬蟲</id><content type="html" xml:base="http://blog.jln.co/swift-%E6%BC%AB%E7%95%AB%E7%88%AC%E8%9F%B2/">&lt;p&gt;最近搬家又讓我挖出了Amazon Kindle, 又覺得拿來看漫畫很方便(這戲演了幾次了呀?), 雖然說好像也有網站可以下載漫畫.mobi檔, 不過似乎是會員制的, 不喜歡&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.1.6">Jekyll</generator><link href="http://blog.jln.co/feed.xml" rel="self" type="application/atom+xml" /><link href="http://blog.jln.co/" rel="alternate" type="text/html" /><updated>2017-03-01T17:16:24+08:00</updated><id>http://blog.jln.co/</id><title>Le murmure de Julian</title><subtitle>朱隸安貓囈語錄</subtitle><entry><title>RSS for Ptt</title><link href="http://blog.jln.co/rss-for-ptt/" rel="alternate" type="text/html" title="RSS for Ptt" /><published>2017-03-01T17:08:32+08:00</published><updated>2017-03-01T17:08:32+08:00</updated><id>http://blog.jln.co/rss-for-ptt</id><content type="html" xml:base="http://blog.jln.co/rss-for-ptt/">&lt;p&gt;最近才發現, ptt的rss功能好像拿掉了, 這樣好像就不能拿feedly之類的來訂閱版面內容, 反正我自己有寫了一個&lt;a href=&quot;https://github.com/julianshen/gopttcrawler&quot;&gt;gopttcrawler&lt;/a&gt;
+所幸自己來寫一個吧!&lt;/p&gt;
+
+&lt;p&gt;source code在: &lt;a href=&quot;https://github.com/julianshen/pttrss&quot;&gt;pttrss&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;可以自行deploy到heroku去, 如果不想這麼麻煩, 可以用:&lt;/p&gt;
+
+&lt;p&gt;https://ptt.cowbay.wtf/rss/版名&lt;/p&gt;
+
+&lt;p&gt;例如:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;表特版的rss url是 - https://ptt.cowbay.wtf/rss/Beauty&lt;/li&gt;
+  &lt;li&gt;電影版的是 - https://ptt.cowbay.wtf/rss/movie&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;要找到英文版名才可以&lt;/p&gt;
+
+&lt;p&gt;資料30分鐘才會更新一次, 不會時時更新, 避免被灌&lt;/p&gt;</content><category term="golang" /><category term="Ptt" /><category term="bbs" /><category term="rss" /><summary>最近才發現, ptt的rss功能好像拿掉了, 這樣好像就不能拿feedly之類的來訂閱版面內容, 反正我自己有寫了一個gopttcrawler
+所幸自己來寫一個吧!</summary></entry><entry><title>[Swift] 漫畫爬蟲</title><link href="http://blog.jln.co/swift-%E6%BC%AB%E7%95%AB%E7%88%AC%E8%9F%B2/" rel="alternate" type="text/html" title="[Swift] 漫畫爬蟲" /><published>2017-02-07T17:18:05+08:00</published><updated>2017-02-07T17:18:05+08:00</updated><id>http://blog.jln.co/[swift]-漫畫爬蟲</id><content type="html" xml:base="http://blog.jln.co/swift-%E6%BC%AB%E7%95%AB%E7%88%AC%E8%9F%B2/">&lt;p&gt;最近搬家又讓我挖出了Amazon Kindle, 又覺得拿來看漫畫很方便(這戲演了幾次了呀?), 雖然說好像也有網站可以下載漫畫.mobi檔, 不過似乎是會員制的, 不喜歡&lt;/p&gt;
 
 &lt;p&gt;因此又讓我想寫漫畫的爬蟲了, 這次的目標是: &lt;a href=&quot;http://www.comicbus.com/&quot;&gt;無限動漫&lt;/a&gt; (他們的app實在做得有夠差)&lt;/p&gt;
 
@@ -1108,97 +1127,4 @@ javascript的執行也一樣, 因此如果對html node有任何變動, 是不會
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;p&gt;這樣一來就稍微簡單多了, 不過目前碰到的缺點是, 似乎有些ES6的語法, 它不太認得呀&lt;/p&gt;</content><category term="golang" /><category term="goquery" /><category term="otto" /><summary>2017的第一篇blog就先又來回的go跟爬蟲了</summary></entry><entry><title>[Android] Retrofit + Protobuf + Wire</title><link href="http://blog.jln.co/android-retrofit-+-protobuf-+-wire/" rel="alternate" type="text/html" title="[Android] Retrofit + Protobuf + Wire" /><published>2016-12-29T15:33:25+08:00</published><updated>2016-12-29T15:33:25+08:00</updated><id>http://blog.jln.co/[android]-retrofit-+-protobuf-+-wire</id><content type="html" xml:base="http://blog.jln.co/android-retrofit-+-protobuf-+-wire/">&lt;p&gt;&lt;a href=&quot;https://square.github.io/retrofit/&quot;&gt;Retrofit&lt;/a&gt;目前已然成為最熱門的呼叫REST API的開源程式庫了,不過,
-大部分的Retrofit多是用來處理Json類的REST API, 但Retrofit的能力卻不僅限於此&lt;/p&gt;
-
-&lt;p&gt;透過Converter, Retrofit可以處理的不只是Json, 還包含了XML, &lt;a href=&quot;https://developers.google.com/protocol-buffers/&quot;&gt;Protobuf&lt;/a&gt;, 甚至你自己的自訂格式, 剛好最近看Json不太順眼,
-想來試試&lt;a href=&quot;https://developers.google.com/protocol-buffers/&quot;&gt;Protobuf&lt;/a&gt;, 就來試試這部分&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://square.github.io/retrofit/&quot;&gt;Retrofit&lt;/a&gt;官方網頁上列的&lt;a href=&quot;https://developers.google.com/protocol-buffers/&quot;&gt;Protobuf&lt;/a&gt; converter有兩種,
-一種是使用Google親生的&lt;a href=&quot;https://developers.google.com/protocol-buffers/&quot;&gt;Protobuf&lt;/a&gt;, 這個只要引入&lt;code class=&quot;highlighter-rouge&quot;&gt;com.squareup.retrofit2:converter-protobuf&lt;/code&gt;即可使用,
-另一種是有點比較吸引我的是Square自己開發出來的&lt;a href=&quot;https://github.com/square/wire&quot;&gt;Wire&lt;/a&gt;, Sqaure真的是蠻喜歡打造自己的東西的, 打造出來的又比別人威,
-這點讓我對&lt;a href=&quot;https://github.com/square/wire&quot;&gt;Wire&lt;/a&gt;的興趣比較大, 因此這篇主要是以&lt;a href=&quot;https://github.com/square/wire&quot;&gt;Wire&lt;/a&gt;當範例來介紹&lt;/p&gt;
-
-&lt;p&gt;使用Wire converter其實相當簡單的:&lt;/p&gt;
-
-&lt;p&gt;在build.gradle內加入相關的dependencies, 包含了wire runtime跟retorfit的converter:&lt;/p&gt;
-
-&lt;div class=&quot;language-groovy highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;compile&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;com.squareup.retrofit2:converter-wire:2.1.0&#39;&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;compile&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;com.squareup.wire:wire-runtime:2.2.0&#39;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;在build service時, 用&lt;code class=&quot;highlighter-rouge&quot;&gt;addConverterFactory&lt;/code&gt;將&lt;code class=&quot;highlighter-rouge&quot;&gt;WireConverterFactory&lt;/code&gt;加入即可&lt;/p&gt;
-
-&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;Retrofit&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;retrofit&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Retrofit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;Builder&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
-		&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;baseUrl&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;baseUrl&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-		&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;addConverterFactory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;WireConverterFactory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;create&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;())&lt;/span&gt;
-		&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;addCallAdapterFactory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RxJava2CallAdapterFactory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;create&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;())&lt;/span&gt;
-		&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;build&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;DataService&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;service&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;retrofit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;create&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DataService&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;class&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;DataService的定義如下(這範例搭配了rxjava2):&lt;/p&gt;
-
-&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;interface&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;DataService&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nd&quot;&gt;@GET&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;data&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;Single&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Posts&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;getPosts&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;這邊有個問題, &lt;code class=&quot;highlighter-rouge&quot;&gt;Posts&lt;/code&gt;這個class並不是直接用Java刻出來的, 而是由&lt;code class=&quot;highlighter-rouge&quot;&gt;.proto&lt;/code&gt;檔產生的, 內容如下:&lt;/p&gt;
-
-&lt;div class=&quot;language-protobuf highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;na&quot;&gt;syntax&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;proto3&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;package&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;wtf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cowbay.dp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;kd&quot;&gt;message&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;FBPost&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-	&lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-	&lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;title&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-	&lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;message&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-	&lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;imgsrc&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-	&lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;target&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-	&lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;createdtime&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;kd&quot;&gt;message&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Posts&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-	&lt;span class=&quot;k&quot;&gt;repeated&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;FBPost&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;必須要用工具產生Java class才能使用, Google的Protobuf有自己的工具, 而Wire也有自己的, 如果手動自己執行工具產生檔案後再加入, 未免太鳥,&lt;/p&gt;
-
-&lt;p&gt;還好Wire有&lt;a href=&quot;https://github.com/square/wire-gradle-plugin&quot;&gt;wire-gradle-plugin&lt;/a&gt;, 不過這個有個大問題, 雖然放在Square的repo下, 但似乎
-不是官方版本, 而是有人貢獻的, 因此並沒有跟上最新的2.x的版本, &lt;a href=&quot;https://github.com/square/wire-gradle-plugin/issues/11&quot;&gt;JakeWharton大神說將會有官方版本&lt;/a&gt;,
-但似乎從六月到現在都沒出現, 所以只好&lt;a href=&quot;https://github.com/CowBayStudio/wire-gradle-plugin&quot;&gt;自力救濟自己改 - 我的版本&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;使用這個plugin很簡單, 先在第一層的build.gradle裡的buildscript加入:&lt;/p&gt;
-
-&lt;div class=&quot;language-groovy highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;buildscript&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;repositories&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;jcenter&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;maven&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;url&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;https://jitpack.io&quot;&lt;/span&gt;
-        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;dependencies&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;classpath&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;com.android.tools.build:gradle:2.2.3&#39;&lt;/span&gt;
-
-        &lt;span class=&quot;n&quot;&gt;classpath&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;com.github.CowBayStudio:wire-gradle-plugin:ver12&#39;&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;主要是加入jitpack.io, 並把我的版本的plugin放到dependencies去&lt;/p&gt;
-
-&lt;p&gt;接下來在app的build.gradle裡加入:&lt;/p&gt;
-
-&lt;div class=&quot;language-groovy highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;apply&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;plugin:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;com.squareup.wire&#39;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;.proto&lt;/code&gt;檔案放置的位子在&lt;code class=&quot;highlighter-rouge&quot;&gt;app/src/main/proto&lt;/code&gt;, 把檔案放在這邊, build的時候就會自動產生這些對應的Java classes了&lt;/p&gt;</content><category term="Retrofit" /><category term="Android" /><category term="Protobuf" /><summary>Retrofit目前已然成為最熱門的呼叫REST API的開源程式庫了,不過,
-大部分的Retrofit多是用來處理Json類的REST API, 但Retrofit的能力卻不僅限於此</summary></entry></feed>
+&lt;p&gt;這樣一來就稍微簡單多了, 不過目前碰到的缺點是, 似乎有些ES6的語法, 它不太認得呀&lt;/p&gt;</content><category term="golang" /><category term="goquery" /><category term="otto" /><summary>2017的第一篇blog就先又來回的go跟爬蟲了</summary></entry></feed>
