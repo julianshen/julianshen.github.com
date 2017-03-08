@@ -150,6 +150,103 @@
   <header>
     
     <div class="entry-meta">
+      <span class="entry-date date published updated"><time datetime="2017-03-08T21:42:36+08:00"><a href="http://blog.jln.co/java-%E7%94%A8mockwebserver%E6%B8%AC%E8%A9%A6rest-client/">March 08, 2017</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
+      
+      <span class="entry-reading-time">
+        <i class="fa fa-clock-o"></i>
+        
+Reading time ~1 minute
+      </span><!-- /.entry-reading-time -->
+      
+    </div><!-- /.entry-meta -->
+    
+      <h1 class="entry-title"><a href="http://blog.jln.co/java-%E7%94%A8mockwebserver%E6%B8%AC%E8%A9%A6rest-client/" rel="bookmark" title="[Java] 用MockWebServer測試REST client" itemprop="url">[Java] 用MockWebServer測試REST client</a></h1>
+    
+  </header>
+  <div class="entry-content">
+    <p>應該來規定自己一週至少要寫一篇文章的, 這禮拜剛回歸工作的生活, 回歸了Java, 先從今天算起, 看多久能寫個一篇</p>
+
+<p>這次來寫寫怎麼測試REST client, 測試最直覺的當然是讓Client直接連到Server, 但這樣變數比較多, 比如說網路斷了呀, Server掛掉了呀, 測試資料也不穩定(資料庫內的資料並不一定是固定的), 不太利於自動化測試, 如果只是要測試Client邏輯, 自然擺脫這些因素比較好, 餵假資料(設計好的資料)是比較好的選擇</p>
+
+<p>但總不可能為了測試, 寫一個測試用的假server吧? 為了這樣的需求, <a href="http://square.github.io/okhttp/">Okhttp</a>有提供一個叫做<a href="https://github.com/square/okhttp/tree/master/mockwebserver">MockWebServer</a>的(Android當然也可以用), 這個就是為了這用途而出現的</p>
+
+<p>要使用MockWebServer的話, 它並不直接包含在<a href="http://square.github.io/okhttp/">Okhttp</a>的包裝內, 要另外含入:</p>
+
+<p>Maven:</p>
+
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;dependency&gt;</span>
+  <span class="nt">&lt;groupId&gt;</span>com.squareup.okhttp3<span class="nt">&lt;/groupId&gt;</span>
+  <span class="nt">&lt;artifactId&gt;</span>mockwebserver<span class="nt">&lt;/artifactId&gt;</span>
+  <span class="nt">&lt;version&gt;</span>(insert latest version)<span class="nt">&lt;/version&gt;</span>
+  <span class="nt">&lt;scope&gt;</span>test<span class="nt">&lt;/scope&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre>
+</div>
+
+<p>Gradle:</p>
+
+<div class="language-groovy highlighter-rouge"><pre class="highlight"><code><span class="n">compile</span> <span class="s1">'com.squareup.okhttp3:mockwebserver:(insert latest version)'</span>
+</code></pre>
+</div>
+
+<p>使用方法也很簡單, 以Retrofit來當例子:</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="c1">// 建立一個MockWebServer</span>
+<span class="n">MockWebServer</span> <span class="n">server</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MockWebServer</span><span class="o">();</span>
+<span class="c1">// 建立假的回應資料</span>
+<span class="n">server</span><span class="o">.</span><span class="na">enqueue</span><span class="o">(</span><span class="k">new</span> <span class="n">MockResponse</span><span class="o">().</span><span class="na">setBody</span><span class="o">(</span><span class="s">"{\"status\":\"ok\"}"</span><span class="o">));</span>
+
+<span class="n">Retrofit</span> <span class="n">retrofit</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Retrofit</span><span class="o">.</span><span class="na">Builder</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">baseUrl</span><span class="o">(</span><span class="n">server</span><span class="o">.</span><span class="na">url</span><span class="o">(</span><span class="s">"/"</span><span class="o">))</span>
+        <span class="o">.</span><span class="na">addCallAdapterFactory</span><span class="o">(</span><span class="n">RxJavaCallAdapterFactory</span><span class="o">.</span><span class="na">create</span><span class="o">())</span> 
+        <span class="o">.</span><span class="na">build</span><span class="o">();</span> 
+<span class="n">service</span> <span class="o">=</span> <span class="n">retrofit</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="n">Service</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+
+<span class="c1">// 啟動server </span>
+<span class="n">server</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+<span class="n">service</span><span class="o">.</span><span class="na">subscribe</span><span class="o">(</span><span class="n">subscriber</span><span class="o">);</span>
+<span class="n">server</span><span class="o">.</span><span class="na">shutdown</span><span class="o">();</span>
+</code></pre>
+</div>
+
+<p>MockWebServer是一個貨真價實的http server, 所以有自己的Url, 藉由呼叫 <code class="highlighter-rouge">server.url("/")</code> 可以取得它的url, 使用MockResponse來回傳假資料(比如說是JSON), 另外可以藉由takeRequest來驗證client送的request是否正確</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="n">RecordedRequest</span> <span class="n">request1</span> <span class="o">=</span> <span class="n">server</span><span class="o">.</span><span class="na">takeRequest</span><span class="o">();</span>
+<span class="n">assertEquals</span><span class="o">(</span><span class="s">"/v1/chat/messages/"</span><span class="o">,</span> <span class="n">request1</span><span class="o">.</span><span class="na">getPath</span><span class="o">());</span>
+<span class="n">assertNotNull</span><span class="o">(</span><span class="n">request1</span><span class="o">.</span><span class="na">getHeader</span><span class="o">(</span><span class="s">"Authorization"</span><span class="o">));</span>
+</code></pre>
+</div>
+
+<p>那如果要測試不止一個URL呢?那就可以利用Dispatcher, 如下:</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">final</span> <span class="n">Dispatcher</span> <span class="n">dispatcher</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Dispatcher</span><span class="o">()</span> <span class="o">{</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">MockResponse</span> <span class="nf">dispatch</span><span class="o">(</span><span class="n">RecordedRequest</span> <span class="n">request</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">InterruptedException</span> <span class="o">{</span>
+
+        <span class="k">if</span> <span class="o">(</span><span class="n">request</span><span class="o">.</span><span class="na">getPath</span><span class="o">().</span><span class="na">equals</span><span class="o">(</span><span class="s">"/v1/login/auth/"</span><span class="o">)){</span>
+            <span class="k">return</span> <span class="k">new</span> <span class="nf">MockResponse</span><span class="o">().</span><span class="na">setResponseCode</span><span class="o">(</span><span class="mi">200</span><span class="o">);</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">request</span><span class="o">.</span><span class="na">getPath</span><span class="o">().</span><span class="na">equals</span><span class="o">(</span><span class="s">"v1/check/version/"</span><span class="o">)){</span>
+            <span class="k">return</span> <span class="k">new</span> <span class="nf">MockResponse</span><span class="o">().</span><span class="na">setResponseCode</span><span class="o">(</span><span class="mi">200</span><span class="o">).</span><span class="na">setBody</span><span class="o">(</span><span class="s">"version=9"</span><span class="o">);</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">request</span><span class="o">.</span><span class="na">getPath</span><span class="o">().</span><span class="na">equals</span><span class="o">(</span><span class="s">"/v1/profile/info"</span><span class="o">))</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="k">new</span> <span class="nf">MockResponse</span><span class="o">().</span><span class="na">setResponseCode</span><span class="o">(</span><span class="mi">200</span><span class="o">).</span><span class="na">setBody</span><span class="o">(</span><span class="s">"{\\\"info\\\":{\\\"name\":\"Lucas Albuquerque\",\"age\":\"21\",\"gender\":\"male\"}}"</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">MockResponse</span><span class="o">().</span><span class="na">setResponseCode</span><span class="o">(</span><span class="mi">404</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">};</span>
+<span class="n">server</span><span class="o">.</span><span class="na">setDispatcher</span><span class="o">(</span><span class="n">dispatcher</span><span class="o">);</span>
+</code></pre>
+</div>
+
+<p>在Unit test中要測試REST Client的話, MockWebServer應該算是蠻好用的一個工具</p>
+
+  </div><!-- /.entry-content -->
+</article><!-- /.hentry -->
+
+<article class="hentry">
+  <header>
+    
+    <div class="entry-meta">
       <span class="entry-date date published updated"><time datetime="2017-03-01T17:08:32+08:00"><a href="http://blog.jln.co/rss-for-ptt/">March 01, 2017</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
       
       <span class="entry-reading-time">
@@ -573,89 +670,6 @@ Reading time ~1 minute
 <p>最後我的解法是: <a href="https://www.dnsomatic.com/">DNS-O-Matic</a></p>
 
 <p>這是一個Dynamic DNS的服務, 我的無線分享器也有支援, 它不是自身有DNS server, 而是可以代你去更新妳的DNS紀錄, 而且, 有支援Cloudflare!!! OK, 結案 (偷懶!)</p>
-
-  </div><!-- /.entry-content -->
-</article><!-- /.hentry -->
-
-<article class="hentry">
-  <header>
-    
-    <div class="entry-meta">
-      <span class="entry-date date published updated"><time datetime="2017-02-04T16:17:19+08:00"><a href="http://blog.jln.co/%E7%94%A8ifttt-+-heroku%E8%B7%91%E5%AE%9A%E6%99%82%E7%9A%84tasks/">February 04, 2017</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
-      
-      <span class="entry-reading-time">
-        <i class="fa fa-clock-o"></i>
-        
-Reading time ~1 minute
-      </span><!-- /.entry-reading-time -->
-      
-    </div><!-- /.entry-meta -->
-    
-      <h1 class="entry-title"><a href="http://blog.jln.co/%E7%94%A8ifttt-+-heroku%E8%B7%91%E5%AE%9A%E6%99%82%E7%9A%84tasks/" rel="bookmark" title="用ifttt + heroku跑定時的tasks" itemprop="url">用ifttt + heroku跑定時的tasks</a></h1>
-    
-  </header>
-  <div class="entry-content">
-    <p>這篇是延續”<a href="http://blog.jln.co/%E4%BD%BF%E7%94%A8aws-lambda%E5%92%8Cgithub%E4%BE%86%E6%8F%90%E4%BE%9B%E4%B8%AD%E8%8F%AF%E8%81%B7%E6%A3%92%E8%B3%BD%E7%A8%8B%E8%B3%87%E6%96%99/">使用AWS lambda和Github來提供中華職棒賽程資料</a>”,
-之前的做法是用Cloud watch加上lambda來做這件事, 但我跑的東西並不是那麼的頻繁, 在AWS上還是會被收到流量的費用,
-因此就打算用更經濟的方式, 利用heroku免費的額度來做這事(真是壞客戶 XD)</p>
-
-<p>目的是定時(比如說每四小時)去爬一些網頁的資訊, 爬這些網頁其實也不需要花太久時間</p>
-
-<p>用Cloud watch + lambda的好處是不用架一台server, 但用Heroku這種PAAS其實也不用太去管server這事</p>
-
-<p>Heroku是可以設定<a href="https://devcenter.heroku.com/articles/scheduled-jobs-custom-clock-processes">scheduled tasks</a>的, 但額外的work dyno是要另外付費的,
-因此, 如果需求不是需要太頻繁, 也不需要執行太久的, 這時候就可以利用<a href="https://ifttt.com/">ifttt</a>來定時觸發一個url的方式來做</p>
-
-<p><img src="/images/posts/ifttt1.png" alt="" /></p>
-
-<p>要定時觸發一個URL, ifttt applet該怎麼設定呢? 首先”this”要選用的是Date &amp; Time, 如下:</p>
-
-<p><img src="/images/posts/ifttt_time.png" alt="" /></p>
-
-<p>設定上並沒有很多, 就像是每小時, 每天之類的, 沒辦法訂多個, 如果需要一次多個設定, 那就多新增幾個Applets吧</p>
-
-<p><img src="/images/posts/ifttt_time_sel.png" alt="" /></p>
-
-<p>這邊設定每小時, 就設定每小時的15分來觸發吧</p>
-
-<p><img src="/images/posts/ifttt_set_time.png" alt="" /></p>
-
-<p>那”that”的動作呢? 觸發URL的動作是利用”Maker”, 這是設計給iot用的吧, 不過, 拿來做這用途也是沒問題的:</p>
-
-<p><img src="/images/posts/ifttt_maker.png" alt="" /></p>
-
-<p>Maker只有一個選項”Make a web request”</p>
-
-<p><img src="/images/posts/ifttt_choose_action.png" alt="" /></p>
-
-<p>設定很單純, 就給定URL, 使用的HTTP Method(GET, POST, PUT …), Content-type, 跟Body</p>
-
-<p><img src="/images/posts/ifttt_make_req.png" alt="" /></p>
-
-<p>這邊我用的是POST + Json, Json裡面會帶一個TOKEN來辨識, 以免有心人士利用了這個URL, go的檢查範例如下:</p>
-
-<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="k">func</span><span class="x"> </span><span class="n">checkID</span><span class="p">(</span><span class="n">body</span><span class="x"> </span><span class="n">io</span><span class="o">.</span><span class="n">Reader</span><span class="p">)</span><span class="x"> </span><span class="kt">bool</span><span class="x"> </span><span class="p">{</span><span class="x">
-        </span><span class="n">data</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">ioutil</span><span class="o">.</span><span class="n">ReadAll</span><span class="p">(</span><span class="n">body</span><span class="p">)</span><span class="x">
-
-        </span><span class="k">if</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">!=</span><span class="x"> </span><span class="no">nil</span><span class="x"> </span><span class="p">{</span><span class="x">
-                </span><span class="k">return</span><span class="x"> </span><span class="no">false</span><span class="x">
-        </span><span class="p">}</span><span class="x">
-
-        </span><span class="k">var</span><span class="x"> </span><span class="n">rbody</span><span class="x"> </span><span class="k">struct</span><span class="x"> </span><span class="p">{</span><span class="x">
-                </span><span class="n">Id</span><span class="x"> </span><span class="kt">string</span><span class="x">
-        </span><span class="p">}</span><span class="x">
-        </span><span class="n">err</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">json</span><span class="o">.</span><span class="n">Unmarshal</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="x"> </span><span class="o">&amp;</span><span class="n">rbody</span><span class="p">)</span><span class="x">
-
-        </span><span class="k">if</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">!=</span><span class="x"> </span><span class="no">nil</span><span class="x"> </span><span class="p">{</span><span class="x">
-                </span><span class="k">return</span><span class="x"> </span><span class="no">false</span><span class="x">
-        </span><span class="p">}</span><span class="x">
-
-        </span><span class="k">return</span><span class="x"> </span><span class="n">rbody</span><span class="o">.</span><span class="n">Token</span><span class="x"> </span><span class="o">==</span><span class="x"> </span><span class="n">os</span><span class="o">.</span><span class="n">Getenv</span><span class="p">(</span><span class="s">"SEC_TOKEN"</span><span class="p">)</span><span class="x"> </span><span class="o">&amp;&amp;</span><span class="x"> </span><span class="n">rbody</span><span class="o">.</span><span class="n">Token</span><span class="x"> </span><span class="o">!=</span><span class="x"> </span><span class="s">""</span><span class="x">
-</span><span class="p">}</span><span class="x">
-</span></code></pre>
-</div>
-
-<p>接到request後, 其實是可以把執行的task丟給另一個go routine處理, 原本的就可以回傳給ifttt, 避免執行太久而timeout的問題, 不過對heroku來說, 這還是在同一個web dyno上就是了</p>
 
   </div><!-- /.entry-content -->
 </article><!-- /.hentry -->

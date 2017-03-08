@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://blog.jln.co/java-%25E7%2594%25A8mockwebserver%25E6%25B8%25AC%25E8%25A9%25A6rest-client/</loc>
+<lastmod>2017-03-08T21:42:36+08:00</lastmod>
+</url>
+<url>
 <loc>http://blog.jln.co/rss-for-ptt/</loc>
 <lastmod>2017-03-01T17:08:32+08:00</lastmod>
 </url>

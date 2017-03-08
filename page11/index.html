@@ -150,6 +150,52 @@
   <header>
     
     <div class="entry-meta">
+      <span class="entry-date date published updated"><time datetime="2015-05-18T02:16:37+08:00"><a href="http://blog.jln.co/ios%E9%96%8B%E7%99%BC%E7%94%9F%E6%89%8B%E7%AD%86%E8%A8%98-%E6%8A%8Aunsafemutablepointerunsafepointer/">May 18, 2015</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
+      
+      <span class="entry-reading-time">
+        <i class="fa fa-clock-o"></i>
+        
+Reading time ~1 minute
+      </span><!-- /.entry-reading-time -->
+      
+    </div><!-- /.entry-meta -->
+    
+      <h1 class="entry-title"><a href="http://blog.jln.co/ios%E9%96%8B%E7%99%BC%E7%94%9F%E6%89%8B%E7%AD%86%E8%A8%98-%E6%8A%8Aunsafemutablepointerunsafepointer/" rel="bookmark" title="[iOS開發生手筆記] 把UnsafeMutablePointer/UnsafePointer 轉成Array (Swift)" itemprop="url">[iOS開發生手筆記] 把UnsafeMutablePointer/UnsafePointer 轉成Array (Swift)</a></h1>
+    
+  </header>
+  <div class="entry-content">
+    <p>在寫我的週末習作時, 為了抓取bitmap上所有的pixels時, 碰到這問題, 找了整個晚上才找到答案</p>
+
+<p>首先, 要抓取bitmap上所有的pixel必須要使用到CoreGraphics裡的CGBitmapContextGetData, 想當然爾, 這是老舊的API, C API, 那用Swift可以去取用嗎? 參照<a href="https://developer.apple.com/library/ios/documentation/Swift/Conceptual/BuildingCocoaApps/InteractingWithCAPIs.html">Interacting with C APIs</a> 這篇裡面有相關的Swift與C之間的對照</p>
+
+<p>回到取pixels這目的, 我希望取到的值是一個整數陣列, 精確來說是[UInt32]的陣列, 但CGBitmapContextGetData回傳的是什麼呢? 查文件可知是UnsafeMutablePointer&lt;Void&gt; ,依照上面的文件來說, 對照到C則是&quot;void *&ldquo;, 文件裡面有提到:</p>
+
+<pre>
+When a function is declared as taking an UnsafeMutablePointer&lt;Void&gt; argument, it can accept the same operands as UnsafeMutablePointer&lt;Type&gt; for any type Type.
+</pre>
+
+<p>意思就是, 它也可以是整數陣列指標, 但, 怎麼轉回去呢? 這就是讓我整個晚上超崩潰的, 幹, 這文件沒寫!</p>
+
+<p>搞半天, 才終於讓我找到答案:</p>
+
+<pre>
+let data = CGBitmapContextGetData(context)
+    
+let intData = UnsafeMutablePointer&lt;UInt32&gt;(data)
+let intArray = Array(UnsafeBufferPointer(start: intData, count: bitmapByteCount))
+</pre>
+
+<p>原來必須先把它轉型成UnsafeMutablePointer&lt;UInt32&gt;, 然後再用UnsafeBufferPointer轉存到實際的陣列中(因為UnsafeBufferPointer是SequenceType, 才可以轉成Array), 當然也要給它陣列大小</p>
+
+<p>但實際上這樣做對不對, 安不安全&hellip;還不知道, 找到答案寫下來先</p>
+
+  </div><!-- /.entry-content -->
+</article><!-- /.hentry -->
+
+<article class="hentry">
+  <header>
+    
+    <div class="entry-meta">
       <span class="entry-date date published updated"><time datetime="2015-05-12T03:02:52+08:00"><a href="http://blog.jln.co/ios%E9%96%8B%E7%99%BC%E7%94%9F%E6%89%8B%E7%AD%86%E8%A8%98/">May 12, 2015</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
       
       <span class="entry-reading-time">
@@ -374,56 +420,6 @@ text_signal.map({
 </pre>
 
 <p>這也是簡單的不行, 把輸入的Signal用map轉換成UIColor, 而轉換的條件就是以text的長度來計算, 最後連到myInput.backgroundColor去, 挺有趣的(雖然也不是很好懂)</p>
-
-  </div><!-- /.entry-content -->
-</article><!-- /.hentry -->
-
-<article class="hentry">
-  <header>
-    
-    <div class="entry-meta">
-      <span class="entry-date date published updated"><time datetime="2015-05-05T09:23:15+08:00"><a href="http://blog.jln.co/ios%E9%96%8B%E7%99%BC%E7%94%9F%E6%89%8B%E7%AD%86%E8%A8%98-kvo-on-swift/">May 05, 2015</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
-      
-      <span class="entry-reading-time">
-        <i class="fa fa-clock-o"></i>
-        
-Reading time ~1 minute
-      </span><!-- /.entry-reading-time -->
-      
-    </div><!-- /.entry-meta -->
-    
-      <h1 class="entry-title"><a href="http://blog.jln.co/ios%E9%96%8B%E7%99%BC%E7%94%9F%E6%89%8B%E7%AD%86%E8%A8%98-kvo-on-swift/" rel="bookmark" title="[iOS開發生手筆記] KVO on Swift" itemprop="url">[iOS開發生手筆記] KVO on Swift</a></h1>
-    
-  </header>
-  <div class="entry-content">
-    <p>(通車的路上寫blog最討厭碰到網路出狀況呀!) KVO (Key Value Observing) 是用來監控一個變數是否有改變的技巧, 在做UI的data binding來說是蠻有用的, 舉個例子, 如果有個Label是一直顯示網路蒐集過來的讀數會一直變化, 一般的作法是收到這讀數再直接去操作設定這個label, 缺點是會把這類的資料邏輯跟UI邏輯綁死, 而且如果是有多個以上要跟這資料連動, 較不易擴充 (還沒完全醒, 例子舉得很爛), KVO提供一個比較好的方式利用監控數值變化來處理這件事</p>
-
-<p>網路上找到一篇文章, 或許這篇解釋的比我好: <a href="http://blog.riaproject.com/objective-c/2147/%E4%BA%86%E8%A7%A3-objective-c-%E4%B8%8A%E7%9A%84-kvokey-value-observing-%E6%A9%9F%E5%88%B6.html">了解 Objective-C 上的 KVO(Key-Value Observing) 機制</a></p>
-
-<p>不過這篇主要是針對Objective C的, 觀察者利用實作observerValueForKeyPath來得到狀態, 而被觀察者利用了addObserver加入觀察者</p>
-
-<p>當數值變動時, 必須要透過willChangeValueForKey 和 didChangeValueForKey 來通知觀察者, 這點算比較麻煩, Swift則不需要自己去呼叫, Swift在語言本身來說就已經設計了監看變數變化的特性, 最簡單的方式是透過willSet和didSet, 例如:</p>
-
-<pre>
-  var myVar:Int {
-     willSet {   
-       ....
-     }
-     didSet {
-       ....
-     }     
-  }
-</pre>
-
-<p>不過這樣其實還沒達到KVO的效果, 只算是一個hook來處理數值變化時要做的事, 在Swift中也是透過addObserver和observerValueForKeyPath, 唯一不同的是不需要willChangeValueForKey 和 didChangeValueForKey, 基本上只要把變數宣告成dynamic就好</p>
-
-<pre>
-dynamic var myVar: String = "ssss"
-</pre>
-
-<p>這邊很重要的是一定要宣告成dynamic, 不然會沒效果喔!</p>
-
-<p>(剛好到站, 寫完下車)</p>
 
   </div><!-- /.entry-content -->
 </article><!-- /.hentry -->
