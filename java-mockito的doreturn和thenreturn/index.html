@@ -1,0 +1,303 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>[Java] Mockito的doReturn和thenReturn &#8211; Le murmure de Julian</title>
+<meta name="description" content="朱隸安貓囈語錄">
+<meta name="keywords" content="java, mockito, test">
+
+<!-- Twitter Cards -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="avatar.png">
+<meta name="twitter:title" content="[Java] Mockito的doReturn和thenReturn">
+<meta name="twitter:description" content="朱隸安貓囈語錄">
+<meta name="twitter:creator" content="@jlnshen">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[Java] Mockito的doReturn和thenReturn">
+<meta property="og:description" content="朱隸安貓囈語錄">
+<meta property="og:url" content="http://blog.jln.co/java-mockito%E7%9A%84doreturn%E5%92%8Cthenreturn/">
+<meta property="og:site_name" content="Le murmure de Julian">
+<meta name="og:image" content="avatar.png">
+<meta name="google-site-verification" content="Fwa4TQMXvroZpNT7rrwHzdf-rWBe1RDuTu75Enx_DWA">
+
+
+
+<link rel="canonical" href="http://blog.jln.co/java-mockito%E7%9A%84doreturn%E5%92%8Cthenreturn/">
+<link href="http://blog.jln.co/feed.xml" type="application/atom+xml" rel="alternate" title="Le murmure de Julian Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.rawgit.com/knsv/mermaid/6.0.0/dist/mermaid.css">
+<!-- Webfonts -->
+<link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel="stylesheet" type="text/css">
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- Load Modernizr -->
+<script src="/assets/js/vendor/modernizr-2.6.2.custom.min.js"></script>
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="http://blog.jln.co/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="http://blog.jln.co/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="http://blog.jln.co/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://blog.jln.co/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://blog.jln.co/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://blog.jln.co/images/apple-touch-icon-144x144-precomposed.png">
+
+
+
+  
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({
+        google_ad_client: "ca-pub-1789797875470932",
+        enable_page_level_ads: true
+    });
+    </script>
+  
+
+</head>
+
+<body id="post" >
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+<nav id="dl-menu" class="dl-menuwrapper" role="navigation">
+	<button class="dl-trigger">Open Menu</button>
+	<ul class="dl-menu">
+		<li><a href="http://blog.jln.co/">Home</a></li>
+		<li>
+			<a href="#">About</a>
+			<ul class="dl-submenu">
+				<li>
+					<img src="http://blog.jln.co/images/avatar.png" alt="Julian Shen photo" class="author-photo">
+					<h4>Julian Shen</h4>
+					<p>software deverloper</p>
+				</li>
+				<li>
+					<a href="mailto:julianshen22@gmail.com"><i class="fa fa-fw fa-envelope"></i> Email</a>
+				</li>
+				<li>
+					<a href="https://twitter.com/jlnshen"><i class="fa fa-fw fa-twitter"></i> Twitter</a>
+				</li>
+				<li>
+					<a href="https://facebook.com/julianshen"><i class="fa fa-fw fa-facebook"></i> Facebook</a>
+				</li>
+				
+				<li>
+					<a href="https://linkedin.com/in/julianshen"><i class="fa fa-fw fa-linkedin"></i> LinkedIn</a>
+				</li>
+				<li>
+					<a href="https://github.com/julianshen"><i class="fa fa-fw fa-github"></i> GitHub</a>
+				</li>
+				
+				<li>
+					<a href="https://instagram.com/julianshen"><i class="fa fa-fw fa-instagram"></i> Instagram</a>
+				</li>
+				<li>
+					<a href="https://www.flickr.com/photos/julianshen"><i class="fa fa-fw fa-flickr"></i> Flickr</a>
+				</li>
+				
+			</ul><!-- /.dl-submenu -->
+		</li>
+		<li>
+			<a href="#">Posts</a>
+			<ul class="dl-submenu">
+				<li><a href="http://blog.jln.co/posts/">All Posts</a></li>
+				<li><a href="http://blog.jln.co/tags/">All Tags</a></li>
+			</ul>
+		</li>
+		
+	</ul><!-- /.dl-menu -->
+</nav><!-- /.dl-menuwrapper -->
+
+
+
+
+<div id="main" role="main">
+  <article class="hentry">
+    <header class="header-title">
+      <div class="header-title-wrap">
+        
+          <h1 class="entry-title"><a href="http://blog.jln.co/java-mockito%E7%9A%84doreturn%E5%92%8Cthenreturn/" rel="bookmark" title="[Java] Mockito的doReturn和thenReturn">[Java] Mockito的doReturn和thenReturn</a></h1>
+        
+        <h2><span class="entry-date date published"><time datetime="2017-03-25T20:55:24+08:00">March 25, 2017</time></span></h2>
+        
+        <p class="entry-reading-time">
+          <i class="fa fa-clock-o"></i>
+          
+Reading time ~1 minute
+        </p><!-- /.entry-reading-time -->
+        
+      </div><!-- /.header-title-wrap -->
+    </header>
+    <div class="entry-content">
+      <p>在做測試時, 利用假資料來做測試還算是一個蠻常被利用的技巧, 除了可以減少測試中的變動因子, 維持測試的scope的穩定度, 避免因為非程式本身造成的問題影響測試外, 還有就是在有跟別人API的對接的場合, 在還沒實際的API測試時, 一樣可以測試介面實作有沒問題</p>
+
+<p><a href="http://site.mockito.org/">Mockito</a>在這方面(mocking)算是一個很有趣的東西, 前陣子在做公司的東西時, 拿了Mockito做了一些unit tests, 就想要寫這一篇, 不過又一直拖著沒寫了 :P</p>
+
+<p>如果對<a href="http://site.mockito.org/">Mockito</a>沒什麼接觸的話, 可以看一下他的<a href="http://site.mockito.org/">文件</a>, 並沒有很多很複雜的API, 初次看可能會覺得有點神奇, 不過, 這邊並不是要講它神奇的原理, 而是探討一下他的<code class="highlighter-rouge">thenReturn</code>和<code class="highlighter-rouge">doReturn</code></p>
+
+<p>在<a href="http://site.mockito.org/">Mockito</a>中, 你要創立一個mock object是像這樣:</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="c1">// mock creation</span>
+<span class="n">List</span> <span class="n">mockedList</span> <span class="o">=</span> <span class="n">mock</span><span class="o">(</span><span class="n">List</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</code></pre>
+</div>
+
+<p>上面這例子就會創造一個虛假的List object, 你可以說這個object擁有List的特性, 但他卻是個假貨!</p>
+
+<p>針對mock object, 你可能會去做這樣一件事:</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="n">when</span><span class="o">(</span><span class="n">mockedList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">)).</span><span class="na">thenReturn</span><span class="o">(</span><span class="s">"first"</span><span class="o">);</span>
+<span class="c1">/// 或是:</span>
+<span class="n">doReturn</span><span class="o">(</span><span class="s">"first"</span><span class="o">).</span><span class="na">when</span><span class="o">(</span><span class="n">mockedList</span><span class="o">).</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+</code></pre>
+</div>
+
+<p>上面這兩句話(好吧, 是兩行程式, 但Mockito實在太口語化了)在這狀況下是代表同一件事, 照理說應該也會有一樣的結果, 那為何要有兩種寫法呢?</p>
+
+<p>這邊要注意一點是, “Mock”這件事是針對object, 創建出來的object實例(instance), 並不是針對類別(Class), 因此當你使用<code class="highlighter-rouge">when(mockedList.get(0)).thenReturn("first")</code>指的是如果你呼叫了<code class="highlighter-rouge">mockedList.get(0)</code>會回傳”first”, 但不代表你呼叫所有<code class="highlighter-rouge">List.get(0)</code>都是回傳”first”, 利用了<code class="highlighter-rouge">mock</code>創建出來的實例, 真的是個假貨, 呼叫它任何的方法(method), 都不會真的呼叫到你真正在類別裡面定義的實作, 而是被導引到空殼去了</p>
+
+<p>再回到兩種寫法的問題, 針對上述的mock object, 這兩種寫法都是沒問題的, 完全一模一樣, 但<a href="http://site.mockito.org/">Mockito</a>裡面還有另一種形式的mock, 叫做<code class="highlighter-rouge">Spy</code></p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>   <span class="n">List</span> <span class="n">list</span> <span class="o">=</span> <span class="k">new</span> <span class="n">LinkedList</span><span class="o">();</span>
+   <span class="n">List</span> <span class="n">spy</span> <span class="o">=</span> <span class="n">spy</span><span class="o">(</span><span class="n">list</span><span class="o">);</span>
+
+   <span class="c1">//optionally, you can stub out some methods:</span>
+   <span class="n">when</span><span class="o">(</span><span class="n">spy</span><span class="o">.</span><span class="na">size</span><span class="o">()).</span><span class="na">thenReturn</span><span class="o">(</span><span class="mi">100</span><span class="o">);</span>
+
+   <span class="c1">//using the spy calls real methods</span>
+   <span class="n">spy</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">"one"</span><span class="o">);</span>
+   <span class="n">spy</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">"two"</span><span class="o">);</span>
+</code></pre>
+</div>
+
+<p>mock是偽造了全部的東西, 或許就像是個天才雷普利, 但spy想做的只是偽造部分的內容, 以上面的例子來說, <code class="highlighter-rouge">spy.add</code>會呼叫到真正的方法(method) - <code class="highlighter-rouge">add</code>, 也就是這個list實際上會有”one”和”two”兩個東西, 但呼叫<code class="highlighter-rouge">size()</code>時回傳的會是100, 所以以下這例子會有問題</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>   <span class="c1">//optionally, you can stub out some methods:</span>
+   <span class="n">when</span><span class="o">(</span><span class="n">spy</span><span class="o">.</span><span class="na">size</span><span class="o">()).</span><span class="na">thenReturn</span><span class="o">(</span><span class="mi">100</span><span class="o">);</span>
+
+   <span class="c1">//using the spy calls real methods</span>
+   <span class="n">spy</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">"one"</span><span class="o">);</span>
+   <span class="n">spy</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">"two"</span><span class="o">);</span>
+   <span class="n">spy</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">spy</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">-</span> <span class="mi">1</span><span class="o">);</span>
+</code></pre>
+</div>
+
+<p>如果一般正常狀況, 這個list的大小正好是加入的大小（這邊為2), 但因為我們偽造了<code class="highlighter-rouge">size()</code>讓他回傳了100, 這邊就會有問題了, 因為<code class="highlighter-rouge">get</code>實際上呼叫到的會是”real method”</p>
+
+<p>其實回來看when的語法的話, 會發現本身就是蠻神奇的了, <code class="highlighter-rouge">when(obj.method1()).thenReturn(anyObject())</code>, 照一般Java語法來看, 為什麼把obj.method1()的執行結果帶給when當參數？為何when的回傳結果呼叫了thenReturn之後我們呼叫<code class="highlighter-rouge">obj.method1()</code>都會是回傳我們指定的回傳值?</p>
+
+<p>想知道? 問香蕉….不是啦…這必須要知道Mockito的原理, 不過因為它是利用了很多很冷門的神奇技巧, 不在這邊探討範圍, 這邊只需要知道一件事, <code class="highlighter-rouge">when(obj.method1())</code>的確真的是呼叫了<code class="highlighter-rouge">obj.method1()</code>沒錯, 但對<code class="highlighter-rouge">obj = mock(MyClass.class)</code>來說, obj完全是沒作用的空殼, 所以呼叫了<code class="highlighter-rouge">obj.method1()</code>, 什麼事都不會發生的!</p>
+
+<p>但對於Spy來說就不一樣了, Spy不是完全體的mock, 他是個代理, 最後還是會呼叫後面真正的method的, 因此如果碰到<code class="highlighter-rouge">when(obj.method1()).thenReturn(anyObject())</code>, <code class="highlighter-rouge">obj.method1()</code>絕對會起作用的, 但我們通常的目的就是想取代這個method的執行結果, 因此這樣會有副作用, 也就是當我們要假冒他前, 會先觸發一次, 就跟詐騙別人前先跑去通知警察一樣(什麼爛比喻), 這不是我們樂見的, 因此我們需要的就是<code class="highlighter-rouge">doReturn</code></p>
+
+<p><code class="highlighter-rouge">doReturn("my result").when(obj).method1()</code>在這裡的when會再把obj mock一次, 以至於<code class="highlighter-rouge">method1()</code>暫時變成個空殼不會在這邊被觸發, 這樣就可以達到我們前面說的目的了, 但, 缺點是, when … thenReturn , 因為when可以先知道方法的回傳值型態, 因此<code class="highlighter-rouge">thenReturn</code>裡面放的值只能是那型態, 所以寫錯了, comoile time會抓出來, 但反過來用的<code class="highlighter-rouge">doReturn</code>, 它接的是<code class="highlighter-rouge">Object</code>, 並無法在compile time做檢查, 所以如果有出錯, 要到執行時期才會發現</p>
+
+      <footer class="entry-meta">
+        <span class="entry-tags"><a href="http://blog.jln.co/tags/#java" title="Pages tagged java" class="tag"><span class="term">java</span></a><a href="http://blog.jln.co/tags/#mockito" title="Pages tagged mockito" class="tag"><span class="term">mockito</span></a><a href="http://blog.jln.co/tags/#test" title="Pages tagged test" class="tag"><span class="term">test</span></a></span>
+        
+        <div class="social-share">
+  <ul class="socialcount socialcount-small inline-list">
+    <li class="facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=http://blog.jln.co/java-mockito%E7%9A%84doreturn%E5%92%8Cthenreturn/" title="Share on Facebook"><span class="count"><i class="fa fa-facebook-square"></i> Like</span></a></li>
+    <li class="twitter"><a href="https://twitter.com/intent/tweet?text=http://blog.jln.co/java-mockito%E7%9A%84doreturn%E5%92%8Cthenreturn/" title="Share on Twitter"><span class="count"><i class="fa fa-twitter-square"></i> Tweet</span></a></li>
+    <li class="googleplus"><a href="https://plus.google.com/share?url=http://blog.jln.co/java-mockito%E7%9A%84doreturn%E5%92%8Cthenreturn/" title="Share on Google Plus"><span class="count"><i class="fa fa-google-plus-square"></i> +1</span></a></li>
+  </ul>
+</div><!-- /.social-share -->
+      </footer>
+    </div><!-- /.entry-content -->
+    <section id="disqus_thread"></section><!-- /#disqus_thread -->
+    <div class="read-more">
+  
+    <div class="read-more-header">
+      <a href="http://blog.jln.co/java-%E9%97%9C%E6%96%BCretofit%E7%9A%84%E4%B8%80%E4%BA%9B%E5%A5%87%E6%8A%80/" class="read-more-btn">Read More</a>
+    </div><!-- /.read-more-header -->
+    <div class="read-more-content">
+      <h3><a href="http://blog.jln.co/java-%E9%97%9C%E6%96%BCretofit%E7%9A%84%E4%B8%80%E4%BA%9B%E5%A5%87%E6%8A%80/" title="[Java] 關於retrofit的一些奇技">[Java] 關於retrofit的一些奇技</a></h3>
+      <p>Retrofit一直是一套在開發REST client一個相當好用的工具, 不只可以應用在Android上, 而是在任何Java相關的, 不管是獨立的App, 或是Server端的開發, 都相當好用Retrofit是相當簡單容易使用的, 但它的能力也是強大的, 能做到的事情...&hellip; <a href="http://blog.jln.co/java-%E9%97%9C%E6%96%BCretofit%E7%9A%84%E4%B8%80%E4%BA%9B%E5%A5%87%E6%8A%80/">Continue reading</a></p>
+    </div><!-- /.read-more-content -->
+  
+  <div class="read-more-list">
+    
+      <div class="list-item">
+        <h4><a href="http://blog.jln.co/java-%E7%94%A8mockwebserver%E6%B8%AC%E8%A9%A6rest-client/" title="[Java] 用MockWebServer測試REST client">[Java] 用MockWebServer測試REST client</a></h4>
+        <span>Published on March 08, 2017</span>
+      </div><!-- /.list-item -->
+    
+      <div class="list-item">
+        <h4><a href="http://blog.jln.co/rss-for-ptt/" title="RSS for Ptt">RSS for Ptt</a></h4>
+        <span>Published on March 01, 2017</span>
+      </div><!-- /.list-item -->
+    
+  </div><!-- /.read-more-list -->
+</div><!-- /.read-more -->
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrapper">
+  <footer role="contentinfo">
+    <span>&copy; 2017 Julian Shen. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> using the <a href="https://mademistakes.com/work/hpstr-jekyll-theme/" rel="nofollow">HPSTR Theme</a>.</span>
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="http://blog.jln.co/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="http://blog.jln.co/assets/js/scripts.min.js"></script>
+
+
+<!-- Asynchronous Google Analytics snippet -->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-79243751-1', 'auto');  
+  ga('require', 'linkid', 'linkid.js');
+  ga('send', 'pageview');
+</script>
+
+
+
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'julianshen'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function () {
+            var s = document.createElement('script'); s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+	        
+
+</body>
+</html>
