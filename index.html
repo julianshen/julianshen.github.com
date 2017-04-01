@@ -150,6 +150,91 @@
   <header>
     
     <div class="entry-meta">
+      <span class="entry-date date published updated"><time datetime="2017-04-01T10:00:58+08:00"><a href="http://blog.jln.co/golang-go%E7%9A%84httptest/">April 01, 2017</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
+      
+      <span class="entry-reading-time">
+        <i class="fa fa-clock-o"></i>
+        
+Reading time ~1 minute
+      </span><!-- /.entry-reading-time -->
+      
+    </div><!-- /.entry-meta -->
+    
+      <h1 class="entry-title"><a href="http://blog.jln.co/golang-go%E7%9A%84httptest/" rel="bookmark" title="[Golang] Go的httptest" itemprop="url">[Golang] Go的httptest</a></h1>
+    
+  </header>
+  <div class="entry-content">
+    <p>在標準的go package中除了已經內建了http相關的實作外, 還有一個<code class="highlighter-rouge">net/http/httptest</code>, 這的package是用來給寫http相關測試用的, 可分為測試http server (http handler)和http client的(提供mock server給client)</p>
+
+<p>如果要測試http handler, 所需要的是ResponseRecorder, 基本上相關的也只需要兩個方法<code class="highlighter-rouge">NewRequest</code>, <code class="highlighter-rouge">NewRecorder</code>, 參照下面範例:</p>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="k">package</span><span class="x"> </span><span class="n">main</span><span class="x">
+
+</span><span class="k">import</span><span class="x"> </span><span class="p">(</span><span class="x">
+        </span><span class="s">"fmt"</span><span class="x">
+        </span><span class="s">"github.com/stretchr/testify/assert"</span><span class="x">
+        </span><span class="s">"io"</span><span class="x">
+        </span><span class="s">"io/ioutil"</span><span class="x">
+        </span><span class="s">"net/http"</span><span class="x">
+        </span><span class="s">"net/http/httptest"</span><span class="x">
+        </span><span class="s">"testing"</span><span class="x">
+</span><span class="p">)</span><span class="x">
+
+</span><span class="k">func</span><span class="x"> </span><span class="n">TestHttpServer</span><span class="p">(</span><span class="n">t</span><span class="x"> </span><span class="o">*</span><span class="n">testing</span><span class="o">.</span><span class="n">T</span><span class="p">)</span><span class="x"> </span><span class="p">{</span><span class="x">
+        </span><span class="n">assert</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">assert</span><span class="o">.</span><span class="n">New</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="x">
+        </span><span class="n">handler</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="k">func</span><span class="p">(</span><span class="n">w</span><span class="x"> </span><span class="n">http</span><span class="o">.</span><span class="n">ResponseWriter</span><span class="p">,</span><span class="x"> </span><span class="n">r</span><span class="x"> </span><span class="o">*</span><span class="n">http</span><span class="o">.</span><span class="n">Request</span><span class="p">)</span><span class="x"> </span><span class="p">{</span><span class="x">
+                </span><span class="n">io</span><span class="o">.</span><span class="n">WriteString</span><span class="p">(</span><span class="n">w</span><span class="p">,</span><span class="x"> </span><span class="s">"&lt;html&gt;&lt;body&gt;Hello World!&lt;/body&gt;&lt;/html&gt;"</span><span class="p">)</span><span class="x">
+        </span><span class="p">}</span><span class="x">
+
+        </span><span class="n">req</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">httptest</span><span class="o">.</span><span class="n">NewRequest</span><span class="p">(</span><span class="s">"GET"</span><span class="p">,</span><span class="x"> </span><span class="s">"http://example.com/foo"</span><span class="p">,</span><span class="x"> </span><span class="no">nil</span><span class="p">)</span><span class="x">
+        </span><span class="n">w</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">httptest</span><span class="o">.</span><span class="n">NewRecorder</span><span class="p">()</span><span class="x">
+        </span><span class="n">handler</span><span class="p">(</span><span class="n">w</span><span class="p">,</span><span class="x"> </span><span class="n">req</span><span class="p">)</span><span class="x">
+
+        </span><span class="n">resp</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">w</span><span class="o">.</span><span class="n">Result</span><span class="p">()</span><span class="x">
+        </span><span class="n">body</span><span class="p">,</span><span class="x"> </span><span class="n">_</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">ioutil</span><span class="o">.</span><span class="n">ReadAll</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">Body</span><span class="p">)</span><span class="x">
+
+        </span><span class="n">assert</span><span class="o">.</span><span class="n">Equal</span><span class="p">(</span><span class="m">200</span><span class="p">,</span><span class="x"> </span><span class="n">resp</span><span class="o">.</span><span class="n">StatusCode</span><span class="p">)</span><span class="x">
+        </span><span class="n">assert</span><span class="o">.</span><span class="n">Equal</span><span class="p">(</span><span class="s">"text/html; charset=utf-8"</span><span class="p">,</span><span class="x"> </span><span class="n">resp</span><span class="o">.</span><span class="n">Header</span><span class="o">.</span><span class="n">Get</span><span class="p">(</span><span class="s">"Content-Type"</span><span class="p">))</span><span class="x">
+        </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="kt">string</span><span class="p">(</span><span class="n">body</span><span class="p">))</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre>
+</div>
+
+<p>範例中先用<code class="highlighter-rouge">NewRequest</code>假造出一個連接到<code class="highlighter-rouge">http://example.com/foo</code>的request, 而對於一個http handler來說的話, 所需要的參數一個是*Request, 另一個則是ResponseWriter了, ResponseWriter便可以由<code class="highlighter-rouge">NewRecorder</code>假冒, 再將這兩者傳給handler去處理, 並可以由<code class="highlighter-rouge">ResponseRecorder.Result</code>取得回傳內容來驗證</p>
+
+<p>那如果是要測試http client呢?測client通常我們會需要mock server來偽造成真著server餵給client適當的假資料來測試, 以下是一個測試的範例:</p>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="k">func</span><span class="x"> </span><span class="n">TestServer</span><span class="p">(</span><span class="n">t</span><span class="x"> </span><span class="o">*</span><span class="n">testing</span><span class="o">.</span><span class="n">T</span><span class="p">)</span><span class="x"> </span><span class="p">{</span><span class="x">
+        </span><span class="n">assert</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">assert</span><span class="o">.</span><span class="n">New</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="x">
+        </span><span class="n">ts</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">httptest</span><span class="o">.</span><span class="n">NewServer</span><span class="p">(</span><span class="n">http</span><span class="o">.</span><span class="n">HandlerFunc</span><span class="p">(</span><span class="k">func</span><span class="p">(</span><span class="n">w</span><span class="x"> </span><span class="n">http</span><span class="o">.</span><span class="n">ResponseWriter</span><span class="p">,</span><span class="x"> </span><span class="n">r</span><span class="x"> </span><span class="o">*</span><span class="n">http</span><span class="o">.</span><span class="n">Request</span><span class="p">)</span><span class="x"> </span><span class="p">{</span><span class="x">
+                </span><span class="n">fmt</span><span class="o">.</span><span class="n">Fprintln</span><span class="p">(</span><span class="n">w</span><span class="p">,</span><span class="x"> </span><span class="s">"Hello, client"</span><span class="p">)</span><span class="x">
+        </span><span class="p">}))</span><span class="x">
+        </span><span class="k">defer</span><span class="x"> </span><span class="n">ts</span><span class="o">.</span><span class="n">Close</span><span class="p">()</span><span class="x">
+
+        </span><span class="n">res</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">http</span><span class="o">.</span><span class="n">Get</span><span class="p">(</span><span class="n">ts</span><span class="o">.</span><span class="n">URL</span><span class="p">)</span><span class="x">
+        </span><span class="k">if</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">!=</span><span class="x"> </span><span class="no">nil</span><span class="x"> </span><span class="p">{</span><span class="x">
+                </span><span class="n">t</span><span class="o">.</span><span class="n">Fatal</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="x">
+        </span><span class="p">}</span><span class="x">
+        </span><span class="n">greeting</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">ioutil</span><span class="o">.</span><span class="n">ReadAll</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">Body</span><span class="p">)</span><span class="x">
+        </span><span class="n">res</span><span class="o">.</span><span class="n">Body</span><span class="o">.</span><span class="n">Close</span><span class="p">()</span><span class="x">
+        </span><span class="k">if</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">!=</span><span class="x"> </span><span class="no">nil</span><span class="x"> </span><span class="p">{</span><span class="x">
+                </span><span class="n">t</span><span class="o">.</span><span class="n">Fatal</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="x">
+        </span><span class="p">}</span><span class="x">
+
+        </span><span class="n">assert</span><span class="o">.</span><span class="n">Equal</span><span class="p">(</span><span class="s">"Hello, client</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="x"> </span><span class="kt">string</span><span class="p">(</span><span class="n">greeting</span><span class="p">))</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre>
+</div>
+
+<p>利用<code class="highlighter-rouge">httptest.NewServer</code>創建一個test server, 這邊的handler就看你需要利用什麼樣的假資料測試來做, 上面這例子只是用單純的http client來測, 回傳總是是”Hello, client”, 但假設你是測試restful API, 那也可以準備一系列的JSON回傳, 你只要把<code class="highlighter-rouge">ts.URL</code>當作你的API endpoint給你的REST client的實作使用即可</p>
+
+  </div><!-- /.entry-content -->
+</article><!-- /.hentry -->
+
+<article class="hentry">
+  <header>
+    
+    <div class="entry-meta">
       <span class="entry-date date published updated"><time datetime="2017-03-25T20:55:24+08:00"><a href="http://blog.jln.co/java-mockito%E7%9A%84doreturn%E5%92%8Cthenreturn/">March 25, 2017</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
       
       <span class="entry-reading-time">
@@ -881,144 +966,6 @@ Reading time ~1 minute
   </div><!-- /.entry-content -->
 </article><!-- /.hentry -->
 
-<article class="hentry">
-  <header>
-    
-    <div class="entry-meta">
-      <span class="entry-date date published updated"><time datetime="2017-02-07T17:18:05+08:00"><a href="http://blog.jln.co/swift-%E6%BC%AB%E7%95%AB%E7%88%AC%E8%9F%B2/">February 07, 2017</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
-      
-      <span class="entry-reading-time">
-        <i class="fa fa-clock-o"></i>
-        
-Reading time ~1 minute
-      </span><!-- /.entry-reading-time -->
-      
-    </div><!-- /.entry-meta -->
-    
-      <h1 class="entry-title"><a href="http://blog.jln.co/swift-%E6%BC%AB%E7%95%AB%E7%88%AC%E8%9F%B2/" rel="bookmark" title="[Swift] 漫畫爬蟲" itemprop="url">[Swift] 漫畫爬蟲</a></h1>
-    
-  </header>
-  <div class="entry-content">
-    <p>最近搬家又讓我挖出了Amazon Kindle, 又覺得拿來看漫畫很方便(這戲演了幾次了呀?), 雖然說好像也有網站可以下載漫畫.mobi檔, 不過似乎是會員制的, 不喜歡</p>
-
-<p>因此又讓我想寫漫畫的爬蟲了, 這次的目標是: <a href="http://www.comicbus.com/">無限動漫</a> (他們的app實在做得有夠差)</p>
-
-<p>這次幾個需求是:</p>
-
-<ol>
-  <li>Command line下就可以跑了(這也沒必要做UI吧?)</li>
-  <li>在os x下可以執行(我自己電腦是mac)</li>
-  <li>出來的檔案可以放到kindle看(.mobi檔或epub)</li>
-</ol>
-
-<p>mobi或epub的檔案格式似乎有點麻煩, 也不太好做得好, 所以決定用cbz檔再用<a href="https://calibre-ebook.com/">Calibre</a>轉mobi</p>
-
-<p><a href="https://calibre-ebook.com/">Calibre</a>有一個方便的command line tool叫ebook-convert, 可以用來轉檔, 而cbz本身非常的簡單
-, 它就是一個zip檔, 裡面的圖片檔名照編號就好, 這code還算好寫</p>
-
-<p>再來就是看一下怎麼解析<a href="http://www.comicbus.com/">無限動漫</a>的內容了, 它的URL是長這樣的:</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>http://v.comicbus.com/online/comic-653.html?ch=1
-</code></pre>
-</div>
-
-<p>以上範例是名偵探柯南第一卷, 大膽猜測, 653是漫畫編號, ch是集數, 選到第二頁, URL會變成這樣</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>http://v.comicbus.com/online/comic-653.html?ch=4-2
-</code></pre>
-</div>
-
-<p>這樣其實就很明顯了, 接下來是內容的部分</p>
-
-<p>每一集的頭上有一個”正在觀看:[ 名偵探柯南 1 ]”, “[]”內就是標題了吧, 另外還有一個”select”, 裡面有這集所有的頁數資訊, 而圖片的id是”TheImg”</p>
-
-<p>不過麻煩的是, 這些資訊似乎隱藏在javascript中, page載入後才會出現</p>
-
-<p>這如果使用headless browser像是<a href="http://phantomjs.org/">Phantomjs</a>就沒啥問題, 但這邊我不想用它, 因為使用這工具還要再裝它</p>
-
-<p>我下一個選擇是Go + <a href="https://github.com/sourcegraph/webloop">Webloop</a>, <a href="https://github.com/sourcegraph/webloop">Webloop</a>是一個Go的headless browser lib, 它是基於WebkitGtk+做成的,
-不過我在mac上裝WebkitGTK+裝好久一直有問題, 所以…放棄….</p>
-
-<p>接下來的選擇呢? 還有其他的headless browser嗎?有的! <a href="https://github.com/phimage/Erik">Erik</a>, 這是一個Swift的head less browser,
-用Swift寫爬蟲好像挺酷的, 查了一下, 有人用<a href="https://github.com/Alamofire/Alamofire">Alamofire</a> + <a href="https://github.com/tid-kijyun/Kanna">Kanna</a>, 不過這在這例子不適用, 這例子還是比較適合<a href="https://github.com/phimage/Erik">Erik</a></p>
-
-<h3 id="section">成品</h3>
-
-<p>先給成果: <a href="https://drive.google.com/open?id=0B5rbRldWhe82MWRnVkpMQlExTHc">ComicGo</a></p>
-
-<p>這已經是一個OS X的可執行檔, 在Command line下執行 <code class="highlighter-rouge">ComicGo 653 1</code>就可以抓名偵探柯南第一集, 相關的漫畫編號集數, 就去<a href="http://www.comicbus.com/">無限動漫</a>查吧</p>
-
-<p>抓完會在你的Download目錄出現”名偵探柯南 1.cbz”再用ebook-covert去轉成你要的格式就可以了</p>
-
-<p>少少的時間隨便寫寫而已, 有bug就見諒囉</p>
-
-<h3 id="os-x-command-line-tool">OS X Command line tool</h3>
-
-<p>XCode + Swift是可以拿來寫command line tool的, 新增一個專案選”Command line tool”:</p>
-
-<p><img src="/images/posts/xcodecmd.png" alt="" /></p>
-
-<p>這樣就可以開始寫了</p>
-
-<p>一開始在專案內部會發現一個”main.swift”, 由於用swift寫command line app並沒有像其他語言有main function這類的東西
-所以程式就寫在這吧</p>
-
-<h3 id="command-line-tool">開發Command line tool的坑</h3>
-
-<p>坑…真的不少</p>
-
-<p>首先, 你不能使用任何的framework, 因為command line tool產出會是一個可執行檔, 不是一個app bundle, 所以不能包含任何的framework</p>
-
-<p>第二, swift framework不能static link, 像是Erik, Kanna這些swift module, 都是dynamic lib</p>
-
-<p>慘, 光前面這兩點就麻煩了, 開發這個ComicGo, 我用到了<a href="https://github.com/phimage/Erik">Erik</a>, <a href="https://github.com/tid-kijyun/Kanna">Kanna</a>, <a href="https://github.com/marmelroy/Zip">Zip</a>等等
-, 這樣到底要怎麼辦? 跑起來就image not found</p>
-
-<p>所以呢?土法煉鋼, 把這些module的codes全部引入到我的專案內(所以沒打算Open ssource, 太醜了), 這樣一來就解決掉問題了, 不過這功不算小, 因為Kanna相依libxml, Zip相依libz這些native lib</p>
-
-<p>第三個坑, Erik是利用OS X裡面原生的WebKit去讀取網頁的, 因此他的設計是把載入網頁放到另一個DispatchQueue(javascript執行又是另一個),
-但Command line邏輯很單線, 它並不會等callback回來才結束程式, 因此會發現怎麼Erik都沒動作就結束程式了, 因此必須要有個機制來卡住</p>
-
-<p>這個機制就是<a href="https://www.google.com.tw/webhp?sourceid=chrome-instant&amp;ion=1&amp;espv=2&amp;ie=UTF-8#q=swift+runloop">RunLoop</a>, 關於RunLoop這邊不多做解釋, 看一下<a href="https://www.google.com.tw/webhp?sourceid=chrome-instant&amp;ion=1&amp;espv=2&amp;ie=UTF-8#q=swift+runloop">官方文件</a>
-在程式內則是這樣:</p>
-
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="k">let</span> <span class="nv">rl</span> <span class="o">=</span> <span class="kt">RunLoop</span><span class="o">.</span><span class="n">current</span>
-<span class="k">var</span> <span class="nv">finished</span> <span class="o">=</span> <span class="kc">false</span>
-
-<span class="k">while</span> <span class="o">!</span><span class="n">finished</span> <span class="p">{</span>
-    <span class="n">rl</span><span class="o">.</span><span class="nf">run</span><span class="p">(</span><span class="nv">mode</span><span class="p">:</span> <span class="kt">RunLoopMode</span><span class="o">.</span><span class="n">defaultRunLoopMode</span><span class="p">,</span> <span class="nv">before</span><span class="p">:</span> <span class="kt">Date</span><span class="p">(</span><span class="nv">timeIntervalSinceNow</span><span class="p">:</span> <span class="mi">2</span><span class="p">))</span>
-<span class="p">}</span>
-</code></pre>
-</div>
-
-<p>當callback完畢後, 把finished設成true就可以結束整個程式了</p>
-
-<h3 id="erik">Erik</h3>
-
-<p>好像還沒介紹<a href="https://github.com/phimage/Erik">Erik</a>喔?其實有點想偷懶跳過了 :P</p>
-
-<p>使用<a href="https://github.com/phimage/Erik">Erik</a>來爬網頁其實很簡單,</p>
-
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kt">Erik</span><span class="o">.</span><span class="nf">visit</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="n">url</span><span class="p">)</span> <span class="p">{</span> <span class="n">object</span><span class="p">,</span> <span class="n">error</span> <span class="k">in</span>
-    <span class="k">if</span> <span class="k">let</span> <span class="nv">e</span> <span class="o">=</span> <span class="n">error</span> <span class="p">{</span>
-
-    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="k">let</span> <span class="nv">doc</span> <span class="o">=</span> <span class="n">object</span> <span class="p">{</span>
-        <span class="c1">// HTML Inspection</span>
-		<span class="k">for</span> <span class="n">link</span> <span class="k">in</span> <span class="n">doc</span><span class="o">.</span><span class="nf">querySelectorAll</span><span class="p">(</span><span class="s">"a, link"</span><span class="p">)</span> <span class="p">{</span>
-    		<span class="nf">print</span><span class="p">(</span><span class="n">link</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
-    		<span class="nf">print</span><span class="p">(</span><span class="n">link</span><span class="p">[</span><span class="s">"href"</span><span class="p">])</span>
-		<span class="p">}</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-</code></pre>
-</div>
-
-<p>只要有些CSS selector的觀念就可以了, 連querySelectorAll這名字都是一樣的, Erik並不是直接用Webkit去做CSS query的, 而是把webkit的內容拿來用<a href="https://github.com/tid-kijyun/Kanna">Kanna</a>解析,
-javascript的執行也一樣, 因此如果對html node有任何變動, 是不會反映到webkit裡面去的, 用Erik來爬的優點是專門針對那些動態網頁的, 有這個就簡單太多了!</p>
-
-  </div><!-- /.entry-content -->
-</article><!-- /.hentry -->
-
 
 
 <div class="pagination">
@@ -1060,7 +1007,7 @@ javascript的執行也一樣, 因此如果對html node有任何變動, 是不會
     
 
     
-      <li><a href="http://blog.jln.co/page70/">70</a></li>
+      <li><a href="http://blog.jln.co/page71/">71</a></li>
     
 
     

@@ -150,6 +150,30 @@
   <header>
     
     <div class="entry-meta">
+      <span class="entry-date date published updated"><time datetime="2012-10-25T00:18:23+08:00"><a href="http://blog.jln.co/go%E7%AD%86%E8%A8%98-go-on-gae-%E6%AF%94hello-world%E5%A4%9A%E4%B8%80%E9%BB%9E%E9%BB%9E-%E8%99%95%E7%90%86static/">October 25, 2012</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
+      
+      <span class="entry-reading-time">
+        <i class="fa fa-clock-o"></i>
+        
+Reading time ~1 minute
+      </span><!-- /.entry-reading-time -->
+      
+    </div><!-- /.entry-meta -->
+    
+      <h1 class="entry-title"><a href="http://blog.jln.co/go%E7%AD%86%E8%A8%98-go-on-gae-%E6%AF%94hello-world%E5%A4%9A%E4%B8%80%E9%BB%9E%E9%BB%9E-%E8%99%95%E7%90%86static/" rel="bookmark" title="[Go筆記] Go on GAE: 比"Hello World"多一點點: 處理static files" itemprop="url">[Go筆記] Go on GAE: 比"Hello World"多一點點: 處理static files</a></h1>
+    
+  </header>
+  <div class="entry-content">
+    <p>今天被問到Go適合用在哪方面, 至今只看了Go兩個晚上的我, 實在很難回答這問題, 先從FAQ找來創立Go的目的說起:<br/><br/></p><blockquote class="tr_bq"><i><span style="color: #222222; font-family: Helvetica, Arial, sans-serif; font-size: 16px;">&ldquo;Go is an attempt to combine the ease of programming of an interpreted, dynamically typed language with the efficiency and safety of a statically typed, compiled language. It also aims to be modern, with support for networked and multicore computing. Finally, it is intended to be </span><span style="color: #222222; font-family: Helvetica, Arial, sans-serif; font-size: 16px;">fast</span><span style="color: #222222; font-family: Helvetica, Arial, sans-serif; font-size: 16px;">: it should take at most a few seconds to build a large executable on a single computer. To meet these goals required addressing a number of linguistic issues: an expressive but lightweight type system; concurrency and garbage collection; rigid dependency specification; and so on. These cannot be addressed well by libraries or tools; a new language was called for.&rdquo;</span></i></blockquote>簡而言之, Go的目標是一個簡單又有效率的語言, 加上一開始設計就考慮網路以及多核, 就姑且說它適合server端的開發吧<br/><br/>事實上, GAE(Google AppEngine)也是有支援Go的 (怎麼說呢, 好歹這也是Google自己親生的呀)<br/><br/>那, 現在開發server端的工具那麼多種, 有什麼樣的理由是選Go優於其他解決方案呢? 以效率來說, 或許比較好吧, 既然它是原生碼, 應該會快一些吧, 但這也沒啥好的benchmark來佐證, 劣勢呢? 以node.js來相比好了(今年看比較多這個, 直覺拿這來做比較), 它不但沒既有的developer做基礎(既有的javascript developer是很大一群的), 也沒有數量很多且快速增長的第三方模組可供利用(雖然, 盲目用npm上的模組, 某種程度上要承擔一定的風險), 最大的問題就是&hellip;.<b>&ldquo;文件&rdquo;</b><br/><br/>以上前半段是抱怨文, 不過文件不足也沒辦法當啥藉口, 這年頭&hellip;.&ldquo;做就對了&rdquo;&hellip;..GAE上關於Go的文件也不是沒有, 跟著做, 就可以做出&quot;Hello World&quot;了, 但剛做完後, 突然楞住想&hellip;.那&hellip;我的html檔案放哪裡? 我總不能每個文件都寫在程式內, 總會有靜態檔案的呀! 有點讓我回到十幾年前寫CGI的感覺<br/><br/>GAE的文件還真找不到, 但在Go的文件<a href="http://bit.ly/SticN6">http.FileServer的範例</a>可以找到解答, 但要把&quot;FileServer&quot;這個interface跟這件事聯想在一起還真有點不容易, 不過反正就是在程式內要加入下面這行來處理靜態檔案<br/><br/><blockquote class="tr_bq"><span class="n" style="background-color: white; border: 0px; color: #333333; font-family: Consolas, 'Liberation Mono', Courier, monospace; line-height: 16px; margin: 0px; padding: 0px; white-space: pre;">http</span><span class="p" style="background-color: white; border: 0px; color: #333333; font-family: Consolas, 'Liberation Mono', Courier, monospace; line-height: 16px; margin: 0px; padding: 0px; white-space: pre;">.</span><span class="n" style="background-color: white; border: 0px; color: #333333; font-family: Consolas, 'Liberation Mono', Courier, monospace; line-height: 16px; margin: 0px; padding: 0px; white-space: pre;">Handle</span><span class="p" style="background-color: white; border: 0px; color: #333333; font-family: Consolas, 'Liberation Mono', Courier, monospace; line-height: 16px; margin: 0px; padding: 0px; white-space: pre;">(</span><span class="s" style="background-color: white; border: 0px; color: #dd1144; font-family: Consolas, 'Liberation Mono', Courier, monospace; line-height: 16px; margin: 0px; padding: 0px; white-space: pre;">&ldquo;/&rdquo;</span><span class="p" style="background-color: white; border: 0px; color: #333333; font-family: Consolas, 'Liberation Mono', Courier, monospace; line-height: 16px; margin: 0px; padding: 0px; white-space: pre;">,</span><span style="background-color: white; color: #333333; font-family: Consolas, 'Liberation Mono', Courier, monospace; line-height: 16px; white-space: pre;"> </span><span class="n" style="background-color: white; border: 0px; color: #333333; font-family: Consolas, 'Liberation Mono', Courier, monospace; line-height: 16px; margin: 0px; padding: 0px; white-space: pre;">http</span><span class="p" style="background-color: white; border: 0px; color: #333333; font-family: Consolas, 'Liberation Mono', Courier, monospace; line-height: 16px; margin: 0px; padding: 0px; white-space: pre;">.</span><span class="n" style="background-color: white; border: 0px; color: #333333; font-family: Consolas, 'Liberation Mono', Courier, monospace; line-height: 16px; margin: 0px; padding: 0px; white-space: pre;">FileServer</span><span class="p" style="background-color: white; border: 0px; color: #333333; font-family: Consolas, 'Liberation Mono', Courier, monospace; line-height: 16px; margin: 0px; padding: 0px; white-space: pre;">(</span><span class="n" style="background-color: white; border: 0px; color: #333333; font-family: Consolas, 'Liberation Mono', Courier, monospace; line-height: 16px; margin: 0px; padding: 0px; white-space: pre;">http</span><span class="p" style="background-color: white; border: 0px; color: #333333; font-family: Consolas, 'Liberation Mono', Courier, monospace; line-height: 16px; margin: 0px; padding: 0px; white-space: pre;">.</span><span class="n" style="background-color: white; border: 0px; color: #333333; font-family: Consolas, 'Liberation Mono', Courier, monospace; line-height: 16px; margin: 0px; padding: 0px; white-space: pre;">Dir</span><span class="p" style="background-color: white; border: 0px; color: #333333; font-family: Consolas, 'Liberation Mono', Courier, monospace; line-height: 16px; margin: 0px; padding: 0px; white-space: pre;">(</span><span class="s" style="background-color: white; border: 0px; color: #dd1144; font-family: Consolas, 'Liberation Mono', Courier, monospace; line-height: 16px; margin: 0px; padding: 0px; white-space: pre;">&ldquo;./static&rdquo;</span><span class="p" style="background-color: white; border: 0px; color: #333333; font-family: Consolas, 'Liberation Mono', Courier, monospace; line-height: 16px; margin: 0px; padding: 0px; white-space: pre;">)))</span></blockquote>這範例讓你可以把靜態檔案放在&quot;static&quot;目錄下, 假設你在static目錄下放一個a.html, 那這行的目的就是可以讓你用 http://your_app_host/a.html來存取它<br/><br/>我起始一個範例<a href="http://bit.ly/StibZC">放在github上</a>, 從這可以看完整的目錄結構, 未來相關範例也會放在這邊<br/><br/>
+via Blogger <a href="http://bit.ly/SixshC">http://bit.ly/SixshC</a>
+
+  </div><!-- /.entry-content -->
+</article><!-- /.hentry -->
+
+<article class="hentry">
+  <header>
+    
+    <div class="entry-meta">
       <span class="entry-date date published updated"><time datetime="2012-10-24T13:19:52+08:00"><a href="http://blog.jln.co/go%E7%AD%86%E8%A8%98-defer/">October 24, 2012</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
       
       <span class="entry-reading-time">
@@ -242,30 +266,6 @@ via Blogger <a href="http://bit.ly/R10QWD">http://bit.ly/R10QWD</a>
   </div><!-- /.entry-content -->
 </article><!-- /.hentry -->
 
-<article class="hentry">
-  <header>
-    
-    <div class="entry-meta">
-      <span class="entry-date date published updated"><time datetime="2012-10-04T10:36:08+08:00"><a href="http://blog.jln.co/%E4%B8%80%E4%BA%9B%E5%B0%8F%E6%83%B3%E6%B3%95-104/">October 04, 2012</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
-      
-      <span class="entry-reading-time">
-        <i class="fa fa-clock-o"></i>
-        
-Reading time ~1 minute
-      </span><!-- /.entry-reading-time -->
-      
-    </div><!-- /.entry-meta -->
-    
-      <h1 class="entry-title"><a href="http://blog.jln.co/%E4%B8%80%E4%BA%9B%E5%B0%8F%E6%83%B3%E6%B3%95-104/" rel="bookmark" title="一些小想法 10/4" itemprop="url">一些小想法 10/4</a></h1>
-    
-  </header>
-  <div class="entry-content">
-    <p>趁著等車時寫一下昨天搭車時想到的一些東西<br/><br/>今年參加了好幾個國內外的hackthon，收穫還算不少，覺得，很多developers都有很多不錯且創新的想法，但實際上，大部份的工作場，除了以developers為主體的公司外，大部份的developers處的角色都是執行者，這些＂想法＂反而往往在工作場合不會出現或被埋沒，這讓我想到＂Effective Programming&quot;裡提到的＂developers大多不善於表達＂！<br/><br/> 這倒很難辯駁的，這一行，包含我自己，不用說不懂的做美美的簡報、炫麗的demo，連把一個簡單的觀念傳達給別人都可能要花上大把時間，尤其是傳達給非技術相關的，developers的思考模式大多是非線性的、跳tone的，強一點的根本就是multi cores，而且，都是沒耐性的，所以往往傳達給別人的，大多不到本意的六成，被瞭解的大概又只剩這一半<br/><br/>Hackthon算是一種不錯的訓練，訓練人在短時間團隊合作並傳達更多有趣的想法，雖然我不是很喜歡那些藉這種場合宣傳自己產品的，畢竟他們的產物不是在當下產生的，不過也是很多有趣的startup就這麼興起的<br/><br/> <br/><br/></p><div style="text-align: right; font-size: small; clear: both;" id="blogsy_footer"><a href="http://blogsyapp.com" target="_blank"><img src="http://bit.ly/Nh8z1A" alt="在Blogsy發表的" style="vertical-align: middle; margin-right: 5px;" width="20" height="20"/>在Blogsy發表的</a></div><br/><br/>
-via Blogger <a href="http://bit.ly/PXPsfy">http://bit.ly/PXPsfy</a>
-
-  </div><!-- /.entry-content -->
-</article><!-- /.hentry -->
-
 
 
 <div class="pagination">
@@ -333,7 +333,7 @@ via Blogger <a href="http://bit.ly/PXPsfy">http://bit.ly/PXPsfy</a>
     
 
     
-      <li><a href="http://blog.jln.co/page70/">70</a></li>
+      <li><a href="http://blog.jln.co/page71/">71</a></li>
     
 
     

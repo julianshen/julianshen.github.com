@@ -150,6 +150,30 @@
   <header>
     
     <div class="entry-meta">
+      <span class="entry-date date published updated"><time datetime="2012-12-28T02:24:19+08:00"><a href="http://blog.jln.co/ios-%E5%88%A9%E7%94%A8smart-app-banners%E5%9C%A8%E7%B6%B2%E9%A0%81%E4%B8%8A%E6%8E%A8%E5%BB%A3native-app/">December 28, 2012</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
+      
+      <span class="entry-reading-time">
+        <i class="fa fa-clock-o"></i>
+        
+Reading time ~1 minute
+      </span><!-- /.entry-reading-time -->
+      
+    </div><!-- /.entry-meta -->
+    
+      <h1 class="entry-title"><a href="http://blog.jln.co/ios-%E5%88%A9%E7%94%A8smart-app-banners%E5%9C%A8%E7%B6%B2%E9%A0%81%E4%B8%8A%E6%8E%A8%E5%BB%A3native-app/" rel="bookmark" title="[iOS] 利用Smart App Banners在網頁上推廣Native App" itemprop="url">[iOS] 利用Smart App Banners在網頁上推廣Native App</a></h1>
+    
+  </header>
+  <div class="entry-content">
+    <div class="separator" style="clear: both; text-align: left;">起初先在Flickr網頁注意到這個:</div><div class="separator" style="clear: both; text-align: left;"><br/></div><div class="separator" style="clear: both; text-align: center;"><a href="http://bit.ly/VDf9Bk" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="320" src="http://bit.ly/UoEQcg" width="213"/></a></div><div class="separator" style="clear: both; text-align: center;"><br/></div><div class="separator" style="clear: both; text-align: left;">按下open就會直接帶你到App store下載Flickr App, 這就是iOS6開始有的Smart App Banners, 覺得頗有趣的, 就去看了原始碼查了一下作法:</div><div class="separator" style="clear: both; text-align: left;"><br/></div><blockquote class="tr_bq"></blockquote><div class="separator" style="clear: both; text-align: left;">以上這是Flickr的HTML裡面的, 作法很簡單, 就只是在HTML內放個&quot;apple-itunes-app&quot;的meta tag, 指定app-id和參數(非必須)</div><div class="separator" style="clear: both; text-align: left;"><br/></div><div class="separator" style="clear: both; text-align: left;">Android應該也要加個這東西才對呀&hellip;..</div><br/><br/>
+via Blogger <a href="http://bit.ly/VDfbcw">http://bit.ly/VDfbcw</a>
+
+  </div><!-- /.entry-content -->
+</article><!-- /.hentry -->
+
+<article class="hentry">
+  <header>
+    
+    <div class="entry-meta">
       <span class="entry-date date published updated"><time datetime="2012-12-28T02:07:37+08:00"><a href="http://blog.jln.co/%E5%A5%BD%E5%83%8F%E8%A9%B2%E5%AF%AB%E5%80%8B%E9%96%8B%E7%AE%B1%E6%96%87-%E7%99%BD%E8%9D%B4%E8%9D%B6/">December 28, 2012</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
       
       <span class="entry-reading-time">
@@ -242,30 +266,6 @@ via Blogger <a href="http://bit.ly/WAoUr6">http://bit.ly/WAoUr6</a>
   </div><!-- /.entry-content -->
 </article><!-- /.hentry -->
 
-<article class="hentry">
-  <header>
-    
-    <div class="entry-meta">
-      <span class="entry-date date published updated"><time datetime="2012-11-05T22:13:04+08:00"><a href="http://blog.jln.co/nodejs-%E7%94%A8npm%E5%AE%89%E8%A3%9D%E6%94%BE%E5%9C%A8github%E4%B8%8A%E7%9A%84module/">November 05, 2012</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
-      
-      <span class="entry-reading-time">
-        <i class="fa fa-clock-o"></i>
-        
-Reading time ~1 minute
-      </span><!-- /.entry-reading-time -->
-      
-    </div><!-- /.entry-meta -->
-    
-      <h1 class="entry-title"><a href="http://blog.jln.co/nodejs-%E7%94%A8npm%E5%AE%89%E8%A3%9D%E6%94%BE%E5%9C%A8github%E4%B8%8A%E7%9A%84module/" rel="bookmark" title="[node.js] 用npm安裝放在github上的module" itemprop="url">[node.js] 用npm安裝放在github上的module</a></h1>
-    
-  </header>
-  <div class="entry-content">
-    <p>剛剛為了想要做一個東西, 需要用到Flickr API, 本想要拿<a href="http://passport.js/">Passport.js</a>來處理Flickr OAuth的部份,但卻發現, FLickr Strategy的部份不但年久, 而且permission這部份居然是hard code &ldquo;read&rdquo;, 由於我想做的東西是要write, 其實是可以靠overwrite &ldquo;userAuthorizationURL&quot;來達到這目的, 不過這樣不好看, 所以就乾脆自己fork一版來改 (Github真是好物來改)<br/><br/>改完後的一個問題是, 原本可以用&quot;npm install passport-flickr&quot;來安裝這module, 但由於我fork出來的並未註冊在npm, 所以就得用另一個方式:<br/></p><blockquote class="tr_bq"><i>npm install git://github.com/julianshen/passport-flickr.git#master</i></blockquote>這方式是直接把git url給npm, 不過要deploy上heroku就麻煩了, 還好寫在package.json裡也是沒問題的<br/><blockquote class="tr_bq"><i>&quot;dependencies&rdquo;: {</i><i>    &ldquo;passport-flickr&rdquo;: &ldquo;git://github.com/julianshen/passport-flickr.git#master&rdquo;</i><i>}</i></blockquote>這還蠻簡單的, 只是把原先寫version的地方換成git URL就好, 在Heroku上也是沒問題的<br/><br/>題外話: 剛deply到heroku上時發現express 3.0.1無法安裝, 原因是我忘了在package.json裡註名我node.js的版本, 這種狀況下, <a href="http://bit.ly/YviOq0">Heroku會自動幫你挑v0.4.7版</a><br/><br/><br/><br/>
-via Blogger <a href="http://bit.ly/St4Ksd">http://bit.ly/St4Ksd</a>
-
-  </div><!-- /.entry-content -->
-</article><!-- /.hentry -->
-
 
 
 <div class="pagination">
@@ -333,7 +333,7 @@ via Blogger <a href="http://bit.ly/St4Ksd">http://bit.ly/St4Ksd</a>
     
 
     
-      <li><a href="http://blog.jln.co/page70/">70</a></li>
+      <li><a href="http://blog.jln.co/page71/">71</a></li>
     
 
     
