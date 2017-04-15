@@ -5,30 +5,30 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
 <head>
 <meta charset="utf-8">
-<title>Miro Media converter &#8211; Le murmure de Julian</title>
+<title>[筆記][Vue.js + Webpack] 判斷是否為開發環境 &#8211; Le murmure de Julian</title>
 <meta name="description" content="朱隸安貓囈語錄">
-<meta name="keywords" content="好用軟體介紹">
+<meta name="keywords" content="Vuejs, Frontend, javascript">
 
 <!-- Twitter Cards -->
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://posterous.com/getfile/files.posterous.com/temp-2011-02-21/clcrsHlqzafiwavjloAsmghGnljvyHjvwrvCsvkAAIquFDulrBcJshJzeasJ/_2011-02-21_9.52.51.png.scaled500.png">
-<meta name="twitter:title" content="Miro Media converter">
+<meta name="twitter:image" content="avatar.png">
+<meta name="twitter:title" content="[筆記][Vue.js + Webpack] 判斷是否為開發環境">
 <meta name="twitter:description" content="朱隸安貓囈語錄">
 <meta name="twitter:creator" content="@jlnshen">
 
 <!-- Open Graph -->
 <meta property="og:locale" content="en_US">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Miro Media converter">
+<meta property="og:title" content="[筆記][Vue.js + Webpack] 判斷是否為開發環境">
 <meta property="og:description" content="朱隸安貓囈語錄">
-<meta property="og:url" content="http://blog.jln.co/miro-media-converter/">
+<meta property="og:url" content="http://blog.jln.co/%E7%AD%86%E8%A8%98-vue.js-+-webpack-%E5%88%A4%E6%96%B7%E6%98%AF%E5%90%A6%E7%82%BA%E9%96%8B%E7%99%BC%E7%92%B0%E5%A2%83/">
 <meta property="og:site_name" content="Le murmure de Julian">
-<meta name="og:image" content="http://posterous.com/getfile/files.posterous.com/temp-2011-02-21/clcrsHlqzafiwavjloAsmghGnljvyHjvwrvCsvkAAIquFDulrBcJshJzeasJ/_2011-02-21_9.52.51.png.scaled500.png">
+<meta name="og:image" content="avatar.png">
 <meta name="google-site-verification" content="Fwa4TQMXvroZpNT7rrwHzdf-rWBe1RDuTu75Enx_DWA">
 
 
 
-<link rel="canonical" href="http://blog.jln.co/miro-media-converter/">
+<link rel="canonical" href="http://blog.jln.co/%E7%AD%86%E8%A8%98-vue.js-+-webpack-%E5%88%A4%E6%96%B7%E6%98%AF%E5%90%A6%E7%82%BA%E9%96%8B%E7%99%BC%E7%92%B0%E5%A2%83/">
 <link href="http://blog.jln.co/feed.xml" type="application/atom+xml" rel="alternate" title="Le murmure de Julian Feed">
 
 <!-- http://t.co/dKP3o1e -->
@@ -135,9 +135,9 @@
     <header class="header-title">
       <div class="header-title-wrap">
         
-          <h1 class="entry-title"><a href="http://blog.jln.co/miro-media-converter/" rel="bookmark" title="Miro Media converter">Miro Media converter</a></h1>
+          <h1 class="entry-title"><a href="http://blog.jln.co/%E7%AD%86%E8%A8%98-vue.js-+-webpack-%E5%88%A4%E6%96%B7%E6%98%AF%E5%90%A6%E7%82%BA%E9%96%8B%E7%99%BC%E7%92%B0%E5%A2%83/" rel="bookmark" title="[筆記][Vue.js + Webpack] 判斷是否為開發環境">[筆記][Vue.js + Webpack] 判斷是否為開發環境</a></h1>
         
-        <h2><span class="entry-date date published"><time datetime="2011-02-22T01:58:12+08:00">February 22, 2011</time></span></h2>
+        <h2><span class="entry-date date published"><time datetime="2017-04-15T11:52:29+08:00">April 15, 2017</time></span></h2>
         
         <p class="entry-reading-time">
           <i class="fa fa-clock-o"></i>
@@ -148,16 +148,57 @@ Reading time ~1 minute
       </div><!-- /.header-title-wrap -->
     </header>
     <div class="entry-content">
-      <div class="posterous_autopost"><p><img src="http://posterous.com/getfile/files.posterous.com/temp-2011-02-21/clcrsHlqzafiwavjloAsmghGnljvyHjvwrvCsvkAAIquFDulrBcJshJzeasJ/_2011-02-21_9.52.51.png.scaled500.png" width="365" height="594"/> 用這個已經一段時間了, 之前是為了轉日劇到iPad上看, 所以在Apple App store上找到這個, 其實這是個Open source的ffmpeg前端, 有興趣可以上<a href="http://www.mirovideoconverter.com/">官方網頁</a>看看它有support哪些裝置跟格式</p>  <p>這軟體好用的地方在於簡單, 只要簡單的拖拉就可以轉檔了, 而且可以自動幫你把轉好的檔放進iTunes中</p>  <p>最可貴的是&hellip;它是GPL&hellip;<a href="https://github.com/8planes/mirovideoconverter">Source在此</a></p></div>
+      <p>在開發的時候總會有一個需求是想在開發階段做跟生產環境不一樣的事, 像我自己的習慣是在做畫面時, 不見得後端資料和API都已經準備好了, 所以我會先以假的資料(mock data)來取代, 放上線後才是真正去抓server api</p>
+
+<p>因此就會需要一個方法來判斷現在到底是不是在開發階段, 如果使用<a href="https://webpack.github.io/">webpack</a>來開發, 這件事就會變得很簡單, 最近一直在寫<a href="https://vuejs.org">Vue.js</a>, 這邊就有<a href="https://vuejs.org">Vue.js</a> (反正我也還不懂react.js, 哈)</p>
+
+<p>用vue-cli建立一個以webpack為工作流程的專案很簡單:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>vue init webpack my-project
+</code></pre>
+</div>
+
+<p>跑完後相關的檔案都幫你產生好了</p>
+
+<p>要在你的程式裡面判斷目前是否是開發環境的話, 只要加入這樣的判斷:</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">NODE_ENV</span> <span class="o">===</span> <span class="s1">'development'</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Hi!You are in dev env'</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>生產環境就把”development”換成”production”就好了</p>
+
+<p>不過實際跑到瀏覽器上時, 如果你在developement console內直接下<code class="highlighter-rouge">console.log(process.env.NODE_ENV)</code>, 你會發現完全沒這東西, 這是因為process.env.NODE_ENV並不是活在client端, 而是webpack在建置過程(跑在node.js)中動了手腳做了轉換了</p>
+
+<p>那這值是在哪邊被定義呢? 打開”build/webpack.dev.conf.js”這個檔案看, 你會發現:</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">plugins</span><span class="err">:</span> <span class="p">[</span>
+    <span class="k">new</span> <span class="nx">webpack</span><span class="p">.</span><span class="nx">DefinePlugin</span><span class="p">({</span>
+      <span class="s1">'process.env'</span><span class="p">:</span> <span class="nx">config</span><span class="p">.</span><span class="nx">dev</span><span class="p">.</span><span class="nx">env</span>
+    <span class="p">}),</span>
+	<span class="p">...</span>
+<span class="p">]</span>
+</code></pre>
+</div>
+
+<p>以及”config/dev.env.js”:</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nx">merge</span><span class="p">(</span><span class="nx">prodEnv</span><span class="p">,</span> <span class="p">{</span>
+  <span class="na">NODE_ENV</span><span class="p">:</span> <span class="s1">'"development"'</span>
+<span class="p">})</span>
+</code></pre>
+</div>
 
       <footer class="entry-meta">
-        <span class="entry-tags"><a href="http://blog.jln.co/tags/#好用軟體介紹" title="Pages tagged 好用軟體介紹" class="tag"><span class="term">好用軟體介紹</span></a></span>
+        <span class="entry-tags"><a href="http://blog.jln.co/tags/#Vuejs" title="Pages tagged Vuejs" class="tag"><span class="term">Vuejs</span></a><a href="http://blog.jln.co/tags/#Frontend" title="Pages tagged Frontend" class="tag"><span class="term">Frontend</span></a><a href="http://blog.jln.co/tags/#javascript" title="Pages tagged javascript" class="tag"><span class="term">javascript</span></a></span>
         
         <div class="social-share">
   <ul class="socialcount socialcount-small inline-list">
-    <li class="facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=http://blog.jln.co/miro-media-converter/" title="Share on Facebook"><span class="count"><i class="fa fa-facebook-square"></i> Like</span></a></li>
-    <li class="twitter"><a href="https://twitter.com/intent/tweet?text=http://blog.jln.co/miro-media-converter/" title="Share on Twitter"><span class="count"><i class="fa fa-twitter-square"></i> Tweet</span></a></li>
-    <li class="googleplus"><a href="https://plus.google.com/share?url=http://blog.jln.co/miro-media-converter/" title="Share on Google Plus"><span class="count"><i class="fa fa-google-plus-square"></i> +1</span></a></li>
+    <li class="facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=http://blog.jln.co/%E7%AD%86%E8%A8%98-vue.js-+-webpack-%E5%88%A4%E6%96%B7%E6%98%AF%E5%90%A6%E7%82%BA%E9%96%8B%E7%99%BC%E7%92%B0%E5%A2%83/" title="Share on Facebook"><span class="count"><i class="fa fa-facebook-square"></i> Like</span></a></li>
+    <li class="twitter"><a href="https://twitter.com/intent/tweet?text=http://blog.jln.co/%E7%AD%86%E8%A8%98-vue.js-+-webpack-%E5%88%A4%E6%96%B7%E6%98%AF%E5%90%A6%E7%82%BA%E9%96%8B%E7%99%BC%E7%92%B0%E5%A2%83/" title="Share on Twitter"><span class="count"><i class="fa fa-twitter-square"></i> Tweet</span></a></li>
+    <li class="googleplus"><a href="https://plus.google.com/share?url=http://blog.jln.co/%E7%AD%86%E8%A8%98-vue.js-+-webpack-%E5%88%A4%E6%96%B7%E6%98%AF%E5%90%A6%E7%82%BA%E9%96%8B%E7%99%BC%E7%92%B0%E5%A2%83/" title="Share on Google Plus"><span class="count"><i class="fa fa-google-plus-square"></i> +1</span></a></li>
   </ul>
 </div><!-- /.social-share -->
       </footer>
@@ -166,23 +207,23 @@ Reading time ~1 minute
     <div class="read-more">
   
     <div class="read-more-header">
-      <a href="http://blog.jln.co/android%E7%AD%86%E8%A8%98-remote-debugging/" class="read-more-btn">Read More</a>
+      <a href="http://blog.jln.co/golang-go%E7%9A%84httptest/" class="read-more-btn">Read More</a>
     </div><!-- /.read-more-header -->
     <div class="read-more-content">
-      <h3><a href="http://blog.jln.co/%E7%AD%86%E8%A8%98-vue.js-+-webpack-%E5%88%A4%E6%96%B7%E6%98%AF%E5%90%A6%E7%82%BA%E9%96%8B%E7%99%BC%E7%92%B0%E5%A2%83/" title="[筆記][Vue.js + Webpack] 判斷是否為開發環境">[筆記][Vue.js + Webpack] 判斷是否為開發環境</a></h3>
-      <p>在開發的時候總會有一個需求是想在開發階段做跟生產環境不一樣的事, 像我自己的習慣是在做畫面時, 不見得後端資料和API都已經準備好了, 所以我會先以假的資料(mock data)來取代, 放上線後才是真正去抓server api因此就會需要一個方法來判斷現在到底是不是在開發...&hellip; <a href="http://blog.jln.co/%E7%AD%86%E8%A8%98-vue.js-+-webpack-%E5%88%A4%E6%96%B7%E6%98%AF%E5%90%A6%E7%82%BA%E9%96%8B%E7%99%BC%E7%92%B0%E5%A2%83/">Continue reading</a></p>
+      <h3><a href="http://blog.jln.co/golang-go%E7%9A%84httptest/" title="[Golang] Go的httptest">[Golang] Go的httptest</a></h3>
+      <p>在標準的go package中除了已經內建了http相關的實作外, 還有一個net/http/httptest, 這的package是用來給寫http相關測試用的, 可分為測試http server (http handler)和http client的(提供mock se...&hellip; <a href="http://blog.jln.co/golang-go%E7%9A%84httptest/">Continue reading</a></p>
     </div><!-- /.read-more-content -->
   
   <div class="read-more-list">
     
       <div class="list-item">
-        <h4><a href="http://blog.jln.co/golang-go%E7%9A%84httptest/" title="[Golang] Go的httptest">[Golang] Go的httptest</a></h4>
-        <span>Published on April 01, 2017</span>
+        <h4><a href="http://blog.jln.co/java-mockito%E7%9A%84doreturn%E5%92%8Cthenreturn/" title="[Java] Mockito的doReturn和thenReturn">[Java] Mockito的doReturn和thenReturn</a></h4>
+        <span>Published on March 25, 2017</span>
       </div><!-- /.list-item -->
     
       <div class="list-item">
-        <h4><a href="http://blog.jln.co/java-mockito%E7%9A%84doreturn%E5%92%8Cthenreturn/" title="[Java] Mockito的doReturn和thenReturn">[Java] Mockito的doReturn和thenReturn</a></h4>
-        <span>Published on March 25, 2017</span>
+        <h4><a href="http://blog.jln.co/java-%E9%97%9C%E6%96%BCretofit%E7%9A%84%E4%B8%80%E4%BA%9B%E5%A5%87%E6%8A%80/" title="[Java] 關於retrofit的一些奇技">[Java] 關於retrofit的一些奇技</a></h4>
+        <span>Published on March 12, 2017</span>
       </div><!-- /.list-item -->
     
   </div><!-- /.read-more-list -->

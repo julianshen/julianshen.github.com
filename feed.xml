@@ -1,4 +1,45 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.1.6">Jekyll</generator><link href="http://blog.jln.co/feed.xml" rel="self" type="application/atom+xml" /><link href="http://blog.jln.co/" rel="alternate" type="text/html" /><updated>2017-04-01T10:48:42+08:00</updated><id>http://blog.jln.co/</id><title>Le murmure de Julian</title><subtitle>朱隸安貓囈語錄</subtitle><entry><title>[Golang] Go的httptest</title><link href="http://blog.jln.co/golang-go%E7%9A%84httptest/" rel="alternate" type="text/html" title="[Golang] Go的httptest" /><published>2017-04-01T10:00:58+08:00</published><updated>2017-04-01T10:00:58+08:00</updated><id>http://blog.jln.co/[golang]-go的httptest</id><content type="html" xml:base="http://blog.jln.co/golang-go%E7%9A%84httptest/">&lt;p&gt;在標準的go package中除了已經內建了http相關的實作外, 還有一個&lt;code class=&quot;highlighter-rouge&quot;&gt;net/http/httptest&lt;/code&gt;, 這的package是用來給寫http相關測試用的, 可分為測試http server (http handler)和http client的(提供mock server給client)&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.1.6">Jekyll</generator><link href="http://blog.jln.co/feed.xml" rel="self" type="application/atom+xml" /><link href="http://blog.jln.co/" rel="alternate" type="text/html" /><updated>2017-04-15T12:17:17+08:00</updated><id>http://blog.jln.co/</id><title>Le murmure de Julian</title><subtitle>朱隸安貓囈語錄</subtitle><entry><title>[筆記][Vue.js + Webpack] 判斷是否為開發環境</title><link href="http://blog.jln.co/%E7%AD%86%E8%A8%98-vue.js-+-webpack-%E5%88%A4%E6%96%B7%E6%98%AF%E5%90%A6%E7%82%BA%E9%96%8B%E7%99%BC%E7%92%B0%E5%A2%83/" rel="alternate" type="text/html" title="[筆記][Vue.js + Webpack] 判斷是否為開發環境" /><published>2017-04-15T11:52:29+08:00</published><updated>2017-04-15T11:52:29+08:00</updated><id>http://blog.jln.co/[筆記][vue.js-+-webpack]-判斷是否為開發環境</id><content type="html" xml:base="http://blog.jln.co/%E7%AD%86%E8%A8%98-vue.js-+-webpack-%E5%88%A4%E6%96%B7%E6%98%AF%E5%90%A6%E7%82%BA%E9%96%8B%E7%99%BC%E7%92%B0%E5%A2%83/">&lt;p&gt;在開發的時候總會有一個需求是想在開發階段做跟生產環境不一樣的事, 像我自己的習慣是在做畫面時, 不見得後端資料和API都已經準備好了, 所以我會先以假的資料(mock data)來取代, 放上線後才是真正去抓server api&lt;/p&gt;
+
+&lt;p&gt;因此就會需要一個方法來判斷現在到底是不是在開發階段, 如果使用&lt;a href=&quot;https://webpack.github.io/&quot;&gt;webpack&lt;/a&gt;來開發, 這件事就會變得很簡單, 最近一直在寫&lt;a href=&quot;https://vuejs.org&quot;&gt;Vue.js&lt;/a&gt;, 這邊就有&lt;a href=&quot;https://vuejs.org&quot;&gt;Vue.js&lt;/a&gt; (反正我也還不懂react.js, 哈)&lt;/p&gt;
+
+&lt;p&gt;用vue-cli建立一個以webpack為工作流程的專案很簡單:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;vue init webpack my-project
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;跑完後相關的檔案都幫你產生好了&lt;/p&gt;
+
+&lt;p&gt;要在你的程式裡面判斷目前是否是開發環境的話, 只要加入這樣的判斷:&lt;/p&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;process&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;env&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;NODE_ENV&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;===&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;development&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;Hi!You are in dev env&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;生產環境就把”development”換成”production”就好了&lt;/p&gt;
+
+&lt;p&gt;不過實際跑到瀏覽器上時, 如果你在developement console內直接下&lt;code class=&quot;highlighter-rouge&quot;&gt;console.log(process.env.NODE_ENV)&lt;/code&gt;, 你會發現完全沒這東西, 這是因為process.env.NODE_ENV並不是活在client端, 而是webpack在建置過程(跑在node.js)中動了手腳做了轉換了&lt;/p&gt;
+
+&lt;p&gt;那這值是在哪邊被定義呢? 打開”build/webpack.dev.conf.js”這個檔案看, 你會發現:&lt;/p&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nx&quot;&gt;plugins&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;webpack&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;DefinePlugin&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;
+      &lt;span class=&quot;s1&quot;&gt;&#39;process.env&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;config&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;dev&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;env&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}),&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;...&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;以及”config/dev.env.js”:&lt;/p&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nx&quot;&gt;module&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;exports&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;merge&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;prodEnv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;NODE_ENV&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;&quot;development&quot;&#39;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;</content><category term="Vuejs" /><category term="Frontend" /><category term="javascript" /><summary>在開發的時候總會有一個需求是想在開發階段做跟生產環境不一樣的事, 像我自己的習慣是在做畫面時, 不見得後端資料和API都已經準備好了, 所以我會先以假的資料(mock data)來取代, 放上線後才是真正去抓server api</summary></entry><entry><title>[Golang] Go的httptest</title><link href="http://blog.jln.co/golang-go%E7%9A%84httptest/" rel="alternate" type="text/html" title="[Golang] Go的httptest" /><published>2017-04-01T10:00:58+08:00</published><updated>2017-04-01T10:00:58+08:00</updated><id>http://blog.jln.co/[golang]-go的httptest</id><content type="html" xml:base="http://blog.jln.co/golang-go%E7%9A%84httptest/">&lt;p&gt;在標準的go package中除了已經內建了http相關的實作外, 還有一個&lt;code class=&quot;highlighter-rouge&quot;&gt;net/http/httptest&lt;/code&gt;, 這的package是用來給寫http相關測試用的, 可分為測試http server (http handler)和http client的(提供mock server給client)&lt;/p&gt;
 
 &lt;p&gt;如果要測試http handler, 所需要的是ResponseRecorder, 基本上相關的也只需要兩個方法&lt;code class=&quot;highlighter-rouge&quot;&gt;NewRequest&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;NewRecorder&lt;/code&gt;, 參照下面範例:&lt;/p&gt;
 
@@ -1087,128 +1128,4 @@ javascript的執行也一樣, 因此如果對html node有任何變動, 是不會
 
 &lt;p&gt;接到request後, 其實是可以把執行的task丟給另一個go routine處理, 原本的就可以回傳給ifttt, 避免執行太久而timeout的問題, 不過對heroku來說, 這還是在同一個web dyno上就是了&lt;/p&gt;</content><category term="ifttt" /><category term="heroku" /><summary>這篇是延續”使用AWS lambda和Github來提供中華職棒賽程資料”,
 之前的做法是用Cloud watch加上lambda來做這件事, 但我跑的東西並不是那麼的頻繁, 在AWS上還是會被收到流量的費用,
-因此就打算用更經濟的方式, 利用heroku免費的額度來做這事(真是壞客戶 XD)</summary></entry><entry><title>[Go] Open graph parser</title><link href="http://blog.jln.co/go-open-graph-parser/" rel="alternate" type="text/html" title="[Go] Open graph parser" /><published>2017-01-24T01:38:19+08:00</published><updated>2017-01-24T01:38:19+08:00</updated><id>http://blog.jln.co/[go]-open-graph-parser</id><content type="html" xml:base="http://blog.jln.co/go-open-graph-parser/">&lt;p&gt;最近因為寫bot, 處理不少的HTML資料, 其中最常用的就是去取的&lt;a href=&quot;http://ogp.me/&quot;&gt;Open Graph&lt;/a&gt;的內容,
-取這部分的資料是做啥用呢? 現今, 多數的網頁已會用&lt;a href=&quot;http://ogp.me/&quot;&gt;Open Graph&lt;/a&gt;和&lt;a href=&quot;https://dev.twitter.com/cards/overview&quot;&gt;Twitter Card&lt;/a&gt;
-來描述網頁的一些屬性, 比如說標題, 相關圖片, 關聯影片等等, 而不管是&lt;a href=&quot;http://ogp.me/&quot;&gt;Open Graph&lt;/a&gt;還是&lt;a href=&quot;https://dev.twitter.com/cards/overview&quot;&gt;Twitter Card&lt;/a&gt;
-都以HTML的meta tags存在的, 像這樣:&lt;/p&gt;
-
-&lt;div class=&quot;language-html highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;meta&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;property=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;og:site_name&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;content=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;TechCrunch&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;meta&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;property=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;og:site&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;content=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;social.techcrunch.com&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;meta&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;property=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;og:title&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;content=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Hugo Barra is leaving his position as head of international at Xiaomi after 3.5&amp;amp;nbsp;years&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;meta&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;property=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;og:description&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;content=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Chinese smartphone maker Xiaomi is losing its head of international and primary English-language spokesperson Hugo Barra after he announced his exit from the..&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;meta&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;property=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;og:image&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;content=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;https://tctechcrunch2011.files.wordpress.com/2016/05/hugo-barra-2.jpg?w=764&amp;amp;amp;h=400&amp;amp;amp;crop=1&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;meta&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;property=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;og:url&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;content=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;http://social.techcrunch.com/2017/01/22/hugo-barra-is-leaving-his-position-as-head-of-international-at-xiaomi-after-3-5-years/&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;meta&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;property=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;og:type&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;content=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;article&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;meta&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&#39;twitter:card&#39;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;content=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&#39;summary_large_image&#39;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;meta&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&#39;twitter:image:src&#39;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;content=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&#39;https://tctechcrunch2011.files.wordpress.com/2016/05/hugo-barra-2.jpg?w=764&amp;amp;#038;h=400&amp;amp;#038;crop=1&#39;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;meta&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&#39;twitter:site&#39;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;content=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&#39;@techcrunch&#39;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;meta&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&#39;twitter:url&#39;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;content=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&#39;https://techcrunch.com/2017/01/22/hugo-barra-is-leaving-his-position-as-head-of-international-at-xiaomi-after-3-5-years/&#39;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;meta&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&#39;twitter:description&#39;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;content=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&#39;Chinese smartphone maker Xiaomi is losing its head of international and primary English-language spokesperson Hugo Barra after he announced his exit from the company.&#39;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;(範例剛好跟上時事 :P)&lt;/p&gt;
-
-&lt;p&gt;在做我的bot&lt;a href=&quot;https://line.me/R/ti/p/%40cur4648v&quot;&gt;新聞萬事通&lt;/a&gt;就是用這個來取得圖片跟標題的內容, 當然, 你在Facebook分享了一個連結, Facebook會自動帶上縮圖跟內容, 資料來源也是來自OG&lt;/p&gt;
-
-&lt;h2 id=&quot;og&quot;&gt;OG&lt;/h2&gt;
-
-&lt;p&gt;雖然Go也可以找到一兩個Open graph的parser, 看起來好像還算堪用, 不過因為自己用得多了, 所以索性自己寫一個叫OG:&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://github.com/julianshen/og&quot;&gt;GitHub/julianshen - OG&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;仿golang本身的json package, 也利用了Reflection, 因此還有點靈活度, 可以支援更多的資訊&lt;/p&gt;
-
-&lt;h3 id=&quot;og-1&quot;&gt;安裝OG&lt;/h3&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;go get -u github.com/julianshen/og
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;section&quot;&gt;基本資料結構&lt;/h3&gt;
-
-&lt;div class=&quot;language-go highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PageInfo&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-	&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Title&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;    &lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;`meta:&quot;og:title&quot;`&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-	&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Type&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;     &lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;`meta:&quot;og:type&quot;`&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-	&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Url&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;      &lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;`meta:&quot;og:url&quot;`&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-	&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Site&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;     &lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;`meta:&quot;og:site&quot;`&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-	&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SiteName&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;`meta:&quot;og:site_name&quot;`&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-	&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Images&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;   &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;OgImage&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-	&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Videos&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;   &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;OgVideo&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-	&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Audios&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;   &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;OgAudio&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-	&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Twitter&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TwitterCard&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-	&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Content&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;PageInfo是預設的資料結構, 前面有提到, 有彈性可以支援更多的資訊, 所以這個除了直接使用外也可當作一個參考用的定義,
-主要就是採用了Go的struct field tags, 定義了一個叫做”&lt;code class=&quot;highlighter-rouge&quot;&gt;meta&lt;/code&gt;“的自訂tag, 對照前面的html範例就可知道, 後面的值
-是html meta tag裡面的property, 因此你可以自定義自己的資料結構, 然後仿這個規則加上tag即可&lt;/p&gt;
-
-&lt;p&gt;也可支援巢狀式, Arrays, Pointer&lt;/p&gt;
-
-&lt;h3 id=&quot;getpageinfo&quot;&gt;GetPageInfo&lt;/h3&gt;
-
-&lt;p&gt;GetPageInfo是以已經定義好的PageInfo這個struct為主, (希望)已經包含比較基本的og或twitter card tags了,
-直接呼叫對應的API, 就可以取得這個url裡面的PageInfo的資料了&lt;/p&gt;
-
-&lt;div class=&quot;language-go highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;urlStr&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;https://techcrunch.com/2017/01/22/yahoo-hacking-sec/&quot;&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pageInfo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;og&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;GetPageInfoFromUrl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;urlStr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;另外還有一個&lt;code class=&quot;highlighter-rouge&quot;&gt;PageInfo.Content&lt;/code&gt;, 這是網頁去掉廣告跟多餘的東西的純文字內容, 這就是&lt;code class=&quot;highlighter-rouge&quot;&gt;GetPageData&lt;/code&gt;所沒有的了&lt;/p&gt;
-
-&lt;h3 id=&quot;getpagedata&quot;&gt;GetPageData&lt;/h3&gt;
-
-&lt;p&gt;跟GetPageInfo不同, 這很適合用在自訂資料結構, 舉個例說, 如果我只想抓&lt;code class=&quot;highlighter-rouge&quot;&gt;og:image&lt;/code&gt;的資料就像這樣:&lt;/p&gt;
-
-&lt;div class=&quot;language-go highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;ogImage&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;og&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;OgImage&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{}&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;urlStr&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;https://techcrunch.com/2017/01/22/yahoo-hacking-sec/&quot;&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;og&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;GetPageDataFromUrl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;urlStr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ogImage&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h2 id=&quot;go-reflectionhttpsbloggolangorglaws-of-reflection&quot;&gt;簡單談談&lt;a href=&quot;https://blog.golang.org/laws-of-reflection&quot;&gt;Go reflection&lt;/a&gt;&lt;/h2&gt;
-
-&lt;p&gt;這個package因為要仿json package使用struct field tags, 所以用了Go的&lt;a href=&quot;https://blog.golang.org/laws-of-reflection&quot;&gt;Reflection&lt;/a&gt;機制&lt;/p&gt;
-
-&lt;p&gt;老實說, Go的reflection沒有像Java的設計那麼好, 寫到後面還蠻容易昏頭的, 而主要有三種要先搞清楚&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://golang.org/pkg/reflect/#Type&quot;&gt;Type&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://golang.org/pkg/reflect/#Kind&quot;&gt;Kind&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://golang.org/pkg/reflect/#Value&quot;&gt;Value&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;以這個例子來說:&lt;/p&gt;
-
-&lt;div class=&quot;language-go highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;ogImage&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;og&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;OgImage&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{}&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pImage&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ogImage&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;ogImage的Type是&lt;code class=&quot;highlighter-rouge&quot;&gt;struct OgImage&lt;/code&gt;, 而Value是&lt;code class=&quot;highlighter-rouge&quot;&gt;og.OgImage{}&lt;/code&gt;, pImage的Type即是&lt;code class=&quot;highlighter-rouge&quot;&gt;*OgImage&lt;/code&gt;,
-而ogImage的Kind則是&lt;code class=&quot;highlighter-rouge&quot;&gt;struct&lt;/code&gt;, pImage則是&lt;code class=&quot;highlighter-rouge&quot;&gt;ptr&lt;/code&gt;(pointer)&lt;/p&gt;
-
-&lt;p&gt;比較難搞懂的就是什麼時候要用Type, 什麼時候要用Value, Kind又是什麼時候? (作業?!)&lt;/p&gt;
-
-&lt;div class=&quot;language-go highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;reflect&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TypeOf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ogImage&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;reflect&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pImage&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;用’TypeOf’可以取得變數的Type, 而’ValueOf‘則是值(value)的部分, 而value雖然代表變數的值, 但它是一個叫做Value的struct,並不是原本的資料型態
-所以不要把它直接當參數呼叫函數用, 如果真有需要, 可以用&lt;code class=&quot;highlighter-rouge&quot;&gt;Value.Interface{}&lt;/code&gt;轉成&lt;code class=&quot;highlighter-rouge&quot;&gt;interface{}&lt;/code&gt;用&lt;/p&gt;
-
-&lt;p&gt;用&lt;code class=&quot;highlighter-rouge&quot;&gt;StructField.Tag.Lookup&lt;/code&gt;則是可以查Field裡面的tag內容&lt;/p&gt;
-
-&lt;p&gt;所以這個og parser的原理就是走過所有fields, 只要有meta tags的話就拿去搜尋對應的html tags,
-有的話再把html tag裡面content屬性填入值&lt;/p&gt;
-
-&lt;p&gt;最後小抱怨一下, &lt;a href=&quot;http://ogp.me/&quot;&gt;Open Graph&lt;/a&gt;和&lt;a href=&quot;https://dev.twitter.com/cards/overview&quot;&gt;Twitter Card&lt;/a&gt;
-實在很不一致, 一個用property, 一個用name, 因此在&lt;a href=&quot;https://github.com/julianshen/og&quot;&gt;OG&lt;/a&gt;的做法是先用property, 如果再找不到用name去找&lt;/p&gt;</content><category term="golang" /><category term="web" /><category term="opengraph" /><category term="html" /><summary>最近因為寫bot, 處理不少的HTML資料, 其中最常用的就是去取的Open Graph的內容,
-取這部分的資料是做啥用呢? 現今, 多數的網頁已會用Open Graph和Twitter Card
-來描述網頁的一些屬性, 比如說標題, 相關圖片, 關聯影片等等, 而不管是Open Graph還是Twitter Card
-都以HTML的meta tags存在的, 像這樣:</summary></entry></feed>
+因此就打算用更經濟的方式, 利用heroku免費的額度來做這事(真是壞客戶 XD)</summary></entry></feed>

@@ -150,6 +150,47 @@
   <header>
     
     <div class="entry-meta">
+      <span class="entry-date date published updated"><time datetime="2017-03-01T17:08:32+08:00"><a href="http://blog.jln.co/rss-for-ptt/">March 01, 2017</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
+      
+      <span class="entry-reading-time">
+        <i class="fa fa-clock-o"></i>
+        
+Reading time ~1 minute
+      </span><!-- /.entry-reading-time -->
+      
+    </div><!-- /.entry-meta -->
+    
+      <h1 class="entry-title"><a href="http://blog.jln.co/rss-for-ptt/" rel="bookmark" title="RSS for Ptt" itemprop="url">RSS for Ptt</a></h1>
+    
+  </header>
+  <div class="entry-content">
+    <p>最近才發現, ptt的rss功能好像拿掉了, 這樣好像就不能拿feedly之類的來訂閱版面內容, 反正我自己有寫了一個<a href="https://github.com/julianshen/gopttcrawler">gopttcrawler</a>
+所幸自己來寫一個吧!</p>
+
+<p>source code在: <a href="https://github.com/julianshen/pttrss">pttrss</a></p>
+
+<p>可以自行deploy到heroku去, 如果不想這麼麻煩, 可以用:</p>
+
+<p>https://ptt.cowbay.wtf/rss/版名</p>
+
+<p>例如:</p>
+
+<ul>
+  <li>表特版的rss url是 - https://ptt.cowbay.wtf/rss/Beauty</li>
+  <li>電影版的是 - https://ptt.cowbay.wtf/rss/movie</li>
+</ul>
+
+<p>要找到英文版名才可以</p>
+
+<p>資料30分鐘才會更新一次, 不會時時更新, 避免被灌</p>
+
+  </div><!-- /.entry-content -->
+</article><!-- /.hentry -->
+
+<article class="hentry">
+  <header>
+    
+    <div class="entry-meta">
       <span class="entry-date date published updated"><time datetime="2017-02-07T17:18:05+08:00"><a href="http://blog.jln.co/swift-%E6%BC%AB%E7%95%AB%E7%88%AC%E8%9F%B2/">February 07, 2017</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
       
       <span class="entry-reading-time">
@@ -615,150 +656,6 @@ Reading time ~1 minute
 </div>
 
 <p>接到request後, 其實是可以把執行的task丟給另一個go routine處理, 原本的就可以回傳給ifttt, 避免執行太久而timeout的問題, 不過對heroku來說, 這還是在同一個web dyno上就是了</p>
-
-  </div><!-- /.entry-content -->
-</article><!-- /.hentry -->
-
-<article class="hentry">
-  <header>
-    
-    <div class="entry-meta">
-      <span class="entry-date date published updated"><time datetime="2017-01-24T01:38:19+08:00"><a href="http://blog.jln.co/go-open-graph-parser/">January 24, 2017</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
-      
-      <span class="entry-reading-time">
-        <i class="fa fa-clock-o"></i>
-        
-Reading time ~1 minute
-      </span><!-- /.entry-reading-time -->
-      
-    </div><!-- /.entry-meta -->
-    
-      <h1 class="entry-title"><a href="http://blog.jln.co/go-open-graph-parser/" rel="bookmark" title="[Go] Open graph parser" itemprop="url">[Go] Open graph parser</a></h1>
-    
-  </header>
-  <div class="entry-content">
-    <p>最近因為寫bot, 處理不少的HTML資料, 其中最常用的就是去取的<a href="http://ogp.me/">Open Graph</a>的內容,
-取這部分的資料是做啥用呢? 現今, 多數的網頁已會用<a href="http://ogp.me/">Open Graph</a>和<a href="https://dev.twitter.com/cards/overview">Twitter Card</a>
-來描述網頁的一些屬性, 比如說標題, 相關圖片, 關聯影片等等, 而不管是<a href="http://ogp.me/">Open Graph</a>還是<a href="https://dev.twitter.com/cards/overview">Twitter Card</a>
-都以HTML的meta tags存在的, 像這樣:</p>
-
-<div class="language-html highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;meta</span> <span class="na">property=</span><span class="s">"og:site_name"</span> <span class="na">content=</span><span class="s">"TechCrunch"</span> <span class="nt">/&gt;</span>
-<span class="nt">&lt;meta</span> <span class="na">property=</span><span class="s">"og:site"</span> <span class="na">content=</span><span class="s">"social.techcrunch.com"</span> <span class="nt">/&gt;</span>
-<span class="nt">&lt;meta</span> <span class="na">property=</span><span class="s">"og:title"</span> <span class="na">content=</span><span class="s">"Hugo Barra is leaving his position as head of international at Xiaomi after 3.5&amp;nbsp;years"</span> <span class="nt">/&gt;</span>
-<span class="nt">&lt;meta</span> <span class="na">property=</span><span class="s">"og:description"</span> <span class="na">content=</span><span class="s">"Chinese smartphone maker Xiaomi is losing its head of international and primary English-language spokesperson Hugo Barra after he announced his exit from the.."</span> <span class="nt">/&gt;</span>
-<span class="nt">&lt;meta</span> <span class="na">property=</span><span class="s">"og:image"</span> <span class="na">content=</span><span class="s">"https://tctechcrunch2011.files.wordpress.com/2016/05/hugo-barra-2.jpg?w=764&amp;amp;h=400&amp;amp;crop=1"</span> <span class="nt">/&gt;</span>
-<span class="nt">&lt;meta</span> <span class="na">property=</span><span class="s">"og:url"</span> <span class="na">content=</span><span class="s">"http://social.techcrunch.com/2017/01/22/hugo-barra-is-leaving-his-position-as-head-of-international-at-xiaomi-after-3-5-years/"</span> <span class="nt">/&gt;</span>
-<span class="nt">&lt;meta</span> <span class="na">property=</span><span class="s">"og:type"</span> <span class="na">content=</span><span class="s">"article"</span> <span class="nt">/&gt;</span>
-<span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">'twitter:card'</span> <span class="na">content=</span><span class="s">'summary_large_image'</span> <span class="nt">/&gt;</span>
-<span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">'twitter:image:src'</span> <span class="na">content=</span><span class="s">'https://tctechcrunch2011.files.wordpress.com/2016/05/hugo-barra-2.jpg?w=764&amp;#038;h=400&amp;#038;crop=1'</span> <span class="nt">/&gt;</span>
-<span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">'twitter:site'</span> <span class="na">content=</span><span class="s">'@techcrunch'</span> <span class="nt">/&gt;</span>
-<span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">'twitter:url'</span> <span class="na">content=</span><span class="s">'https://techcrunch.com/2017/01/22/hugo-barra-is-leaving-his-position-as-head-of-international-at-xiaomi-after-3-5-years/'</span> <span class="nt">/&gt;</span>
-<span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">'twitter:description'</span> <span class="na">content=</span><span class="s">'Chinese smartphone maker Xiaomi is losing its head of international and primary English-language spokesperson Hugo Barra after he announced his exit from the company.'</span> <span class="nt">/&gt;</span>
-</code></pre>
-</div>
-
-<p>(範例剛好跟上時事 :P)</p>
-
-<p>在做我的bot<a href="https://line.me/R/ti/p/%40cur4648v">新聞萬事通</a>就是用這個來取得圖片跟標題的內容, 當然, 你在Facebook分享了一個連結, Facebook會自動帶上縮圖跟內容, 資料來源也是來自OG</p>
-
-<h2 id="og">OG</h2>
-
-<p>雖然Go也可以找到一兩個Open graph的parser, 看起來好像還算堪用, 不過因為自己用得多了, 所以索性自己寫一個叫OG:</p>
-
-<p><a href="https://github.com/julianshen/og">GitHub/julianshen - OG</a></p>
-
-<p>仿golang本身的json package, 也利用了Reflection, 因此還有點靈活度, 可以支援更多的資訊</p>
-
-<h3 id="og-1">安裝OG</h3>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>go get -u github.com/julianshen/og
-</code></pre>
-</div>
-
-<h3 id="section">基本資料結構</h3>
-
-<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="k">type</span><span class="x"> </span><span class="n">PageInfo</span><span class="x"> </span><span class="k">struct</span><span class="x"> </span><span class="p">{</span><span class="x">
-	</span><span class="n">Title</span><span class="x">    </span><span class="kt">string</span><span class="x"> </span><span class="s">`meta:"og:title"`</span><span class="x">
-	</span><span class="n">Type</span><span class="x">     </span><span class="kt">string</span><span class="x"> </span><span class="s">`meta:"og:type"`</span><span class="x">
-	</span><span class="n">Url</span><span class="x">      </span><span class="kt">string</span><span class="x"> </span><span class="s">`meta:"og:url"`</span><span class="x">
-	</span><span class="n">Site</span><span class="x">     </span><span class="kt">string</span><span class="x"> </span><span class="s">`meta:"og:site"`</span><span class="x">
-	</span><span class="n">SiteName</span><span class="x"> </span><span class="kt">string</span><span class="x"> </span><span class="s">`meta:"og:site_name"`</span><span class="x">
-	</span><span class="n">Images</span><span class="x">   </span><span class="p">[]</span><span class="o">*</span><span class="n">OgImage</span><span class="x">
-	</span><span class="n">Videos</span><span class="x">   </span><span class="p">[]</span><span class="o">*</span><span class="n">OgVideo</span><span class="x">
-	</span><span class="n">Audios</span><span class="x">   </span><span class="p">[]</span><span class="o">*</span><span class="n">OgAudio</span><span class="x">
-	</span><span class="n">Twitter</span><span class="x">  </span><span class="o">*</span><span class="n">TwitterCard</span><span class="x">
-	</span><span class="n">Content</span><span class="x">  </span><span class="kt">string</span><span class="x">
-</span><span class="p">}</span><span class="x">
-</span></code></pre>
-</div>
-
-<p>PageInfo是預設的資料結構, 前面有提到, 有彈性可以支援更多的資訊, 所以這個除了直接使用外也可當作一個參考用的定義,
-主要就是採用了Go的struct field tags, 定義了一個叫做”<code class="highlighter-rouge">meta</code>“的自訂tag, 對照前面的html範例就可知道, 後面的值
-是html meta tag裡面的property, 因此你可以自定義自己的資料結構, 然後仿這個規則加上tag即可</p>
-
-<p>也可支援巢狀式, Arrays, Pointer</p>
-
-<h3 id="getpageinfo">GetPageInfo</h3>
-
-<p>GetPageInfo是以已經定義好的PageInfo這個struct為主, (希望)已經包含比較基本的og或twitter card tags了,
-直接呼叫對應的API, 就可以取得這個url裡面的PageInfo的資料了</p>
-
-<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="n">urlStr</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="s">"https://techcrunch.com/2017/01/22/yahoo-hacking-sec/"</span><span class="x">
-</span><span class="n">pageInfo</span><span class="p">,</span><span class="x"> </span><span class="n">e</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">og</span><span class="o">.</span><span class="n">GetPageInfoFromUrl</span><span class="p">(</span><span class="n">urlStr</span><span class="p">)</span><span class="x">
-</span></code></pre>
-</div>
-
-<p>另外還有一個<code class="highlighter-rouge">PageInfo.Content</code>, 這是網頁去掉廣告跟多餘的東西的純文字內容, 這就是<code class="highlighter-rouge">GetPageData</code>所沒有的了</p>
-
-<h3 id="getpagedata">GetPageData</h3>
-
-<p>跟GetPageInfo不同, 這很適合用在自訂資料結構, 舉個例說, 如果我只想抓<code class="highlighter-rouge">og:image</code>的資料就像這樣:</p>
-
-<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="n">ogImage</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">og</span><span class="o">.</span><span class="n">OgImage</span><span class="p">{}</span><span class="x">
-</span><span class="n">urlStr</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="s">"https://techcrunch.com/2017/01/22/yahoo-hacking-sec/"</span><span class="x">
-</span><span class="n">og</span><span class="o">.</span><span class="n">GetPageDataFromUrl</span><span class="p">(</span><span class="n">urlStr</span><span class="p">,</span><span class="x"> </span><span class="o">&amp;</span><span class="n">ogImage</span><span class="p">)</span><span class="x">
-</span></code></pre>
-</div>
-
-<h2 id="go-reflectionhttpsbloggolangorglaws-of-reflection">簡單談談<a href="https://blog.golang.org/laws-of-reflection">Go reflection</a></h2>
-
-<p>這個package因為要仿json package使用struct field tags, 所以用了Go的<a href="https://blog.golang.org/laws-of-reflection">Reflection</a>機制</p>
-
-<p>老實說, Go的reflection沒有像Java的設計那麼好, 寫到後面還蠻容易昏頭的, 而主要有三種要先搞清楚</p>
-
-<ul>
-  <li><a href="https://golang.org/pkg/reflect/#Type">Type</a></li>
-  <li><a href="https://golang.org/pkg/reflect/#Kind">Kind</a></li>
-  <li><a href="https://golang.org/pkg/reflect/#Value">Value</a></li>
-</ul>
-
-<p>以這個例子來說:</p>
-
-<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="n">ogImage</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">og</span><span class="o">.</span><span class="n">OgImage</span><span class="p">{}</span><span class="x">
-</span><span class="n">pImage</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="o">&amp;</span><span class="n">ogImage</span><span class="x">
-</span></code></pre>
-</div>
-
-<p>ogImage的Type是<code class="highlighter-rouge">struct OgImage</code>, 而Value是<code class="highlighter-rouge">og.OgImage{}</code>, pImage的Type即是<code class="highlighter-rouge">*OgImage</code>,
-而ogImage的Kind則是<code class="highlighter-rouge">struct</code>, pImage則是<code class="highlighter-rouge">ptr</code>(pointer)</p>
-
-<p>比較難搞懂的就是什麼時候要用Type, 什麼時候要用Value, Kind又是什麼時候? (作業?!)</p>
-
-<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="k">type</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">reflect</span><span class="o">.</span><span class="n">TypeOf</span><span class="p">(</span><span class="n">ogImage</span><span class="p">)</span><span class="x">
-</span><span class="n">value</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">reflect</span><span class="o">.</span><span class="n">Value</span><span class="p">(</span><span class="n">pImage</span><span class="p">)</span><span class="x">
-</span></code></pre>
-</div>
-
-<p>用’TypeOf’可以取得變數的Type, 而’ValueOf‘則是值(value)的部分, 而value雖然代表變數的值, 但它是一個叫做Value的struct,並不是原本的資料型態
-所以不要把它直接當參數呼叫函數用, 如果真有需要, 可以用<code class="highlighter-rouge">Value.Interface{}</code>轉成<code class="highlighter-rouge">interface{}</code>用</p>
-
-<p>用<code class="highlighter-rouge">StructField.Tag.Lookup</code>則是可以查Field裡面的tag內容</p>
-
-<p>所以這個og parser的原理就是走過所有fields, 只要有meta tags的話就拿去搜尋對應的html tags,
-有的話再把html tag裡面content屬性填入值</p>
-
-<p>最後小抱怨一下, <a href="http://ogp.me/">Open Graph</a>和<a href="https://dev.twitter.com/cards/overview">Twitter Card</a>
-實在很不一致, 一個用property, 一個用name, 因此在<a href="https://github.com/julianshen/og">OG</a>的做法是先用property, 如果再找不到用name去找</p>
 
   </div><!-- /.entry-content -->
 </article><!-- /.hentry -->

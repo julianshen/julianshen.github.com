@@ -150,6 +150,140 @@
   <header>
     
     <div class="entry-meta">
+      <span class="entry-date date published updated"><time datetime="2016-09-28T02:17:12+08:00"><a href="http://blog.jln.co/%E4%BD%BF%E7%94%A8aws-lambda%E5%92%8Cgithub%E4%BE%86%E6%8F%90%E4%BE%9B%E4%B8%AD%E8%8F%AF%E8%81%B7%E6%A3%92%E8%B3%BD%E7%A8%8B%E8%B3%87%E6%96%99/">September 28, 2016</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
+      
+      <span class="entry-reading-time">
+        <i class="fa fa-clock-o"></i>
+        
+Reading time ~1 minute
+      </span><!-- /.entry-reading-time -->
+      
+    </div><!-- /.entry-meta -->
+    
+      <h1 class="entry-title"><a href="http://blog.jln.co/%E4%BD%BF%E7%94%A8aws-lambda%E5%92%8Cgithub%E4%BE%86%E6%8F%90%E4%BE%9B%E4%B8%AD%E8%8F%AF%E8%81%B7%E6%A3%92%E8%B3%BD%E7%A8%8B%E8%B3%87%E6%96%99/" rel="bookmark" title="使用AWS lambda和Github來提供中華職棒賽程資料" itemprop="url">使用AWS lambda和Github來提供中華職棒賽程資料</a></h1>
+    
+  </header>
+  <div class="entry-content">
+    <p>不知不覺的突然就多出了兩天颱風假, 這颱風實在很威, 乒乒乓乓的, 不過, 也沒做什麼, 時間就快過完了, 現在才想到, 還是來寫點什麼, 嚴格說來這些東西並不完全是颱風假時弄的, 只是拖得有點久</p>
+
+<p>起因是, 之前(很久…追朔到去年)想寫個App, 需要用到中華職棒賽程的資料, 拖了很久一直沒真的去做, 斷斷續續的, 最近才先把資料這部分補齊, 首先需求是:</p>
+
+<ol>
+  <li>當月之後的賽程資料, 但中華職棒並沒有API, 只有(很爛)的網頁, 因此資料勢必得從網頁去解析</li>
+  <li>由Client app直接去解析html, 會比較麻煩(如果網站更新了, 就要更新App), 不是那麼可行</li>
+  <li>不想花錢(或不想花太多錢)弄一個server, 更不用說還要考慮Scaling</li>
+</ol>
+
+<p>而賽程表這樣的資料的特性則是:</p>
+
+<ol>
+  <li>球季是3~10月</li>
+  <li>資料內容除週一(休賽)外, 幾乎每天都會變, 但不會一兩個小時或幾分鐘就變一次</li>
+  <li>變動的內容可能是:
+    <ol>
+      <li>比賽結束, 比數有更新</li>
+      <li>延賽或停賽</li>
+    </ol>
+  </li>
+  <li>一個月才幾十場比賽而已, 基本上不太需要有search或query的功能, 依據月份分類也就足夠了</li>
+</ol>
+
+<p>因此我採用的做法是:</p>
+
+<ol>
+  <li>利用AWS lambda定時解析中華職棒網站的資料</li>
+  <li>資料以json格式存在github (使用Github api)</li>
+  <li>Client透過CDN去要這些json的raw content</li>
+</ol>
+
+<h3 id="section">賽程解析</h3>
+
+<p>這部分我是用Go + Goquery來寫的, source code在這邊: <a href="https://github.com/julianshen/cpblschedule">cpblschedule</a>, 這code沒啥整理過, 光解析這堆亂七八糟的html就夠頭痛囉, 就沒啥整理</p>
+
+<p>我做成了一個package, 因此要使用可用下列指令先安裝:</p>
+
+<p><code class="highlighter-rouge">go get -u github.com/julianshen/cpblschedule</code></p>
+
+<p>裡面也很簡單就一個function而已, 因此要使用可以參考:</p>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="k">import</span><span class="x"> </span><span class="s">"github.com/julianshen/cpblschedule"</span><span class="x">
+
+</span><span class="k">func</span><span class="x"> </span><span class="n">main</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+	</span><span class="n">matches</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">cpblschedule</span><span class="o">.</span><span class="n">ParseCPBLSchedule</span><span class="p">(</span><span class="n">year</span><span class="p">,</span><span class="x"> </span><span class="n">month</span><span class="p">)</span><span class="x">
+    </span><span class="o">....</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre>
+</div>
+
+<h3 id="aws-lambda">AWS Lambda</h3>
+
+<p>這邊就不介紹這東西是什麼了, 網路上文章一大堆, 基本上他是AWS一個severless的解決方案(這算廣告詞吧), 會使用這個的原因有二:</p>
+
+<ol>
+  <li>依我的用量應該是免費(事實證明, 其實還是要花點錢, 我忘了算網路傳輸的費用了, 不過這不多)</li>
+  <li>可以用Cloud watch排程觸發</li>
+</ol>
+
+<p>不過有個小問題</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>**他不支援Go!!!!!**
+</code></pre>
+</div>
+
+<p>而我上面那個解析的東東是go寫的, 那不就寫心酸的</p>
+
+<p>所幸還有別的辦法,就是把程式編譯成執行檔, 然後用nodejs去包裝它, 不過這有點煩瑣, 所幸還有工具</p>
+
+<p><a href="https://github.com/apex/apex">apex</a>, 這是讓你更簡單的去建立lambda function的工具, 而且他正好也可以幫你簡單做好上面所說的包裝</p>
+
+<p>安裝及使用就看文件吧, 不特別說了, 但要如何用go寫一個lambda function handle呢?以下是範例:</p>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="k">import</span><span class="x"> </span><span class="p">(</span><span class="x">
+	</span><span class="s">"encoding/json"</span><span class="x">
+	</span><span class="s">"github.com/apex/go-apex"</span><span class="x">
+</span><span class="p">)</span><span class="x">
+</span><span class="k">func</span><span class="x"> </span><span class="n">main</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+	</span><span class="n">apex</span><span class="o">.</span><span class="n">HandleFunc</span><span class="p">(</span><span class="k">func</span><span class="p">(</span><span class="n">event</span><span class="x"> </span><span class="n">json</span><span class="o">.</span><span class="n">RawMessage</span><span class="p">,</span><span class="x"> </span><span class="n">ctx</span><span class="x"> </span><span class="o">*</span><span class="n">apex</span><span class="o">.</span><span class="n">Context</span><span class="p">)</span><span class="x"> </span><span class="p">(</span><span class="k">interface</span><span class="p">{},</span><span class="x"> </span><span class="kt">error</span><span class="p">)</span><span class="x"> </span><span class="p">{</span><span class="x">
+		</span><span class="n">dosomething</span><span class="p">()</span><span class="x">
+		</span><span class="k">return</span><span class="x"> </span><span class="no">nil</span><span class="p">,</span><span class="x"> </span><span class="no">nil</span><span class="x">
+	</span><span class="p">})</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre>
+</div>
+
+<h4 id="github-as-api-source">Github as API source</h4>
+
+<p>資料既然變動不頻繁, 就用lambda定期產生然後把結果放到Github上就可了</p>
+
+<p>Github API的Go的實做是Google放出來的<a href="https://github.com/google/go-github/">go-github</a>, 文件還蠻眼花撩亂的, 不過在這應用需要的API不多:</p>
+
+<ol>
+  <li>client.Repositories.GetContents - 取得內容</li>
+  <li>client.Repositories.CreateFile - 創立一個新檔</li>
+  <li>client.Repositories.UpdateFile - 更新某個檔</li>
+</ol>
+
+<p>之所以需要1的原因是要確認檔案是不是已經在repository裡面了, 如果沒有就用create, 如果有就拿SHA hash去更新內容</p>
+
+<p>GetContents會把檔案內容一併給抓回來, 這可以用來在更新檔案前先比較, 如果不比較, 就算沒更動, API也會新增一個新的commit, 為了避免不要太誇張, 還是先比較一下好了</p>
+
+<p>那之後client怎樣存取這些資料? 找到檔案, 選取raw就可以知道raw的url了, client每次就抓這個URL就好, 但為了避免過量地request湧到github, 因此透過一個CDN來存取可能會好一點</p>
+
+<p>這時候就可以用<a href="http://rawgit.com">RawGit</a>, 這邊透過MaxCDN, 讓你可以去存取Github上的raw content, 而你的檔案的網址會是像這樣:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>https://cdn.rawgit.com/user/repo/tag/file
+</code></pre>
+</div>
+
+<p>大致上就這樣</p>
+
+  </div><!-- /.entry-content -->
+</article><!-- /.hentry -->
+
+<article class="hentry">
+  <header>
+    
+    <div class="entry-meta">
       <span class="entry-date date published updated"><time datetime="2016-09-18T22:41:43+08:00"><a href="http://blog.jln.co/%E7%AD%86%E8%A8%98-%E4%B8%AD%E7%A7%8B%E9%80%A3%E5%81%87%E5%B0%8F%E5%AF%A6%E9%A9%97/">September 18, 2016</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
       
       <span class="entry-reading-time">
@@ -756,48 +890,6 @@ Reading time ~1 minute
 <p>因為這個字型有支援Ligatures, 所以在這邊contacts就會被直接代換成它對應的圖示了, 我們就不用寄那種完全看不懂的unicode碼了</p>
 
 <p>但大部分的字型其實也都沒有, 所以自訂字型該怎做?那就留待之後研究了</p>
-
-  </div><!-- /.entry-content -->
-</article><!-- /.hentry -->
-
-<article class="hentry">
-  <header>
-    
-    <div class="entry-meta">
-      <span class="entry-date date published updated"><time datetime="2016-07-05T22:10:51+08:00"><a href="http://blog.jln.co/ios%E9%96%8B%E7%99%BC%E7%AD%86%E8%A8%98-%E6%A8%A1%E7%B3%8A%E8%83%8C%E6%99%AF/">July 05, 2016</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
-      
-      <span class="entry-reading-time">
-        <i class="fa fa-clock-o"></i>
-        
-Reading time ~1 minute
-      </span><!-- /.entry-reading-time -->
-      
-    </div><!-- /.entry-meta -->
-    
-      <h1 class="entry-title"><a href="http://blog.jln.co/ios%E9%96%8B%E7%99%BC%E7%AD%86%E8%A8%98-%E6%A8%A1%E7%B3%8A%E8%83%8C%E6%99%AF/" rel="bookmark" title="[iOS開發筆記] 模糊背景" itemprop="url">[iOS開發筆記] 模糊背景</a></h1>
-    
-  </header>
-  <div class="entry-content">
-    <p>去年為了參加WWDC, 開始練了Swift, 寫了兩個library, 不過好像一直都沒寫過完整的App, 連UI好像都沒真的去刻過(去年寫的東西跟UI比較無關), 因此最近利用了一些時間開始了個side project, 做side project就常常會把時間花在一些枝微末節的地方, 比如說, 為了做一個像Android那樣的Floating action button, 去找來一個現成的3rd party lib - <a href="https://github.com/yoavlt/LiquidFloatingActionButton">yoavlt/LiquidFloatingActionButton</a> , 那個像水珠一樣突出去的效果, 我還蠻愛的:</p>
-
-<p><img src="/images/posts/gt1.gif" alt="" /></p>
-
-<p>但缺點是, 後面缺一個擋住背景元件的, 以致於要去點伸上來的小按鈕容易誤按後面的元件, 因此就想自己改一個後面多一個overlay的版本, 當然也不想隨便貼一張白白的就交差, 起碼要像這樣:</p>
-
-<p><img src="/images/posts/fg2.gif" alt="" /></p>
-
-<p>這邊不是單純蓋一個深色半透明的背景而已, 還需要作一點模糊的部分</p>
-
-<p>在iOS上(iOS8 之後), 作這樣的東西很簡單, 只要利用<a href="https://developer.apple.com/reference/uikit/uivisualeffectview">UIVisualEffectView</a>和<a href="https://developer.apple.com/reference/uikit/uiblureffect">UIBlurEffect</a>這兩個東西, 寫法很簡單:</p>
-
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code>    <span class="k">let</span> <span class="nv">blurEffect</span> <span class="o">=</span> <span class="kt">UIBlurEffect</span><span class="p">(</span><span class="nv">style</span><span class="p">:</span> <span class="o">.</span><span class="kt">Dark</span><span class="p">)</span>
-    <span class="k">let</span> <span class="nv">uiEffectView</span> <span class="o">=</span> <span class="kt">UIVisualEffectView</span><span class="p">(</span><span class="nv">effect</span><span class="p">:</span> <span class="n">blurEffect</span><span class="p">)</span>
-    <span class="n">uiEffectView</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">overlayView</span><span class="o">.</span><span class="n">bounds</span>
-    <span class="n">overlayView</span><span class="o">.</span><span class="nf">addSubview</span><span class="p">(</span><span class="n">uiEffectView</span><span class="p">)</span>
-</code></pre>
-</div>
-
-<p><a href="https://developer.apple.com/reference/uikit/uiblureffect">UIBlurEffect</a>有三種樣式, Dark, Light, 和ExtraLight, 上面的範例是Dark, 蠻適合用在這地方的, 利用這個方法就可以不用自己擷取screenshot再算模糊化了</p>
 
   </div><!-- /.entry-content -->
 </article><!-- /.hentry -->
