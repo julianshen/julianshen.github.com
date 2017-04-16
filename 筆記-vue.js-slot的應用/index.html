@@ -1,0 +1,573 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>[筆記][Vue.js] Slot的應用 &#8211; Le murmure de Julian</title>
+<meta name="description" content="朱隸安貓囈語錄">
+<meta name="keywords" content="javascript, Vuejs">
+
+<!-- Twitter Cards -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="avatar.png">
+<meta name="twitter:title" content="[筆記][Vue.js] Slot的應用">
+<meta name="twitter:description" content="朱隸安貓囈語錄">
+<meta name="twitter:creator" content="@jlnshen">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[筆記][Vue.js] Slot的應用">
+<meta property="og:description" content="朱隸安貓囈語錄">
+<meta property="og:url" content="http://blog.jln.co/%E7%AD%86%E8%A8%98-vue.js-slot%E7%9A%84%E6%87%89%E7%94%A8/">
+<meta property="og:site_name" content="Le murmure de Julian">
+<meta name="og:image" content="avatar.png">
+<meta name="google-site-verification" content="Fwa4TQMXvroZpNT7rrwHzdf-rWBe1RDuTu75Enx_DWA">
+
+
+
+<link rel="canonical" href="http://blog.jln.co/%E7%AD%86%E8%A8%98-vue.js-slot%E7%9A%84%E6%87%89%E7%94%A8/">
+<link href="http://blog.jln.co/feed.xml" type="application/atom+xml" rel="alternate" title="Le murmure de Julian Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.rawgit.com/knsv/mermaid/6.0.0/dist/mermaid.css">
+<!-- Webfonts -->
+<link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel="stylesheet" type="text/css">
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- Load Modernizr -->
+<script src="/assets/js/vendor/modernizr-2.6.2.custom.min.js"></script>
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="http://blog.jln.co/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="http://blog.jln.co/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="http://blog.jln.co/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://blog.jln.co/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://blog.jln.co/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://blog.jln.co/images/apple-touch-icon-144x144-precomposed.png">
+
+
+
+  
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({
+        google_ad_client: "ca-pub-1789797875470932",
+        enable_page_level_ads: true
+    });
+    </script>
+  
+
+</head>
+
+<body id="post" >
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+<nav id="dl-menu" class="dl-menuwrapper" role="navigation">
+	<button class="dl-trigger">Open Menu</button>
+	<ul class="dl-menu">
+		<li><a href="http://blog.jln.co/">Home</a></li>
+		<li>
+			<a href="#">About</a>
+			<ul class="dl-submenu">
+				<li>
+					<img src="http://blog.jln.co/images/avatar.png" alt="Julian Shen photo" class="author-photo">
+					<h4>Julian Shen</h4>
+					<p>software deverloper</p>
+				</li>
+				<li>
+					<a href="mailto:julianshen22@gmail.com"><i class="fa fa-fw fa-envelope"></i> Email</a>
+				</li>
+				<li>
+					<a href="https://twitter.com/jlnshen"><i class="fa fa-fw fa-twitter"></i> Twitter</a>
+				</li>
+				<li>
+					<a href="https://facebook.com/julianshen"><i class="fa fa-fw fa-facebook"></i> Facebook</a>
+				</li>
+				
+				<li>
+					<a href="https://linkedin.com/in/julianshen"><i class="fa fa-fw fa-linkedin"></i> LinkedIn</a>
+				</li>
+				<li>
+					<a href="https://github.com/julianshen"><i class="fa fa-fw fa-github"></i> GitHub</a>
+				</li>
+				
+				<li>
+					<a href="https://instagram.com/julianshen"><i class="fa fa-fw fa-instagram"></i> Instagram</a>
+				</li>
+				<li>
+					<a href="https://www.flickr.com/photos/julianshen"><i class="fa fa-fw fa-flickr"></i> Flickr</a>
+				</li>
+				
+			</ul><!-- /.dl-submenu -->
+		</li>
+		<li>
+			<a href="#">Posts</a>
+			<ul class="dl-submenu">
+				<li><a href="http://blog.jln.co/posts/">All Posts</a></li>
+				<li><a href="http://blog.jln.co/tags/">All Tags</a></li>
+			</ul>
+		</li>
+		
+	</ul><!-- /.dl-menu -->
+</nav><!-- /.dl-menuwrapper -->
+
+
+
+
+<div id="main" role="main">
+  <article class="hentry">
+    <header class="header-title">
+      <div class="header-title-wrap">
+        
+          <h1 class="entry-title"><a href="http://blog.jln.co/%E7%AD%86%E8%A8%98-vue.js-slot%E7%9A%84%E6%87%89%E7%94%A8/" rel="bookmark" title="[筆記][Vue.js] Slot的應用">[筆記][Vue.js] Slot的應用</a></h1>
+        
+        <h2><span class="entry-date date published"><time datetime="2017-04-16T18:15:44+08:00">April 16, 2017</time></span></h2>
+        
+        <p class="entry-reading-time">
+          <i class="fa fa-clock-o"></i>
+          
+Reading time ~2 minutes
+        </p><!-- /.entry-reading-time -->
+        
+      </div><!-- /.header-title-wrap -->
+    </header>
+    <div class="entry-content">
+      <p>Vue的component裡有一個還蠻好用的東西叫做<a href="https://vuejs.org/v2/guide/components.html#Content-Distribution-with-Slots">Slot</a>(文件<a href="https://vuejs.org/v2/guide/components.html#Content-Distribution-with-Slots">在此</a>), 尤其適用在開發複雜或巢狀的元件</p>
+
+<p>那Slot是用在什麼樣的地方, 舉個例子, 假設我們有個元件叫做panel:</p>
+
+<div class="language-html highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;panel&gt;</span>
+  <span class="nt">&lt;div&gt;</span>Inside panel<span class="nt">&lt;/div&gt;</span>
+  <span class="nt">&lt;div&gt;</span>Panel content<span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/panel&gt;</span>
+</code></pre>
+</div>
+
+<p>Panel的定義可能會是這樣:</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">Vue</span><span class="p">.</span><span class="nx">component</span><span class="p">(</span><span class="s1">'panel'</span><span class="p">,</span> <span class="p">{</span>
+  <span class="na">template</span><span class="p">:</span> <span class="s1">'&lt;div&gt;&lt;slot&gt;&lt;/slot&gt;&lt;/div&gt;'</span>
+<span class="p">})</span>
+</code></pre>
+</div>
+
+<p><a href="https://jsfiddle.net/898f03os/0/">執行範例</a></p>
+
+<p>簡單的說, 這邊template裡的slot會被拿來放前面例子<code class="highlighter-rouge">&lt;panel&gt;&lt;/panel&gt;</code>裡面的<code class="highlighter-rouge">&lt;div&gt;</code></p>
+
+<p>當然, 這也可以讓我們這個component裡面再放其他的component, 像是這樣的例子:</p>
+
+<div class="language-html highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;b-menu&gt;</span>
+ <span class="nt">&lt;b-menu-item&gt;</span>menu 1<span class="nt">&lt;/b-menu-item&gt;</span>
+ <span class="nt">&lt;b-menu-item&gt;</span>menu 2<span class="nt">&lt;/b-menu-item&gt;</span>
+ <span class="nt">&lt;b-menu-item&gt;</span>menu 3<span class="nt">&lt;/b-menu-item&gt;</span>
+ <span class="nt">&lt;b-menu-item&gt;</span>menu 4<span class="nt">&lt;/b-menu-item&gt;</span>
+<span class="nt">&lt;/b-menu&gt;</span>
+</code></pre>
+</div>
+
+<p>實作上可以寫成這樣</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">Vue</span><span class="p">.</span><span class="nx">component</span><span class="p">(</span><span class="s1">'b-menu'</span><span class="p">,</span> <span class="p">{</span>
+  <span class="na">template</span><span class="p">:</span> <span class="s1">'&lt;div&gt;&lt;ul&gt;&lt;slot&gt;&lt;/slot&gt;&lt;/ul&gt;&lt;/div&gt;'</span>
+<span class="p">})</span>
+
+<span class="nx">Vue</span><span class="p">.</span><span class="nx">component</span><span class="p">(</span><span class="s1">'b-menu-item'</span><span class="p">,</span> <span class="p">{</span>
+  <span class="na">template</span><span class="p">:</span> <span class="s1">'&lt;li&gt;&lt;slot&gt;&lt;/slot&gt;&lt;/li&gt;'</span>
+<span class="p">})</span>
+</code></pre>
+</div>
+
+<p><a href="https://jsfiddle.net/898f03os/2/">執行範例</a></p>
+
+<p>其實這範例看起來好像也沒啥必要寫成component(不過就ul/li), 當然, 實際上的應用可以再更複雜, 再來看一個更複雜的範例:</p>
+
+<div class="language-html highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;b-menu&gt;</span>
+	<span class="nt">&lt;b-menu-item</span> <span class="na">title=</span><span class="s">"menu 1"</span><span class="nt">&gt;</span>Content 1<span class="nt">&lt;/b-menu-item&gt;</span>
+	<span class="nt">&lt;b-menu-item</span> <span class="na">title=</span><span class="s">"menu 2"</span><span class="nt">&gt;</span>Content 2<span class="nt">&lt;/b-menu-item&gt;</span>
+	<span class="nt">&lt;b-menu-item</span> <span class="na">title=</span><span class="s">"menu 3"</span><span class="nt">&gt;</span>Content 3<span class="nt">&lt;/b-menu-item&gt;</span>
+	<span class="nt">&lt;b-menu-item</span> <span class="na">title=</span><span class="s">"menu 4"</span><span class="nt">&gt;</span>Content 4<span class="nt">&lt;/b-menu-item&gt;</span>
+<span class="nt">&lt;/b-menu&gt;</span>
+</code></pre>
+</div>
+
+<p>跟上面不一樣的是, 這次想render成的結果是像這樣:</p>
+
+<div class="language-html highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;div&gt;</span>
+  <span class="nt">&lt;ul&gt;</span>
+    <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">"#a1"</span><span class="nt">&gt;</span>menu 1<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+    <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">"#a2"</span><span class="nt">&gt;</span>menu 2<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+    <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">"#a3"</span><span class="nt">&gt;</span>menu 3<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+    <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">"#a4"</span><span class="nt">&gt;</span>menu 4<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+  <span class="nt">&lt;/ul&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"a1"</span><span class="nt">&gt;</span>Content1<span class="nt">&lt;/div&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"a2"</span><span class="nt">&gt;</span>Content2<span class="nt">&lt;/div&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"a3"</span><span class="nt">&gt;</span>Content3<span class="nt">&lt;/div&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"a4"</span><span class="nt">&gt;</span>Content4<span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+</code></pre>
+</div>
+
+<p>這明顯被切成兩區了, title的部分顯示在<code class="highlighter-rouge">&lt;ul&gt;</code>內, 而content卻在另一區, 那這該怎麼做呢?</p>
+
+<h3 id="slotchild-component">取得Slot內的子元件(Child component)</h3>
+
+<p>上面的例子可以寫成這樣:</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">Vue</span><span class="p">.</span><span class="nx">component</span><span class="p">(</span><span class="s1">'b-menu'</span><span class="p">,</span> <span class="p">{</span>
+  <span class="nx">data</span> <span class="p">()</span> <span class="p">{</span>
+  	<span class="k">return</span> <span class="p">{</span>
+      <span class="na">items</span><span class="p">:</span> <span class="p">[]</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="na">template</span><span class="p">:</span> <span class="s1">'&lt;div&gt;&lt;ul&gt;&lt;li v-for="(item,i) in items"&gt;&lt;a :href="`#a${i+1}`"&gt;&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;div&gt;&lt;slot&gt;&lt;/slot&gt;&lt;/div&gt;&lt;/div&gt;'</span><span class="p">,</span>
+  <span class="nx">mounted</span> <span class="p">()</span> <span class="p">{</span>
+     <span class="k">this</span><span class="p">.</span><span class="nx">items</span><span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">$slots</span><span class="p">.</span><span class="k">default</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">item</span> <span class="o">=&gt;</span> <span class="nx">item</span><span class="p">.</span><span class="nx">componentInstance</span> <span class="o">||</span> <span class="kc">false</span><span class="p">).</span><span class="nx">map</span><span class="p">(</span><span class="nx">item</span> <span class="o">=&gt;</span> <span class="nx">item</span><span class="p">.</span><span class="nx">componentInstance</span><span class="p">)</span>
+     <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="p">[</span><span class="nx">index</span><span class="p">,</span> <span class="nx">item</span><span class="p">]</span> <span class="nx">of</span> <span class="k">this</span><span class="p">.</span><span class="nx">items</span><span class="p">.</span><span class="nx">entries</span><span class="p">())</span> <span class="p">{</span>
+       <span class="k">this</span><span class="p">.</span><span class="nx">$set</span><span class="p">(</span><span class="nx">item</span><span class="p">,</span> <span class="s1">'id'</span><span class="p">,</span> <span class="s1">'a'</span> <span class="o">+</span> <span class="p">(</span><span class="nx">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+     <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">})</span>
+
+<span class="nx">Vue</span><span class="p">.</span><span class="nx">component</span><span class="p">(</span><span class="s1">'b-menu-item'</span><span class="p">,</span> <span class="p">{</span>
+  <span class="na">template</span><span class="p">:</span> <span class="s1">'&lt;div :id="id"&gt;&lt;slot&gt;&lt;/slot&gt;&lt;/div&gt;'</span><span class="p">,</span>
+  <span class="na">props</span><span class="p">:</span> <span class="p">[</span><span class="s1">'title'</span><span class="p">],</span>
+  <span class="nx">data</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">{</span>
+      <span class="na">id</span><span class="p">:</span> <span class="s1">''</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">})</span>
+</code></pre>
+</div>
+
+<p>要取得slot裡面的child nodes可以用<code class="highlighter-rouge">this.$slots.default</code>, 但這個包含所有的child nodes, 如果我們要的只是child components, 那可以檢查這個node是否包含<code class="highlighter-rouge">componentInstance</code></p>
+
+<p>因此, 透過filter和map, 我們可以以<code class="highlighter-rouge">this.$slots.default.filter(item =&gt; item.componentInstance || false).map(item =&gt; item.componentInstance)</code>來取得child components, 在這個例子就包含所有的b-menu-item</p>
+
+<p>這段程式的作法就是取得所有child components放入items這個資料欄位中, 而在template中有<code class="highlighter-rouge">&lt;li v-for="(item,i) in items"&gt;</code>利用items內的值來渲染<code class="highlighter-rouge">&lt;li&gt;</code>的部分</p>
+
+<p>這邊有一點需要注意的是, 這段必須要跑在 <code class="highlighter-rouge">mounted()</code>不能在<code class="highlighter-rouge">created()</code>, 因為在<code class="highlighter-rouge">created()</code>裡面雖然可以用<code class="highlighter-rouge">this.$slots.default</code>來取得child nodes, 但這時候child nodes的componentInstace全部都是undefined, 因為這時候child components其實都還沒準備好</p>
+
+<h3 id="section">處理動態內容</h3>
+
+<p><code class="highlighter-rouge">b-menu-item</code>當然也可以用<code class="highlighter-rouge">v-for</code>來動態渲染, 像是:</p>
+
+<div class="language-html highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;b-menu&gt;</span>
+   <span class="nt">&lt;b-menu-item</span> <span class="na">v-for=</span><span class="s">"mItem in menuItems"</span> <span class="na">:title=</span><span class="s">"mItem.title"</span><span class="nt">&gt;&lt;/b-menu-item&gt;</span>
+<span class="nt">&lt;/b-menu&gt;</span>
+</code></pre>
+</div>
+
+<p>這邊的menuItems如果是一個靜態的陣列下面例子, 不會有問題</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">vue</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Vue</span><span class="p">({</span>
+  <span class="na">el</span><span class="p">:</span> <span class="s1">'#app'</span><span class="p">,</span>
+  <span class="nx">data</span> <span class="p">()</span> <span class="p">{</span>
+     <span class="k">return</span> <span class="p">{</span>
+       <span class="na">menuItems</span><span class="p">:</span> <span class="p">[</span>
+          <span class="p">{</span>
+             <span class="na">title</span><span class="p">:</span> <span class="s1">'menu 1'</span><span class="p">,</span>
+             <span class="na">content</span><span class="p">:</span> <span class="s1">'content 1'</span>
+          <span class="p">},</span>
+          <span class="p">{</span>
+             <span class="na">title</span><span class="p">:</span> <span class="s1">'menu 2'</span><span class="p">,</span>
+             <span class="na">content</span><span class="p">:</span> <span class="s1">'content 2'</span>
+          <span class="p">},</span>
+          <span class="p">{</span>
+             <span class="na">title</span><span class="p">:</span> <span class="s1">'menu 3'</span><span class="p">,</span>
+             <span class="na">content</span><span class="p">:</span> <span class="s1">'content 3'</span>
+          <span class="p">}</span>
+       <span class="p">]</span>
+     <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">})</span>
+</code></pre>
+</div>
+
+<p>但如果它的內容是由一個async function所產生, 像是</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">vue</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Vue</span><span class="p">({</span>
+  <span class="na">el</span><span class="p">:</span> <span class="s1">'#app'</span><span class="p">,</span>
+  <span class="nx">data</span> <span class="p">()</span> <span class="p">{</span>
+     <span class="k">return</span> <span class="p">{</span>
+       <span class="na">menuItems</span><span class="p">:</span> <span class="p">[]</span>
+     <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="nx">mounted</span> <span class="p">()</span> <span class="p">{</span>
+	<span class="kd">let</span> <span class="nx">vm</span> <span class="o">=</span> <span class="k">this</span>
+	<span class="nx">doGetSomething</span><span class="p">(</span><span class="nx">data</span> <span class="o">=&gt;</span> <span class="p">{</span>
+		<span class="nx">vm</span><span class="p">.</span><span class="nx">menuItems</span> <span class="o">=</span> <span class="nx">data</span>
+	<span class="p">})</span>
+  <span class="p">}</span>
+<span class="p">})</span>
+</code></pre>
+</div>
+
+<p>你可能會發現畫面完全沒變化, 那是因為我們在<code class="highlighter-rouge">b-menu</code>的<code class="highlighter-rouge">mouted()</code>的時候去掃所有的child components, 而<code class="highlighter-rouge">menuItems</code>可能在mouted很之後才會被更新, 所以不會被重掃一次, <code class="highlighter-rouge">items</code>並不會被更新, 所以畫面也不會有變化, 因此必須要在<code class="highlighter-rouge">menuItems</code>資料被更新後再掃一次slot的child components</p>
+
+<p>可以把b-menu改成這樣</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">Vue</span><span class="p">.</span><span class="nx">component</span><span class="p">(</span><span class="s1">'b-menu'</span><span class="p">,</span> <span class="p">{</span>
+  <span class="nx">data</span> <span class="p">()</span> <span class="p">{</span>
+  	<span class="k">return</span> <span class="p">{</span>
+      <span class="na">items</span><span class="p">:</span> <span class="p">[]</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="na">template</span><span class="p">:</span> <span class="s1">'&lt;div&gt;&lt;ul&gt;&lt;li v-for="(item,i) in items"&gt;&lt;a :href="`#a${i+1}`"&gt;&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;div&gt;&lt;slot&gt;&lt;/slot&gt;&lt;/div&gt;&lt;/div&gt;'</span><span class="p">,</span>
+  <span class="na">methods</span><span class="p">:</span> <span class="p">{</span>
+	<span class="nx">updateItems</span> <span class="p">()</span> <span class="p">{</span>
+	  	<span class="k">this</span><span class="p">.</span><span class="nx">items</span><span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">$slots</span><span class="p">.</span><span class="k">default</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">item</span> <span class="o">=&gt;</span> <span class="nx">item</span><span class="p">.</span><span class="nx">componentInstance</span> <span class="o">||</span> <span class="kc">false</span><span class="p">).</span><span class="nx">map</span><span class="p">(</span><span class="nx">item</span> <span class="o">=&gt;</span> <span class="nx">item</span><span class="p">.</span><span class="nx">componentInstance</span><span class="p">)</span>
+		<span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="p">[</span><span class="nx">index</span><span class="p">,</span> <span class="nx">item</span><span class="p">]</span> <span class="nx">of</span> <span class="k">this</span><span class="p">.</span><span class="nx">items</span><span class="p">.</span><span class="nx">entries</span><span class="p">())</span> <span class="p">{</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">$set</span><span class="p">(</span><span class="nx">item</span><span class="p">,</span> <span class="s1">'id'</span><span class="p">,</span> <span class="s1">'a'</span> <span class="o">+</span> <span class="p">(</span><span class="nx">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+  <span class="p">},</span>
+  <span class="nx">mounted</span> <span class="p">()</span> <span class="p">{</span>
+     <span class="nx">updateItems</span><span class="p">()</span>
+  <span class="p">}</span>
+<span class="p">})</span>
+</code></pre>
+</div>
+
+<p>這樣亦即是, 我們在更新完資料後必須要再呼叫一次<code class="highlighter-rouge">updateItems()</code></p>
+
+<p>為了直接呼叫到b-menu的updateItems, 可以先替他加一個<code class="highlighter-rouge">ref="menu"</code>, 方便後面存取</p>
+
+<div class="language-html highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;b-menu</span> <span class="na">ref=</span><span class="s">"menu"</span><span class="nt">&gt;</span>
+   <span class="nt">&lt;b-menu-item</span> <span class="na">v-for=</span><span class="s">"mItem in menuItems"</span> <span class="na">:title=</span><span class="s">"mItem.title"</span><span class="nt">&gt;&lt;/b-menu-item&gt;</span>
+<span class="nt">&lt;/b-menu&gt;</span>
+</code></pre>
+</div>
+
+<p>前面更新menuItems的程式可以改寫成這樣:</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">vue</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Vue</span><span class="p">({</span>
+  <span class="na">el</span><span class="p">:</span> <span class="s1">'#app'</span><span class="p">,</span>
+  <span class="nx">data</span> <span class="p">()</span> <span class="p">{</span>
+     <span class="k">return</span> <span class="p">{</span>
+       <span class="na">menuItems</span><span class="p">:</span> <span class="p">[]</span>
+     <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="nx">mounted</span> <span class="p">()</span> <span class="p">{</span>
+	<span class="kd">let</span> <span class="nx">vm</span> <span class="o">=</span> <span class="k">this</span>
+	<span class="nx">doGetSomething</span><span class="p">(</span><span class="nx">data</span> <span class="o">=&gt;</span> <span class="p">{</span>
+		<span class="nx">vm</span><span class="p">.</span><span class="nx">menuItems</span> <span class="o">=</span> <span class="nx">data</span>
+		<span class="nx">vm</span><span class="p">.</span><span class="nx">$refs</span><span class="p">.</span><span class="nx">menu</span><span class="p">.</span><span class="nx">updateItems</span><span class="p">()</span>
+	<span class="p">})</span>
+  <span class="p">}</span>
+<span class="p">})</span>
+</code></pre>
+</div>
+
+<p>這邊透過<code class="highlighter-rouge">vm.$refs.menu.updateItems()</code>來更新<code class="highlighter-rouge">items</code></p>
+
+<p>但….還是沒動靜呀…怎麼回事? 因為這時候menuItems才剛被更新, 它先去更新b-munu-item, 如果讓items更新後, 畫面要跟著更新, 就必須要在下一個DOM的更新週期, 也就是使用<code class="highlighter-rouge">$nextTick</code>, 如下:</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">vue</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Vue</span><span class="p">({</span>
+  <span class="na">el</span><span class="p">:</span> <span class="s1">'#app'</span><span class="p">,</span>
+  <span class="nx">data</span> <span class="p">()</span> <span class="p">{</span>
+     <span class="k">return</span> <span class="p">{</span>
+       <span class="na">menuItems</span><span class="p">:</span> <span class="p">[]</span>
+     <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="nx">mounted</span> <span class="p">()</span> <span class="p">{</span>
+	<span class="kd">let</span> <span class="nx">vm</span> <span class="o">=</span> <span class="k">this</span>
+	<span class="nx">doGetSomething</span><span class="p">(</span><span class="nx">data</span> <span class="o">=&gt;</span> <span class="p">{</span>
+		<span class="nx">vm</span><span class="p">.</span><span class="nx">menuItems</span> <span class="o">=</span> <span class="nx">data</span>
+		<span class="nx">vm</span><span class="p">.</span><span class="nx">$nextTick</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+			<span class="nx">vm</span><span class="p">.</span><span class="nx">$refs</span><span class="p">.</span><span class="nx">menu</span><span class="p">.</span><span class="nx">updateItems</span><span class="p">()</span>
+		<span class="p">})</span>
+	<span class="p">})</span>
+  <span class="p">}</span>
+<span class="p">})</span>
+</code></pre>
+</div>
+
+<p>這樣就沒問題了!</p>
+
+<p>但對於一個元件來說, 這樣的設計並不是很好, 變成這個元件必須相依於使用它的程式, 還有沒更好的寫法?</p>
+
+<h3 id="section-1">在子原件更新時呼叫父元件呢?</h3>
+
+<p>把<code class="highlighter-rouge">b-menu-item</code>這樣改寫:</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">Vue</span><span class="p">.</span><span class="nx">component</span><span class="p">(</span><span class="s1">'b-menu-item'</span><span class="p">,</span> <span class="p">{</span>
+  <span class="na">template</span><span class="p">:</span> <span class="s1">'&lt;div :id="id"&gt;&lt;slot&gt;&lt;/slot&gt;&lt;/div&gt;'</span><span class="p">,</span>
+  <span class="na">props</span><span class="p">:</span> <span class="p">[</span><span class="s1">'title'</span><span class="p">],</span>
+  <span class="nx">data</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">{</span>
+      <span class="na">id</span><span class="p">:</span> <span class="s1">''</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="nx">mounted</span> <span class="p">()</span> <span class="p">{</span>
+     <span class="k">this</span><span class="p">.</span><span class="nx">$parent</span><span class="p">.</span><span class="nx">updateItems</span><span class="p">()</span>
+  <span class="p">}</span>
+<span class="p">})</span>
+</code></pre>
+</div>
+
+<p>這樣也是可行的, 當新的<code class="highlighter-rouge">b-menu-item</code>被加入slot中時, 就會呼叫一次updateItems</p>
+
+<p>但這是有缺點的:</p>
+
+<ol>
+  <li>每個child component會呼叫一次, 但實際上不需要被呼叫這麼多次, 有點浪費</li>
+  <li>這個子原件的設計變成會依賴父元件, 不易與用在其他元件內</li>
+</ol>
+
+<p>所以還是需要一個更好的方式</p>
+
+<h3 id="mutationobserver">MutationObserver</h3>
+
+<p>這時候就要借用HTML5的<a href="https://developer.mozilla.org/zh-TW/docs/Web/API/MutationObserver">MutationObserver</a>, 這個在Vuejs內部也是大量地被使用</p>
+
+<p>使用<a href="https://developer.mozilla.org/zh-TW/docs/Web/API/MutationObserver">MutationObserver</a>, 我們可以把<code class="highlighter-rouge">b-menu</code>改成這樣:</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">Vue</span><span class="p">.</span><span class="nx">component</span><span class="p">(</span><span class="s1">'b-menu'</span><span class="p">,</span> <span class="p">{</span>
+  <span class="nx">data</span> <span class="p">()</span> <span class="p">{</span>
+  	<span class="k">return</span> <span class="p">{</span>
+      <span class="na">items</span><span class="p">:</span> <span class="p">[],</span>
+	  <span class="na">domObserver</span><span class="p">:</span> <span class="kc">null</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="na">template</span><span class="p">:</span> <span class="s1">'&lt;div&gt;&lt;ul&gt;&lt;li v-for="(item,i) in items"&gt;&lt;a :href="`#a${i+1}`"&gt;&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;div ref="content"&gt;&lt;slot&gt;&lt;/slot&gt;&lt;/div&gt;&lt;/div&gt;'</span><span class="p">,</span>
+  <span class="na">methods</span><span class="p">:</span> <span class="p">{</span>
+	<span class="nx">updateItems</span> <span class="p">()</span> <span class="p">{</span>
+	  	<span class="k">this</span><span class="p">.</span><span class="nx">items</span><span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">$slots</span><span class="p">.</span><span class="k">default</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">item</span> <span class="o">=&gt;</span> <span class="nx">item</span><span class="p">.</span><span class="nx">componentInstance</span> <span class="o">||</span> <span class="kc">false</span><span class="p">).</span><span class="nx">map</span><span class="p">(</span><span class="nx">item</span> <span class="o">=&gt;</span> <span class="nx">item</span><span class="p">.</span><span class="nx">componentInstance</span><span class="p">)</span>
+		<span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="p">[</span><span class="nx">index</span><span class="p">,</span> <span class="nx">item</span><span class="p">]</span> <span class="nx">of</span> <span class="k">this</span><span class="p">.</span><span class="nx">items</span><span class="p">.</span><span class="nx">entries</span><span class="p">())</span> <span class="p">{</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">$set</span><span class="p">(</span><span class="nx">item</span><span class="p">,</span> <span class="s1">'id'</span><span class="p">,</span> <span class="s1">'a'</span> <span class="o">+</span> <span class="p">(</span><span class="nx">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+  <span class="p">},</span>
+  <span class="nx">mounted</span> <span class="p">()</span> <span class="p">{</span>
+     <span class="nx">updateItems</span><span class="p">()</span>
+	 <span class="kd">let</span> <span class="nx">vm</span> <span class="o">=</span> <span class="k">this</span>
+	 <span class="nx">vm</span><span class="p">.</span><span class="nx">domObserver</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">MutationObserver</span><span class="p">((</span><span class="nx">mr</span><span class="p">,</span> <span class="nx">el</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+		 <span class="kd">let</span> <span class="nx">shouldUpdate</span> <span class="o">=</span> <span class="kc">false</span>
+		 <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">m</span> <span class="nx">of</span> <span class="nx">mr</span><span class="p">)</span> <span class="p">{</span>
+			 <span class="k">if</span> <span class="p">(</span><span class="nx">m</span><span class="p">.</span><span class="nx">addedNodes</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="nx">m</span><span class="p">.</span><span class="nx">removedNodes</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+				 <span class="nx">shouldUpdate</span> <span class="o">=</span> <span class="kc">true</span>
+				 <span class="k">break</span>
+			 <span class="p">}</span>
+		 <span class="p">}</span>
+
+		 <span class="k">if</span> <span class="p">(</span><span class="nx">shouldUpdate</span><span class="p">)</span> <span class="p">{</span>
+			 <span class="nx">vm</span><span class="p">.</span><span class="nx">updateItems</span><span class="p">()</span>
+		 <span class="p">}</span>
+	 <span class="p">})</span>
+
+	 <span class="nx">vm</span><span class="p">.</span><span class="nx">domObserver</span><span class="p">.</span><span class="nx">observer</span><span class="p">(</span><span class="nx">vm</span><span class="p">.</span><span class="nx">$refs</span><span class="p">.</span><span class="nx">content</span><span class="p">,</span> <span class="p">{</span><span class="na">childList</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="na">subtree</span><span class="p">:</span> <span class="kc">true</span><span class="p">})</span>
+  <span class="p">}</span>
+<span class="p">})</span>
+</code></pre>
+</div>
+
+<p>藉由監控slot的父節點(parent node)的變化來確定是否要去更新items, 這樣一來就不用依賴其他人也可以做到自動更新了</p>
+
+      <footer class="entry-meta">
+        <span class="entry-tags"><a href="http://blog.jln.co/tags/#javascript" title="Pages tagged javascript" class="tag"><span class="term">javascript</span></a><a href="http://blog.jln.co/tags/#Vuejs" title="Pages tagged Vuejs" class="tag"><span class="term">Vuejs</span></a></span>
+        
+        <div class="social-share">
+  <ul class="socialcount socialcount-small inline-list">
+    <li class="facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=http://blog.jln.co/%E7%AD%86%E8%A8%98-vue.js-slot%E7%9A%84%E6%87%89%E7%94%A8/" title="Share on Facebook"><span class="count"><i class="fa fa-facebook-square"></i> Like</span></a></li>
+    <li class="twitter"><a href="https://twitter.com/intent/tweet?text=http://blog.jln.co/%E7%AD%86%E8%A8%98-vue.js-slot%E7%9A%84%E6%87%89%E7%94%A8/" title="Share on Twitter"><span class="count"><i class="fa fa-twitter-square"></i> Tweet</span></a></li>
+    <li class="googleplus"><a href="https://plus.google.com/share?url=http://blog.jln.co/%E7%AD%86%E8%A8%98-vue.js-slot%E7%9A%84%E6%87%89%E7%94%A8/" title="Share on Google Plus"><span class="count"><i class="fa fa-google-plus-square"></i> +1</span></a></li>
+  </ul>
+</div><!-- /.social-share -->
+      </footer>
+    </div><!-- /.entry-content -->
+    <section id="disqus_thread"></section><!-- /#disqus_thread -->
+    <div class="read-more">
+  
+    <div class="read-more-header">
+      <a href="http://blog.jln.co/%E7%AD%86%E8%A8%98-%E5%88%A9%E7%94%A8axios-mock-adapter%E7%82%BAaxios%E6%8F%90%E4%BE%9B%E6%B8%AC%E8%A9%A6%E7%94%A8%E7%9A%84%E5%81%87%E8%B3%87%E6%96%99/" class="read-more-btn">Read More</a>
+    </div><!-- /.read-more-header -->
+    <div class="read-more-content">
+      <h3><a href="http://blog.jln.co/%E7%AD%86%E8%A8%98-%E5%88%A9%E7%94%A8axios-mock-adapter%E7%82%BAaxios%E6%8F%90%E4%BE%9B%E6%B8%AC%E8%A9%A6%E7%94%A8%E7%9A%84%E5%81%87%E8%B3%87%E6%96%99/" title="[筆記]利用axios-mock-adapter為axios提供測試用的假資料">[筆記]利用axios-mock-adapter為axios提供測試用的假資料</a></h3>
+      <p>axios是蠻好用的javascript http client, 不僅可以在browser上跑, 也可以在node.js上用, 而且Promise形態的API寫起來就比較好看, 如果搭配async/await的寫法, 看起來就更加漂亮了function loadUser(...&hellip; <a href="http://blog.jln.co/%E7%AD%86%E8%A8%98-%E5%88%A9%E7%94%A8axios-mock-adapter%E7%82%BAaxios%E6%8F%90%E4%BE%9B%E6%B8%AC%E8%A9%A6%E7%94%A8%E7%9A%84%E5%81%87%E8%B3%87%E6%96%99/">Continue reading</a></p>
+    </div><!-- /.read-more-content -->
+  
+  <div class="read-more-list">
+    
+      <div class="list-item">
+        <h4><a href="http://blog.jln.co/%E7%AD%86%E8%A8%98-vue.js-+-webpack-%E5%88%A4%E6%96%B7%E6%98%AF%E5%90%A6%E7%82%BA%E9%96%8B%E7%99%BC%E7%92%B0%E5%A2%83/" title="[筆記][Vue.js + Webpack] 判斷是否為開發環境">[筆記][Vue.js + Webpack] 判斷是否為開發環境</a></h4>
+        <span>Published on April 15, 2017</span>
+      </div><!-- /.list-item -->
+    
+      <div class="list-item">
+        <h4><a href="http://blog.jln.co/golang-go%E7%9A%84httptest/" title="[Golang] Go的httptest">[Golang] Go的httptest</a></h4>
+        <span>Published on April 01, 2017</span>
+      </div><!-- /.list-item -->
+    
+  </div><!-- /.read-more-list -->
+</div><!-- /.read-more -->
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrapper">
+  <footer role="contentinfo">
+    <span>&copy; 2017 Julian Shen. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> using the <a href="https://mademistakes.com/work/hpstr-jekyll-theme/" rel="nofollow">HPSTR Theme</a>.</span>
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="http://blog.jln.co/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="http://blog.jln.co/assets/js/scripts.min.js"></script>
+
+
+<!-- Asynchronous Google Analytics snippet -->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-79243751-1', 'auto');  
+  ga('require', 'linkid', 'linkid.js');
+  ga('send', 'pageview');
+</script>
+
+
+
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'julianshen'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function () {
+            var s = document.createElement('script'); s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+	        
+
+</body>
+</html>

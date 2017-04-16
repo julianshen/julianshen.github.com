@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://blog.jln.co/%25E7%25AD%2586%25E8%25A8%2598-vue.js-slot%25E7%259A%2584%25E6%2587%2589%25E7%2594%25A8/</loc>
+<lastmod>2017-04-16T18:15:44+08:00</lastmod>
+</url>
+<url>
 <loc>http://blog.jln.co/%25E7%25AD%2586%25E8%25A8%2598-%25E5%2588%25A9%25E7%2594%25A8axios-mock-adapter%25E7%2582%25BAaxios%25E6%258F%2590%25E4%25BE%259B%25E6%25B8%25AC%25E8%25A9%25A6%25E7%2594%25A8%25E7%259A%2584%25E5%2581%2587%25E8%25B3%2587%25E6%2596%2599/</loc>
 <lastmod>2017-04-15T12:46:27+08:00</lastmod>
 </url>
