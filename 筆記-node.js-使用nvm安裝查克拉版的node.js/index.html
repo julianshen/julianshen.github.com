@@ -162,6 +162,14 @@ Reading time ~1 minute
 
 <p>裝完之後可以用<code class="highlighter-rouge">nvm alias</code>為<code class="highlighter-rouge">v9.0.0-nightly20170617021fbca6bc</code>取一個代號, 如<code class="highlighter-rouge">nvm alias v9.0.0-nightly20170617021fbca6bc chakra9</code>, 這樣之後就可以用<code class="highlighter-rouge">nvm use chakra9</code>來切換到這個版本, 這樣就搞定了! 歡迎來到木葉忍者村!!</p>
 
+<p>另外, 補充一點, 怎知道用的版本是查克拉版的呢?</p>
+
+<p>執行: <code class="highlighter-rouge">node -e "console.log('Hello from Node.js ' + process.jsEngine)"</code></p>
+
+<p>如果是查克拉版的會顯示: <code class="highlighter-rouge">Hello from Node.js chakracore</code></p>
+
+<p>如果是v8的則是: <code class="highlighter-rouge">Hello from Node.js undefined</code></p>
+
       <footer class="entry-meta">
         <span class="entry-tags"><a href="http://blog.jln.co/tags/#nodejs" title="Pages tagged nodejs" class="tag"><span class="term">nodejs</span></a><a href="http://blog.jln.co/tags/#chakra" title="Pages tagged chakra" class="tag"><span class="term">chakra</span></a><a href="http://blog.jln.co/tags/#nvm" title="Pages tagged nvm" class="tag"><span class="term">nvm</span></a></span>
         
