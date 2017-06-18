@@ -1,4 +1,16 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.1.6">Jekyll</generator><link href="http://blog.jln.co/feed.xml" rel="self" type="application/atom+xml" /><link href="http://blog.jln.co/" rel="alternate" type="text/html" /><updated>2017-04-16T21:06:22+08:00</updated><id>http://blog.jln.co/</id><title>Le murmure de Julian</title><subtitle>朱隸安貓囈語錄</subtitle><entry><title>[筆記][Vue.js] Slot的應用</title><link href="http://blog.jln.co/%E7%AD%86%E8%A8%98-vue.js-slot%E7%9A%84%E6%87%89%E7%94%A8/" rel="alternate" type="text/html" title="[筆記][Vue.js] Slot的應用" /><published>2017-04-16T18:15:44+08:00</published><updated>2017-04-16T18:15:44+08:00</updated><id>http://blog.jln.co/[筆記][vue.js]-slot的應用</id><content type="html" xml:base="http://blog.jln.co/%E7%AD%86%E8%A8%98-vue.js-slot%E7%9A%84%E6%87%89%E7%94%A8/">&lt;p&gt;Vue的component裡有一個還蠻好用的東西叫做&lt;a href=&quot;https://vuejs.org/v2/guide/components.html#Content-Distribution-with-Slots&quot;&gt;Slot&lt;/a&gt;(文件&lt;a href=&quot;https://vuejs.org/v2/guide/components.html#Content-Distribution-with-Slots&quot;&gt;在此&lt;/a&gt;), 尤其適用在開發複雜或巢狀的元件&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.1.6">Jekyll</generator><link href="http://blog.jln.co/feed.xml" rel="self" type="application/atom+xml" /><link href="http://blog.jln.co/" rel="alternate" type="text/html" /><updated>2017-06-18T12:41:15+08:00</updated><id>http://blog.jln.co/</id><title>Le murmure de Julian</title><subtitle>朱隸安貓囈語錄</subtitle><entry><title>[筆記][node.js] 使用nvm安裝查克拉版的node.js</title><link href="http://blog.jln.co/%E7%AD%86%E8%A8%98-node.js-%E4%BD%BF%E7%94%A8nvm%E5%AE%89%E8%A3%9D%E6%9F%A5%E5%85%8B%E6%8B%89%E7%89%88%E7%9A%84node.js/" rel="alternate" type="text/html" title="[筆記][node.js] 使用nvm安裝查克拉版的node.js" /><published>2017-06-18T12:21:33+08:00</published><updated>2017-06-18T12:21:33+08:00</updated><id>http://blog.jln.co/[筆記][node.js]-使用nvm安裝查克拉版的node.js</id><content type="html" xml:base="http://blog.jln.co/%E7%AD%86%E8%A8%98-node.js-%E4%BD%BF%E7%94%A8nvm%E5%AE%89%E8%A3%9D%E6%9F%A5%E5%85%8B%E6%8B%89%E7%89%88%E7%9A%84node.js/">&lt;p&gt;從&lt;a href=&quot;https://nodejs.org/en/blog/release/v8.0.0/&quot;&gt;nodejs 8&lt;/a&gt;開始, nodejs可以不再需要一定跟V8綁在一起了, 之後底層的Engine可以換成微軟的&lt;a href=&quot;https://github.com/Microsoft/ChakraCore&quot;&gt;查克拉&lt;/a&gt;(&lt;a href=&quot;https://github.com/nodejs/node-chakracore&quot;&gt;node-chakracore&lt;/a&gt;), 甚至是Mozilla的&lt;a href=&quot;https://developer.mozilla.org/zh-TW/docs/Mozilla/Projects/SpiderMonkey&quot;&gt;SpiderMonkey&lt;/a&gt;(&lt;a href=&quot;https://github.com/mozilla/spidernode&quot;&gt;spidernode&lt;/a&gt;)&lt;/p&gt;
+
+&lt;p&gt;但&lt;a href=&quot;https://github.com/nodejs/node-chakracore&quot;&gt;node-chakracore&lt;/a&gt;的官方文件用的version managent是&lt;a href=&quot;https://github.com/jasongin/nvs&quot;&gt;nvs&lt;/a&gt;, 而我習慣用的&lt;a href=&quot;https://github.com/creationix/nvm&quot;&gt;nvm&lt;/a&gt;則是尚未支援查克拉版本的安裝, 如果用nvm想嚐鮮的話, 要用下面的方式:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;NVM_NODEJS_ORG_MIRROR=https://nodejs.org/download/chakracore-nightly/ nvm i node&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;這樣就會幫你裝最新版本的nodejs nightly (with Chakra Core), 以我剛剛執行的結果, 它就幫我裝了&lt;code class=&quot;highlighter-rouge&quot;&gt;v9.0.0-nightly20170617021fbca6bc&lt;/code&gt;, 當然如果想用8而不是9一樣可以用:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;NVM_NODEJS_ORG_MIRROR=https://nodejs.org/download/chakracore-nightly/ nvm list-remote&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;這樣就可以看有哪些版本可以安裝&lt;/p&gt;
+
+&lt;p&gt;裝完之後可以用&lt;code class=&quot;highlighter-rouge&quot;&gt;nvm alias&lt;/code&gt;為&lt;code class=&quot;highlighter-rouge&quot;&gt;v9.0.0-nightly20170617021fbca6bc&lt;/code&gt;取一個代號, 如&lt;code class=&quot;highlighter-rouge&quot;&gt;nvm alias v9.0.0-nightly20170617021fbca6bc chakra9&lt;/code&gt;, 這樣之後就可以用&lt;code class=&quot;highlighter-rouge&quot;&gt;nvm use chakra9&lt;/code&gt;來切換到這個版本, 這樣就搞定了! 歡迎來到木葉忍者村!!&lt;/p&gt;</content><category term="nodejs" /><category term="chakra" /><category term="nvm" /><summary>從nodejs 8開始, nodejs可以不再需要一定跟V8綁在一起了, 之後底層的Engine可以換成微軟的查克拉(node-chakracore), 甚至是Mozilla的SpiderMonkey(spidernode)</summary></entry><entry><title>[筆記][Vue.js] Slot的應用</title><link href="http://blog.jln.co/%E7%AD%86%E8%A8%98-vue.js-slot%E7%9A%84%E6%87%89%E7%94%A8/" rel="alternate" type="text/html" title="[筆記][Vue.js] Slot的應用" /><published>2017-04-16T18:15:44+08:00</published><updated>2017-04-16T18:15:44+08:00</updated><id>http://blog.jln.co/[筆記][vue.js]-slot的應用</id><content type="html" xml:base="http://blog.jln.co/%E7%AD%86%E8%A8%98-vue.js-slot%E7%9A%84%E6%87%89%E7%94%A8/">&lt;p&gt;Vue的component裡有一個還蠻好用的東西叫做&lt;a href=&quot;https://vuejs.org/v2/guide/components.html#Content-Distribution-with-Slots&quot;&gt;Slot&lt;/a&gt;(文件&lt;a href=&quot;https://vuejs.org/v2/guide/components.html#Content-Distribution-with-Slots&quot;&gt;在此&lt;/a&gt;), 尤其適用在開發複雜或巢狀的元件&lt;/p&gt;
 
 &lt;p&gt;那Slot是用在什麼樣的地方, 舉個例子, 假設我們有個元件叫做panel:&lt;/p&gt;
 
@@ -1243,179 +1255,4 @@
 &lt;/div&gt;
 
 &lt;p&gt;只要有些CSS selector的觀念就可以了, 連querySelectorAll這名字都是一樣的, Erik並不是直接用Webkit去做CSS query的, 而是把webkit的內容拿來用&lt;a href=&quot;https://github.com/tid-kijyun/Kanna&quot;&gt;Kanna&lt;/a&gt;解析,
-javascript的執行也一樣, 因此如果對html node有任何變動, 是不會反映到webkit裡面去的, 用Erik來爬的優點是專門針對那些動態網頁的, 有這個就簡單太多了!&lt;/p&gt;</content><category term="Swift" /><category term="crawler" /><summary>最近搬家又讓我挖出了Amazon Kindle, 又覺得拿來看漫畫很方便(這戲演了幾次了呀?), 雖然說好像也有網站可以下載漫畫.mobi檔, 不過似乎是會員制的, 不喜歡</summary></entry><entry><title>[Go] Bleve - 自帶全文搜尋</title><link href="http://blog.jln.co/go-bleve-%E8%87%AA%E5%B8%B6%E5%85%A8%E6%96%87%E6%90%9C%E5%B0%8B/" rel="alternate" type="text/html" title="[Go] Bleve - 自帶全文搜尋" /><published>2017-02-07T16:20:37+08:00</published><updated>2017-02-07T16:20:37+08:00</updated><id>http://blog.jln.co/[go]-bleve---自帶全文搜尋</id><content type="html" xml:base="http://blog.jln.co/go-bleve-%E8%87%AA%E5%B8%B6%E5%85%A8%E6%96%87%E6%90%9C%E5%B0%8B/">&lt;p&gt;最近在把之前弄的新聞萬事通做優化, 話說, 好久沒來宣傳一下新聞萬事通了(毆飛~~)&lt;/p&gt;
-
-&lt;p&gt;加入新聞萬事通請按 :&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://line.me/R/ti/p/%40cur4648v&quot;&gt;&lt;img src=&quot;http://qr-official.line.me/L/8J7Xfy_Tas.png&quot; alt=&quot;加入好友&quot; /&gt; &lt;img src=&quot;https://scdn.line-apps.com/n/line_add_friends/btn/zh-Hant.png&quot; alt=&quot;加入好友&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;好, 回歸正題, 之前新聞萬事通檢查假新聞的邏輯是:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;載入新聞小幫手資料庫到記憶體(server啟動時), 四千多筆資料存放在一個map的資料結構&lt;/li&gt;
-  &lt;li&gt;使用者輸入的訊息如果含有url去map裡面找到對應的url&lt;/li&gt;
-  &lt;li&gt;但常常有類似內容的新聞有不同來源, 因此會用&lt;a href=&quot;https://github.com/yanyiwu/gojieba&quot;&gt;Gojieba&lt;/a&gt;取出標題的關鍵字去四千多筆資料的標題對應關鍵字出現的次數&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;聽起來很沒效率(四千筆在記憶體內, 其實也不算慢啦, 但就吃記憶體), 那就要優化囉? 那需要一個搜尋引擎囉?&lt;/p&gt;
-
-&lt;p&gt;第一個先想到的是&lt;a href=&quot;https://www.elastic.co/products/elasticsearch&quot;&gt;Elastic search&lt;/a&gt;, 但我還不想搞那麼大, 為了四千多筆資料多拉一台search server,我只想
-一台respberry pi就能搞定&lt;/p&gt;
-
-&lt;p&gt;從&lt;a href=&quot;https://github.com/yanyiwu/gojieba&quot;&gt;Gojieba&lt;/a&gt;知道, 有&lt;a href=&quot;http://www.blevesearch.com/&quot;&gt;Bleve Search&lt;/a&gt;這東西, &lt;a href=&quot;http://www.blevesearch.com/&quot;&gt;Bleve Search&lt;/a&gt;也是一個full text index engine,
-但跟&lt;a href=&quot;https://www.elastic.co/products/elasticsearch&quot;&gt;Elastic search&lt;/a&gt;不同的是, 它是內嵌在你的程式內, 而不是獨立的server, 而且它是用Go寫的(開心), 而不是Java&lt;/p&gt;
-
-&lt;h3 id=&quot;bleve&quot;&gt;Bleve&lt;/h3&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://www.blevesearch.com/&quot;&gt;Bleve Search&lt;/a&gt;的來頭也不小,它是來自於著名的ＮoSQL DB : &lt;a href=&quot;https://www.couchbase.com/&quot;&gt;Couchbase&lt;/a&gt;, 這篇有介紹一下他的功能 : &lt;a href=&quot;http://www.infoq.com/cn/news/2015/03/bleve-couchbase-go&quot;&gt;Bleve:来自Couchbase、基于Go语言的全文索引与检索库&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;使用&lt;a href=&quot;http://www.blevesearch.com/&quot;&gt;Bleve Search&lt;/a&gt;也很簡單, 就建立index, 然後search:&lt;/p&gt;
-
-&lt;div class=&quot;language-go highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;github.com/blevesearch/bleve&quot;&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-
-&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;func&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;c&quot;&gt;// open a new index&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mapping&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bleve&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NewIndexMapping&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;index&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bleve&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;New&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;example.bleve&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mapping&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-
-    &lt;/span&gt;&lt;span class=&quot;c&quot;&gt;// index some data&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;index&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Index&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;identifier&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;your_data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-
-    &lt;/span&gt;&lt;span class=&quot;c&quot;&gt;// search for some text&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;query&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bleve&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NewMatchQuery&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;search&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bleve&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NewSearchRequest&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;query&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;searchResults&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;index&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Search&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;search&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://www.blevesearch.com/&quot;&gt;Bleve Search&lt;/a&gt;會把indexes放到資料庫內, 預設是使用&lt;a href=&quot;https://github.com/boltdb/bolt&quot;&gt;Bolt DB&lt;/a&gt;, Bolt跟&lt;a href=&quot;https://github.com/google/leveldb&quot;&gt;leveldb&lt;/a&gt;和&lt;a href=&quot;http://rocksdb.org/&quot;&gt;RocksDb&lt;/a&gt;
-類似, 都是一種Key-Value database, 只是Bolt是純粹以Go開發的&lt;/p&gt;
-
-&lt;p&gt;如果你不想要用Bolt, Bleve也是支援使用leveldb和Rocksdb的, 純粹是作者想做成全Go的方案才預設Bolt db, 我自己有實測幾次, 使用這三種DB, 搜尋的速度差不多, 但建立index時bolt較快, 需求的磁碟空間則是Rocksdb優(比Bolt好很多)&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://www.blevesearch.com/&quot;&gt;Bleve Search&lt;/a&gt;的架構做成很有彈性, 除了可以使用不同的DB(我自己也有實作以Redis當KV database的plugin, 不過實在也沒好多少就作罷了), 文字分析(Text Analysis)比如說斷詞, 也是可以用plugin擴增的&lt;/p&gt;
-
-&lt;p&gt;官方支援的語言為: Danish, Dutch, English, Finnish, French, German, Hungarian, Italian, Norwegian, Persian, Portuguese, Romanian, Russian, Sorani, Spanish, Swedish, Thai, Turkish&lt;/p&gt;
-
-&lt;p&gt;就是沒中文!&lt;/p&gt;
-
-&lt;p&gt;還好&lt;a href=&quot;https://github.com/yanyiwu/gojieba&quot;&gt;Gojieba&lt;/a&gt;後來也加入了bleve的analyzer和tokenizer, 這一部分可以獲得解決&lt;/p&gt;
-
-&lt;p&gt;使用&lt;a href=&quot;https://github.com/yanyiwu/gojieba&quot;&gt;Gojieba&lt;/a&gt;斷詞:&lt;/p&gt;
-
-&lt;div class=&quot;language-go highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;x&quot;&gt;	&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;indexMapping&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bleve&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NewIndexMapping&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;os&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RemoveAll&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;INDEX_DIR&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;c&quot;&gt;// clean index when example finished&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;defer&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;os&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RemoveAll&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;INDEX_DIR&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-
-    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;indexMapping&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;AddCustomTokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;gojieba&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-        &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;interface&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{}{&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-            &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;dictpath&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;     &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;gojieba&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DICT_PATH&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-            &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;hmmpath&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;      &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;gojieba&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;HMM_PATH&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-            &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;userdictpath&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;gojieba&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;USER_DICT_PATH&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-            &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;type&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;         &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;gojieba&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-        &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-        &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;panic&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;indexMapping&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;AddCustomAnalyzer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;gojieba&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-        &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;interface&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{}{&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-            &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;type&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;      &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;gojieba&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-            &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;tokenizer&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;gojieba&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-        &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-        &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;panic&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;indexMapping&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DefaultAnalyzer&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;gojieba&quot;&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;wukong&quot;&gt;Wukong&lt;/h3&gt;
-
-&lt;p&gt;除了Bleve外, 還有一個&lt;a href=&quot;https://github.com/huichen/wukong&quot;&gt;悟空 Wukong&lt;/a&gt;, 這孫猴子也好像蠻識字的嘛&lt;/p&gt;
-
-&lt;p&gt;這個&lt;a href=&quot;https://github.com/huichen/wukong&quot;&gt;Wukong&lt;/a&gt;是由阿里巴巴的陳輝所開發的, 一樣是內嵌的全文檢索引擎&lt;/p&gt;
-
-&lt;div class=&quot;language-go highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;package&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-
-&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;github.com/huichen/wukong/engine&quot;&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;github.com/huichen/wukong/types&quot;&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;log&quot;&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-
-&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;var&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;c&quot;&gt;// searcher是协程安全的&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;searcher&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;engine&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Engine&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{}&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-
-&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;func&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;c&quot;&gt;// 初始化&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;searcher&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Init&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;types&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;EngineInitOptions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-        &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SegmenterDictionaries&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;github.com/huichen/wukong/data/dictionary.txt&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;defer&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;searcher&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Close&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-
-    &lt;/span&gt;&lt;span class=&quot;c&quot;&gt;// 将文档加入索引，docId 从1开始&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;searcher&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;IndexDocument&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;types&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DocumentIndexData&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Content&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;此次百度收购将成中国互联网最大并购&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;searcher&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;IndexDocument&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;types&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DocumentIndexData&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Content&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;百度宣布拟全资收购91无线业务&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;searcher&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;IndexDocument&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;types&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DocumentIndexData&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Content&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;百度是中国最大的搜索引擎&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-
-    &lt;/span&gt;&lt;span class=&quot;c&quot;&gt;// 等待索引刷新完毕&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;searcher&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;FlushIndex&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-
-    &lt;/span&gt;&lt;span class=&quot;c&quot;&gt;// 搜索输出格式见types.SearchResponse结构体&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;searcher&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Search&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;types&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SearchRequest&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Text&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;百度中国&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}))&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;架構上跟Bleve有點接近, 寫法也差不多, 但效率上來說, Bleve根本不能比, index的效率快上許多, 它的docId不像是Bleve用string而是uint64&lt;/p&gt;
-
-&lt;p&gt;比較快的原因目前我也還沒深究, 不過它存儲並沒用到BoltDB或LevelDB之類的, 而是自己的格式, 它也像Bleve一樣支援換資料庫引擎, 我嘗試想用BoltDB來取代它原生的, 想試看看是不是這原因, 但一直沒換成功過(後來也懶得追了)&lt;/p&gt;
-
-&lt;p&gt;另一點的差別在於是, 剛剛Bleve我用的斷詞器是&lt;a href=&quot;https://github.com/yanyiwu/gojieba&quot;&gt;Gojieba&lt;/a&gt;, 而Wukong用的是陳輝自己寫的&lt;a href=&quot;https://github.com/huichen/sego&quot;&gt;sego&lt;/a&gt;,
-這時我就好奇這會不會有影響?&lt;/p&gt;
-
-&lt;h3 id=&quot;blevesego&quot;&gt;BleveSego&lt;/h3&gt;
-
-&lt;p&gt;好, 既然要確認斷詞器對index效率有沒影響, 我就得自己實作一個基於Sego的Bleve text analyzer和Tokenizer, 因此仿Gojieba的做了:&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://github.com/julianshen/blevesego&quot;&gt;blevesego&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;使用&lt;a href=&quot;https://github.com/julianshen/blevesego&quot;&gt;blevesego&lt;/a&gt;跟使用Gojieba的有點類似:&lt;/p&gt;
-
-&lt;div class=&quot;language-go highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;x&quot;&gt;	&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;indexMapping&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bleve&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NewIndexMapping&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-	&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;indexMapping&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;AddCustomTokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sego&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-		&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;interface&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{}{&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-			&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;dictpath&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;dictionary.txt&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-			&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;type&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;     &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sego&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-		&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-	&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-
-	&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-		&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;getLogger&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Fatal&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-		&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-	&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-
-	&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;indexMapping&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;AddCustomAnalyzer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sego&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-		&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;interface&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{}{&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-			&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;type&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;      &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sego&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-			&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;tokenizer&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sego&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-		&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-	&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-
-	&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-		&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;getLogger&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Fatal&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-		&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-	&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-
-	&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;newsHelperIndexMapping&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DefaultAnalyzer&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sego&quot;&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;實驗的結果, 同樣Bleve, 用不同的斷詞, 似乎用sego有稍微快一點(在raspberry pi下, 約五千多筆資料大約快個一秒鐘), 但似乎不是Wukong效率高過於Bleve的主因&lt;/p&gt;
-
-&lt;p&gt;到最後, 我是選擇了Bleve, 原因是, 它目前看起來比較活躍, 而Wukong就比較沒啥更新&lt;/p&gt;</content><category term="Go" /><category term="Search" /><category term="Bleve" /><summary>最近在把之前弄的新聞萬事通做優化, 話說, 好久沒來宣傳一下新聞萬事通了(毆飛~~)</summary></entry></feed>
+javascript的執行也一樣, 因此如果對html node有任何變動, 是不會反映到webkit裡面去的, 用Erik來爬的優點是專門針對那些動態網頁的, 有這個就簡單太多了!&lt;/p&gt;</content><category term="Swift" /><category term="crawler" /><summary>最近搬家又讓我挖出了Amazon Kindle, 又覺得拿來看漫畫很方便(這戲演了幾次了呀?), 雖然說好像也有網站可以下載漫畫.mobi檔, 不過似乎是會員制的, 不喜歡</summary></entry></feed>

@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://blog.jln.co/%25E7%25AD%2586%25E8%25A8%2598-node.js-%25E4%25BD%25BF%25E7%2594%25A8nvm%25E5%25AE%2589%25E8%25A3%259D%25E6%259F%25A5%25E5%2585%258B%25E6%258B%2589%25E7%2589%2588%25E7%259A%2584node.js/</loc>
+<lastmod>2017-06-18T12:21:33+08:00</lastmod>
+</url>
+<url>
 <loc>http://blog.jln.co/%25E7%25AD%2586%25E8%25A8%2598-vue.js-slot%25E7%259A%2584%25E6%2587%2589%25E7%2594%25A8/</loc>
 <lastmod>2017-04-16T18:15:44+08:00</lastmod>
 </url>

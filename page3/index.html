@@ -150,6 +150,204 @@
   <header>
     
     <div class="entry-meta">
+      <span class="entry-date date published updated"><time datetime="2017-02-07T16:20:37+08:00"><a href="http://blog.jln.co/go-bleve-%E8%87%AA%E5%B8%B6%E5%85%A8%E6%96%87%E6%90%9C%E5%B0%8B/">February 07, 2017</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
+      
+      <span class="entry-reading-time">
+        <i class="fa fa-clock-o"></i>
+        
+Reading time ~1 minute
+      </span><!-- /.entry-reading-time -->
+      
+    </div><!-- /.entry-meta -->
+    
+      <h1 class="entry-title"><a href="http://blog.jln.co/go-bleve-%E8%87%AA%E5%B8%B6%E5%85%A8%E6%96%87%E6%90%9C%E5%B0%8B/" rel="bookmark" title="[Go] Bleve - 自帶全文搜尋" itemprop="url">[Go] Bleve - 自帶全文搜尋</a></h1>
+    
+  </header>
+  <div class="entry-content">
+    <p>最近在把之前弄的新聞萬事通做優化, 話說, 好久沒來宣傳一下新聞萬事通了(毆飛~~)</p>
+
+<p>加入新聞萬事通請按 :</p>
+
+<p><a href="https://line.me/R/ti/p/%40cur4648v"><img src="http://qr-official.line.me/L/8J7Xfy_Tas.png" alt="加入好友" /> <img src="https://scdn.line-apps.com/n/line_add_friends/btn/zh-Hant.png" alt="加入好友" /></a></p>
+
+<p>好, 回歸正題, 之前新聞萬事通檢查假新聞的邏輯是:</p>
+
+<ol>
+  <li>載入新聞小幫手資料庫到記憶體(server啟動時), 四千多筆資料存放在一個map的資料結構</li>
+  <li>使用者輸入的訊息如果含有url去map裡面找到對應的url</li>
+  <li>但常常有類似內容的新聞有不同來源, 因此會用<a href="https://github.com/yanyiwu/gojieba">Gojieba</a>取出標題的關鍵字去四千多筆資料的標題對應關鍵字出現的次數</li>
+</ol>
+
+<p>聽起來很沒效率(四千筆在記憶體內, 其實也不算慢啦, 但就吃記憶體), 那就要優化囉? 那需要一個搜尋引擎囉?</p>
+
+<p>第一個先想到的是<a href="https://www.elastic.co/products/elasticsearch">Elastic search</a>, 但我還不想搞那麼大, 為了四千多筆資料多拉一台search server,我只想
+一台respberry pi就能搞定</p>
+
+<p>從<a href="https://github.com/yanyiwu/gojieba">Gojieba</a>知道, 有<a href="http://www.blevesearch.com/">Bleve Search</a>這東西, <a href="http://www.blevesearch.com/">Bleve Search</a>也是一個full text index engine,
+但跟<a href="https://www.elastic.co/products/elasticsearch">Elastic search</a>不同的是, 它是內嵌在你的程式內, 而不是獨立的server, 而且它是用Go寫的(開心), 而不是Java</p>
+
+<h3 id="bleve">Bleve</h3>
+
+<p><a href="http://www.blevesearch.com/">Bleve Search</a>的來頭也不小,它是來自於著名的ＮoSQL DB : <a href="https://www.couchbase.com/">Couchbase</a>, 這篇有介紹一下他的功能 : <a href="http://www.infoq.com/cn/news/2015/03/bleve-couchbase-go">Bleve:来自Couchbase、基于Go语言的全文索引与检索库</a></p>
+
+<p>使用<a href="http://www.blevesearch.com/">Bleve Search</a>也很簡單, 就建立index, 然後search:</p>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="k">import</span><span class="x"> </span><span class="s">"github.com/blevesearch/bleve"</span><span class="x">
+
+</span><span class="k">func</span><span class="x"> </span><span class="n">main</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="c">// open a new index</span><span class="x">
+    </span><span class="n">mapping</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">bleve</span><span class="o">.</span><span class="n">NewIndexMapping</span><span class="p">()</span><span class="x">
+    </span><span class="n">index</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">bleve</span><span class="o">.</span><span class="n">New</span><span class="p">(</span><span class="s">"example.bleve"</span><span class="p">,</span><span class="x"> </span><span class="n">mapping</span><span class="p">)</span><span class="x">
+
+    </span><span class="c">// index some data</span><span class="x">
+    </span><span class="n">err</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">index</span><span class="o">.</span><span class="n">Index</span><span class="p">(</span><span class="n">identifier</span><span class="p">,</span><span class="x"> </span><span class="n">your_data</span><span class="p">)</span><span class="x">
+
+    </span><span class="c">// search for some text</span><span class="x">
+    </span><span class="n">query</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">bleve</span><span class="o">.</span><span class="n">NewMatchQuery</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span><span class="x">
+    </span><span class="n">search</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">bleve</span><span class="o">.</span><span class="n">NewSearchRequest</span><span class="p">(</span><span class="n">query</span><span class="p">)</span><span class="x">
+    </span><span class="n">searchResults</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">index</span><span class="o">.</span><span class="n">Search</span><span class="p">(</span><span class="n">search</span><span class="p">)</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre>
+</div>
+
+<p><a href="http://www.blevesearch.com/">Bleve Search</a>會把indexes放到資料庫內, 預設是使用<a href="https://github.com/boltdb/bolt">Bolt DB</a>, Bolt跟<a href="https://github.com/google/leveldb">leveldb</a>和<a href="http://rocksdb.org/">RocksDb</a>
+類似, 都是一種Key-Value database, 只是Bolt是純粹以Go開發的</p>
+
+<p>如果你不想要用Bolt, Bleve也是支援使用leveldb和Rocksdb的, 純粹是作者想做成全Go的方案才預設Bolt db, 我自己有實測幾次, 使用這三種DB, 搜尋的速度差不多, 但建立index時bolt較快, 需求的磁碟空間則是Rocksdb優(比Bolt好很多)</p>
+
+<p><a href="http://www.blevesearch.com/">Bleve Search</a>的架構做成很有彈性, 除了可以使用不同的DB(我自己也有實作以Redis當KV database的plugin, 不過實在也沒好多少就作罷了), 文字分析(Text Analysis)比如說斷詞, 也是可以用plugin擴增的</p>
+
+<p>官方支援的語言為: Danish, Dutch, English, Finnish, French, German, Hungarian, Italian, Norwegian, Persian, Portuguese, Romanian, Russian, Sorani, Spanish, Swedish, Thai, Turkish</p>
+
+<p>就是沒中文!</p>
+
+<p>還好<a href="https://github.com/yanyiwu/gojieba">Gojieba</a>後來也加入了bleve的analyzer和tokenizer, 這一部分可以獲得解決</p>
+
+<p>使用<a href="https://github.com/yanyiwu/gojieba">Gojieba</a>斷詞:</p>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="x">	</span><span class="n">indexMapping</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">bleve</span><span class="o">.</span><span class="n">NewIndexMapping</span><span class="p">()</span><span class="x">
+    </span><span class="n">os</span><span class="o">.</span><span class="n">RemoveAll</span><span class="p">(</span><span class="n">INDEX_DIR</span><span class="p">)</span><span class="x">
+    </span><span class="c">// clean index when example finished</span><span class="x">
+    </span><span class="k">defer</span><span class="x"> </span><span class="n">os</span><span class="o">.</span><span class="n">RemoveAll</span><span class="p">(</span><span class="n">INDEX_DIR</span><span class="p">)</span><span class="x">
+
+    </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">indexMapping</span><span class="o">.</span><span class="n">AddCustomTokenizer</span><span class="p">(</span><span class="s">"gojieba"</span><span class="p">,</span><span class="x">
+        </span><span class="k">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="k">interface</span><span class="p">{}{</span><span class="x">
+            </span><span class="s">"dictpath"</span><span class="o">:</span><span class="x">     </span><span class="n">gojieba</span><span class="o">.</span><span class="n">DICT_PATH</span><span class="p">,</span><span class="x">
+            </span><span class="s">"hmmpath"</span><span class="o">:</span><span class="x">      </span><span class="n">gojieba</span><span class="o">.</span><span class="n">HMM_PATH</span><span class="p">,</span><span class="x">
+            </span><span class="s">"userdictpath"</span><span class="o">:</span><span class="x"> </span><span class="n">gojieba</span><span class="o">.</span><span class="n">USER_DICT_PATH</span><span class="p">,</span><span class="x">
+            </span><span class="s">"type"</span><span class="o">:</span><span class="x">         </span><span class="s">"gojieba"</span><span class="p">,</span><span class="x">
+        </span><span class="p">},</span><span class="x">
+    </span><span class="p">)</span><span class="x">
+    </span><span class="k">if</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">!=</span><span class="x"> </span><span class="no">nil</span><span class="x"> </span><span class="p">{</span><span class="x">
+        </span><span class="nb">panic</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="x">
+    </span><span class="p">}</span><span class="x">
+    </span><span class="n">err</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">indexMapping</span><span class="o">.</span><span class="n">AddCustomAnalyzer</span><span class="p">(</span><span class="s">"gojieba"</span><span class="p">,</span><span class="x">
+        </span><span class="k">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="k">interface</span><span class="p">{}{</span><span class="x">
+            </span><span class="s">"type"</span><span class="o">:</span><span class="x">      </span><span class="s">"gojieba"</span><span class="p">,</span><span class="x">
+            </span><span class="s">"tokenizer"</span><span class="o">:</span><span class="x"> </span><span class="s">"gojieba"</span><span class="p">,</span><span class="x">
+        </span><span class="p">},</span><span class="x">
+    </span><span class="p">)</span><span class="x">
+    </span><span class="k">if</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">!=</span><span class="x"> </span><span class="no">nil</span><span class="x"> </span><span class="p">{</span><span class="x">
+        </span><span class="nb">panic</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="x">
+    </span><span class="p">}</span><span class="x">
+    </span><span class="n">indexMapping</span><span class="o">.</span><span class="n">DefaultAnalyzer</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="s">"gojieba"</span><span class="x">
+</span></code></pre>
+</div>
+
+<h3 id="wukong">Wukong</h3>
+
+<p>除了Bleve外, 還有一個<a href="https://github.com/huichen/wukong">悟空 Wukong</a>, 這孫猴子也好像蠻識字的嘛</p>
+
+<p>這個<a href="https://github.com/huichen/wukong">Wukong</a>是由阿里巴巴的陳輝所開發的, 一樣是內嵌的全文檢索引擎</p>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="k">package</span><span class="x"> </span><span class="n">main</span><span class="x">
+
+</span><span class="k">import</span><span class="x"> </span><span class="p">(</span><span class="x">
+    </span><span class="s">"github.com/huichen/wukong/engine"</span><span class="x">
+    </span><span class="s">"github.com/huichen/wukong/types"</span><span class="x">
+    </span><span class="s">"log"</span><span class="x">
+</span><span class="p">)</span><span class="x">
+
+</span><span class="k">var</span><span class="x"> </span><span class="p">(</span><span class="x">
+    </span><span class="c">// searcher是协程安全的</span><span class="x">
+    </span><span class="n">searcher</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">engine</span><span class="o">.</span><span class="n">Engine</span><span class="p">{}</span><span class="x">
+</span><span class="p">)</span><span class="x">
+
+</span><span class="k">func</span><span class="x"> </span><span class="n">main</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="c">// 初始化</span><span class="x">
+    </span><span class="n">searcher</span><span class="o">.</span><span class="n">Init</span><span class="p">(</span><span class="n">types</span><span class="o">.</span><span class="n">EngineInitOptions</span><span class="p">{</span><span class="x">
+        </span><span class="n">SegmenterDictionaries</span><span class="o">:</span><span class="x"> </span><span class="s">"github.com/huichen/wukong/data/dictionary.txt"</span><span class="p">})</span><span class="x">
+    </span><span class="k">defer</span><span class="x"> </span><span class="n">searcher</span><span class="o">.</span><span class="n">Close</span><span class="p">()</span><span class="x">
+
+    </span><span class="c">// 将文档加入索引，docId 从1开始</span><span class="x">
+    </span><span class="n">searcher</span><span class="o">.</span><span class="n">IndexDocument</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="x"> </span><span class="n">types</span><span class="o">.</span><span class="n">DocumentIndexData</span><span class="p">{</span><span class="n">Content</span><span class="o">:</span><span class="x"> </span><span class="s">"此次百度收购将成中国互联网最大并购"</span><span class="p">},</span><span class="x"> </span><span class="no">false</span><span class="p">)</span><span class="x">
+    </span><span class="n">searcher</span><span class="o">.</span><span class="n">IndexDocument</span><span class="p">(</span><span class="m">2</span><span class="p">,</span><span class="x"> </span><span class="n">types</span><span class="o">.</span><span class="n">DocumentIndexData</span><span class="p">{</span><span class="n">Content</span><span class="o">:</span><span class="x"> </span><span class="s">"百度宣布拟全资收购91无线业务"</span><span class="p">},</span><span class="x"> </span><span class="no">false</span><span class="p">)</span><span class="x">
+    </span><span class="n">searcher</span><span class="o">.</span><span class="n">IndexDocument</span><span class="p">(</span><span class="m">3</span><span class="p">,</span><span class="x"> </span><span class="n">types</span><span class="o">.</span><span class="n">DocumentIndexData</span><span class="p">{</span><span class="n">Content</span><span class="o">:</span><span class="x"> </span><span class="s">"百度是中国最大的搜索引擎"</span><span class="p">},</span><span class="x"> </span><span class="no">false</span><span class="p">)</span><span class="x">
+
+    </span><span class="c">// 等待索引刷新完毕</span><span class="x">
+    </span><span class="n">searcher</span><span class="o">.</span><span class="n">FlushIndex</span><span class="p">()</span><span class="x">
+
+    </span><span class="c">// 搜索输出格式见types.SearchResponse结构体</span><span class="x">
+    </span><span class="n">log</span><span class="o">.</span><span class="n">Print</span><span class="p">(</span><span class="n">searcher</span><span class="o">.</span><span class="n">Search</span><span class="p">(</span><span class="n">types</span><span class="o">.</span><span class="n">SearchRequest</span><span class="p">{</span><span class="n">Text</span><span class="o">:</span><span class="s">"百度中国"</span><span class="p">}))</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre>
+</div>
+
+<p>架構上跟Bleve有點接近, 寫法也差不多, 但效率上來說, Bleve根本不能比, index的效率快上許多, 它的docId不像是Bleve用string而是uint64</p>
+
+<p>比較快的原因目前我也還沒深究, 不過它存儲並沒用到BoltDB或LevelDB之類的, 而是自己的格式, 它也像Bleve一樣支援換資料庫引擎, 我嘗試想用BoltDB來取代它原生的, 想試看看是不是這原因, 但一直沒換成功過(後來也懶得追了)</p>
+
+<p>另一點的差別在於是, 剛剛Bleve我用的斷詞器是<a href="https://github.com/yanyiwu/gojieba">Gojieba</a>, 而Wukong用的是陳輝自己寫的<a href="https://github.com/huichen/sego">sego</a>,
+這時我就好奇這會不會有影響?</p>
+
+<h3 id="blevesego">BleveSego</h3>
+
+<p>好, 既然要確認斷詞器對index效率有沒影響, 我就得自己實作一個基於Sego的Bleve text analyzer和Tokenizer, 因此仿Gojieba的做了:</p>
+
+<p><a href="https://github.com/julianshen/blevesego">blevesego</a></p>
+
+<p>使用<a href="https://github.com/julianshen/blevesego">blevesego</a>跟使用Gojieba的有點類似:</p>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="x">	</span><span class="n">indexMapping</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">bleve</span><span class="o">.</span><span class="n">NewIndexMapping</span><span class="p">()</span><span class="x">
+	</span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">indexMapping</span><span class="o">.</span><span class="n">AddCustomTokenizer</span><span class="p">(</span><span class="s">"sego"</span><span class="p">,</span><span class="x">
+		</span><span class="k">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="k">interface</span><span class="p">{}{</span><span class="x">
+			</span><span class="s">"dictpath"</span><span class="o">:</span><span class="x"> </span><span class="s">"dictionary.txt"</span><span class="p">,</span><span class="x">
+			</span><span class="s">"type"</span><span class="o">:</span><span class="x">     </span><span class="s">"sego"</span><span class="p">,</span><span class="x">
+		</span><span class="p">},</span><span class="x">
+	</span><span class="p">)</span><span class="x">
+
+	</span><span class="k">if</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">!=</span><span class="x"> </span><span class="no">nil</span><span class="x"> </span><span class="p">{</span><span class="x">
+		</span><span class="n">getLogger</span><span class="p">()</span><span class="o">.</span><span class="n">Fatal</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="x">
+		</span><span class="k">return</span><span class="x"> </span><span class="no">nil</span><span class="x">
+	</span><span class="p">}</span><span class="x">
+
+	</span><span class="n">err</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">indexMapping</span><span class="o">.</span><span class="n">AddCustomAnalyzer</span><span class="p">(</span><span class="s">"sego"</span><span class="p">,</span><span class="x">
+		</span><span class="k">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="k">interface</span><span class="p">{}{</span><span class="x">
+			</span><span class="s">"type"</span><span class="o">:</span><span class="x">      </span><span class="s">"sego"</span><span class="p">,</span><span class="x">
+			</span><span class="s">"tokenizer"</span><span class="o">:</span><span class="x"> </span><span class="s">"sego"</span><span class="p">,</span><span class="x">
+		</span><span class="p">},</span><span class="x">
+	</span><span class="p">)</span><span class="x">
+
+	</span><span class="k">if</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">!=</span><span class="x"> </span><span class="no">nil</span><span class="x"> </span><span class="p">{</span><span class="x">
+		</span><span class="n">getLogger</span><span class="p">()</span><span class="o">.</span><span class="n">Fatal</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="x">
+		</span><span class="k">return</span><span class="x"> </span><span class="no">nil</span><span class="x">
+	</span><span class="p">}</span><span class="x">
+
+	</span><span class="n">newsHelperIndexMapping</span><span class="o">.</span><span class="n">DefaultAnalyzer</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="s">"sego"</span><span class="x">
+</span></code></pre>
+</div>
+
+<p>實驗的結果, 同樣Bleve, 用不同的斷詞, 似乎用sego有稍微快一點(在raspberry pi下, 約五千多筆資料大約快個一秒鐘), 但似乎不是Wukong效率高過於Bleve的主因</p>
+
+<p>到最後, 我是選擇了Bleve, 原因是, 它目前看起來比較活躍, 而Wukong就比較沒啥更新</p>
+
+  </div><!-- /.entry-content -->
+</article><!-- /.hentry -->
+
+<article class="hentry">
+  <header>
+    
+    <div class="entry-meta">
       <span class="entry-date date published updated"><time datetime="2017-02-07T15:40:05+08:00"><a href="http://blog.jln.co/dynamic-dns-with-cloudflare/">February 07, 2017</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
       
       <span class="entry-reading-time">
@@ -473,168 +671,6 @@ Reading time ~1 minute
 
 <p>當你push你的程式到heroku上後, 它就會根據<code class="highlighter-rouge">Aptfile</code>去安裝相對應的套件了</p>
 
-
-  </div><!-- /.entry-content -->
-</article><!-- /.hentry -->
-
-<article class="hentry">
-  <header>
-    
-    <div class="entry-meta">
-      <span class="entry-date date published updated"><time datetime="2017-01-19T11:45:30+08:00"><a href="http://blog.jln.co/go-%E7%94%A8go%E6%8A%93ptt%E6%96%87%E7%AB%A0/">January 19, 2017</a></time></span><span class="author vcard"><span class="fn"><a href="http://blog.jln.co/about/" title="About Julian Shen">Julian Shen</a></span></span>
-      
-      <span class="entry-reading-time">
-        <i class="fa fa-clock-o"></i>
-        
-Reading time ~1 minute
-      </span><!-- /.entry-reading-time -->
-      
-    </div><!-- /.entry-meta -->
-    
-      <h1 class="entry-title"><a href="http://blog.jln.co/go-%E7%94%A8go%E6%8A%93ptt%E6%96%87%E7%AB%A0/" rel="bookmark" title="[Go] 用Go抓PTT文章" itemprop="url">[Go] 用Go抓PTT文章</a></h1>
-    
-  </header>
-  <div class="entry-content">
-    <p>好, 這算我以為我寫過但實際上沒有系列….啥? 剛剛把我以前寫的一個<a href="https://github.com/julianshen/gopttcrawler">Go package - gopttcrawler</a>更新後,
-想說之前好像有寫過相關文章, 但實際上又沒找到(老了?)</p>
-
-<p>沒關係, 把Readme拿來貼一貼就可以混一篇文了(混蛋!!!偷懶!!!)</p>
-
-<p><a href="https://github.com/julianshen/gopttcrawler">gopttcrawler</a></p>
-
-<p>這是我在新聞萬事通裡面用來抓取ptt文章的, 用法也很簡單, 基本上看最後兩種用法就好, 自己個人覺得那比較好用</p>
-
-<p>原本的版本並沒處理18+那個擋在前面的畫面, 查了一下很多人(在python)的做法是去發post取得cookie, 再帶cookie去取, 後來發現, cookie是固定的, 只要這樣就好:</p>
-
-<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="x">	</span><span class="n">cookie</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">http</span><span class="o">.</span><span class="n">Cookie</span><span class="p">{</span><span class="x">
-		</span><span class="n">Name</span><span class="o">:</span><span class="x">  </span><span class="s">"over18"</span><span class="p">,</span><span class="x">
-		</span><span class="n">Value</span><span class="o">:</span><span class="x"> </span><span class="s">"1"</span><span class="p">,</span><span class="x">
-	</span><span class="p">}</span><span class="x">
-	</span><span class="n">req</span><span class="o">.</span><span class="n">AddCookie</span><span class="p">(</span><span class="o">&amp;</span><span class="n">cookie</span><span class="p">)</span><span class="x">
-</span></code></pre>
-</div>
-
-<p>所以現在像是八卦版這種18+的也可以抓取了</p>
-
-<p>安裝方法: <code class="highlighter-rouge">go get -u github.com/julianshen/gopttcrawler</code></p>
-
-<p>使用方法請參考sample.go或是ptt_test.go
-#### 資料結構</p>
-
-<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="k">type</span><span class="x"> </span><span class="n">Article</span><span class="x"> </span><span class="k">struct</span><span class="x"> </span><span class="p">{</span><span class="x">
-	</span><span class="n">ID</span><span class="x">       </span><span class="kt">string</span><span class="x"> </span><span class="c">//Article ID</span><span class="x">
-	</span><span class="n">Board</span><span class="x">    </span><span class="kt">string</span><span class="x"> </span><span class="c">//Board name</span><span class="x">
-	</span><span class="n">Title</span><span class="x">    </span><span class="kt">string</span><span class="x">
-	</span><span class="n">Content</span><span class="x">  </span><span class="kt">string</span><span class="x">
-	</span><span class="n">Author</span><span class="x">   </span><span class="kt">string</span><span class="x"> </span><span class="c">//Author ID</span><span class="x">
-	</span><span class="n">DateTime</span><span class="x"> </span><span class="kt">string</span><span class="x">
-	</span><span class="n">Nrec</span><span class="x">     </span><span class="kt">int</span><span class="x"> </span><span class="c">//推文數(推-噓)</span><span class="x">
-</span><span class="p">}</span><span class="x">
-
-</span><span class="k">type</span><span class="x"> </span><span class="n">ArticleList</span><span class="x"> </span><span class="k">struct</span><span class="x"> </span><span class="p">{</span><span class="x">
-	</span><span class="n">Articles</span><span class="x">     </span><span class="p">[]</span><span class="o">*</span><span class="n">Article</span><span class="x"> </span><span class="c">//Articles</span><span class="x">
-	</span><span class="n">Board</span><span class="x">        </span><span class="kt">string</span><span class="x"> </span><span class="c">//Board</span><span class="x">
-	</span><span class="n">PreviousPage</span><span class="x"> </span><span class="kt">int</span><span class="x"> </span><span class="c">//Previous page id</span><span class="x">
-	</span><span class="n">NextPage</span><span class="x">     </span><span class="kt">int</span><span class="x"> </span><span class="c">//Next page id</span><span class="x">
-</span><span class="p">}</span><span class="x">
-</span></code></pre>
-</div>
-
-<h4 id="section">載入文章列表</h4>
-<ol>
-  <li>載入最新一頁表特版文章</li>
-</ol>
-
-<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="x">    </span><span class="n">articleList</span><span class="p">,</span><span class="x"> </span><span class="n">_</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">gopttcrawler</span><span class="o">.</span><span class="n">GetArticles</span><span class="p">(</span><span class="s">"Beauty"</span><span class="p">,</span><span class="x"> </span><span class="m">0</span><span class="p">)</span><span class="x">
-    </span><span class="c">// the 1st parameter is the board name</span><span class="x">
-    </span><span class="c">// the 2nd parameter is the page id. 0 indicates the latest page</span><span class="x">
-</span></code></pre>
-</div>
-
-<ol>
-  <li>載入前一頁文章列表</li>
-</ol>
-
-<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="x">    </span><span class="n">prevArticleList</span><span class="p">,</span><span class="x"> </span><span class="n">_</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">articleList</span><span class="o">.</span><span class="n">GetFromPreviousPage</span><span class="p">()</span><span class="x">
-</span></code></pre>
-</div>
-
-<h4 id="section-1">載入文章內容</h4>
-<ol>
-  <li>載入單篇文章詳細內容</li>
-</ol>
-
-<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="x">    </span><span class="n">article</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">articleList</span><span class="o">.</span><span class="n">Articles</span><span class="p">[</span><span class="m">0</span><span class="p">]</span><span class="x">
-    </span><span class="n">article</span><span class="o">.</span><span class="n">Load</span><span class="p">()</span><span class="x">
-    </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">article</span><span class="o">.</span><span class="n">Content</span><span class="p">)</span><span class="x"> </span><span class="c">//印出內文(html)</span><span class="x">
-</span></code></pre>
-</div>
-
-<ol>
-  <li>取得文章中所有圖片連結</li>
-</ol>
-
-<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="x">    </span><span class="n">images</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">article</span><span class="o">.</span><span class="n">GetImageUrls</span><span class="p">()</span><span class="x">
-</span></code></pre>
-</div>
-
-<ol>
-  <li>取得文章中的連結</li>
-</ol>
-
-<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="x">    </span><span class="n">links</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">article</span><span class="o">.</span><span class="n">GetLinks</span><span class="p">()</span><span class="x">
-</span></code></pre>
-</div>
-
-<h4 id="iterator">Iterator</h4>
-
-<p>新增Iterator功能:</p>
-
-<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="x">	</span><span class="n">n</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="m">100</span><span class="x">
-
-	</span><span class="n">articles</span><span class="p">,</span><span class="x"> </span><span class="n">e</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">gopttcrawler</span><span class="o">.</span><span class="n">GetArticles</span><span class="p">(</span><span class="s">"movie"</span><span class="p">,</span><span class="x"> </span><span class="m">0</span><span class="p">)</span><span class="x">
-	
-	</span><span class="k">if</span><span class="x"> </span><span class="n">e</span><span class="x"> </span><span class="o">!=</span><span class="x"> </span><span class="no">nil</span><span class="x"> </span><span class="p">{</span><span class="x">
-		</span><span class="o">....</span><span class="x">
-	</span><span class="p">}</span><span class="x">
-
-	</span><span class="n">iterator</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">articles</span><span class="o">.</span><span class="n">Iterator</span><span class="p">()</span><span class="x">
-
-	</span><span class="n">i</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="m">0</span><span class="x">
-	</span><span class="k">for</span><span class="x"> </span><span class="p">{</span><span class="x">
-		</span><span class="k">if</span><span class="x"> </span><span class="n">article</span><span class="p">,</span><span class="x"> </span><span class="n">e</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">iterator</span><span class="o">.</span><span class="n">Next</span><span class="p">();</span><span class="x"> </span><span class="n">e</span><span class="x"> </span><span class="o">==</span><span class="x"> </span><span class="no">nil</span><span class="x"> </span><span class="p">{</span><span class="x">
-			</span><span class="k">if</span><span class="x"> </span><span class="n">i</span><span class="x"> </span><span class="o">&gt;=</span><span class="x"> </span><span class="n">n</span><span class="x"> </span><span class="p">{</span><span class="x">
-				</span><span class="k">break</span><span class="x">
-			</span><span class="p">}</span><span class="x">
-			</span><span class="n">i</span><span class="o">++</span><span class="x">
-
-			</span><span class="n">log</span><span class="o">.</span><span class="n">Printf</span><span class="p">(</span><span class="s">"%v %v"</span><span class="p">,</span><span class="x"> </span><span class="n">i</span><span class="p">,</span><span class="x"> </span><span class="n">article</span><span class="p">)</span><span class="x">
-		</span><span class="p">}</span><span class="x">
-	</span><span class="p">}</span><span class="x">
-</span></code></pre>
-</div>
-
-<p>上面這範例是抓取最新的100篇文章, 不用管第幾頁, 或是上一頁下一頁, 反正就一直抓</p>
-
-<h4 id="go-routinegetarticles">Go routine版本的GetArticles</h4>
-
-<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="x">	</span><span class="n">ch</span><span class="p">,</span><span class="x"> </span><span class="n">done</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">gopttcrawler</span><span class="o">.</span><span class="n">GetArticlesGo</span><span class="p">(</span><span class="s">"Beauty"</span><span class="p">,</span><span class="x"> </span><span class="m">0</span><span class="p">)</span><span class="x">
-	</span><span class="n">n</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="m">100</span><span class="x">
-	</span><span class="n">i</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="m">0</span><span class="x">
-	</span><span class="k">for</span><span class="x"> </span><span class="n">article</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="k">range</span><span class="x"> </span><span class="n">ch</span><span class="x"> </span><span class="p">{</span><span class="x">
-		</span><span class="k">if</span><span class="x"> </span><span class="n">i</span><span class="x"> </span><span class="o">&gt;=</span><span class="x"> </span><span class="n">n</span><span class="x"> </span><span class="p">{</span><span class="x">
-			</span><span class="n">done</span><span class="x"> </span><span class="o">&lt;-</span><span class="x"> </span><span class="no">true</span><span class="x">
-			</span><span class="k">break</span><span class="x">
-		</span><span class="p">}</span><span class="x">
-		</span><span class="n">i</span><span class="o">++</span><span class="x">
-		</span><span class="n">log</span><span class="o">.</span><span class="n">Printf</span><span class="p">(</span><span class="s">"%v %v"</span><span class="p">,</span><span class="x"> </span><span class="n">i</span><span class="p">,</span><span class="x"> </span><span class="n">article</span><span class="p">)</span><span class="x">
-	</span><span class="p">}</span><span class="x">
-</span></code></pre>
-</div>
-
-<p>這範例一樣也是抓一百篇, 只是抓文章的部分被放到go routine去了, 會立即回傳兩個channel,
-第一個是receive only channel, 跟Iterator類似, 一次拿一篇文章, 可以用range, 第二個是一個bool channel, 拿夠了送個訊息通知他終止go routine,
-如果把receive部分放到select去, 就是non blocking了, 不會被讀上一頁下一頁的IO給卡住</p>
 
   </div><!-- /.entry-content -->
 </article><!-- /.hentry -->
