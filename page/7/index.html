@@ -1,0 +1,420 @@
+<!doctype html><!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=en><![endif]--><!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang=en><![endif]--><!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang=en><![endif]--><!--[if gt IE 8]><!--><html class=no-js lang=en><!--<![endif]--><head><meta charset=utf-8><title>Le murmure de Julian</title><meta name=description content><meta property="og:title" content="Le murmure de Julian"><meta property="og:description" content><meta property="og:type" content="website"><meta property="og:url" content="http://blog.jln.co/"><meta property="og:image" content="http://blog.jln.co/images/avatar.png"><meta property="og:updated_time" content="2017-06-18T12:21:33+00:00"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="http://blog.jln.co/images/avatar.png"><meta name=twitter:title content="Le murmure de Julian"><meta name=twitter:description content><link rel=canonical href=http://blog.jln.co/><link href=http://blog.jln.co/feed.xml rel=alternate type=application/rss+xml title="Le murmure de Julian"><link href=http://blog.jln.co/feed.xml rel=feed type=application/rss+xml title="Le murmure de Julian"><meta name=HandheldFriendly content="True"><meta name=MobileOptimized content="320"><meta name=viewport content="width=device-width,initial-scale=1"><link rel=stylesheet href=/css/main.css><link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel=stylesheet type=text/css><meta http-equiv=cleartype content="on"><meta name=generator content="Hugo 0.73.0"><script src=/js/vendor/modernizr-2.6.2.custom.min.js></script><script async src=https://unpkg.com/mermaid@8.2.3/dist/mermaid.min.js></script><link rel="shortcut icon" href=/favicon.png></head><body id=post-index class=feature><nav id=dl-menu class=dl-menuwrapper role=navigation style=display:inline-block><button class=dl-trigger>Open Menu</button><ul class=dl-menu><li><a href=/>Home</a></li><li><a href=#>About</a><ul class=dl-submenu><li><img src=/images/avatar.png alt="Julian Shen's photo" class=author-photo><h4>Julian Shen</h4><p>Softward developer</p></li><li><a href=mailto:julianshen22@gmail.com><i class="fa fa-fw fa-envelope"></i>Email</a></li><li><a href=https://linkedin.com/in/julianshen><i class="fa fa-fw fa-linkedin"></i>LinkedIn</a></li><li><a href=https://github.com/julianshen><i class="fa fa-fw fa-github"></i>GitHub</a></li><li><a href=https://instagram.com/julianshen><i class="fa fa-fw fa-instagram"></i>Instagram</a></li></ul></li><li><a href=#>Posts</a><ul class=dl-submenu><li><a href=/post/>All Posts</a></li><li><a href=/tags/>All Tags</a></li></ul></li><li><a href=/></a></li></ul></nav><div class=entry-header><div class=entry-image><img src=/images/bkg2.jpg alt="Le murmure de Julian"></div><div class=header-title><div class=header-title-wrap><h1><a href=/ title="Go to the homepage">Le murmure de Julian</a></h1><h2>朱隸安貓囈語錄</h2></div></div></div><div id=main role=main><article class=hentry><header><div class=entry-meta><span class="entry-date date published updated"><time datetime="2016-10-07 23:10:04 +0000 UTC"><a href=/%E7%AD%86%E8%A8%98ios%E9%96%8B%E7%99%BC-%E4%BD%BF%E7%94%A8MapKit%E5%81%9A%E4%B8%80%E5%80%8B%E7%B0%A1%E5%96%AE%E7%9A%84%E9%A3%9B%E8%A1%8C%E5%8B%95%E7%95%AB/>Oct 7, 2016</a></time></span>
+<span class=entry-reading-time><i class="fa fa-clock-o"></i>Reading time ~3 minutes</span></div><h1 class=entry-title><a href=/%E7%AD%86%E8%A8%98ios%E9%96%8B%E7%99%BC-%E4%BD%BF%E7%94%A8MapKit%E5%81%9A%E4%B8%80%E5%80%8B%E7%B0%A1%E5%96%AE%E7%9A%84%E9%A3%9B%E8%A1%8C%E5%8B%95%E7%95%AB/ rel=bookmark title="[筆記][ios開發] 使用MapKit做一個簡單的飛行動畫" itemprop=url>[筆記][ios開發] 使用MapKit做一個簡單的飛行動畫</a></h1></header><div class=entry-content><p>小時候很喜歡Indiana Jones系列的電影, 對於它裡面的地圖片段也一直覺得很有趣</p><div style=position:relative;padding-bottom:56.25%;height:0;overflow:hidden><iframe src=https://www.youtube.com/embed/FhoPTyMUgX0 style=position:absolute;top:0;left:0;width:100%;height:100%;border:0 allowfullscreen title="YouTube Video"></iframe></div><p>如果這樣的動畫, 用在遊記類的blog上, 應該也蠻酷的, 但好像也沒一個比較好的工具, 因此想說用MapKit來實作一個試試</p><h3 id=功能需求>功能需求</h3><p>先來定義一個簡單的功能需求</p><ol><li>在起點跟終點畫一條連結線</li><li>一架飛機延這條線飛到終點</li><li>地圖視角跟著飛機走</li></ol><h3 id=實作>實作</h3><h4 id=在起點跟終點畫一條連結線>在起點跟終點畫一條連結線</h4><p>這部份要用到MKGeodesicPolyline, 給它兩個點, 它就會自動連結成一條線, 但這條線並不是完美的直線, 因為地球表面是曲面的, 所以它是一條弧線</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-swift data-lang=swift><span style=color:#66d9ef>let</span> coords = [start, end]
+
+geodesicPolyline = MKGeodesicPolyline(coordinates: coords, count: <span style=color:#ae81ff>2</span>)
+
+print(geodesicPolyline!.pointCount)
+mapView.add(geodesicPolyline!)
+</code></pre></div><p>這邊coors只要給訂起始點跟終點的位置就好, 印出pointCount就會發現它把經由的點都補足了(實際上印出來的會多出2很多很多)</p><p>MKGeodesicPolyline裡的參數coordinates是一個UnsafeMutablePointer, 在Swift 3之前要寫成&coords, 但在Swift 3大改之後, &ldquo;&&ldquo;就不需要了</p><p>由於MKGeodesicPolyline是一個Overlay, 因此最後只需要用mapView.add (Swift 3之前是addOverlay)加入mapView就可以了, 但加入之後, 會發現, 這條線根本沒被畫出來, 那是因為少寫了一部分</p><p>在MapView裡面要畫出Overlay, 就必須要跟MapView說怎麼畫出這個Overlay, 這就要實作MKMapViewDelegate裡的mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay)</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-swift data-lang=swift><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>mapView</span>(<span style=color:#66d9ef>_</span> mapView: MKMapView, rendererFor overlay: MKOverlay) -&gt; MKOverlayRenderer {
+    <span style=color:#66d9ef>guard</span> <span style=color:#66d9ef>let</span> polyline = overlay <span style=color:#66d9ef>as</span>? MKPolyline <span style=color:#66d9ef>else</span> {
+        <span style=color:#66d9ef>return</span> MKOverlayRenderer()
+    }
+    
+    <span style=color:#66d9ef>let</span> renderer = MKPolylineRenderer(polyline: polyline)
+    renderer.lineWidth = <span style=color:#ae81ff>3.0</span>
+    renderer.alpha = <span style=color:#ae81ff>0.5</span>
+    renderer.strokeColor = UIColor.blue
+    
+    <span style=color:#66d9ef>return</span> renderer
+}
+</code></pre></div><p>由於我們是要畫Poly line, 因此這邊回傳給它一個MKPolylineRenderer, 線寬是3.0, 線的顏色是藍色(alpha = 0.5)</p><p>這樣就可以很完美的畫出那條線了</p><h4 id=在地圖上畫出飛機>在地圖上畫出飛機</h4><p>這部份就要借重到MKPointAnnotation</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-swift data-lang=swift><span style=color:#66d9ef>let</span> thePlane = MKPointAnnotation()
+thePlane.coordinate = start <span style=color:#75715e>//給定起始座標</span>
+        
+mapView.addAnnotation(thePlane)
+</code></pre></div><p>一樣, 這邊如果沒告訴MapView怎畫這Annotation, 它是會用預設的取代, 因此我們一樣要去實作MKMapViewDelegate</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-swift data-lang=swift><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>mapView</span>(<span style=color:#66d9ef>_</span> mapView: MKMapView, viewFor annotation: MKAnnotation) -&gt; MKAnnotationView? {
+    <span style=color:#66d9ef>let</span> planeIdentifier = <span style=color:#e6db74>&#34;Plane&#34;</span>
+    
+    <span style=color:#66d9ef>let</span> annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: planeIdentifier)
+        ?? MKAnnotationView(annotation: annotation, reuseIdentifier: planeIdentifier)
+    
+    annotationView.image = UIImage(named: <span style=color:#e6db74>&#34;ic_flight_48pt&#34;</span>)
+    
+    <span style=color:#66d9ef>return</span> annotationView
+}
+</code></pre></div><p>這邊用一個UIImage來指定飛機的圖標</p><h4 id=地圖視角>地圖視角</h4><p>把飛機置於地圖正中央, 我們才看得到他, 因此, 需要設定可視的區域, 包含中心點跟範圍, 如下:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-swift data-lang=swift><span style=color:#66d9ef>let</span> span = MKCoordinateSpanMake(<span style=color:#ae81ff>8.0</span>, <span style=color:#ae81ff>8.0</span>)
+<span style=color:#66d9ef>let</span> region1 = MKCoordinateRegion(center: start, span: span)
+<span style=color:#66d9ef>self</span>.mapView.setRegion(region1, animated: <span style=color:#66d9ef>true</span>)
+</code></pre></div><h4 id=沿著線飛>沿著線飛</h4><p>這時候要利用到 perform(#selector(updatePlane), with: self, afterDelay: 0.4) 讓它每隔0.4秒去更新一次飛機位置, 直到到終點為止, 當然也要一直更新region, 以讓飛機維持在正中央</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-swift data-lang=swift><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>updatePlane</span>() {
+    planePositionIndex = planePositionIndex <span style=color:#f92672>+</span> step;
+    
+    <span style=color:#66d9ef>if</span> (planePositionIndex <span style=color:#f92672>&gt;=</span> geodesicPolyline!.pointCount)
+    {
+        <span style=color:#75715e>//plane has reached end, stop moving</span>
+        planePositionIndex = <span style=color:#ae81ff>0</span>
+        <span style=color:#66d9ef>return</span>;
+    }
+    
+    <span style=color:#66d9ef>let</span> s = <span style=color:#ae81ff>8.0</span>
+    
+    <span style=color:#66d9ef>let</span> nextMapPoint = geodesicPolyline?.points()[planePositionIndex]
+
+    thePlane.coordinate = MKCoordinateForMapPoint(nextMapPoint!) 
+    mapView.region = MKCoordinateRegionMake(thePlane.coordinate, MKCoordinateSpan(latitudeDelta: s, longitudeDelta: s))
+
+    perform(<span style=color:#66d9ef>#selector</span>(updatePlane), with: <span style=color:#66d9ef>self</span>, afterDelay: <span style=color:#ae81ff>0.4</span>)
+}
+</code></pre></div><h3 id=結果>結果</h3><div style=position:relative;padding-bottom:56.25%;height:0;overflow:hidden><iframe src=https://www.youtube.com/embed/GSAd1Vygkhw style=position:absolute;top:0;left:0;width:100%;height:100%;border:0 allowfullscreen title="YouTube Video"></iframe></div><p>這邊有幾個缺點尚待改進</p><ol><li>飛機閃爍</li><li>如果把可視區域範圍縮小, 或是位置更新過快, 就會造成地圖來不及載入的現象(可能需要預跑幾次將map tile載入cache內)</li><li>飛機頭永遠保持往上, 應該要朝著線方向轉</li></ol><h3 id=完整程式碼>完整程式碼</h3><script type=application/javascript src=https://gist.github.com/julianshen/229f4ac32b3893816bd7636b96fe6f7d.js></script></div></article><article class=hentry><header><div class=entry-meta><span class="entry-date date published updated"><time datetime="2016-10-04 23:41:22 +0000 UTC"><a href=/%E4%B8%80%E4%BA%9B%E5%81%9A%E7%88%AC%E8%9F%B2%E7%9A%84%E5%B7%A5%E5%85%B7%E8%88%87%E6%96%B9%E6%B3%95/>Oct 4, 2016</a></time></span>
+<span class=entry-reading-time><i class="fa fa-clock-o"></i>Reading time ~9 minutes</span></div><h1 class=entry-title><a href=/%E4%B8%80%E4%BA%9B%E5%81%9A%E7%88%AC%E8%9F%B2%E7%9A%84%E5%B7%A5%E5%85%B7%E8%88%87%E6%96%B9%E6%B3%95/ rel=bookmark title=一些做爬蟲的工具與方法 itemprop=url>一些做爬蟲的工具與方法</a></h1></header><div class=entry-content><p>之前寫了一些爬蟲, 想說來補一篇這樣的文章好了</p><p>可能是之前"所謂"的大數據(Big Data)太過流行, 以至於網路爬蟲好像是一種顯學, 隨便Google一下都可以找到一堆用python加上<a href=https://www.crummy.com/software/BeautifulSoup/bs4/doc/#>BeautifulSoup</a>
+相關的文章, 這可能也是因為, 現在網路上的資料, Open data的, 提供API的, 在比例上還是非常的少數, 但網頁的數量真的多到很難統計(想到早期還真是屈指可數)
+要取得網頁內的內容, 解析HTML, 做字串的處理就是一個必要的基礎, 這也難怪python + <a href=https://www.crummy.com/software/BeautifulSoup/bs4/doc/#>BeautifulSoup</a>
+一直廣泛的被採用</p><p>不過, 當你真的去寫一個爬蟲, 突然就會發現了, 代誌不是這麼單純呀, 不是去抓個html回來解析一下就有自己想要的資料了呀, 而是會發現, 怎麼大家正正當當的網頁不寫,
+一堆奇技淫巧, 繞來繞去的, 網頁廣告內容也一堆, 很多網頁都很難抓到自己想要的資料呀!!!</p><p>真的來說, 做爬蟲是一種Hacking的活動, 天下網頁萬萬種, 為了總總不同的目的, 早已不是幾個簡單的html標籤就做出來的了, 還搭配了很多程式的技巧在內,
+因此要從裡面萃取資料出來, 常常還真的是要無所不用其極</p><h3 id=那到底做爬蟲會先需要懂什麼>那到底做爬蟲會先需要懂什麼?</h3><ol><li>HTML</li><li>CSS</li><li>DOM</li><li>DOM Selectors</li><li>Javascript</li><li>Regular Expression (正規表示式)</li><li>Chrome dev tool</li><li>Curl</li></ol><p>以上這幾個東西可能是基本必須懂得, 而不是程式語言, 那反而其次, 很多程式語言都有很好的能力跟工具來做, 另外需要具備的是耐心, 眼力, 直覺, 和運氣</p><p>底下就拿我之前弄過的幾個東西當範例, 由於我寫比較多Go和nodejs, 所以就不用(主流的)Python來做範例了</p><h3 id=範例一--文章內容分析-如新聞-部落格文章等等>範例一 : 文章內容分析 (如新聞, 部落格文章等等)</h3><p>這應該是比較常見的應用, 單純抓取文章內容去做分析, 常碰到的麻煩是現在網站放了大大小小的(補釘)廣告, 那些跟內容不相干, 也不會是我們想拿來分析的目標</p><p>底下這個範例是從Yahoo! News的RSS抓取新聞文章連結, 再從這些連結的文章內找出關鍵字:</p><script type=application/javascript src=https://gist.github.com/julianshen/2c21aa1e83e1e7b20f0d2560600383f2.js></script><p>這段code非常的簡單, 主要也只用到以下這幾種東西:</p><ol><li>rss parser</li><li><a href=https://github.com/mauidude/go-readability>go-readability</a></li><li><a href=https://github.com/yanyiwu/gojieba>結巴</a></li></ol><p>簡單的來說就是先從rss內找出所有新聞的連結再一個個去爬, 然後用<a href=https://github.com/mauidude/go-readability>go-readability</a>精簡出網頁內文, 再用<a href=https://github.com/yanyiwu/gojieba>結巴</a>取出關鍵字</p><h4 id=readability>readability</h4><p>這一個library以往的用途就是清除不必要的html tags跟內容(像是廣告), 只留下易讀的內文（純文字), 以這個例子來說, 這是一個最適合的工具了</p><p>最早的readability應該是<a href=https://www.readability.com/arc90/>arc90</a>這人開源出來的, 最早應該是javascript的版本,
+但就算你不是用javascript, 它老早也被翻唱成其他語言的版本了, 像是:</p><ol><li>Python - <a href=https://github.com/timbertson/python-readability>python-readability</a></li><li>Node.js - <a href=https://github.com/luin/readability>node.js readability</a></li><li>Java - <a href=https://github.com/wuman/JReadability>JReadability</a> 和 <a href=https://github.com/karussell/snacktory>snacktory</a></li><li>Go - <a href=https://github.com/mauidude/go-readability>go-readability</a></li></ol><h4 id=結巴-jieba>結巴 jieba</h4><p><a href=https://github.com/fxsjy/jieba>結巴 jieba</a> 是一個用在做中文分詞的工具, 英文每個單詞都是用空白分開的, 但中文就不是那麼回事了, <a href=https://github.com/fxsjy/jieba>結巴 jieba</a> 可以幫忙作掉這部份的工作, 這可以拿來做文章分析或是找關鍵字用</p><p>一樣有好幾種語言的版本 - Java, C++, Node.js, Erlang, R, iOS, PHP, C#, Go (參照結巴的說明內文), 算蠻齊全的了</p><h3 id=範例二--抓取bilibili的視訊檔位址>範例二 : 抓取Bilibili的視訊檔位址</h3><p>這個範例稍微做了點弊, 但還是從頭把分析過程來講一下好了</p><p>Bilibili視頻網頁長得就像這樣: <a href=http://www.bilibili.com/video/av6467776/>範例 - http://www.bilibili.com/video/av6467776/</a></p><p>先簡單的從網址猜一下&mldr;.&ldquo;av6467776"應該是某個ID之類的東西, 再進一步, ID可能就是這個"6467776&rdquo;</p><p>接下來我們就需要借助一下<a href=https://developer.chrome.com/devtools>Chrome的"開發人員工具&rdquo;</a>, 這是一個強大也重要的工具, 不要只傻傻的用View source而已, View source能看到的也只有原始HTML的內容</p><p>開了網頁後, 用Ctrl+Shift+I (windows)或是Cmd+Opt+I (mac)打開他, 打開後先選到elements, 像這樣:</p><p><img src=/images/posts/crw_1.jpg alt="Chrome devtools elements"></p><p>這邊標示了四個部分, 先點選了<strong>1</strong>, 再用滑鼠游標點你想知道的元件(以這邊來說是那個視訊框 <strong>2</strong> 的地方), 然後他就會幫你跳到相關的HTML位置（如<strong>3</strong>), 而<strong>4</strong>所標示出的是css屬性</p><p>把object這部份點開, 果然, 在flashvars那邊我們可以找到"cid=10519268&aid=6467776&pre_ad=0"這樣的字串, 表示"6467776"的確是某種叫aid的東西,
+但, 這不代表找到結案了!! 我們再用curl檢查一下:</p><pre><code>curl http://www.bilibili.com/video/av6467776/ --compressed
+</code></pre><p>抓原始的html檔來比對一下(可以把這指令的輸出存成檔案在來看會方便點), 怎麼沒"object"這標籤呀?到哪去了?可見剛剛那段html是某段javascript去產生的</p><p>再回頭看DevTools上object那段, 可以發現它是一個div包起來的, 這div的class是scontent, id是bofqi, 再回頭去看原始的HTML, 整段也只有一個這樣的block, 內容是這樣:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-html data-lang=html>    &lt;<span style=color:#f92672>div</span> <span style=color:#a6e22e>class</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;scontent&#34;</span> <span style=color:#a6e22e>id</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;bofqi&#34;</span>&gt;
+    &lt;<span style=color:#f92672>div</span> <span style=color:#a6e22e>id</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#39;player_placeholder&#39;</span> <span style=color:#a6e22e>class</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#39;player&#39;</span>&gt;&lt;/<span style=color:#f92672>div</span>&gt;
+&lt;<span style=color:#f92672>script</span> <span style=color:#a6e22e>type</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#39;text/javascript&#39;</span>&gt;<span style=color:#a6e22e>EmbedPlayer</span>(<span style=color:#e6db74>&#39;player&#39;</span>, <span style=color:#e6db74>&#34;http://static.hdslb.com/play.swf&#34;</span>, <span style=color:#e6db74>&#34;cid=10519268&amp;aid=6467776&amp;pre_ad=0&#34;</span>);&lt;/<span style=color:#f92672>script</span>&gt;
+    &lt;/<span style=color:#f92672>div</span>&gt;
+</code></pre></div><p>OK, 這邊就很容易可以確定從scontent這區塊就可以找到兩個id - aid和cid , 但這能做什麼用? 還不知道</p><p>接著切換到Network那邊去, 然後再重新整理一下頁面:</p><p><img src=/images/posts/crw_2.jpg alt="Chrome devtools network"></p><p>左下角的部分是瀏覽器在畫出這個頁面所載入的內容跟檔案, 一開使用時序排序的, 當然你可以用其他方式排序, 這邊就是可以挖寶的地方了</p><p>先看到上面那一堆長長短短的線, 這是瀏覽器載入檔案的時間線, 點選這邊可以只看特定時間區間的部分, 最後面可以發現有一條長長的藍線, 那可能就是視訊檔了(因為通常較大), 因此我們可知這視訊檔的URL是</p><pre><code>http://61.221.181.215/ws.acgvideo.com/3/46/10519268-1.flv?wsTime=1475663926&amp;wsSecret2=893ba83b8f13d8700d2ae0cddab96c55&amp;oi=3699654085&amp;rate=0&amp;wshc_tag=0&amp;wsts_tag=57f467b8&amp;wsid_tag=dc843dc5&amp;wsiphost=ipdbm
+</code></pre><p>但這串怎麼來的, 依我們手上只有兩個id的資訊是拼湊不起來的, 它一定從某個地方由這兩個id轉換出來的(合理的猜測), 因此, 我們可以再把aid, cid拿去搜尋檔案(點選檔案列表那區塊, 按ctrl-f或command-f開搜尋框)</p><p>一個個看, 找出可能的檔案, 由於aid可以找出22個結果而cid只有10個, 從cid開始找起會比較簡單點, 這邊篩選出幾個可能性:</p><ol><li><a href="http://interface.bilibili.com/player?id=cid:10519268&aid=6467776">http://interface.bilibili.com/player?id=cid:10519268&aid=6467776</a> - 回傳是一個xml, 有一些相關資訊, 但沒影片位址</li><li><a href="http://interface.bilibili.com/playurl?accel=1&cid=10519268&player=1&ts=1475635126&sign=e1e2ae9d2d34e4be94f46f77a4a107ce">http://interface.bilibili.com/playurl?accel=1&cid=10519268&player=1&ts=1475635126&sign=e1e2ae9d2d34e4be94f46f77a4a107ce</a> - 從這回傳裡面有個durl > url, 跟上面url比對, 似乎就是他了, 後面再來講這段</li><li><a href=http://comment.bilibili.com/playtag,10519268>http://comment.bilibili.com/playtag,10519268</a> - 這應該是"看过该视频的还喜欢"裡的內容</li><li><a href=http://comment.bilibili.com/10519268.xml>http://comment.bilibili.com/10519268.xml</a> - 喔喔喔, 看起來這就是彈幕檔喔!</li><li><a href=http://comment.bilibili.com/recommendnew,6467776>http://comment.bilibili.com/recommendnew,6467776</a> - 這似乎是推薦視頻的內容</li><li><a href="http://api.bilibili.com/x/tag/archive/tags?jsonp=jsonp&aid=6467776&nomid=1">http://api.bilibili.com/x/tag/archive/tags?jsonp=jsonp&aid=6467776&nomid=1</a> - 看起來這是tag</li></ol><p>看來, <strong>2</strong> 應該就是我們所要的了, 不過這邊有兩個麻煩, 一個是&mldr;我討厭XML!!!!!不過這好像還好, 似乎有個HTML5版本, 點點看好了, 果不其然, 發現另一個:</p><pre><code>https://interface.bilibili.com/playurl?cid=10519268&amp;appkey=6f90a59ac58a4123&amp;otype=json&amp;type=flv&amp;quality=3&amp;sign=571f239a0a3d4c304e8ea0e0f255992a
+</code></pre><p>表示我們是可以用otype=json來抓取json格式的, 但後面這個更麻煩了, 那個sign是什麼東西? 從他有個appkey來看, 合理的猜測, 他是某種API的signature, 通常這種東西的規則是把所有的參數先依名字排序成新的query string, 加上某個secret, 再算出他的MD5即是他的sign</p><p>但如果真是這樣, 這下有點麻煩, 到哪裡找這個secret, 不過凡走過必有痕跡, 這串既然是由瀏覽器端產生的, 那應該會在哪裡找到點線索, 或許可以先用appkey的內容去每個javascript檔案搜尋吧</p><p>不過, 不出所料, 找不到, 那, 還有一個可能性, 它寫在flash內, 從上面抓到的資訊來看, 他的flash檔案應該是: <a href=http://static.hdslb.com/play.swf>http://static.hdslb.com/play.swf</a></p><p>可以把它抓回來反編譯(decompile), 有個工具叫<a href=https://www.free-decompiler.com/flash/>JPEX Flash decompiler</a>的, 可以做到這件事</p><p><img src=/images/posts/crw_3.jpg alt=JPEX></p><p>在script裡面有它的程式原始碼, 應該可以在裡面找到, 不過有點辛苦, 因為你也沒辦法從appkey找到那個secret, 這邊直接跳轉答案, 應該就如同截圖所示是"com.bilibili.interfaces.getSign"這邊, 只是被混淆到很難看, 看得很頭痛, 會短命的</p><p>理論上, 把這段源碼翻譯一遍後應該就解決了, 但一來我看不太懂action script, 二來我實在懶得看, 想偷懶, 有沒作弊的方法? 凡走過必留下痕跡嘛, 一定還會有前人走過這條路, 所以直接把"6f90a59ac58a4123"這串appkey拿去搜尋, 果然, 找到secret了, 寫個程式驗證一下, 果然是沒錯的</p><script type=application/javascript src=https://gist.github.com/julianshen/137c3584ef805ae5cf74147ae737b697.js></script><h3 id=範例三-楓林網http8dramacom>範例三: <a href=http://8drama.com>楓林網</a></h3><p><a href=http://8drama.com>楓林網</a>是一個非法的電視劇來源, 有相當齊全的電視劇內容, 我這個是之前寫的一個工具了, 可以把一整部劇可以抓回本地端, 原始碼跟使用方法在這:</p><ul><li><a href=https://github.com/julianshen/d8>d8 - https://github.com/julianshen/d8</a></li></ul><p>這邊就不再說明怎麼使用它了, 主要著重它是怎做出來的, 這一個跟上面幾個不一樣的地方在於我是用nodejs寫的, 之所以用nodejs是有原因的, 後面再解釋, 主要的程式碼在<a href=https://github.com/julianshen/d8/blob/master/88.js>88.js</a></p><p>楓林網的電視劇集的網址長成這樣: <a href=http://8drama.com/178372/>http://8drama.com/178372/</a> , 當然178372又是ID了, 但它裡面所有的東西ID長得都是一個樣, 一整部劇跟單一集的ID都是同一個格式, 所以是無法從ID判斷出他是哪類</p><p>一樣打開Chrome DevTools, 點選到每一集的列表區塊, 我們可以發現在""裡面的可以找到每一集的URL, 而他的格式都是http://8drama.com/(ID), 所以我們可以輕易的用regular expression分辨出來</p><p>接下來就要掃每一集的內容把影片檔找出來了</p><p>當然可以用前面的方法試試看, 不過那方法在這邊沒啥用, 因為這邊影片的網址編碼是用好多亂七八糟的javascript堆積起來, 沒記錯的話, 我是從<a href=http://8drama.com/play5/video.js>video.js</a>找到線索的(這有點時間之前做的了, 有點沒印象了)</p><p>所以該怎麼面對那一大段javascript的code呢? 這就是我這工具為何選nodejs的原因了, 抄過來就好了!!! 去除掉跟瀏覽器相關的部分, 它就是不折不扣nodejs可以跑的程式碼, 所以這也就是<a href=https://github.com/julianshen/d8/blob/master/88.js>88.js</a>一些怪怪程式碼的由來</p><p>除了這版本外, 我本來也有想要做一個Java的版本, 做了一半, 用Java也是可以用類似的技巧, 不過就得要導入Javascript的runtime了, 而我採用的是<a href=https://developer.mozilla.org/en-US/docs/Mozilla/Projects/Rhino>Mozilla Rhino</a></p><h3 id=更進階一點的>更進階一點的</h3><p>做爬蟲大部分的時間都是要跟html, javascript, css這類的東西搏鬥, 但其實很多東西本來就是原本瀏覽器就會處理的, 因此如果可以直接用瀏覽器或甚至是WebKit來處理, 可以處理的事應該就會多一點, 這時候就可以利用所謂的Headless browser來簡化, 這種東西本來是用在網頁自動化測試的, 不過, 用在這應用也一樣強大, 這類的解決方案有:</p><ol><li><a href=http://phantomjs.org/>Phantomjs</a> - 這是以WebKit為基礎的, 我比較常用</li><li><a href=http://slimerjs.org/>Slimerjs</a> - 這是以Mozilla Geco為基礎的</li><li><a href=http://www.seleniumhq.org/>Selenium</a></li><li><a href=https://github.com/sourcegraph/webloop>Webloop</a> - Go版本的</li></ol><p>關於<a href=http://phantomjs.org/>Phantomjs</a>的應用, 我很久之前已經有寫過一篇了:</p><p><a href=http://blog.jln.co/%E9%A2%B1%E9%A2%A8%E5%A4%A9%E7%9A%84%E5%AE%85code%E6%95%99%E5%AD%B8-%E6%8A%93%E6%BC%AB%E7%95%AB/>颱風天的宅code教學: 抓漫畫</a></p><h3 id=android上呢>Android上呢?</h3><p>Java上, 大多是用<a href=https://jsoup.org/>jsoup</a>來解析html的, 像我之前這篇:</p><p><a href=http://blog.jln.co/android-%E5%9C%9F%E8%A3%BDplay-store-api/>[Android] 土製Play store API</a></p><p>當然應該也是可以用Webkit/WebView做成headless的解決方案, 不過這部份我目前還沒試過, 留待以後有機會再試吧</p></div></article><article class=hentry><header><div class=entry-meta><span class="entry-date date published updated"><time datetime="2016-09-30 21:47:36 +0000 UTC"><a href=/Android-%E4%BD%BF%E7%94%A8Retrofit%E5%A6%82%E4%BD%95%E9%81%BF%E5%85%8DMan-in-the-middle%E6%94%BB%E6%93%8A/>Sep 30, 2016</a></time></span>
+<span class=entry-reading-time><i class="fa fa-clock-o"></i>Reading time ~5 minutes</span></div><h1 class=entry-title><a href=/Android-%E4%BD%BF%E7%94%A8Retrofit%E5%A6%82%E4%BD%95%E9%81%BF%E5%85%8DMan-in-the-middle%E6%94%BB%E6%93%8A/ rel=bookmark title="[Android] 使用Retrofit如何避免Man in the middle攻擊" itemprop=url>[Android] 使用Retrofit如何避免Man in the middle攻擊</a></h1></header><div class=entry-content><p>前幾天看到朋友寫如何用<a href=https://www.charlesproxy.com>Charles Proxy</a>來debug REST API,
+突然就想到了這個問題, <a href=https://www.charlesproxy.com>Charles Proxy</a>是一個不錯的工具, 我自己也蠻常用的
+, 除了可以用來debug HTTP以外, 其實HTTPS也可以(參照<a href=https://www.charlesproxy.com/documentation/proxying/ssl-proxying/>SSL proxying</a>)
+, 只要在手機上安裝好它的SSL certificate即可</p><p>不過這不是這篇要講的重點, 這種debugging的方式原理即是用Proxy作為一個中間人來紀錄HTTP/HTTPS的傳輸內容
+, 這也帶來一個問題, 也就是你的資料是可以這樣簡單的暴露出去, 這種即是所謂的MITM (Man in the middle) 中間人攻擊</p><div class=mermaid>graph LR;
+Client-->Proxy[Proxy - Middle man];
+Proxy[Proxy - Middle man]-->Client;
+Proxy[Proxy - Middle man]-->Server;
+Server-->Proxy[Proxy - Middle man];</div><p>一般來說, 用了SSL/HTTPS後, 也不是那麼容易安插一個中間人的 ,像<a href=https://www.charlesproxy.com>Charles Proxy</a>這樣的東西,
+還是需要使用者自己去手機上的安全性設定裝信任憑證(trusted certificate), 一般常見的問題反而來自於開發者本身
+, 很多人常以為走了HTTPS就安全了, 卻常常為了debug方便, 或是省錢用Self-signed certificate 而去覆寫了系統預設的
+X509TrustManager, 以至於整個檢查機制被跳過, 真的漏洞都來自於人的惰性,
+更多資訊可以參考:</p><ol><li><a href=https://security.tencent.com/index.php/blog/msg/41>窃听风暴： Android平台https嗅探劫持漏洞</a></li><li><a href=http://yaq.qq.com/blog/13>Android安全之Https中间人攻击漏洞</a></li><li><a href=http://www.droidsec.cn/android-https%E4%B8%AD%E9%97%B4%E4%BA%BA%E5%8A%AB%E6%8C%81%E6%BC%8F%E6%B4%9E%E6%B5%85%E6%9E%90/>Android HTTPS中间人劫持漏洞浅析</a></li><li><a href=http://blog.csdn.net/u013107656/article/details/52036158>Android客户端安全 -> HTTPS敏感数据劫持漏洞</a></li><li><a href=http://pingguohe.net/2016/02/26/Android-App-secure-ssl.html>Android App 安全的HTTPS 通信</a></li><li><a href=http://devco.re/blog/2014/08/15/ssl-mishandling-on-mobile-app-development/>手機應用程式開發上被忽略的 SSL 處理</a></li><li><a href=https://blog.heckel.xyz/2013/07/01/how-to-use-mitmproxy-to-read-and-modify-https-traffic-of-your-phone/>How To: Use mitmproxy to read and modify HTTPS traffic</a></li><li><a href=http://www.7xter.com/2015/07/intercepting-android-ssl-traffic.html>INTERCEPTING ANDROID SSL / HTTPS TRAFFIC</a></li></ol><p>該避免去寫的, 就該避掉, 以免產生不必要的漏洞, 但不過也有可能碰到使用者的手機被(有意/無意)安裝了攻擊者的憑證到系統的信任憑證中,
+那麼碰到這種, 應用程式本身該如何保護自己?</p><p>這邊有兩個方式可以採用 -</p><ol><li>certificate pinning</li><li>在程式中寫死certificate</li></ol><p>以下的範例以Android最紅, 常被使用的<a href=https://square.github.io/retrofit/>Retrofit</a>為範例(雖說是<a href=https://square.github.io/retrofit/>Retrofit</a>, 但其實是在<a href=https://github.com/square/okhttp>okhttp</a>動的手腳)</p><h4 id=certificate-pinning->Certificate Pinning</h4><p>或叫<a href=https://en.wikipedia.org/wiki/HTTP_Public_Key_Pinning>HTTP Public Key Pinning (HPKP)</a>,
+簡單的說, 就是在程式內綁定Certificate的public key, 如果今天中間人存在, certificate不同了, 連接就不會成功</p><p>先來看範例</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>OkHttpClient client <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> OkHttpClient<span style=color:#f92672>.</span><span style=color:#a6e22e>Builder</span><span style=color:#f92672>()</span>
+        <span style=color:#f92672>.</span><span style=color:#a6e22e>certificatePinner</span><span style=color:#f92672>(</span><span style=color:#66d9ef>new</span> CertificatePinner<span style=color:#f92672>.</span><span style=color:#a6e22e>Builder</span><span style=color:#f92672>().</span><span style=color:#a6e22e>add</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;cdn.rawgit.com&#34;</span><span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;sha256/p0962nIqD0mv1APQ1mgmRiuwrhZXBuj+t6dey/Adk0U=&#34;</span><span style=color:#f92672>).</span><span style=color:#a6e22e>build</span><span style=color:#f92672>())</span>
+        <span style=color:#f92672>.</span><span style=color:#a6e22e>build</span><span style=color:#f92672>();</span>
+Retrofit retrofit <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> Retrofit<span style=color:#f92672>.</span><span style=color:#a6e22e>Builder</span><span style=color:#f92672>()</span>
+        <span style=color:#f92672>.</span><span style=color:#a6e22e>baseUrl</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;https://cdn.rawgit.com/julianshen/cpblschedule/&#34;</span><span style=color:#f92672>)</span>
+        <span style=color:#f92672>.</span><span style=color:#a6e22e>addConverterFactory</span><span style=color:#f92672>(</span>GsonConverterFactory<span style=color:#f92672>.</span><span style=color:#a6e22e>create</span><span style=color:#f92672>())</span>
+        <span style=color:#f92672>.</span><span style=color:#a6e22e>client</span><span style=color:#f92672>(</span>client<span style=color:#f92672>)</span>
+        <span style=color:#f92672>.</span><span style=color:#a6e22e>build</span><span style=color:#f92672>();</span>
+</code></pre></div><p>這邊所動的手腳(<del>跟Retrofit沒啥鳥關係</del>)是在OkHttpClient上加上一個CertificatePinner,
+利用了certificate pinner加上了一個host name跟public key的對應,
+以這例子來說: <strong>&ldquo;sha256/p0962nIqD0mv1APQ1mgmRiuwrhZXBuj+t6dey/Adk0U=&rdquo;</strong> 這個public key對應的是 <strong>&ldquo;cdn.rawgit.com&rdquo;</strong>
+, 因此碰到"cdn.rawgit.com"來的url, 會檢查public key是否符合,
+這邊public key的參數字串是要以"sha1/&ldquo;或"sha256/&ldquo;開始的, 依使用的演算法而不同</p><p>但又要怎取得這串"天書"呢?</p><p>很簡單, 首先確認你的電腦裡面有沒安裝openssl , 有的話就用以下的指令:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>openssl s_client -connect cdn.rawgit.com:443 -servername cdn.rawgit.com | openssl x509 -pubkey -noout | openssl rsa -pubin -outform der | openssl
+dgst -sha256 -binary | openssl enc -base64
+</code></pre></div><p>最後產生的內容如下</p><pre><code>depth=2 /C=GB/ST=Greater Manchester/L=Salford/O=COMODO CA Limited/CN=COMODO RSA Certification Authority
+verify error:num=20:unable to get local issuer certificate
+verify return:0
+writing RSA key
+p0962nIqD0mv1APQ1mgmRiuwrhZXBuj+t6dey/Adk0U=
+</code></pre><p>所以我們要填的參數就是 <strong>&ldquo;sha256/p0962nIqD0mv1APQ1mgmRiuwrhZXBuj+t6dey/Adk0U=&rdquo;</strong></p><p>關於HPKP的openssl相關的指令可以參考<a href=https://developer.mozilla.org/en-US/docs/Web/Security/Public_Key_Pinning>Public Key Pinning</a></p><p>如果你用<a href=https://www.charlesproxy.com>Charles Proxy</a>當中間人來測試這段程式的話, 你會得到下面這樣的exception</p><pre><code>javax.net.ssl.SSLPeerUnverifiedException: Certificate pinning failure!
+                                            Peer certificate chain:
+                                            sha256/ENlqFHtfARof3AK50Hbc1sj47M5hWhc5kQ5Z2vyfxq4=: CN=rawgit.com,OU=PositiveSSL Multi-Domain,OU=Domain Control Validated
+                                            sha256/mXmLzo8k5ANwi11PlLSW/b4OC/Anjw1OeACDyZxD/WM=: C=NZ,ST=Auckland,L=Auckland,O=XK72 Ltd,OU=http://charlesproxy.com/ssl,CN=Charles Proxy Custom Root Certificate (built on Jlnmbp-retina.local\, 11 十二月 2015)
+                                            Pinned certificates for cdn.rawgit.com:
+                                            sha256/p0962nIqD0mv1APQ1mgmRiuwrhZXBuj+t6dey/Adk0U=
+</code></pre><h4 id=在程式中寫死certificate->在程式中寫死certificate</h4><p>這方法聽起來暴力了一點, 但原理其實跟前一個沒啥太大差別, 只是一個寫死public key一個寫死certificate</p><p>一樣先來看個範例:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>String cert <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;&#34;</span>
+        <span style=color:#f92672>+</span><span style=color:#e6db74>&#34;-----BEGIN CERTIFICATE-----\n&#34;</span>
+        <span style=color:#f92672>+</span><span style=color:#e6db74>&#34;MIIFdjCCBF6gAwIBAgIRAPbTBHdHHseM4hArA7n6uREwDQYJKoZIhvcNAQELBQAw\n&#34;</span>
+        <span style=color:#f92672>+</span><span style=color:#e6db74>&#34;gZAxCzAJBgNVBAYTAkdCMRswGQYDVQQIExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAO\n&#34;</span>
+        <span style=color:#f92672>+</span><span style=color:#e6db74>&#34;BgNVBAcTB1NhbGZvcmQxGjAYBgNVBAoTEUNPTU9ETyBDQSBMaW1pdGVkMTYwNAYD\n&#34;</span>
+        <span style=color:#f92672>+</span><span style=color:#e6db74>&#34;VQQDEy1DT01PRE8gUlNBIERvbWFpbiBWYWxpZGF0aW9uIFNlY3VyZSBTZXJ2ZXIg\n&#34;</span>
+        <span style=color:#f92672>+</span><span style=color:#e6db74>&#34;Q0EwHhcNMTYwMTAxMDAwMDAwWhcNMTcwMTEzMjM1OTU5WjBbMSEwHwYDVQQLExhE\n&#34;</span>
+        <span style=color:#f92672>+</span><span style=color:#e6db74>&#34;b21haW4gQ29udHJvbCBWYWxpZGF0ZWQxITAfBgNVBAsTGFBvc2l0aXZlU1NMIE11\n&#34;</span>
+        <span style=color:#f92672>+</span><span style=color:#e6db74>&#34;bHRpLURvbWFpbjETMBEGA1UEAxMKcmF3Z2l0LmNvbTCCASIwDQYJKoZIhvcNAQEB\n&#34;</span>
+        <span style=color:#f92672>+</span><span style=color:#e6db74>&#34;BQADggEPADCCAQoCggEBALD2sUNSYp2R+mSEMF2qKvMS780qTkltvqP4rwEGKOLV\n&#34;</span>
+        <span style=color:#f92672>+</span><span style=color:#e6db74>&#34;rR5QQWo8vzSlgZvxVsguRHi0pPBtVAH794L43tD+IuyQlDlNU2qc1aMqBkn3S2wN\n&#34;</span>
+        <span style=color:#f92672>+</span><span style=color:#e6db74>&#34;Way8BS9w80pgeFnObZiFJtPI9pdwcB72Bgq8Nlc25oVrDVWr/Q8nLIKS/9FkNs+C\n&#34;</span>
+        <span style=color:#f92672>+</span><span style=color:#e6db74>&#34;MPU00vGFZSFbR7s15ORj9+qPCskWZcHpQ+m9EKmZD3IVKj3QQyBD17cBoVkYoIpj\n&#34;</span>
+        <span style=color:#f92672>+</span><span style=color:#e6db74>&#34;I8/r+NfVfKetlsB7Pcv8P3yLFVFC4+PGrnW9TLZK9aRtbDTvjElXwCQIPK5B2fKw\n&#34;</span>
+        <span style=color:#f92672>+</span><span style=color:#e6db74>&#34;SJK26IJPDX0r1JkeuR53Afr509iEx3xAHcRz/kR5uo8CAwEAAaOCAf0wggH5MB8G\n&#34;</span>
+        <span style=color:#f92672>+</span><span style=color:#e6db74>&#34;A1UdIwQYMBaAFJCvajqUWgvYkOoSVnPfQ7Q6KNrnMB0GA1UdDgQWBBSI83Kqafo7\n&#34;</span>
+        <span style=color:#f92672>+</span><span style=color:#e6db74>&#34;kg9cmyT1vnceH4fAUjAOBgNVHQ8BAf8EBAMCBaAwDAYDVR0TAQH/BAIwADAdBgNV\n&#34;</span>
+        <span style=color:#f92672>+</span><span style=color:#e6db74>&#34;HSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwTwYDVR0gBEgwRjA6BgsrBgEEAbIx\n&#34;</span>
+        <span style=color:#f92672>+</span><span style=color:#e6db74>&#34;AQICBzArMCkGCCsGAQUFBwIBFh1odHRwczovL3NlY3VyZS5jb21vZG8uY29tL0NQ\n&#34;</span>
+        <span style=color:#f92672>+</span><span style=color:#e6db74>&#34;UzAIBgZngQwBAgEwVAYDVR0fBE0wSzBJoEegRYZDaHR0cDovL2NybC5jb21vZG9j\n&#34;</span>
+        <span style=color:#f92672>+</span><span style=color:#e6db74>&#34;YS5jb20vQ09NT0RPUlNBRG9tYWluVmFsaWRhdGlvblNlY3VyZVNlcnZlckNBLmNy\n&#34;</span>
+        <span style=color:#f92672>+</span><span style=color:#e6db74>&#34;bDCBhQYIKwYBBQUHAQEEeTB3ME8GCCsGAQUFBzAChkNodHRwOi8vY3J0LmNvbW9k\n&#34;</span>
+        <span style=color:#f92672>+</span><span style=color:#e6db74>&#34;b2NhLmNvbS9DT01PRE9SU0FEb21haW5WYWxpZGF0aW9uU2VjdXJlU2VydmVyQ0Eu\n&#34;</span>
+        <span style=color:#f92672>+</span><span style=color:#e6db74>&#34;Y3J0MCQGCCsGAQUFBzABhhhodHRwOi8vb2NzcC5jb21vZG9jYS5jb20wSwYDVR0R\n&#34;</span>
+        <span style=color:#f92672>+</span><span style=color:#e6db74>&#34;BEQwQoIKcmF3Z2l0LmNvbYIVY2RuLW9yaWdpbi5yYXdnaXQuY29tgg5jZG4ucmF3\n&#34;</span>
+        <span style=color:#f92672>+</span><span style=color:#e6db74>&#34;Z2l0LmNvbYINcmF3Z2l0aHViLmNvbTANBgkqhkiG9w0BAQsFAAOCAQEASx3e6y9e\n&#34;</span>
+        <span style=color:#f92672>+</span><span style=color:#e6db74>&#34;9F67N5NIDausDHDL+/fz6uj2DDNJdaQvALAYDV8hKpz7+QGotlQfI042U2i83J7m\n&#34;</span>
+        <span style=color:#f92672>+</span><span style=color:#e6db74>&#34;DGZiKDpzaXa7IFfGiq6PFPUjntElHoU2E4vRb5LApg1sJ5YueYmRd3X7x0/jPYg6\n&#34;</span>
+        <span style=color:#f92672>+</span><span style=color:#e6db74>&#34;TiTtHyXOnlMuqL2FUYJM0BP7cMfOppvUF0R2zHUVA0rVHuLrSStg8bMg8aVUIkKg\n&#34;</span>
+        <span style=color:#f92672>+</span><span style=color:#e6db74>&#34;n3NS+eg4ofo95jaMRVykhLnylkYBk9dWBM6B19Yw7LgQd94MZSa+Xix4HxeFgvAM\n&#34;</span>
+        <span style=color:#f92672>+</span><span style=color:#e6db74>&#34;BF+oeDMaY7mEN4Xm5hnrIS1FElRDq/ckpDV8JVpR4SQqB+tzSZPPIiep8EvgRDzd\n&#34;</span>
+        <span style=color:#f92672>+</span><span style=color:#e6db74>&#34;2EkL187FF3MQ+w==\n&#34;</span>
+        <span style=color:#f92672>+</span><span style=color:#e6db74>&#34;-----END CERTIFICATE-----\n&#34;</span><span style=color:#f92672>;</span>
+
+X509TrustManager trustManager <span style=color:#f92672>=</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>;</span>
+SSLSocketFactory sslSocketFactory <span style=color:#f92672>=</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>;</span>
+
+<span style=color:#66d9ef>try</span> <span style=color:#f92672>{</span>
+    CertificateFactory certificateFactory <span style=color:#f92672>=</span> CertificateFactory<span style=color:#f92672>.</span><span style=color:#a6e22e>getInstance</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;X.509&#34;</span><span style=color:#f92672>);</span>
+    Collection<span style=color:#f92672>&lt;?</span> <span style=color:#66d9ef>extends</span> Certificate<span style=color:#f92672>&gt;</span> certificates <span style=color:#f92672>=</span> certificateFactory<span style=color:#f92672>.</span><span style=color:#a6e22e>generateCertificates</span><span style=color:#f92672>(</span><span style=color:#66d9ef>new</span> Buffer<span style=color:#f92672>().</span><span style=color:#a6e22e>writeUtf8</span><span style=color:#f92672>(</span>cert<span style=color:#f92672>).</span><span style=color:#a6e22e>inputStream</span><span style=color:#f92672>());</span>
+    <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>certificates<span style=color:#f92672>.</span><span style=color:#a6e22e>isEmpty</span><span style=color:#f92672>())</span> <span style=color:#f92672>{</span>
+        <span style=color:#66d9ef>throw</span> <span style=color:#66d9ef>new</span> IllegalArgumentException<span style=color:#f92672>(</span><span style=color:#e6db74>&#34;expected non-empty set of trusted certificates&#34;</span><span style=color:#f92672>);</span>
+    <span style=color:#f92672>}</span> <span style=color:#66d9ef>else</span> <span style=color:#f92672>{</span>
+        <span style=color:#66d9ef>char</span><span style=color:#f92672>[]</span> password <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;password&#34;</span><span style=color:#f92672>.</span><span style=color:#a6e22e>toCharArray</span><span style=color:#f92672>();</span> <span style=color:#75715e>// Any password will work.
+</span><span style=color:#75715e></span>        KeyStore keyStore <span style=color:#f92672>=</span> KeyStore<span style=color:#f92672>.</span><span style=color:#a6e22e>getInstance</span><span style=color:#f92672>(</span>KeyStore<span style=color:#f92672>.</span><span style=color:#a6e22e>getDefaultType</span><span style=color:#f92672>());</span>
+        keyStore<span style=color:#f92672>.</span><span style=color:#a6e22e>load</span><span style=color:#f92672>(</span><span style=color:#66d9ef>null</span><span style=color:#f92672>,</span> password<span style=color:#f92672>);</span>
+
+        <span style=color:#66d9ef>int</span> index <span style=color:#f92672>=</span> 0<span style=color:#f92672>;</span>
+        <span style=color:#66d9ef>for</span> <span style=color:#f92672>(</span>Certificate certificate <span style=color:#f92672>:</span> certificates<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+            String certificateAlias <span style=color:#f92672>=</span> Integer<span style=color:#f92672>.</span><span style=color:#a6e22e>toString</span><span style=color:#f92672>(</span>index<span style=color:#f92672>++);</span>
+            keyStore<span style=color:#f92672>.</span><span style=color:#a6e22e>setCertificateEntry</span><span style=color:#f92672>(</span>certificateAlias<span style=color:#f92672>,</span> certificate<span style=color:#f92672>);</span>
+        <span style=color:#f92672>}</span>
+
+        TrustManagerFactory trustManagerFactory <span style=color:#f92672>=</span> TrustManagerFactory<span style=color:#f92672>.</span><span style=color:#a6e22e>getInstance</span><span style=color:#f92672>(</span>TrustManagerFactory<span style=color:#f92672>.</span><span style=color:#a6e22e>getDefaultAlgorithm</span><span style=color:#f92672>());</span>
+        trustManagerFactory<span style=color:#f92672>.</span><span style=color:#a6e22e>init</span><span style=color:#f92672>(</span>keyStore<span style=color:#f92672>);</span>
+
+        TrustManager<span style=color:#f92672>[]</span> trustManagers <span style=color:#f92672>=</span> trustManagerFactory<span style=color:#f92672>.</span><span style=color:#a6e22e>getTrustManagers</span><span style=color:#f92672>();</span>
+        <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>trustManagers<span style=color:#f92672>.</span><span style=color:#a6e22e>length</span> <span style=color:#f92672>!=</span> 1 <span style=color:#f92672>||</span> <span style=color:#f92672>!(</span>trustManagers<span style=color:#f92672>[</span>0<span style=color:#f92672>]</span> <span style=color:#66d9ef>instanceof</span> X509TrustManager<span style=color:#f92672>))</span> <span style=color:#f92672>{</span>
+            <span style=color:#66d9ef>throw</span> <span style=color:#66d9ef>new</span> IllegalStateException<span style=color:#f92672>(</span><span style=color:#e6db74>&#34;Unexpected default trust managers:&#34;</span>
+                    <span style=color:#f92672>+</span> Arrays<span style=color:#f92672>.</span><span style=color:#a6e22e>toString</span><span style=color:#f92672>(</span>trustManagers<span style=color:#f92672>));</span>
+        <span style=color:#f92672>}</span>
+        trustManager <span style=color:#f92672>=</span> <span style=color:#f92672>(</span>X509TrustManager<span style=color:#f92672>)</span> trustManagers<span style=color:#f92672>[</span>0<span style=color:#f92672>];</span>
+
+        SSLContext sslContext <span style=color:#f92672>=</span> SSLContext<span style=color:#f92672>.</span><span style=color:#a6e22e>getInstance</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;TLS&#34;</span><span style=color:#f92672>);</span>
+        sslContext<span style=color:#f92672>.</span><span style=color:#a6e22e>init</span><span style=color:#f92672>(</span><span style=color:#66d9ef>null</span><span style=color:#f92672>,</span> <span style=color:#66d9ef>new</span> TrustManager<span style=color:#f92672>[]</span> <span style=color:#f92672>{</span> trustManager <span style=color:#f92672>},</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>);</span>
+        sslSocketFactory <span style=color:#f92672>=</span> sslContext<span style=color:#f92672>.</span><span style=color:#a6e22e>getSocketFactory</span><span style=color:#f92672>();</span>
+    <span style=color:#f92672>}</span>
+<span style=color:#f92672>}</span> <span style=color:#66d9ef>catch</span> <span style=color:#f92672>(</span>CertificateException e<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+    e<span style=color:#f92672>.</span><span style=color:#a6e22e>printStackTrace</span><span style=color:#f92672>();</span>
+<span style=color:#f92672>}</span> <span style=color:#66d9ef>catch</span> <span style=color:#f92672>(</span>NoSuchAlgorithmException e<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+    e<span style=color:#f92672>.</span><span style=color:#a6e22e>printStackTrace</span><span style=color:#f92672>();</span>
+<span style=color:#f92672>}</span> <span style=color:#66d9ef>catch</span> <span style=color:#f92672>(</span>KeyStoreException e<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+    e<span style=color:#f92672>.</span><span style=color:#a6e22e>printStackTrace</span><span style=color:#f92672>();</span>
+<span style=color:#f92672>}</span> <span style=color:#66d9ef>catch</span> <span style=color:#f92672>(</span>IOException e<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+    e<span style=color:#f92672>.</span><span style=color:#a6e22e>printStackTrace</span><span style=color:#f92672>();</span>
+<span style=color:#f92672>}</span> <span style=color:#66d9ef>catch</span> <span style=color:#f92672>(</span>KeyManagementException e<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+    e<span style=color:#f92672>.</span><span style=color:#a6e22e>printStackTrace</span><span style=color:#f92672>();</span>
+<span style=color:#f92672>}</span>
+
+OkHttpClient client <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> OkHttpClient<span style=color:#f92672>.</span><span style=color:#a6e22e>Builder</span><span style=color:#f92672>()</span>
+        <span style=color:#f92672>.</span><span style=color:#a6e22e>sslSocketFactory</span><span style=color:#f92672>(</span>sslSocketFactory<span style=color:#f92672>,</span> trustManager<span style=color:#f92672>)</span>
+        <span style=color:#f92672>.</span><span style=color:#a6e22e>build</span><span style=color:#f92672>();</span>
+
+Retrofit retrofit <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> Retrofit<span style=color:#f92672>.</span><span style=color:#a6e22e>Builder</span><span style=color:#f92672>()</span>
+        <span style=color:#f92672>.</span><span style=color:#a6e22e>baseUrl</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;https://cdn.rawgit.com/julianshen/cpblschedule/&#34;</span><span style=color:#f92672>)</span>
+        <span style=color:#f92672>.</span><span style=color:#a6e22e>addConverterFactory</span><span style=color:#f92672>(</span>GsonConverterFactory<span style=color:#f92672>.</span><span style=color:#a6e22e>create</span><span style=color:#f92672>())</span>
+        <span style=color:#f92672>.</span><span style=color:#a6e22e>client</span><span style=color:#f92672>(</span>client<span style=color:#f92672>)</span>
+        <span style=color:#f92672>.</span><span style=color:#a6e22e>build</span><span style=color:#f92672>();</span>
+</code></pre></div><p>看到這麼長的東西大概就不會想看了吧?(老實說我也寫的很懶, 這邊要特別提到有用到一個Class叫做Buffer,這是來自於<a href=https://github.com/square/okio>okio</a>, 蠻方便的東西), 跟前一個不同的地方在於, 前一個利用了CertificatePinner,
+而這一個則是改了sslSocketFactory的TrustManager(喂!!!前面不是隱約有提到這樣不太好?!),
+這個TrustManager全部也只信任這一個certifcate, 如果碰到其他的, 就會發生以下的exception:</p><pre><code>javax.net.ssl.SSLHandshakeException: java.security.cert.CertPathValidatorException: Trust anchor for certification path not found.
+        at com.android.org.conscrypt.OpenSSLSocketImpl.startHandshake(OpenSSLSocketImpl.java:328)
+</code></pre><p>那, 上面那一大坨憑證資料是怎樣取得的? 方法其實差不多:</p><pre><code>openssl s_client -connect cdn.rawgit.com:443 -showcerts
+</code></pre><p>會得到這樣的結果:</p><pre><code>CONNECTED(00000003)
+depth=2 /C=GB/ST=Greater Manchester/L=Salford/O=COMODO CA Limited/CN=COMODO RSA Certification Authority
+verify error:num=20:unable to get local issuer certificate
+verify return:0
+---
+Certificate chain
+ 0 s:/OU=Domain Control Validated/OU=PositiveSSL Multi-Domain/CN=rawgit.com
+   i:/C=GB/ST=Greater Manchester/L=Salford/O=COMODO CA Limited/CN=COMODO RSA Domain Validation Secure Server CA
+ 1 s:/OU=Domain Control Validated/OU=PositiveSSL Multi-Domain/CN=rawgit.com
+   i:/C=GB/ST=Greater Manchester/L=Salford/O=COMODO CA Limited/CN=COMODO RSA Domain Validation Secure Server CA
+ 2 s:/C=GB/ST=Greater Manchester/L=Salford/O=COMODO CA Limited/CN=COMODO RSA Domain Validation Secure Server CA
+   i:/C=GB/ST=Greater Manchester/L=Salford/O=COMODO CA Limited/CN=COMODO RSA Certification Authority
+ 3 s:/C=GB/ST=Greater Manchester/L=Salford/O=COMODO CA Limited/CN=COMODO RSA Certification Authority
+   i:/C=SE/O=AddTrust AB/OU=AddTrust External TTP Network/CN=AddTrust External CA Root
+---
+Server certificate
+-----BEGIN CERTIFICATE-----
+MIIFdjCCBF6gAwIBAgIRAPbTBHdHHseM4hArA7n6uREwDQYJKoZIhvcNAQELBQAw
+gZAxCzAJBgNVBAYTAkdCMRswGQYDVQQIExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAO
+BgNVBAcTB1NhbGZvcmQxGjAYBgNVBAoTEUNPTU9ETyBDQSBMaW1pdGVkMTYwNAYD
+VQQDEy1DT01PRE8gUlNBIERvbWFpbiBWYWxpZGF0aW9uIFNlY3VyZSBTZXJ2ZXIg
+Q0EwHhcNMTYwMTAxMDAwMDAwWhcNMTcwMTEzMjM1OTU5WjBbMSEwHwYDVQQLExhE
+b21haW4gQ29udHJvbCBWYWxpZGF0ZWQxITAfBgNVBAsTGFBvc2l0aXZlU1NMIE11
+bHRpLURvbWFpbjETMBEGA1UEAxMKcmF3Z2l0LmNvbTCCASIwDQYJKoZIhvcNAQEB
+BQADggEPADCCAQoCggEBALD2sUNSYp2R+mSEMF2qKvMS780qTkltvqP4rwEGKOLV
+rR5QQWo8vzSlgZvxVsguRHi0pPBtVAH794L43tD+IuyQlDlNU2qc1aMqBkn3S2wN
+Way8BS9w80pgeFnObZiFJtPI9pdwcB72Bgq8Nlc25oVrDVWr/Q8nLIKS/9FkNs+C
+MPU00vGFZSFbR7s15ORj9+qPCskWZcHpQ+m9EKmZD3IVKj3QQyBD17cBoVkYoIpj
+I8/r+NfVfKetlsB7Pcv8P3yLFVFC4+PGrnW9TLZK9aRtbDTvjElXwCQIPK5B2fKw
+SJK26IJPDX0r1JkeuR53Afr509iEx3xAHcRz/kR5uo8CAwEAAaOCAf0wggH5MB8G
+A1UdIwQYMBaAFJCvajqUWgvYkOoSVnPfQ7Q6KNrnMB0GA1UdDgQWBBSI83Kqafo7
+kg9cmyT1vnceH4fAUjAOBgNVHQ8BAf8EBAMCBaAwDAYDVR0TAQH/BAIwADAdBgNV
+HSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwTwYDVR0gBEgwRjA6BgsrBgEEAbIx
+AQICBzArMCkGCCsGAQUFBwIBFh1odHRwczovL3NlY3VyZS5jb21vZG8uY29tL0NQ
+UzAIBgZngQwBAgEwVAYDVR0fBE0wSzBJoEegRYZDaHR0cDovL2NybC5jb21vZG9j
+YS5jb20vQ09NT0RPUlNBRG9tYWluVmFsaWRhdGlvblNlY3VyZVNlcnZlckNBLmNy
+bDCBhQYIKwYBBQUHAQEEeTB3ME8GCCsGAQUFBzAChkNodHRwOi8vY3J0LmNvbW9k
+b2NhLmNvbS9DT01PRE9SU0FEb21haW5WYWxpZGF0aW9uU2VjdXJlU2VydmVyQ0Eu
+Y3J0MCQGCCsGAQUFBzABhhhodHRwOi8vb2NzcC5jb21vZG9jYS5jb20wSwYDVR0R
+BEQwQoIKcmF3Z2l0LmNvbYIVY2RuLW9yaWdpbi5yYXdnaXQuY29tgg5jZG4ucmF3
+Z2l0LmNvbYINcmF3Z2l0aHViLmNvbTANBgkqhkiG9w0BAQsFAAOCAQEASx3e6y9e
+9F67N5NIDausDHDL+/fz6uj2DDNJdaQvALAYDV8hKpz7+QGotlQfI042U2i83J7m
+DGZiKDpzaXa7IFfGiq6PFPUjntElHoU2E4vRb5LApg1sJ5YueYmRd3X7x0/jPYg6
+TiTtHyXOnlMuqL2FUYJM0BP7cMfOppvUF0R2zHUVA0rVHuLrSStg8bMg8aVUIkKg
+n3NS+eg4ofo95jaMRVykhLnylkYBk9dWBM6B19Yw7LgQd94MZSa+Xix4HxeFgvAM
+BF+oeDMaY7mEN4Xm5hnrIS1FElRDq/ckpDV8JVpR4SQqB+tzSZPPIiep8EvgRDzd
+2EkL187FF3MQ+w==
+-----END CERTIFICATE-----
+subject=/OU=Domain Control Validated/OU=PositiveSSL Multi-Domain/CN=rawgit.com
+issuer=/C=GB/ST=Greater Manchester/L=Salford/O=COMODO CA Limited/CN=COMODO RSA Domain Validation Secure Server CA
+---
+No client certificate CA names sent
+---
+SSL handshake has read 6716 bytes and written 456 bytes
+---
+New, TLSv1/SSLv3, Cipher is DHE-RSA-AES256-SHA
+Server public key is 2048 bit
+Secure Renegotiation IS supported
+Compression: NONE
+Expansion: NONE
+SSL-Session:
+    Protocol  : TLSv1
+    Cipher    : DHE-RSA-AES256-SHA
+    Session-ID: ACFED5197F4B5F64DBAAC97A47380CD9283EFD1797E27EF43A215B06982698F4
+    Session-ID-ctx: 
+    Master-Key: 856DFB81C863F461FE75EE11E633EA5CAB3CD6683563F597F406EF19AB37CD3F45B4FE659AB8726F9291360CBE856F48
+    Key-Arg   : None
+    Start Time: 1475223830
+    Timeout   : 300 (sec)
+    Verify return code: 0 (ok)
+---
+</code></pre><p>BEGIN到END那段剪貼下來即是</p><h2 id=缺點->缺點</h2><p>這兩個方法有一個極大的缺點, 如果沒有解決方案還是最好別用(<del>啊講那麼多, 最後不能用?!</del>)
+, 這缺點就是SSL Certificate是有時效性的, 因此server端的憑證是會換會改變的,
+只要server端一換, 就可能造成client端的失效, 所以如果要使用這兩個方法,
+前提必須先解決的是如何更新Client端要檢查的public key或certificate,
+這邊就不討論這部份的機制了, 這應該有很多方法可以來作才對</p><p>#好久沒寫關於Android的內容了</p></div></article><article class=hentry><header><div class=entry-meta><span class="entry-date date published updated"><time datetime="2016-09-28 02:17:12 +0000 UTC"><a href=/%E4%BD%BF%E7%94%A8AWS-lambda%E5%92%8CGithub%E4%BE%86%E6%8F%90%E4%BE%9B%E4%B8%AD%E8%8F%AF%E8%81%B7%E6%A3%92%E8%B3%BD%E7%A8%8B%E8%B3%87%E6%96%99/>Sep 28, 2016</a></time></span>
+<span class=entry-reading-time><i class="fa fa-clock-o"></i>Reading time ~3 minutes</span></div><h1 class=entry-title><a href=/%E4%BD%BF%E7%94%A8AWS-lambda%E5%92%8CGithub%E4%BE%86%E6%8F%90%E4%BE%9B%E4%B8%AD%E8%8F%AF%E8%81%B7%E6%A3%92%E8%B3%BD%E7%A8%8B%E8%B3%87%E6%96%99/ rel=bookmark title="使用AWS lambda和Github來提供中華職棒賽程資料" itemprop=url>使用AWS lambda和Github來提供中華職棒賽程資料</a></h1></header><div class=entry-content><p>不知不覺的突然就多出了兩天颱風假, 這颱風實在很威, 乒乒乓乓的, 不過, 也沒做什麼, 時間就快過完了, 現在才想到, 還是來寫點什麼, 嚴格說來這些東西並不完全是颱風假時弄的, 只是拖得有點久</p><p>起因是, 之前(很久&mldr;追朔到去年)想寫個App, 需要用到中華職棒賽程的資料, 拖了很久一直沒真的去做, 斷斷續續的, 最近才先把資料這部分補齊, 首先需求是:</p><ol><li>當月之後的賽程資料, 但中華職棒並沒有API, 只有(很爛)的網頁, 因此資料勢必得從網頁去解析</li><li>由Client app直接去解析html, 會比較麻煩(如果網站更新了, 就要更新App), 不是那麼可行</li><li>不想花錢(或不想花太多錢)弄一個server, 更不用說還要考慮Scaling</li></ol><p>而賽程表這樣的資料的特性則是:</p><ol><li>球季是3~10月</li><li>資料內容除週一(休賽)外, 幾乎每天都會變, 但不會一兩個小時或幾分鐘就變一次</li><li>變動的內容可能是:
+4. 比賽結束, 比數有更新
+5. 延賽或停賽</li><li>一個月才幾十場比賽而已, 基本上不太需要有search或query的功能, 依據月份分類也就足夠了</li></ol><p>因此我採用的做法是:</p><ol><li>利用AWS lambda定時解析中華職棒網站的資料</li><li>資料以json格式存在github (使用Github api)</li><li>Client透過CDN去要這些json的raw content</li></ol><h3 id=賽程解析->賽程解析</h3><p>這部分我是用Go + Goquery來寫的, source code在這邊: <a href=https://github.com/julianshen/cpblschedule>cpblschedule</a>, 這code沒啥整理過, 光解析這堆亂七八糟的html就夠頭痛囉, 就沒啥整理</p><p>我做成了一個package, 因此要使用可用下列指令先安裝:</p><p><code>go get -u github.com/julianshen/cpblschedule</code></p><p>裡面也很簡單就一個function而已, 因此要使用可以參考:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#f92672>import</span> <span style=color:#e6db74>&#34;github.com/julianshen/cpblschedule&#34;</span>
+
+<span style=color:#66d9ef>func</span> <span style=color:#a6e22e>main</span>() {
+	<span style=color:#a6e22e>matches</span>, <span style=color:#a6e22e>err</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>cpblschedule</span>.<span style=color:#a6e22e>ParseCPBLSchedule</span>(<span style=color:#a6e22e>year</span>, <span style=color:#a6e22e>month</span>)
+    <span style=color:#f92672>...</span>.
+}
+</code></pre></div><h3 id=aws-lambda->AWS Lambda</h3><p>這邊就不介紹這東西是什麼了, 網路上文章一大堆, 基本上他是AWS一個severless的解決方案(這算廣告詞吧), 會使用這個的原因有二:</p><ol><li>依我的用量應該是免費(事實證明, 其實還是要花點錢, 我忘了算網路傳輸的費用了, 不過這不多)</li><li>可以用Cloud watch排程觸發</li></ol><p>不過有個小問題</p><pre><code>**他不支援Go!!!!!**
+</code></pre><p>而我上面那個解析的東東是go寫的, 那不就寫心酸的</p><p>所幸還有別的辦法,就是把程式編譯成執行檔, 然後用nodejs去包裝它, 不過這有點煩瑣, 所幸還有工具</p><p><a href=https://github.com/apex/apex>apex</a>, 這是讓你更簡單的去建立lambda function的工具, 而且他正好也可以幫你簡單做好上面所說的包裝</p><p>安裝及使用就看文件吧, 不特別說了, 但要如何用go寫一個lambda function handle呢?以下是範例:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#f92672>import</span> (
+	<span style=color:#e6db74>&#34;encoding/json&#34;</span>
+	<span style=color:#e6db74>&#34;github.com/apex/go-apex&#34;</span>
+)
+<span style=color:#66d9ef>func</span> <span style=color:#a6e22e>main</span>() {
+	<span style=color:#a6e22e>apex</span>.<span style=color:#a6e22e>HandleFunc</span>(<span style=color:#66d9ef>func</span>(<span style=color:#a6e22e>event</span> <span style=color:#a6e22e>json</span>.<span style=color:#a6e22e>RawMessage</span>, <span style=color:#a6e22e>ctx</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>apex</span>.<span style=color:#a6e22e>Context</span>) (<span style=color:#66d9ef>interface</span>{}, <span style=color:#66d9ef>error</span>) {
+		<span style=color:#a6e22e>dosomething</span>()
+		<span style=color:#66d9ef>return</span> <span style=color:#66d9ef>nil</span>, <span style=color:#66d9ef>nil</span>
+	})
+}
+</code></pre></div><h4 id=github-as-api-source->Github as API source</h4><p>資料既然變動不頻繁, 就用lambda定期產生然後把結果放到Github上就可了</p><p>Github API的Go的實做是Google放出來的<a href=https://github.com/google/go-github/>go-github</a>, 文件還蠻眼花撩亂的, 不過在這應用需要的API不多:</p><ol><li>client.Repositories.GetContents - 取得內容</li><li>client.Repositories.CreateFile - 創立一個新檔</li><li>client.Repositories.UpdateFile - 更新某個檔</li></ol><p>之所以需要1的原因是要確認檔案是不是已經在repository裡面了, 如果沒有就用create, 如果有就拿SHA hash去更新內容</p><p>GetContents會把檔案內容一併給抓回來, 這可以用來在更新檔案前先比較, 如果不比較, 就算沒更動, API也會新增一個新的commit, 為了避免不要太誇張, 還是先比較一下好了</p><p>那之後client怎樣存取這些資料? 找到檔案, 選取raw就可以知道raw的url了, client每次就抓這個URL就好, 但為了避免過量地request湧到github, 因此透過一個CDN來存取可能會好一點</p><p>這時候就可以用<a href=http://rawgit.com>RawGit</a>, 這邊透過MaxCDN, 讓你可以去存取Github上的raw content, 而你的檔案的網址會是像這樣:</p><pre><code>https://cdn.rawgit.com/user/repo/tag/file
+</code></pre><p>大致上就這樣</p></div></article><article class=hentry><header><div class=entry-meta><span class="entry-date date published updated"><time datetime="2016-09-18 22:41:43 +0000 UTC"><a href=/%E7%AD%86%E8%A8%98-%E4%B8%AD%E7%A7%8B%E9%80%A3%E5%81%87%E5%B0%8F%E5%AF%A6%E9%A9%97/>Sep 18, 2016</a></time></span>
+<span class=entry-reading-time><i class="fa fa-clock-o"></i>Reading time ~7 minutes</span></div><h1 class=entry-title><a href=/%E7%AD%86%E8%A8%98-%E4%B8%AD%E7%A7%8B%E9%80%A3%E5%81%87%E5%B0%8F%E5%AF%A6%E9%A9%97/ rel=bookmark title="[筆記] 中秋連假小實驗" itemprop=url>[筆記] 中秋連假小實驗</a></h1></header><div class=entry-content><p>最近直播蠻火紅的, 直播服務也不少, 連Facebook都做了直播功能, 最近也跟人聊了不少這方面的東西, 所以想說趁中秋連假來自己研究看看, 只是中秋節連假雖然多, 做的事情還真是不少, 看電影, 打球, 打電動, 看球的, 又碰上颱風天, 不過還是先搞個簡單的雛形唄</p><h3 id=相關應用->相關應用</h3><p>市面上有不少關於直播的應用, 應該說, 簡直是氾濫, 而且每一種人氣似乎都是很旺, 還不是很了解在旺啥的, 現在可能也不少人認為當個網紅就可以一炮而紅之類的</p><ul><li>Live.me<ul><li><img src=/images/posts/IMG_9517.PNG alt></li></ul></li><li>小米直播<ul><li><img src=/images/posts/IMG_9519.PNG alt></li><li><img src=/images/posts/IMG_9520.PNG alt></li></ul></li><li>17<ul><li><img src=/images/posts/IMG_9521.PNG alt></li><li><img src=/images/posts/IMG_9522.PNG alt></li></ul></li><li>麥卡貝<ul><li><img src=/images/posts/IMG_9523.PNG alt></li></ul></li></ul><p>這邊其實可以看出, 根本大同小異, 大多是賣肉&mldr;喔, 不是, 賣網紅, 後面故意舉了一個麥卡貝當例子, 它是稍微不一樣, 以賣直播節目像是運動比賽的轉播(嗚~~金鋒退休了). 而不是一般的UGC(User generated), 當然這邊也沒舉一般很流行的遊戲直播像是<a href=https://www.twitch.tv>Twitch</a>, 不過這類早已為大家所熟知了</p><p>不管是哪一種, 大部分的設計都是大同小異, 都是以單向直播為主, 輔以文字聊天室, 可以送個愛心或禮物, Facebook稍稍進階點, 會將直播過程錄製下來, 不只錄製節目, 還有過程中的互動, 不過大家都是蠻近似的</p><h3 id=基本原理->基本原理</h3><p>如果照以上的功能設計, 簡單的可以畫成兩個部分, 一個是直播串流(Video Stream)的部分, 一個則是聊天室的部分, 大致上的後端可以以這兩個為核心</p><p>關於直播串流的技術部分, Facebook 曾分享了一篇關於他們做直播串流經驗的文章:</p><p><a href=https://code.facebook.com/posts/1653074404941839/under-the-hood-broadcasting-live-video-to-millions/>Under the hood: Broadcasting live video to millions</a></p><p>從這邊可以了解到, 串流需要能夠支撐到非常多人同時觀賞, 網紅可能數百到數千, 像是蘋果的發表會, 或是Google I/O, WWDC 這種會議則可能是數萬到數十萬, 所以服務的高並發, 高流量是可以預期的, 架構上也要能夠承受這樣的強度, 簡化的畫起來應該像是這樣:</p><div class=mermaid>graph LR;
+C[Client]--publish-->M[Media Server];
+M--forward-->E(Edge Server);
+M--forward-->E2(Edge Server);
+M--forward-->E3(Edge Server);
+E-->V(Viewer);
+E-->V2(Viewer);
+E2-->V3(Viewer);
+E2-->V4(Viewer);
+E3-->CDN;
+CDN-->V5(Viewer);
+CDN-->V6(Viewer);
+CDN-->V7(Viewer);</div><p>Viewer不直接從Media Server取串流內容是考量到Media server通常要接收多個Client發佈的串流, 一個假設性的想法是, 對於UGC(User generated content), 主播應該遠少於觀眾, 假設就算一個服務可以吸引到百萬級別的觀眾, 同時線上的主播應該了不起是幾千個而已, 即便如此, Media server本身從Client接收發布的串流資料後, 可能還需要做轉碼(transcoding), 和轉送的動作, 尤其是轉碼是較為耗CPU資源的工作, 如果把主播跟觀眾放在同一個伺服器上, 除了影響品質外, 也會不方便擴充, 因此減少Media server上的"觀眾&rdquo;(讓觀眾只是其他少數的edge servers), 便可以在觀眾增加時相對好擴充容量(增加edge的數量)</p><p>但大部分的狀況來說, 每個直播的觀眾不一定是非常大量, 在Facebook那篇文章內也有提到, 在小量觀眾的狀況下, 分流到多個edge的效率應該就沒那麼的好了, 反而這時候放在同一台server減少延遲會是更好的選擇</p><p>串流的通訊協定有不少, 像是<a href=https://en.wikipedia.org/wiki/Real-time_Transport_Protocol>RTP</a>, <a href=https://en.wikipedia.org/wiki/Real_Time_Streaming_Protocol>RTSP</a>, <a href=https://en.wikipedia.org/wiki/Real-Time_Messaging_Protocol>RTMP</a>, <a href=https://en.wikipedia.org/wiki/HTTP_Live_Streaming>HLS</a>, <a href=https://webrtc.org>WebRTC</a>等等, Facebook那篇文章主要提到的是<a href=https://en.wikipedia.org/wiki/Real-Time_Messaging_Protocol>RTMP</a>, <a href=https://en.wikipedia.org/wiki/HTTP_Live_Streaming>HLS</a>, 查了一下資料, 似乎這兩個也是目前比較主流做直播用的, 雖然WebRTC被討論的也蠻多的, 但似乎比較沒被應用在大量的直播, RTMP跟HLS都是可以透過HTTP來做傳輸(RTMP需要做封裝 - RTMPT), 讓他們具有穿越防火牆的優勢, 而HLS是以檔案為基礎的, 所以適合用一般的CDN來做快取, 在做大量的直播優勢較大, 缺點是延遲太長了, 但這兩者其實也是可以合併使用的, 在小群體時用RTMP, 等觀眾成長到一定數量實再導流到HLS去</p><h3 id=proof-of-concept-的初步想法與簡單的設計->Proof of concept 的初步想法與簡單的設計</h3><p>幾個初步的想法</p><ol><li>直播 = live stream + chat room</li><li>現在直播應用很多, 所以應該不少現成的open source解決方案可以套用, POC可以從這些東西下手, 不用重造輪子</li><li>需求: Client發布直播後, Viewer可以知道現在有誰在直播並觀看, 並可以透過訊息聊天</li></ol><p><strong>發布</strong></p><div class=mermaid>sequenceDiagram
+participant Client
+participant Register
+participant MediaServer
+participant Viewer
+Client->>Register: I want to go live
+activate Register
+Register-->>Client: Here is your ID and token
+deactivate Register
+Client->>MediaServer: Publish(id,token)
+activate MediaServer
+MediaServer->>Register: token valid?
+activate Register
+Register-->>MediaServer: Yes
+deactivate Register
+MediaServer-->>Client: OK
+deactivate MediaServer
+Client->>Register: I am ready to live
+activate Register
+Register->>Viewer: Somebody is ready to live
+activate Viewer
+deactivate Register
+Viewer->Viewer: Update UI
+deactivate Viewer</div><p><strong>觀賞直播</strong></p><p>這部分就沒什麼特別的了, 當一般的chat room做就好</p><h3 id=先看一下成果->先看一下成果</h3><p>這成品有點粗劣, 有點不好意思 :P</p><div style=position:relative;padding-bottom:56.25%;height:0;overflow:hidden><iframe src=https://www.youtube.com/embed/DyF27GlfuZ8 style=position:absolute;top:0;left:0;width:100%;height:100%;border:0 allowfullscreen title="YouTube Video"></iframe></div><p>我publish client只實作iOS版本, 而Viewer只實作了Android版本(根本只各做一半嘛!!/翻桌), 後端用<a href=firebase.google.com>firebase</a>處理資料的部分, 所以即時通知新的直播, 和聊天沒啥問題(但我聊天的UI還是沒刻 >"&lt;)</p><h3 id=相關解決方案->相關解決方案</h3><p>既然沒有重新做輪子, 自然用了不少Open source的解決方案來達成, 從Server到Android, iOS要找到相關可用的實在不難, 可以說這部份實在是太成熟了, 研究完後覺得Facebook那篇文章也只是一般般而已</p><h4 id=steaming-server->Steaming server</h4><p>RTMP相關的解決方案還算不少, 這邊列幾個</p><ol><li><a href=https://github.com/arut/nginx-rtmp-module>Nginx RTMP Module</a> - 架構在Nginx之上, 也算老牌了, 支援RTMP和HLS, 但看code base, 實在也沒啥在更新</li><li><a href=http://www.monaserver.ovh>Mona server</a> - 支援RTMP, HTTP(非HLS), Web socket等等</li><li><a href=http://red5.org>Red5 Media Server</a> - 支援RTMP, HLS, WebSocket, RTSP, 好像是要錢</li><li><a href=https://github.com/ossrs/srs/>Simpe RTMP Server</a> - 這是由中國的觀止雲這家開源出來的, 講"Simple"其實一點都不Simple, 輕量, 穩定(至少我試直播一晚上都還蠻順利的), 好擴展(支援forward to edge), 可RTMP轉HLS, 因此我最後選擇這個方案</li></ol><h5 id=srs-simple-rtmp-server->SRS (Simple RTMP Server)</h5><p><strong>硬體</strong></p><p>我沒看到文件有寫硬體需求, 但我用Digital Ocean 1GB RAM, 30GB SSD的Droplet跑, 單一個直播, 直播好幾個鐘頭, CPU都不超過5%, 所以應該足夠</p><p><strong>安裝</strong></p><p>安裝上相當簡單</p><ol><li>從git上抓下來: <code>git clone https://github.com/ossrs/srs.git</code></li><li>切換到相對應版本的branch(我是用2.0release) - <code>git checkout 2.0release</code></li><li><code>cd srs/trunk; ./configure ; make ;</code></li></ol><p>建置好的執行檔會在srs/trunk/objs目錄下, 可以直接執行</p><p><strong>設定</strong></p><p>conf目錄下有很多不同的設定檔可以參考, 因為我要試RTMP, HLS所以我用的設定檔如下:</p><pre><code>listen              1935;
+max_connections     1000;
+srs_log_tank        file;
+srs_log_file        ./objs/srs.log;
+http_api {
+    enabled         on;
+    listen          1985;
+}
+http_server {
+    enabled         on;
+    listen          8080;
+    dir             ./objs/nginx/html;
+}
+stats {
+    network         0;
+    disk            sda sdb xvda xvdb;
+}
+vhost __defaultVhost__ {
+    hls {
+        enabled         on;
+		hls_fragment    10;
+        hls_window      60;
+        hls_path        ./objs/nginx/html;
+        hls_m3u8_file   [app]/[stream].m3u8;
+        hls_ts_file     [app]/[stream]-[seq].ts;
+    }
+}
+</code></pre><p>相對應的設定可以參考文件</p><p><strong>執行</strong></p><p>很簡單: <code>srs -c my.conf</code> 即可</p><h4 id=ios-rtmp-publish->iOS RTMP Publish</h4><p>找到iOS支援RTMP publish的解決方案有幾種:</p><ol><li><a href=https://github.com/jgh-/VideoCore>VideoCore</a> - 這個我還沒去試過, 不知道好不好用, 但似乎有支援Filter和Watermark, 感覺蠻威的</li><li><a href=https://github.com/shogo4405/lf.swift>lf.swift</a> - 簡單, Swift做的, 這兩個是優點, 對我這個只看得懂Swift看不懂ObjC的, debug是比較方便, 但除此之外好像也沒啥特色了</li><li><a href=https://github.com/runner365/LiveVideoCoreSDK>LiveVideoCoreSDK</a> - 這文件不多, 我暫時就沒試了, 也支援濾鏡, 而且似乎這個作者也提供了Android版本, 只是好像沒支援Cocoapods或Cathage, 有空再來玩玩</li><li><a href=https://github.com/LaiFengiOS/LFLiveKit>LFLiveKit</a> - 我最後是選用這個, 簡單, 且"自帶美顏&rdquo;(現在騙人是很基本的)</li></ol><h5 id=lfswift->lf.swift</h5><p>雖然文件上有提供cocoapods跟Carhtage的安裝方式, 但絕對不要用Carthage的那個, 第一原因是它Carthage支援似乎尚未搞定, 就算改點東西解決了它, 是可以安裝成功沒錯, 但會崩潰在XCGLogger, 似乎用framework含進來的方式會導致XCGLogger == nil, 這害我花了好多時間, 畢竟我是Carthage的愛用者, 後來轉用Cocoapods就沒事了</p><p>幾個需要加的部分:</p><p><em>AppDelegate.swift</em></p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-swift data-lang=swift><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>application</span>(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -&gt; Bool {
+
+        XCGLogger.defaultInstance().outputLogLevel = .Info
+        XCGLogger.defaultInstance().xcodeColorsEnabled = <span style=color:#66d9ef>true</span>
+        
+        <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>true</span>
+    }
+</code></pre></div><p>這兩行是設定logger要記錄的東西, 方便debug用</p><p><em>ViewController</em></p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-swift data-lang=swift><span style=color:#66d9ef>override</span> <span style=color:#66d9ef>func</span> <span style=color:#a6e22e>viewDidLoad</span>() {
+	rtmpStream = RTMPStream(rtmpConnection: rtmpConnection)
+    rtmpStream.syncOrientation = <span style=color:#66d9ef>true</span>
+    rtmpStream.attachAudio(AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeAudio))
+        rtmpStream.attachCamera(DeviceUtil.deviceWithPosition(.Back))
+    rtmpStream.addObserver(<span style=color:#66d9ef>self</span>, forKeyPath: <span style=color:#e6db74>&#34;currentFPS&#34;</span>, options: NSKeyValueObservingOptions.New, context: <span style=color:#66d9ef>nil</span>)
+        
+    rtmpStream.captureSettings = [
+            <span style=color:#e6db74>&#34;sessionPreset&#34;</span>: AVCaptureSessionPreset1280x720,
+            <span style=color:#e6db74>&#34;continuousAutofocus&#34;</span>: <span style=color:#66d9ef>true</span>,
+            <span style=color:#e6db74>&#34;continuousExposure&#34;</span>: <span style=color:#66d9ef>true</span>,
+        ]
+
+    rtmpStream.videoSettings = [
+            <span style=color:#e6db74>&#34;width&#34;</span>: <span style=color:#ae81ff>1280</span>,
+            <span style=color:#e6db74>&#34;height&#34;</span>: <span style=color:#ae81ff>720</span>,
+        ]
+    lfView.attachStream(rtmpStream)
+
+    view.addSubview(lfView)
+}
+</code></pre></div><p>直播的部分會跟他的LFView綁一起</p><h5 id=lflivekithttpsgithubcomlaifengioslflivekit-><a href=https://github.com/LaiFengiOS/LFLiveKit>LFLiveKit</a></h5><p>後來選用LFLiveKit的原因不是因為他自帶美顏 :D, 他寫法跟lf.swift一樣簡單, 而且不一定要把preview加到UI裡面, 而且他的preview不用用特定的class,只要是UIView就可</p><p>範例直接貼他文件裡的就很清楚了:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-swift data-lang=swift><span style=color:#75715e>// import LFLiveKit in [ProjectName]-Bridging-Header.h</span>
+<span style=color:#66d9ef>import</span> &lt;<span style=color:#a6e22e>LFLiveKit</span>.<span style=color:#a6e22e>h</span>&gt; 
+
+<span style=color:#75715e>//</span><span style=color:#75715e>MARK:</span><span style=color:#75715e> - Getters and Setters</span>
+<span style=color:#a6e22e>lazy</span> <span style=color:#a6e22e>var</span> <span style=color:#a6e22e>session</span>: <span style=color:#a6e22e>LFLiveSession</span> = {
+    <span style=color:#66d9ef>let</span> audioConfiguration = LFLiveAudioConfiguration.defaultConfiguration()
+    <span style=color:#66d9ef>let</span> videoConfiguration = LFLiveVideoConfiguration.defaultConfigurationForQuality(LFLiveVideoQuality.Low3, landscape: <span style=color:#66d9ef>false</span>)
+    <span style=color:#66d9ef>let</span> session = LFLiveSession(audioConfiguration: audioConfiguration, videoConfiguration: videoConfiguration)
+
+    session?.delegate = <span style=color:#66d9ef>self</span>
+    session?.preView = <span style=color:#66d9ef>self</span>.view
+    <span style=color:#66d9ef>return</span> session!
+}()
+
+<span style=color:#75715e>//</span><span style=color:#75715e>MARK:</span><span style=color:#75715e> - Event</span>
+<span style=color:#66d9ef>func</span> <span style=color:#a6e22e>startLive</span>() -&gt; Void { 
+    <span style=color:#66d9ef>let</span> stream = LFLiveStreamInfo()
+    stream.url = <span style=color:#e6db74>&#34;your server rtmp url&#34;</span>;
+    session.startLive(stream)
+}
+
+<span style=color:#66d9ef>func</span> <span style=color:#a6e22e>stopLive</span>() -&gt; Void {
+    session.stopLive()
+}
+
+<span style=color:#75715e>//</span><span style=color:#75715e>MARK:</span><span style=color:#75715e> - Callback</span>
+<span style=color:#66d9ef>func</span> <span style=color:#a6e22e>liveSession</span>(session: LFLiveSession?, debugInfo: LFLiveDebug?) 
+<span style=color:#66d9ef>func</span> <span style=color:#a6e22e>liveSession</span>(session: LFLiveSession?, errorCode: LFLiveSocketErrorCode)
+<span style=color:#66d9ef>func</span> <span style=color:#a6e22e>liveSession</span>(session: LFLiveSession?, liveStateDidChange state: LFLiveState)
+</code></pre></div><h4 id=android-stream-player->Android stream player</h4><p>寫到後面有點累了, 也有點懶了, 還剩下Android這塊沒寫, 這邊就只列出方案不寫細節了, 主要我測過:</p><ol><li><a href=https://github.com/google/ExoPlayer/>ExoPlayer</a>: Google開源的Media player, 之前在做另一個東西時我有用過, 所以第一時間就想起這個, 不過, 原生的完全不支援RTMP, 不過可以參考<a href=https://github.com/ButterflyTV/ExoPlayer-with-RTMP-and-FLV-seek/blob/master/demo/src/main/java/com/google/android/exoplayer/demo/player/RtmpDataSource.java>這邊</a>, 但我實際上用, RTMP完全沒成功過, 一直出現FLV parse的問題, 倒是HLS沒問題</li><li><a href=https://github.com/Bilibili/ijkplayer>Ijkplayer</a> - 這同時有Android和iOS版本, 是Bilibili開源的, 有點強大, 但基於ffmpeg, 不知道在license上會不會有風險, 使用起來還有點複雜, 但HLS, RTMP都是沒問題</li><li><a href=https://github.com/pili-engineering/PLDroidPlayer>PLDroidPlayer</a> - 七牛雲針對ijkplayer的再製品, 比較方便的是, 它有封裝出一個video view可以直接使用, 相較於ijkplayer來說比較簡單易用</li></ol></div></article><div class=pagination><ul class=inline-list><li><a href=/page/6/ class=btn>Previous</a></li><li><a href=/>1</a></li><li><a href=/page/2/>2</a></li><li><a href=/page/3/>3</a></li><li><a href=/page/4/>4</a></li><li><a href=/page/5/>5</a></li><li><a href=/page/6/>6</a></li><li><strong class=current-page>7</strong></li><li><a href=/page/8/>8</a></li><li><a href=/page/9/>9</a></li><li><a href=/page/10/>10</a></li><li><a href=/page/11/>11</a></li><li><a href=/page/12/>12</a></li><li><a href=/page/13/>13</a></li><li><a href=/page/14/>14</a></li><li><a href=/page/15/>15</a></li><li><a href=/page/16/>16</a></li><li><a href=/page/17/>17</a></li><li><a href=/page/18/>18</a></li><li><a href=/page/19/>19</a></li><li><a href=/page/20/>20</a></li><li><a href=/page/21/>21</a></li><li><a href=/page/22/>22</a></li><li><a href=/page/23/>23</a></li><li><a href=/page/24/>24</a></li><li><a href=/page/25/>25</a></li><li><a href=/page/26/>26</a></li><li><a href=/page/27/>27</a></li><li><a href=/page/28/>28</a></li><li><a href=/page/29/>29</a></li><li><a href=/page/30/>30</a></li><li><a href=/page/31/>31</a></li><li><a href=/page/32/>32</a></li><li><a href=/page/33/>33</a></li><li><a href=/page/34/>34</a></li><li><a href=/page/35/>35</a></li><li><a href=/page/36/>36</a></li><li><a href=/page/37/>37</a></li><li><a href=/page/38/>38</a></li><li><a href=/page/39/>39</a></li><li><a href=/page/40/>40</a></li><li><a href=/page/41/>41</a></li><li><a href=/page/42/>42</a></li><li><a href=/page/43/>43</a></li><li><a href=/page/44/>44</a></li><li><a href=/page/45/>45</a></li><li><a href=/page/46/>46</a></li><li><a href=/page/47/>47</a></li><li><a href=/page/48/>48</a></li><li><a href=/page/49/>49</a></li><li><a href=/page/50/>50</a></li><li><a href=/page/51/>51</a></li><li><a href=/page/52/>52</a></li><li><a href=/page/53/>53</a></li><li><a href=/page/54/>54</a></li><li><a href=/page/55/>55</a></li><li><a href=/page/56/>56</a></li><li><a href=/page/57/>57</a></li><li><a href=/page/58/>58</a></li><li><a href=/page/59/>59</a></li><li><a href=/page/60/>60</a></li><li><a href=/page/61/>61</a></li><li><a href=/page/62/>62</a></li><li><a href=/page/63/>63</a></li><li><a href=/page/64/>64</a></li><li><a href=/page/65/>65</a></li><li><a href=/page/66/>66</a></li><li><a href=/page/67/>67</a></li><li><a href=/page/68/>68</a></li><li><a href=/page/69/>69</a></li><li><a href=/page/70/>70</a></li><li><a href=/page/71/>71</a></li><li><a href=/page/8/ class=btn>Next</a></li></ul></div></div><div class=footer-wrapper><footer role=contentinfo><span>Powered by <a href=https://gohugo.io/ rel=nofollow>Hugo</a> using the <a href=https://github.com/dldx/hpstr-hugo-theme rel=nofollow>HPSTR theme</a>.</span></footer></div><script src=//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js></script><script src=https://kit.fontawesome.com/872a53b461.js crossorigin=anonymous></script><script>window.jQuery||document.write('<script src="\/js\/vendor\/jquery-1.9.1.min.js"><\/script>')</script><script src=/js/scripts.min.js></script><script type=application/javascript>var doNotTrack=false;if(!doNotTrack){(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');ga('create','UA-79243751-1','auto');ga('send','pageview');}</script><div id=fb-root></div><script async defer crossorigin=anonymous src="https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v7.0&appId=293999444006555&autoLogAppEvents=1" nonce=geZSUIUh></script></body></html>

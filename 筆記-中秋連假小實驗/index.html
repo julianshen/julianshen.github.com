@@ -1,0 +1,120 @@
+<!doctype html><!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=en><![endif]--><!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang=en><![endif]--><!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang=en><![endif]--><!--[if gt IE 8]><!--><html class=no-js lang=en><!--<![endif]--><head><meta charset=utf-8><title>[筆記] 中秋連假小實驗 &#8211; Le murmure de Julian</title><meta name=description content><meta name=keywords content="iOSDev,Swift,AndroidDev,server,SRS,RTMP,mobiledev,livestream"><meta property="og:title" content="[筆記] 中秋連假小實驗"><meta property="og:description" content="最近直播蠻火紅的, 直播服務也不少, 連Facebook都做了直播功能, 最近也跟人聊了不少這方面的東西, 所以想說趁中秋連假來自己研究看看, 只是中"><meta property="og:type" content="article"><meta property="og:url" content="http://blog.jln.co/%E7%AD%86%E8%A8%98-%E4%B8%AD%E7%A7%8B%E9%80%A3%E5%81%87%E5%B0%8F%E5%AF%A6%E9%A9%97/"><meta property="og:image" content="http://blog.jln.co/images/posts/2016-09-18-%5B%E7%AD%86%E8%A8%98%5D-%E4%B8%AD%E7%A7%8B%E9%80%A3%E5%81%87%E5%B0%8F%E5%AF%A6%E9%A9%97.md.jpg"><meta property="article:published_time" content="2016-09-18T22:41:43+00:00"><meta property="article:modified_time" content="2016-09-18T22:41:43+00:00"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="http://blog.jln.co/images/posts/2016-09-18-%5B%E7%AD%86%E8%A8%98%5D-%E4%B8%AD%E7%A7%8B%E9%80%A3%E5%81%87%E5%B0%8F%E5%AF%A6%E9%A9%97.md.jpg"><meta name=twitter:title content="[筆記] 中秋連假小實驗"><meta name=twitter:description content="最近直播蠻火紅的, 直播服務也不少, 連Facebook都做了直播功能, 最近也跟人聊了不少這方面的東西, 所以想說趁中秋連假來自己研究看看, 只是中"><link rel=canonical href=http://blog.jln.co/%E7%AD%86%E8%A8%98-%E4%B8%AD%E7%A7%8B%E9%80%A3%E5%81%87%E5%B0%8F%E5%AF%A6%E9%A9%97/><meta name=HandheldFriendly content="True"><meta name=MobileOptimized content="320"><meta name=viewport content="width=device-width,initial-scale=1"><link rel=stylesheet href=/css/main.css><link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel=stylesheet type=text/css><meta http-equiv=cleartype content="on"><meta name=generator content="Hugo 0.73.0"><script src=/js/vendor/modernizr-2.6.2.custom.min.js></script><script async src=https://unpkg.com/mermaid@8.2.3/dist/mermaid.min.js></script><link rel="shortcut icon" href=/favicon.png></head><body id=post><nav id=dl-menu class=dl-menuwrapper role=navigation style=display:inline-block><button class=dl-trigger>Open Menu</button><ul class=dl-menu><li><a href=/>Home</a></li><li><a href=#>About</a><ul class=dl-submenu><li><img src=/images/avatar.png alt="Julian Shen's photo" class=author-photo><h4>Julian Shen</h4><p>Softward developer</p></li><li><a href=mailto:julianshen22@gmail.com><i class="fa fa-fw fa-envelope"></i>Email</a></li><li><a href=https://linkedin.com/in/julianshen><i class="fa fa-fw fa-linkedin"></i>LinkedIn</a></li><li><a href=https://github.com/julianshen><i class="fa fa-fw fa-github"></i>GitHub</a></li><li><a href=https://instagram.com/julianshen><i class="fa fa-fw fa-instagram"></i>Instagram</a></li></ul></li><li><a href=#>Posts</a><ul class=dl-submenu><li><a href=/post/>All Posts</a></li><li><a href=/tags/>All Tags</a></li></ul></li><li><a href=/></a></li></ul></nav><div id=main role=main><article class=hentry><header class=header-title><div class=header-title-wrap><h1 class=entry-title><a href=/%E7%AD%86%E8%A8%98-%E4%B8%AD%E7%A7%8B%E9%80%A3%E5%81%87%E5%B0%8F%E5%AF%A6%E9%A9%97/ rel=bookmark title="[筆記] 中秋連假小實驗">[筆記] 中秋連假小實驗</a></h1><h2><span class="entry-date date published"><time datetime="2016-09-18 22:41:43 +0000 UTC">September 18, 2016</time></span></h2><p class=entry-reading-time><i class="fa fa-clock-o"></i>Reading time ~7 minutes</p></div></header><div class=entry-content><p>最近直播蠻火紅的, 直播服務也不少, 連Facebook都做了直播功能, 最近也跟人聊了不少這方面的東西, 所以想說趁中秋連假來自己研究看看, 只是中秋節連假雖然多, 做的事情還真是不少, 看電影, 打球, 打電動, 看球的, 又碰上颱風天, 不過還是先搞個簡單的雛形唄</p><h3 id=相關應用->相關應用</h3><p>市面上有不少關於直播的應用, 應該說, 簡直是氾濫, 而且每一種人氣似乎都是很旺, 還不是很了解在旺啥的, 現在可能也不少人認為當個網紅就可以一炮而紅之類的</p><ul><li>Live.me<ul><li><img src=/images/posts/IMG_9517.PNG alt></li></ul></li><li>小米直播<ul><li><img src=/images/posts/IMG_9519.PNG alt></li><li><img src=/images/posts/IMG_9520.PNG alt></li></ul></li><li>17<ul><li><img src=/images/posts/IMG_9521.PNG alt></li><li><img src=/images/posts/IMG_9522.PNG alt></li></ul></li><li>麥卡貝<ul><li><img src=/images/posts/IMG_9523.PNG alt></li></ul></li></ul><p>這邊其實可以看出, 根本大同小異, 大多是賣肉&mldr;喔, 不是, 賣網紅, 後面故意舉了一個麥卡貝當例子, 它是稍微不一樣, 以賣直播節目像是運動比賽的轉播(嗚~~金鋒退休了). 而不是一般的UGC(User generated), 當然這邊也沒舉一般很流行的遊戲直播像是<a href=https://www.twitch.tv>Twitch</a>, 不過這類早已為大家所熟知了</p><p>不管是哪一種, 大部分的設計都是大同小異, 都是以單向直播為主, 輔以文字聊天室, 可以送個愛心或禮物, Facebook稍稍進階點, 會將直播過程錄製下來, 不只錄製節目, 還有過程中的互動, 不過大家都是蠻近似的</p><h3 id=基本原理->基本原理</h3><p>如果照以上的功能設計, 簡單的可以畫成兩個部分, 一個是直播串流(Video Stream)的部分, 一個則是聊天室的部分, 大致上的後端可以以這兩個為核心</p><p>關於直播串流的技術部分, Facebook 曾分享了一篇關於他們做直播串流經驗的文章:</p><p><a href=https://code.facebook.com/posts/1653074404941839/under-the-hood-broadcasting-live-video-to-millions/>Under the hood: Broadcasting live video to millions</a></p><p>從這邊可以了解到, 串流需要能夠支撐到非常多人同時觀賞, 網紅可能數百到數千, 像是蘋果的發表會, 或是Google I/O, WWDC 這種會議則可能是數萬到數十萬, 所以服務的高並發, 高流量是可以預期的, 架構上也要能夠承受這樣的強度, 簡化的畫起來應該像是這樣:</p><div class=mermaid>graph LR;
+C[Client]--publish-->M[Media Server];
+M--forward-->E(Edge Server);
+M--forward-->E2(Edge Server);
+M--forward-->E3(Edge Server);
+E-->V(Viewer);
+E-->V2(Viewer);
+E2-->V3(Viewer);
+E2-->V4(Viewer);
+E3-->CDN;
+CDN-->V5(Viewer);
+CDN-->V6(Viewer);
+CDN-->V7(Viewer);</div><p>Viewer不直接從Media Server取串流內容是考量到Media server通常要接收多個Client發佈的串流, 一個假設性的想法是, 對於UGC(User generated content), 主播應該遠少於觀眾, 假設就算一個服務可以吸引到百萬級別的觀眾, 同時線上的主播應該了不起是幾千個而已, 即便如此, Media server本身從Client接收發布的串流資料後, 可能還需要做轉碼(transcoding), 和轉送的動作, 尤其是轉碼是較為耗CPU資源的工作, 如果把主播跟觀眾放在同一個伺服器上, 除了影響品質外, 也會不方便擴充, 因此減少Media server上的"觀眾&rdquo;(讓觀眾只是其他少數的edge servers), 便可以在觀眾增加時相對好擴充容量(增加edge的數量)</p><p>但大部分的狀況來說, 每個直播的觀眾不一定是非常大量, 在Facebook那篇文章內也有提到, 在小量觀眾的狀況下, 分流到多個edge的效率應該就沒那麼的好了, 反而這時候放在同一台server減少延遲會是更好的選擇</p><p>串流的通訊協定有不少, 像是<a href=https://en.wikipedia.org/wiki/Real-time_Transport_Protocol>RTP</a>, <a href=https://en.wikipedia.org/wiki/Real_Time_Streaming_Protocol>RTSP</a>, <a href=https://en.wikipedia.org/wiki/Real-Time_Messaging_Protocol>RTMP</a>, <a href=https://en.wikipedia.org/wiki/HTTP_Live_Streaming>HLS</a>, <a href=https://webrtc.org>WebRTC</a>等等, Facebook那篇文章主要提到的是<a href=https://en.wikipedia.org/wiki/Real-Time_Messaging_Protocol>RTMP</a>, <a href=https://en.wikipedia.org/wiki/HTTP_Live_Streaming>HLS</a>, 查了一下資料, 似乎這兩個也是目前比較主流做直播用的, 雖然WebRTC被討論的也蠻多的, 但似乎比較沒被應用在大量的直播, RTMP跟HLS都是可以透過HTTP來做傳輸(RTMP需要做封裝 - RTMPT), 讓他們具有穿越防火牆的優勢, 而HLS是以檔案為基礎的, 所以適合用一般的CDN來做快取, 在做大量的直播優勢較大, 缺點是延遲太長了, 但這兩者其實也是可以合併使用的, 在小群體時用RTMP, 等觀眾成長到一定數量實再導流到HLS去</p><h3 id=proof-of-concept-的初步想法與簡單的設計->Proof of concept 的初步想法與簡單的設計</h3><p>幾個初步的想法</p><ol><li>直播 = live stream + chat room</li><li>現在直播應用很多, 所以應該不少現成的open source解決方案可以套用, POC可以從這些東西下手, 不用重造輪子</li><li>需求: Client發布直播後, Viewer可以知道現在有誰在直播並觀看, 並可以透過訊息聊天</li></ol><p><strong>發布</strong></p><div class=mermaid>sequenceDiagram
+participant Client
+participant Register
+participant MediaServer
+participant Viewer
+Client->>Register: I want to go live
+activate Register
+Register-->>Client: Here is your ID and token
+deactivate Register
+Client->>MediaServer: Publish(id,token)
+activate MediaServer
+MediaServer->>Register: token valid?
+activate Register
+Register-->>MediaServer: Yes
+deactivate Register
+MediaServer-->>Client: OK
+deactivate MediaServer
+Client->>Register: I am ready to live
+activate Register
+Register->>Viewer: Somebody is ready to live
+activate Viewer
+deactivate Register
+Viewer->Viewer: Update UI
+deactivate Viewer</div><p><strong>觀賞直播</strong></p><p>這部分就沒什麼特別的了, 當一般的chat room做就好</p><h3 id=先看一下成果->先看一下成果</h3><p>這成品有點粗劣, 有點不好意思 :P</p><div style=position:relative;padding-bottom:56.25%;height:0;overflow:hidden><iframe src=https://www.youtube.com/embed/DyF27GlfuZ8 style=position:absolute;top:0;left:0;width:100%;height:100%;border:0 allowfullscreen title="YouTube Video"></iframe></div><p>我publish client只實作iOS版本, 而Viewer只實作了Android版本(根本只各做一半嘛!!/翻桌), 後端用<a href=firebase.google.com>firebase</a>處理資料的部分, 所以即時通知新的直播, 和聊天沒啥問題(但我聊天的UI還是沒刻 >"&lt;)</p><h3 id=相關解決方案->相關解決方案</h3><p>既然沒有重新做輪子, 自然用了不少Open source的解決方案來達成, 從Server到Android, iOS要找到相關可用的實在不難, 可以說這部份實在是太成熟了, 研究完後覺得Facebook那篇文章也只是一般般而已</p><h4 id=steaming-server->Steaming server</h4><p>RTMP相關的解決方案還算不少, 這邊列幾個</p><ol><li><a href=https://github.com/arut/nginx-rtmp-module>Nginx RTMP Module</a> - 架構在Nginx之上, 也算老牌了, 支援RTMP和HLS, 但看code base, 實在也沒啥在更新</li><li><a href=http://www.monaserver.ovh>Mona server</a> - 支援RTMP, HTTP(非HLS), Web socket等等</li><li><a href=http://red5.org>Red5 Media Server</a> - 支援RTMP, HLS, WebSocket, RTSP, 好像是要錢</li><li><a href=https://github.com/ossrs/srs/>Simpe RTMP Server</a> - 這是由中國的觀止雲這家開源出來的, 講"Simple"其實一點都不Simple, 輕量, 穩定(至少我試直播一晚上都還蠻順利的), 好擴展(支援forward to edge), 可RTMP轉HLS, 因此我最後選擇這個方案</li></ol><h5 id=srs-simple-rtmp-server->SRS (Simple RTMP Server)</h5><p><strong>硬體</strong></p><p>我沒看到文件有寫硬體需求, 但我用Digital Ocean 1GB RAM, 30GB SSD的Droplet跑, 單一個直播, 直播好幾個鐘頭, CPU都不超過5%, 所以應該足夠</p><p><strong>安裝</strong></p><p>安裝上相當簡單</p><ol><li>從git上抓下來: <code>git clone https://github.com/ossrs/srs.git</code></li><li>切換到相對應版本的branch(我是用2.0release) - <code>git checkout 2.0release</code></li><li><code>cd srs/trunk; ./configure ; make ;</code></li></ol><p>建置好的執行檔會在srs/trunk/objs目錄下, 可以直接執行</p><p><strong>設定</strong></p><p>conf目錄下有很多不同的設定檔可以參考, 因為我要試RTMP, HLS所以我用的設定檔如下:</p><pre><code>listen              1935;
+max_connections     1000;
+srs_log_tank        file;
+srs_log_file        ./objs/srs.log;
+http_api {
+    enabled         on;
+    listen          1985;
+}
+http_server {
+    enabled         on;
+    listen          8080;
+    dir             ./objs/nginx/html;
+}
+stats {
+    network         0;
+    disk            sda sdb xvda xvdb;
+}
+vhost __defaultVhost__ {
+    hls {
+        enabled         on;
+		hls_fragment    10;
+        hls_window      60;
+        hls_path        ./objs/nginx/html;
+        hls_m3u8_file   [app]/[stream].m3u8;
+        hls_ts_file     [app]/[stream]-[seq].ts;
+    }
+}
+</code></pre><p>相對應的設定可以參考文件</p><p><strong>執行</strong></p><p>很簡單: <code>srs -c my.conf</code> 即可</p><h4 id=ios-rtmp-publish->iOS RTMP Publish</h4><p>找到iOS支援RTMP publish的解決方案有幾種:</p><ol><li><a href=https://github.com/jgh-/VideoCore>VideoCore</a> - 這個我還沒去試過, 不知道好不好用, 但似乎有支援Filter和Watermark, 感覺蠻威的</li><li><a href=https://github.com/shogo4405/lf.swift>lf.swift</a> - 簡單, Swift做的, 這兩個是優點, 對我這個只看得懂Swift看不懂ObjC的, debug是比較方便, 但除此之外好像也沒啥特色了</li><li><a href=https://github.com/runner365/LiveVideoCoreSDK>LiveVideoCoreSDK</a> - 這文件不多, 我暫時就沒試了, 也支援濾鏡, 而且似乎這個作者也提供了Android版本, 只是好像沒支援Cocoapods或Cathage, 有空再來玩玩</li><li><a href=https://github.com/LaiFengiOS/LFLiveKit>LFLiveKit</a> - 我最後是選用這個, 簡單, 且"自帶美顏&rdquo;(現在騙人是很基本的)</li></ol><h5 id=lfswift->lf.swift</h5><p>雖然文件上有提供cocoapods跟Carhtage的安裝方式, 但絕對不要用Carthage的那個, 第一原因是它Carthage支援似乎尚未搞定, 就算改點東西解決了它, 是可以安裝成功沒錯, 但會崩潰在XCGLogger, 似乎用framework含進來的方式會導致XCGLogger == nil, 這害我花了好多時間, 畢竟我是Carthage的愛用者, 後來轉用Cocoapods就沒事了</p><p>幾個需要加的部分:</p><p><em>AppDelegate.swift</em></p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-swift data-lang=swift><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>application</span>(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -&gt; Bool {
+
+        XCGLogger.defaultInstance().outputLogLevel = .Info
+        XCGLogger.defaultInstance().xcodeColorsEnabled = <span style=color:#66d9ef>true</span>
+        
+        <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>true</span>
+    }
+</code></pre></div><p>這兩行是設定logger要記錄的東西, 方便debug用</p><p><em>ViewController</em></p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-swift data-lang=swift><span style=color:#66d9ef>override</span> <span style=color:#66d9ef>func</span> <span style=color:#a6e22e>viewDidLoad</span>() {
+	rtmpStream = RTMPStream(rtmpConnection: rtmpConnection)
+    rtmpStream.syncOrientation = <span style=color:#66d9ef>true</span>
+    rtmpStream.attachAudio(AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeAudio))
+        rtmpStream.attachCamera(DeviceUtil.deviceWithPosition(.Back))
+    rtmpStream.addObserver(<span style=color:#66d9ef>self</span>, forKeyPath: <span style=color:#e6db74>&#34;currentFPS&#34;</span>, options: NSKeyValueObservingOptions.New, context: <span style=color:#66d9ef>nil</span>)
+        
+    rtmpStream.captureSettings = [
+            <span style=color:#e6db74>&#34;sessionPreset&#34;</span>: AVCaptureSessionPreset1280x720,
+            <span style=color:#e6db74>&#34;continuousAutofocus&#34;</span>: <span style=color:#66d9ef>true</span>,
+            <span style=color:#e6db74>&#34;continuousExposure&#34;</span>: <span style=color:#66d9ef>true</span>,
+        ]
+
+    rtmpStream.videoSettings = [
+            <span style=color:#e6db74>&#34;width&#34;</span>: <span style=color:#ae81ff>1280</span>,
+            <span style=color:#e6db74>&#34;height&#34;</span>: <span style=color:#ae81ff>720</span>,
+        ]
+    lfView.attachStream(rtmpStream)
+
+    view.addSubview(lfView)
+}
+</code></pre></div><p>直播的部分會跟他的LFView綁一起</p><h5 id=lflivekithttpsgithubcomlaifengioslflivekit-><a href=https://github.com/LaiFengiOS/LFLiveKit>LFLiveKit</a></h5><p>後來選用LFLiveKit的原因不是因為他自帶美顏 :D, 他寫法跟lf.swift一樣簡單, 而且不一定要把preview加到UI裡面, 而且他的preview不用用特定的class,只要是UIView就可</p><p>範例直接貼他文件裡的就很清楚了:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-swift data-lang=swift><span style=color:#75715e>// import LFLiveKit in [ProjectName]-Bridging-Header.h</span>
+<span style=color:#66d9ef>import</span> &lt;<span style=color:#a6e22e>LFLiveKit</span>.<span style=color:#a6e22e>h</span>&gt; 
+
+<span style=color:#75715e>//</span><span style=color:#75715e>MARK:</span><span style=color:#75715e> - Getters and Setters</span>
+<span style=color:#a6e22e>lazy</span> <span style=color:#a6e22e>var</span> <span style=color:#a6e22e>session</span>: <span style=color:#a6e22e>LFLiveSession</span> = {
+    <span style=color:#66d9ef>let</span> audioConfiguration = LFLiveAudioConfiguration.defaultConfiguration()
+    <span style=color:#66d9ef>let</span> videoConfiguration = LFLiveVideoConfiguration.defaultConfigurationForQuality(LFLiveVideoQuality.Low3, landscape: <span style=color:#66d9ef>false</span>)
+    <span style=color:#66d9ef>let</span> session = LFLiveSession(audioConfiguration: audioConfiguration, videoConfiguration: videoConfiguration)
+
+    session?.delegate = <span style=color:#66d9ef>self</span>
+    session?.preView = <span style=color:#66d9ef>self</span>.view
+    <span style=color:#66d9ef>return</span> session!
+}()
+
+<span style=color:#75715e>//</span><span style=color:#75715e>MARK:</span><span style=color:#75715e> - Event</span>
+<span style=color:#66d9ef>func</span> <span style=color:#a6e22e>startLive</span>() -&gt; Void { 
+    <span style=color:#66d9ef>let</span> stream = LFLiveStreamInfo()
+    stream.url = <span style=color:#e6db74>&#34;your server rtmp url&#34;</span>;
+    session.startLive(stream)
+}
+
+<span style=color:#66d9ef>func</span> <span style=color:#a6e22e>stopLive</span>() -&gt; Void {
+    session.stopLive()
+}
+
+<span style=color:#75715e>//</span><span style=color:#75715e>MARK:</span><span style=color:#75715e> - Callback</span>
+<span style=color:#66d9ef>func</span> <span style=color:#a6e22e>liveSession</span>(session: LFLiveSession?, debugInfo: LFLiveDebug?) 
+<span style=color:#66d9ef>func</span> <span style=color:#a6e22e>liveSession</span>(session: LFLiveSession?, errorCode: LFLiveSocketErrorCode)
+<span style=color:#66d9ef>func</span> <span style=color:#a6e22e>liveSession</span>(session: LFLiveSession?, liveStateDidChange state: LFLiveState)
+</code></pre></div><h4 id=android-stream-player->Android stream player</h4><p>寫到後面有點累了, 也有點懶了, 還剩下Android這塊沒寫, 這邊就只列出方案不寫細節了, 主要我測過:</p><ol><li><a href=https://github.com/google/ExoPlayer/>ExoPlayer</a>: Google開源的Media player, 之前在做另一個東西時我有用過, 所以第一時間就想起這個, 不過, 原生的完全不支援RTMP, 不過可以參考<a href=https://github.com/ButterflyTV/ExoPlayer-with-RTMP-and-FLV-seek/blob/master/demo/src/main/java/com/google/android/exoplayer/demo/player/RtmpDataSource.java>這邊</a>, 但我實際上用, RTMP完全沒成功過, 一直出現FLV parse的問題, 倒是HLS沒問題</li><li><a href=https://github.com/Bilibili/ijkplayer>Ijkplayer</a> - 這同時有Android和iOS版本, 是Bilibili開源的, 有點強大, 但基於ffmpeg, 不知道在license上會不會有風險, 使用起來還有點複雜, 但HLS, RTMP都是沒問題</li><li><a href=https://github.com/pili-engineering/PLDroidPlayer>PLDroidPlayer</a> - 七牛雲針對ijkplayer的再製品, 比較方便的是, 它有封裝出一個video view可以直接使用, 相較於ijkplayer來說比較簡單易用</li></ol><footer class=entry-meta><span class=entry-tags><a href=/tags/#iOSDev title="Pages tagged iOSDev" class=tag><span class=term>iOSDev</span></a><a href=/tags/#Swift title="Pages tagged Swift" class=tag><span class=term>Swift</span></a><a href=/tags/#AndroidDev title="Pages tagged AndroidDev" class=tag><span class=term>AndroidDev</span></a><a href=/tags/#server title="Pages tagged server" class=tag><span class=term>server</span></a><a href=/tags/#SRS title="Pages tagged SRS" class=tag><span class=term>SRS</span></a><a href=/tags/#RTMP title="Pages tagged RTMP" class=tag><span class=term>RTMP</span></a><a href=/tags/#mobiledev title="Pages tagged mobiledev" class=tag><span class=term>mobiledev</span></a><a href=/tags/#livestream title="Pages tagged livestream" class=tag><span class=term>livestream</span></a></span><div class=social-share><ul class="socialcount socialcount-small inline-list"><li class=facebook><a href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fblog.jln.co%2f%25E7%25AD%2586%25E8%25A8%2598-%25E4%25B8%25AD%25E7%25A7%258B%25E9%2580%25A3%25E5%2581%2587%25E5%25B0%258F%25E5%25AF%25A6%25E9%25A9%2597%2f" target=_blank title="Share on Facebook"><span class=count><i class="fa fa-facebook-square"></i>Like</span></a></li><li class=twitter><a href="https://twitter.com/intent/tweet?text=http%3a%2f%2fblog.jln.co%2f%25E7%25AD%2586%25E8%25A8%2598-%25E4%25B8%25AD%25E7%25A7%258B%25E9%2580%25A3%25E5%2581%2587%25E5%25B0%258F%25E5%25AF%25A6%25E9%25A9%2597%2f" target=_blank title="Share on Twitter"><span class=count><i class="fa fa-twitter-square"></i>Tweet</span></a></li><li class=line><a href="https://social-plugins.line.me/lineit/share?url=http%3a%2f%2fblog.jln.co%2f%25E7%25AD%2586%25E8%25A8%2598-%25E4%25B8%25AD%25E7%25A7%258B%25E9%2580%25A3%25E5%2581%2587%25E5%25B0%258F%25E5%25AF%25A6%25E9%25A9%2597%2f" target=_blank title="Share on LINE"><span class=count><i class="fab fa-line"></i>LINE</span></a></li></ul></div></footer></div><section id=disqus_thread><div class=fb-comments data-href=http://blog.jln.co/%E7%AD%86%E8%A8%98-%E4%B8%AD%E7%A7%8B%E9%80%A3%E5%81%87%E5%B0%8F%E5%AF%A6%E9%A9%97/ data-numposts=5 data-width></div></section></article></div><div class=footer-wrapper><footer role=contentinfo><span>Powered by <a href=https://gohugo.io/ rel=nofollow>Hugo</a> using the <a href=https://github.com/dldx/hpstr-hugo-theme rel=nofollow>HPSTR theme</a>.</span></footer></div><script src=//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js></script><script src=https://kit.fontawesome.com/872a53b461.js crossorigin=anonymous></script><script>window.jQuery||document.write('<script src="\/js\/vendor\/jquery-1.9.1.min.js"><\/script>')</script><script src=/js/scripts.min.js></script><script type=application/javascript>var doNotTrack=false;if(!doNotTrack){(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');ga('create','UA-79243751-1','auto');ga('send','pageview');}</script><div id=fb-root></div><script async defer crossorigin=anonymous src="https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v7.0&appId=293999444006555&autoLogAppEvents=1" nonce=geZSUIUh></script></body></html>

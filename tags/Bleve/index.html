@@ -1,0 +1,103 @@
+<!doctype html><!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=en><![endif]--><!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang=en><![endif]--><!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang=en><![endif]--><!--[if gt IE 8]><!--><html class=no-js lang=en><!--<![endif]--><head><meta charset=utf-8><title>Bleve &#8211; Le murmure de Julian</title><meta name=description content><meta property="og:title" content="Bleve"><meta property="og:description" content><meta property="og:type" content="website"><meta property="og:url" content="http://blog.jln.co/tags/Bleve/"><meta property="og:image" content="http://blog.jln.co/images/avatar.png"><meta property="og:updated_time" content="2017-02-07T16:20:37+00:00"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="http://blog.jln.co/images/avatar.png"><meta name=twitter:title content="Bleve"><meta name=twitter:description content><link rel=canonical href=http://blog.jln.co/tags/Bleve/><link href=http://blog.jln.co/tags/Bleve/feed.xml rel=alternate type=application/rss+xml title="Le murmure de Julian"><link href=http://blog.jln.co/tags/Bleve/feed.xml rel=feed type=application/rss+xml title="Le murmure de Julian"><meta name=HandheldFriendly content="True"><meta name=MobileOptimized content="320"><meta name=viewport content="width=device-width,initial-scale=1"><link rel=stylesheet href=/css/main.css><link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel=stylesheet type=text/css><meta http-equiv=cleartype content="on"><meta name=generator content="Hugo 0.73.0"><script src=/js/vendor/modernizr-2.6.2.custom.min.js></script><script async src=https://unpkg.com/mermaid@8.2.3/dist/mermaid.min.js></script><link rel="shortcut icon" href=/favicon.png></head><body id=post-index><nav id=dl-menu class=dl-menuwrapper role=navigation style=display:inline-block><button class=dl-trigger>Open Menu</button><ul class=dl-menu><li><a href=/>Home</a></li><li><a href=#>About</a><ul class=dl-submenu><li><img src=/images/avatar.png alt="Julian Shen's photo" class=author-photo><h4>Julian Shen</h4><p>Softward developer</p></li><li><a href=mailto:julianshen22@gmail.com><i class="fa fa-fw fa-envelope"></i>Email</a></li><li><a href=https://linkedin.com/in/julianshen><i class="fa fa-fw fa-linkedin"></i>LinkedIn</a></li><li><a href=https://github.com/julianshen><i class="fa fa-fw fa-github"></i>GitHub</a></li><li><a href=https://instagram.com/julianshen><i class="fa fa-fw fa-instagram"></i>Instagram</a></li></ul></li><li><a href=#>Posts</a><ul class=dl-submenu><li><a href=/post/>All Posts</a></li><li><a href=/tags/>All Tags</a></li></ul></li><li><a href=/></a></li></ul></nav><div class=entry-header><div class=header-title><div class=header-title-wrap><h1><a href=/ title="Go to the homepage">Le murmure de Julian</a></h1><h2>Bleve</h2></div></div></div><div id=main role=main><article class=hentry><header><div class=entry-meta><span class="entry-date date published updated"><time datetime="2017-02-07 16:20:37 +0000 UTC"><a href=/Go-Bleve-%E8%87%AA%E5%B8%B6%E5%85%A8%E6%96%87%E6%90%9C%E5%B0%8B/>Feb 7, 2017</a></time></span>
+<span class=entry-reading-time><i class="fa fa-clock-o"></i>Reading time ~4 minutes</span></div><h1 class=entry-title><a href=/Go-Bleve-%E8%87%AA%E5%B8%B6%E5%85%A8%E6%96%87%E6%90%9C%E5%B0%8B/ rel=bookmark title="[Go] Bleve - 自帶全文搜尋" itemprop=url>[Go] Bleve - 自帶全文搜尋</a></h1></header><div class=entry-content><p>最近在把之前弄的新聞萬事通做優化, 話說, 好久沒來宣傳一下新聞萬事通了(毆飛~~)</p><p>加入新聞萬事通請按 :</p><p><a href=https://line.me/R/ti/p/%40cur4648v><img src=http://qr-official.line.me/L/8J7Xfy_Tas.png alt=加入好友> <img src=https://scdn.line-apps.com/n/line_add_friends/btn/zh-Hant.png alt=加入好友></a></p><p>好, 回歸正題, 之前新聞萬事通檢查假新聞的邏輯是:</p><ol><li>載入新聞小幫手資料庫到記憶體(server啟動時), 四千多筆資料存放在一個map的資料結構</li><li>使用者輸入的訊息如果含有url去map裡面找到對應的url</li><li>但常常有類似內容的新聞有不同來源, 因此會用<a href=https://github.com/yanyiwu/gojieba>Gojieba</a>取出標題的關鍵字去四千多筆資料的標題對應關鍵字出現的次數</li></ol><p>聽起來很沒效率(四千筆在記憶體內, 其實也不算慢啦, 但就吃記憶體), 那就要優化囉? 那需要一個搜尋引擎囉?</p><p>第一個先想到的是<a href=https://www.elastic.co/products/elasticsearch>Elastic search</a>, 但我還不想搞那麼大, 為了四千多筆資料多拉一台search server,我只想
+一台respberry pi就能搞定</p><p>從<a href=https://github.com/yanyiwu/gojieba>Gojieba</a>知道, 有<a href=http://www.blevesearch.com/>Bleve Search</a>這東西, <a href=http://www.blevesearch.com/>Bleve Search</a>也是一個full text index engine,
+但跟<a href=https://www.elastic.co/products/elasticsearch>Elastic search</a>不同的是, 它是內嵌在你的程式內, 而不是獨立的server, 而且它是用Go寫的(開心), 而不是Java</p><h3 id=bleve>Bleve</h3><p><a href=http://www.blevesearch.com/>Bleve Search</a>的來頭也不小,它是來自於著名的ＮoSQL DB : <a href=https://www.couchbase.com/>Couchbase</a>, 這篇有介紹一下他的功能 : <a href=http://www.infoq.com/cn/news/2015/03/bleve-couchbase-go>Bleve:来自Couchbase、基于Go语言的全文索引与检索库</a></p><p>使用<a href=http://www.blevesearch.com/>Bleve Search</a>也很簡單, 就建立index, 然後search:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#f92672>import</span> <span style=color:#e6db74>&#34;github.com/blevesearch/bleve&#34;</span>
+
+<span style=color:#66d9ef>func</span> <span style=color:#a6e22e>main</span>() {
+    <span style=color:#75715e>// open a new index
+</span><span style=color:#75715e></span>    <span style=color:#a6e22e>mapping</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>bleve</span>.<span style=color:#a6e22e>NewIndexMapping</span>()
+    <span style=color:#a6e22e>index</span>, <span style=color:#a6e22e>err</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>bleve</span>.<span style=color:#a6e22e>New</span>(<span style=color:#e6db74>&#34;example.bleve&#34;</span>, <span style=color:#a6e22e>mapping</span>)
+
+    <span style=color:#75715e>// index some data
+</span><span style=color:#75715e></span>    <span style=color:#a6e22e>err</span> = <span style=color:#a6e22e>index</span>.<span style=color:#a6e22e>Index</span>(<span style=color:#a6e22e>identifier</span>, <span style=color:#a6e22e>your_data</span>)
+
+    <span style=color:#75715e>// search for some text
+</span><span style=color:#75715e></span>    <span style=color:#a6e22e>query</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>bleve</span>.<span style=color:#a6e22e>NewMatchQuery</span>(<span style=color:#e6db74>&#34;text&#34;</span>)
+    <span style=color:#a6e22e>search</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>bleve</span>.<span style=color:#a6e22e>NewSearchRequest</span>(<span style=color:#a6e22e>query</span>)
+    <span style=color:#a6e22e>searchResults</span>, <span style=color:#a6e22e>err</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>index</span>.<span style=color:#a6e22e>Search</span>(<span style=color:#a6e22e>search</span>)
+}
+</code></pre></div><p><a href=http://www.blevesearch.com/>Bleve Search</a>會把indexes放到資料庫內, 預設是使用<a href=https://github.com/boltdb/bolt>Bolt DB</a>, Bolt跟<a href=https://github.com/google/leveldb>leveldb</a>和<a href=http://rocksdb.org/>RocksDb</a>
+類似, 都是一種Key-Value database, 只是Bolt是純粹以Go開發的</p><p>如果你不想要用Bolt, Bleve也是支援使用leveldb和Rocksdb的, 純粹是作者想做成全Go的方案才預設Bolt db, 我自己有實測幾次, 使用這三種DB, 搜尋的速度差不多, 但建立index時bolt較快, 需求的磁碟空間則是Rocksdb優(比Bolt好很多)</p><p><a href=http://www.blevesearch.com/>Bleve Search</a>的架構做成很有彈性, 除了可以使用不同的DB(我自己也有實作以Redis當KV database的plugin, 不過實在也沒好多少就作罷了), 文字分析(Text Analysis)比如說斷詞, 也是可以用plugin擴增的</p><p>官方支援的語言為: Danish, Dutch, English, Finnish, French, German, Hungarian, Italian, Norwegian, Persian, Portuguese, Romanian, Russian, Sorani, Spanish, Swedish, Thai, Turkish</p><p>就是沒中文!</p><p>還好<a href=https://github.com/yanyiwu/gojieba>Gojieba</a>後來也加入了bleve的analyzer和tokenizer, 這一部分可以獲得解決</p><p>使用<a href=https://github.com/yanyiwu/gojieba>Gojieba</a>斷詞:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go>	<span style=color:#a6e22e>indexMapping</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>bleve</span>.<span style=color:#a6e22e>NewIndexMapping</span>()
+    <span style=color:#a6e22e>os</span>.<span style=color:#a6e22e>RemoveAll</span>(<span style=color:#a6e22e>INDEX_DIR</span>)
+    <span style=color:#75715e>// clean index when example finished
+</span><span style=color:#75715e></span>    <span style=color:#66d9ef>defer</span> <span style=color:#a6e22e>os</span>.<span style=color:#a6e22e>RemoveAll</span>(<span style=color:#a6e22e>INDEX_DIR</span>)
+
+    <span style=color:#a6e22e>err</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>indexMapping</span>.<span style=color:#a6e22e>AddCustomTokenizer</span>(<span style=color:#e6db74>&#34;gojieba&#34;</span>,
+        <span style=color:#66d9ef>map</span>[<span style=color:#66d9ef>string</span>]<span style=color:#66d9ef>interface</span>{}{
+            <span style=color:#e6db74>&#34;dictpath&#34;</span>:     <span style=color:#a6e22e>gojieba</span>.<span style=color:#a6e22e>DICT_PATH</span>,
+            <span style=color:#e6db74>&#34;hmmpath&#34;</span>:      <span style=color:#a6e22e>gojieba</span>.<span style=color:#a6e22e>HMM_PATH</span>,
+            <span style=color:#e6db74>&#34;userdictpath&#34;</span>: <span style=color:#a6e22e>gojieba</span>.<span style=color:#a6e22e>USER_DICT_PATH</span>,
+            <span style=color:#e6db74>&#34;type&#34;</span>:         <span style=color:#e6db74>&#34;gojieba&#34;</span>,
+        },
+    )
+    <span style=color:#66d9ef>if</span> <span style=color:#a6e22e>err</span> <span style=color:#f92672>!=</span> <span style=color:#66d9ef>nil</span> {
+        panic(<span style=color:#a6e22e>err</span>)
+    }
+    <span style=color:#a6e22e>err</span> = <span style=color:#a6e22e>indexMapping</span>.<span style=color:#a6e22e>AddCustomAnalyzer</span>(<span style=color:#e6db74>&#34;gojieba&#34;</span>,
+        <span style=color:#66d9ef>map</span>[<span style=color:#66d9ef>string</span>]<span style=color:#66d9ef>interface</span>{}{
+            <span style=color:#e6db74>&#34;type&#34;</span>:      <span style=color:#e6db74>&#34;gojieba&#34;</span>,
+            <span style=color:#e6db74>&#34;tokenizer&#34;</span>: <span style=color:#e6db74>&#34;gojieba&#34;</span>,
+        },
+    )
+    <span style=color:#66d9ef>if</span> <span style=color:#a6e22e>err</span> <span style=color:#f92672>!=</span> <span style=color:#66d9ef>nil</span> {
+        panic(<span style=color:#a6e22e>err</span>)
+    }
+    <span style=color:#a6e22e>indexMapping</span>.<span style=color:#a6e22e>DefaultAnalyzer</span> = <span style=color:#e6db74>&#34;gojieba&#34;</span>
+</code></pre></div><h3 id=wukong>Wukong</h3><p>除了Bleve外, 還有一個<a href=https://github.com/huichen/wukong>悟空 Wukong</a>, 這孫猴子也好像蠻識字的嘛</p><p>這個<a href=https://github.com/huichen/wukong>Wukong</a>是由阿里巴巴的陳輝所開發的, 一樣是內嵌的全文檢索引擎</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#f92672>package</span> <span style=color:#a6e22e>main</span>
+
+<span style=color:#f92672>import</span> (
+    <span style=color:#e6db74>&#34;github.com/huichen/wukong/engine&#34;</span>
+    <span style=color:#e6db74>&#34;github.com/huichen/wukong/types&#34;</span>
+    <span style=color:#e6db74>&#34;log&#34;</span>
+)
+
+<span style=color:#66d9ef>var</span> (
+    <span style=color:#75715e>// searcher是协程安全的
+</span><span style=color:#75715e></span>    <span style=color:#a6e22e>searcher</span> = <span style=color:#a6e22e>engine</span>.<span style=color:#a6e22e>Engine</span>{}
+)
+
+<span style=color:#66d9ef>func</span> <span style=color:#a6e22e>main</span>() {
+    <span style=color:#75715e>// 初始化
+</span><span style=color:#75715e></span>    <span style=color:#a6e22e>searcher</span>.<span style=color:#a6e22e>Init</span>(<span style=color:#a6e22e>types</span>.<span style=color:#a6e22e>EngineInitOptions</span>{
+        <span style=color:#a6e22e>SegmenterDictionaries</span>: <span style=color:#e6db74>&#34;github.com/huichen/wukong/data/dictionary.txt&#34;</span>})
+    <span style=color:#66d9ef>defer</span> <span style=color:#a6e22e>searcher</span>.<span style=color:#a6e22e>Close</span>()
+
+    <span style=color:#75715e>// 将文档加入索引，docId 从1开始
+</span><span style=color:#75715e></span>    <span style=color:#a6e22e>searcher</span>.<span style=color:#a6e22e>IndexDocument</span>(<span style=color:#ae81ff>1</span>, <span style=color:#a6e22e>types</span>.<span style=color:#a6e22e>DocumentIndexData</span>{<span style=color:#a6e22e>Content</span>: <span style=color:#e6db74>&#34;此次百度收购将成中国互联网最大并购&#34;</span>}, <span style=color:#66d9ef>false</span>)
+    <span style=color:#a6e22e>searcher</span>.<span style=color:#a6e22e>IndexDocument</span>(<span style=color:#ae81ff>2</span>, <span style=color:#a6e22e>types</span>.<span style=color:#a6e22e>DocumentIndexData</span>{<span style=color:#a6e22e>Content</span>: <span style=color:#e6db74>&#34;百度宣布拟全资收购91无线业务&#34;</span>}, <span style=color:#66d9ef>false</span>)
+    <span style=color:#a6e22e>searcher</span>.<span style=color:#a6e22e>IndexDocument</span>(<span style=color:#ae81ff>3</span>, <span style=color:#a6e22e>types</span>.<span style=color:#a6e22e>DocumentIndexData</span>{<span style=color:#a6e22e>Content</span>: <span style=color:#e6db74>&#34;百度是中国最大的搜索引擎&#34;</span>}, <span style=color:#66d9ef>false</span>)
+
+    <span style=color:#75715e>// 等待索引刷新完毕
+</span><span style=color:#75715e></span>    <span style=color:#a6e22e>searcher</span>.<span style=color:#a6e22e>FlushIndex</span>()
+
+    <span style=color:#75715e>// 搜索输出格式见types.SearchResponse结构体
+</span><span style=color:#75715e></span>    <span style=color:#a6e22e>log</span>.<span style=color:#a6e22e>Print</span>(<span style=color:#a6e22e>searcher</span>.<span style=color:#a6e22e>Search</span>(<span style=color:#a6e22e>types</span>.<span style=color:#a6e22e>SearchRequest</span>{<span style=color:#a6e22e>Text</span>:<span style=color:#e6db74>&#34;百度中国&#34;</span>}))
+}
+</code></pre></div><p>架構上跟Bleve有點接近, 寫法也差不多, 但效率上來說, Bleve根本不能比, index的效率快上許多, 它的docId不像是Bleve用string而是uint64</p><p>比較快的原因目前我也還沒深究, 不過它存儲並沒用到BoltDB或LevelDB之類的, 而是自己的格式, 它也像Bleve一樣支援換資料庫引擎, 我嘗試想用BoltDB來取代它原生的, 想試看看是不是這原因, 但一直沒換成功過(後來也懶得追了)</p><p>另一點的差別在於是, 剛剛Bleve我用的斷詞器是<a href=https://github.com/yanyiwu/gojieba>Gojieba</a>, 而Wukong用的是陳輝自己寫的<a href=https://github.com/huichen/sego>sego</a>,
+這時我就好奇這會不會有影響?</p><h3 id=blevesego>BleveSego</h3><p>好, 既然要確認斷詞器對index效率有沒影響, 我就得自己實作一個基於Sego的Bleve text analyzer和Tokenizer, 因此仿Gojieba的做了:</p><p><a href=https://github.com/julianshen/blevesego>blevesego</a></p><p>使用<a href=https://github.com/julianshen/blevesego>blevesego</a>跟使用Gojieba的有點類似:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go>	<span style=color:#a6e22e>indexMapping</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>bleve</span>.<span style=color:#a6e22e>NewIndexMapping</span>()
+	<span style=color:#a6e22e>err</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>indexMapping</span>.<span style=color:#a6e22e>AddCustomTokenizer</span>(<span style=color:#e6db74>&#34;sego&#34;</span>,
+		<span style=color:#66d9ef>map</span>[<span style=color:#66d9ef>string</span>]<span style=color:#66d9ef>interface</span>{}{
+			<span style=color:#e6db74>&#34;dictpath&#34;</span>: <span style=color:#e6db74>&#34;dictionary.txt&#34;</span>,
+			<span style=color:#e6db74>&#34;type&#34;</span>:     <span style=color:#e6db74>&#34;sego&#34;</span>,
+		},
+	)
+
+	<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>err</span> <span style=color:#f92672>!=</span> <span style=color:#66d9ef>nil</span> {
+		<span style=color:#a6e22e>getLogger</span>().<span style=color:#a6e22e>Fatal</span>(<span style=color:#a6e22e>err</span>)
+		<span style=color:#66d9ef>return</span> <span style=color:#66d9ef>nil</span>
+	}
+
+	<span style=color:#a6e22e>err</span> = <span style=color:#a6e22e>indexMapping</span>.<span style=color:#a6e22e>AddCustomAnalyzer</span>(<span style=color:#e6db74>&#34;sego&#34;</span>,
+		<span style=color:#66d9ef>map</span>[<span style=color:#66d9ef>string</span>]<span style=color:#66d9ef>interface</span>{}{
+			<span style=color:#e6db74>&#34;type&#34;</span>:      <span style=color:#e6db74>&#34;sego&#34;</span>,
+			<span style=color:#e6db74>&#34;tokenizer&#34;</span>: <span style=color:#e6db74>&#34;sego&#34;</span>,
+		},
+	)
+
+	<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>err</span> <span style=color:#f92672>!=</span> <span style=color:#66d9ef>nil</span> {
+		<span style=color:#a6e22e>getLogger</span>().<span style=color:#a6e22e>Fatal</span>(<span style=color:#a6e22e>err</span>)
+		<span style=color:#66d9ef>return</span> <span style=color:#66d9ef>nil</span>
+	}
+
+	<span style=color:#a6e22e>newsHelperIndexMapping</span>.<span style=color:#a6e22e>DefaultAnalyzer</span> = <span style=color:#e6db74>&#34;sego&#34;</span>
+</code></pre></div><p>實驗的結果, 同樣Bleve, 用不同的斷詞, 似乎用sego有稍微快一點(在raspberry pi下, 約五千多筆資料大約快個一秒鐘), 但似乎不是Wukong效率高過於Bleve的主因</p><p>到最後, 我是選擇了Bleve, 原因是, 它目前看起來比較活躍, 而Wukong就比較沒啥更新</p></div></article></div><div class=footer-wrapper><footer role=contentinfo><span>Powered by <a href=https://gohugo.io/ rel=nofollow>Hugo</a> using the <a href=https://github.com/dldx/hpstr-hugo-theme rel=nofollow>HPSTR theme</a>.</span></footer></div><script src=//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js></script><script src=https://kit.fontawesome.com/872a53b461.js crossorigin=anonymous></script><script>window.jQuery||document.write('<script src="\/js\/vendor\/jquery-1.9.1.min.js"><\/script>')</script><script src=/js/scripts.min.js></script><script type=application/javascript>var doNotTrack=false;if(!doNotTrack){(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');ga('create','UA-79243751-1','auto');ga('send','pageview');}</script><div id=fb-root></div><script async defer crossorigin=anonymous src="https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v7.0&appId=293999444006555&autoLogAppEvents=1" nonce=geZSUIUh></script></body></html>

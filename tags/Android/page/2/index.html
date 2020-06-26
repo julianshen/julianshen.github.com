@@ -1,0 +1,219 @@
+<!doctype html><!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=en><![endif]--><!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang=en><![endif]--><!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang=en><![endif]--><!--[if gt IE 8]><!--><html class=no-js lang=en><!--<![endif]--><head><meta charset=utf-8><title>Android &#8211; Le murmure de Julian</title><meta name=description content><meta property="og:title" content="Android"><meta property="og:description" content><meta property="og:type" content="website"><meta property="og:url" content="http://blog.jln.co/tags/Android/"><meta property="og:image" content="http://blog.jln.co/images/avatar.png"><meta property="og:updated_time" content="2017-03-12T12:07:35+00:00"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="http://blog.jln.co/images/avatar.png"><meta name=twitter:title content="Android"><meta name=twitter:description content><link rel=canonical href=http://blog.jln.co/tags/Android/><link href=http://blog.jln.co/tags/Android/feed.xml rel=alternate type=application/rss+xml title="Le murmure de Julian"><link href=http://blog.jln.co/tags/Android/feed.xml rel=feed type=application/rss+xml title="Le murmure de Julian"><meta name=HandheldFriendly content="True"><meta name=MobileOptimized content="320"><meta name=viewport content="width=device-width,initial-scale=1"><link rel=stylesheet href=/css/main.css><link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel=stylesheet type=text/css><meta http-equiv=cleartype content="on"><meta name=generator content="Hugo 0.73.0"><script src=/js/vendor/modernizr-2.6.2.custom.min.js></script><script async src=https://unpkg.com/mermaid@8.2.3/dist/mermaid.min.js></script><link rel="shortcut icon" href=/favicon.png></head><body id=post-index><nav id=dl-menu class=dl-menuwrapper role=navigation style=display:inline-block><button class=dl-trigger>Open Menu</button><ul class=dl-menu><li><a href=/>Home</a></li><li><a href=#>About</a><ul class=dl-submenu><li><img src=/images/avatar.png alt="Julian Shen's photo" class=author-photo><h4>Julian Shen</h4><p>Softward developer</p></li><li><a href=mailto:julianshen22@gmail.com><i class="fa fa-fw fa-envelope"></i>Email</a></li><li><a href=https://linkedin.com/in/julianshen><i class="fa fa-fw fa-linkedin"></i>LinkedIn</a></li><li><a href=https://github.com/julianshen><i class="fa fa-fw fa-github"></i>GitHub</a></li><li><a href=https://instagram.com/julianshen><i class="fa fa-fw fa-instagram"></i>Instagram</a></li></ul></li><li><a href=#>Posts</a><ul class=dl-submenu><li><a href=/post/>All Posts</a></li><li><a href=/tags/>All Tags</a></li></ul></li><li><a href=/></a></li></ul></nav><div class=entry-header><div class=header-title><div class=header-title-wrap><h1><a href=/ title="Go to the homepage">Le murmure de Julian</a></h1><h2>Android</h2></div></div></div><div id=main role=main><article class=hentry><header><div class=entry-meta><span class="entry-date date published updated"><time datetime="2016-09-30 21:47:36 +0000 UTC"><a href=/Android-%E4%BD%BF%E7%94%A8Retrofit%E5%A6%82%E4%BD%95%E9%81%BF%E5%85%8DMan-in-the-middle%E6%94%BB%E6%93%8A/>Sep 30, 2016</a></time></span>
+<span class=entry-reading-time><i class="fa fa-clock-o"></i>Reading time ~5 minutes</span></div><h1 class=entry-title><a href=/Android-%E4%BD%BF%E7%94%A8Retrofit%E5%A6%82%E4%BD%95%E9%81%BF%E5%85%8DMan-in-the-middle%E6%94%BB%E6%93%8A/ rel=bookmark title="[Android] 使用Retrofit如何避免Man in the middle攻擊" itemprop=url>[Android] 使用Retrofit如何避免Man in the middle攻擊</a></h1></header><div class=entry-content><p>前幾天看到朋友寫如何用<a href=https://www.charlesproxy.com>Charles Proxy</a>來debug REST API,
+突然就想到了這個問題, <a href=https://www.charlesproxy.com>Charles Proxy</a>是一個不錯的工具, 我自己也蠻常用的
+, 除了可以用來debug HTTP以外, 其實HTTPS也可以(參照<a href=https://www.charlesproxy.com/documentation/proxying/ssl-proxying/>SSL proxying</a>)
+, 只要在手機上安裝好它的SSL certificate即可</p><p>不過這不是這篇要講的重點, 這種debugging的方式原理即是用Proxy作為一個中間人來紀錄HTTP/HTTPS的傳輸內容
+, 這也帶來一個問題, 也就是你的資料是可以這樣簡單的暴露出去, 這種即是所謂的MITM (Man in the middle) 中間人攻擊</p><div class=mermaid>graph LR;
+Client-->Proxy[Proxy - Middle man];
+Proxy[Proxy - Middle man]-->Client;
+Proxy[Proxy - Middle man]-->Server;
+Server-->Proxy[Proxy - Middle man];</div><p>一般來說, 用了SSL/HTTPS後, 也不是那麼容易安插一個中間人的 ,像<a href=https://www.charlesproxy.com>Charles Proxy</a>這樣的東西,
+還是需要使用者自己去手機上的安全性設定裝信任憑證(trusted certificate), 一般常見的問題反而來自於開發者本身
+, 很多人常以為走了HTTPS就安全了, 卻常常為了debug方便, 或是省錢用Self-signed certificate 而去覆寫了系統預設的
+X509TrustManager, 以至於整個檢查機制被跳過, 真的漏洞都來自於人的惰性,
+更多資訊可以參考:</p><ol><li><a href=https://security.tencent.com/index.php/blog/msg/41>窃听风暴： Android平台https嗅探劫持漏洞</a></li><li><a href=http://yaq.qq.com/blog/13>Android安全之Https中间人攻击漏洞</a></li><li><a href=http://www.droidsec.cn/android-https%E4%B8%AD%E9%97%B4%E4%BA%BA%E5%8A%AB%E6%8C%81%E6%BC%8F%E6%B4%9E%E6%B5%85%E6%9E%90/>Android HTTPS中间人劫持漏洞浅析</a></li><li><a href=http://blog.csdn.net/u013107656/article/details/52036158>Android客户端安全 -> HTTPS敏感数据劫持漏洞</a></li><li><a href=http://pingguohe.net/2016/02/26/Android-App-secure-ssl.html>Android App 安全的HTTPS 通信</a></li><li><a href=http://devco.re/blog/2014/08/15/ssl-mishandling-on-mobile-app-development/>手機應用程式開發上被忽略的 SSL 處理</a></li><li><a href=https://blog.heckel.xyz/2013/07/01/how-to-use-mitmproxy-to-read-and-modify-https-traffic-of-your-phone/>How To: Use mitmproxy to read and modify HTTPS traffic</a></li><li><a href=http://www.7xter.com/2015/07/intercepting-android-ssl-traffic.html>INTERCEPTING ANDROID SSL / HTTPS TRAFFIC</a></li></ol><p>該避免去寫的, 就該避掉, 以免產生不必要的漏洞, 但不過也有可能碰到使用者的手機被(有意/無意)安裝了攻擊者的憑證到系統的信任憑證中,
+那麼碰到這種, 應用程式本身該如何保護自己?</p><p>這邊有兩個方式可以採用 -</p><ol><li>certificate pinning</li><li>在程式中寫死certificate</li></ol><p>以下的範例以Android最紅, 常被使用的<a href=https://square.github.io/retrofit/>Retrofit</a>為範例(雖說是<a href=https://square.github.io/retrofit/>Retrofit</a>, 但其實是在<a href=https://github.com/square/okhttp>okhttp</a>動的手腳)</p><h4 id=certificate-pinning->Certificate Pinning</h4><p>或叫<a href=https://en.wikipedia.org/wiki/HTTP_Public_Key_Pinning>HTTP Public Key Pinning (HPKP)</a>,
+簡單的說, 就是在程式內綁定Certificate的public key, 如果今天中間人存在, certificate不同了, 連接就不會成功</p><p>先來看範例</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>OkHttpClient client <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> OkHttpClient<span style=color:#f92672>.</span><span style=color:#a6e22e>Builder</span><span style=color:#f92672>()</span>
+        <span style=color:#f92672>.</span><span style=color:#a6e22e>certificatePinner</span><span style=color:#f92672>(</span><span style=color:#66d9ef>new</span> CertificatePinner<span style=color:#f92672>.</span><span style=color:#a6e22e>Builder</span><span style=color:#f92672>().</span><span style=color:#a6e22e>add</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;cdn.rawgit.com&#34;</span><span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;sha256/p0962nIqD0mv1APQ1mgmRiuwrhZXBuj+t6dey/Adk0U=&#34;</span><span style=color:#f92672>).</span><span style=color:#a6e22e>build</span><span style=color:#f92672>())</span>
+        <span style=color:#f92672>.</span><span style=color:#a6e22e>build</span><span style=color:#f92672>();</span>
+Retrofit retrofit <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> Retrofit<span style=color:#f92672>.</span><span style=color:#a6e22e>Builder</span><span style=color:#f92672>()</span>
+        <span style=color:#f92672>.</span><span style=color:#a6e22e>baseUrl</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;https://cdn.rawgit.com/julianshen/cpblschedule/&#34;</span><span style=color:#f92672>)</span>
+        <span style=color:#f92672>.</span><span style=color:#a6e22e>addConverterFactory</span><span style=color:#f92672>(</span>GsonConverterFactory<span style=color:#f92672>.</span><span style=color:#a6e22e>create</span><span style=color:#f92672>())</span>
+        <span style=color:#f92672>.</span><span style=color:#a6e22e>client</span><span style=color:#f92672>(</span>client<span style=color:#f92672>)</span>
+        <span style=color:#f92672>.</span><span style=color:#a6e22e>build</span><span style=color:#f92672>();</span>
+</code></pre></div><p>這邊所動的手腳(<del>跟Retrofit沒啥鳥關係</del>)是在OkHttpClient上加上一個CertificatePinner,
+利用了certificate pinner加上了一個host name跟public key的對應,
+以這例子來說: <strong>&ldquo;sha256/p0962nIqD0mv1APQ1mgmRiuwrhZXBuj+t6dey/Adk0U=&rdquo;</strong> 這個public key對應的是 <strong>&ldquo;cdn.rawgit.com&rdquo;</strong>
+, 因此碰到"cdn.rawgit.com"來的url, 會檢查public key是否符合,
+這邊public key的參數字串是要以"sha1/&ldquo;或"sha256/&ldquo;開始的, 依使用的演算法而不同</p><p>但又要怎取得這串"天書"呢?</p><p>很簡單, 首先確認你的電腦裡面有沒安裝openssl , 有的話就用以下的指令:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>openssl s_client -connect cdn.rawgit.com:443 -servername cdn.rawgit.com | openssl x509 -pubkey -noout | openssl rsa -pubin -outform der | openssl
+dgst -sha256 -binary | openssl enc -base64
+</code></pre></div><p>最後產生的內容如下</p><pre><code>depth=2 /C=GB/ST=Greater Manchester/L=Salford/O=COMODO CA Limited/CN=COMODO RSA Certification Authority
+verify error:num=20:unable to get local issuer certificate
+verify return:0
+writing RSA key
+p0962nIqD0mv1APQ1mgmRiuwrhZXBuj+t6dey/Adk0U=
+</code></pre><p>所以我們要填的參數就是 <strong>&ldquo;sha256/p0962nIqD0mv1APQ1mgmRiuwrhZXBuj+t6dey/Adk0U=&rdquo;</strong></p><p>關於HPKP的openssl相關的指令可以參考<a href=https://developer.mozilla.org/en-US/docs/Web/Security/Public_Key_Pinning>Public Key Pinning</a></p><p>如果你用<a href=https://www.charlesproxy.com>Charles Proxy</a>當中間人來測試這段程式的話, 你會得到下面這樣的exception</p><pre><code>javax.net.ssl.SSLPeerUnverifiedException: Certificate pinning failure!
+                                            Peer certificate chain:
+                                            sha256/ENlqFHtfARof3AK50Hbc1sj47M5hWhc5kQ5Z2vyfxq4=: CN=rawgit.com,OU=PositiveSSL Multi-Domain,OU=Domain Control Validated
+                                            sha256/mXmLzo8k5ANwi11PlLSW/b4OC/Anjw1OeACDyZxD/WM=: C=NZ,ST=Auckland,L=Auckland,O=XK72 Ltd,OU=http://charlesproxy.com/ssl,CN=Charles Proxy Custom Root Certificate (built on Jlnmbp-retina.local\, 11 十二月 2015)
+                                            Pinned certificates for cdn.rawgit.com:
+                                            sha256/p0962nIqD0mv1APQ1mgmRiuwrhZXBuj+t6dey/Adk0U=
+</code></pre><h4 id=在程式中寫死certificate->在程式中寫死certificate</h4><p>這方法聽起來暴力了一點, 但原理其實跟前一個沒啥太大差別, 只是一個寫死public key一個寫死certificate</p><p>一樣先來看個範例:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>String cert <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;&#34;</span>
+        <span style=color:#f92672>+</span><span style=color:#e6db74>&#34;-----BEGIN CERTIFICATE-----\n&#34;</span>
+        <span style=color:#f92672>+</span><span style=color:#e6db74>&#34;MIIFdjCCBF6gAwIBAgIRAPbTBHdHHseM4hArA7n6uREwDQYJKoZIhvcNAQELBQAw\n&#34;</span>
+        <span style=color:#f92672>+</span><span style=color:#e6db74>&#34;gZAxCzAJBgNVBAYTAkdCMRswGQYDVQQIExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAO\n&#34;</span>
+        <span style=color:#f92672>+</span><span style=color:#e6db74>&#34;BgNVBAcTB1NhbGZvcmQxGjAYBgNVBAoTEUNPTU9ETyBDQSBMaW1pdGVkMTYwNAYD\n&#34;</span>
+        <span style=color:#f92672>+</span><span style=color:#e6db74>&#34;VQQDEy1DT01PRE8gUlNBIERvbWFpbiBWYWxpZGF0aW9uIFNlY3VyZSBTZXJ2ZXIg\n&#34;</span>
+        <span style=color:#f92672>+</span><span style=color:#e6db74>&#34;Q0EwHhcNMTYwMTAxMDAwMDAwWhcNMTcwMTEzMjM1OTU5WjBbMSEwHwYDVQQLExhE\n&#34;</span>
+        <span style=color:#f92672>+</span><span style=color:#e6db74>&#34;b21haW4gQ29udHJvbCBWYWxpZGF0ZWQxITAfBgNVBAsTGFBvc2l0aXZlU1NMIE11\n&#34;</span>
+        <span style=color:#f92672>+</span><span style=color:#e6db74>&#34;bHRpLURvbWFpbjETMBEGA1UEAxMKcmF3Z2l0LmNvbTCCASIwDQYJKoZIhvcNAQEB\n&#34;</span>
+        <span style=color:#f92672>+</span><span style=color:#e6db74>&#34;BQADggEPADCCAQoCggEBALD2sUNSYp2R+mSEMF2qKvMS780qTkltvqP4rwEGKOLV\n&#34;</span>
+        <span style=color:#f92672>+</span><span style=color:#e6db74>&#34;rR5QQWo8vzSlgZvxVsguRHi0pPBtVAH794L43tD+IuyQlDlNU2qc1aMqBkn3S2wN\n&#34;</span>
+        <span style=color:#f92672>+</span><span style=color:#e6db74>&#34;Way8BS9w80pgeFnObZiFJtPI9pdwcB72Bgq8Nlc25oVrDVWr/Q8nLIKS/9FkNs+C\n&#34;</span>
+        <span style=color:#f92672>+</span><span style=color:#e6db74>&#34;MPU00vGFZSFbR7s15ORj9+qPCskWZcHpQ+m9EKmZD3IVKj3QQyBD17cBoVkYoIpj\n&#34;</span>
+        <span style=color:#f92672>+</span><span style=color:#e6db74>&#34;I8/r+NfVfKetlsB7Pcv8P3yLFVFC4+PGrnW9TLZK9aRtbDTvjElXwCQIPK5B2fKw\n&#34;</span>
+        <span style=color:#f92672>+</span><span style=color:#e6db74>&#34;SJK26IJPDX0r1JkeuR53Afr509iEx3xAHcRz/kR5uo8CAwEAAaOCAf0wggH5MB8G\n&#34;</span>
+        <span style=color:#f92672>+</span><span style=color:#e6db74>&#34;A1UdIwQYMBaAFJCvajqUWgvYkOoSVnPfQ7Q6KNrnMB0GA1UdDgQWBBSI83Kqafo7\n&#34;</span>
+        <span style=color:#f92672>+</span><span style=color:#e6db74>&#34;kg9cmyT1vnceH4fAUjAOBgNVHQ8BAf8EBAMCBaAwDAYDVR0TAQH/BAIwADAdBgNV\n&#34;</span>
+        <span style=color:#f92672>+</span><span style=color:#e6db74>&#34;HSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwTwYDVR0gBEgwRjA6BgsrBgEEAbIx\n&#34;</span>
+        <span style=color:#f92672>+</span><span style=color:#e6db74>&#34;AQICBzArMCkGCCsGAQUFBwIBFh1odHRwczovL3NlY3VyZS5jb21vZG8uY29tL0NQ\n&#34;</span>
+        <span style=color:#f92672>+</span><span style=color:#e6db74>&#34;UzAIBgZngQwBAgEwVAYDVR0fBE0wSzBJoEegRYZDaHR0cDovL2NybC5jb21vZG9j\n&#34;</span>
+        <span style=color:#f92672>+</span><span style=color:#e6db74>&#34;YS5jb20vQ09NT0RPUlNBRG9tYWluVmFsaWRhdGlvblNlY3VyZVNlcnZlckNBLmNy\n&#34;</span>
+        <span style=color:#f92672>+</span><span style=color:#e6db74>&#34;bDCBhQYIKwYBBQUHAQEEeTB3ME8GCCsGAQUFBzAChkNodHRwOi8vY3J0LmNvbW9k\n&#34;</span>
+        <span style=color:#f92672>+</span><span style=color:#e6db74>&#34;b2NhLmNvbS9DT01PRE9SU0FEb21haW5WYWxpZGF0aW9uU2VjdXJlU2VydmVyQ0Eu\n&#34;</span>
+        <span style=color:#f92672>+</span><span style=color:#e6db74>&#34;Y3J0MCQGCCsGAQUFBzABhhhodHRwOi8vb2NzcC5jb21vZG9jYS5jb20wSwYDVR0R\n&#34;</span>
+        <span style=color:#f92672>+</span><span style=color:#e6db74>&#34;BEQwQoIKcmF3Z2l0LmNvbYIVY2RuLW9yaWdpbi5yYXdnaXQuY29tgg5jZG4ucmF3\n&#34;</span>
+        <span style=color:#f92672>+</span><span style=color:#e6db74>&#34;Z2l0LmNvbYINcmF3Z2l0aHViLmNvbTANBgkqhkiG9w0BAQsFAAOCAQEASx3e6y9e\n&#34;</span>
+        <span style=color:#f92672>+</span><span style=color:#e6db74>&#34;9F67N5NIDausDHDL+/fz6uj2DDNJdaQvALAYDV8hKpz7+QGotlQfI042U2i83J7m\n&#34;</span>
+        <span style=color:#f92672>+</span><span style=color:#e6db74>&#34;DGZiKDpzaXa7IFfGiq6PFPUjntElHoU2E4vRb5LApg1sJ5YueYmRd3X7x0/jPYg6\n&#34;</span>
+        <span style=color:#f92672>+</span><span style=color:#e6db74>&#34;TiTtHyXOnlMuqL2FUYJM0BP7cMfOppvUF0R2zHUVA0rVHuLrSStg8bMg8aVUIkKg\n&#34;</span>
+        <span style=color:#f92672>+</span><span style=color:#e6db74>&#34;n3NS+eg4ofo95jaMRVykhLnylkYBk9dWBM6B19Yw7LgQd94MZSa+Xix4HxeFgvAM\n&#34;</span>
+        <span style=color:#f92672>+</span><span style=color:#e6db74>&#34;BF+oeDMaY7mEN4Xm5hnrIS1FElRDq/ckpDV8JVpR4SQqB+tzSZPPIiep8EvgRDzd\n&#34;</span>
+        <span style=color:#f92672>+</span><span style=color:#e6db74>&#34;2EkL187FF3MQ+w==\n&#34;</span>
+        <span style=color:#f92672>+</span><span style=color:#e6db74>&#34;-----END CERTIFICATE-----\n&#34;</span><span style=color:#f92672>;</span>
+
+X509TrustManager trustManager <span style=color:#f92672>=</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>;</span>
+SSLSocketFactory sslSocketFactory <span style=color:#f92672>=</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>;</span>
+
+<span style=color:#66d9ef>try</span> <span style=color:#f92672>{</span>
+    CertificateFactory certificateFactory <span style=color:#f92672>=</span> CertificateFactory<span style=color:#f92672>.</span><span style=color:#a6e22e>getInstance</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;X.509&#34;</span><span style=color:#f92672>);</span>
+    Collection<span style=color:#f92672>&lt;?</span> <span style=color:#66d9ef>extends</span> Certificate<span style=color:#f92672>&gt;</span> certificates <span style=color:#f92672>=</span> certificateFactory<span style=color:#f92672>.</span><span style=color:#a6e22e>generateCertificates</span><span style=color:#f92672>(</span><span style=color:#66d9ef>new</span> Buffer<span style=color:#f92672>().</span><span style=color:#a6e22e>writeUtf8</span><span style=color:#f92672>(</span>cert<span style=color:#f92672>).</span><span style=color:#a6e22e>inputStream</span><span style=color:#f92672>());</span>
+    <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>certificates<span style=color:#f92672>.</span><span style=color:#a6e22e>isEmpty</span><span style=color:#f92672>())</span> <span style=color:#f92672>{</span>
+        <span style=color:#66d9ef>throw</span> <span style=color:#66d9ef>new</span> IllegalArgumentException<span style=color:#f92672>(</span><span style=color:#e6db74>&#34;expected non-empty set of trusted certificates&#34;</span><span style=color:#f92672>);</span>
+    <span style=color:#f92672>}</span> <span style=color:#66d9ef>else</span> <span style=color:#f92672>{</span>
+        <span style=color:#66d9ef>char</span><span style=color:#f92672>[]</span> password <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;password&#34;</span><span style=color:#f92672>.</span><span style=color:#a6e22e>toCharArray</span><span style=color:#f92672>();</span> <span style=color:#75715e>// Any password will work.
+</span><span style=color:#75715e></span>        KeyStore keyStore <span style=color:#f92672>=</span> KeyStore<span style=color:#f92672>.</span><span style=color:#a6e22e>getInstance</span><span style=color:#f92672>(</span>KeyStore<span style=color:#f92672>.</span><span style=color:#a6e22e>getDefaultType</span><span style=color:#f92672>());</span>
+        keyStore<span style=color:#f92672>.</span><span style=color:#a6e22e>load</span><span style=color:#f92672>(</span><span style=color:#66d9ef>null</span><span style=color:#f92672>,</span> password<span style=color:#f92672>);</span>
+
+        <span style=color:#66d9ef>int</span> index <span style=color:#f92672>=</span> 0<span style=color:#f92672>;</span>
+        <span style=color:#66d9ef>for</span> <span style=color:#f92672>(</span>Certificate certificate <span style=color:#f92672>:</span> certificates<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+            String certificateAlias <span style=color:#f92672>=</span> Integer<span style=color:#f92672>.</span><span style=color:#a6e22e>toString</span><span style=color:#f92672>(</span>index<span style=color:#f92672>++);</span>
+            keyStore<span style=color:#f92672>.</span><span style=color:#a6e22e>setCertificateEntry</span><span style=color:#f92672>(</span>certificateAlias<span style=color:#f92672>,</span> certificate<span style=color:#f92672>);</span>
+        <span style=color:#f92672>}</span>
+
+        TrustManagerFactory trustManagerFactory <span style=color:#f92672>=</span> TrustManagerFactory<span style=color:#f92672>.</span><span style=color:#a6e22e>getInstance</span><span style=color:#f92672>(</span>TrustManagerFactory<span style=color:#f92672>.</span><span style=color:#a6e22e>getDefaultAlgorithm</span><span style=color:#f92672>());</span>
+        trustManagerFactory<span style=color:#f92672>.</span><span style=color:#a6e22e>init</span><span style=color:#f92672>(</span>keyStore<span style=color:#f92672>);</span>
+
+        TrustManager<span style=color:#f92672>[]</span> trustManagers <span style=color:#f92672>=</span> trustManagerFactory<span style=color:#f92672>.</span><span style=color:#a6e22e>getTrustManagers</span><span style=color:#f92672>();</span>
+        <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>trustManagers<span style=color:#f92672>.</span><span style=color:#a6e22e>length</span> <span style=color:#f92672>!=</span> 1 <span style=color:#f92672>||</span> <span style=color:#f92672>!(</span>trustManagers<span style=color:#f92672>[</span>0<span style=color:#f92672>]</span> <span style=color:#66d9ef>instanceof</span> X509TrustManager<span style=color:#f92672>))</span> <span style=color:#f92672>{</span>
+            <span style=color:#66d9ef>throw</span> <span style=color:#66d9ef>new</span> IllegalStateException<span style=color:#f92672>(</span><span style=color:#e6db74>&#34;Unexpected default trust managers:&#34;</span>
+                    <span style=color:#f92672>+</span> Arrays<span style=color:#f92672>.</span><span style=color:#a6e22e>toString</span><span style=color:#f92672>(</span>trustManagers<span style=color:#f92672>));</span>
+        <span style=color:#f92672>}</span>
+        trustManager <span style=color:#f92672>=</span> <span style=color:#f92672>(</span>X509TrustManager<span style=color:#f92672>)</span> trustManagers<span style=color:#f92672>[</span>0<span style=color:#f92672>];</span>
+
+        SSLContext sslContext <span style=color:#f92672>=</span> SSLContext<span style=color:#f92672>.</span><span style=color:#a6e22e>getInstance</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;TLS&#34;</span><span style=color:#f92672>);</span>
+        sslContext<span style=color:#f92672>.</span><span style=color:#a6e22e>init</span><span style=color:#f92672>(</span><span style=color:#66d9ef>null</span><span style=color:#f92672>,</span> <span style=color:#66d9ef>new</span> TrustManager<span style=color:#f92672>[]</span> <span style=color:#f92672>{</span> trustManager <span style=color:#f92672>},</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>);</span>
+        sslSocketFactory <span style=color:#f92672>=</span> sslContext<span style=color:#f92672>.</span><span style=color:#a6e22e>getSocketFactory</span><span style=color:#f92672>();</span>
+    <span style=color:#f92672>}</span>
+<span style=color:#f92672>}</span> <span style=color:#66d9ef>catch</span> <span style=color:#f92672>(</span>CertificateException e<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+    e<span style=color:#f92672>.</span><span style=color:#a6e22e>printStackTrace</span><span style=color:#f92672>();</span>
+<span style=color:#f92672>}</span> <span style=color:#66d9ef>catch</span> <span style=color:#f92672>(</span>NoSuchAlgorithmException e<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+    e<span style=color:#f92672>.</span><span style=color:#a6e22e>printStackTrace</span><span style=color:#f92672>();</span>
+<span style=color:#f92672>}</span> <span style=color:#66d9ef>catch</span> <span style=color:#f92672>(</span>KeyStoreException e<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+    e<span style=color:#f92672>.</span><span style=color:#a6e22e>printStackTrace</span><span style=color:#f92672>();</span>
+<span style=color:#f92672>}</span> <span style=color:#66d9ef>catch</span> <span style=color:#f92672>(</span>IOException e<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+    e<span style=color:#f92672>.</span><span style=color:#a6e22e>printStackTrace</span><span style=color:#f92672>();</span>
+<span style=color:#f92672>}</span> <span style=color:#66d9ef>catch</span> <span style=color:#f92672>(</span>KeyManagementException e<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+    e<span style=color:#f92672>.</span><span style=color:#a6e22e>printStackTrace</span><span style=color:#f92672>();</span>
+<span style=color:#f92672>}</span>
+
+OkHttpClient client <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> OkHttpClient<span style=color:#f92672>.</span><span style=color:#a6e22e>Builder</span><span style=color:#f92672>()</span>
+        <span style=color:#f92672>.</span><span style=color:#a6e22e>sslSocketFactory</span><span style=color:#f92672>(</span>sslSocketFactory<span style=color:#f92672>,</span> trustManager<span style=color:#f92672>)</span>
+        <span style=color:#f92672>.</span><span style=color:#a6e22e>build</span><span style=color:#f92672>();</span>
+
+Retrofit retrofit <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> Retrofit<span style=color:#f92672>.</span><span style=color:#a6e22e>Builder</span><span style=color:#f92672>()</span>
+        <span style=color:#f92672>.</span><span style=color:#a6e22e>baseUrl</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;https://cdn.rawgit.com/julianshen/cpblschedule/&#34;</span><span style=color:#f92672>)</span>
+        <span style=color:#f92672>.</span><span style=color:#a6e22e>addConverterFactory</span><span style=color:#f92672>(</span>GsonConverterFactory<span style=color:#f92672>.</span><span style=color:#a6e22e>create</span><span style=color:#f92672>())</span>
+        <span style=color:#f92672>.</span><span style=color:#a6e22e>client</span><span style=color:#f92672>(</span>client<span style=color:#f92672>)</span>
+        <span style=color:#f92672>.</span><span style=color:#a6e22e>build</span><span style=color:#f92672>();</span>
+</code></pre></div><p>看到這麼長的東西大概就不會想看了吧?(老實說我也寫的很懶, 這邊要特別提到有用到一個Class叫做Buffer,這是來自於<a href=https://github.com/square/okio>okio</a>, 蠻方便的東西), 跟前一個不同的地方在於, 前一個利用了CertificatePinner,
+而這一個則是改了sslSocketFactory的TrustManager(喂!!!前面不是隱約有提到這樣不太好?!),
+這個TrustManager全部也只信任這一個certifcate, 如果碰到其他的, 就會發生以下的exception:</p><pre><code>javax.net.ssl.SSLHandshakeException: java.security.cert.CertPathValidatorException: Trust anchor for certification path not found.
+        at com.android.org.conscrypt.OpenSSLSocketImpl.startHandshake(OpenSSLSocketImpl.java:328)
+</code></pre><p>那, 上面那一大坨憑證資料是怎樣取得的? 方法其實差不多:</p><pre><code>openssl s_client -connect cdn.rawgit.com:443 -showcerts
+</code></pre><p>會得到這樣的結果:</p><pre><code>CONNECTED(00000003)
+depth=2 /C=GB/ST=Greater Manchester/L=Salford/O=COMODO CA Limited/CN=COMODO RSA Certification Authority
+verify error:num=20:unable to get local issuer certificate
+verify return:0
+---
+Certificate chain
+ 0 s:/OU=Domain Control Validated/OU=PositiveSSL Multi-Domain/CN=rawgit.com
+   i:/C=GB/ST=Greater Manchester/L=Salford/O=COMODO CA Limited/CN=COMODO RSA Domain Validation Secure Server CA
+ 1 s:/OU=Domain Control Validated/OU=PositiveSSL Multi-Domain/CN=rawgit.com
+   i:/C=GB/ST=Greater Manchester/L=Salford/O=COMODO CA Limited/CN=COMODO RSA Domain Validation Secure Server CA
+ 2 s:/C=GB/ST=Greater Manchester/L=Salford/O=COMODO CA Limited/CN=COMODO RSA Domain Validation Secure Server CA
+   i:/C=GB/ST=Greater Manchester/L=Salford/O=COMODO CA Limited/CN=COMODO RSA Certification Authority
+ 3 s:/C=GB/ST=Greater Manchester/L=Salford/O=COMODO CA Limited/CN=COMODO RSA Certification Authority
+   i:/C=SE/O=AddTrust AB/OU=AddTrust External TTP Network/CN=AddTrust External CA Root
+---
+Server certificate
+-----BEGIN CERTIFICATE-----
+MIIFdjCCBF6gAwIBAgIRAPbTBHdHHseM4hArA7n6uREwDQYJKoZIhvcNAQELBQAw
+gZAxCzAJBgNVBAYTAkdCMRswGQYDVQQIExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAO
+BgNVBAcTB1NhbGZvcmQxGjAYBgNVBAoTEUNPTU9ETyBDQSBMaW1pdGVkMTYwNAYD
+VQQDEy1DT01PRE8gUlNBIERvbWFpbiBWYWxpZGF0aW9uIFNlY3VyZSBTZXJ2ZXIg
+Q0EwHhcNMTYwMTAxMDAwMDAwWhcNMTcwMTEzMjM1OTU5WjBbMSEwHwYDVQQLExhE
+b21haW4gQ29udHJvbCBWYWxpZGF0ZWQxITAfBgNVBAsTGFBvc2l0aXZlU1NMIE11
+bHRpLURvbWFpbjETMBEGA1UEAxMKcmF3Z2l0LmNvbTCCASIwDQYJKoZIhvcNAQEB
+BQADggEPADCCAQoCggEBALD2sUNSYp2R+mSEMF2qKvMS780qTkltvqP4rwEGKOLV
+rR5QQWo8vzSlgZvxVsguRHi0pPBtVAH794L43tD+IuyQlDlNU2qc1aMqBkn3S2wN
+Way8BS9w80pgeFnObZiFJtPI9pdwcB72Bgq8Nlc25oVrDVWr/Q8nLIKS/9FkNs+C
+MPU00vGFZSFbR7s15ORj9+qPCskWZcHpQ+m9EKmZD3IVKj3QQyBD17cBoVkYoIpj
+I8/r+NfVfKetlsB7Pcv8P3yLFVFC4+PGrnW9TLZK9aRtbDTvjElXwCQIPK5B2fKw
+SJK26IJPDX0r1JkeuR53Afr509iEx3xAHcRz/kR5uo8CAwEAAaOCAf0wggH5MB8G
+A1UdIwQYMBaAFJCvajqUWgvYkOoSVnPfQ7Q6KNrnMB0GA1UdDgQWBBSI83Kqafo7
+kg9cmyT1vnceH4fAUjAOBgNVHQ8BAf8EBAMCBaAwDAYDVR0TAQH/BAIwADAdBgNV
+HSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwTwYDVR0gBEgwRjA6BgsrBgEEAbIx
+AQICBzArMCkGCCsGAQUFBwIBFh1odHRwczovL3NlY3VyZS5jb21vZG8uY29tL0NQ
+UzAIBgZngQwBAgEwVAYDVR0fBE0wSzBJoEegRYZDaHR0cDovL2NybC5jb21vZG9j
+YS5jb20vQ09NT0RPUlNBRG9tYWluVmFsaWRhdGlvblNlY3VyZVNlcnZlckNBLmNy
+bDCBhQYIKwYBBQUHAQEEeTB3ME8GCCsGAQUFBzAChkNodHRwOi8vY3J0LmNvbW9k
+b2NhLmNvbS9DT01PRE9SU0FEb21haW5WYWxpZGF0aW9uU2VjdXJlU2VydmVyQ0Eu
+Y3J0MCQGCCsGAQUFBzABhhhodHRwOi8vb2NzcC5jb21vZG9jYS5jb20wSwYDVR0R
+BEQwQoIKcmF3Z2l0LmNvbYIVY2RuLW9yaWdpbi5yYXdnaXQuY29tgg5jZG4ucmF3
+Z2l0LmNvbYINcmF3Z2l0aHViLmNvbTANBgkqhkiG9w0BAQsFAAOCAQEASx3e6y9e
+9F67N5NIDausDHDL+/fz6uj2DDNJdaQvALAYDV8hKpz7+QGotlQfI042U2i83J7m
+DGZiKDpzaXa7IFfGiq6PFPUjntElHoU2E4vRb5LApg1sJ5YueYmRd3X7x0/jPYg6
+TiTtHyXOnlMuqL2FUYJM0BP7cMfOppvUF0R2zHUVA0rVHuLrSStg8bMg8aVUIkKg
+n3NS+eg4ofo95jaMRVykhLnylkYBk9dWBM6B19Yw7LgQd94MZSa+Xix4HxeFgvAM
+BF+oeDMaY7mEN4Xm5hnrIS1FElRDq/ckpDV8JVpR4SQqB+tzSZPPIiep8EvgRDzd
+2EkL187FF3MQ+w==
+-----END CERTIFICATE-----
+subject=/OU=Domain Control Validated/OU=PositiveSSL Multi-Domain/CN=rawgit.com
+issuer=/C=GB/ST=Greater Manchester/L=Salford/O=COMODO CA Limited/CN=COMODO RSA Domain Validation Secure Server CA
+---
+No client certificate CA names sent
+---
+SSL handshake has read 6716 bytes and written 456 bytes
+---
+New, TLSv1/SSLv3, Cipher is DHE-RSA-AES256-SHA
+Server public key is 2048 bit
+Secure Renegotiation IS supported
+Compression: NONE
+Expansion: NONE
+SSL-Session:
+    Protocol  : TLSv1
+    Cipher    : DHE-RSA-AES256-SHA
+    Session-ID: ACFED5197F4B5F64DBAAC97A47380CD9283EFD1797E27EF43A215B06982698F4
+    Session-ID-ctx: 
+    Master-Key: 856DFB81C863F461FE75EE11E633EA5CAB3CD6683563F597F406EF19AB37CD3F45B4FE659AB8726F9291360CBE856F48
+    Key-Arg   : None
+    Start Time: 1475223830
+    Timeout   : 300 (sec)
+    Verify return code: 0 (ok)
+---
+</code></pre><p>BEGIN到END那段剪貼下來即是</p><h2 id=缺點->缺點</h2><p>這兩個方法有一個極大的缺點, 如果沒有解決方案還是最好別用(<del>啊講那麼多, 最後不能用?!</del>)
+, 這缺點就是SSL Certificate是有時效性的, 因此server端的憑證是會換會改變的,
+只要server端一換, 就可能造成client端的失效, 所以如果要使用這兩個方法,
+前提必須先解決的是如何更新Client端要檢查的public key或certificate,
+這邊就不討論這部份的機制了, 這應該有很多方法可以來作才對</p><p>#好久沒寫關於Android的內容了</p></div></article><article class=hentry><header><div class=entry-meta><span class="entry-date date published updated"><time datetime="2014-08-20 00:24:16 +0000 UTC"><a href=/Android-%E5%9C%9F%E8%A3%BDPlay-store-API/>Aug 20, 2014</a></time></span>
+<span class=entry-reading-time><i class="fa fa-clock-o"></i>Reading time ~2 minutes</span></div><h1 class=entry-title><a href=/Android-%E5%9C%9F%E8%A3%BDPlay-store-API/ rel=bookmark title="[Android] 土製Play store API" itemprop=url>[Android] 土製Play store API</a></h1></header><div class=entry-content><p>認真說的話, 這也算不上啥非官方API, 算是一個為了抓取Play store上資訊的一個小小工具: <a href=https://github.com/julianshen/PlaystoreUtil>PlaystoreUtil</a></p><p>現在很多網路的服務, 大多有提供開放的REST API來供人寫原生的程式使用, 當然也有非常多並沒有, 像是Play store, 目前就沒開放的API可供存取, 剛好想要有個東西可以查詢某個app在play store上是屬於啥分類的, 所以就乾脆自己自製一個囉&mldr;</p><p>現在的網頁, 大多結構性很好, 所以就算沒有REST API, 其實也不難處理, 搭配上 <a href=http://jsoup.org/>jsoup</a> , 可以說輕而易舉</p><p>jsoup是一個可以用css selector來解析html的Java函式庫, 有了這個, 解析html可以不用辛苦的爬dom tree, 只要幾行簡單的程式即可:</p><blockquote><pre>Document doc = Jsoup.connect("http://example.com/").get;
+
+Elements links = doc.select("a[href]"); // a with href
+Elements pngs = doc.select("img[src$=.png]");
+</pre></blockquote><p>再來看看play store</p><p>先看看每個app的資訊畫面, 以Facebook為例, 它的url是 &ndash;</p><blockquote><p><a href="https://play.google.com/store/apps/details?id=com.facebook.katana&hl=ja">https://play.google.com/store/apps/details?id=com.facebook.katana&hl=ja</a></p></blockquote><p>很明顯的, id後面是package name, 另外如果加上"&hl=&ldquo;可以指定語言, 然後再看到頁面上:</p><p><img src=http://67.media.tumblr.com/af1c3987664a190e02f67e8dbd3d0fab/tumblr_inline_nakagxbSNE1qzg4zq.png></p><p>在Facebook (公司名稱)下方有個分類, 可以使用Chrome的開發人員工具(我比較習慣這個), 找到這個連結的css class名稱是&rdquo;<span>document-subtitle category</span>&ldquo;,而名稱則在它底下的一個span, 這span有個屬性itemprop, 值是genre</p><p><img src=http://66.media.tumblr.com/5374e22ec19244ebbee79c4dbbcddf7b/tumblr_inline_nakajs6dHK1qzg4zq.png></p><p>因此, 透過以下這段code就可以取到類別名稱囉</p><blockquote><pre>Document doc = Jsoup.connect("https://play.google.com/store/apps/details?id=" + packageName + "&amp;hl=" + locale.getISO3Language()).get();
+Elements elements = doc.select("span[itemprop=genre]");
+</pre></blockquote><p>當然, 這方法不只適用於play store, 其他網頁也可以嘗試用這個方法來取得資料</p><p>詳細的範例在: <a href=https://github.com/julianshen/PlaystoreUtil>https://github.com/julianshen/PlaystoreUtil</a></p></div></article><article class=hentry><header><div class=entry-meta><span class="entry-date date published updated"><time datetime="2013-10-20 10:51:29 +0000 UTC"><a href=/%E7%AD%86%E8%A8%98-Android-library-project%E5%92%8Cmanifestmerger.enabled/>Oct 20, 2013</a></time></span>
+<span class=entry-reading-time><i class="fa fa-clock-o"></i>Reading time ~2 minutes</span></div><h1 class=entry-title><a href=/%E7%AD%86%E8%A8%98-Android-library-project%E5%92%8Cmanifestmerger.enabled/ rel=bookmark title="[筆記] Android library project和manifestmerger.enabled" itemprop=url>[筆記] Android library project和manifestmerger.enabled</a></h1></header><div class=entry-content><p>Android library project是為了解決Android開發中在不同專案間分享原始碼以及資源檔(resource)而出現的, 傳統的jar並未考慮資源檔的問題, 因此便需要靠Android library project來解決</p><p>目前, Android library project已經被廣泛運用, 舉凡ActionbarSherlock, Facebook Android SDK, 很多都已採用這形式</p><p>不過現在一般用法還是比較廣泛應用在跟UI相關這類的應用上, 這也合理, 這類的應用常需要包含原始碼和資源檔, 不過它也適合在其他應用上, 舉個例子(好吧, 這例子有點不清不楚), 我們也有可能需要讓所有使用某個library project的應用程式自動加上一個Intent Receiver, 假設這receiver實作上是固定的, 並不需要使用的應用程式自行去繼承, 或是, 我們希望某個Activity的實作是被連結到各個應用程式中, 這類應用使用Android library project也是可以辦到的</p><p>這類的應用, 通常還需要在AndroidManifest裡宣告, 除了receiver, activity, 也有可能加上一些service, 甚至是permission, 正常來說, 在建置使用了Android library project的專案時, library project裡的AndroidManifest的內容並不會合併到最後的AndroidManifest裡, 以致於, 雖然在library project內這些都被宣告了, 但成品內可能無法被使用, 這解法也很單純, 只要在應用程式(不是library project)的project.properties裡加上:</p><p><em><strong>manifestmerger.enabled = true</strong></em></p><p>Manifest merger似乎存在有一段時間了, 但似乎也沒看到啥正式的官方文件, 不過目前這方法是可行的就是了</p></div></article><article class=hentry><header><div class=entry-meta><span class="entry-date date published updated"><time datetime="2013-06-29 08:31:32 +0000 UTC"><a href=/Android-Retrofit-Signpost-%E6%9B%BFRetrofit%E5%8A%A0%E4%B8%8AOAuth%E6%94%AF%E6%8F%B4/>Jun 29, 2013</a></time></span>
+<span class=entry-reading-time><i class="fa fa-clock-o"></i>Reading time ~2 minutes</span></div><h1 class=entry-title><a href=/Android-Retrofit-Signpost-%E6%9B%BFRetrofit%E5%8A%A0%E4%B8%8AOAuth%E6%94%AF%E6%8F%B4/ rel=bookmark title="[Android] Retrofit + Signpost :  替Retrofit加上OAuth支援" itemprop=url>[Android] Retrofit + Signpost : 替Retrofit加上OAuth支援</a></h1></header><div class=entry-content>看到Square發表的這個Retrofit - <a href=http://bit.ly/167v72a>http://bit.ly/167v72a</a> 蠻有趣的, 它的目的似乎是試圖的想要去簡化開發REST client, 開發者不用寫太多的邏輯, 只要寫一個Interface跟利用annotation就可以完成一個簡單的REST client:<br><br><pre class="prettyprint prettyprinted" style="background-color:#f5f5f5;border-bottom-left-radius:4px;border-bottom-right-radius:4px;border-top-left-radius:4px;border-top-right-radius:4px;border:1px solid rgba(0,0,0,.14902);color:#666;font-family:Monaco,Menlo,Consolas,courier new,monospace;font-size:13px;line-height:20px;margin-bottom:20px;padding:9.5px;white-space:pre-wrap;word-break:break-all;word-wrap:break-word"><span class=kwd>public</span><span class=pln style=color:#000> </span><span class=kwd>interface</span><span class=pln style=color:#000> </span><span class=typ style=color:#222>GitHubService</span><span class=pln style=color:#000> </span><span class=pun style=color:#888>{</span><span class=pln style=color:#000><br></span><span class=lit>@GET</span><span class=pun style=color:#888>(</span><span class=str style=color:#32835b>"/users/{user}/repos"</span><span class=pun style=color:#888>)</span><span class=pln style=color:#000><br></span><span class=typ style=color:#222>List</span><span class=pun style=color:#888>&lt;</span><span class=typ style=color:#222>Repo</span><span class=pun style=color:#888>&gt;</span><span class=pln style=color:#000> listRepos</span><span class=pun style=color:#888>(</span><span class=lit>@Path</span><span class=pun style=color:#888>(</span><span class=str style=color:#32835b>"user"</span><span class=pun style=color:#888>)</span><span class=pln style=color:#000> </span><span class=typ style=color:#222>String</span><span class=pln style=color:#000> user</span><span class=pun style=color:#888>);</span><span class=pln style=color:#000><br></span><span class=pun style=color:#888>}</span></pre><div><span class=pun style=color:#888><br></span></div>因為開發者只需要寫interface和annotation, 實質上並不用寫任何的code, 真正實作的部份他用了Proxy class的技巧包裝起來了, 這作法讓我想起來很久之前我在之前的工作幫公司寫的一個legacy系統的wrapper, 那時有很多機器產生的interface, 如果人工一個個實作很浪費時間, Proxy class可以解決掉這一部分的問題, 同樣的在retrofit似乎也是想用這技巧節省實作<br><br>但可惜的是, 現在的retrofit並還沒加入OAuth的支援, 因此送出去的API部分並沒被oauth簽章過,不過所幸要解決這一部分也不難, 寫一個Client class搭配<a href=http://bit.ly/11OBeF8 target=_blank>Signpost</a>還是可以做到, 這邊範例繼承了OkClient(使用OkHttp) :<br><br><br><script src=http://bit.ly/14BPkrJ></script><br>因為OkHttp也是一種HttpURLConnection, 因此Signpost搭配DefaultOAuthProvider和DefaultOAuthConsumer即可, 另外初始化RestAdapter時加上這個新的Client即可:<br><br><blockquote class=tr_bq>RestAdapter restAdapter = new RestAdapter.Builder() .setClient(new SignedOkClient(mConsumer))</blockquote><br><br>via Blogger <a href=http://bit.ly/11OBeFb>http://bit.ly/11OBeFb</a></div></article><article class=hentry><header><div class=entry-meta><span class="entry-date date published updated"><time datetime="2013-06-27 01:46:42 +0000 UTC"><a href=/Android-%E8%87%AA%E5%AE%9A%E7%BE%A9View%E5%B1%AC%E6%80%A7/>Jun 27, 2013</a></time></span>
+<span class=entry-reading-time><i class="fa fa-clock-o"></i>Reading time ~3 minutes</span></div><h1 class=entry-title><a href=/Android-%E8%87%AA%E5%AE%9A%E7%BE%A9View%E5%B1%AC%E6%80%A7/ rel=bookmark title="[Android] 自定義View屬性" itemprop=url>[Android] 自定義View屬性</a></h1></header><div class=entry-content><p>在<a href=http://bit.ly/14xA3IP target=_blank>前一篇寫了一個自訂義的layout - SimpleCellLayout</a>, 前一個版本的問題就是, 必須是寫程式把child view加進這個layout之中, 而且針對像是欄與行的數目也必須在程式裡設定, 並無法寫到layout xml中, 所以這次的目邊就是要讓這個layout可以像下面這樣用layout xml來擺佈:<br><br><script src=http://bit.ly/1af6Kkh></script><br>在這範例之中, 用到幾個像是col, row, gapsize, cellX這些在原生Android並不存在的屬性, 為了這些屬性, 就需要定義一個attrs.xml在res/values目錄內, attrs.xml 裡面要定義的就是這些樣式描述屬性, 這邊定義了: 給SimpleCellLayout本身用的col(欄數), row(行數), gapsize(間距大小), 以及給他的Child views用的cellX(格子的橫軸位置), cellY(格子的縱軸位置), colspan(格子寬), rowspan(格子高), 除了gapsize我們需要的跟實際螢幕上的大小有關, 所以格式定義為dimension外(就是可以用3dp, 1px這類的值), 其他都是整數就可<br><br><script src=http://bit.ly/14xA5Ap></script>這些屬性, 到時候就是要放在xml標籤內的屬性<br><br>要用到這些屬性, 需要先在tag裡面定義一個新的name space, 如同在前面範例寫的:<br><br></p><blockquote class=tr_bq>xmlns:celllayout=&ldquo;http://bit.ly/GEGVYd&rdquo;</blockquote>文件內的範例大多是apk/後面接著package name, 不過Android Studio卻是建議使用"res-auto", 定義了這個name space後, 便可以在後面的tag內使用像是"celllayout:col"這樣的屬性了<br><br>那在layout內又要怎處理這些屬性? ViewGroup有兩個建構子所需要帶的參數含有AttributeSet, 基本上只要從這兩個建構子處理就好<br><br><script src=http://bit.ly/14xA5Ar></script>這範例內的initFromAttributes就是用來從AttributeSet擷取這些屬性, 前面attrs.xml有定義stylable, 所以基本上有一堆相對應的Resource ID可以使用,這邊只處理了col, row, 和gapsize, 因為只有這三個屬性直接跟這layout相關, 至於這layout的child views該怎處理呢? 它就要靠LayoutParams了, 我在SimpleCellLayout內定義了一個CellLayoutParams, 基本上這類別也有一個建構子是用來處理AttributeSet的<br><br><br><script src=http://bit.ly/1af6Lor></script>這邊比較重要的就是要overwrite掉generateLayoutParams, 因為ViewGroup原有的generateLayoutParams實作的是回傳ViewGroup.LayoutParams, 他並不認得CellLayoutParams, 但SimpleCellLayout靠的是CellLayoutParams來儲存layout所需的資訊, 原本用程式來加入view的範例部份, 我是手動產生一個CellLayoutParams來給child view, 但如果是放在layout xml, 並無法指定要用哪個LayoutParams類別, 這時候就要靠generateLayoutParams了 有趣的是, 雖然是我自訂的layout, 但在我做完這些後, Android studio的UI編輯器, 卻知道怎去依據我的layout把元件畫到正確的位子上面:<br><div class=separator style=clear:both;text-align:center><a href=http://bit.ly/14xA3IR imageanchor=1 style=clear:left;float:left;margin-bottom:1em;margin-right:1em><img border=0 height=304 src=http://bit.ly/1af6Kkn width=640></a></div><br><br><br>via Blogger <a href=http://bit.ly/1af6KAB>http://bit.ly/1af6KAB</a></div></article><div class=pagination><ul class=inline-list><li><a href=/tags/Android/ class=btn>Previous</a></li><li><a href=/tags/Android/>1</a></li><li><strong class=current-page>2</strong></li><li><a href=/tags/Android/page/3/>3</a></li><li><a href=/tags/Android/page/4/>4</a></li><li><a href=/tags/Android/page/5/>5</a></li><li><a href=/tags/Android/page/6/>6</a></li><li><a href=/tags/Android/page/7/>7</a></li><li><a href=/tags/Android/page/8/>8</a></li><li><a href=/tags/Android/page/9/>9</a></li><li><a href=/tags/Android/page/10/>10</a></li><li><a href=/tags/Android/page/11/>11</a></li><li><a href=/tags/Android/page/12/>12</a></li><li><a href=/tags/Android/page/3/ class=btn>Next</a></li></ul></div></div><div class=footer-wrapper><footer role=contentinfo><span>Powered by <a href=https://gohugo.io/ rel=nofollow>Hugo</a> using the <a href=https://github.com/dldx/hpstr-hugo-theme rel=nofollow>HPSTR theme</a>.</span></footer></div><script src=//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js></script><script src=https://kit.fontawesome.com/872a53b461.js crossorigin=anonymous></script><script>window.jQuery||document.write('<script src="\/js\/vendor\/jquery-1.9.1.min.js"><\/script>')</script><script src=/js/scripts.min.js></script><script type=application/javascript>var doNotTrack=false;if(!doNotTrack){(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');ga('create','UA-79243751-1','auto');ga('send','pageview');}</script><div id=fb-root></div><script async defer crossorigin=anonymous src="https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v7.0&appId=293999444006555&autoLogAppEvents=1" nonce=geZSUIUh></script></body></html>

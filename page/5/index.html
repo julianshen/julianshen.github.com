@@ -1,0 +1,362 @@
+<!doctype html><!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=en><![endif]--><!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang=en><![endif]--><!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang=en><![endif]--><!--[if gt IE 8]><!--><html class=no-js lang=en><!--<![endif]--><head><meta charset=utf-8><title>Le murmure de Julian</title><meta name=description content><meta property="og:title" content="Le murmure de Julian"><meta property="og:description" content><meta property="og:type" content="website"><meta property="og:url" content="http://blog.jln.co/"><meta property="og:image" content="http://blog.jln.co/images/avatar.png"><meta property="og:updated_time" content="2017-06-18T12:21:33+00:00"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="http://blog.jln.co/images/avatar.png"><meta name=twitter:title content="Le murmure de Julian"><meta name=twitter:description content><link rel=canonical href=http://blog.jln.co/><link href=http://blog.jln.co/feed.xml rel=alternate type=application/rss+xml title="Le murmure de Julian"><link href=http://blog.jln.co/feed.xml rel=feed type=application/rss+xml title="Le murmure de Julian"><meta name=HandheldFriendly content="True"><meta name=MobileOptimized content="320"><meta name=viewport content="width=device-width,initial-scale=1"><link rel=stylesheet href=/css/main.css><link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel=stylesheet type=text/css><meta http-equiv=cleartype content="on"><meta name=generator content="Hugo 0.73.0"><script src=/js/vendor/modernizr-2.6.2.custom.min.js></script><script async src=https://unpkg.com/mermaid@8.2.3/dist/mermaid.min.js></script><link rel="shortcut icon" href=/favicon.png></head><body id=post-index class=feature><nav id=dl-menu class=dl-menuwrapper role=navigation style=display:inline-block><button class=dl-trigger>Open Menu</button><ul class=dl-menu><li><a href=/>Home</a></li><li><a href=#>About</a><ul class=dl-submenu><li><img src=/images/avatar.png alt="Julian Shen's photo" class=author-photo><h4>Julian Shen</h4><p>Softward developer</p></li><li><a href=mailto:julianshen22@gmail.com><i class="fa fa-fw fa-envelope"></i>Email</a></li><li><a href=https://linkedin.com/in/julianshen><i class="fa fa-fw fa-linkedin"></i>LinkedIn</a></li><li><a href=https://github.com/julianshen><i class="fa fa-fw fa-github"></i>GitHub</a></li><li><a href=https://instagram.com/julianshen><i class="fa fa-fw fa-instagram"></i>Instagram</a></li></ul></li><li><a href=#>Posts</a><ul class=dl-submenu><li><a href=/post/>All Posts</a></li><li><a href=/tags/>All Tags</a></li></ul></li><li><a href=/></a></li></ul></nav><div class=entry-header><div class=entry-image><img src=/images/bkg2.jpg alt="Le murmure de Julian"></div><div class=header-title><div class=header-title-wrap><h1><a href=/ title="Go to the homepage">Le murmure de Julian</a></h1><h2>朱隸安貓囈語錄</h2></div></div></div><div id=main role=main><article class=hentry><header><div class=entry-meta><span class="entry-date date published updated"><time datetime="2016-12-11 21:27:45 +0000 UTC"><a href=/Android-%E5%9C%A8Android-Studio%E5%8F%96%E5%BE%97certificate-fingerprints/>Dec 11, 2016</a></time></span>
+<span class=entry-reading-time><i class="fa fa-clock-o"></i>Reading time ~1 minute</span></div><h1 class=entry-title><a href=/Android-%E5%9C%A8Android-Studio%E5%8F%96%E5%BE%97certificate-fingerprints/ rel=bookmark title="[Android] 在Android Studio取得certificate fingerprints" itemprop=url>[Android] 在Android Studio取得certificate fingerprints</a></h1></header><div class=entry-content><p>在使用很多API服務像是Google的API或是Facebook的API, 常常會需要拿簽署APK的Key的signature登錄,
+取得這sigature的方法有很多種, 剛學到一種是直接可以從Android studio的Gardle選單內取得的, 方法如下:</p><p>Gradle->(Project name)->Tasks->singningReports</p><div style=position:relative;padding-bottom:56.25%;height:0;overflow:hidden><iframe src=https://www.youtube.com/embed/D1HwAnk49xU style=position:absolute;top:0;left:0;width:100%;height:100%;border:0 allowfullscreen title="YouTube Video"></iframe></div></div></article><article class=hentry><header><div class=entry-meta><span class="entry-date date published updated"><time datetime="2016-11-29 17:39:41 +0000 UTC"><a href=/Android-Firebase-WebRTC-on-Android/>Nov 29, 2016</a></time></span>
+<span class=entry-reading-time><i class="fa fa-clock-o"></i>Reading time ~7 minutes</span></div><h1 class=entry-title><a href=/Android-Firebase-WebRTC-on-Android/ rel=bookmark title="[Android] Firebase + WebRTC on Android" itemprop=url>[Android] Firebase + WebRTC on Android</a></h1></header><div class=entry-content><p><a href=https://webrtc.org/>WebRTC</a>是一個支援瀏覽器的即時影音對話的架構, 算是一個業界標(W3C,IETF), 最近由於想做一個有影音通話的應用, 就研究了一下這東西</p><p>如果只是想嘗試一下<a href=https://webrtc.org/>WebRTC</a>, 是可以直接是可以直接試<a href=https://appr.tc/>AppRTC</a>這個Google的範例, 不過這個是Web的版本, 我想要做的是
+手機的版本(Android, iOS), <a href=https://appr.tc/>AppRTC</a>其實也有Android的版本可搭配</p><p>為了熟悉一下整個用WebRTC建立video call的流程, 因此我就決定改一下這個Android版本, 原本Google的版本是透過Web Socket</p><p>至於流程與架構我會建議看這影片:</p><div style=position:relative;padding-bottom:56.25%;height:0;overflow:hidden><iframe src=https://www.youtube.com/embed/HS1eKPL4f1o style=position:absolute;top:0;left:0;width:100%;height:100%;border:0 allowfullscreen title="YouTube Video"></iframe></div><p>如果不想看太長, 就看這個:</p><div style=position:relative;padding-bottom:56.25%;height:0;overflow:hidden><iframe src=https://www.youtube.com/embed/nDPlGcoArdM style=position:absolute;top:0;left:0;width:100%;height:100%;border:0 allowfullscreen title="YouTube Video"></iframe></div><p>把Web RTC那段換成Firebase(好, 其實我蠻後悔選Firebase來實作的)其實就是把Signaling這段給換掉, 而這段流程是(節錄自影片):</p><p><img src=/images/posts/webrtc.png alt></p><p>這部分其實就是交換兩邊的SDP和ICE candidate的過程, 詳細可以參考<a href=http://blog.mozilla.com.tw/posts/3261/webrtc-%E7%9B%B8%E9%97%9C%E7%B8%AE%E5%AF%AB%E5%90%8D%E8%A9%9E%E7%B0%A1%E4%BB%8B>這邊:WebRTC 相關縮寫名詞簡介</a></p><p>結果的source code放在<a href=https://github.com/julianshen/apprtc-android-demo>這邊 : apprtc-android-demo</a></p><h3 id=building-webrtc-lib-on-android->Building WebRTC lib on Android</h3><p>其實現在寫WebRTC的應用的話, 也不用從頭實作, Google老早就把它實作在<a href=http://chromium.org>Chromium</a>裡面了, 也可以單獨build出library用</p><p>這邊有官方的<a href=https://webrtc.org/native-code/android/>如何建置出Android版本的Web RTC library</a>, 不過, 不要照著這份文件做呀, 不然頭髮會白好幾根, 可能還build不太起來,
+找了一堆網路上人家的建議也都是不要直接build, 直接用人家build好現成的, 不過, 現成的雖然有一些, 但大多是過時的, API跟現今的也不太一樣, 如果
+要套用到現在的Android版本AppRTC的source code內, 大多都沒辦法用</p><p>所幸找到這個<a href=https://github.com/pristineio/webrtc-build-scripts/tree/master/android>build script: pristineio/webrtc-build-scripts</a>,
+這個從下載最新的source code到build出library一律包辦, 用法也很簡單, 只要執行下面的:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>source android/build.sh
+install_dependencies
+get_webrtc
+build_apprtc
+</code></pre></div><p>簡單明暸, 但&mldr;有幾個問題, 第一個是只能在Linux下build, 因此在Mac跟Windows下要透過<a href=https://www.vagrantup.com/>Vagrant</a>這類的工具,
+而且對硬體需求也很高, 我的2012年中版的Macbook Pro retina實在是跑不動, 後來跑去Digital Ocean租了台VM來build, 本以為最便宜的可以勝任,
+後來發現, 至少要4G RAM, 硬碟要20G以上的instance(哭哭, 浪費好多時間)</p><p>build出來後, 所需要的東西包含了libjingle_peerconnection.jar和libjingle_peerconnection_so.so, 把這幾個備份起來就是了, 待會build apk需要用</p><h3 id=apprtc-範例的android-source-codes->AppRTC 範例的Android source codes</h3><p>Android的範例的source codes<a href=https://chromium.googlesource.com/external/webrtc/+/master/webrtc/examples/androidapp/>可以在這邊下載</a></p><p>不過這並不是Android studio的project格式, 因此需要用匯入的方式, 或是可以直接fork<a href=https://github.com/julianshen/apprtc-android-demo>我的版本</a>去改,
+由於原本的版本使用了Web socket做singaling的管道, 因此需要<a href=http://autobahn.ws/>Autobahn</a>, 但你切記絕對不能用<a href=http://autobahn.ws/>Autobahn</a>官方最新的jar檔,
+而是要用Google放在third_party裡面那個autobanh.jar(啊, 我到現在才發現名字有些許不同), 這邊的差異是, 原本<a href=http://autobahn.ws/>Autobahn</a>是沒有支援SSL的websocket的,
+但AppRTC的websocket則是要透過SSL來連接</p><p>把jar跟so檔放到對應的目錄去後, 記得改一下app目錄下的build.gradle加入 (因為import產生的不會幫你加):</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-gradle data-lang=gradle>dependencies <span style=color:#f92672>{</span>
+    compile <span style=color:#a6e22e>fileTree</span><span style=color:#f92672>(</span>dir: <span style=color:#e6db74>&#39;libs&#39;</span><span style=color:#f92672>,</span> include: <span style=color:#f92672>[</span><span style=color:#e6db74>&#39;*.jar&#39;</span><span style=color:#f92672>])</span>
+<span style=color:#f92672>}</span>
+</code></pre></div><h3 id=加上firebase->加上firebase</h3><p>除了原本的Webcoket和Direct connect兩種方式外, 為了跑一次他的流程我多加了Firebase的部分, 利用它的realtime database來做Signaling這部分,
+至於怎樣開始開發firebase, 就參考一下他的<a href=https://firebase.google.com/docs/database/android/start/>官方文件</a>吧</p><h3 id=signaling的實作->Signaling的實作</h3><h4 id=callactivity->CallActivity</h4><p>選擇哪種signaling的方式是在CallActivity裡面依據roomId來看使用哪一個signaling client, 程式碼如下:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>    <span style=color:#75715e>// Create connection client. Use DirectRTCClient if room name is an IP otherwise use the
+</span><span style=color:#75715e></span>    <span style=color:#75715e>// standard WebSocketRTCClient.
+</span><span style=color:#75715e></span>    <span style=color:#66d9ef>if</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;firebase&#34;</span><span style=color:#f92672>.</span><span style=color:#a6e22e>equals</span><span style=color:#f92672>(</span>roomId<span style=color:#f92672>))</span> <span style=color:#f92672>{</span>
+      Log<span style=color:#f92672>.</span><span style=color:#a6e22e>d</span><span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;firebase&#34;</span><span style=color:#f92672>);</span>
+      appRtcClient <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> FirebaseRTCClient<span style=color:#f92672>(</span><span style=color:#66d9ef>this</span><span style=color:#f92672>);</span>
+    <span style=color:#f92672>}</span> <span style=color:#66d9ef>else</span> <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>loopback <span style=color:#f92672>||</span> <span style=color:#f92672>!</span>DirectRTCClient<span style=color:#f92672>.</span><span style=color:#a6e22e>IP_PATTERN</span><span style=color:#f92672>.</span><span style=color:#a6e22e>matcher</span><span style=color:#f92672>(</span>roomId<span style=color:#f92672>).</span><span style=color:#a6e22e>matches</span><span style=color:#f92672>())</span> <span style=color:#f92672>{</span>
+      appRtcClient <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> WebSocketRTCClient<span style=color:#f92672>(</span><span style=color:#66d9ef>this</span><span style=color:#f92672>);</span>
+    <span style=color:#f92672>}</span> <span style=color:#66d9ef>else</span> <span style=color:#f92672>{</span>
+      Log<span style=color:#f92672>.</span><span style=color:#a6e22e>i</span><span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;Using DirectRTCClient because room name looks like an IP.&#34;</span><span style=color:#f92672>);</span>
+      appRtcClient <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> DirectRTCClient<span style=color:#f92672>(</span><span style=color:#66d9ef>this</span><span style=color:#f92672>);</span>
+    <span style=color:#f92672>}</span>
+</code></pre></div><p>原本有WebSocketRTCClient和DirectRTCClient, 如果是IP的話就用DirectRTCClient,這邊我多加一個FirebaseRTCClient, 只要roomId是firebase就會使用這個(我偷懶)</p><h4 id=firebasertcclient->FirebaseRTCClient</h4><p>XXXRTCClient這部分實作了signaling的部分, 因此我參考了WebSocketRTCClient和DirectRTCClient的內容來寫FirebaseRTCClient</p><p>跟WebSocketRTCClinet一樣, 它必須實作AppRTCClient, AppRTCClient這個Interface定義如下:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#75715e>/**
+</span><span style=color:#75715e> * AppRTCClient is the interface representing an AppRTC client.
+</span><span style=color:#75715e> */</span>
+<span style=color:#66d9ef>public</span> <span style=color:#66d9ef>interface</span> <span style=color:#a6e22e>AppRTCClient</span> <span style=color:#f92672>{</span>
+  <span style=color:#75715e>/**
+</span><span style=color:#75715e>   * Struct holding the connection parameters of an AppRTC room.
+</span><span style=color:#75715e>   */</span>
+  <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>RoomConnectionParameters</span> <span style=color:#f92672>{</span>
+    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>final</span> String roomUrl<span style=color:#f92672>;</span>
+    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>final</span> String roomId<span style=color:#f92672>;</span>
+    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>final</span> <span style=color:#66d9ef>boolean</span> loopback<span style=color:#f92672>;</span>
+    <span style=color:#66d9ef>public</span> <span style=color:#a6e22e>RoomConnectionParameters</span><span style=color:#f92672>(</span>String roomUrl<span style=color:#f92672>,</span> String roomId<span style=color:#f92672>,</span> <span style=color:#66d9ef>boolean</span> loopback<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+      <span style=color:#66d9ef>this</span><span style=color:#f92672>.</span><span style=color:#a6e22e>roomUrl</span> <span style=color:#f92672>=</span> roomUrl<span style=color:#f92672>;</span>
+      <span style=color:#66d9ef>this</span><span style=color:#f92672>.</span><span style=color:#a6e22e>roomId</span> <span style=color:#f92672>=</span> roomId<span style=color:#f92672>;</span>
+      <span style=color:#66d9ef>this</span><span style=color:#f92672>.</span><span style=color:#a6e22e>loopback</span> <span style=color:#f92672>=</span> loopback<span style=color:#f92672>;</span>
+    <span style=color:#f92672>}</span>
+  <span style=color:#f92672>}</span>
+
+  <span style=color:#75715e>/**
+</span><span style=color:#75715e>   * Asynchronously connect to an AppRTC room URL using supplied connection
+</span><span style=color:#75715e>   * parameters. Once connection is established onConnectedToRoom()
+</span><span style=color:#75715e>   * callback with room parameters is invoked.
+</span><span style=color:#75715e>   */</span>
+  <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>connectToRoom</span><span style=color:#f92672>(</span>RoomConnectionParameters connectionParameters<span style=color:#f92672>);</span>
+
+  <span style=color:#75715e>/**
+</span><span style=color:#75715e>   * Send offer SDP to the other participant.
+</span><span style=color:#75715e>   */</span>
+  <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>sendOfferSdp</span><span style=color:#f92672>(</span><span style=color:#66d9ef>final</span> SessionDescription sdp<span style=color:#f92672>);</span>
+
+  <span style=color:#75715e>/**
+</span><span style=color:#75715e>   * Send answer SDP to the other participant.
+</span><span style=color:#75715e>   */</span>
+  <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>sendAnswerSdp</span><span style=color:#f92672>(</span><span style=color:#66d9ef>final</span> SessionDescription sdp<span style=color:#f92672>);</span>
+
+  <span style=color:#75715e>/**
+</span><span style=color:#75715e>   * Send Ice candidate to the other participant.
+</span><span style=color:#75715e>   */</span>
+  <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>sendLocalIceCandidate</span><span style=color:#f92672>(</span><span style=color:#66d9ef>final</span> IceCandidate candidate<span style=color:#f92672>);</span>
+
+  <span style=color:#75715e>/**
+</span><span style=color:#75715e>   * Send removed ICE candidates to the other participant.
+</span><span style=color:#75715e>   */</span>
+  <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>sendLocalIceCandidateRemovals</span><span style=color:#f92672>(</span><span style=color:#66d9ef>final</span> IceCandidate<span style=color:#f92672>[]</span> candidates<span style=color:#f92672>);</span>
+
+  <span style=color:#75715e>/**
+</span><span style=color:#75715e>   * Disconnect from room.
+</span><span style=color:#75715e>   */</span>
+  <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>disconnectFromRoom</span><span style=color:#f92672>();</span>
+
+  <span style=color:#75715e>/**
+</span><span style=color:#75715e>   * Struct holding the signaling parameters of an AppRTC room.
+</span><span style=color:#75715e>   */</span>
+  <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>SignalingParameters</span> <span style=color:#f92672>{</span>
+    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>final</span> List<span style=color:#f92672>&lt;</span>PeerConnection<span style=color:#f92672>.</span><span style=color:#a6e22e>IceServer</span><span style=color:#f92672>&gt;</span> iceServers<span style=color:#f92672>;</span>
+    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>final</span> <span style=color:#66d9ef>boolean</span> initiator<span style=color:#f92672>;</span>
+    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>final</span> String clientId<span style=color:#f92672>;</span>
+    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>final</span> String wssUrl<span style=color:#f92672>;</span>
+    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>final</span> String wssPostUrl<span style=color:#f92672>;</span>
+    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>final</span> SessionDescription offerSdp<span style=color:#f92672>;</span>
+    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>final</span> List<span style=color:#f92672>&lt;</span>IceCandidate<span style=color:#f92672>&gt;</span> iceCandidates<span style=color:#f92672>;</span>
+
+    <span style=color:#66d9ef>public</span> <span style=color:#a6e22e>SignalingParameters</span><span style=color:#f92672>(</span>List<span style=color:#f92672>&lt;</span>PeerConnection<span style=color:#f92672>.</span><span style=color:#a6e22e>IceServer</span><span style=color:#f92672>&gt;</span> iceServers<span style=color:#f92672>,</span> <span style=color:#66d9ef>boolean</span> initiator<span style=color:#f92672>,</span>
+        String clientId<span style=color:#f92672>,</span> String wssUrl<span style=color:#f92672>,</span> String wssPostUrl<span style=color:#f92672>,</span> SessionDescription offerSdp<span style=color:#f92672>,</span>
+        List<span style=color:#f92672>&lt;</span>IceCandidate<span style=color:#f92672>&gt;</span> iceCandidates<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+      <span style=color:#66d9ef>this</span><span style=color:#f92672>.</span><span style=color:#a6e22e>iceServers</span> <span style=color:#f92672>=</span> iceServers<span style=color:#f92672>;</span>
+      <span style=color:#66d9ef>this</span><span style=color:#f92672>.</span><span style=color:#a6e22e>initiator</span> <span style=color:#f92672>=</span> initiator<span style=color:#f92672>;</span>
+      <span style=color:#66d9ef>this</span><span style=color:#f92672>.</span><span style=color:#a6e22e>clientId</span> <span style=color:#f92672>=</span> clientId<span style=color:#f92672>;</span>
+      <span style=color:#66d9ef>this</span><span style=color:#f92672>.</span><span style=color:#a6e22e>wssUrl</span> <span style=color:#f92672>=</span> wssUrl<span style=color:#f92672>;</span>
+      <span style=color:#66d9ef>this</span><span style=color:#f92672>.</span><span style=color:#a6e22e>wssPostUrl</span> <span style=color:#f92672>=</span> wssPostUrl<span style=color:#f92672>;</span>
+      <span style=color:#66d9ef>this</span><span style=color:#f92672>.</span><span style=color:#a6e22e>offerSdp</span> <span style=color:#f92672>=</span> offerSdp<span style=color:#f92672>;</span>
+      <span style=color:#66d9ef>this</span><span style=color:#f92672>.</span><span style=color:#a6e22e>iceCandidates</span> <span style=color:#f92672>=</span> iceCandidates<span style=color:#f92672>;</span>
+    <span style=color:#f92672>}</span>
+  <span style=color:#f92672>}</span>
+
+  <span style=color:#75715e>/**
+</span><span style=color:#75715e>   * Callback interface for messages delivered on signaling channel.
+</span><span style=color:#75715e>   *
+</span><span style=color:#75715e>   * &lt;p&gt;Methods are guaranteed to be invoked on the UI thread of |activity|.
+</span><span style=color:#75715e>   */</span>
+  <span style=color:#66d9ef>interface</span> <span style=color:#a6e22e>SignalingEvents</span> <span style=color:#f92672>{</span>
+    <span style=color:#75715e>/**
+</span><span style=color:#75715e>     * Callback fired once the room&#39;s signaling parameters
+</span><span style=color:#75715e>     * SignalingParameters are extracted.
+</span><span style=color:#75715e>     */</span>
+    <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>onConnectedToRoom</span><span style=color:#f92672>(</span><span style=color:#66d9ef>final</span> SignalingParameters params<span style=color:#f92672>);</span>
+
+    <span style=color:#75715e>/**
+</span><span style=color:#75715e>     * Callback fired once remote SDP is received.
+</span><span style=color:#75715e>     */</span>
+    <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>onRemoteDescription</span><span style=color:#f92672>(</span><span style=color:#66d9ef>final</span> SessionDescription sdp<span style=color:#f92672>);</span>
+
+    <span style=color:#75715e>/**
+</span><span style=color:#75715e>     * Callback fired once remote Ice candidate is received.
+</span><span style=color:#75715e>     */</span>
+    <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>onRemoteIceCandidate</span><span style=color:#f92672>(</span><span style=color:#66d9ef>final</span> IceCandidate candidate<span style=color:#f92672>);</span>
+
+    <span style=color:#75715e>/**
+</span><span style=color:#75715e>     * Callback fired once remote Ice candidate removals are received.
+</span><span style=color:#75715e>     */</span>
+    <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>onRemoteIceCandidatesRemoved</span><span style=color:#f92672>(</span><span style=color:#66d9ef>final</span> IceCandidate<span style=color:#f92672>[]</span> candidates<span style=color:#f92672>);</span>
+
+    <span style=color:#75715e>/**
+</span><span style=color:#75715e>     * Callback fired once channel is closed.
+</span><span style=color:#75715e>     */</span>
+    <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>onChannelClose</span><span style=color:#f92672>();</span>
+
+    <span style=color:#75715e>/**
+</span><span style=color:#75715e>     * Callback fired once channel error happened.
+</span><span style=color:#75715e>     */</span>
+    <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>onChannelError</span><span style=color:#f92672>(</span><span style=color:#66d9ef>final</span> String description<span style=color:#f92672>);</span>
+  <span style=color:#f92672>}</span>
+<span style=color:#f92672>}</span>
+</code></pre></div><p>主要就是定義了如何處理connect, disconnect, 還有怎麼去註冊SDP和ICE candidate, 在確定好連接成功後, AppRTCClient要負責呼叫onConnectedToRoom來通知
+CallActivity已經可以準備建立video call的後續流程, 且要負責處理如果Signal server(這邊是firebase)有傳來遠端的SDP跟ICE candidate, 要負責呼叫SignalingEvents對應的處理
+(這邊一樣會叫到CallActivity, 而CallActivity則會使用PeerConnectionClient來處理需要傳遞給PeerConnection相關的參數)</p><p>這邊用Firebase處理Signaling的方式是監聽某一個key的改變, 有新的裝置連接, 註冊SDP, ICE Candidate, 就寫到這下面去, 這其實不是一個很好的方式,
+因為這下面只要有值的改變, 就會觸發, 不像是WebSocket那個版本是一來一往的API calls, 而且你不知道每次觸發被更動的是哪一部分, 一開始發生了好幾次PeerConnection重複註冊SDP才讓我發現因為這原因被重複呼叫的問題</p><h3 id=turn-server->TURN server</h3><p>WebRTC是P2P的, 因此如果不具備穿牆能力的話, 在牆外就會被擋掉, 一開始我本來想說試驗P2P而不走TURN Server穿牆的(因為我一時也懶得架一台), 結果測試時老是連不上, 後來才發現我阿呆,
+我的測試環境是一台實體手機, 另一台是電腦上跑模擬器, 本以為兩個(手機, 電腦)是同一個區網沒問題, 後來才想到模擬器是在另一個虛擬網路, 因此還是有需要TURN server</p><p>如果不想架一台, 要怎辦? 用Google免錢的, 他們做了這個demo, 一定有! 因此就偷看了一下WebRTCClient的code跟傳輸內容,發現它跟https://networktraversal.googleapis.com/v1alpha/iceconfig?key=AIzaSyAJdh2HkajseEIltlZ3SIXO02Tze9sO3NY
+去要TURN server list, 所以基本上只要照copy下面這段就好:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>   <span style=color:#66d9ef>private</span> LinkedList<span style=color:#f92672>&lt;</span>PeerConnection<span style=color:#f92672>.</span><span style=color:#a6e22e>IceServer</span><span style=color:#f92672>&gt;</span> <span style=color:#a6e22e>requestTurnServers</span><span style=color:#f92672>(</span>String url<span style=color:#f92672>)</span>
+            <span style=color:#66d9ef>throws</span> IOException<span style=color:#f92672>,</span> JSONException <span style=color:#f92672>{</span>
+        LinkedList<span style=color:#f92672>&lt;</span>PeerConnection<span style=color:#f92672>.</span><span style=color:#a6e22e>IceServer</span><span style=color:#f92672>&gt;</span> turnServers <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> LinkedList<span style=color:#f92672>&lt;</span>PeerConnection<span style=color:#f92672>.</span><span style=color:#a6e22e>IceServer</span><span style=color:#f92672>&gt;();</span>
+        Log<span style=color:#f92672>.</span><span style=color:#a6e22e>d</span><span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;Request TURN from: &#34;</span> <span style=color:#f92672>+</span> url<span style=color:#f92672>);</span>
+        HttpURLConnection connection <span style=color:#f92672>=</span> <span style=color:#f92672>(</span>HttpURLConnection<span style=color:#f92672>)</span> <span style=color:#66d9ef>new</span> URL<span style=color:#f92672>(</span>url<span style=color:#f92672>).</span><span style=color:#a6e22e>openConnection</span><span style=color:#f92672>();</span>
+        connection<span style=color:#f92672>.</span><span style=color:#a6e22e>setDoOutput</span><span style=color:#f92672>(</span><span style=color:#66d9ef>true</span><span style=color:#f92672>);</span>
+        connection<span style=color:#f92672>.</span><span style=color:#a6e22e>setRequestProperty</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;REFERER&#34;</span><span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;https://appr.tc&#34;</span><span style=color:#f92672>);</span>
+        connection<span style=color:#f92672>.</span><span style=color:#a6e22e>setConnectTimeout</span><span style=color:#f92672>(</span>TURN_HTTP_TIMEOUT_MS<span style=color:#f92672>);</span>
+        connection<span style=color:#f92672>.</span><span style=color:#a6e22e>setReadTimeout</span><span style=color:#f92672>(</span>TURN_HTTP_TIMEOUT_MS<span style=color:#f92672>);</span>
+        <span style=color:#66d9ef>int</span> responseCode <span style=color:#f92672>=</span> connection<span style=color:#f92672>.</span><span style=color:#a6e22e>getResponseCode</span><span style=color:#f92672>();</span>
+        <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>responseCode <span style=color:#f92672>!=</span> 200<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+            <span style=color:#66d9ef>throw</span> <span style=color:#66d9ef>new</span> IOException<span style=color:#f92672>(</span><span style=color:#e6db74>&#34;Non-200 response when requesting TURN server from &#34;</span> <span style=color:#f92672>+</span> url <span style=color:#f92672>+</span> <span style=color:#e6db74>&#34; : &#34;</span>
+                    <span style=color:#f92672>+</span> connection<span style=color:#f92672>.</span><span style=color:#a6e22e>getHeaderField</span><span style=color:#f92672>(</span><span style=color:#66d9ef>null</span><span style=color:#f92672>));</span>
+        <span style=color:#f92672>}</span>
+        InputStream responseStream <span style=color:#f92672>=</span> connection<span style=color:#f92672>.</span><span style=color:#a6e22e>getInputStream</span><span style=color:#f92672>();</span>
+        String response <span style=color:#f92672>=</span> drainStream<span style=color:#f92672>(</span>responseStream<span style=color:#f92672>);</span>
+        connection<span style=color:#f92672>.</span><span style=color:#a6e22e>disconnect</span><span style=color:#f92672>();</span>
+        Log<span style=color:#f92672>.</span><span style=color:#a6e22e>d</span><span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;TURN response: &#34;</span> <span style=color:#f92672>+</span> response<span style=color:#f92672>);</span>
+        JSONObject responseJSON <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> JSONObject<span style=color:#f92672>(</span>response<span style=color:#f92672>);</span>
+        JSONArray iceServers <span style=color:#f92672>=</span> responseJSON<span style=color:#f92672>.</span><span style=color:#a6e22e>getJSONArray</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;iceServers&#34;</span><span style=color:#f92672>);</span>
+        <span style=color:#66d9ef>for</span> <span style=color:#f92672>(</span><span style=color:#66d9ef>int</span> i <span style=color:#f92672>=</span> 0<span style=color:#f92672>;</span> i <span style=color:#f92672>&lt;</span> iceServers<span style=color:#f92672>.</span><span style=color:#a6e22e>length</span><span style=color:#f92672>();</span> <span style=color:#f92672>++</span>i<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+            JSONObject server <span style=color:#f92672>=</span> iceServers<span style=color:#f92672>.</span><span style=color:#a6e22e>getJSONObject</span><span style=color:#f92672>(</span>i<span style=color:#f92672>);</span>
+            JSONArray turnUrls <span style=color:#f92672>=</span> server<span style=color:#f92672>.</span><span style=color:#a6e22e>getJSONArray</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;urls&#34;</span><span style=color:#f92672>);</span>
+            String username <span style=color:#f92672>=</span> server<span style=color:#f92672>.</span><span style=color:#a6e22e>has</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;username&#34;</span><span style=color:#f92672>)</span> <span style=color:#f92672>?</span> server<span style=color:#f92672>.</span><span style=color:#a6e22e>getString</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;username&#34;</span><span style=color:#f92672>)</span> <span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;&#34;</span><span style=color:#f92672>;</span>
+            String credential <span style=color:#f92672>=</span> server<span style=color:#f92672>.</span><span style=color:#a6e22e>has</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;credential&#34;</span><span style=color:#f92672>)</span> <span style=color:#f92672>?</span> server<span style=color:#f92672>.</span><span style=color:#a6e22e>getString</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;credential&#34;</span><span style=color:#f92672>)</span> <span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;&#34;</span><span style=color:#f92672>;</span>
+            <span style=color:#66d9ef>for</span> <span style=color:#f92672>(</span><span style=color:#66d9ef>int</span> j <span style=color:#f92672>=</span> 0<span style=color:#f92672>;</span> j <span style=color:#f92672>&lt;</span> turnUrls<span style=color:#f92672>.</span><span style=color:#a6e22e>length</span><span style=color:#f92672>();</span> j<span style=color:#f92672>++)</span> <span style=color:#f92672>{</span>
+                String turnUrl <span style=color:#f92672>=</span> turnUrls<span style=color:#f92672>.</span><span style=color:#a6e22e>getString</span><span style=color:#f92672>(</span>j<span style=color:#f92672>);</span>
+                turnServers<span style=color:#f92672>.</span><span style=color:#a6e22e>add</span><span style=color:#f92672>(</span><span style=color:#66d9ef>new</span> PeerConnection<span style=color:#f92672>.</span><span style=color:#a6e22e>IceServer</span><span style=color:#f92672>(</span>turnUrl<span style=color:#f92672>,</span> username<span style=color:#f92672>,</span> credential<span style=color:#f92672>));</span>
+            <span style=color:#f92672>}</span>
+        <span style=color:#f92672>}</span>
+        <span style=color:#66d9ef>return</span> turnServers<span style=color:#f92672>;</span>
+    <span style=color:#f92672>}</span>
+
+    <span style=color:#75715e>// Return the contents of an InputStream as a String.
+</span><span style=color:#75715e></span>    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>static</span> String <span style=color:#a6e22e>drainStream</span><span style=color:#f92672>(</span>InputStream in<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+        Scanner s <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> Scanner<span style=color:#f92672>(</span>in<span style=color:#f92672>).</span><span style=color:#a6e22e>useDelimiter</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;\\A&#34;</span><span style=color:#f92672>);</span>
+        <span style=color:#66d9ef>return</span> s<span style=color:#f92672>.</span><span style=color:#a6e22e>hasNext</span><span style=color:#f92672>()</span> <span style=color:#f92672>?</span> s<span style=color:#f92672>.</span><span style=color:#a6e22e>next</span><span style=color:#f92672>()</span> <span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;&#34;</span><span style=color:#f92672>;</span>
+    <span style=color:#f92672>}</span>
+</code></pre></div><p>把這邊拿來的list當ICE candidate, 就可以成功透過Google的TURN server去穿牆了(長久之計還是自己架一台吧)</p></div></article><article class=hentry><header><div class=entry-meta><span class="entry-date date published updated"><time datetime="2016-11-23 12:05:38 +0000 UTC"><a href=/Rate-limit-with-Go-and-Gin/>Nov 23, 2016</a></time></span>
+<span class=entry-reading-time><i class="fa fa-clock-o"></i>Reading time ~4 minutes</span></div><h1 class=entry-title><a href=/Rate-limit-with-Go-and-Gin/ rel=bookmark title="Rate limit with Go and Gin" itemprop=url>Rate limit with Go and Gin</a></h1></header><div class=entry-content><p>昨天趁等著去面試前稍微把這之前想要寫一下的這題目打包成一個<a href=https://github.com/gin-gonic/gin>Gin</a>的middleware :</p><ul><li><a href=https://github.com/julianshen/gin-limiter>Gin-limiter</a></li></ul><p>Rate limiting 通常在很多開放API的服務內會常看到, 像是<a href=https://dev.twitter.com/rest/public/rate-limiting>Twitter</a>,
+像是<a href=https://developers.facebook.com/docs/graph-api/advanced/rate-limiting>Facebook</a>或是<a href=http://open.weibo.com/wiki/Rate-limiting>新浪微博</a>,
+其目的就是希望API不要被特定節點頻繁存取以致於造成伺服器端的過載</p><h3 id=rate-limiter->rate limiter</h3><p>一般的Rate limiting的設計大致上來說就是限制某一個特定的節點(或使用者或API Key等等)在一段特定的時間內的存取次數,
+比如說, 限制一分鐘最多60次存取這樣的規則, 最直覺的方式我們是可以起一個timer和一個counter, counter大於60就限制存取, timer則每60秒重置counter一次,
+看似這樣就好了, 但其實這有漏洞, 假設我在第59秒時瞬間存取了60次, 第61秒又瞬間存取了60次, 在這設計上是合法的, 因為counter在第60秒時就被重置了,
+但實質上卻違反了一分鐘最多60次這限制, 因為他在兩秒內就存取了120次, 遠大於我們設計的限制, 當然我們也可以用Sliding time window來解決,
+但那個實作上就稍稍複雜點</p><p>目前兩個主流比較常見的做法是<a href=https://en.wikipedia.org/wiki/Token_bucket>Token Bucket</a>和<a href=https://en.wikipedia.org/wiki/Leaky_bucket>Leaky Bucket</a>,
+這兩個原理上大同小異</p><p>先來說說<a href=https://en.wikipedia.org/wiki/Token_bucket>Token Bucket</a>, 他的做法是, 假設你有個桶子, 裡面是拿來裝令牌(Token)的,
+桶子不是Doraemon的四次元口袋, 所以他空間是有限的, 令牌(Token)的作用在於, 要執行命令的人, 如果沒從桶子內摸到令牌, 就不准執行,
+然後我們一段時間內丟一些令牌進去, 如果桶子裡面已經裝滿就不丟, 以上個例子來說, 我們可以準備一個最多可以裝60個令牌的桶子, 每秒鐘丟一個進去,
+如果消耗速度大於每秒一個, 自然桶子很快就乾了, 就沒牌子拿了</p><p><a href=https://en.wikipedia.org/wiki/Leaky_bucket>Leaky Bucket</a>跟<a href=https://en.wikipedia.org/wiki/Token_bucket>Token Bucket</a>很像, 不過就是反過來,
+我們把每次的存取都當作一滴水滴入桶子中, 桶子滿了就會溢出(拒絕存取), 桶子底下打個洞, 讓水以固定速率流出去, 這樣一樣能達到類似的效果</p><p><img src=https://upload.wikimedia.org/wikipedia/commons/c/c4/Leaky_bucket_analogy.JPG alt="Leaky Bucket"></p><h3 id=go的rate-limiter實作->Go的rate limiter實作</h3><p>Go官方的package內其實是有rate limiter的實作的:</p><ul><li><a href=https://godoc.org/golang.org/x/time/rate>package rate</a></li></ul><p>照他的說法他是實作了<a href=https://en.wikipedia.org/wiki/Token_bucket>Token Bucket</a>, <a href=https://godoc.org/golang.org/x/time/rate#NewLimiter>創建一個Limiter</a>,
+要給的參數是<a href=https://godoc.org/golang.org/x/time/rate#Limit>Limit</a>和b, 這個Limit指的是每秒鐘丟多少Token進桶字(? 我不知道有沒理解錯),
+而b是桶子的大小</p><p>實際上去用了之後發現好像也不是那麼好用, 可能我理解有問題, 出現的並不是我想像的結果, 因此我換用了<a href=https://github.com/juju/ratelimit>Juju&rsquo;s ratelimit</a>,
+這個是在<a href=https://github.com/go-kit/kit>gokit</a>這邊看到它有用, 所以應該不會差到哪去, 一樣也是Token Bucket,給的參數就是多久餵一次牌子, 跟桶子的大小, 這就簡單用了一點</p><h3 id=包裝成gin-middleware->包裝成Gin middleware</h3><p>要套在web server上使用的話, 包裝成middleware是比較方便的, 因此我就花了點時間把<a href=https://github.com/juju/ratelimit>Juju&rsquo;s ratelimit</a>包裝成這個:</p><ul><li><a href=https://github.com/julianshen/gin-limiter>Gin-limiter</a></li></ul><p>使用範例如下:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go>    <span style=color:#75715e>//Allow only 10 requests per minute per API-Key
+</span><span style=color:#75715e></span>	<span style=color:#a6e22e>lm</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>limiter</span>.<span style=color:#a6e22e>NewRateLimiter</span>(<span style=color:#a6e22e>time</span>.<span style=color:#a6e22e>Minute</span>, <span style=color:#ae81ff>10</span>, <span style=color:#66d9ef>func</span>(<span style=color:#a6e22e>ctx</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>gin</span>.<span style=color:#a6e22e>Context</span>) (<span style=color:#66d9ef>string</span>, <span style=color:#66d9ef>error</span>) {
+		<span style=color:#a6e22e>key</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>ctx</span>.<span style=color:#a6e22e>Request</span>.<span style=color:#a6e22e>Header</span>.<span style=color:#a6e22e>Get</span>(<span style=color:#e6db74>&#34;X-API-KEY&#34;</span>)
+		<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>key</span> <span style=color:#f92672>!=</span> <span style=color:#e6db74>&#34;&#34;</span> {
+			<span style=color:#66d9ef>return</span> <span style=color:#a6e22e>key</span>, <span style=color:#66d9ef>nil</span>
+		}
+		<span style=color:#66d9ef>return</span> <span style=color:#e6db74>&#34;&#34;</span>, <span style=color:#a6e22e>errors</span>.<span style=color:#a6e22e>New</span>(<span style=color:#e6db74>&#34;API key is missing&#34;</span>)
+	})
+	<span style=color:#75715e>//Apply only to /ping
+</span><span style=color:#75715e></span>	<span style=color:#a6e22e>r</span>.<span style=color:#a6e22e>GET</span>(<span style=color:#e6db74>&#34;/ping&#34;</span>, <span style=color:#a6e22e>lm</span>.<span style=color:#a6e22e>Middleware</span>(), <span style=color:#66d9ef>func</span>(<span style=color:#a6e22e>c</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>gin</span>.<span style=color:#a6e22e>Context</span>) {
+		<span style=color:#a6e22e>c</span>.<span style=color:#a6e22e>JSON</span>(<span style=color:#ae81ff>200</span>, <span style=color:#a6e22e>gin</span>.<span style=color:#a6e22e>H</span>{
+			<span style=color:#e6db74>&#34;message&#34;</span>: <span style=color:#e6db74>&#34;pong&#34;</span>,
+		})
+	})
+
+	<span style=color:#75715e>//Allow only 5 requests per second per user
+</span><span style=color:#75715e></span>	<span style=color:#a6e22e>lm2</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>limiter</span>.<span style=color:#a6e22e>NewRateLimiter</span>(<span style=color:#a6e22e>time</span>.<span style=color:#a6e22e>Second</span>, <span style=color:#ae81ff>5</span>, <span style=color:#66d9ef>func</span>(<span style=color:#a6e22e>ctx</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>gin</span>.<span style=color:#a6e22e>Context</span>) (<span style=color:#66d9ef>string</span>, <span style=color:#66d9ef>error</span>) {
+		<span style=color:#a6e22e>key</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>ctx</span>.<span style=color:#a6e22e>Request</span>.<span style=color:#a6e22e>Header</span>.<span style=color:#a6e22e>Get</span>(<span style=color:#e6db74>&#34;X-USER-TOKEN&#34;</span>)
+		<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>key</span> <span style=color:#f92672>!=</span> <span style=color:#e6db74>&#34;&#34;</span> {
+			<span style=color:#66d9ef>return</span> <span style=color:#a6e22e>key</span>, <span style=color:#66d9ef>nil</span>
+		}
+		<span style=color:#66d9ef>return</span> <span style=color:#e6db74>&#34;&#34;</span>, <span style=color:#a6e22e>errors</span>.<span style=color:#a6e22e>New</span>(<span style=color:#e6db74>&#34;User is not authorized&#34;</span>)
+	})
+
+	<span style=color:#75715e>//Apply to a group
+</span><span style=color:#75715e></span>	<span style=color:#a6e22e>x</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>r</span>.<span style=color:#a6e22e>Group</span>(<span style=color:#e6db74>&#34;/v2&#34;</span>)
+	<span style=color:#a6e22e>x</span>.<span style=color:#a6e22e>Use</span>(<span style=color:#a6e22e>lm2</span>.<span style=color:#a6e22e>Middleware</span>())
+	{
+		<span style=color:#a6e22e>x</span>.<span style=color:#a6e22e>GET</span>(<span style=color:#e6db74>&#34;/ping&#34;</span>, <span style=color:#66d9ef>func</span>(<span style=color:#a6e22e>c</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>gin</span>.<span style=color:#a6e22e>Context</span>) {
+			<span style=color:#a6e22e>c</span>.<span style=color:#a6e22e>JSON</span>(<span style=color:#ae81ff>200</span>, <span style=color:#a6e22e>gin</span>.<span style=color:#a6e22e>H</span>{
+				<span style=color:#e6db74>&#34;message&#34;</span>: <span style=color:#e6db74>&#34;pong&#34;</span>,
+			})
+		})
+		<span style=color:#a6e22e>x</span>.<span style=color:#a6e22e>GET</span>(<span style=color:#e6db74>&#34;/another_ping&#34;</span>, <span style=color:#66d9ef>func</span>(<span style=color:#a6e22e>c</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>gin</span>.<span style=color:#a6e22e>Context</span>) {
+			<span style=color:#a6e22e>c</span>.<span style=color:#a6e22e>JSON</span>(<span style=color:#ae81ff>200</span>, <span style=color:#a6e22e>gin</span>.<span style=color:#a6e22e>H</span>{
+				<span style=color:#e6db74>&#34;message&#34;</span>: <span style=color:#e6db74>&#34;pong pong&#34;</span>,
+			})
+		})
+	}
+</code></pre></div><p>這邊本來想說為了簡單理解一點把參數設計成"每分鐘不能超過10次"這樣的描述, 然後後面再轉換成實際的fillInterval, 不過好像覺得怪怪的,
+有點不太符合Token Bucket的特質, 寫成middleware後的彈性就較大一點, 可以全部都用一個limiter或是分不同的資源不同限制都可</p><p>這邊建構時要傳入一個用來產生key的函數, 這是考慮到每個人想限制的依據不同, 例如根據API key, 或是session, 或是不同來源之類的, 由這函數去
+產生一個對應的key來找到limiter, 如果傳回error, 就是這個request不符合規則, 直接把他拒絕掉</p><h3 id=跨server的rate-limit->跨server的rate limit</h3><p>這方法只能針對單一server, 但現在通常都是多台server水平擴展, 因此也是會需要橫跨server的解決方案, 這部分的話, 用Redis來實作Token Bucket是可行的, 這等下次再來弄好了</p></div></article><article class=hentry><header><div class=entry-meta><span class="entry-date date published updated"><time datetime="2016-11-11 14:53:03 +0000 UTC"><a href=/%E7%94%A8Groupcache%E5%92%8Cetcd%E5%BB%BA%E7%BD%AEthumbnail%E6%9C%8D%E5%8B%99/>Nov 11, 2016</a></time></span>
+<span class=entry-reading-time><i class="fa fa-clock-o"></i>Reading time ~4 minutes</span></div><h1 class=entry-title><a href=/%E7%94%A8Groupcache%E5%92%8Cetcd%E5%BB%BA%E7%BD%AEthumbnail%E6%9C%8D%E5%8B%99/ rel=bookmark title=用Groupcache和etcd建置thumbnail服務 itemprop=url>用Groupcache和etcd建置thumbnail服務</a></h1></header><div class=entry-content><p>在之前工作的時候, 做了一個專門用來產生thumbnail(縮圖)的服務, 當時這東西主要的目的是為了因應<a href=http://www.zencircle.com>Zencircle</a>會有不同尺寸的縮圖的需求,
+而且每次client app改版又可能多新的尺寸, 因此當時寫了這個叫Minami的服務, 當時幾個簡單的需求是:</p><ol><li>要能夠被CDN所cache (因此URL設定上不採用query string,而是簡單的URL)</li><li>能夠容易被deploy</li><li>能夠的簡單的被擴展 (加一台新的instance就可以)</li><li>不需要太多額外的dependencies</li></ol><p>不過那時候寫的版本, 沒寫得很好, 這兩天花了點時間重寫了一個叫做<a href=https://github.com/julianshen/minami_t>Minami_t</a>(本來Minami這名字就是來自於Minami Takahashi, 所以加個"t&rdquo; XD),
+新的這個重寫的版本採一樣的架構(使用了<a href=https://github.com/golang/groupcache>groupcache</a>), 但多加了Peer discovery的功能(使用<a href=https://github.com/coreos/etcd>etcd</a>), 但少了
+臉部辨識跟色情照片偵測功能(原本在前公司的版本有, 新寫的這個我懶得加了)</p><p>我把這次重寫的版本放到github上: <a href=https://github.com/julianshen/minami_t>Minami_t</a></p><p>不過這算是一個sample project, 影像來源來自於Imgur, 如何使用或如何改成支援自己的Image host, 那就自行看source code吧, 這版本縮圖的部分用了我改過的<a href=https://github.com/julianshen/vips>VIPS</a>,
+當然原來版本的VIPS也是可用, 這版本只是我當初為了支援Face crop所改出來的</p><h3 id=groupcache->Groupcache</h3><p>先來說說為什麼採用<a href=https://github.com/golang/groupcache>groupcache</a>? 我不是很確定當時為何會看到<a href=https://github.com/golang/groupcache>groupcache</a>這來, 但後來想想, 採用它的原因可能是看到<a href=https://talks.golang.org/2013/oscon-dl.slide#43>這份投影片</a>,
+它是memchached的作者寫來用在dl.google.com上面的, 架構上剛好也適合thumbnail service, 可能剛好投影片又提到thumbnail(我腦波也太弱了吧), 所以當初採用它來實作這個service</p><p>架構上會像是這樣:</p><p><img src=/images/posts/minami1.001.jpeg alt></p><p>Groupcache有幾個特色</p><ol><li>Embedded, 不像memcached, redis需要額外的server, 它是嵌入在你原本的程式內的</li><li>Shared, Cache是可以所有Peer共享的, 資料未必放在某特定的Peer上, 有可能在本機, 也可能在另一台, 當然如果剛好在本機時就會快一點</li><li>LRU, Cache總量有上限限制的, 過久沒使用的資料有可能會被移出記憶體</li><li>Immutable, key所對應的值不像memcached, redis可以修改, 而是當cache miss時, 他會再透過你實作的getter去抓真正的資料</li></ol><p>要讓Groupcache可以在不同node間共享cache, 就必須開啟HTTPPool, 像下面</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-golang data-lang=golang>	<span style=color:#a6e22e>ln</span>, <span style=color:#a6e22e>err</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>net</span>.<span style=color:#a6e22e>Listen</span>(<span style=color:#e6db74>&#34;tcp&#34;</span>, <span style=color:#a6e22e>fmt</span>.<span style=color:#a6e22e>Sprintf</span>(<span style=color:#e6db74>&#34;:%d&#34;</span>, <span style=color:#a6e22e>port</span>))
+	<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>err</span> <span style=color:#f92672>!=</span> <span style=color:#66d9ef>nil</span> {
+		<span style=color:#66d9ef>return</span> <span style=color:#66d9ef>nil</span>, <span style=color:#a6e22e>err</span>
+	}
+
+	<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>port</span> <span style=color:#f92672>==</span> <span style=color:#ae81ff>0</span> {
+		<span style=color:#a6e22e>port</span> = <span style=color:#a6e22e>ln</span>.<span style=color:#a6e22e>Addr</span>().(<span style=color:#f92672>*</span><span style=color:#a6e22e>net</span>.<span style=color:#a6e22e>TCPAddr</span>).<span style=color:#a6e22e>Port</span>
+	}
+
+	<span style=color:#a6e22e>_url</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>fmt</span>.<span style=color:#a6e22e>Sprintf</span>(<span style=color:#e6db74>&#34;http://%s:%d&#34;</span>, <span style=color:#a6e22e>ip</span>, <span style=color:#a6e22e>port</span>)
+	<span style=color:#a6e22e>pool</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>groupcache</span>.<span style=color:#a6e22e>NewHTTPPool</span>(<span style=color:#a6e22e>_url</span>)
+
+	<span style=color:#66d9ef>go</span> <span style=color:#66d9ef>func</span>() {
+		<span style=color:#a6e22e>log</span>.<span style=color:#a6e22e>Printf</span>(<span style=color:#e6db74>&#34;Group cache served at port %s:%d\n&#34;</span>, <span style=color:#a6e22e>ip</span>, <span style=color:#a6e22e>port</span>)
+		<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>err</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>http</span>.<span style=color:#a6e22e>Serve</span>(<span style=color:#a6e22e>ln</span>, <span style=color:#a6e22e>http</span>.<span style=color:#a6e22e>HandlerFunc</span>(<span style=color:#a6e22e>pool</span>.<span style=color:#a6e22e>ServeHTTP</span>)); <span style=color:#a6e22e>err</span> <span style=color:#f92672>!=</span> <span style=color:#66d9ef>nil</span> {
+			<span style=color:#a6e22e>log</span>.<span style=color:#a6e22e>Printf</span>(<span style=color:#e6db74>&#34;GROUPCACHE PORT %d, ERROR: %s\n&#34;</span>, <span style=color:#a6e22e>port</span>, <span style=color:#a6e22e>err</span>.<span style=color:#a6e22e>Error</span>())
+			<span style=color:#a6e22e>os</span>.<span style=color:#a6e22e>Exit</span>(<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>)
+		}
+	}()
+</code></pre></div><p>Groupcache 的getter範例:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-golang data-lang=golang><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>getter</span>(<span style=color:#a6e22e>ctx</span> <span style=color:#a6e22e>groupcache</span>.<span style=color:#a6e22e>Context</span>, <span style=color:#a6e22e>key</span> <span style=color:#66d9ef>string</span>, <span style=color:#a6e22e>dest</span> <span style=color:#a6e22e>groupcache</span>.<span style=color:#a6e22e>Sink</span>) <span style=color:#66d9ef>error</span> {
+	<span style=color:#a6e22e>log</span>.<span style=color:#a6e22e>Println</span>(<span style=color:#e6db74>&#34;Cache missed for &#34;</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>key</span>)
+
+	<span style=color:#a6e22e>params</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>strings</span>.<span style=color:#a6e22e>Split</span>(<span style=color:#a6e22e>key</span>, <span style=color:#e6db74>&#34;:&#34;</span>)
+
+	<span style=color:#66d9ef>if</span> len(<span style=color:#a6e22e>params</span>) <span style=color:#f92672>!=</span> <span style=color:#ae81ff>3</span> {
+		<span style=color:#66d9ef>return</span> <span style=color:#a6e22e>ErrWrongKey</span>
+	}
+
+	<span style=color:#a6e22e>d</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>ctx</span>.(<span style=color:#f92672>*</span><span style=color:#a6e22e>Downloader</span>)
+	<span style=color:#a6e22e>fileName</span>, <span style=color:#a6e22e>err</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>d</span>.<span style=color:#a6e22e>Download</span>(<span style=color:#e6db74>&#34;http://i.imgur.com/&#34;</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>params</span>[<span style=color:#ae81ff>2</span>])
+
+	<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>err</span> <span style=color:#f92672>!=</span> <span style=color:#66d9ef>nil</span> {
+		<span style=color:#66d9ef>return</span> <span style=color:#a6e22e>err</span>
+	}
+
+	<span style=color:#75715e>//Should assume correct since it is checked at where it is from
+</span><span style=color:#75715e></span>	<span style=color:#a6e22e>width</span>, <span style=color:#a6e22e>_</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>strconv</span>.<span style=color:#a6e22e>Atoi</span>(<span style=color:#a6e22e>params</span>[<span style=color:#ae81ff>0</span>])
+	<span style=color:#a6e22e>height</span>, <span style=color:#a6e22e>_</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>strconv</span>.<span style=color:#a6e22e>Atoi</span>(<span style=color:#a6e22e>params</span>[<span style=color:#ae81ff>1</span>])
+
+	<span style=color:#a6e22e>data</span>, <span style=color:#a6e22e>err</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>resize</span>(<span style=color:#a6e22e>fileName</span>, <span style=color:#a6e22e>width</span>, <span style=color:#a6e22e>height</span>)
+
+	<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>err</span> <span style=color:#f92672>!=</span> <span style=color:#66d9ef>nil</span> {
+		<span style=color:#66d9ef>return</span> <span style=color:#a6e22e>err</span>
+	}
+
+	<span style=color:#a6e22e>dest</span>.<span style=color:#a6e22e>SetBytes</span>(<span style=color:#a6e22e>data</span>)
+	<span style=color:#66d9ef>return</span> <span style=color:#66d9ef>nil</span>
+}
+</code></pre></div><h3 id=etcd->etcd</h3><p>我之前寫的版本有個問題是, 沒有自動的peer discovery的功能, 所以必須手動加peer, 這版本把etcd導入, etcd已經是coreos的核心之一了, 簡單, 又蠻好用的,
+不過選它也是它直接有Go的client了</p><p>Peer discovery的部分, 參考了<a href=https://github.com/go-kit/kit>Go kit</a>的<a href=https://github.com/go-kit/kit/tree/master/sd/etcd>etcd實作</a>,
+<a href=https://github.com/go-kit/kit>Go kit</a>是一個蠻好的Go的微服務框架, 它裡面也有實作用etcd做service discovery, 這一部分正好是這邊需要的, 因此
+參考並寫出了這邊這個版本</p><p>重點是要能夠在有新server加入後就新增到peer list去, 有server離開後要拿掉, 因此必須利用到etcd的watch功能</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-golang data-lang=golang><span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>s</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>ServiceRegistry</span>) <span style=color:#a6e22e>Watch</span>(<span style=color:#a6e22e>watcher</span> <span style=color:#a6e22e>Watcher</span>) {
+	<span style=color:#a6e22e>key</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>fmt</span>.<span style=color:#a6e22e>Sprintf</span>(<span style=color:#e6db74>&#34;/%s/nodes&#34;</span>, <span style=color:#a6e22e>s</span>.<span style=color:#a6e22e>name</span>)
+	<span style=color:#a6e22e>log</span>.<span style=color:#a6e22e>Println</span>(<span style=color:#e6db74>&#34;watch &#34;</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>key</span>)
+	<span style=color:#a6e22e>w</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>s</span>.<span style=color:#a6e22e>etcd_client</span>.<span style=color:#a6e22e>Watcher</span>(<span style=color:#a6e22e>key</span>, <span style=color:#f92672>&amp;</span><span style=color:#a6e22e>etcd</span>.<span style=color:#a6e22e>WatcherOptions</span>{<span style=color:#a6e22e>AfterIndex</span>: <span style=color:#ae81ff>0</span>, <span style=color:#a6e22e>Recursive</span>: <span style=color:#66d9ef>true</span>})
+
+	<span style=color:#66d9ef>var</span> <span style=color:#a6e22e>retryInterval</span> <span style=color:#a6e22e>time</span>.<span style=color:#a6e22e>Duration</span> = <span style=color:#ae81ff>1</span>
+
+	<span style=color:#66d9ef>for</span> {
+		<span style=color:#a6e22e>_</span>, <span style=color:#a6e22e>err</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>w</span>.<span style=color:#a6e22e>Next</span>(<span style=color:#a6e22e>s</span>.<span style=color:#a6e22e>ctx</span>)
+
+		<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>err</span> <span style=color:#f92672>!=</span> <span style=color:#66d9ef>nil</span> {
+			<span style=color:#a6e22e>log</span>.<span style=color:#a6e22e>Printf</span>(<span style=color:#e6db74>&#34;Failed to connect to etcd. Will retry after %d sec \n&#34;</span>, <span style=color:#a6e22e>retryInterval</span>)
+			<span style=color:#a6e22e>time</span>.<span style=color:#a6e22e>Sleep</span>(<span style=color:#a6e22e>retryInterval</span> <span style=color:#f92672>*</span> <span style=color:#a6e22e>time</span>.<span style=color:#a6e22e>Second</span>)
+
+			<span style=color:#a6e22e>retryInterval</span> = (<span style=color:#a6e22e>retryInterval</span> <span style=color:#f92672>*</span> <span style=color:#ae81ff>2</span>) <span style=color:#f92672>%</span> <span style=color:#ae81ff>4096</span>
+		} <span style=color:#66d9ef>else</span> {
+			<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>retryInterval</span> &gt; <span style=color:#ae81ff>1</span> {
+				<span style=color:#a6e22e>retryInterval</span> = <span style=color:#ae81ff>1</span>
+			}
+
+			<span style=color:#a6e22e>list</span>, <span style=color:#a6e22e>err</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>s</span>.<span style=color:#a6e22e>GetNodes</span>()
+			<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>err</span> <span style=color:#f92672>==</span> <span style=color:#66d9ef>nil</span> {
+				<span style=color:#a6e22e>watcher</span>(<span style=color:#a6e22e>list</span>)
+			} <span style=color:#66d9ef>else</span> {
+				<span style=color:#75715e>//skip first
+</span><span style=color:#75715e></span>			}
+		}
+	}
+}
+</code></pre></div><p>Watch可以用來監測某一個key有無改變, 因此我們只要一直監測server node的list就好(指定一個key來放), 因此流程是這樣的:</p><ol><li>Server開啟後, 自己到etcd註冊自己, 並把etcd上找到的nodes全加到peer list中</li><li>另一台由etcd發現有另一台出現後, 把它加到peer list中</li><li>Server下線後, 要移除自己的註冊, 其他機器要從peer list把它移除</li></ol><p>問題點在最後一點, Server下線有可能是被kill的, 也有可能按ctrl-c中斷的, 這時候就要監聽os的signal,
+在程式被結束前, 可以先去移除註冊, 像這樣:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-golang data-lang=golang><span style=color:#75715e>//Listening to exit signals for graceful leave
+</span><span style=color:#75715e></span><span style=color:#66d9ef>go</span> <span style=color:#66d9ef>func</span>() {
+	<span style=color:#a6e22e>c</span> <span style=color:#f92672>:=</span> make(<span style=color:#66d9ef>chan</span> <span style=color:#a6e22e>os</span>.<span style=color:#a6e22e>Signal</span>, <span style=color:#ae81ff>1</span>)
+	<span style=color:#a6e22e>signal</span>.<span style=color:#a6e22e>Notify</span>(<span style=color:#a6e22e>c</span>, <span style=color:#a6e22e>os</span>.<span style=color:#a6e22e>Interrupt</span>, <span style=color:#a6e22e>syscall</span>.<span style=color:#a6e22e>SIGINT</span>, <span style=color:#a6e22e>syscall</span>.<span style=color:#a6e22e>SIGTERM</span>)
+	<span style=color:#f92672>&lt;-</span><span style=color:#a6e22e>c</span>
+	<span style=color:#a6e22e>log</span>.<span style=color:#a6e22e>Println</span>(<span style=color:#e6db74>&#34;I&#39;m leaving&#34;</span>)
+	<span style=color:#a6e22e>cm</span>.<span style=color:#a6e22e>Leave</span>()
+	<span style=color:#a6e22e>os</span>.<span style=color:#a6e22e>Exit</span>(<span style=color:#ae81ff>0</span>)
+}()
+</code></pre></div><p>這只是一個sample而已, 還有一些待改進的</p></div></article><article class=hentry><header><div class=entry-meta><span class="entry-date date published updated"><time datetime="2016-11-04 15:11:58 +0000 UTC"><a href=/ES6-Generators/>Nov 4, 2016</a></time></span>
+<span class=entry-reading-time><i class="fa fa-clock-o"></i>Reading time ~2 minutes</span></div><h1 class=entry-title><a href=/ES6-Generators/ rel=bookmark title="[ES6] Generators" itemprop=url>[ES6] Generators</a></h1></header><div class=entry-content><p>這個語法蠻有趣的, 早上一直都在看這個想能拿來幹嘛? 結果早上有個phone interview就有點腦袋小小的轉不過來,
+不過這不是重點, 先簡單的來講一下<a href=https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Statements/function*>Generators</a></p><p>產生器? 顧名思義或許是這樣, 可以先看一下MDN上的<a href=https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Statements/function*>文件</a>,
+這是一個從ES6開始才有的功能, 因此要在比較新的瀏覽器, 或是nodejs 6之後才有支援, 先來看看MDN上那個簡單的例子:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=color:#66d9ef>function</span><span style=color:#f92672>*</span> <span style=color:#a6e22e>idMaker</span>(){
+  <span style=color:#66d9ef>var</span> <span style=color:#a6e22e>index</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>;
+  <span style=color:#66d9ef>while</span>(<span style=color:#a6e22e>index</span> <span style=color:#f92672>&lt;</span> <span style=color:#ae81ff>3</span>)
+    <span style=color:#66d9ef>yield</span> <span style=color:#a6e22e>index</span><span style=color:#f92672>++</span>;
+}
+
+<span style=color:#66d9ef>var</span> <span style=color:#a6e22e>gen</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>idMaker</span>();
+
+<span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>log</span>(<span style=color:#a6e22e>gen</span>.<span style=color:#a6e22e>next</span>().<span style=color:#a6e22e>value</span>); <span style=color:#75715e>// 0
+</span><span style=color:#75715e></span><span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>log</span>(<span style=color:#a6e22e>gen</span>.<span style=color:#a6e22e>next</span>().<span style=color:#a6e22e>value</span>); <span style=color:#75715e>// 1
+</span><span style=color:#75715e></span><span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>log</span>(<span style=color:#a6e22e>gen</span>.<span style=color:#a6e22e>next</span>().<span style=color:#a6e22e>value</span>); <span style=color:#75715e>// 2
+</span><span style=color:#75715e></span><span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>log</span>(<span style=color:#a6e22e>gen</span>.<span style=color:#a6e22e>next</span>().<span style=color:#a6e22e>value</span>); <span style=color:#75715e>// undefined
+</span></code></pre></div><p>一個generator是以"function*&ldquo;宣告的, 可以說它是一種特別的function, 跟一般的function一次跑到結束不同,
+它是可以中途暫停的, 以上面這例子來說, 如果習慣傳統的寫法, 可能會有點小暈, while loop在idMaker裡面不是一次做到完嗎?
+剛剛說generator是可被中途暫停的, 因此, 在第一輪的時候會先停在"yield"處, 當你呼叫next()才會到下一個yield位置停下來並回傳,
+我的感覺是比較像一種有帶state的function之類的</p><p>有什麼用途? 從上面的例子, 當然最直覺想到的是ID產生器或是計數器之類的東西, 網路上應該可以找到一些不同的用法, 比如說搭配Promise, 有興趣可以自己找找,
+是不只可以用在產生器, 拿我早上interview被問到的實作strstr, 不是很難的東西, 我原本拿go寫,出了點小槌, 而且也只能找第一個發生的字串, 後來用generator改了這版本:</p><script type=application/javascript src=https://gist.github.com/julianshen/6c06ccfa0942829ea24973778a96ab64.js></script><p>以這個來說, 第一次呼叫會找出第一個發生的點, 可以持續呼叫到所有的都找出來為止, generator是可以被iterate的, 因此這邊可以用</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=color:#66d9ef>for</span>(<span style=color:#66d9ef>var</span> <span style=color:#a6e22e>i</span> <span style=color:#66d9ef>of</span> <span style=color:#a6e22e>gen</span>) {
+    <span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>log</span>(<span style=color:#a6e22e>i</span>);
+}
+</code></pre></div><p>不需要一直call next(), next()回傳回來的會是{value:&mldr;, done:&mldr;}, 因此可以看done知道是否已經結束</p><p>下面這範例則是一個質數產生器, 一直call next就可以產生下一個質數:</p><script type=application/javascript src=https://gist.github.com/julianshen/0c283f6f76abf258f9c0d4292a1e14f9.js></script></div></article><div class=pagination><ul class=inline-list><li><a href=/page/4/ class=btn>Previous</a></li><li><a href=/>1</a></li><li><a href=/page/2/>2</a></li><li><a href=/page/3/>3</a></li><li><a href=/page/4/>4</a></li><li><strong class=current-page>5</strong></li><li><a href=/page/6/>6</a></li><li><a href=/page/7/>7</a></li><li><a href=/page/8/>8</a></li><li><a href=/page/9/>9</a></li><li><a href=/page/10/>10</a></li><li><a href=/page/11/>11</a></li><li><a href=/page/12/>12</a></li><li><a href=/page/13/>13</a></li><li><a href=/page/14/>14</a></li><li><a href=/page/15/>15</a></li><li><a href=/page/16/>16</a></li><li><a href=/page/17/>17</a></li><li><a href=/page/18/>18</a></li><li><a href=/page/19/>19</a></li><li><a href=/page/20/>20</a></li><li><a href=/page/21/>21</a></li><li><a href=/page/22/>22</a></li><li><a href=/page/23/>23</a></li><li><a href=/page/24/>24</a></li><li><a href=/page/25/>25</a></li><li><a href=/page/26/>26</a></li><li><a href=/page/27/>27</a></li><li><a href=/page/28/>28</a></li><li><a href=/page/29/>29</a></li><li><a href=/page/30/>30</a></li><li><a href=/page/31/>31</a></li><li><a href=/page/32/>32</a></li><li><a href=/page/33/>33</a></li><li><a href=/page/34/>34</a></li><li><a href=/page/35/>35</a></li><li><a href=/page/36/>36</a></li><li><a href=/page/37/>37</a></li><li><a href=/page/38/>38</a></li><li><a href=/page/39/>39</a></li><li><a href=/page/40/>40</a></li><li><a href=/page/41/>41</a></li><li><a href=/page/42/>42</a></li><li><a href=/page/43/>43</a></li><li><a href=/page/44/>44</a></li><li><a href=/page/45/>45</a></li><li><a href=/page/46/>46</a></li><li><a href=/page/47/>47</a></li><li><a href=/page/48/>48</a></li><li><a href=/page/49/>49</a></li><li><a href=/page/50/>50</a></li><li><a href=/page/51/>51</a></li><li><a href=/page/52/>52</a></li><li><a href=/page/53/>53</a></li><li><a href=/page/54/>54</a></li><li><a href=/page/55/>55</a></li><li><a href=/page/56/>56</a></li><li><a href=/page/57/>57</a></li><li><a href=/page/58/>58</a></li><li><a href=/page/59/>59</a></li><li><a href=/page/60/>60</a></li><li><a href=/page/61/>61</a></li><li><a href=/page/62/>62</a></li><li><a href=/page/63/>63</a></li><li><a href=/page/64/>64</a></li><li><a href=/page/65/>65</a></li><li><a href=/page/66/>66</a></li><li><a href=/page/67/>67</a></li><li><a href=/page/68/>68</a></li><li><a href=/page/69/>69</a></li><li><a href=/page/70/>70</a></li><li><a href=/page/71/>71</a></li><li><a href=/page/6/ class=btn>Next</a></li></ul></div></div><div class=footer-wrapper><footer role=contentinfo><span>Powered by <a href=https://gohugo.io/ rel=nofollow>Hugo</a> using the <a href=https://github.com/dldx/hpstr-hugo-theme rel=nofollow>HPSTR theme</a>.</span></footer></div><script src=//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js></script><script src=https://kit.fontawesome.com/872a53b461.js crossorigin=anonymous></script><script>window.jQuery||document.write('<script src="\/js\/vendor\/jquery-1.9.1.min.js"><\/script>')</script><script src=/js/scripts.min.js></script><script type=application/javascript>var doNotTrack=false;if(!doNotTrack){(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');ga('create','UA-79243751-1','auto');ga('send','pageview');}</script><div id=fb-root></div><script async defer crossorigin=anonymous src="https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v7.0&appId=293999444006555&autoLogAppEvents=1" nonce=geZSUIUh></script></body></html>

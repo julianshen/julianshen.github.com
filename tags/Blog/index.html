@@ -1,0 +1,105 @@
+<!doctype html><!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=en><![endif]--><!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang=en><![endif]--><!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang=en><![endif]--><!--[if gt IE 8]><!--><html class=no-js lang=en><!--<![endif]--><head><meta charset=utf-8><title>Blog &#8211; Le murmure de Julian</title><meta name=description content><meta property="og:title" content="Blog"><meta property="og:description" content><meta property="og:type" content="website"><meta property="og:url" content="http://blog.jln.co/tags/Blog/"><meta property="og:image" content="http://blog.jln.co/images/avatar.png"><meta property="og:updated_time" content="2016-08-31T16:33:15+00:00"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="http://blog.jln.co/images/avatar.png"><meta name=twitter:title content="Blog"><meta name=twitter:description content><link rel=canonical href=http://blog.jln.co/tags/Blog/><link href=http://blog.jln.co/tags/Blog/feed.xml rel=alternate type=application/rss+xml title="Le murmure de Julian"><link href=http://blog.jln.co/tags/Blog/feed.xml rel=feed type=application/rss+xml title="Le murmure de Julian"><meta name=HandheldFriendly content="True"><meta name=MobileOptimized content="320"><meta name=viewport content="width=device-width,initial-scale=1"><link rel=stylesheet href=/css/main.css><link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel=stylesheet type=text/css><meta http-equiv=cleartype content="on"><meta name=generator content="Hugo 0.73.0"><script src=/js/vendor/modernizr-2.6.2.custom.min.js></script><script async src=https://unpkg.com/mermaid@8.2.3/dist/mermaid.min.js></script><link rel="shortcut icon" href=/favicon.png></head><body id=post-index><nav id=dl-menu class=dl-menuwrapper role=navigation style=display:inline-block><button class=dl-trigger>Open Menu</button><ul class=dl-menu><li><a href=/>Home</a></li><li><a href=#>About</a><ul class=dl-submenu><li><img src=/images/avatar.png alt="Julian Shen's photo" class=author-photo><h4>Julian Shen</h4><p>Softward developer</p></li><li><a href=mailto:julianshen22@gmail.com><i class="fa fa-fw fa-envelope"></i>Email</a></li><li><a href=https://linkedin.com/in/julianshen><i class="fa fa-fw fa-linkedin"></i>LinkedIn</a></li><li><a href=https://github.com/julianshen><i class="fa fa-fw fa-github"></i>GitHub</a></li><li><a href=https://instagram.com/julianshen><i class="fa fa-fw fa-instagram"></i>Instagram</a></li></ul></li><li><a href=#>Posts</a><ul class=dl-submenu><li><a href=/post/>All Posts</a></li><li><a href=/tags/>All Tags</a></li></ul></li><li><a href=/></a></li></ul></nav><div class=entry-header><div class=header-title><div class=header-title-wrap><h1><a href=/ title="Go to the homepage">Le murmure de Julian</a></h1><h2>Blog</h2></div></div></div><div id=main role=main><article class=hentry><header><div class=entry-meta><span class="entry-date date published updated"><time datetime="2016-08-31 16:33:15 +0000 UTC"><a href=/Blog-%E6%9B%BFJekyll%E7%9A%84markdown%E5%8A%A0%E4%B8%8A%E7%B0%A1%E6%98%93%E6%B5%81%E7%A8%8B%E5%9C%96%E5%8A%9F%E8%83%BD/>Aug 31, 2016</a></time></span>
+<span class=entry-reading-time><i class="fa fa-clock-o"></i>Reading time ~1 minute</span></div><h1 class=entry-title><a href=/Blog-%E6%9B%BFJekyll%E7%9A%84markdown%E5%8A%A0%E4%B8%8A%E7%B0%A1%E6%98%93%E6%B5%81%E7%A8%8B%E5%9C%96%E5%8A%9F%E8%83%BD/ rel=bookmark title="[Blog] 替Jekyll的markdown加上簡易流程圖功能" itemprop=url>[Blog] 替Jekyll的markdown加上簡易流程圖功能</a></h1></header><div class=entry-content><p>對一個developer的blog來說, 流程圖似乎是蠻需要的, 比較能夠清楚來解釋一些東西, 但每個東西都轉圖檔還蠻麻煩的, 下面介紹一個有用的Jekyll plugin, 可以做到像下面這樣的效果:</p><p><strong>第一例</strong></p><div class=mermaid>graph TD;
+A-->B;
+A-->C;
+B-->D;
+C-->D;</div><p><strong>第二例</strong></p><div class=mermaid>sequenceDiagram
+participant John
+participant Alice
+Alice->>John: Hello John, how are you?
+John-->>Alice: Great!</div><p>這是利用一個叫做<a href=https://github.com/jasonbellamy/jekyll-mermaid>Jekyll-mermaid</a> 來達成的</p><p>而這plugin其實也沒做很多事, 它是包裝了<a href=https://github.com/knsv/mermaid>mermaid</a>這個工具, 而mermaid這工具他是利用了<a href=https://d3js.org>ds.js</a>來讓你用很簡單的方式來繪製流程, 以上面兩個例子為例</p><p><strong>第一例</strong></p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-markdown data-lang=markdown>graph TD;
+    A--&gt;B;
+    A--&gt;C;
+    B--&gt;D;
+    C--&gt;D;
+</code></pre></div><p><strong>第二例</strong></p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-markdown data-lang=markdown>sequenceDiagram
+    participant John
+    participant Alice
+    Alice-&gt;&gt;John: Hello John, how are you?
+    John--&gt;&gt;Alice: Great!
+</code></pre></div><p>所以你在markdown裡面只要加上</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-markdown data-lang=markdown>{ % mermaid % }
+sequenceDiagram
+    participant John
+    participant Alice
+    Alice-&gt;&gt;John: Hello John, how are you?
+    John--&gt;&gt;Alice: Great!
+{ % endmermaid % }
+</code></pre></div><p>他就會幫你render出相關的流程了</p><h4 id=安裝方法->安裝方法</h4><p>這邊以我自己blog的安裝方法來說明</p><ol><li>把jekyll-mermaid.rb放到_plugins目錄去</li><li>在_config.yml加上 (這邊以6.0.0的mermaid為例):</li></ol><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-markdown data-lang=markdown>mermaid:
+  src: &#39;https://cdn.rawgit.com/knsv/mermaid/6.0.0/dist/mermaid.js&#39;
+</code></pre></div><ol><li>還要在head.html加上css (要配合版面顏色), 可以用這個 : <a href=https://cdn.rawgit.com/knsv/mermaid/6.0.0/dist/mermaid.css>https://cdn.rawgit.com/knsv/mermaid/6.0.0/dist/mermaid.css</a></li></ol></div></article><article class=hentry><header><div class=entry-meta><span class="entry-date date published updated"><time datetime="2016-06-16 20:37:58 +0000 UTC"><a href=/%E5%8F%88%E5%86%8D%E6%8A%8ABlog%E6%90%AC%E5%AE%B6%E4%BA%86/>Jun 16, 2016</a></time></span>
+<span class=entry-reading-time><i class="fa fa-clock-o"></i>Reading time ~7 minutes</span></div><h1 class=entry-title><a href=/%E5%8F%88%E5%86%8D%E6%8A%8ABlog%E6%90%AC%E5%AE%B6%E4%BA%86/ rel=bookmark title=又再把Blog搬家了 itemprop=url>又再把Blog搬家了</a></h1></header><div class=entry-content><p>一直把Blog當作紀錄一些事情用的地方, 想法, 或是學習過的一些東西, 雖然不是很頻繁的在寫, 不過也寫了好幾年了, 從以前到現在, 換過好幾次平台, 從自己架的wordpress, 到posterous, blogger, 一直到現在用的Tumblr, 這中間最喜歡的還是posterous, 不過它已經不存在了, 而Tumblr也用了好一陣子了, 雖然加減湊合著用好像還OK, 不過編輯上也一直不是那麼順手, 尤其是貼source code, 因此也一直想把它換掉</p><p>那 <strong>medium</strong> 呢? medium我還沒很有動力去搞懂它, 會在上面看一些文章沒錯, 但把Blog移到上面去, 好像也沒啥動力</p><p>考慮了好一陣子, 不過最後還是把整個Blog遷移了, 反正現在有一個自己的domain (<em>blog.jln.co</em>), 搬家不用改地址!</p><p>遷移之前, 想了幾個我的需求:</p><h4 id=需求>需求</h4><ol><li>有方便的編輯器可以用, 最好可以支援mark down, 打html有點麻煩, WYSIWYG編輯器通常效率也不高</li><li>貼code好貼, 也方便閱讀</li><li>模版好編輯, 至少我要能知道怎麼改模版</li><li>好預覽</li><li>能同步到各個social network, 至少Facebook, Twitter, 也能同步到我原本的Tumblr和blogger</li><li>要能夠友善支援Open graph和Twitter card, 對每次share的FB的醜醜文字版型實在不喜歡</li><li>好轉移, 好備份, 有版本控制更好!</li></ol><h4 id=解決方案>解決方案</h4><p>現成的blog service, 好的什麼都要錢(ghost, wordpress), 免費的大概也都被我用過了, 自己架, 又得管server, 後來想想, blog都是靜態的網頁, 也真的不需要一個很複雜的系統, 這時候就想到一個解決方案, 那就是Github</p><p>Github有一個<a href=https://pages.github.com>Github pages</a>的服務, 可以讓你host你的靜態網頁, 所以只要有一個方法可以把Blog轉成靜態網頁就可以了, 這個還蠻Geek的方式感覺就蠻適合我的</p><p>找到了幾個方法轉blog:</p><ol><li><a href=https://jekyllrb.com>Jekyll</a></li><li><a href=http://octopress.org>Octopress</a></li><li><a href=https://hexo.io/zh-tw/>Hexo</a></li></ol><p>Octopress是已經完結不再維護了, 所以就Jekyll和Hexo兩個在抉擇, 兩者都有蠻多的主題跟模版功能, 也有不少plugins</p><p>Hexo是台灣精品, 而且是nodekjs寫的, 語言上我比較熟, 要改比較好改,而Jekyll是Ruby寫的, 我跟Ruby很不熟, 但它跟Github pages結合緊密, 而且已經有tool可以從Tumblr移轉內容過來了, 最後我選擇了Jekyll, 選擇Jekyll的原因是</p><ol><li>Github page直接原生支援, 只要把md檔push上去後, 就會自動產生網頁(不過後來我還是先在自己電腦產生完再push, 後面再說原因)</li><li>找到一個適合的也不太難改的theme, 就懶得去翻Hexo的了, 而且找到的那個對Open graph和Twitter card的支援也不錯, 不用改太多</li><li>原生的Tumblr import tool</li></ol><p>不過整個也花了不少個晚上修改, 又花了一個晚上才能寫完這篇紀錄 @@</p><h4 id=安裝jekyll>安裝Jekyll</h4><p>網路上可以找到很多安裝Jekyll的文章, 這邊就不說太多, 我試了兩個不同的作法:</p><h5 id=作法-1>作法 1</h5><p>這是最基本的作法</p><ol><li>先用 <code>gem install jekyll</code> 安裝jekyll</li><li>用 <code>jekyll new myblog</code> 在myblog目錄產生一個基本的網站</li><li>用 <code>jekyll s</code> 會在 localhost:4000 開啟一個服務, 這時就透過browser可以看看你的blog長怎樣了</li></ol><p>這方法的缺點是, 套用主題時, 還得改一堆東西, 有點麻煩</p><h5 id=作法-2>作法 2</h5><ol><li>一樣先裝jekyll</li><li>找到一個人家做好的theme (我是用<a href=https://github.com/mmistakes/hpstr-jekyll-theme>hpstr</a>這個), clone下來改, 因為大部分的都已經把他用的plugin之類的都先寫好在config了, 就省不少事, 建議找theme要注意其對應的Jekyll版本, 像我裝的Jekyll是3, 所以找的是適合3的</li><li>用 <code>gem install bundler</code> 安裝bundler</li><li>用 <code>bundle install</code> 來安裝相關的plugins</li><li>用 <code>jekyll s</code> 看結果</li></ol><p>我後來採用的是作法2, 踩在人家的肩膀上比較快 :P</p><h4 id=設定github-pages>設定github pages</h4><p>這部份沒什麼難度, 創建一個專案名稱叫做 <em>你的名字.github.com</em> , 把相關檔案放到這邊去就行了</p><p>Github pages支援兩種方式, 一種是純粹的靜態網頁, 就是把html跟其他相關檔案丟到這邊就好(master branch), 另一種方式就是Jekyll, Jekyll的部分只要把前一個動作的檔案放進來就好, 它會自己幫你產生對應的靜態網頁</p><p>不過第二種方法的缺點是因為Github pages只支援幾種Jekyll plugins, 而且不支援自訂的plugins(放在 <em>_plugins</em> 目錄下的), 就算你在你自己電腦裡面跑完把產生後的 <strong>_site</strong> 目錄一起放上去也是沒用的</p><h4 id=從tumblr匯入之前文章>從Tumblr匯入之前文章</h4><p>這部份沒太複雜, 是透過<a href=https://github.com/jekyll/jekyll-import>jekyll-import</a></p><p>安裝jekyll-import一樣可以透過<code>gem install</code>來安裝, 但建議不要這樣做, 是因為他用的Tumblr API是JSONP但程式卻將它當一般JSON在解碼, 會出錯, 這部份在最新版的code有解決(害我還去追了source code), 所以抓source回來自己build比較安全</p><p>裝好之後執行:</p><pre><code>#!/bin/sh
+ruby -rubygems -e 'require &quot;jekyll-import&quot;;
+    JekyllImport::Importers::Tumblr.run({
+      &quot;url&quot;            =&gt; &quot;http://blog.jln.co&quot;,
+      &quot;format&quot;         =&gt; &quot;html&quot;, # or &quot;md&quot;
+      &quot;grab_images&quot;    =&gt; true,  # whether to download images as well.
+      &quot;add_highlights&quot; =&gt; false,  # whether to wrap code blocks (indented 4 spaces) in a Liquid &quot;highlight&quot; tag
+      &quot;rewrite_urls&quot;   =&gt; false   # whether to write pages that redirect from the old Tumblr paths to the new Jekyll paths
+    })'
+</code></pre><p>它就會把文章抓回到 <em>_post</em>的目錄下</p><h4 id=open-graph--twitter-card>Open graph & Twitter card</h4><p>如果把內容分享到Facebook或是Twitter上只有短短的文字, 不是很好看, 所以希望在這部份能夠至少加上一張圖</p><p><a href=https://github.com/mmistakes/hpstr-jekyll-theme>hpstr</a>這個theme已經有在 ** _includes/head.html ** 寫好OG跟Twitter card相關的tag了, 圖片(og:image)的部分, 他的規則/順序是:</p><ol><li>Front matter 裡面設定的</li><li>_config.xml 裡的logo設定</li></ol><p>我希望是更自動一點, 而不是自己去設定, 所以找到一個plugin : <a href=https://github.com/merlos/jekyll-auto-image>jekyll-auto-image</a>, 這個plugin聰明一點, 他的順序是:</p><ol><li>內文內出現的第一張圖</li><li>_config.xml 裡面設定的圖</li></ol><p>但這樣還稍嫌單調一些, 我想要達成的是:</p><ol><li>內文內出現的第一張圖</li><li>根據標籤選的對應的圖(比如說把我go語言相關的設成Gopher的圖片), 這樣不會每個都一樣, 比較有變化一點</li><li>預設的圖</li></ol><p>再加上auto image裡面關於image的設定跟我用的theme有所衝突, 這就需要把原本的auto image改一下了</p><p>我新增一個rb檔, 放在 ** _plugins **目錄下, 內容如下:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-ruby data-lang=ruby>require <span style=color:#e6db74>&#34;jekyll&#34;</span>
+
+<span style=color:#66d9ef>module</span> Jekyll
+
+  <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>AutoImageGenerator</span> <span style=color:#f92672>&lt;</span> <span style=color:#66d9ef>Generator</span>
+
+    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>generate</span>(site)
+      @site <span style=color:#f92672>=</span> site
+
+      site<span style=color:#f92672>.</span>pages<span style=color:#f92672>.</span>each <span style=color:#66d9ef>do</span> <span style=color:#f92672>|</span>page<span style=color:#f92672>|</span>
+        img <span style=color:#f92672>=</span> get_image(page)
+        page<span style=color:#f92672>.</span>data<span style=color:#f92672>[</span><span style=color:#e6db74>&#39;image1&#39;</span><span style=color:#f92672>]</span> <span style=color:#f92672>=</span> img <span style=color:#66d9ef>if</span> img
+      <span style=color:#66d9ef>end</span>
+      <span style=color:#75715e># Now do the same with posts</span>
+      site<span style=color:#f92672>.</span>posts<span style=color:#f92672>.</span>docs<span style=color:#f92672>.</span>each <span style=color:#66d9ef>do</span> <span style=color:#f92672>|</span>post<span style=color:#f92672>|</span>
+        <span style=color:#75715e>#puts &#34;hola&#34;</span>
+        <span style=color:#75715e>#puts Jekyll::VERSION</span>
+        <span style=color:#75715e>#puts post.class</span>
+        <span style=color:#75715e>#puts post.inspect</span>
+        <span style=color:#75715e>#puts post.data.inspect</span>
+        <span style=color:#75715e>#puts &#34;-----&#34;      </span>
+        <span style=color:#75715e>#puts post.output</span>
+        <span style=color:#75715e>#puts &#34;----&#34;</span>
+        img <span style=color:#f92672>=</span> get_image(post)
+        post<span style=color:#f92672>.</span>data<span style=color:#f92672>[</span><span style=color:#e6db74>&#39;thumb&#39;</span><span style=color:#f92672>]</span> <span style=color:#f92672>=</span> img <span style=color:#66d9ef>if</span> img
+      <span style=color:#66d9ef>end</span>
+    <span style=color:#66d9ef>end</span> <span style=color:#75715e># generate</span>
+
+    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>get_image</span>(page)
+
+      <span style=color:#66d9ef>if</span> page<span style=color:#f92672>.</span>data<span style=color:#f92672>[</span><span style=color:#e6db74>&#39;thumb&#39;</span><span style=color:#f92672>]</span>
+        <span style=color:#66d9ef>return</span> page<span style=color:#f92672>.</span>data<span style=color:#f92672>[</span><span style=color:#e6db74>&#39;thumb&#39;</span><span style=color:#f92672>]</span>
+      <span style=color:#66d9ef>end</span>
+      <span style=color:#75715e># convert the contents to html, and extract the first &lt;img src=&#34;&#34; apearance</span>
+      <span style=color:#75715e># I know, it&#39;s not efficient, but rather easy to implement :)</span>
+
+      <span style=color:#66d9ef>if</span> page<span style=color:#f92672>.</span>class <span style=color:#f92672>==</span> <span style=color:#66d9ef>Jekyll</span><span style=color:#f92672>::</span><span style=color:#66d9ef>Document</span> <span style=color:#75715e># for jekyll 3.0 posts &amp; collections</span>
+        htmled <span style=color:#f92672>=</span> <span style=color:#66d9ef>Jekyll</span><span style=color:#f92672>::</span><span style=color:#66d9ef>Renderer</span><span style=color:#f92672>.</span>new(@site, page, @site<span style=color:#f92672>.</span>site_payload)<span style=color:#f92672>.</span>convert(page<span style=color:#f92672>.</span>content)
+      <span style=color:#66d9ef>else</span>
+        htmled <span style=color:#f92672>=</span> page<span style=color:#f92672>.</span>transform <span style=color:#75715e># for jekyll 2.x pages</span>
+      <span style=color:#66d9ef>end</span>
+
+      img_url <span style=color:#f92672>=</span> htmled<span style=color:#f92672>.</span>match(<span style=color:#e6db74>/&lt;img.*\ssrc=[\&#34;\&#39;]([\S.]+)[\&#34;\&#39;]/i</span>)
+      <span style=color:#66d9ef>return</span> img_url<span style=color:#f92672>[</span><span style=color:#ae81ff>1</span><span style=color:#f92672>]</span> <span style=color:#66d9ef>if</span> img_url <span style=color:#f92672>!=</span> <span style=color:#66d9ef>nil</span>
+
+      tags <span style=color:#f92672>=</span> page<span style=color:#f92672>.</span>data<span style=color:#f92672>[</span><span style=color:#e6db74>&#39;tags&#39;</span><span style=color:#f92672>]</span>
+      imagemap <span style=color:#f92672>=</span> @site<span style=color:#f92672>.</span>config<span style=color:#f92672>[</span><span style=color:#e6db74>&#39;imagemap&#39;</span><span style=color:#f92672>]</span>
+      <span style=color:#66d9ef>if</span> tags <span style=color:#f92672>!=</span> <span style=color:#66d9ef>nil</span> <span style=color:#f92672>&amp;&amp;</span> imagemap <span style=color:#f92672>!=</span> <span style=color:#66d9ef>nil</span>
+        tags<span style=color:#f92672>.</span>each <span style=color:#66d9ef>do</span> <span style=color:#f92672>|</span>t<span style=color:#f92672>|</span>
+          <span style=color:#66d9ef>if</span> imagemap<span style=color:#f92672>[</span>t<span style=color:#f92672>.</span>downcase<span style=color:#f92672>]</span> <span style=color:#f92672>!=</span> <span style=color:#66d9ef>nil</span>
+            url <span style=color:#f92672>=</span> imagemap<span style=color:#f92672>[</span>t<span style=color:#f92672>.</span>downcase<span style=color:#f92672>]</span>
+
+            <span style=color:#66d9ef>if</span> <span style=color:#f92672>!</span>url<span style=color:#f92672>.</span>match(<span style=color:#e6db74>/^http/</span>)
+              url <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;/images/&#39;</span> <span style=color:#f92672>+</span> url
+            <span style=color:#66d9ef>end</span>
+            <span style=color:#66d9ef>return</span> url
+          <span style=color:#66d9ef>end</span>
+        <span style=color:#66d9ef>end</span>
+      <span style=color:#66d9ef>end</span>
+
+      <span style=color:#66d9ef>return</span> @site<span style=color:#f92672>.</span>config<span style=color:#f92672>[</span><span style=color:#e6db74>&#39;logo&#39;</span><span style=color:#f92672>]</span> <span style=color:#66d9ef>if</span> @site<span style=color:#f92672>.</span>config<span style=color:#f92672>[</span><span style=color:#e6db74>&#39;logo&#39;</span><span style=color:#f92672>]</span> <span style=color:#f92672>!=</span> <span style=color:#66d9ef>nil</span>
+      <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>nil</span>
+    <span style=color:#66d9ef>end</span>
+
+  <span style=color:#66d9ef>end</span> <span style=color:#75715e># class</span>
+<span style=color:#66d9ef>end</span> <span style=color:#75715e># module</span>
+</code></pre></div><p>這版就有達到我想要的目的, 但這不代表問題解了, 反而是問題的開始, 前面有說過github只支援特定的plugins, 所以怎樣這段改過的plugin都不會被它執行到, 唯一能做的解法就是改用靜態網頁的方式</p><p>jekyll產生的靜態網頁都放在 _site 目錄下, 所以真的要進master branch只有這裡面的, 其他都不用, 所以要先在本地端用 <code>jekyll b</code>去產生相關的靜態網頁到 _site裡再上傳</p><p>那怎測試呢? 一開始為了測試方便我都以本地端的server做測試, 但如果要測試Facebook share的話則需要能夠讓Facebook 連過來抓取網頁來分析, 但這點在區網不是很方便, 所以就帶入了 <a href=https://ngrok.com>ngrok</a> 這個工具, 這工具就是提供給你一個外部的網址, 你在本地端跑了ngrok這程式後, 就有一個可以對應你本地端的server, 還蠻好用的</p><h4 id=自動發布到社群網站>自動發布到社群網站</h4><p>這當然是用<a href=http://ifttt.com>ifttt</a>囉, 因為有用到jekyll-feed這個plugin, 所以會產生一個feed.xml的檔案, 所以就利用ifttt的feed channel來設定觸發</p><h4 id=結語>結語</h4><p>本來明明不想花太多功夫的, 結果不但花了很多功夫, 還花了一頁來紀錄這篇 orz</p></div></article></div><div class=footer-wrapper><footer role=contentinfo><span>Powered by <a href=https://gohugo.io/ rel=nofollow>Hugo</a> using the <a href=https://github.com/dldx/hpstr-hugo-theme rel=nofollow>HPSTR theme</a>.</span></footer></div><script src=//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js></script><script src=https://kit.fontawesome.com/872a53b461.js crossorigin=anonymous></script><script>window.jQuery||document.write('<script src="\/js\/vendor\/jquery-1.9.1.min.js"><\/script>')</script><script src=/js/scripts.min.js></script><script type=application/javascript>var doNotTrack=false;if(!doNotTrack){(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');ga('create','UA-79243751-1','auto');ga('send','pageview');}</script><div id=fb-root></div><script async defer crossorigin=anonymous src="https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v7.0&appId=293999444006555&autoLogAppEvents=1" nonce=geZSUIUh></script></body></html>

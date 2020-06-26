@@ -1,0 +1,275 @@
+<!doctype html><!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=en><![endif]--><!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang=en><![endif]--><!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang=en><![endif]--><!--[if gt IE 8]><!--><html class=no-js lang=en><!--<![endif]--><head><meta charset=utf-8><title>javascript &#8211; Le murmure de Julian</title><meta name=description content><meta property="og:title" content="javascript"><meta property="og:description" content><meta property="og:type" content="website"><meta property="og:url" content="http://blog.jln.co/tags/javascript/"><meta property="og:image" content="http://blog.jln.co/images/avatar.png"><meta property="og:updated_time" content="2017-04-16T18:15:44+00:00"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="http://blog.jln.co/images/avatar.png"><meta name=twitter:title content="javascript"><meta name=twitter:description content><link rel=canonical href=http://blog.jln.co/tags/javascript/><link href=http://blog.jln.co/tags/javascript/feed.xml rel=alternate type=application/rss+xml title="Le murmure de Julian"><link href=http://blog.jln.co/tags/javascript/feed.xml rel=feed type=application/rss+xml title="Le murmure de Julian"><meta name=HandheldFriendly content="True"><meta name=MobileOptimized content="320"><meta name=viewport content="width=device-width,initial-scale=1"><link rel=stylesheet href=/css/main.css><link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel=stylesheet type=text/css><meta http-equiv=cleartype content="on"><meta name=generator content="Hugo 0.73.0"><script src=/js/vendor/modernizr-2.6.2.custom.min.js></script><script async src=https://unpkg.com/mermaid@8.2.3/dist/mermaid.min.js></script><link rel="shortcut icon" href=/favicon.png></head><body id=post-index><nav id=dl-menu class=dl-menuwrapper role=navigation style=display:inline-block><button class=dl-trigger>Open Menu</button><ul class=dl-menu><li><a href=/>Home</a></li><li><a href=#>About</a><ul class=dl-submenu><li><img src=/images/avatar.png alt="Julian Shen's photo" class=author-photo><h4>Julian Shen</h4><p>Softward developer</p></li><li><a href=mailto:julianshen22@gmail.com><i class="fa fa-fw fa-envelope"></i>Email</a></li><li><a href=https://linkedin.com/in/julianshen><i class="fa fa-fw fa-linkedin"></i>LinkedIn</a></li><li><a href=https://github.com/julianshen><i class="fa fa-fw fa-github"></i>GitHub</a></li><li><a href=https://instagram.com/julianshen><i class="fa fa-fw fa-instagram"></i>Instagram</a></li></ul></li><li><a href=#>Posts</a><ul class=dl-submenu><li><a href=/post/>All Posts</a></li><li><a href=/tags/>All Tags</a></li></ul></li><li><a href=/></a></li></ul></nav><div class=entry-header><div class=header-title><div class=header-title-wrap><h1><a href=/ title="Go to the homepage">Le murmure de Julian</a></h1><h2>javascript</h2></div></div></div><div id=main role=main><article class=hentry><header><div class=entry-meta><span class="entry-date date published updated"><time datetime="2017-04-16 18:15:44 +0000 UTC"><a href=/%E7%AD%86%E8%A8%98Vue.js-Slot%E7%9A%84%E6%87%89%E7%94%A8/>Apr 16, 2017</a></time></span>
+<span class=entry-reading-time><i class="fa fa-clock-o"></i>Reading time ~5 minutes</span></div><h1 class=entry-title><a href=/%E7%AD%86%E8%A8%98Vue.js-Slot%E7%9A%84%E6%87%89%E7%94%A8/ rel=bookmark title="[筆記][Vue.js] Slot的應用" itemprop=url>[筆記][Vue.js] Slot的應用</a></h1></header><div class=entry-content><p>Vue的component裡有一個還蠻好用的東西叫做<a href=https://vuejs.org/v2/guide/components.html#Content-Distribution-with-Slots>Slot</a>(文件<a href=https://vuejs.org/v2/guide/components.html#Content-Distribution-with-Slots>在此</a>), 尤其適用在開發複雜或巢狀的元件</p><p>那Slot是用在什麼樣的地方, 舉個例子, 假設我們有個元件叫做panel:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-html data-lang=html>&lt;<span style=color:#f92672>panel</span>&gt;
+  &lt;<span style=color:#f92672>div</span>&gt;Inside panel&lt;/<span style=color:#f92672>div</span>&gt;
+  &lt;<span style=color:#f92672>div</span>&gt;Panel content&lt;/<span style=color:#f92672>div</span>&gt;
+&lt;/<span style=color:#f92672>panel</span>&gt;
+</code></pre></div><p>Panel的定義可能會是這樣:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=color:#a6e22e>Vue</span>.<span style=color:#a6e22e>component</span>(<span style=color:#e6db74>&#39;panel&#39;</span>, {
+  <span style=color:#a6e22e>template</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;&lt;div&gt;&lt;slot&gt;&lt;/slot&gt;&lt;/div&gt;&#39;</span>
+})
+</code></pre></div><p><a href=https://jsfiddle.net/898f03os/0/>執行範例</a></p><p>簡單的說, 這邊template裡的slot會被拿來放前面例子<code>&lt;panel>&lt;/panel></code>裡面的<code>&lt;div></code></p><p>當然, 這也可以讓我們這個component裡面再放其他的component, 像是這樣的例子:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-html data-lang=html>&lt;<span style=color:#f92672>b-menu</span>&gt;
+ &lt;<span style=color:#f92672>b-menu-item</span>&gt;menu 1&lt;/<span style=color:#f92672>b-menu-item</span>&gt;
+ &lt;<span style=color:#f92672>b-menu-item</span>&gt;menu 2&lt;/<span style=color:#f92672>b-menu-item</span>&gt;
+ &lt;<span style=color:#f92672>b-menu-item</span>&gt;menu 3&lt;/<span style=color:#f92672>b-menu-item</span>&gt;
+ &lt;<span style=color:#f92672>b-menu-item</span>&gt;menu 4&lt;/<span style=color:#f92672>b-menu-item</span>&gt;
+&lt;/<span style=color:#f92672>b-menu</span>&gt;
+</code></pre></div><p>實作上可以寫成這樣</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=color:#a6e22e>Vue</span>.<span style=color:#a6e22e>component</span>(<span style=color:#e6db74>&#39;b-menu&#39;</span>, {
+  <span style=color:#a6e22e>template</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;&lt;div&gt;&lt;ul&gt;&lt;slot&gt;&lt;/slot&gt;&lt;/ul&gt;&lt;/div&gt;&#39;</span>
+})
+
+<span style=color:#a6e22e>Vue</span>.<span style=color:#a6e22e>component</span>(<span style=color:#e6db74>&#39;b-menu-item&#39;</span>, {
+  <span style=color:#a6e22e>template</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;&lt;li&gt;&lt;slot&gt;&lt;/slot&gt;&lt;/li&gt;&#39;</span>
+})
+</code></pre></div><p><a href=https://jsfiddle.net/898f03os/2/>執行範例</a></p><p>其實這範例看起來好像也沒啥必要寫成component(不過就ul/li), 當然, 實際上的應用可以再更複雜, 再來看一個更複雜的範例:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-html data-lang=html>&lt;<span style=color:#f92672>b-menu</span>&gt;
+	&lt;<span style=color:#f92672>b-menu-item</span> <span style=color:#a6e22e>title</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;menu 1&#34;</span>&gt;Content 1&lt;/<span style=color:#f92672>b-menu-item</span>&gt;
+	&lt;<span style=color:#f92672>b-menu-item</span> <span style=color:#a6e22e>title</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;menu 2&#34;</span>&gt;Content 2&lt;/<span style=color:#f92672>b-menu-item</span>&gt;
+	&lt;<span style=color:#f92672>b-menu-item</span> <span style=color:#a6e22e>title</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;menu 3&#34;</span>&gt;Content 3&lt;/<span style=color:#f92672>b-menu-item</span>&gt;
+	&lt;<span style=color:#f92672>b-menu-item</span> <span style=color:#a6e22e>title</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;menu 4&#34;</span>&gt;Content 4&lt;/<span style=color:#f92672>b-menu-item</span>&gt;
+&lt;/<span style=color:#f92672>b-menu</span>&gt;
+</code></pre></div><p>跟上面不一樣的是, 這次想render成的結果是像這樣:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-html data-lang=html>&lt;<span style=color:#f92672>div</span>&gt;
+  &lt;<span style=color:#f92672>ul</span>&gt;
+    &lt;<span style=color:#f92672>li</span>&gt;&lt;<span style=color:#f92672>a</span> <span style=color:#a6e22e>href</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;#a1&#34;</span>&gt;menu 1&lt;/<span style=color:#f92672>a</span>&gt;&lt;/<span style=color:#f92672>li</span>&gt;
+    &lt;<span style=color:#f92672>li</span>&gt;&lt;<span style=color:#f92672>a</span> <span style=color:#a6e22e>href</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;#a2&#34;</span>&gt;menu 2&lt;/<span style=color:#f92672>a</span>&gt;&lt;/<span style=color:#f92672>li</span>&gt;
+    &lt;<span style=color:#f92672>li</span>&gt;&lt;<span style=color:#f92672>a</span> <span style=color:#a6e22e>href</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;#a3&#34;</span>&gt;menu 3&lt;/<span style=color:#f92672>a</span>&gt;&lt;/<span style=color:#f92672>li</span>&gt;
+    &lt;<span style=color:#f92672>li</span>&gt;&lt;<span style=color:#f92672>a</span> <span style=color:#a6e22e>href</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;#a4&#34;</span>&gt;menu 4&lt;/<span style=color:#f92672>a</span>&gt;&lt;/<span style=color:#f92672>li</span>&gt;
+  &lt;/<span style=color:#f92672>ul</span>&gt;
+  &lt;<span style=color:#f92672>div</span> <span style=color:#a6e22e>id</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;a1&#34;</span>&gt;Content1&lt;/<span style=color:#f92672>div</span>&gt;
+  &lt;<span style=color:#f92672>div</span> <span style=color:#a6e22e>id</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;a2&#34;</span>&gt;Content2&lt;/<span style=color:#f92672>div</span>&gt;
+  &lt;<span style=color:#f92672>div</span> <span style=color:#a6e22e>id</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;a3&#34;</span>&gt;Content3&lt;/<span style=color:#f92672>div</span>&gt;
+  &lt;<span style=color:#f92672>div</span> <span style=color:#a6e22e>id</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;a4&#34;</span>&gt;Content4&lt;/<span style=color:#f92672>div</span>&gt;
+&lt;/<span style=color:#f92672>div</span>&gt;
+</code></pre></div><p>這明顯被切成兩區了, title的部分顯示在<code>&lt;ul></code>內, 而content卻在另一區, 那這該怎麼做呢?</p><h3 id=取得slot內的子元件child-component->取得Slot內的子元件(Child component)</h3><p>上面的例子可以寫成這樣:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=color:#a6e22e>Vue</span>.<span style=color:#a6e22e>component</span>(<span style=color:#e6db74>&#39;b-menu&#39;</span>, {
+  <span style=color:#a6e22e>data</span> () {
+  	<span style=color:#66d9ef>return</span> {
+      <span style=color:#a6e22e>items</span><span style=color:#f92672>:</span> []
+    }
+  },
+  <span style=color:#a6e22e>template</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;&lt;div&gt;&lt;ul&gt;&lt;li v-for=&#34;(item,i) in items&#34;&gt;&lt;a :href=&#34;`#a${i+1}`&#34;&gt;{{item.title}}&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;div&gt;&lt;slot&gt;&lt;/slot&gt;&lt;/div&gt;&lt;/div&gt;&#39;</span>,
+  <span style=color:#a6e22e>mounted</span> () {
+     <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>items</span><span style=color:#f92672>=</span> <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>$slots</span>.<span style=color:#66d9ef>default</span>.<span style=color:#a6e22e>filter</span>(<span style=color:#a6e22e>item</span> =&gt; <span style=color:#a6e22e>item</span>.<span style=color:#a6e22e>componentInstance</span> <span style=color:#f92672>||</span> <span style=color:#66d9ef>false</span>).<span style=color:#a6e22e>map</span>(<span style=color:#a6e22e>item</span> =&gt; <span style=color:#a6e22e>item</span>.<span style=color:#a6e22e>componentInstance</span>)
+     <span style=color:#66d9ef>for</span> (<span style=color:#66d9ef>let</span> [<span style=color:#a6e22e>index</span>, <span style=color:#a6e22e>item</span>] <span style=color:#66d9ef>of</span> <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>items</span>.<span style=color:#a6e22e>entries</span>()) {
+       <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>$set</span>(<span style=color:#a6e22e>item</span>, <span style=color:#e6db74>&#39;id&#39;</span>, <span style=color:#e6db74>&#39;a&#39;</span> <span style=color:#f92672>+</span> (<span style=color:#a6e22e>index</span> <span style=color:#f92672>+</span> <span style=color:#ae81ff>1</span>))
+     }
+  }
+})
+
+<span style=color:#a6e22e>Vue</span>.<span style=color:#a6e22e>component</span>(<span style=color:#e6db74>&#39;b-menu-item&#39;</span>, {
+  <span style=color:#a6e22e>template</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;&lt;div :id=&#34;id&#34;&gt;&lt;slot&gt;&lt;/slot&gt;&lt;/div&gt;&#39;</span>,
+  <span style=color:#a6e22e>props</span><span style=color:#f92672>:</span> [<span style=color:#e6db74>&#39;title&#39;</span>],
+  <span style=color:#a6e22e>data</span> () {
+    <span style=color:#66d9ef>return</span> {
+      <span style=color:#a6e22e>id</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;&#39;</span>
+    }
+  }
+})
+</code></pre></div><p>要取得slot裡面的child nodes可以用<code>this.$slots.default</code>, 但這個包含所有的child nodes, 如果我們要的只是child components, 那可以檢查這個node是否包含<code>componentInstance</code></p><p>因此, 透過filter和map, 我們可以以<code>this.$slots.default.filter(item => item.componentInstance || false).map(item => item.componentInstance)</code>來取得child components, 在這個例子就包含所有的b-menu-item</p><p>這段程式的作法就是取得所有child components放入items這個資料欄位中, 而在template中有<code>&lt;li v-for="(item,i) in items"></code>利用items內的值來渲染<code>&lt;li></code>的部分</p><p>這邊有一點需要注意的是, 這段必須要跑在 <code>mounted()</code>不能在<code>created()</code>, 因為在<code>created()</code>裡面雖然可以用<code>this.$slots.default</code>來取得child nodes, 但這時候child nodes的componentInstace全部都是undefined, 因為這時候child components其實都還沒準備好</p><h3 id=處理動態內容->處理動態內容</h3><p><code>b-menu-item</code>當然也可以用<code>v-for</code>來動態渲染, 像是:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-html data-lang=html>&lt;<span style=color:#f92672>b-menu</span>&gt;
+   &lt;<span style=color:#f92672>b-menu-item</span> <span style=color:#a6e22e>v-for</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;mItem in menuItems&#34;</span> <span style=color:#a6e22e>:title</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;mItem.title&#34;</span>&gt;{{mItem.content}}&lt;/<span style=color:#f92672>b-menu-item</span>&gt;
+&lt;/<span style=color:#f92672>b-menu</span>&gt;
+</code></pre></div><p>這邊的menuItems如果是一個靜態的陣列下面例子, 不會有問題</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=color:#66d9ef>let</span> <span style=color:#a6e22e>vue</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> <span style=color:#a6e22e>Vue</span>({
+  <span style=color:#a6e22e>el</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;#app&#39;</span>,
+  <span style=color:#a6e22e>data</span> () {
+     <span style=color:#66d9ef>return</span> {
+       <span style=color:#a6e22e>menuItems</span><span style=color:#f92672>:</span> [
+          {
+             <span style=color:#a6e22e>title</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;menu 1&#39;</span>,
+             <span style=color:#a6e22e>content</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;content 1&#39;</span>
+          },
+          {
+             <span style=color:#a6e22e>title</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;menu 2&#39;</span>,
+             <span style=color:#a6e22e>content</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;content 2&#39;</span>
+          },
+          {
+             <span style=color:#a6e22e>title</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;menu 3&#39;</span>,
+             <span style=color:#a6e22e>content</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;content 3&#39;</span>
+          }
+       ]
+     }
+  }
+})
+</code></pre></div><p>但如果它的內容是由一個async function所產生, 像是</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=color:#66d9ef>let</span> <span style=color:#a6e22e>vue</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> <span style=color:#a6e22e>Vue</span>({
+  <span style=color:#a6e22e>el</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;#app&#39;</span>,
+  <span style=color:#a6e22e>data</span> () {
+     <span style=color:#66d9ef>return</span> {
+       <span style=color:#a6e22e>menuItems</span><span style=color:#f92672>:</span> []
+     }
+  },
+  <span style=color:#a6e22e>mounted</span> () {
+	<span style=color:#66d9ef>let</span> <span style=color:#a6e22e>vm</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>this</span>
+	<span style=color:#a6e22e>doGetSomething</span>(<span style=color:#a6e22e>data</span> =&gt; {
+		<span style=color:#a6e22e>vm</span>.<span style=color:#a6e22e>menuItems</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>data</span>
+	})
+  }
+})
+</code></pre></div><p>你可能會發現畫面完全沒變化, 那是因為我們在<code>b-menu</code>的<code>mouted()</code>的時候去掃所有的child components, 而<code>menuItems</code>可能在mouted很之後才會被更新, 所以不會被重掃一次, <code>items</code>並不會被更新, 所以畫面也不會有變化, 因此必須要在<code>menuItems</code>資料被更新後再掃一次slot的child components</p><p>可以把b-menu改成這樣</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=color:#a6e22e>Vue</span>.<span style=color:#a6e22e>component</span>(<span style=color:#e6db74>&#39;b-menu&#39;</span>, {
+  <span style=color:#a6e22e>data</span> () {
+  	<span style=color:#66d9ef>return</span> {
+      <span style=color:#a6e22e>items</span><span style=color:#f92672>:</span> []
+    }
+  },
+  <span style=color:#a6e22e>template</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;&lt;div&gt;&lt;ul&gt;&lt;li v-for=&#34;(item,i) in items&#34;&gt;&lt;a :href=&#34;`#a${i+1}`&#34;&gt;{{item.title}}&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;div&gt;&lt;slot&gt;&lt;/slot&gt;&lt;/div&gt;&lt;/div&gt;&#39;</span>,
+  <span style=color:#a6e22e>methods</span><span style=color:#f92672>:</span> {
+	<span style=color:#a6e22e>updateItems</span> () {
+	  	<span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>items</span><span style=color:#f92672>=</span> <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>$slots</span>.<span style=color:#66d9ef>default</span>.<span style=color:#a6e22e>filter</span>(<span style=color:#a6e22e>item</span> =&gt; <span style=color:#a6e22e>item</span>.<span style=color:#a6e22e>componentInstance</span> <span style=color:#f92672>||</span> <span style=color:#66d9ef>false</span>).<span style=color:#a6e22e>map</span>(<span style=color:#a6e22e>item</span> =&gt; <span style=color:#a6e22e>item</span>.<span style=color:#a6e22e>componentInstance</span>)
+		<span style=color:#66d9ef>for</span> (<span style=color:#66d9ef>let</span> [<span style=color:#a6e22e>index</span>, <span style=color:#a6e22e>item</span>] <span style=color:#66d9ef>of</span> <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>items</span>.<span style=color:#a6e22e>entries</span>()) {
+		<span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>$set</span>(<span style=color:#a6e22e>item</span>, <span style=color:#e6db74>&#39;id&#39;</span>, <span style=color:#e6db74>&#39;a&#39;</span> <span style=color:#f92672>+</span> (<span style=color:#a6e22e>index</span> <span style=color:#f92672>+</span> <span style=color:#ae81ff>1</span>))
+		}
+	}
+  },
+  <span style=color:#a6e22e>mounted</span> () {
+     <span style=color:#a6e22e>updateItems</span>()
+  }
+})
+</code></pre></div><p>這樣亦即是, 我們在更新完資料後必須要再呼叫一次<code>updateItems()</code></p><p>為了直接呼叫到b-menu的updateItems, 可以先替他加一個<code>ref="menu"</code>, 方便後面存取</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-html data-lang=html>&lt;<span style=color:#f92672>b-menu</span> <span style=color:#a6e22e>ref</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;menu&#34;</span>&gt;
+   &lt;<span style=color:#f92672>b-menu-item</span> <span style=color:#a6e22e>v-for</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;mItem in menuItems&#34;</span> <span style=color:#a6e22e>:title</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;mItem.title&#34;</span>&gt;{{mItem.content}}&lt;/<span style=color:#f92672>b-menu-item</span>&gt;
+&lt;/<span style=color:#f92672>b-menu</span>&gt;
+</code></pre></div><p>前面更新menuItems的程式可以改寫成這樣:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=color:#66d9ef>let</span> <span style=color:#a6e22e>vue</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> <span style=color:#a6e22e>Vue</span>({
+  <span style=color:#a6e22e>el</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;#app&#39;</span>,
+  <span style=color:#a6e22e>data</span> () {
+     <span style=color:#66d9ef>return</span> {
+       <span style=color:#a6e22e>menuItems</span><span style=color:#f92672>:</span> []
+     }
+  },
+  <span style=color:#a6e22e>mounted</span> () {
+	<span style=color:#66d9ef>let</span> <span style=color:#a6e22e>vm</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>this</span>
+	<span style=color:#a6e22e>doGetSomething</span>(<span style=color:#a6e22e>data</span> =&gt; {
+		<span style=color:#a6e22e>vm</span>.<span style=color:#a6e22e>menuItems</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>data</span>
+		<span style=color:#a6e22e>vm</span>.<span style=color:#a6e22e>$refs</span>.<span style=color:#a6e22e>menu</span>.<span style=color:#a6e22e>updateItems</span>()
+	})
+  }
+})
+</code></pre></div><p>這邊透過<code>vm.$refs.menu.updateItems()</code>來更新<code>items</code></p><p>但&mldr;.還是沒動靜呀&mldr;怎麼回事? 因為這時候menuItems才剛被更新, 它先去更新b-munu-item, 如果讓items更新後, 畫面要跟著更新, 就必須要在下一個DOM的更新週期, 也就是使用<code>$nextTick</code>, 如下:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=color:#66d9ef>let</span> <span style=color:#a6e22e>vue</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> <span style=color:#a6e22e>Vue</span>({
+  <span style=color:#a6e22e>el</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;#app&#39;</span>,
+  <span style=color:#a6e22e>data</span> () {
+     <span style=color:#66d9ef>return</span> {
+       <span style=color:#a6e22e>menuItems</span><span style=color:#f92672>:</span> []
+     }
+  },
+  <span style=color:#a6e22e>mounted</span> () {
+	<span style=color:#66d9ef>let</span> <span style=color:#a6e22e>vm</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>this</span>
+	<span style=color:#a6e22e>doGetSomething</span>(<span style=color:#a6e22e>data</span> =&gt; {
+		<span style=color:#a6e22e>vm</span>.<span style=color:#a6e22e>menuItems</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>data</span>
+		<span style=color:#a6e22e>vm</span>.<span style=color:#a6e22e>$nextTick</span>(() =&gt; {
+			<span style=color:#a6e22e>vm</span>.<span style=color:#a6e22e>$refs</span>.<span style=color:#a6e22e>menu</span>.<span style=color:#a6e22e>updateItems</span>()
+		})
+	})
+  }
+})
+</code></pre></div><p>這樣就沒問題了!</p><p>但對於一個元件來說, 這樣的設計並不是很好, 變成這個元件必須相依於使用它的程式, 還有沒更好的寫法?</p><h3 id=在子原件更新時呼叫父元件呢->在子原件更新時呼叫父元件呢?</h3><p>把<code>b-menu-item</code>這樣改寫:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=color:#a6e22e>Vue</span>.<span style=color:#a6e22e>component</span>(<span style=color:#e6db74>&#39;b-menu-item&#39;</span>, {
+  <span style=color:#a6e22e>template</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;&lt;div :id=&#34;id&#34;&gt;&lt;slot&gt;&lt;/slot&gt;&lt;/div&gt;&#39;</span>,
+  <span style=color:#a6e22e>props</span><span style=color:#f92672>:</span> [<span style=color:#e6db74>&#39;title&#39;</span>],
+  <span style=color:#a6e22e>data</span> () {
+    <span style=color:#66d9ef>return</span> {
+      <span style=color:#a6e22e>id</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;&#39;</span>
+    }
+  },
+  <span style=color:#a6e22e>mounted</span> () {
+     <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>$parent</span>.<span style=color:#a6e22e>updateItems</span>()
+  }
+})
+</code></pre></div><p>這樣也是可行的, 當新的<code>b-menu-item</code>被加入slot中時, 就會呼叫一次updateItems</p><p>但這是有缺點的:</p><ol><li>每個child component會呼叫一次, 但實際上不需要被呼叫這麼多次, 有點浪費</li><li>這個子原件的設計變成會依賴父元件, 不易與用在其他元件內</li></ol><p>所以還是需要一個更好的方式</p><h3 id=mutationobserver->MutationObserver</h3><p>這時候就要借用HTML5的<a href=https://developer.mozilla.org/zh-TW/docs/Web/API/MutationObserver>MutationObserver</a>, 這個在Vuejs內部也是大量地被使用</p><p>使用<a href=https://developer.mozilla.org/zh-TW/docs/Web/API/MutationObserver>MutationObserver</a>, 我們可以把<code>b-menu</code>改成這樣:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=color:#a6e22e>Vue</span>.<span style=color:#a6e22e>component</span>(<span style=color:#e6db74>&#39;b-menu&#39;</span>, {
+  <span style=color:#a6e22e>data</span> () {
+  	<span style=color:#66d9ef>return</span> {
+      <span style=color:#a6e22e>items</span><span style=color:#f92672>:</span> [],
+	  <span style=color:#a6e22e>domObserver</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>null</span>
+    }
+  },
+  <span style=color:#a6e22e>template</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;&lt;div&gt;&lt;ul&gt;&lt;li v-for=&#34;(item,i) in items&#34;&gt;&lt;a :href=&#34;`#a${i+1}`&#34;&gt;{{item.title}}&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;div ref=&#34;content&#34;&gt;&lt;slot&gt;&lt;/slot&gt;&lt;/div&gt;&lt;/div&gt;&#39;</span>,
+  <span style=color:#a6e22e>methods</span><span style=color:#f92672>:</span> {
+	<span style=color:#a6e22e>updateItems</span> () {
+	  	<span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>items</span><span style=color:#f92672>=</span> <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>$slots</span>.<span style=color:#66d9ef>default</span>.<span style=color:#a6e22e>filter</span>(<span style=color:#a6e22e>item</span> =&gt; <span style=color:#a6e22e>item</span>.<span style=color:#a6e22e>componentInstance</span> <span style=color:#f92672>||</span> <span style=color:#66d9ef>false</span>).<span style=color:#a6e22e>map</span>(<span style=color:#a6e22e>item</span> =&gt; <span style=color:#a6e22e>item</span>.<span style=color:#a6e22e>componentInstance</span>)
+		<span style=color:#66d9ef>for</span> (<span style=color:#66d9ef>let</span> [<span style=color:#a6e22e>index</span>, <span style=color:#a6e22e>item</span>] <span style=color:#66d9ef>of</span> <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>items</span>.<span style=color:#a6e22e>entries</span>()) {
+		<span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>$set</span>(<span style=color:#a6e22e>item</span>, <span style=color:#e6db74>&#39;id&#39;</span>, <span style=color:#e6db74>&#39;a&#39;</span> <span style=color:#f92672>+</span> (<span style=color:#a6e22e>index</span> <span style=color:#f92672>+</span> <span style=color:#ae81ff>1</span>))
+		}
+	}
+  },
+  <span style=color:#a6e22e>mounted</span> () {
+     <span style=color:#a6e22e>updateItems</span>()
+	 <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>vm</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>this</span>
+	 <span style=color:#a6e22e>vm</span>.<span style=color:#a6e22e>domObserver</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> <span style=color:#a6e22e>MutationObserver</span>((<span style=color:#a6e22e>mr</span>, <span style=color:#a6e22e>el</span>) =&gt; {
+		 <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>shouldUpdate</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>false</span>
+		 <span style=color:#66d9ef>for</span> (<span style=color:#66d9ef>let</span> <span style=color:#a6e22e>m</span> <span style=color:#66d9ef>of</span> <span style=color:#a6e22e>mr</span>) {
+			 <span style=color:#66d9ef>if</span> (<span style=color:#a6e22e>m</span>.<span style=color:#a6e22e>addedNodes</span>.<span style=color:#a6e22e>length</span> <span style=color:#f92672>&gt;</span> <span style=color:#ae81ff>0</span> <span style=color:#f92672>||</span> <span style=color:#a6e22e>m</span>.<span style=color:#a6e22e>removedNodes</span>.<span style=color:#a6e22e>length</span> <span style=color:#f92672>&gt;</span> <span style=color:#ae81ff>0</span>) {
+				 <span style=color:#a6e22e>shouldUpdate</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>true</span>
+				 <span style=color:#66d9ef>break</span>
+			 }
+		 }
+
+		 <span style=color:#66d9ef>if</span> (<span style=color:#a6e22e>shouldUpdate</span>) {
+			 <span style=color:#a6e22e>vm</span>.<span style=color:#a6e22e>updateItems</span>()
+		 }
+	 })
+
+	 <span style=color:#a6e22e>vm</span>.<span style=color:#a6e22e>domObserver</span>.<span style=color:#a6e22e>observer</span>(<span style=color:#a6e22e>vm</span>.<span style=color:#a6e22e>$refs</span>.<span style=color:#a6e22e>content</span>, {<span style=color:#a6e22e>childList</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>true</span>, <span style=color:#a6e22e>subtree</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>true</span>})
+  }
+})
+</code></pre></div><p>藉由監控slot的父節點(parent node)的變化來確定是否要去更新items, 這樣一來就不用依賴其他人也可以做到自動更新了</p></div></article><article class=hentry><header><div class=entry-meta><span class="entry-date date published updated"><time datetime="2017-04-15 12:46:27 +0000 UTC"><a href=/%E7%AD%86%E8%A8%98%E5%88%A9%E7%94%A8axios-mock-adapter%E7%82%BAaxios%E6%8F%90%E4%BE%9B%E6%B8%AC%E8%A9%A6%E7%94%A8%E7%9A%84%E5%81%87%E8%B3%87%E6%96%99/>Apr 15, 2017</a></time></span>
+<span class=entry-reading-time><i class="fa fa-clock-o"></i>Reading time ~2 minutes</span></div><h1 class=entry-title><a href=/%E7%AD%86%E8%A8%98%E5%88%A9%E7%94%A8axios-mock-adapter%E7%82%BAaxios%E6%8F%90%E4%BE%9B%E6%B8%AC%E8%A9%A6%E7%94%A8%E7%9A%84%E5%81%87%E8%B3%87%E6%96%99/ rel=bookmark title=[筆記]利用axios-mock-adapter為axios提供測試用的假資料 itemprop=url>[筆記]利用axios-mock-adapter為axios提供測試用的假資料</a></h1></header><div class=entry-content><p><a href=https://github.com/mzabriskie/axios>axios</a>是蠻好用的javascript http client, 不僅可以在browser上跑, 也可以在node.js上用, 而且Promise形態的API寫起來就比較好看, 如果搭配async/await的寫法, 看起來就更加漂亮了</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>loadUser</span>(<span style=color:#a6e22e>uid</span>) {
+  <span style=color:#a6e22e>axios</span>.<span style=color:#a6e22e>get</span>(<span style=color:#e6db74>&#39;/user?ID=12345&#39;</span>)
+    .<span style=color:#a6e22e>then</span>(<span style=color:#a6e22e>response</span> =&gt; {
+      <span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>log</span>(<span style=color:#a6e22e>response</span>)
+    })
+    .<span style=color:#66d9ef>catch</span>(<span style=color:#a6e22e>error</span> =&gt; {
+      <span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>log</span>(<span style=color:#a6e22e>error</span>)
+    })
+}
+</code></pre></div><p>或是（async/await)</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=color:#a6e22e>async</span> <span style=color:#66d9ef>function</span> <span style=color:#a6e22e>loadUser</span>(<span style=color:#a6e22e>uid</span>) {
+  <span style=color:#66d9ef>try</span> {
+    <span style=color:#a6e22e>data</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>await</span> <span style=color:#a6e22e>axios</span>.<span style=color:#a6e22e>get</span>(<span style=color:#e6db74>&#39;/user?ID=12345&#39;</span>)
+	<span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>log</span>(<span style=color:#a6e22e>data</span>)
+  } <span style=color:#66d9ef>catch</span>(<span style=color:#a6e22e>e</span>) {
+    <span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>log</span>(<span style=color:#a6e22e>e</span>)
+  }
+}
+</code></pre></div><p>但如果開發時期或是要做Unit testing需要用假資料來取代server api直接回傳呢? 目前我看到兩套方案, 一個是<a href=https://github.com/mzabriskie/axios>axios</a>作者做的<a href=https://github.com/mzabriskie/moxios>moxios</a>另外一個是<a href=https://github.com/ctimmerm/axios-mock-adapter>axios-mock-adapter</a>, <a href=https://github.com/mzabriskie/moxios>moxios</a>看起來好像比較適合在Unit testing時, 而我是想在開發過程中使用, 所以我選的是<a href=https://github.com/ctimmerm/axios-mock-adapter>axios-mock-adapter</a></p><p>使用<a href=https://github.com/ctimmerm/axios-mock-adapter>axios-mock-adapter</a>還蠻簡單的:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=color:#66d9ef>import</span> <span style=color:#a6e22e>axios</span> <span style=color:#a6e22e>from</span> <span style=color:#e6db74>&#39;axios&#39;</span>
+<span style=color:#66d9ef>import</span> <span style=color:#a6e22e>MockAdapter</span> <span style=color:#a6e22e>from</span> <span style=color:#e6db74>&#39;axios-mock-adapter&#39;</span>
+
+<span style=color:#66d9ef>let</span> <span style=color:#a6e22e>mock</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> <span style=color:#a6e22e>MockAdapter</span>(<span style=color:#a6e22e>axios</span>)
+
+<span style=color:#a6e22e>mock</span>.<span style=color:#a6e22e>onGet</span>(<span style=color:#e6db74>&#39;/users&#39;</span>).<span style=color:#a6e22e>reply</span>(<span style=color:#ae81ff>200</span>, {
+  <span style=color:#a6e22e>users</span><span style=color:#f92672>:</span> [
+    { <span style=color:#a6e22e>id</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>1</span>, <span style=color:#a6e22e>name</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;John Smith&#39;</span> },
+    { <span style=color:#a6e22e>id</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>2</span>, <span style=color:#a6e22e>name</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;John Doe&#39;</span> }
+  ]
+})
+
+<span style=color:#a6e22e>axios</span>.<span style=color:#a6e22e>get</span>(<span style=color:#e6db74>&#39;/users&#39;</span>)
+  .<span style=color:#a6e22e>then</span>(<span style=color:#a6e22e>response</span> =&gt; {
+    <span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>log</span>(<span style=color:#a6e22e>response</span>.<span style=color:#a6e22e>data</span>)
+  })
+</code></pre></div><p>創建uri跟假資料的對應很簡單, 基本上也就是&rsquo;on'&lsquo;Method&rsquo;, 比如說<code>onGet</code>, <code>onPost</code>, 另外還有一個<code>onAny</code>可以處理所有的HTTP methods</p><p>做過mock後, axios呼叫這個uri所拿回來的資料通通就都會是假資料了, 這樣也不用為了塞假資料開發測試而去改動自己的程式</p></div></article><article class=hentry><header><div class=entry-meta><span class="entry-date date published updated"><time datetime="2017-04-15 11:52:29 +0000 UTC"><a href=/%E7%AD%86%E8%A8%98Vue.js-Webpack-%E5%88%A4%E6%96%B7%E6%98%AF%E5%90%A6%E7%82%BA%E9%96%8B%E7%99%BC%E7%92%B0%E5%A2%83/>Apr 15, 2017</a></time></span>
+<span class=entry-reading-time><i class="fa fa-clock-o"></i>Reading time ~2 minutes</span></div><h1 class=entry-title><a href=/%E7%AD%86%E8%A8%98Vue.js-Webpack-%E5%88%A4%E6%96%B7%E6%98%AF%E5%90%A6%E7%82%BA%E9%96%8B%E7%99%BC%E7%92%B0%E5%A2%83/ rel=bookmark title="[筆記][Vue.js + Webpack] 判斷是否為開發環境" itemprop=url>[筆記][Vue.js + Webpack] 判斷是否為開發環境</a></h1></header><div class=entry-content><p>在開發的時候總會有一個需求是想在開發階段做跟生產環境不一樣的事, 像我自己的習慣是在做畫面時, 不見得後端資料和API都已經準備好了, 所以我會先以假的資料(mock data)來取代, 放上線後才是真正去抓server api</p><p>因此就會需要一個方法來判斷現在到底是不是在開發階段, 如果使用<a href=https://webpack.github.io/>webpack</a>來開發, 這件事就會變得很簡單, 最近一直在寫<a href=https://vuejs.org>Vue.js</a>, 這邊就有<a href=https://vuejs.org>Vue.js</a> (反正我也還不懂react.js, 哈)</p><p>用vue-cli建立一個以webpack為工作流程的專案很簡單:</p><pre><code>vue init webpack my-project
+</code></pre><p>跑完後相關的檔案都幫你產生好了</p><p>要在你的程式裡面判斷目前是否是開發環境的話, 只要加入這樣的判斷:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=color:#66d9ef>if</span> (<span style=color:#a6e22e>process</span>.<span style=color:#a6e22e>env</span>.<span style=color:#a6e22e>NODE_ENV</span> <span style=color:#f92672>===</span> <span style=color:#e6db74>&#39;development&#39;</span>) {
+  <span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>log</span>(<span style=color:#e6db74>&#39;Hi!You are in dev env&#39;</span>)
+}
+</code></pre></div><p>生產環境就把"development"換成"production"就好了</p><p>不過實際跑到瀏覽器上時, 如果你在developement console內直接下<code>console.log(process.env.NODE_ENV)</code>, 你會發現完全沒這東西, 這是因為process.env.NODE_ENV並不是活在client端, 而是webpack在建置過程(跑在node.js)中動了手腳做了轉換了</p><p>那這值是在哪邊被定義呢? 打開"build/webpack.dev.conf.js"這個檔案看, 你會發現:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=color:#a6e22e>plugins</span><span style=color:#f92672>:</span> [
+    <span style=color:#66d9ef>new</span> <span style=color:#a6e22e>webpack</span>.<span style=color:#a6e22e>DefinePlugin</span>({
+      <span style=color:#e6db74>&#39;process.env&#39;</span><span style=color:#f92672>:</span> <span style=color:#a6e22e>config</span>.<span style=color:#a6e22e>dev</span>.<span style=color:#a6e22e>env</span>
+    }),
+	...
+]
+</code></pre></div><p>以及"config/dev.env.js&rdquo;:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=color:#a6e22e>module</span>.<span style=color:#a6e22e>exports</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>merge</span>(<span style=color:#a6e22e>prodEnv</span>, {
+  <span style=color:#a6e22e>NODE_ENV</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;&#34;development&#34;&#39;</span>
+})
+</code></pre></div></div></article><article class=hentry><header><div class=entry-meta><span class="entry-date date published updated"><time datetime="2016-11-04 15:11:58 +0000 UTC"><a href=/ES6-Generators/>Nov 4, 2016</a></time></span>
+<span class=entry-reading-time><i class="fa fa-clock-o"></i>Reading time ~2 minutes</span></div><h1 class=entry-title><a href=/ES6-Generators/ rel=bookmark title="[ES6] Generators" itemprop=url>[ES6] Generators</a></h1></header><div class=entry-content><p>這個語法蠻有趣的, 早上一直都在看這個想能拿來幹嘛? 結果早上有個phone interview就有點腦袋小小的轉不過來,
+不過這不是重點, 先簡單的來講一下<a href=https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Statements/function*>Generators</a></p><p>產生器? 顧名思義或許是這樣, 可以先看一下MDN上的<a href=https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Statements/function*>文件</a>,
+這是一個從ES6開始才有的功能, 因此要在比較新的瀏覽器, 或是nodejs 6之後才有支援, 先來看看MDN上那個簡單的例子:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=color:#66d9ef>function</span><span style=color:#f92672>*</span> <span style=color:#a6e22e>idMaker</span>(){
+  <span style=color:#66d9ef>var</span> <span style=color:#a6e22e>index</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>;
+  <span style=color:#66d9ef>while</span>(<span style=color:#a6e22e>index</span> <span style=color:#f92672>&lt;</span> <span style=color:#ae81ff>3</span>)
+    <span style=color:#66d9ef>yield</span> <span style=color:#a6e22e>index</span><span style=color:#f92672>++</span>;
+}
+
+<span style=color:#66d9ef>var</span> <span style=color:#a6e22e>gen</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>idMaker</span>();
+
+<span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>log</span>(<span style=color:#a6e22e>gen</span>.<span style=color:#a6e22e>next</span>().<span style=color:#a6e22e>value</span>); <span style=color:#75715e>// 0
+</span><span style=color:#75715e></span><span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>log</span>(<span style=color:#a6e22e>gen</span>.<span style=color:#a6e22e>next</span>().<span style=color:#a6e22e>value</span>); <span style=color:#75715e>// 1
+</span><span style=color:#75715e></span><span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>log</span>(<span style=color:#a6e22e>gen</span>.<span style=color:#a6e22e>next</span>().<span style=color:#a6e22e>value</span>); <span style=color:#75715e>// 2
+</span><span style=color:#75715e></span><span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>log</span>(<span style=color:#a6e22e>gen</span>.<span style=color:#a6e22e>next</span>().<span style=color:#a6e22e>value</span>); <span style=color:#75715e>// undefined
+</span></code></pre></div><p>一個generator是以"function*&ldquo;宣告的, 可以說它是一種特別的function, 跟一般的function一次跑到結束不同,
+它是可以中途暫停的, 以上面這例子來說, 如果習慣傳統的寫法, 可能會有點小暈, while loop在idMaker裡面不是一次做到完嗎?
+剛剛說generator是可被中途暫停的, 因此, 在第一輪的時候會先停在"yield"處, 當你呼叫next()才會到下一個yield位置停下來並回傳,
+我的感覺是比較像一種有帶state的function之類的</p><p>有什麼用途? 從上面的例子, 當然最直覺想到的是ID產生器或是計數器之類的東西, 網路上應該可以找到一些不同的用法, 比如說搭配Promise, 有興趣可以自己找找,
+是不只可以用在產生器, 拿我早上interview被問到的實作strstr, 不是很難的東西, 我原本拿go寫,出了點小槌, 而且也只能找第一個發生的字串, 後來用generator改了這版本:</p><script type=application/javascript src=https://gist.github.com/julianshen/6c06ccfa0942829ea24973778a96ab64.js></script><p>以這個來說, 第一次呼叫會找出第一個發生的點, 可以持續呼叫到所有的都找出來為止, generator是可以被iterate的, 因此這邊可以用</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=color:#66d9ef>for</span>(<span style=color:#66d9ef>var</span> <span style=color:#a6e22e>i</span> <span style=color:#66d9ef>of</span> <span style=color:#a6e22e>gen</span>) {
+    <span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>log</span>(<span style=color:#a6e22e>i</span>);
+}
+</code></pre></div><p>不需要一直call next(), next()回傳回來的會是{value:&mldr;, done:&mldr;}, 因此可以看done知道是否已經結束</p><p>下面這範例則是一個質數產生器, 一直call next就可以產生下一個質數:</p><script type=application/javascript src=https://gist.github.com/julianshen/0c283f6f76abf258f9c0d4292a1e14f9.js></script></div></article><article class=hentry><header><div class=entry-meta><span class="entry-date date published updated"><time datetime="2012-04-13 02:51:13 +0000 UTC"><a href=/%E7%AD%86%E8%A8%98-Practice-Open-graph-with-Facebook-JavaScript-API/>Apr 13, 2012</a></time></span>
+<span class=entry-reading-time><i class="fa fa-clock-o"></i>Reading time ~1 minute</span></div><h1 class=entry-title><a href=/%E7%AD%86%E8%A8%98-Practice-Open-graph-with-Facebook-JavaScript-API/ rel=bookmark title="[筆記] Practice: Open graph with Facebook JavaScript API" itemprop=url>[筆記] Practice: Open graph with Facebook JavaScript API</a></h1></header><div class=entry-content><div class=posterous_autopost><p>Source: <a href=https://bitbucket.org/julianshen/videomag/overview>https://bitbucket.org/julianshen/videomag/overview</a></p><p>Demo URL:<a href=http://growing-wind-8625.herokuapp.com/top> </a><a href=http://growing-wind-8625.herokuapp.com/top>http://growing-wind-8625.herokuapp.com/top</a></p><p>Server: Play framework 2.0 on Heroku</p><p>Open graph object: Youtube video, Action: watch</p><p>It&rsquo;s not a problem to add youtube video since it already contains open graph meta data in page. All we have to do is call &ldquo;/me/video.watches?video=youtube_link&rdquo; with POST.</p><p>To post activity to timeline, the permission &ldquo;publish_actions&rdquo; is required. </p><p>The result on timeline:</p><div class="p_embed p_image_embed"><img alt=_2012-04-13_2 height=65 src=http://getfile0.posterous.com/getfile/files.posterous.com/temp-2012-04-12/xgHCmzygzzzlDxxjbqcuoyeIAzHdgylkEfnGpAddspGblpwpmlrEckDHamkB/_2012-04-13_2.49.36.png.scaled500.png width=390></div></div></div></article><div class=pagination><ul class=inline-list><li><strong class=current-page>1</strong></li><li><a href=/tags/javascript/page/2/>2</a></li><li><a href=/tags/javascript/page/3/>3</a></li><li><a href=/tags/javascript/page/2/ class=btn>Next</a></li></ul></div></div><div class=footer-wrapper><footer role=contentinfo><span>Powered by <a href=https://gohugo.io/ rel=nofollow>Hugo</a> using the <a href=https://github.com/dldx/hpstr-hugo-theme rel=nofollow>HPSTR theme</a>.</span></footer></div><script src=//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js></script><script src=https://kit.fontawesome.com/872a53b461.js crossorigin=anonymous></script><script>window.jQuery||document.write('<script src="\/js\/vendor\/jquery-1.9.1.min.js"><\/script>')</script><script src=/js/scripts.min.js></script><script type=application/javascript>var doNotTrack=false;if(!doNotTrack){(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');ga('create','UA-79243751-1','auto');ga('send','pageview');}</script><div id=fb-root></div><script async defer crossorigin=anonymous src="https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v7.0&appId=293999444006555&autoLogAppEvents=1" nonce=geZSUIUh></script></body></html>

@@ -1,0 +1,412 @@
+<!doctype html><!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=en><![endif]--><!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang=en><![endif]--><!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang=en><![endif]--><!--[if gt IE 8]><!--><html class=no-js lang=en><!--<![endif]--><head><meta charset=utf-8><title>淺談Social Feed - 多服務彙整式的social feed [Client] &#8211; Le murmure de Julian</title><meta name=description content><meta name=keywords content="concept,idea,social network"><meta property="og:title" content="淺談Social Feed - 多服務彙整式的social feed [Client]"><meta property="og:description" content="出去放空玩一陣子了, 也該接下來整理一下剩下的東西了, 這篇主要要來談一下彙整式的social feed (aggregation feeds), 這功用是什麼呢? 由於現代人擁有了很多社群網路"><meta property="og:type" content="article"><meta property="og:url" content="http://blog.jln.co/%E6%B7%BA%E8%AB%87Social-Feed-%E5%A4%9A%E6%9C%8D%E5%8B%99%E5%BD%99%E6%95%B4%E5%BC%8F%E7%9A%84social-feed-Client/"><meta property="og:image" content="http://blog.jln.co/images/posts/2016-10-31-%E6%B7%BA%E8%AB%87social-feed---%E5%A4%9A%E6%9C%8D%E5%8B%99%E5%BD%99%E6%95%B4%E5%BC%8F%E7%9A%84social-feed-%5Bclient%5D.md.jpg"><meta property="article:published_time" content="2016-10-31T08:49:18+00:00"><meta property="article:modified_time" content="2016-10-31T08:49:18+00:00"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="http://blog.jln.co/images/posts/2016-10-31-%E6%B7%BA%E8%AB%87social-feed---%E5%A4%9A%E6%9C%8D%E5%8B%99%E5%BD%99%E6%95%B4%E5%BC%8F%E7%9A%84social-feed-%5Bclient%5D.md.jpg"><meta name=twitter:title content="淺談Social Feed - 多服務彙整式的social feed [Client]"><meta name=twitter:description content="出去放空玩一陣子了, 也該接下來整理一下剩下的東西了, 這篇主要要來談一下彙整式的social feed (aggregation feeds), 這功用是什麼呢? 由於現代人擁有了很多社群網路"><link rel=canonical href=http://blog.jln.co/%E6%B7%BA%E8%AB%87Social-Feed-%E5%A4%9A%E6%9C%8D%E5%8B%99%E5%BD%99%E6%95%B4%E5%BC%8F%E7%9A%84social-feed-Client/><meta name=HandheldFriendly content="True"><meta name=MobileOptimized content="320"><meta name=viewport content="width=device-width,initial-scale=1"><link rel=stylesheet href=/css/main.css><link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel=stylesheet type=text/css><meta http-equiv=cleartype content="on"><meta name=generator content="Hugo 0.73.0"><script src=/js/vendor/modernizr-2.6.2.custom.min.js></script><script async src=https://unpkg.com/mermaid@8.2.3/dist/mermaid.min.js></script><link rel="shortcut icon" href=/favicon.png></head><body id=post><nav id=dl-menu class=dl-menuwrapper role=navigation style=display:inline-block><button class=dl-trigger>Open Menu</button><ul class=dl-menu><li><a href=/>Home</a></li><li><a href=#>About</a><ul class=dl-submenu><li><img src=/images/avatar.png alt="Julian Shen's photo" class=author-photo><h4>Julian Shen</h4><p>Softward developer</p></li><li><a href=mailto:julianshen22@gmail.com><i class="fa fa-fw fa-envelope"></i>Email</a></li><li><a href=https://linkedin.com/in/julianshen><i class="fa fa-fw fa-linkedin"></i>LinkedIn</a></li><li><a href=https://github.com/julianshen><i class="fa fa-fw fa-github"></i>GitHub</a></li><li><a href=https://instagram.com/julianshen><i class="fa fa-fw fa-instagram"></i>Instagram</a></li></ul></li><li><a href=#>Posts</a><ul class=dl-submenu><li><a href=/post/>All Posts</a></li><li><a href=/tags/>All Tags</a></li></ul></li><li><a href=/></a></li></ul></nav><div id=main role=main><article class=hentry><header class=header-title><div class=header-title-wrap><h1 class=entry-title><a href=/%E6%B7%BA%E8%AB%87Social-Feed-%E5%A4%9A%E6%9C%8D%E5%8B%99%E5%BD%99%E6%95%B4%E5%BC%8F%E7%9A%84social-feed-Client/ rel=bookmark title="淺談Social Feed - 多服務彙整式的social feed [Client]">淺談Social Feed - 多服務彙整式的social feed [Client]</a></h1><h2><span class="entry-date date published"><time datetime="2016-10-31 08:49:18 +0000 UTC">October 31, 2016</time></span></h2><p class=entry-reading-time><i class="fa fa-clock-o"></i>Reading time ~10 minutes</p></div></header><div class=entry-content><p>出去放空玩一陣子了, 也該接下來整理一下剩下的東西了, 這篇主要要來談一下彙整式的social feed (aggregation feeds), 這功用是什麼呢?
+由於現代人擁有了很多社群網路的帳號, 但如果要一個個網站或App開著看才能看到所有的動態, 未免太累了, 因此變有這種彙整式的服務出現, 讓使用者在一個地方可以看到所有的社群動態</p><p>這種形態的應用, 有幾個有代表性的, <a href=/%E6%B7%BA%E8%AB%87social-feed-%E6%A6%82%E5%BF%B5%E7%AF%87/>前一篇的概念篇</a>裡所提到的<a href=https://zh.wikipedia.org/wiki/FriendFeed>Friendfeed</a>,
+還有就是<a href=https://flipboard.com>Flipboard</a>, 另外就是HTC的<a href=http://mobile.htc.com/learnmore/desires/eng/howtos/GUID-89A364D2-2043-46BD-9249-AA7BE00577A9.html>Friend stream</a>和<a href=http://www.htc.com/tw/support/htc-one-m8/howto/cat_71459.html>Blinkfeed</a> (私心提這兩個我所參與過的)</p><p><img src=http://farm4.static.flickr.com/3607/3418465682_acacbe7147_o.jpg alt=Friendfeed>
+<img src=/images/posts/flipboard_i1.png alt=Flipboard><div style=position:relative;padding-bottom:56.25%;height:0;overflow:hidden><iframe src=https://www.youtube.com/embed/6Ss4bM1XmTA style=position:absolute;top:0;left:0;width:100%;height:100%;border:0 allowfullscreen title="YouTube Video"></iframe></div><div style=position:relative;padding-bottom:56.25%;height:0;overflow:hidden><iframe src=https://www.youtube.com/embed/GdJInzTJI0U style=position:absolute;top:0;left:0;width:100%;height:100%;border:0 allowfullscreen title="YouTube Video"></iframe></div></p><p>前兩者跟後兩者的差異是在於, 前兩者在彙整social feeds是在server端, 所以client僅需要從server抓取彙整過的資料下來就好, 複雜度在於服務端並不是在client app,
+而Blinkfeed跟Friendstream的差異點則是在Friendstream整合了跟社群網路相關的動態, Blinkfeed則是多了新聞的部分, 後來實作的方式為了有更多的彈性, 底層架構的部分也有所改變,
+這篇會稍微提到如果是在Server端實作的一些可能做法, 但主要還是著重在client端實作的問題</p><p>做這樣一個東西, 不就是去呼叫各社群網路的API抓資料, 回來全部混在一起就好了? 如果單純只是實作一個"可以用的&rdquo;, 那這樣可能就可以了, 但實際上還是有些問題存在, 如</p><ol><li>各家API雖類似但個家還是有很多不同</li><li>各家server回應時間不盡相同</li><li>資料時間線交錯問題</li><li>資料更新問題</li><li>網路流量問題</li></ol><p>在看這些東西之前, 先來看看各家API的部分</p><h3 id=social-feed-api->Social Feed API</h3><p>很多社群網站都有提供公開的API讓你去獲取使用者的Social feeds, API定義各家各有不同, 但特色都一致的, 也就是大家都是以REST API設計為主, 採資料拉取(Pull)的方式, 分頁(pagination)的方式</p><h4 id=rest-polling-and-pagination->REST, Polling, and Pagination</h4><p>因為採用了REST API的定義方式, 所以資料傳輸上大多(幾乎是全部了啦)以JSON為主, 用REST + JSON的好處是簡單, 彈性, 資料也比較適合閱讀, 不過, 別騙人了啦, 你有多少次會直接去閱讀JSON, 除非你要做啥hacking,
+這連帶的也有人在實作client直接把JSON資料拿來儲存或暫存, 不過, 帶來的壞處是, 解析JSON其實並不是很經濟(後面會再稍提一下)</p><p>前面也有提到, 這樣的API設計是以"拉取&rdquo;(Pull)為主, 也就是server並不會主動給你最新的資料, 而是必須你的client自行呼叫API去取得, 因此要隨時保持有最新的動態,
+必須要不斷的輪詢(polling) server, 這其實也是相當不經濟的做法, 就算在熱門如Facebook, Twitter, 使用者的Social feeds不見得隨時會有最新的動態,
+因此多久的輪詢間隔才是最好的, 這會是一個很頭痛的事, 太過頻繁易造成浪費, 也會造成server的負擔, 太久則會造成使用者看到的動態並不總是會是最新的,
+其實少數像是Twitter, 有提供所謂的Streaming API, 這種就不是以拉取為主, 而是server會主動更新資料</p><p>一般來說, 社群網站上面"跟隨&rdquo;(Follow)了越多人, 看得到的動態越多, 總不可能每次抓取資料就從頭一筆給到最新的一筆, 這樣的話, 不但花時間, 浪費流量, 也增加了server的負擔,
+所以絕大部分的API, 都是從最新的往回給一定數量(比如說25則)的內容, 這樣稱之為一頁, 因此如果使用者需要往回捲回之前的資料, 就再抓取再前面一個分頁, 這樣的設計就是分頁(Pagination),
+分頁的問題點在於, 社群動態的最頂頭的部分常常會再有更新的動態加入, 導致分頁會整個位移, 像下圖, 這樣會導致client有可能抓取到重複的資料, 甚至時間線錯亂</p><p><img src=/images/posts/pagination.001.jpeg alt></p><h4 id=twitter-api->Twitter API</h4><p>先來看看<a href=https://dev.twitter.com/rest/public/timelines>Twitter API</a>的例子, 這邊就有很詳細地解釋前述的Pagination的問題, 並且講解如何用max_id和since_id來解決這一問題</p><p>Twitter在這部分經驗豐富, 他們用的解法是以"id&rdquo;, 有些社群網站的since會用"時間&rdquo;, 用時間是不好的做法, 因為就算你時間記錄到微秒, 還是很有可能有兩則以上的動態可能是相同時間的, 這樣錯亂的問題一樣存在</p><p>Twitter在抓取使用者的social feed用的API是<a href=https://dev.twitter.com/rest/reference/get/statuses/home_timeline>&ldquo;GET statuses/home_timeline.json&rdquo;</a>,
+回傳的資料是一個Tweets的陣列如下:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript>[
+  {
+    <span style=color:#e6db74>&#34;coordinates&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>null</span>,
+    <span style=color:#e6db74>&#34;truncated&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>false</span>,
+    <span style=color:#e6db74>&#34;created_at&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;Tue Aug 28 21:16:23 +0000 2012&#34;</span>,
+    <span style=color:#e6db74>&#34;favorited&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>false</span>,
+    <span style=color:#e6db74>&#34;id_str&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;240558470661799936&#34;</span>,
+    <span style=color:#e6db74>&#34;in_reply_to_user_id_str&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>null</span>,
+    <span style=color:#e6db74>&#34;entities&#34;</span><span style=color:#f92672>:</span> {
+      <span style=color:#e6db74>&#34;urls&#34;</span><span style=color:#f92672>:</span> [
+
+      ],
+      <span style=color:#e6db74>&#34;hashtags&#34;</span><span style=color:#f92672>:</span> [
+
+      ],
+      <span style=color:#e6db74>&#34;user_mentions&#34;</span><span style=color:#f92672>:</span> [
+
+      ]
+    },
+    <span style=color:#e6db74>&#34;text&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;just another test&#34;</span>,
+    <span style=color:#e6db74>&#34;contributors&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>null</span>,
+    <span style=color:#e6db74>&#34;id&#34;</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>240558470661799936</span>,
+    <span style=color:#e6db74>&#34;retweet_count&#34;</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>0</span>,
+    <span style=color:#e6db74>&#34;in_reply_to_status_id_str&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>null</span>,
+    <span style=color:#e6db74>&#34;geo&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>null</span>,
+    <span style=color:#e6db74>&#34;retweeted&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>false</span>,
+    <span style=color:#e6db74>&#34;in_reply_to_user_id&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>null</span>,
+    <span style=color:#e6db74>&#34;place&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>null</span>,
+    <span style=color:#e6db74>&#34;source&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;OAuth Dancer Reborn&#34;</span>,
+    <span style=color:#e6db74>&#34;user&#34;</span><span style=color:#f92672>:</span> {
+      <span style=color:#e6db74>&#34;name&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;OAuth Dancer&#34;</span>,
+      <span style=color:#e6db74>&#34;profile_sidebar_fill_color&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;DDEEF6&#34;</span>,
+      <span style=color:#e6db74>&#34;profile_background_tile&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>true</span>,
+      <span style=color:#e6db74>&#34;profile_sidebar_border_color&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;C0DEED&#34;</span>,
+      <span style=color:#e6db74>&#34;profile_image_url&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;http://a0.twimg.com/profile_images/730275945/oauth-dancer_normal.jpg&#34;</span>,
+      <span style=color:#e6db74>&#34;created_at&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;Wed Mar 03 19:37:35 +0000 2010&#34;</span>,
+      <span style=color:#e6db74>&#34;location&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;San Francisco, CA&#34;</span>,
+      <span style=color:#e6db74>&#34;follow_request_sent&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>false</span>,
+      <span style=color:#e6db74>&#34;id_str&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;119476949&#34;</span>,
+      <span style=color:#e6db74>&#34;is_translator&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>false</span>,
+      <span style=color:#e6db74>&#34;profile_link_color&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;0084B4&#34;</span>,
+      <span style=color:#e6db74>&#34;entities&#34;</span><span style=color:#f92672>:</span> {
+        <span style=color:#e6db74>&#34;url&#34;</span><span style=color:#f92672>:</span> {
+          <span style=color:#e6db74>&#34;urls&#34;</span><span style=color:#f92672>:</span> [
+            {
+              <span style=color:#e6db74>&#34;expanded_url&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>null</span>,
+              <span style=color:#e6db74>&#34;url&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;http://bit.ly/oauth-dancer&#34;</span>,
+              <span style=color:#e6db74>&#34;indices&#34;</span><span style=color:#f92672>:</span> [
+                <span style=color:#ae81ff>0</span>,
+                <span style=color:#ae81ff>26</span>
+              ],
+              <span style=color:#e6db74>&#34;display_url&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>null</span>
+            }
+          ]
+        },
+        <span style=color:#e6db74>&#34;description&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>null</span>
+      },
+      <span style=color:#e6db74>&#34;default_profile&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>false</span>,
+      <span style=color:#e6db74>&#34;url&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;http://bit.ly/oauth-dancer&#34;</span>,
+      <span style=color:#e6db74>&#34;contributors_enabled&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>false</span>,
+      <span style=color:#e6db74>&#34;favourites_count&#34;</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>7</span>,
+      <span style=color:#e6db74>&#34;utc_offset&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>null</span>,
+      <span style=color:#e6db74>&#34;profile_image_url_https&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;https://si0.twimg.com/profile_images/730275945/oauth-dancer_normal.jpg&#34;</span>,
+      <span style=color:#e6db74>&#34;id&#34;</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>119476949</span>,
+      <span style=color:#e6db74>&#34;listed_count&#34;</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>1</span>,
+      <span style=color:#e6db74>&#34;profile_use_background_image&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>true</span>,
+      <span style=color:#e6db74>&#34;profile_text_color&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;333333&#34;</span>,
+      <span style=color:#e6db74>&#34;followers_count&#34;</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>28</span>,
+      <span style=color:#e6db74>&#34;lang&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;en&#34;</span>,
+      <span style=color:#e6db74>&#34;protected&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>false</span>,
+      <span style=color:#e6db74>&#34;geo_enabled&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>true</span>,
+      <span style=color:#e6db74>&#34;notifications&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>false</span>,
+      <span style=color:#e6db74>&#34;description&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;&#34;</span>,
+      <span style=color:#e6db74>&#34;profile_background_color&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;C0DEED&#34;</span>,
+      <span style=color:#e6db74>&#34;verified&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>false</span>,
+      <span style=color:#e6db74>&#34;time_zone&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>null</span>,
+      <span style=color:#e6db74>&#34;profile_background_image_url_https&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;https://si0.twimg.com/profile_background_images/80151733/oauth-dance.png&#34;</span>,
+      <span style=color:#e6db74>&#34;statuses_count&#34;</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>166</span>,
+      <span style=color:#e6db74>&#34;profile_background_image_url&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;http://a0.twimg.com/profile_background_images/80151733/oauth-dance.png&#34;</span>,
+      <span style=color:#e6db74>&#34;default_profile_image&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>false</span>,
+      <span style=color:#e6db74>&#34;friends_count&#34;</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>14</span>,
+      <span style=color:#e6db74>&#34;following&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>false</span>,
+      <span style=color:#e6db74>&#34;show_all_inline_media&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>false</span>,
+      <span style=color:#e6db74>&#34;screen_name&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;oauth_dancer&#34;</span>
+    },
+    <span style=color:#e6db74>&#34;in_reply_to_screen_name&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>null</span>,
+    <span style=color:#e6db74>&#34;in_reply_to_status_id&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>null</span>
+  },
+  {
+    <span style=color:#e6db74>&#34;coordinates&#34;</span><span style=color:#f92672>:</span> {
+      <span style=color:#e6db74>&#34;coordinates&#34;</span><span style=color:#f92672>:</span> [
+        <span style=color:#f92672>-</span><span style=color:#ae81ff>122.25831</span>,
+        <span style=color:#ae81ff>37.871609</span>
+      ],
+      <span style=color:#e6db74>&#34;type&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;Point&#34;</span>
+    },
+    <span style=color:#e6db74>&#34;truncated&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>false</span>,
+    <span style=color:#e6db74>&#34;created_at&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;Tue Aug 28 21:08:15 +0000 2012&#34;</span>,
+    <span style=color:#e6db74>&#34;favorited&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>false</span>,
+    <span style=color:#e6db74>&#34;id_str&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;240556426106372096&#34;</span>,
+    <span style=color:#e6db74>&#34;in_reply_to_user_id_str&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>null</span>,
+    <span style=color:#e6db74>&#34;entities&#34;</span><span style=color:#f92672>:</span> {
+      <span style=color:#e6db74>&#34;urls&#34;</span><span style=color:#f92672>:</span> [
+        {
+          <span style=color:#e6db74>&#34;expanded_url&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;http://blogs.ischool.berkeley.edu/i290-abdt-s12/&#34;</span>,
+          <span style=color:#e6db74>&#34;url&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;http://t.co/bfj7zkDJ&#34;</span>,
+          <span style=color:#e6db74>&#34;indices&#34;</span><span style=color:#f92672>:</span> [
+            <span style=color:#ae81ff>79</span>,
+            <span style=color:#ae81ff>99</span>
+          ],
+          <span style=color:#e6db74>&#34;display_url&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;blogs.ischool.berkeley.edu/i290-abdt-s12/&#34;</span>
+        }
+      ],
+      <span style=color:#e6db74>&#34;hashtags&#34;</span><span style=color:#f92672>:</span> [
+
+      ],
+      <span style=color:#e6db74>&#34;user_mentions&#34;</span><span style=color:#f92672>:</span> [
+        {
+          <span style=color:#e6db74>&#34;name&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;Cal&#34;</span>,
+          <span style=color:#e6db74>&#34;id_str&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;17445752&#34;</span>,
+          <span style=color:#e6db74>&#34;id&#34;</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>17445752</span>,
+          <span style=color:#e6db74>&#34;indices&#34;</span><span style=color:#f92672>:</span> [
+            <span style=color:#ae81ff>60</span>,
+            <span style=color:#ae81ff>64</span>
+          ],
+          <span style=color:#e6db74>&#34;screen_name&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;Cal&#34;</span>
+        },
+        {
+          <span style=color:#e6db74>&#34;name&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;Othman Laraki&#34;</span>,
+          <span style=color:#e6db74>&#34;id_str&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;20495814&#34;</span>,
+          <span style=color:#e6db74>&#34;id&#34;</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>20495814</span>,
+          <span style=color:#e6db74>&#34;indices&#34;</span><span style=color:#f92672>:</span> [
+            <span style=color:#ae81ff>70</span>,
+            <span style=color:#ae81ff>77</span>
+          ],
+          <span style=color:#e6db74>&#34;screen_name&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;othman&#34;</span>
+        }
+      ]
+    },
+    <span style=color:#e6db74>&#34;text&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;lecturing at the \&#34;analyzing big data with twitter\&#34; class at @cal with @othman  http://t.co/bfj7zkDJ&#34;</span>,
+    <span style=color:#e6db74>&#34;contributors&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>null</span>,
+    <span style=color:#e6db74>&#34;id&#34;</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>240556426106372096</span>,
+    <span style=color:#e6db74>&#34;retweet_count&#34;</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>3</span>,
+    <span style=color:#e6db74>&#34;in_reply_to_status_id_str&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>null</span>,
+    <span style=color:#e6db74>&#34;geo&#34;</span><span style=color:#f92672>:</span> {
+      <span style=color:#e6db74>&#34;coordinates&#34;</span><span style=color:#f92672>:</span> [
+        <span style=color:#ae81ff>37.871609</span>,
+        <span style=color:#f92672>-</span><span style=color:#ae81ff>122.25831</span>
+      ],
+      <span style=color:#e6db74>&#34;type&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;Point&#34;</span>
+    },
+    <span style=color:#e6db74>&#34;retweeted&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>false</span>,
+    <span style=color:#e6db74>&#34;possibly_sensitive&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>false</span>,
+    <span style=color:#e6db74>&#34;in_reply_to_user_id&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>null</span>,
+    <span style=color:#e6db74>&#34;place&#34;</span><span style=color:#f92672>:</span> {
+      <span style=color:#e6db74>&#34;name&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;Berkeley&#34;</span>,
+      <span style=color:#e6db74>&#34;country_code&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;US&#34;</span>,
+      <span style=color:#e6db74>&#34;country&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;United States&#34;</span>,
+      <span style=color:#e6db74>&#34;attributes&#34;</span><span style=color:#f92672>:</span> {
+      },
+      <span style=color:#e6db74>&#34;url&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;http://api.twitter.com/1/geo/id/5ef5b7f391e30aff.json&#34;</span>,
+      <span style=color:#e6db74>&#34;id&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;5ef5b7f391e30aff&#34;</span>,
+      <span style=color:#e6db74>&#34;bounding_box&#34;</span><span style=color:#f92672>:</span> {
+        <span style=color:#e6db74>&#34;coordinates&#34;</span><span style=color:#f92672>:</span> [
+          [
+            [
+              <span style=color:#f92672>-</span><span style=color:#ae81ff>122.367781</span>,
+              <span style=color:#ae81ff>37.835727</span>
+            ],
+            [
+              <span style=color:#f92672>-</span><span style=color:#ae81ff>122.234185</span>,
+              <span style=color:#ae81ff>37.835727</span>
+            ],
+            [
+              <span style=color:#f92672>-</span><span style=color:#ae81ff>122.234185</span>,
+              <span style=color:#ae81ff>37.905824</span>
+            ],
+            [
+              <span style=color:#f92672>-</span><span style=color:#ae81ff>122.367781</span>,
+              <span style=color:#ae81ff>37.905824</span>
+            ]
+          ]
+        ],
+        <span style=color:#e6db74>&#34;type&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;Polygon&#34;</span>
+      },
+      <span style=color:#e6db74>&#34;full_name&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;Berkeley, CA&#34;</span>,
+      <span style=color:#e6db74>&#34;place_type&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;city&#34;</span>
+    },
+    <span style=color:#e6db74>&#34;source&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;Safari on iOS&#34;</span>,
+    <span style=color:#e6db74>&#34;user&#34;</span><span style=color:#f92672>:</span> {
+      <span style=color:#e6db74>&#34;name&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;Raffi Krikorian&#34;</span>,
+      <span style=color:#e6db74>&#34;profile_sidebar_fill_color&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;DDEEF6&#34;</span>,
+      <span style=color:#e6db74>&#34;profile_background_tile&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>false</span>,
+      <span style=color:#e6db74>&#34;profile_sidebar_border_color&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;C0DEED&#34;</span>,
+      <span style=color:#e6db74>&#34;profile_image_url&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;http://a0.twimg.com/profile_images/1270234259/raffi-headshot-casual_normal.png&#34;</span>,
+      <span style=color:#e6db74>&#34;created_at&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;Sun Aug 19 14:24:06 +0000 2007&#34;</span>,
+      <span style=color:#e6db74>&#34;location&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;San Francisco, California&#34;</span>,
+      <span style=color:#e6db74>&#34;follow_request_sent&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>false</span>,
+      <span style=color:#e6db74>&#34;id_str&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;8285392&#34;</span>,
+      <span style=color:#e6db74>&#34;is_translator&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>false</span>,
+      <span style=color:#e6db74>&#34;profile_link_color&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;0084B4&#34;</span>,
+      <span style=color:#e6db74>&#34;entities&#34;</span><span style=color:#f92672>:</span> {
+        <span style=color:#e6db74>&#34;url&#34;</span><span style=color:#f92672>:</span> {
+          <span style=color:#e6db74>&#34;urls&#34;</span><span style=color:#f92672>:</span> [
+            {
+              <span style=color:#e6db74>&#34;expanded_url&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;http://about.me/raffi.krikorian&#34;</span>,
+              <span style=color:#e6db74>&#34;url&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;http://t.co/eNmnM6q&#34;</span>,
+              <span style=color:#e6db74>&#34;indices&#34;</span><span style=color:#f92672>:</span> [
+                <span style=color:#ae81ff>0</span>,
+                <span style=color:#ae81ff>19</span>
+              ],
+              <span style=color:#e6db74>&#34;display_url&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;about.me/raffi.krikorian&#34;</span>
+            }
+          ]
+        },
+        <span style=color:#e6db74>&#34;description&#34;</span><span style=color:#f92672>:</span> {
+          <span style=color:#e6db74>&#34;urls&#34;</span><span style=color:#f92672>:</span> [
+
+          ]
+        }
+      },
+      <span style=color:#e6db74>&#34;default_profile&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>true</span>,
+      <span style=color:#e6db74>&#34;url&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;http://t.co/eNmnM6q&#34;</span>,
+      <span style=color:#e6db74>&#34;contributors_enabled&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>false</span>,
+      <span style=color:#e6db74>&#34;favourites_count&#34;</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>724</span>,
+      <span style=color:#e6db74>&#34;utc_offset&#34;</span><span style=color:#f92672>:</span> <span style=color:#f92672>-</span><span style=color:#ae81ff>28800</span>,
+      <span style=color:#e6db74>&#34;profile_image_url_https&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;https://si0.twimg.com/profile_images/1270234259/raffi-headshot-casual_normal.png&#34;</span>,
+      <span style=color:#e6db74>&#34;id&#34;</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>8285392</span>,
+      <span style=color:#e6db74>&#34;listed_count&#34;</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>619</span>,
+      <span style=color:#e6db74>&#34;profile_use_background_image&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>true</span>,
+      <span style=color:#e6db74>&#34;profile_text_color&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;333333&#34;</span>,
+      <span style=color:#e6db74>&#34;followers_count&#34;</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>18752</span>,
+      <span style=color:#e6db74>&#34;lang&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;en&#34;</span>,
+      <span style=color:#e6db74>&#34;protected&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>false</span>,
+      <span style=color:#e6db74>&#34;geo_enabled&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>true</span>,
+      <span style=color:#e6db74>&#34;notifications&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>false</span>,
+      <span style=color:#e6db74>&#34;description&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;Director of @twittereng&#39;s Platform Services. I break things.&#34;</span>,
+      <span style=color:#e6db74>&#34;profile_background_color&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;C0DEED&#34;</span>,
+      <span style=color:#e6db74>&#34;verified&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>false</span>,
+      <span style=color:#e6db74>&#34;time_zone&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;Pacific Time (US &amp; Canada)&#34;</span>,
+      <span style=color:#e6db74>&#34;profile_background_image_url_https&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;https://si0.twimg.com/images/themes/theme1/bg.png&#34;</span>,
+      <span style=color:#e6db74>&#34;statuses_count&#34;</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>5007</span>,
+      <span style=color:#e6db74>&#34;profile_background_image_url&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;http://a0.twimg.com/images/themes/theme1/bg.png&#34;</span>,
+      <span style=color:#e6db74>&#34;default_profile_image&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>false</span>,
+      <span style=color:#e6db74>&#34;friends_count&#34;</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>701</span>,
+      <span style=color:#e6db74>&#34;following&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>true</span>,
+      <span style=color:#e6db74>&#34;show_all_inline_media&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>true</span>,
+      <span style=color:#e6db74>&#34;screen_name&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;raffi&#34;</span>
+    },
+    <span style=color:#e6db74>&#34;in_reply_to_screen_name&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>null</span>,
+    <span style=color:#e6db74>&#34;in_reply_to_status_id&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>null</span>
+  },
+  {
+    <span style=color:#e6db74>&#34;coordinates&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>null</span>,
+    <span style=color:#e6db74>&#34;truncated&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>false</span>,
+    <span style=color:#e6db74>&#34;created_at&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;Tue Aug 28 19:59:34 +0000 2012&#34;</span>,
+    <span style=color:#e6db74>&#34;favorited&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>false</span>,
+    <span style=color:#e6db74>&#34;id_str&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;240539141056638977&#34;</span>,
+    <span style=color:#e6db74>&#34;in_reply_to_user_id_str&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>null</span>,
+    <span style=color:#e6db74>&#34;entities&#34;</span><span style=color:#f92672>:</span> {
+      <span style=color:#e6db74>&#34;urls&#34;</span><span style=color:#f92672>:</span> [
+
+      ],
+      <span style=color:#e6db74>&#34;hashtags&#34;</span><span style=color:#f92672>:</span> [
+
+      ],
+      <span style=color:#e6db74>&#34;user_mentions&#34;</span><span style=color:#f92672>:</span> [
+
+      ]
+    },
+    <span style=color:#e6db74>&#34;text&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;You&#39;d be right more often if you thought you were wrong.&#34;</span>,
+    <span style=color:#e6db74>&#34;contributors&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>null</span>,
+    <span style=color:#e6db74>&#34;id&#34;</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>240539141056638977</span>,
+    <span style=color:#e6db74>&#34;retweet_count&#34;</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>1</span>,
+    <span style=color:#e6db74>&#34;in_reply_to_status_id_str&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>null</span>,
+    <span style=color:#e6db74>&#34;geo&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>null</span>,
+    <span style=color:#e6db74>&#34;retweeted&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>false</span>,
+    <span style=color:#e6db74>&#34;in_reply_to_user_id&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>null</span>,
+    <span style=color:#e6db74>&#34;place&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>null</span>,
+    <span style=color:#e6db74>&#34;source&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;web&#34;</span>,
+    <span style=color:#e6db74>&#34;user&#34;</span><span style=color:#f92672>:</span> {
+      <span style=color:#e6db74>&#34;name&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;Taylor Singletary&#34;</span>,
+      <span style=color:#e6db74>&#34;profile_sidebar_fill_color&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;FBFBFB&#34;</span>,
+      <span style=color:#e6db74>&#34;profile_background_tile&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>true</span>,
+      <span style=color:#e6db74>&#34;profile_sidebar_border_color&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;000000&#34;</span>,
+      <span style=color:#e6db74>&#34;profile_image_url&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;http://a0.twimg.com/profile_images/2546730059/f6a8zq58mg1hn0ha8vie_normal.jpeg&#34;</span>,
+      <span style=color:#e6db74>&#34;created_at&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;Wed Mar 07 22:23:19 +0000 2007&#34;</span>,
+      <span style=color:#e6db74>&#34;location&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;San Francisco, CA&#34;</span>,
+      <span style=color:#e6db74>&#34;follow_request_sent&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>false</span>,
+      <span style=color:#e6db74>&#34;id_str&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;819797&#34;</span>,
+      <span style=color:#e6db74>&#34;is_translator&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>false</span>,
+      <span style=color:#e6db74>&#34;profile_link_color&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;c71818&#34;</span>,
+      <span style=color:#e6db74>&#34;entities&#34;</span><span style=color:#f92672>:</span> {
+        <span style=color:#e6db74>&#34;url&#34;</span><span style=color:#f92672>:</span> {
+          <span style=color:#e6db74>&#34;urls&#34;</span><span style=color:#f92672>:</span> [
+            {
+              <span style=color:#e6db74>&#34;expanded_url&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;http://www.rebelmouse.com/episod/&#34;</span>,
+              <span style=color:#e6db74>&#34;url&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;http://t.co/Lxw7upbN&#34;</span>,
+              <span style=color:#e6db74>&#34;indices&#34;</span><span style=color:#f92672>:</span> [
+                <span style=color:#ae81ff>0</span>,
+                <span style=color:#ae81ff>20</span>
+              ],
+              <span style=color:#e6db74>&#34;display_url&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;rebelmouse.com/episod/&#34;</span>
+            }
+          ]
+        },
+        <span style=color:#e6db74>&#34;description&#34;</span><span style=color:#f92672>:</span> {
+          <span style=color:#e6db74>&#34;urls&#34;</span><span style=color:#f92672>:</span> [
+
+          ]
+        }
+      },
+      <span style=color:#e6db74>&#34;default_profile&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>false</span>,
+      <span style=color:#e6db74>&#34;url&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;http://t.co/Lxw7upbN&#34;</span>,
+      <span style=color:#e6db74>&#34;contributors_enabled&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>false</span>,
+      <span style=color:#e6db74>&#34;favourites_count&#34;</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>15990</span>,
+      <span style=color:#e6db74>&#34;utc_offset&#34;</span><span style=color:#f92672>:</span> <span style=color:#f92672>-</span><span style=color:#ae81ff>28800</span>,
+      <span style=color:#e6db74>&#34;profile_image_url_https&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;https://si0.twimg.com/profile_images/2546730059/f6a8zq58mg1hn0ha8vie_normal.jpeg&#34;</span>,
+      <span style=color:#e6db74>&#34;id&#34;</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>819797</span>,
+      <span style=color:#e6db74>&#34;listed_count&#34;</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>340</span>,
+      <span style=color:#e6db74>&#34;profile_use_background_image&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>true</span>,
+      <span style=color:#e6db74>&#34;profile_text_color&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;D20909&#34;</span>,
+      <span style=color:#e6db74>&#34;followers_count&#34;</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>7126</span>,
+      <span style=color:#e6db74>&#34;lang&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;en&#34;</span>,
+      <span style=color:#e6db74>&#34;protected&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>false</span>,
+      <span style=color:#e6db74>&#34;geo_enabled&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>true</span>,
+      <span style=color:#e6db74>&#34;notifications&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>false</span>,
+      <span style=color:#e6db74>&#34;description&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;Reality Technician, Twitter API team, synthesizer enthusiast; a most excellent adventure in timelines. I know it&#39;s hard to believe in something you can&#39;t see.&#34;</span>,
+      <span style=color:#e6db74>&#34;profile_background_color&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;000000&#34;</span>,
+      <span style=color:#e6db74>&#34;verified&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>false</span>,
+      <span style=color:#e6db74>&#34;time_zone&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;Pacific Time (US &amp; Canada)&#34;</span>,
+      <span style=color:#e6db74>&#34;profile_background_image_url_https&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;https://si0.twimg.com/profile_background_images/643655842/hzfv12wini4q60zzrthg.png&#34;</span>,
+      <span style=color:#e6db74>&#34;statuses_count&#34;</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>18076</span>,
+      <span style=color:#e6db74>&#34;profile_background_image_url&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;http://a0.twimg.com/profile_background_images/643655842/hzfv12wini4q60zzrthg.png&#34;</span>,
+      <span style=color:#e6db74>&#34;default_profile_image&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>false</span>,
+      <span style=color:#e6db74>&#34;friends_count&#34;</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>5444</span>,
+      <span style=color:#e6db74>&#34;following&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>true</span>,
+      <span style=color:#e6db74>&#34;show_all_inline_media&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>true</span>,
+      <span style=color:#e6db74>&#34;screen_name&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;episod&#34;</span>
+    },
+    <span style=color:#e6db74>&#34;in_reply_to_screen_name&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>null</span>,
+    <span style=color:#e6db74>&#34;in_reply_to_status_id&#34;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>null</span>
+  }
+]
+</code></pre></div><p>眼花撩亂了吧? 這邊先不細部探討每個部分的意義, 你只需要先知道, 這雖然看來很複雜, 但有一大半你做client時"並用不上!!!&rdquo;
+通常只會需要內文, 連結, 回文數量, 喜愛數量, 使用者基本資料(大概就ID, 名字, 圖像就已經差不多了)</p><h4 id=facebook-api->Facebook API</h4><p>Facebook有相當多的功能, 因此相較於Twitter, 他的API自然複雜很多, 這邊要看的還是只有<a href=https://developers.facebook.com/docs/graph-api/reference/v2.8/user/feed>User Feed</a>這部分,
+不過似乎Facebook Graph API已經不再允許存取home timeline了, User Feed其實只能存取自己po的文</p><p>在處理Pagination上, Facebook API並不是很一致, 從<a href=https://developers.facebook.com/docs/graph-api/using-graph-api>這篇</a>來看, 有幾種分頁的形式:</p><ol><li>游標型分頁</li><li>時間型分頁</li><li>位移型分頁</li></ol><p>並不是所有的API節點都支援這三種分頁型態, 例如&rdquo;/user/albums"用的是游標型, 但User Feed用的是時間型, 時間型的缺點就是有可能會發生有相同時間的動態的問題, 但不管是哪一個類型
+在Paging的資訊都會有一個previuos跟next的連結(如下), 因此不用太擔心要根據不同型態去組出URL這部分</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=color:#75715e>//游標型分頁
+</span><span style=color:#75715e></span>{
+  <span style=color:#e6db74>&#34;data&#34;</span><span style=color:#f92672>:</span>[
+     
+  ],
+  <span style=color:#e6db74>&#34;paging&#34;</span><span style=color:#f92672>:</span>{
+    <span style=color:#e6db74>&#34;cursors&#34;</span><span style=color:#f92672>:</span>{
+      <span style=color:#e6db74>&#34;after&#34;</span><span style=color:#f92672>:</span><span style=color:#e6db74>&#34;MTAxNTExOTQ1MjAwNzI5NDE=&#34;</span>,
+      <span style=color:#e6db74>&#34;before&#34;</span><span style=color:#f92672>:</span><span style=color:#e6db74>&#34;NDMyNzQyODI3OTQw&#34;</span>
+    },
+    <span style=color:#e6db74>&#34;previous&#34;</span><span style=color:#f92672>:</span><span style=color:#e6db74>&#34;https://graph.facebook.com/me/albums?limit=25&amp;before=NDMyNzQyODI3OTQw&#34;</span>
+    <span style=color:#e6db74>&#34;next&#34;</span><span style=color:#f92672>:</span><span style=color:#e6db74>&#34;https://graph.facebook.com/me/albums?limit=25&amp;after=MTAxNTExOTQ1MjAwNzI5NDE=&#34;</span>
+  }
+}
+<span style=color:#75715e>//時間型分頁
+</span><span style=color:#75715e></span>{
+  <span style=color:#e6db74>&#34;data&#34;</span><span style=color:#f92672>:</span>[
+    {
+      <span style=color:#e6db74>&#34;message&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;真專業，還有空橋耶&#34;</span>,
+      <span style=color:#e6db74>&#34;created_time&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;2016-10-30T11:41:36+0000&#34;</span>,
+      <span style=color:#e6db74>&#34;id&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;1129283437_10210116929056272&#34;</span>
+    },
+    {
+      <span style=color:#e6db74>&#34;message&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;兄弟藍瘦香菇了&#34;</span>,
+      <span style=color:#e6db74>&#34;created_time&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;2016-10-29T12:45:58+0000&#34;</span>,
+      <span style=color:#e6db74>&#34;id&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;1129283437_10210105741976602&#34;</span>
+    },
+    {
+      <span style=color:#e6db74>&#34;message&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;又被拖著跑了&#34;</span>,
+      <span style=color:#e6db74>&#34;created_time&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;2016-10-29T06:39:29+0000&#34;</span>,
+      <span style=color:#e6db74>&#34;id&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;1129283437_10210103402598119&#34;</span>
+    }
+  ],
+  <span style=color:#e6db74>&#34;paging&#34;</span><span style=color:#f92672>:</span>{
+    <span style=color:#e6db74>&#34;previous&#34;</span><span style=color:#f92672>:</span><span style=color:#e6db74>&#34;https://graph.facebook.com/me/feed?limit=25&amp;since=1364849754&#34;</span>,
+    <span style=color:#e6db74>&#34;next&#34;</span><span style=color:#f92672>:</span><span style=color:#e6db74>&#34;https://graph.facebook.com/me/feed?limit=25&amp;until=1364587774&#34;</span>
+  }
+}
+</code></pre></div><p>在資料內容方面, Facebook回應的資料比起Twitter反而就相當的精簡, 這是有助於減低回應時間的(response time)</p><h3 id=時間線回朔問題->時間線回朔問題</h3><p>剛提到Pagination時有講到在Client的設計上, 在使用者往回滑完一頁時必須要再獲取上一頁的資料, 這在單一資料源的時候問題不大, 但對彙整式的social feed, 尤其完全在Client端實作的, 會有這樣一個問題</p><p>先來看看下圖:</p><p><img src=/images/posts/aggregation.002.jpeg alt></p><p>假設我們有S1, S2, S3, S4四個服務的動態要整合, 垂直每個線段是每次API call抓取到的資料的時間段(每個分頁的匙間段)</p><p>如果我們先不考慮S2-S4, 而是只有一個S1, 第一次載入的分頁內容的時間點在t1-t2間, 所以照理來說當使用者滑到快t2時, 要再發出一個新的API call抓取下一個分頁, 也就是t3-t5這段,
+但如果把S2-S4列入考慮後, 會發現, 當第一次從四個服務那邊取得資料, 資料涵括的時間是從t1-t9, 如果什麼都不做處理而是照前面的邏輯來看, 必須要使用者滑到快t9時,
+才會第二次抓取資料, 但由於第一次抓取時, S1缺了t2-t9間的資料, S2缺了t3之後的, S4的資料也只到t4, 因此第二次抓取資料時, 會造成這三者的資料往前回填,
+這在UI顯示上會是一個比較大的災難</p><p>因此, 以這圖來說, 第一次抓取完畢後, UI上只能顯示t1-t2間的資料, 使用者滑到t2時, 就必須觸發第二次資料的抓取, 但以這例子來說, 其實第二次是不需要包含S3
+的, 因為它第一次抓取的資料時間還在t5之後, 所以這邊如果能夠做省略, 而不是每次抓取資料都包含了S1-S4, 那可以省卻不少回應時間</p><h3 id=資料格式的一致化data-normalization->資料格式的一致化(Data normalization)</h3><p>剛剛看了Twitter, Facebook兩個API, 它的資料格式雖然都是JSON, 但內容差異很大, 但實際上來說, 以上次那篇的一張圖來做解釋:</p><p><img src=/images/posts/post1021_facebook2.jpg alt></p><p>從這張圖可以發現, 我們需要的資料並不多, 即使各家型態有所不同(例如Twitter重文字, Instagram是以圖為主), 我們還是可以歸納出我們UI所需要顯示的型態有哪些類別,
+因此我們需要的也只是顯示UI所需要的部分而已, 所以我們可以把這些不同來源的資料格式一致化成同一種我們所需要的資料格式</p><p>那為何需要先一致化呢? 每次API抓回來的資料解析完直接顯示到UI上不就好了? 一般這樣的App的UI設計上, 會讓使用者一直捲頁, 因此你還是會需要把舊資料先暫存,
+不管是在記憶體或是在資料庫內, 這樣使用者回捲再多也不需要再從server抓取舊資料, 但你如果把原本資料原封不動的拿來存, 像Twitter那個就會存了很多不必要的資料,
+如果更偷懶直接存JSON, 那就會是效率問題了, 解析JSON過程中其實會產生不少垃圾, 效率也不高, 可能會影響UI的效能, 因此如果能夠在一開始把解析完的資料序列化到資料庫內,
+會是比較理想, 因為你只需要從資料庫取相對應解析完的資料就好, 不用再一次解析JSON</p><h3 id=背景更新->背景更新</h3><p>偷偷在背景更新動態是一種解決時間線回朔這個問題的方法, 因為所有資料都預先抓回資料庫, 所以也不需要煩惱什麼時後該去抓下一個分頁, 每個服務都可以獨立抓取, 丟到本地的資料庫彙整就好
+,在使用者使用程式時, 也不需要解析太多JSON, 但這帶來一個缺點是因為在背景抓資料, 會有浪費頻寬的問題, 假設使用者一天最多只看了50則動態, 但一天其實會產生一百則, 那就會有50則的資訊量是浪費了,
+再加上Social API都是用輪詢(polling)的方式, 並不是會時時有資料, 所以常常很多API calls其實是不需要也浪費的</p><h3 id=那friendfeed的做法->那Friendfeed的做法?</h3><p>Facebook的前CTO, 也是Friendfeed創辦人之一的Brett Taylor在這篇 <a href=https://www.quora.com/How-do-sites-such-as-FriendFeed-and-Flipboard-scale-out-their-social-data-aggregators>How do sites such as FriendFeed and Flipboard scale out their social data-aggregators?</a>
+的回答可窺知一二</p><p>在server端的做法就像背景更新差不多, 定期用crawler發api去抓取各服務的資料, 然後塞到資料庫內, 因此就沒有時間線回朔的問題了, 但問題就在於抓取的間隔, 因此在server端實作的難題就是該怎樣去取這間隔,
+在OSCON 2008有一篇<a href=http://cdn.oreillystatic.com/en/assets/1/event/12/Beyond%20REST_%20Building%20Data%20Services%20with%20XMPP%20PubSub%20Presentation.pdf>Beyond REST? Building Data Services with XMPP PubSub</a>有提到:</p><pre><code>on july 21st, 2008, they friendfeed crawled flickr 2.9 million times. to get the latest photos of 45,754 users of which 6,721 of that 45,754 visited Flickr in that 24 hour period, and could have *potentially* uploaded a photo. 
+- Beyond REST? Building data services with XMPP PubSub (Evan Henshaw-Plath, ENTP.com, Kellan Elliott-McCrea, Flickr.com)
+</code></pre><p>但實際上來說, 並沒有那麼多的更新, 也不需要那麼頻繁的去抓取, 但這是這類型的API先天的缺陷, 也不是Friendfeed的問題, 或許在下一篇講一下怎麼設計API來改善這狀況</p><footer class=entry-meta><span class=entry-tags><a href=/tags/#concept title="Pages tagged concept" class=tag><span class=term>concept</span></a><a href=/tags/#idea title="Pages tagged idea" class=tag><span class=term>idea</span></a><a href=/tags/#social-network title="Pages tagged social-network" class=tag><span class=term>social-network</span></a></span><div class=social-share><ul class="socialcount socialcount-small inline-list"><li class=facebook><a href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fblog.jln.co%2f%25E6%25B7%25BA%25E8%25AB%2587Social-Feed-%25E5%25A4%259A%25E6%259C%258D%25E5%258B%2599%25E5%25BD%2599%25E6%2595%25B4%25E5%25BC%258F%25E7%259A%2584social-feed-Client%2f" target=_blank title="Share on Facebook"><span class=count><i class="fa fa-facebook-square"></i>Like</span></a></li><li class=twitter><a href="https://twitter.com/intent/tweet?text=http%3a%2f%2fblog.jln.co%2f%25E6%25B7%25BA%25E8%25AB%2587Social-Feed-%25E5%25A4%259A%25E6%259C%258D%25E5%258B%2599%25E5%25BD%2599%25E6%2595%25B4%25E5%25BC%258F%25E7%259A%2584social-feed-Client%2f" target=_blank title="Share on Twitter"><span class=count><i class="fa fa-twitter-square"></i>Tweet</span></a></li><li class=line><a href="https://social-plugins.line.me/lineit/share?url=http%3a%2f%2fblog.jln.co%2f%25E6%25B7%25BA%25E8%25AB%2587Social-Feed-%25E5%25A4%259A%25E6%259C%258D%25E5%258B%2599%25E5%25BD%2599%25E6%2595%25B4%25E5%25BC%258F%25E7%259A%2584social-feed-Client%2f" target=_blank title="Share on LINE"><span class=count><i class="fab fa-line"></i>LINE</span></a></li></ul></div></footer></div><section id=disqus_thread><div class=fb-comments data-href=http://blog.jln.co/%E6%B7%BA%E8%AB%87Social-Feed-%E5%A4%9A%E6%9C%8D%E5%8B%99%E5%BD%99%E6%95%B4%E5%BC%8F%E7%9A%84social-feed-Client/ data-numposts=5 data-width></div></section></article></div><div class=footer-wrapper><footer role=contentinfo><span>Powered by <a href=https://gohugo.io/ rel=nofollow>Hugo</a> using the <a href=https://github.com/dldx/hpstr-hugo-theme rel=nofollow>HPSTR theme</a>.</span></footer></div><script src=//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js></script><script src=https://kit.fontawesome.com/872a53b461.js crossorigin=anonymous></script><script>window.jQuery||document.write('<script src="\/js\/vendor\/jquery-1.9.1.min.js"><\/script>')</script><script src=/js/scripts.min.js></script><script type=application/javascript>var doNotTrack=false;if(!doNotTrack){(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');ga('create','UA-79243751-1','auto');ga('send','pageview');}</script><div id=fb-root></div><script async defer crossorigin=anonymous src="https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v7.0&appId=293999444006555&autoLogAppEvents=1" nonce=geZSUIUh></script></body></html>
