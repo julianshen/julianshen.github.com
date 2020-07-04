@@ -101,22 +101,30 @@ C -->|無| E[產生文字圖片]
 D --> F[在Front matter插入images屬性]
 E --> F
 F --> G[寫回原文]
-G --> H[結束]</div><p>這邊套用了幾個套件來處理,</p><ul><li>Hugo本身的 Page parser, 用來處理Front matter跟Content分離, 由於Hugo本身就是用Go寫的, 所以很輕易地可以用 <code>import "github.com/gohugoio/hugo/parser/pageparser"</code>來使用</li><li>&ldquo;gopkg.in/yaml.v2&rdquo;, 用來輸出yaml的</li><li>&ldquo;github.com/yuin/goldmark&rdquo;, 這是Hugo用的Mark down parser, 我這邊用來找出所有的圖片, 如果是外站的就下載回來</li><li>&ldquo;github.com/h2non/bimg&rdquo;, 這是一個基於libvips的圖片處理套件, 安裝上會需要libvips, 這邊就不詳述, 以後如果有時間再另外寫一篇好了</li><li>&ldquo;github.com/Iwark/text2img&rdquo;, 這有點有趣, 我本來想自己寫一個把標題轉成圖片的來當作<code>og:image</code>的材料的, 沒想到真有人已經做了, 這邊我是自己fork回來做了些小修正</li></ul><h2 id=自動化處理文章的ogimg>自動化處理文章的<code>og:img</code></h2><p>有了上面的<code>ogp</code>後, 就可以"手動"來產生文章的<code>og:image</code>了, 當然, 這完全不方便, 我每次寫完一篇新文章後, 我就得自己手動跑一次 <code>ogp</code>, 身為一個懶惰的攻城獅(做了前面這麼多還懶惰?), 當然要想想怎麼來自動化囉!!</p><p>這邊想到的方式是利用 <a href=https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks>git-hooks</a>, 甚麼是<a href=https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks>git-hooks</a>呢?簡單的說, 就是用來在你做git操作時, 可以讓你觸發某些動作, 例如我這邊要用到的pre-commit和post-commit, pre-commit是在你下commit命令後但還沒真正做commit動作前觸發, post-commit則是在動作發生之後</p><p>要使用<a href=https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks>git-hooks</a>的話, 要把你要執行的寫成腳本(script)放到 <code>.git/hooks/</code> 目錄下, 例如, pre-commit的腳本的檔名就是 <code>.git/hooks/pre-commit</code>, 記得要把這檔案用 <code>chmod +x</code> 把權限改成可執行, 下面就是我用的pre-commit</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=color:#75715e>#!/bin/bash
-</span><span style=color:#75715e></span>echo <span style=color:#e6db74>&#34;Run precommit&#34;</span>
-newfiles<span style=color:#f92672>=</span><span style=color:#e6db74>`</span>git diff --cached --name-status | awk <span style=color:#e6db74>&#39;$1!=&#34;D&#34; { print $2 }&#39;</span><span style=color:#e6db74>`</span>
+G --> H[結束]</div><p>這邊套用了幾個套件來處理,</p><ul><li>Hugo本身的 Page parser, 用來處理Front matter跟Content分離, 由於Hugo本身就是用Go寫的, 所以很輕易地可以用 <code>import "github.com/gohugoio/hugo/parser/pageparser"</code>來使用</li><li>&ldquo;gopkg.in/yaml.v2&rdquo;, 用來輸出yaml的</li><li>&ldquo;github.com/yuin/goldmark&rdquo;, 這是Hugo用的Mark down parser, 我這邊用來找出所有的圖片, 如果是外站的就下載回來</li><li>&ldquo;github.com/h2non/bimg&rdquo;, 這是一個基於libvips的圖片處理套件, 安裝上會需要libvips, 這邊就不詳述, 以後如果有時間再另外寫一篇好了</li><li>&ldquo;github.com/Iwark/text2img&rdquo;, 這有點有趣, 我本來想自己寫一個把標題轉成圖片的來當作<code>og:image</code>的材料的, 沒想到真有人已經做了, 這邊我是自己fork回來做了些小修正</li></ul><h2 id=自動化處理文章的ogimg>自動化處理文章的<code>og:img</code></h2><p>有了上面的<code>ogp</code>後, 就可以"手動"來產生文章的<code>og:image</code>了, 當然, 這完全不方便, 我每次寫完一篇新文章後, 我就得自己手動跑一次 <code>ogp</code>, 身為一個懶惰的攻城獅(做了前面這麼多還懶惰?), 當然要想想怎麼來自動化囉!!</p><p>這邊想到的方式是利用 <a href=https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks>git-hooks</a>, 甚麼是<a href=https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks>git-hooks</a>呢?簡單的說, 就是用來在你做git操作時, 可以讓你觸發某些動作, 例如我這邊要用到的pre-commit和post-commit, pre-commit是在你下commit命令後但還沒真正做commit動作前觸發, post-commit則是在動作發生之後</p><p>要使用<a href=https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks>git-hooks</a>的話, 要把你要執行的寫成腳本(script)放到 <code>.git/hooks/</code> 目錄下, 例如, pre-commit的腳本的檔名就是 <code>.git/hooks/pre-commit</code>, 記得要把這檔案用 <code>chmod +x</code> 把權限改成可執行, 下面就是我用的pre-commit</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-perl data-lang=perl><span style=color:#75715e>#!/usr/bin/perl </span>
+<span style=color:#66d9ef>use</span> File::Basename;
+<span style=color:#66d9ef>use</span> File::Copy;
+<span style=color:#66d9ef>use</span> Cwd;
+<span style=color:#66d9ef>use</span> utf8;
 
-<span style=color:#66d9ef>for</span> n in $newfiles
-<span style=color:#66d9ef>do</span>
-   <span style=color:#66d9ef>if</span> <span style=color:#f92672>[[</span> $n <span style=color:#f92672>=</span>~ content/post/.*<span style=color:#ae81ff>\.</span>md$ <span style=color:#f92672>]]</span>; <span style=color:#66d9ef>then</span>
-       f<span style=color:#f92672>=</span><span style=color:#e6db74>`</span>basename $n<span style=color:#e6db74>`</span>
-       docker run -v <span style=color:#e6db74>`</span>pwd<span style=color:#e6db74>`</span>:/blog julianshen/ogpp $f &gt; /tmp/$f
-       mv /tmp/$f content/post/$f
-       rm /tmp/$f
-       touch .commit
-   <span style=color:#66d9ef>fi</span>
-<span style=color:#66d9ef>done</span>
-exit <span style=color:#ae81ff>0</span>
-</code></pre></div><p>這邊所做的動作是找到這次有變更的文章(副檔名.md), 然後針對每個檔去跑ogp產生 <code>og:image</code> (我這邊把ogp包成docker image方便使用)</p><p>前面我說到, 會利用到 <code>pre-commit</code> 跟 <code>post-commit</code>, 那 <code>post-commit</code> 又是用到哪個地方呢? 在 <code>pre-commit</code>這邊, 我用了 <code>ogp</code> 有產生了新檔案(圖檔), 但對於git來說, 這個檔案並不在stage中(<code>git add</code>後), 所以當做完commit後, 這個檔案並不會被放進去, 因此我們得找一個方式把它一起放進去</p><p>如果你有發現到在<code>pre-commit</code>這腳本中, 在跑完 <code>ogp</code>後有加了一個 <code>touch .commit</code>的動作, 這目的就是為了來解決前面所說的問題, 因為有產生新的檔案, 所以這邊建立一個 <code>.commit</code>的檔案來標記一下有新檔案產生, 這檔案本身沒太大意義, 而是為了在後面 <code>post-commit</code>使用</p><p>那, 我的 <code>post-commit</code>的腳本就會長成這樣:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=color:#75715e>#!/bin/bash
+open(FH,<span style=color:#e6db74>&#34;git diff --cached --name-status |&#34;</span>) <span style=color:#f92672>or</span> die $!;
+
+<span style=color:#66d9ef>while</span> (<span style=color:#66d9ef>my</span> $line <span style=color:#f92672>=</span> <span style=color:#e6db74>&lt;FH&gt;</span>) {
+   $line <span style=color:#f92672>=~</span><span style=color:#e6db74> /^(\w)\s+(.+)/</span>;
+   <span style=color:#66d9ef>if</span> ($1 <span style=color:#f92672>ne</span> <span style=color:#e6db74>&#34;D&#34;</span>){
+      <span style=color:#66d9ef>my</span> $f <span style=color:#f92672>=</span> $2;
+      $f <span style=color:#f92672>=~</span> tr<span style=color:#e6db74>/&#34;/</span><span style=color:#f92672>/</span>d;
+      ($name,$path,$suffix) <span style=color:#f92672>=</span> fileparse($f,  ,<span style=color:#e6db74>qr&#34;\..[^.]*$&#34;</span>);
+      <span style=color:#66d9ef>if</span>($suffix <span style=color:#f92672>=~</span><span style=color:#e6db74> /\.md|\.MD/</span>) {
+          <span style=color:#66d9ef>my</span> $dir <span style=color:#f92672>=</span> getcwd;
+          <span style=color:#66d9ef>print</span> <span style=color:#e6db74>&#34;$f\n&#34;</span>;
+          system(<span style=color:#e6db74>&#34;docker run -v $dir:/blog julianshen/ogpp &#39;$name$suffix&#39; &gt; &#39;/tmp/$name$suffix&#39;&#34;</span>);
+          copy(<span style=color:#e6db74>&#34;/tmp/$name$suffix&#34;</span>, <span style=color:#e6db74>&#34;$dir/$f&#34;</span>) <span style=color:#f92672>or</span> die <span style=color:#e6db74>&#34;error moving file from /tmp/$name$suffix to $dir/$f:$!&#34;</span>;
+      }
+   }
+}
+close(FH)
+</code></pre></div><p>(更新: 後來因為有檔名處理問題, 改寫了這個perl的版本)</p><p>這邊所做的動作是找到這次有變更的文章(副檔名.md), 然後針對每個檔去跑ogp產生 <code>og:image</code> (我這邊把ogp包成docker image方便使用)</p><p>前面我說到, 會利用到 <code>pre-commit</code> 跟 <code>post-commit</code>, 那 <code>post-commit</code> 又是用到哪個地方呢? 在 <code>pre-commit</code>這邊, 我用了 <code>ogp</code> 有產生了新檔案(圖檔), 但對於git來說, 這個檔案並不在stage中(<code>git add</code>後), 所以當做完commit後, 這個檔案並不會被放進去, 因此我們得找一個方式把它一起放進去</p><p>如果你有發現到在<code>pre-commit</code>這腳本中, 在跑完 <code>ogp</code>後有加了一個 <code>touch .commit</code>的動作, 這目的就是為了來解決前面所說的問題, 因為有產生新的檔案, 所以這邊建立一個 <code>.commit</code>的檔案來標記一下有新檔案產生, 這檔案本身沒太大意義, 而是為了在後面 <code>post-commit</code>使用</p><p>那, 我的 <code>post-commit</code>的腳本就會長成這樣:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=color:#75715e>#!/bin/bash
 </span><span style=color:#75715e></span>echo <span style=color:#e6db74>&#34;Post commit&#34;</span>
 <span style=color:#66d9ef>if</span> <span style=color:#f92672>[</span> -e .commit <span style=color:#f92672>]</span>
     <span style=color:#66d9ef>then</span>
