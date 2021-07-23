@@ -1,5 +1,96 @@
-<!doctype html><!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=en><![endif]--><!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang=en><![endif]--><!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang=en><![endif]--><!--[if gt IE 8]><!--><html class=no-js lang=en><!--<![endif]--><head><meta charset=utf-8><title>Le murmure de Julian</title><meta name=description content><meta property="og:title" content="Le murmure de Julian"><meta property="og:description" content><meta property="og:type" content="website"><meta property="og:url" content="https://blog.jln.co/"><meta property="og:image" content="https://blog.jln.co/images/avatar.png"><meta property="og:updated_time" content="2020-07-05T14:54:23+08:00"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://blog.jln.co/images/avatar.png"><meta name=twitter:title content="Le murmure de Julian"><meta name=twitter:description content><link rel=canonical href=https://blog.jln.co/><link href=https://blog.jln.co/feed.xml rel=alternate type=application/rss+xml title="Le murmure de Julian"><link href=https://blog.jln.co/feed.xml rel=feed type=application/rss+xml title="Le murmure de Julian"><meta name=HandheldFriendly content="True"><meta name=MobileOptimized content="320"><meta name=viewport content="width=device-width,initial-scale=1"><link rel=stylesheet href=/css/main.css><link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel=stylesheet type=text/css><meta http-equiv=cleartype content="on"><meta name=generator content="Hugo 0.73.0"><script src=/js/vendor/modernizr-2.6.2.custom.min.js></script><script async src=https://unpkg.com/mermaid@8.2.3/dist/mermaid.min.js></script><link rel="shortcut icon" href=/favicon.png></head><body id=post-index class=feature><nav id=dl-menu class=dl-menuwrapper role=navigation style=display:inline-block><button class=dl-trigger>Open Menu</button><ul class=dl-menu><li><a href=/>Home</a></li><li><a href=#>About</a><ul class=dl-submenu><li><img src=/images/avatar.png alt="Julian Shen's photo" class=author-photo><h4>Julian Shen</h4><p>Softward developer</p></li><li><a href=mailto:julianshen22@gmail.com><i class="fa fa-fw fa-envelope"></i>Email</a></li><li><a href=https://linkedin.com/in/julianshen><i class="fa fa-fw fa-linkedin"></i>LinkedIn</a></li><li><a href=https://github.com/julianshen><i class="fa fa-fw fa-github"></i>GitHub</a></li><li><a href=https://instagram.com/julianshen><i class="fa fa-fw fa-instagram"></i>Instagram</a></li></ul></li><li><a href=#>Posts</a><ul class=dl-submenu><li><a href=/post/>All Posts</a></li><li><a href=/tags/>All Tags</a></li></ul></li><li><a href=/></a></li></ul></nav><div class=entry-header><div class=entry-image><img src=/images/bkg2.jpg alt="Le murmure de Julian"></div><div class=header-title><div class=header-title-wrap><h1><a href=/ title="Go to the homepage">Le murmure de Julian</a></h1><h2>朱隸安貓囈語錄</h2></div></div></div><div id=main role=main><article class=hentry><header><div class=entry-meta><span class="entry-date date published updated"><time datetime="2020-07-05 14:54:23 +0800 +0800"><a href=/%E7%94%A8golang%E8%A7%A3%E6%9E%90json%E8%A3%A1%E7%9A%84%E6%95%B8%E5%AD%97%E6%AC%84%E4%BD%8D/>Jul 5, 2020</a></time></span>
-<span class=entry-reading-time><i class="fa fa-clock-o"></i>Reading time ~4 minutes</span></div><h1 class=entry-title><a href=/%E7%94%A8golang%E8%A7%A3%E6%9E%90json%E8%A3%A1%E7%9A%84%E6%95%B8%E5%AD%97%E6%AC%84%E4%BD%8D/ rel=bookmark title=用golang解析json裡的數字欄位 itemprop=url>用golang解析json裡的數字欄位</a></h1></header><div class=entry-content><p>在寫網路相關應用的時候, 應該常常會碰到需要去解析JSON格式的資料, 而Go在這邊也已經內建了一個蠻方便的套件 - <strong>&ldquo;encoding/json&rdquo;</strong> 可以讓我們輕易地來處理這類型的資料</p><p>先來看看下面這段範例:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-golang data-lang=golang><span style=color:#f92672>package</span> <span style=color:#a6e22e>main</span>
+<!doctype html><!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=en><![endif]--><!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang=en><![endif]--><!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang=en><![endif]--><!--[if gt IE 8]><!--><html class=no-js lang=en><!--<![endif]-->
+<head>
+<meta charset=utf-8>
+<title>Le murmure de Julian</title>
+<meta name=description content>
+<meta property="og:title" content="Le murmure de Julian">
+<meta property="og:description" content>
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://blog.jln.co/"><meta property="og:image" content="https://blog.jln.co/images/avatar.png">
+<meta name=twitter:card content="summary_large_image">
+<meta name=twitter:image content="https://blog.jln.co/images/avatar.png">
+<meta name=twitter:title content="Le murmure de Julian">
+<meta name=twitter:description content>
+<link rel=canonical href=https://blog.jln.co/>
+<link href=https://blog.jln.co/feed.xml rel=alternate type=application/rss+xml title="Le murmure de Julian">
+<link href=https://blog.jln.co/feed.xml rel=feed type=application/rss+xml title="Le murmure de Julian">
+<meta name=HandheldFriendly content="True">
+<meta name=MobileOptimized content="320">
+<meta name=viewport content="width=device-width,initial-scale=1">
+<link rel=stylesheet href=/css/main.css>
+<link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel=stylesheet type=text/css>
+<meta http-equiv=cleartype content="on">
+<meta name=generator content="Hugo 0.86.0">
+<script src=/js/vendor/modernizr-2.6.2.custom.min.js></script>
+<script async src=https://unpkg.com/mermaid@8.2.3/dist/mermaid.min.js></script>
+<link rel="shortcut icon" href=/favicon.png>
+</head>
+<body id=post-index class=feature>
+<nav id=dl-menu class=dl-menuwrapper role=navigation style=display:inline-block>
+<button class=dl-trigger>Open Menu</button>
+<ul class=dl-menu>
+<li><a href=/>Home</a></li>
+<li>
+<a href=#>About</a>
+<ul class=dl-submenu>
+<li>
+<img src=/images/avatar.png alt="Julian Shen's photo" class=author-photo>
+<h4>Julian Shen</h4>
+<p>Softward developer</p>
+</li>
+<li>
+<a href=mailto:julianshen22@gmail.com><i class="fa fa-fw fa-envelope"></i> Email</a>
+</li>
+<li>
+<a href=https://linkedin.com/in/julianshen><i class="fa fa-fw fa-linkedin"></i> LinkedIn</a>
+</li>
+<li>
+<a href=https://github.com/julianshen><i class="fa fa-fw fa-github"></i> GitHub</a>
+</li>
+<li>
+<a href=https://instagram.com/julianshen><i class="fa fa-fw fa-instagram"></i> Instagram</a>
+</li>
+</ul>
+</li>
+<li>
+<a href=#>Posts</a>
+<ul class=dl-submenu>
+<li><a href=/post/>All Posts</a></li>
+<li><a href=/tags/>All Tags</a></li>
+</ul>
+</li>
+<li><a href=/></a></li>
+</ul>
+</nav>
+<div class=entry-header>
+<div class=entry-image>
+<img src=/images/bkg2.jpg alt="Le murmure de Julian">
+</div>
+<div class=header-title>
+<div class=header-title-wrap>
+<h1><a href=/ title="Go to the homepage">Le murmure de Julian</a></h1>
+<h2>
+朱隸安貓囈語錄
+</h2>
+</div>
+</div>
+</div>
+<div id=main role=main>
+<article class=hentry>
+<header>
+<div class=entry-meta>
+<span class="entry-date date published updated"><time datetime="2020-07-05 14:54:23 +0800 +0800"><a href=/%E7%94%A8golang%E8%A7%A3%E6%9E%90json%E8%A3%A1%E7%9A%84%E6%95%B8%E5%AD%97%E6%AC%84%E4%BD%8D/>Jul 5, 2020</a></time></span>
+<span class=entry-reading-time>
+<i class="fa fa-clock-o"></i>
+Reading time ~4 minutes
+</span>
+</div>
+<h1 class=entry-title><a href=/%E7%94%A8golang%E8%A7%A3%E6%9E%90json%E8%A3%A1%E7%9A%84%E6%95%B8%E5%AD%97%E6%AC%84%E4%BD%8D/ rel=bookmark title=用golang解析json裡的數字欄位 itemprop=url>用golang解析json裡的數字欄位</a></h1>
+</header>
+<div class=entry-content>
+<p>在寫網路相關應用的時候, 應該常常會碰到需要去解析JSON格式的資料, 而Go在這邊也已經內建了一個蠻方便的套件 - <strong>&ldquo;encoding/json&rdquo;</strong> 可以讓我們輕易地來處理這類型的資料</p>
+<p>先來看看下面這段範例:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-golang data-lang=golang><span style=color:#f92672>package</span> <span style=color:#a6e22e>main</span>
 
 <span style=color:#f92672>import</span> (
 	<span style=color:#e6db74>&#34;fmt&#34;</span>
@@ -25,29 +116,43 @@
 	}
 	<span style=color:#a6e22e>fmt</span>.<span style=color:#a6e22e>Println</span>(<span style=color:#a6e22e>sample</span>)
 }
-</code></pre></div><p>[<a href=https://play.golang.org/p/YfOPBMXGGl5>執行</a>]</p><p>從這個範例可以看到, 我們可以用很簡單的程式碼, 把下面這段JSON內容給對應到<code>Sample</code>這個結構裡面</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json>{
+</code></pre></div><p>[<a href=https://play.golang.org/p/YfOPBMXGGl5>執行</a>]</p>
+<p>從這個範例可以看到, 我們可以用很簡單的程式碼, 把下面這段JSON內容給對應到<code>Sample</code>這個結構裡面</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json>{
    <span style=color:#f92672>&#34;name&#34;</span>:<span style=color:#e6db74>&#34;julian&#34;</span>,
    <span style=color:#f92672>&#34;age&#34;</span>: <span style=color:#ae81ff>-1</span>
 }
-</code></pre></div><p>但這邊其實有一個問題, 如果你把這個JSON資料, 改成下面這樣子:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json>{
+</code></pre></div><p>但這邊其實有一個問題, 如果你把這個JSON資料, 改成下面這樣子:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json>{
    <span style=color:#f92672>&#34;name&#34;</span>:<span style=color:#e6db74>&#34;julian&#34;</span>,
    <span style=color:#f92672>&#34;age&#34;</span>: <span style=color:#e6db74>&#34;-1&#34;</span>
 }
-</code></pre></div><p>這在現實世界應該蠻常看到的, 只是多加個雙引號而已, 大家應該也會預期這邊應該也會沒問題的解析出一樣的結果吧? 但你如果實際改了資料<a href=https://play.golang.org/p/nxMnQFY3CQ->執行看看</a>, 你得到的結果應該會是:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh>panic: json: cannot unmarshal string into Go struct field Sample.Age of type int
+</code></pre></div><p>這在現實世界應該蠻常看到的, 只是多加個雙引號而已, 大家應該也會預期這邊應該也會沒問題的解析出一樣的結果吧? 但你如果實際改了資料<a href=https://play.golang.org/p/nxMnQFY3CQ->執行看看</a>, 你得到的結果應該會是:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh>panic: json: cannot unmarshal string into Go struct field Sample.Age of type int
 
 goroutine <span style=color:#ae81ff>1</span> <span style=color:#f92672>[</span>running<span style=color:#f92672>]</span>:
 main.main<span style=color:#f92672>()</span>
 	/tmp/sandbox247755092/prog.go:23 +0x162
-</code></pre></div><p>這其實是 <em><strong>&ldquo;encoding/json&rdquo;</strong></em> 把雙引號的內容都當作字串來看, 所以當我要把它塞到一個 <em>int</em> 欄位時, 就會出事了</p><p>解決方法有好幾種, 下面就一一來看看:</p><h2 id=用field-tag來解決>用Field tag來解決</h2><p>如果把<code>Sample</code>的定義改成下面這樣:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-golang data-lang=golang><span style=color:#66d9ef>type</span> <span style=color:#a6e22e>Sample</span> <span style=color:#66d9ef>struct</span> {
+</code></pre></div><p>這其實是 <em><strong>&ldquo;encoding/json&rdquo;</strong></em> 把雙引號的內容都當作字串來看, 所以當我要把它塞到一個 <em>int</em> 欄位時, 就會出事了</p>
+<p>解決方法有好幾種, 下面就一一來看看:</p>
+<h2 id=用field-tag來解決>用Field tag來解決</h2>
+<p>如果把<code>Sample</code>的定義改成下面這樣:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-golang data-lang=golang><span style=color:#66d9ef>type</span> <span style=color:#a6e22e>Sample</span> <span style=color:#66d9ef>struct</span> {
    <span style=color:#a6e22e>Name</span> <span style=color:#66d9ef>string</span>
    <span style=color:#a6e22e>Age</span> <span style=color:#66d9ef>int</span> <span style=color:#e6db74>`json:&#34;,string&#34;`</span>
 }
-</code></pre></div><p>[<a href=https://play.golang.org/p/qexEcHzamM3>執行範例</a>]</p><p>喔耶, 沒問題了耶!!!可以正常的解出資料了耶!! 慢著, 先別高興太早!! 再試試把雙引號拿掉看看(參考這個<a href=https://play.golang.org/p/Cz17VTbCBBX>範例</a>)</p><p>呃, 是怎樣啦!! 換成這個錯誤了!!</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh>panic: json: invalid use of ,string struct tag, trying to unmarshal unquoted value into int
+</code></pre></div><p>[<a href=https://play.golang.org/p/qexEcHzamM3>執行範例</a>]</p>
+<p>喔耶, 沒問題了耶!!!可以正常的解出資料了耶!! 慢著, 先別高興太早!! 再試試把雙引號拿掉看看(參考這個<a href=https://play.golang.org/p/Cz17VTbCBBX>範例</a>)</p>
+<p>呃, 是怎樣啦!! 換成這個錯誤了!!</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh>panic: json: invalid use of ,string struct tag, trying to unmarshal unquoted value into int
 
 goroutine <span style=color:#ae81ff>1</span> <span style=color:#f92672>[</span>running<span style=color:#f92672>]</span>:
 main.main<span style=color:#f92672>()</span>
 	/tmp/sandbox912379425/prog.go:23 +0x162
-</code></pre></div><p>在現實案例中, 的確是有可能碰到有時送來的資料有雙引號, 有時候沒有, 這方法是沒法一次滿足的</p><h2 id=利用unmarshaler界面來解決>利用Unmarshaler界面來解決</h2><p><em><strong>&ldquo;encoding/json&rdquo;</strong></em> 是可以讓開發者自行指定怎去解析JSON內容的, 只需要定義一個自定義的型別並實做Unmarshaler界面就可以了, 為了解決這個問題, 我們可以定義一個新的<code>MyInt</code>的型別, 並幫它實做<code>UnmarshalJSON</code>的方法, 參考下面範例:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-golang data-lang=golang><span style=color:#66d9ef>type</span> <span style=color:#a6e22e>MyInt</span> <span style=color:#66d9ef>int</span>
+</code></pre></div><p>在現實案例中, 的確是有可能碰到有時送來的資料有雙引號, 有時候沒有, 這方法是沒法一次滿足的</p>
+<h2 id=利用unmarshaler界面來解決>利用Unmarshaler界面來解決</h2>
+<p><em><strong>&ldquo;encoding/json&rdquo;</strong></em> 是可以讓開發者自行指定怎去解析JSON內容的, 只需要定義一個自定義的型別並實做Unmarshaler界面就可以了, 為了解決這個問題, 我們可以定義一個新的<code>MyInt</code>的型別, 並幫它實做<code>UnmarshalJSON</code>的方法, 參考下面範例:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-golang data-lang=golang><span style=color:#66d9ef>type</span> <span style=color:#a6e22e>MyInt</span> <span style=color:#66d9ef>int</span>
 
 <span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>m</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>MyInt</span>) <span style=color:#a6e22e>UnmarshalJSON</span>(<span style=color:#a6e22e>data</span> []<span style=color:#66d9ef>byte</span>) <span style=color:#66d9ef>error</span> {
 	<span style=color:#a6e22e>str</span> <span style=color:#f92672>:=</span> string(<span style=color:#a6e22e>data</span>)
@@ -68,11 +173,19 @@ main.main<span style=color:#f92672>()</span>
 	<span style=color:#a6e22e>Name</span> <span style=color:#66d9ef>string</span>
 	<span style=color:#a6e22e>Age</span>  <span style=color:#a6e22e>MyInt</span>
 }
-</code></pre></div><p>[<a href=https://play.golang.org/p/FAqSuBcDXgl>執行範例</a>]</p><p>在Sample這個結構中的Age欄位, 從原本的int改成MyInt, 這樣<code>json.Unmarshal</code>碰到Age這欄位的話, 就會用<code>MyInt</code>的<code>UnmarshalJSON</code>方法去解析</p><p>這方法是麻煩了點, 而且可能針對不同型別要去個別做, 但卻是可以同時處理掉前述兩種型態的資料, 程式沒那好看就是了</p><h2 id=使用jsonnumberhttpsgolangorgpkgencodingjsonnumber>使用<a href=https://golang.org/pkg/encoding/json/#Number>json.Number</a></h2><p>在 <em><strong>&ldquo;encoding/json&rdquo;</strong></em> 裡其實還提供一個資料型態<a href=https://golang.org/pkg/encoding/json/#Number>json.Number</a>, 這個應該是這個問題的比較正規的解法了, 把Sample的定義改成下面這樣:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-golang data-lang=golang><span style=color:#66d9ef>type</span> <span style=color:#a6e22e>Sample</span> <span style=color:#66d9ef>struct</span> {
+</code></pre></div><p>[<a href=https://play.golang.org/p/FAqSuBcDXgl>執行範例</a>]</p>
+<p>在Sample這個結構中的Age欄位, 從原本的int改成MyInt, 這樣<code>json.Unmarshal</code>碰到Age這欄位的話, 就會用<code>MyInt</code>的<code>UnmarshalJSON</code>方法去解析</p>
+<p>這方法是麻煩了點, 而且可能針對不同型別要去個別做, 但卻是可以同時處理掉前述兩種型態的資料, 程式沒那好看就是了</p>
+<h2 id=使用jsonnumberhttpsgolangorgpkgencodingjsonnumber>使用<a href=https://golang.org/pkg/encoding/json/#Number>json.Number</a></h2>
+<p>在 <em><strong>&ldquo;encoding/json&rdquo;</strong></em> 裡其實還提供一個資料型態<a href=https://golang.org/pkg/encoding/json/#Number>json.Number</a>, 這個應該是這個問題的比較正規的解法了, 把Sample的定義改成下面這樣:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-golang data-lang=golang><span style=color:#66d9ef>type</span> <span style=color:#a6e22e>Sample</span> <span style=color:#66d9ef>struct</span> {
 	<span style=color:#a6e22e>Name</span> <span style=color:#66d9ef>string</span>
 	<span style=color:#a6e22e>Age</span>  <span style=color:#a6e22e>json</span>.<span style=color:#a6e22e>Number</span>
 }
-</code></pre></div><p>[<a href=https://play.golang.org/p/sWbmNX1aZwi>執行範例</a>]</p><p>這方法也是可以無誤的解析兩種的型態, 然後當你要取用<code>Age</code>這欄位的<code>int</code>型態時, 你可以用<code>sample.Age.Int64()</code>去取得, 要多一層是麻煩點</p><p>那它是怎做到的呢? 來看一下它的原始碼:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-golang data-lang=golang><span style=color:#75715e>// A Number represents a JSON number literal.
+</code></pre></div><p>[<a href=https://play.golang.org/p/sWbmNX1aZwi>執行範例</a>]</p>
+<p>這方法也是可以無誤的解析兩種的型態, 然後當你要取用<code>Age</code>這欄位的<code>int</code>型態時, 你可以用<code>sample.Age.Int64()</code>去取得, 要多一層是麻煩點</p>
+<p>那它是怎做到的呢? 來看一下它的原始碼:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-golang data-lang=golang><span style=color:#75715e>// A Number represents a JSON number literal.
 </span><span style=color:#75715e></span><span style=color:#66d9ef>type</span> <span style=color:#a6e22e>Number</span> <span style=color:#66d9ef>string</span>
 
 <span style=color:#75715e>// String returns the literal text of the number.
@@ -87,7 +200,11 @@ main.main<span style=color:#f92672>()</span>
 </span><span style=color:#75715e></span><span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>n</span> <span style=color:#a6e22e>Number</span>) <span style=color:#a6e22e>Int64</span>() (<span style=color:#66d9ef>int64</span>, <span style=color:#66d9ef>error</span>) {
 	<span style=color:#66d9ef>return</span> <span style=color:#a6e22e>strconv</span>.<span style=color:#a6e22e>ParseInt</span>(string(<span style=color:#a6e22e>n</span>), <span style=color:#ae81ff>10</span>, <span style=color:#ae81ff>64</span>)
 }
-</code></pre></div><p>會發現, 其實沒啥了不起的, Number本身就是一個string, 所以它是當字串在處理, 而當你需要數字表示(int或float)時, 再呼叫ParseInt或ParseFloat來處理</p><h2 id=使用-jsoniterhttpsgithubcomjson-iteratorgo-來取代-encodingjson>使用 <a href=https://github.com/json-iterator/go>Jsoniter</a> 來取代 &ldquo;encoding/json&rdquo;</h2><p><a href=https://github.com/json-iterator/go>Jsoniter</a>是一個號稱比原生的***&ldquo;encoding/json&rdquo;***效能還要來的更好的JSON處理套件, 除了Go的版本外, 它也有Java的版本</p><p>效能不在這邊的討論範圍, 但除效能外, 它也是最簡單解決這問題的方法, 先來看看完整的程式碼吧:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-golang data-lang=golang><span style=color:#f92672>package</span> <span style=color:#a6e22e>main</span>
+</code></pre></div><p>會發現, 其實沒啥了不起的, Number本身就是一個string, 所以它是當字串在處理, 而當你需要數字表示(int或float)時, 再呼叫ParseInt或ParseFloat來處理</p>
+<h2 id=使用-jsoniterhttpsgithubcomjson-iteratorgo-來取代-encodingjson>使用 <a href=https://github.com/json-iterator/go>Jsoniter</a> 來取代 &ldquo;encoding/json&rdquo;</h2>
+<p><a href=https://github.com/json-iterator/go>Jsoniter</a>是一個號稱比原生的***&ldquo;encoding/json&rdquo;***效能還要來的更好的JSON處理套件, 除了Go的版本外, 它也有Java的版本</p>
+<p>效能不在這邊的討論範圍, 但除效能外, 它也是最簡單解決這問題的方法, 先來看看完整的程式碼吧:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-golang data-lang=golang><span style=color:#f92672>package</span> <span style=color:#a6e22e>main</span>
 
 <span style=color:#f92672>import</span> (
 	<span style=color:#e6db74>&#34;fmt&#34;</span>
@@ -128,19 +245,56 @@ main.main<span style=color:#f92672>()</span>
 	<span style=color:#a6e22e>fmt</span>.<span style=color:#a6e22e>Println</span>(<span style=color:#a6e22e>sample</span>)
 
 }
-</code></pre></div><p>[<a href=https://play.golang.org/p/vKl1YcH6lt8>執行範例</a>]</p><p>為啥說是最簡單的方法呢? 首先, 它有跟 <em><strong>&ldquo;encoding/json&rdquo;</strong></em> 完全一樣的使用方法, 把套件換掉後, 程式幾乎一樣, 所以也不需要改啥程式, 但如果只有改這樣, 會發現問題都還是在, 並沒有解決掉, 這時候就要帶入它額外的功能 <code>FuzzyDecoders</code> 了, <code>FuzzyDecoders</code>是在它額外的套件裡面, 所以只需要加入import就可以用了</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-golang data-lang=golang><span style=color:#f92672>import</span> <span style=color:#a6e22e>extra</span> <span style=color:#e6db74>&#34;github.com/json-iterator/go/extra&#34;</span>
-</code></pre></div><p>然後在開始使用前, 註冊 <code>FuzzyDecoders</code> 即可(<code>extra.RegisterFuzzyDecoders()</code>), 這樣, 不管有沒雙引號都不會有問題了!!</p></div></article><article class=hentry><header><div class=entry-meta><span class="entry-date date published updated"><time datetime="2020-06-28 12:32:14 +0800 +0800"><a href=/%E7%94%A8Hugo-GitHub-Actions%E6%89%93%E9%80%A0Blog/>Jun 28, 2020</a></time></span>
-<span class=entry-reading-time><i class="fa fa-clock-o"></i>Reading time ~14 minutes</span></div><h1 class=entry-title><a href=/%E7%94%A8Hugo-GitHub-Actions%E6%89%93%E9%80%A0Blog/ rel=bookmark title="用Hugo + GitHub Actions打造Blog" itemprop=url>用Hugo + GitHub Actions打造Blog</a></h1></header><div class=entry-content><p>大概有三年沒寫Blog了, 最近覺得年紀大了, 變得越來越會忘東忘西的, 是有必要強迫自己寫一些東西了</p><p>每次荒廢了很久後重新執筆, 好像就會習慣換個系統, 並且做個紀錄, 像是之前 - <a href=http://blog.jln.co/%E5%8F%88%E5%86%8D%E6%8A%8ABlog%E6%90%AC%E5%AE%B6%E4%BA%86/>這篇</a> XD
-這次&mldr;也不要例外好了, 雖然之前用 <a href=https://jekyllrb.com/>Jekyll</a> + GitHub Page還算堪用, 但就是覺得它不是很快(是太慢了), 加上這麼久沒用了, 也忘了差不多了, 還是拋棄它吧</p><p>GitHub是不錯的免費空間, 所以還是沿用吧, 把 <a href=https://jekyllrb.com/>Jekyll</a> 換掉應該就差不多了, 這樣的話找另外一套靜態網頁產生器就足夠了, 也不用特地架server, domain name也沿用, 那這次該換甚麼呢? 最近這幾年, 比較迷 Go, 所以沒多考慮, 打算就採用用Go寫的 <a href=https://gohugo.io/>Hugo</a>, 當然希望以前的內容還是可以承繼下來, 之前在<a href=https://jekyllrb.com/>Jekyll</a>上的功能能延續自然就更好了, 廢話說太多了, 廢話說太多了, 先來看一下這次做的改變</p><h2 id=安裝-hugohttpsgohugoio>安裝 <a href=https://gohugo.io/>Hugo</a></h2><p><a href=https://gohugo.io/>Hugo</a>是一套用Go寫的Open source靜態網頁產生器, 特點就是快, 非常快, 使用方法也很簡單, 如果你在Mac底下, 也像我一樣用 <a href=https://brew.sh/>Homebrew</a>, 那只要執行下面的指令:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>brew install hugo
-</code></pre></div><p>不過最近我在家的工作環境比較常是Windows底下用<a href=https://docs.microsoft.com/en-us/windows/wsl/wsl2-index>WSL(Windows subsystem for Linux)</a>下開發東西，這邊就不得不誇誇微軟了，有了ＷＳＬ後，我在Windows下工作，也跟我在Ｍａｃ上一樣順手，WSL說穿了就是一個Linux環境, 我用的是Ubuntu, 不過我是想在Linux下也是用 我是想在Linux下也是用 <a href=https://brew.sh/>Homebrew</a> 來安裝, 不想用apt(習慣了), 這時候就可以用下面的指令來安裝 <a href=https://brew.sh/>Homebrew</a></p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>/bin/bash -c <span style=color:#e6db74>&#34;</span><span style=color:#66d9ef>$(</span>curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh<span style=color:#66d9ef>)</span><span style=color:#e6db74>&#34;</span>
-</code></pre></div><h2 id=移植原本jekyll上的內容>移植原本Jekyll上的內容</h2><p>這是整個所有過程中最簡單的事了, 當你裝好Hugo後只要執行</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>hugo import jekyll jekyll_root_path target_path
-</code></pre></div><p>這邊的jekyll_root_path是你原始jekyll內容的路徑, 它會自動幫你轉換所有的內容到新路徑, 又快又簡單</p><p>移植完內容後, 可以到新的目錄執行<code>hugo server</code>先來預覽結果&mldr;不過, 慢著~~看起來好像跟想像的不同!因為我們還沒套用主題跟做相關設定</p><h2 id=套用原本的主題>套用原本的主題</h2><p>雖然換了新系統, 不過我還是希望風格可以接近之前的, <a href=https://jekyllrb.com/>Jekyll</a> 是可以套用主題的, 而我之前套用的主題是改自 <a href=https://github.com/mmistakes/jekyll-theme-hpstr>hpstr</a> 這個主題的(也只是換一下標頭途而已)</p><p>還好Hugo上也是有人幫忙移植了 <a href=https://themes.gohugo.io/hpstr-hugo-theme/>Hugo版hpstr</a></p><p>Hugo的主題(themes)是被放在<code>themes</code>的目錄下, 所以新增一個新的theme很簡單, 只要把theme下載回來解開放在那目錄就好, 如果要試試套用的結果, 就執行</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>hugo server --theme hpstr
-</code></pre></div><p>這邊hpstr是theme的名字, 不過到這邊為止, 都只是預覽而已, 真正產生網頁時都還不會套用theme</p><h2 id=設定網站>設定網站</h2><p>剛剛有說過, 這時候如果去產生網頁, 並不會真的套用你所想要的theme, 必須先做好設定才可以</p><p>在剛剛從Jekyll移植過來的目錄裡面, 已經有產生了一個 <code>config.yaml</code> 的設定檔, 如果希望產生網頁時套用我們剛剛選用的hpstr, 那只要在 <code>config.yaml</code> 裡加上一行 <code>theme: hpstr</code>就好</p><p>這個config.yaml長的就像這樣:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=color:#66d9ef>baseURL</span>: http://blog.jln.co
-<span style=color:#66d9ef>disablePathToLower</span>: <span style=color:#66d9ef>true</span>
-<span style=color:#66d9ef>languageCode</span>: en-us
-<span style=color:#66d9ef>title</span>: Le murmure de Julian
-<span style=color:#66d9ef>theme</span>: hpstr
-</code></pre></div><p>這個設定檔格式是以yaml格式儲存的, 但它其實也支援了 TOML, JSON等其他的格式, 這是因為, 創作了Hugo的大神 <a href=https://spf13.com/>spf13</a> 同時也是著名 Go 套件 <a href=https://github.com/spf13/viper>viper</a>的作者, 相信很多寫Go的攻城獅們很多都使用過 <a href=https://github.com/spf13/viper>viper</a> 來讀取設定檔吧</p><p>這邊因為某些原因, 我後來決定不用yaml格式來存我的設定, 而是改用TOML, 因此我把config.yaml, 轉換成 config.toml , 以下是我最近一個版本的設定檔:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-toml data-lang=toml><span style=color:#a6e22e>baseURL</span>= <span style=color:#e6db74>&#34;https://blog.jln.co&#34;</span>
+</code></pre></div><p>[<a href=https://play.golang.org/p/vKl1YcH6lt8>執行範例</a>]</p>
+<p>為啥說是最簡單的方法呢? 首先, 它有跟 <em><strong>&ldquo;encoding/json&rdquo;</strong></em> 完全一樣的使用方法, 把套件換掉後, 程式幾乎一樣, 所以也不需要改啥程式, 但如果只有改這樣, 會發現問題都還是在, 並沒有解決掉, 這時候就要帶入它額外的功能 <code>FuzzyDecoders</code> 了, <code>FuzzyDecoders</code>是在它額外的套件裡面, 所以只需要加入import就可以用了</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-golang data-lang=golang><span style=color:#f92672>import</span> <span style=color:#a6e22e>extra</span> <span style=color:#e6db74>&#34;github.com/json-iterator/go/extra&#34;</span>
+</code></pre></div><p>然後在開始使用前, 註冊 <code>FuzzyDecoders</code> 即可(<code>extra.RegisterFuzzyDecoders()</code>), 這樣, 不管有沒雙引號都不會有問題了!!</p>
+</div>
+</article>
+<article class=hentry>
+<header>
+<div class=entry-meta>
+<span class="entry-date date published updated"><time datetime="2020-06-28 12:32:14 +0800 +0800"><a href=/%E7%94%A8Hugo-GitHub-Actions%E6%89%93%E9%80%A0Blog/>Jun 28, 2020</a></time></span>
+<span class=entry-reading-time>
+<i class="fa fa-clock-o"></i>
+Reading time ~14 minutes
+</span>
+</div>
+<h1 class=entry-title><a href=/%E7%94%A8Hugo-GitHub-Actions%E6%89%93%E9%80%A0Blog/ rel=bookmark title="用Hugo + GitHub Actions打造Blog" itemprop=url>用Hugo + GitHub Actions打造Blog</a></h1>
+</header>
+<div class=entry-content>
+<p>大概有三年沒寫Blog了, 最近覺得年紀大了, 變得越來越會忘東忘西的, 是有必要強迫自己寫一些東西了</p>
+<p>每次荒廢了很久後重新執筆, 好像就會習慣換個系統, 並且做個紀錄, 像是之前 - <a href=http://blog.jln.co/%E5%8F%88%E5%86%8D%E6%8A%8ABlog%E6%90%AC%E5%AE%B6%E4%BA%86/>這篇</a> XD
+這次&mldr;也不要例外好了, 雖然之前用 <a href=https://jekyllrb.com/>Jekyll</a> + GitHub Page還算堪用, 但就是覺得它不是很快(是太慢了), 加上這麼久沒用了, 也忘了差不多了, 還是拋棄它吧</p>
+<p>GitHub是不錯的免費空間, 所以還是沿用吧, 把 <a href=https://jekyllrb.com/>Jekyll</a> 換掉應該就差不多了, 這樣的話找另外一套靜態網頁產生器就足夠了, 也不用特地架server, domain name也沿用, 那這次該換甚麼呢? 最近這幾年, 比較迷 Go, 所以沒多考慮, 打算就採用用Go寫的 <a href=https://gohugo.io/>Hugo</a>, 當然希望以前的內容還是可以承繼下來, 之前在<a href=https://jekyllrb.com/>Jekyll</a>上的功能能延續自然就更好了, 廢話說太多了, 廢話說太多了, 先來看一下這次做的改變</p>
+<h2 id=安裝-hugohttpsgohugoio>安裝 <a href=https://gohugo.io/>Hugo</a></h2>
+<p><a href=https://gohugo.io/>Hugo</a>是一套用Go寫的Open source靜態網頁產生器, 特點就是快, 非常快, 使用方法也很簡單, 如果你在Mac底下, 也像我一樣用 <a href=https://brew.sh/>Homebrew</a>, 那只要執行下面的指令:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>brew install hugo
+</code></pre></div><p>不過最近我在家的工作環境比較常是Windows底下用<a href=https://docs.microsoft.com/en-us/windows/wsl/wsl2-index>WSL(Windows subsystem for Linux)</a>下開發東西，這邊就不得不誇誇微軟了，有了ＷＳＬ後，我在Windows下工作，也跟我在Ｍａｃ上一樣順手，WSL說穿了就是一個Linux環境, 我用的是Ubuntu, 不過我是想在Linux下也是用 我是想在Linux下也是用 <a href=https://brew.sh/>Homebrew</a> 來安裝, 不想用apt(習慣了), 這時候就可以用下面的指令來安裝 <a href=https://brew.sh/>Homebrew</a></p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>/bin/bash -c <span style=color:#e6db74>&#34;</span><span style=color:#66d9ef>$(</span>curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh<span style=color:#66d9ef>)</span><span style=color:#e6db74>&#34;</span>
+</code></pre></div><h2 id=移植原本jekyll上的內容>移植原本Jekyll上的內容</h2>
+<p>這是整個所有過程中最簡單的事了, 當你裝好Hugo後只要執行</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>hugo import jekyll jekyll_root_path target_path
+</code></pre></div><p>這邊的jekyll_root_path是你原始jekyll內容的路徑, 它會自動幫你轉換所有的內容到新路徑, 又快又簡單</p>
+<p>移植完內容後, 可以到新的目錄執行<code>hugo server</code>先來預覽結果&mldr;不過, 慢著~~看起來好像跟想像的不同!因為我們還沒套用主題跟做相關設定</p>
+<h2 id=套用原本的主題>套用原本的主題</h2>
+<p>雖然換了新系統, 不過我還是希望風格可以接近之前的, <a href=https://jekyllrb.com/>Jekyll</a> 是可以套用主題的, 而我之前套用的主題是改自 <a href=https://github.com/mmistakes/jekyll-theme-hpstr>hpstr</a> 這個主題的(也只是換一下標頭途而已)</p>
+<p>還好Hugo上也是有人幫忙移植了 <a href=https://themes.gohugo.io/hpstr-hugo-theme/>Hugo版hpstr</a></p>
+<p>Hugo的主題(themes)是被放在<code>themes</code>的目錄下, 所以新增一個新的theme很簡單, 只要把theme下載回來解開放在那目錄就好, 如果要試試套用的結果, 就執行</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>hugo server --theme hpstr
+</code></pre></div><p>這邊hpstr是theme的名字, 不過到這邊為止, 都只是預覽而已, 真正產生網頁時都還不會套用theme</p>
+<h2 id=設定網站>設定網站</h2>
+<p>剛剛有說過, 這時候如果去產生網頁, 並不會真的套用你所想要的theme, 必須先做好設定才可以</p>
+<p>在剛剛從Jekyll移植過來的目錄裡面, 已經有產生了一個 <code>config.yaml</code> 的設定檔, 如果希望產生網頁時套用我們剛剛選用的hpstr, 那只要在 <code>config.yaml</code> 裡加上一行 <code>theme: hpstr</code>就好</p>
+<p>這個config.yaml長的就像這樣:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=color:#f92672>baseURL</span>: <span style=color:#ae81ff>http://blog.jln.co</span>
+<span style=color:#f92672>disablePathToLower</span>: <span style=color:#66d9ef>true</span>
+<span style=color:#f92672>languageCode</span>: <span style=color:#ae81ff>en-us</span>
+<span style=color:#f92672>title</span>: <span style=color:#ae81ff>Le murmure de Julian</span>
+<span style=color:#f92672>theme</span>: <span style=color:#ae81ff>hpstr</span>
+</code></pre></div><p>這個設定檔格式是以yaml格式儲存的, 但它其實也支援了 TOML, JSON等其他的格式, 這是因為, 創作了Hugo的大神 <a href=https://spf13.com/>spf13</a> 同時也是著名 Go 套件 <a href=https://github.com/spf13/viper>viper</a>的作者, 相信很多寫Go的攻城獅們很多都使用過 <a href=https://github.com/spf13/viper>viper</a> 來讀取設定檔吧</p>
+<p>這邊因為某些原因, 我後來決定不用yaml格式來存我的設定, 而是改用TOML, 因此我把config.yaml, 轉換成 config.toml , 以下是我最近一個版本的設定檔:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-toml data-lang=toml><span style=color:#a6e22e>baseURL</span>= <span style=color:#e6db74>&#34;https://blog.jln.co&#34;</span>
 <span style=color:#a6e22e>disablePathToLower</span>= <span style=color:#66d9ef>true</span>
 <span style=color:#a6e22e>languageCode</span>=<span style=color:#e6db74>&#34;zh-tw&#34;</span>
 <span style=color:#a6e22e>title</span>= <span style=color:#e6db74>&#34;Le murmure de Julian&#34;</span>
@@ -171,31 +325,75 @@ main.main<span style=color:#f92672>()</span>
 
 [<span style=color:#a6e22e>permalinks</span>]
     <span style=color:#a6e22e>post</span> = <span style=color:#e6db74>&#34;/:slug/&#34;</span>
-</code></pre></div><p>這邊有些設定的意義, 容後再說(我沒忘的話), 但基本上有這些:</p><ul><li>baseURL - 你網站的URL</li><li>languageCode - 語系</li><li>title - 標題</li><li>theme - 主題, 前面說過了</li><li>googleAnalytics - GA的Tracking ID</li><li>hasCJKLanguage - 這個設定關係到算字數,閱讀時間的</li></ul><p>(好像都講得差不多了)</p><h2 id=維持原本的url格式>維持原本的URL格式</h2><p>我原本URL格式是長這樣:</p><p><code>http://blog.jln.co/筆記Vue.js-Slot的應用/</code></p><p>但Hugo實際產生的格式是這樣</p><p><code>http://blog.jln.co/post/筆記Vue.js-Slot的應用/</code></p><p>原本的網站其實已經有被搜尋引擎爬過了, 所以我並不想改變URL格式, 因此我在設定檔內加入</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-toml data-lang=toml>[<span style=color:#a6e22e>permalinks</span>]
+</code></pre></div><p>這邊有些設定的意義, 容後再說(我沒忘的話), 但基本上有這些:</p>
+<ul>
+<li>baseURL - 你網站的URL</li>
+<li>languageCode - 語系</li>
+<li>title - 標題</li>
+<li>theme - 主題, 前面說過了</li>
+<li>googleAnalytics - GA的Tracking ID</li>
+<li>hasCJKLanguage - 這個設定關係到算字數,閱讀時間的</li>
+</ul>
+<p>(好像都講得差不多了)</p>
+<h2 id=維持原本的url格式>維持原本的URL格式</h2>
+<p>我原本URL格式是長這樣:</p>
+<p><code>http://blog.jln.co/筆記Vue.js-Slot的應用/</code></p>
+<p>但Hugo實際產生的格式是這樣</p>
+<p><code>http://blog.jln.co/post/筆記Vue.js-Slot的應用/</code></p>
+<p>原本的網站其實已經有被搜尋引擎爬過了, 所以我並不想改變URL格式, 因此我在設定檔內加入</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-toml data-lang=toml>[<span style=color:#a6e22e>permalinks</span>]
     <span style=color:#a6e22e>post</span> = <span style=color:#e6db74>&#34;/:slug/&#34;</span>
-</code></pre></div><p>這邊就是為了設定文章URL的格式, 當然不只有這邊可以設定, 也不是只有 <code>slug</code> 這個變數可以用, 詳細方法可以參考 <a href=https://gohugo.io/content-management/urls/>這篇說明</a></p><h2 id=rss的位置>RSS的位置</h2><p>Hugo產生的網站也是會包含RSS的連結, 但它預設是放在index.xml, 但在我舊有用Jekyll產生的網站, 其實是放在feed.xml, 所以我在 <a href=https://ifttt.com/>IFTTT</a>的設定是feed.xml, 這邊我也是不想變動, 所以加入了以下設定</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-toml data-lang=toml>[<span style=color:#a6e22e>outputFormats</span>.<span style=color:#a6e22e>RSS</span>]
+</code></pre></div><p>這邊就是為了設定文章URL的格式, 當然不只有這邊可以設定, 也不是只有 <code>slug</code> 這個變數可以用, 詳細方法可以參考 <a href=https://gohugo.io/content-management/urls/>這篇說明</a></p>
+<h2 id=rss的位置>RSS的位置</h2>
+<p>Hugo產生的網站也是會包含RSS的連結, 但它預設是放在index.xml, 但在我舊有用Jekyll產生的網站, 其實是放在feed.xml, 所以我在 <a href=https://ifttt.com/>IFTTT</a>的設定是feed.xml, 這邊我也是不想變動, 所以加入了以下設定</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-toml data-lang=toml>[<span style=color:#a6e22e>outputFormats</span>.<span style=color:#a6e22e>RSS</span>]
     <span style=color:#a6e22e>mediatype</span> = <span style=color:#e6db74>&#34;application/rss&#34;</span>
     <span style=color:#a6e22e>baseName</span> = <span style=color:#e6db74>&#34;feed&#34;</span>
-</code></pre></div><p>這樣你就會發現RSS不再是放在<code>index.xml</code>了, 而是放在<code>feed.xml</code></p><h2 id=shortcodes>Shortcodes</h2><p>在Jekyll上有一個非常好用的東西, 比如說你在文章內加入 <code>{% youtube FhoPTyMUgX0 %}</code> 最後產生的網頁就會自動嵌入對應的Youtube影片, 如果是用 <code>{% gist julianshen/229f4ac32b3893816bd7636b96fe6f7d %}</code> , 那就會嵌入對應的gist程式碼</p><p>這如果在Hugo上沒有, 就頭痛了, 還好, 也是存在的, 它叫 <a href=https://gohugo.io/content-management/shortcodes/>shortcodes</a></p><p>雖然功能一樣, 但格式是不同的, 以剛剛兩個例子來說, 它就分別變成 (把%%改成{})</p><ul><li><code>{ {&lt; youtube FhoPTyMUgX0 >} }</code></li><li><code>{ {&lt; gist julianshen 229f4ac32b3893816bd7636b96fe6f7d >} }</code></li></ul><h2 id=流程圖嵌入>流程圖嵌入</h2><p>之前我寫過一篇 &ldquo;<a href=https://blog.jln.co/Blog-%E6%9B%BFJekyll%E7%9A%84markdown%E5%8A%A0%E4%B8%8A%E7%B0%A1%E6%98%93%E6%B5%81%E7%A8%8B%E5%9C%96%E5%8A%9F%E8%83%BD/>替Jekyll的markdown加上簡易流程圖功能</a>&rdquo;, 採用的是<a href=https://github.com/jasonbellamy/jekyll-mermaid>Jekyll-mermaid</a></p><p><a href=https://github.com/jasonbellamy/jekyll-mermaid>Jekyll-mermaid</a>是透過<a href=https://github.com/mermaid-js/mermaid>mermaid-js</a>讓我們可以很簡單的在文章內加入流程圖</p><p>但在Hugo,並沒有這樣的plugin, 所以必須要用別的方式達成</p><p>首先, 先到 themes底下你的主題(這邊是hpstr)的<code>layouts/partials</code>找看看有沒head.html, 在裡面加入一行</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-html data-lang=html>&lt;<span style=color:#f92672>script</span> <span style=color:#a6e22e>async</span> <span style=color:#a6e22e>src</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;https://unpkg.com/mermaid@8.2.3/dist/mermaid.min.js&#34;</span>&gt;&lt;/<span style=color:#f92672>script</span>&gt;
-</code></pre></div><p>這是為了在每個網頁都可以載入mermaid.js, 再來就是在內容目錄下的<code>layouts/shortcodes</code>裡面建立一個 <code>mermain.html</code> (注意喔, 不是在theme底下那個<code>layouts</code>喔), 內容如下:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-html data-lang=html>&lt;<span style=color:#f92672>div</span> <span style=color:#a6e22e>class</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;mermaid&#34;</span>&gt;
+</code></pre></div><p>這樣你就會發現RSS不再是放在<code>index.xml</code>了, 而是放在<code>feed.xml</code></p>
+<h2 id=shortcodes>Shortcodes</h2>
+<p>在Jekyll上有一個非常好用的東西, 比如說你在文章內加入 <code>{% youtube FhoPTyMUgX0 %}</code> 最後產生的網頁就會自動嵌入對應的Youtube影片, 如果是用 <code>{% gist julianshen/229f4ac32b3893816bd7636b96fe6f7d %}</code> , 那就會嵌入對應的gist程式碼</p>
+<p>這如果在Hugo上沒有, 就頭痛了, 還好, 也是存在的, 它叫 <a href=https://gohugo.io/content-management/shortcodes/>shortcodes</a></p>
+<p>雖然功能一樣, 但格式是不同的, 以剛剛兩個例子來說, 它就分別變成 (把%%改成{})</p>
+<ul>
+<li><code>{ {&lt; youtube FhoPTyMUgX0 >} }</code></li>
+<li><code>{ {&lt; gist julianshen 229f4ac32b3893816bd7636b96fe6f7d >} }</code></li>
+</ul>
+<h2 id=流程圖嵌入>流程圖嵌入</h2>
+<p>之前我寫過一篇 &ldquo;<a href=https://blog.jln.co/Blog-%E6%9B%BFJekyll%E7%9A%84markdown%E5%8A%A0%E4%B8%8A%E7%B0%A1%E6%98%93%E6%B5%81%E7%A8%8B%E5%9C%96%E5%8A%9F%E8%83%BD/>替Jekyll的markdown加上簡易流程圖功能</a>&rdquo;, 採用的是<a href=https://github.com/jasonbellamy/jekyll-mermaid>Jekyll-mermaid</a></p>
+<p><a href=https://github.com/jasonbellamy/jekyll-mermaid>Jekyll-mermaid</a>是透過<a href=https://github.com/mermaid-js/mermaid>mermaid-js</a>讓我們可以很簡單的在文章內加入流程圖</p>
+<p>但在Hugo,並沒有這樣的plugin, 所以必須要用別的方式達成</p>
+<p>首先, 先到 themes底下你的主題(這邊是hpstr)的<code>layouts/partials</code>找看看有沒head.html, 在裡面加入一行</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-html data-lang=html>&lt;<span style=color:#f92672>script</span> <span style=color:#a6e22e>async</span> <span style=color:#a6e22e>src</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;https://unpkg.com/mermaid@8.2.3/dist/mermaid.min.js&#34;</span>&gt;&lt;/<span style=color:#f92672>script</span>&gt;
+</code></pre></div><p>這是為了在每個網頁都可以載入mermaid.js, 再來就是在內容目錄下的<code>layouts/shortcodes</code>裡面建立一個 <code>mermain.html</code> (注意喔, 不是在theme底下那個<code>layouts</code>喔), 內容如下:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-html data-lang=html>&lt;<span style=color:#f92672>div</span> <span style=color:#a6e22e>class</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;mermaid&#34;</span>&gt;
   {{.Inner}}
 &lt;/<span style=color:#f92672>div</span>&gt;
-</code></pre></div><p>這是建立一個新的shortcodes叫mermaid, 內容會轉化成一個div, 這div class是mermaid, mermaid.js會透過class找到這個div, 並將裡面內容轉成流程圖, 因此, 你就可以用這樣的shortcodes:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-golang data-lang=golang> { {&lt;<span style=color:#a6e22e>mermaid</span>&gt;}}
+</code></pre></div><p>這是建立一個新的shortcodes叫mermaid, 內容會轉化成一個div, 這div class是mermaid, mermaid.js會透過class找到這個div, 並將裡面內容轉成流程圖, 因此, 你就可以用這樣的shortcodes:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-golang data-lang=golang> { {&lt;<span style=color:#a6e22e>mermaid</span>&gt;}}
  <span style=color:#a6e22e>graph</span> <span style=color:#a6e22e>TD</span>;
     <span style=color:#a6e22e>A</span><span style=color:#f92672>--</span>&gt;<span style=color:#a6e22e>B</span>;
     <span style=color:#a6e22e>A</span><span style=color:#f92672>--</span>&gt;<span style=color:#a6e22e>C</span>;
     <span style=color:#a6e22e>B</span><span style=color:#f92672>--</span>&gt;<span style=color:#a6e22e>D</span>;
     <span style=color:#a6e22e>C</span><span style=color:#f92672>--</span>&gt;<span style=color:#a6e22e>D</span>;
  { {&lt;<span style=color:#f92672>/</span><span style=color:#a6e22e>mermaid</span>&gt;}}
-</code></pre></div><p>畫出一個這樣的圖</p><div class=mermaid>graph TD;
+</code></pre></div><p>畫出一個這樣的圖</p>
+<div class=mermaid>
+graph TD;
 A-->B;
 A-->C;
 B-->D;
-C-->D;</div><p>把原本轉過來的文章都改成新的shortcodes就大功告成了</p><h2 id=open-graphhttpsogpme><a href=https://ogp.me/>Open Graph</a></h2><p><a href=https://ogp.me/>Open Graph</a>很重要, 它決定了你的文章被分享到社群網路上的樣子, 長得太不起眼, 沒人會注意, 一篇文章的OG, 差不多會長像這樣:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-html data-lang=html>&lt;<span style=color:#f92672>meta</span> <span style=color:#a6e22e>property</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;og:title&#34;</span> <span style=color:#a6e22e>content</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;[Blog] 替Jekyll的markdown加上簡易流程圖功能&#34;</span>&gt;
+C-->D;
+</div>
+<p>把原本轉過來的文章都改成新的shortcodes就大功告成了</p>
+<h2 id=open-graphhttpsogpme><a href=https://ogp.me/>Open Graph</a></h2>
+<p><a href=https://ogp.me/>Open Graph</a>很重要, 它決定了你的文章被分享到社群網路上的樣子, 長得太不起眼, 沒人會注意, 一篇文章的OG, 差不多會長像這樣:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-html data-lang=html>&lt;<span style=color:#f92672>meta</span> <span style=color:#a6e22e>property</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;og:title&#34;</span> <span style=color:#a6e22e>content</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;[Blog] 替Jekyll的markdown加上簡易流程圖功能&#34;</span>&gt;
 &lt;<span style=color:#f92672>meta</span> <span style=color:#a6e22e>property</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;og:description&#34;</span> <span style=color:#a6e22e>content</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;對一個developer的blog來說, 流程圖似乎是蠻需要的, 比較能夠清楚來解釋一些東西, 但每個東西都轉圖檔還蠻麻煩的, 下面介紹一個有用的J&#34;</span>&gt;&lt;<span style=color:#f92672>meta</span> <span style=color:#a6e22e>property</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;og:type&#34;</span> <span style=color:#a6e22e>content</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;article&#34;</span>&gt;
 &lt;<span style=color:#f92672>meta</span> <span style=color:#a6e22e>property</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;og:url&#34;</span> <span style=color:#a6e22e>content</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;https://blog.jln.co/Blog-%E6%9B%BFJekyll%E7%9A%84markdown%E5%8A%A0%E4%B8%8A%E7%B0%A1%E6%98%93%E6%B5%81%E7%A8%8B%E5%9C%96%E5%8A%9F%E8%83%BD/&#34;</span>&gt;
 &lt;<span style=color:#f92672>meta</span> <span style=color:#a6e22e>property</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;og:image&#34;</span> <span style=color:#a6e22e>content</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;https://blog.jln.co/images/posts/2016-08-31-%5Bblog%5D-%E6%9B%BFjekyll%E7%9A%84markdown%E5%8A%A0%E4%B8%8A%E7%B0%A1%E6%98%93%E6%B5%81%E7%A8%8B%E5%9C%96%E5%8A%9F%E8%83%BD.md.jpg&#34;</span>&gt;
-</code></pre></div><p>這邊, <code>og:title</code>跟 <code>og:image</code> 很重要的, 沒有圖, 就非常不起眼了, 標題不吸引人也是很不起眼, 所以我們要讓每篇文章都有對應的圖</p><p>如果我們去看 Hugo 的 <a href=https://github.com/gohugoio/hugo/blob/master/tpl/tplimpl/embedded/templates/opengraph.html>Open graph template原始檔</a></p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-golang data-lang=golang>{{ <span style=color:#a6e22e>with</span> <span style=color:#960050;background-color:#1e0010>$</span>.<span style=color:#a6e22e>Params</span>.<span style=color:#a6e22e>images</span> }}{{ <span style=color:#66d9ef>range</span> <span style=color:#a6e22e>first</span> <span style=color:#ae81ff>6</span> . <span style=color:#f92672>-</span>}}
+</code></pre></div><p>這邊, <code>og:title</code>跟 <code>og:image</code> 很重要的, 沒有圖, 就非常不起眼了, 標題不吸引人也是很不起眼, 所以我們要讓每篇文章都有對應的圖</p>
+<p>如果我們去看 Hugo 的 <a href=https://github.com/gohugoio/hugo/blob/master/tpl/tplimpl/embedded/templates/opengraph.html>Open graph template原始檔</a></p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-golang data-lang=golang>{{ <span style=color:#a6e22e>with</span> <span style=color:#960050;background-color:#1e0010>$</span>.<span style=color:#a6e22e>Params</span>.<span style=color:#a6e22e>images</span> }}{{ <span style=color:#66d9ef>range</span> <span style=color:#a6e22e>first</span> <span style=color:#ae81ff>6</span> . <span style=color:#f92672>-</span>}}
 &lt;<span style=color:#a6e22e>meta</span> <span style=color:#a6e22e>property</span>=<span style=color:#e6db74>&#34;og:image&#34;</span> <span style=color:#a6e22e>content</span>=<span style=color:#e6db74>&#34;{{ . | absURL }}&#34;</span> <span style=color:#f92672>/</span>&gt;
 {{ <span style=color:#a6e22e>end</span> }}{{ <span style=color:#66d9ef>else</span> <span style=color:#f92672>-</span>}}
 {{<span style=color:#f92672>-</span> <span style=color:#960050;background-color:#1e0010>$</span><span style=color:#a6e22e>images</span> <span style=color:#f92672>:=</span> <span style=color:#960050;background-color:#1e0010>$</span>.<span style=color:#a6e22e>Resources</span>.<span style=color:#a6e22e>ByType</span> <span style=color:#e6db74>&#34;image&#34;</span> <span style=color:#f92672>-</span>}}
@@ -207,22 +405,55 @@ C-->D;</div><p>把原本轉過來的文章都改成新的shortcodes就大功告�
 {{<span style=color:#f92672>-</span> <span style=color:#a6e22e>with</span> <span style=color:#960050;background-color:#1e0010>$</span>.<span style=color:#a6e22e>Site</span>.<span style=color:#a6e22e>Params</span>.<span style=color:#a6e22e>images</span> <span style=color:#f92672>-</span>}}
 &lt;<span style=color:#a6e22e>meta</span> <span style=color:#a6e22e>property</span>=<span style=color:#e6db74>&#34;og:image&#34;</span> <span style=color:#a6e22e>content</span>=<span style=color:#e6db74>&#34;{{ index . 0 | absURL }}&#34;</span><span style=color:#f92672>/</span>&gt;
 {{ <span style=color:#a6e22e>end</span> }}{{ <span style=color:#a6e22e>end</span> }}{{ <span style=color:#a6e22e>end</span> }}
-</code></pre></div><p>這邊就不解釋 Hugo的tempalte語法了, 直接講答案, 跟 <code>og:image</code> 相關的設定是:</p><ul><li>文章Front matter內設定的圖片(images)</li><li>文章內名字含有"feature&rdquo;, &ldquo;cover&rdquo;, &ldquo;thumbnail&rdquo; 的圖片</li><li>網站設定(config.toml)裡params.images的第一張 (等於就是用這張當預設圖了)</li></ul><p>由此可知, 只要在config.toml 裡面放上這設定</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-toml data-lang=toml>[<span style=color:#a6e22e>params</span>]
+</code></pre></div><p>這邊就不解釋 Hugo的tempalte語法了, 直接講答案, 跟 <code>og:image</code> 相關的設定是:</p>
+<ul>
+<li>文章Front matter內設定的圖片(images)</li>
+<li>文章內名字含有"feature", &ldquo;cover&rdquo;, &ldquo;thumbnail&rdquo; 的圖片</li>
+<li>網站設定(config.toml)裡params.images的第一張 (等於就是用這張當預設圖了)</li>
+</ul>
+<p>由此可知, 只要在config.toml 裡面放上這設定</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-toml data-lang=toml>[<span style=color:#a6e22e>params</span>]
         <span style=color:#a6e22e>subtitle</span> = <span style=color:#e6db74>&#34;朱隸安貓囈語錄&#34;</span>
         <span style=color:#a6e22e>images</span> = [<span style=color:#e6db74>&#34;/images/avatar.png&#34;</span>]
-</code></pre></div><p>那在文章沒半張圖時, <code>/images/avatar.png</code>就會是預設圖</p><p>如果我想自己在文章中指定圖片呢? 我們在新增文章後, 每篇文章都會有這樣的表頭, 叫做front matter, Hugo支援yaml, toml, json等各種front matter格式, 以下這個由 <code>---</code>分隔表頭跟文章的, 用的就是yaml格式</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml> --<span style=color:#e6db74>-
-</span><span style=color:#e6db74> date: &#34;2017-01-21T00:22:49Z&#34;</span>
- <span style=color:#66d9ef>images</span>:
- - /images/posts/<span style=color:#e6db74>2017-01-21</span>-在heroku上用apt-get安裝套件.md.jpg
- <span style=color:#66d9ef>tags</span>:
- - server
- - heroku
- <span style=color:#66d9ef>title</span>: 在Heroku上用apt-get安裝套件
+</code></pre></div><p>那在文章沒半張圖時, <code>/images/avatar.png</code>就會是預設圖</p>
+<p>如果我想自己在文章中指定圖片呢? 我們在新增文章後, 每篇文章都會有這樣的表頭, 叫做front matter, Hugo支援yaml, toml, json等各種front matter格式, 以下這個由 <code>---</code>分隔表頭跟文章的, 用的就是yaml格式</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml> ---
+ <span style=color:#f92672>date</span>: <span style=color:#e6db74>&#34;2017-01-21T00:22:49Z&#34;</span>
+ <span style=color:#f92672>images</span>:
+ - <span style=color:#ae81ff>/images/posts/2017-01-21-在heroku上用apt-get安裝套件.md.jpg</span>
+ <span style=color:#f92672>tags</span>:
+ - <span style=color:#ae81ff>server</span>
+ - <span style=color:#ae81ff>heroku</span>
+ <span style=color:#f92672>title</span>: <span style=color:#ae81ff>在Heroku上用apt-get安裝套件</span>
  ---
-</code></pre></div><p>這邊就用了<code>images</code>屬性來設定了這篇文章的 <code>og:image</code></p><h2 id=優化社群分享>優化社群分享</h2><p>上面提到了設定Open graph相關內容的基本, 不過, 還有一個問題</p><p>Facebook會針對你提供的圖片大小來決定分享出去的版面設計, 可以<a href=https://developers.facebook.com/docs/sharing/webmasters/images>參考這邊</a>, 最大版面用的圖是1200x630, 不然分享出去的就小小一塊沒人看到了</p><p>另外一個問題是, 如果你沒在front matter設定圖片, 那OG就會使用網站預設圖, 或是文章中含有或是文章中含有"feature&rdquo;, &ldquo;cover&rdquo;, &ldquo;thumbnail&rdquo;, 而這邊front matter上放的圖片還是自己放的, 如果不小心忘了, 絕大多數是忘了, 那可能每篇文章用的都是一樣的圖, 比較單調, 更慘的是, 萬一設的預設圖太小(像我一樣), 或是根本沒設, 那分享出去的版面就會很不顯眼</p><p>雖說會去掃文章中的圖片, 找出含有"feature&rdquo;, &ldquo;cover&rdquo;, &ldquo;thumbnail&rdquo; 的圖片, 跟 <a href=https://github.com/merlos/jekyll-auto-image>Jekyll Auto image</a> 有點類似(不過Auto image不會限制檔名), 當然你也可以把內建的open graph template拿出來改, 放到自己主題layouts下</p><p>如果你要改用自己的, 該怎做呢? 首先就是把內建的opengraph.html和twittercard.html拷貝一份到主題的layout/partials目錄下改, 並且也是去改layouts/partials/head.html, 你會在head.html發現這樣的內容(以hpstr為例):</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-golang data-lang=golang>&lt;!<span style=color:#f92672>--</span> <span style=color:#a6e22e>Open</span> <span style=color:#a6e22e>Graph</span> <span style=color:#a6e22e>and</span> <span style=color:#a6e22e>Twitter</span> <span style=color:#a6e22e>cards</span> <span style=color:#f92672>--</span>&gt;
+</code></pre></div><p>這邊就用了<code>images</code>屬性來設定了這篇文章的 <code>og:image</code></p>
+<h2 id=優化社群分享>優化社群分享</h2>
+<p>上面提到了設定Open graph相關內容的基本, 不過, 還有一個問題</p>
+<p>Facebook會針對你提供的圖片大小來決定分享出去的版面設計, 可以<a href=https://developers.facebook.com/docs/sharing/webmasters/images>參考這邊</a>, 最大版面用的圖是1200x630, 不然分享出去的就小小一塊沒人看到了</p>
+<p>另外一個問題是, 如果你沒在front matter設定圖片, 那OG就會使用網站預設圖, 或是文章中含有或是文章中含有"feature", &ldquo;cover&rdquo;, &ldquo;thumbnail&rdquo;, 而這邊front matter上放的圖片還是自己放的, 如果不小心忘了, 絕大多數是忘了, 那可能每篇文章用的都是一樣的圖, 比較單調, 更慘的是, 萬一設的預設圖太小(像我一樣), 或是根本沒設, 那分享出去的版面就會很不顯眼</p>
+<p>雖說會去掃文章中的圖片, 找出含有"feature", &ldquo;cover&rdquo;, &ldquo;thumbnail&rdquo; 的圖片, 跟 <a href=https://github.com/merlos/jekyll-auto-image>Jekyll Auto image</a> 有點類似(不過Auto image不會限制檔名), 當然你也可以把內建的open graph template拿出來改, 放到自己主題layouts下</p>
+<p>如果你要改用自己的, 該怎做呢? 首先就是把內建的opengraph.html和twittercard.html拷貝一份到主題的layout/partials目錄下改, 並且也是去改layouts/partials/head.html, 你會在head.html發現這樣的內容(以hpstr為例):</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-golang data-lang=golang>&lt;!<span style=color:#f92672>--</span> <span style=color:#a6e22e>Open</span> <span style=color:#a6e22e>Graph</span> <span style=color:#a6e22e>and</span> <span style=color:#a6e22e>Twitter</span> <span style=color:#a6e22e>cards</span> <span style=color:#f92672>--</span>&gt;
 {{ <span style=color:#a6e22e>template</span> <span style=color:#e6db74>&#34;_internal/opengraph.html&#34;</span> . }}
 {{ <span style=color:#a6e22e>template</span> <span style=color:#e6db74>&#34;_internal/twitter_cards.html&#34;</span> . }}
-</code></pre></div><p>把這兩個路徑改成自己的就好了</p><p>還不滿足!!因為還是有些問題:</p><ul><li>文章內的圖片可能本來就不大, 小於1200x630</li><li>文章內的圖片是外連的, 有可能之後消失不見</li><li>文章內根本沒有圖片</li></ul><p>所以我希望:</p><ul><li>被用在 <code>og:image</code>的圖片要被放大裁切到1200x630的比例</li><li>這個圖片要放本地不能外連</li><li>沒有圖的狀況&mldr;..產生一個給它用&mldr;.用標題文字來當圖, 大小也要1200x630</li></ul><p>在這需求之下, 我自己就寫了一個工具叫 <code>ogp</code>, 原始碼如下:</p><script type=application/javascript src=https://gist.github.com/julianshen/f129b6db74c1dc0a93647acd6f9e0be1.js></script><p>這工具做的是</p><div class=mermaid>graph LR
+</code></pre></div><p>把這兩個路徑改成自己的就好了</p>
+<p>還不滿足!!因為還是有些問題:</p>
+<ul>
+<li>文章內的圖片可能本來就不大, 小於1200x630</li>
+<li>文章內的圖片是外連的, 有可能之後消失不見</li>
+<li>文章內根本沒有圖片</li>
+</ul>
+<p>所以我希望:</p>
+<ul>
+<li>被用在 <code>og:image</code>的圖片要被放大裁切到1200x630的比例</li>
+<li>這個圖片要放本地不能外連</li>
+<li>沒有圖的狀況&mldr;..產生一個給它用&mldr;.用標題文字來當圖, 大小也要1200x630</li>
+</ul>
+<p>在這需求之下, 我自己就寫了一個工具叫 <code>ogp</code>, 原始碼如下:</p>
+<script type=application/javascript src=https://gist.github.com/julianshen/f129b6db74c1dc0a93647acd6f9e0be1.js></script>
+<p>這工具做的是</p>
+<div class=mermaid>
+graph LR
 A["分離Front matter跟文章內容"] --> I{是否含images屬性}
 I -->|有| H
 I -->|無| B["掃描文章內含的圖片"]
@@ -232,7 +463,21 @@ C -->|無| E[產生文字圖片]
 D --> F[在Front matter插入images屬性]
 E --> F
 F --> G[寫回原文]
-G --> H[結束]</div><p>這邊套用了幾個套件來處理,</p><ul><li>Hugo本身的 Page parser, 用來處理Front matter跟Content分離, 由於Hugo本身就是用Go寫的, 所以很輕易地可以用 <code>import "github.com/gohugoio/hugo/parser/pageparser"</code>來使用</li><li>&ldquo;gopkg.in/yaml.v2&rdquo;, 用來輸出yaml的</li><li>&ldquo;github.com/yuin/goldmark&rdquo;, 這是Hugo用的Mark down parser, 我這邊用來找出所有的圖片, 如果是外站的就下載回來</li><li>&ldquo;github.com/h2non/bimg&rdquo;, 這是一個基於libvips的圖片處理套件, 安裝上會需要libvips, 這邊就不詳述, 以後如果有時間再另外寫一篇好了</li><li>&ldquo;github.com/Iwark/text2img&rdquo;, 這有點有趣, 我本來想自己寫一個把標題轉成圖片的來當作<code>og:image</code>的材料的, 沒想到真有人已經做了, 這邊我是自己fork回來做了些小修正</li></ul><h2 id=自動化處理文章的ogimg>自動化處理文章的<code>og:img</code></h2><p>有了上面的<code>ogp</code>後, 就可以"手動"來產生文章的<code>og:image</code>了, 當然, 這完全不方便, 我每次寫完一篇新文章後, 我就得自己手動跑一次 <code>ogp</code>, 身為一個懶惰的攻城獅(做了前面這麼多還懶惰?), 當然要想想怎麼來自動化囉!!</p><p>這邊想到的方式是利用 <a href=https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks>git-hooks</a>, 甚麼是<a href=https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks>git-hooks</a>呢?簡單的說, 就是用來在你做git操作時, 可以讓你觸發某些動作, 例如我這邊要用到的pre-commit和post-commit, pre-commit是在你下commit命令後但還沒真正做commit動作前觸發, post-commit則是在動作發生之後</p><p>要使用<a href=https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks>git-hooks</a>的話, 要把你要執行的寫成腳本(script)放到 <code>.git/hooks/</code> 目錄下, 例如, pre-commit的腳本的檔名就是 <code>.git/hooks/pre-commit</code>, 記得要把這檔案用 <code>chmod +x</code> 把權限改成可執行, 下面就是我用的pre-commit</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-perl data-lang=perl><span style=color:#75715e>#!/usr/bin/perl </span>
+G --> H[結束]
+</div>
+<p>這邊套用了幾個套件來處理,</p>
+<ul>
+<li>Hugo本身的 Page parser, 用來處理Front matter跟Content分離, 由於Hugo本身就是用Go寫的, 所以很輕易地可以用 <code>import "github.com/gohugoio/hugo/parser/pageparser"</code>來使用</li>
+<li>&ldquo;gopkg.in/yaml.v2&rdquo;, 用來輸出yaml的</li>
+<li>&ldquo;github.com/yuin/goldmark&rdquo;, 這是Hugo用的Mark down parser, 我這邊用來找出所有的圖片, 如果是外站的就下載回來</li>
+<li>&ldquo;github.com/h2non/bimg&rdquo;, 這是一個基於libvips的圖片處理套件, 安裝上會需要libvips, 這邊就不詳述, 以後如果有時間再另外寫一篇好了</li>
+<li>&ldquo;github.com/Iwark/text2img&rdquo;, 這有點有趣, 我本來想自己寫一個把標題轉成圖片的來當作<code>og:image</code>的材料的, 沒想到真有人已經做了, 這邊我是自己fork回來做了些小修正</li>
+</ul>
+<h2 id=自動化處理文章的ogimg>自動化處理文章的<code>og:img</code></h2>
+<p>有了上面的<code>ogp</code>後, 就可以"手動"來產生文章的<code>og:image</code>了, 當然, 這完全不方便, 我每次寫完一篇新文章後, 我就得自己手動跑一次 <code>ogp</code>, 身為一個懶惰的攻城獅(做了前面這麼多還懶惰?), 當然要想想怎麼來自動化囉!!</p>
+<p>這邊想到的方式是利用 <a href=https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks>git-hooks</a>, 甚麼是<a href=https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks>git-hooks</a>呢?簡單的說, 就是用來在你做git操作時, 可以讓你觸發某些動作, 例如我這邊要用到的pre-commit和post-commit, pre-commit是在你下commit命令後但還沒真正做commit動作前觸發, post-commit則是在動作發生之後</p>
+<p>要使用<a href=https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks>git-hooks</a>的話, 要把你要執行的寫成腳本(script)放到 <code>.git/hooks/</code> 目錄下, 例如, pre-commit的腳本的檔名就是 <code>.git/hooks/pre-commit</code>, 記得要把這檔案用 <code>chmod +x</code> 把權限改成可執行, 下面就是我用的pre-commit</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-perl data-lang=perl><span style=color:#75715e>#!/usr/bin/perl </span>
 <span style=color:#66d9ef>use</span> File::Basename;
 <span style=color:#66d9ef>use</span> File::Copy;
 <span style=color:#66d9ef>use</span> Cwd;
@@ -255,7 +500,12 @@ open(FH,<span style=color:#e6db74>&#34;git diff --cached --name-status |&#34;</s
    }
 }
 close(FH)
-</code></pre></div><p>(更新: 後來因為有檔名處理問題, 改寫了這個perl的版本)</p><p>這邊所做的動作是找到這次有變更的文章(副檔名.md), 然後針對每個檔去跑ogp產生 <code>og:image</code> (我這邊把ogp包成docker image方便使用)</p><p>前面我說到, 會利用到 <code>pre-commit</code> 跟 <code>post-commit</code>, 那 <code>post-commit</code> 又是用到哪個地方呢? 在 <code>pre-commit</code>這邊, 我用了 <code>ogp</code> 有產生了新檔案(圖檔), 但對於git來說, 這個檔案並不在stage中(<code>git add</code>後), 所以當做完commit後, 這個檔案並不會被放進去, 因此我們得找一個方式把它一起放進去</p><p>如果你有發現到在<code>pre-commit</code>這腳本中, 在跑完 <code>ogp</code>後有加了一個 <code>touch .commit</code>的動作, 這目的就是為了來解決前面所說的問題, 因為有產生新的檔案, 所以這邊建立一個 <code>.commit</code>的檔案來標記一下有新檔案產生, 這檔案本身沒太大意義, 而是為了在後面 <code>post-commit</code>使用</p><p>那, 我的 <code>post-commit</code>的腳本就會長成這樣:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=color:#75715e>#!/bin/bash
+</code></pre></div><p>(更新: 後來因為有檔名處理問題, 改寫了這個perl的版本)</p>
+<p>這邊所做的動作是找到這次有變更的文章(副檔名.md), 然後針對每個檔去跑ogp產生 <code>og:image</code> (我這邊把ogp包成docker image方便使用)</p>
+<p>前面我說到, 會利用到 <code>pre-commit</code> 跟 <code>post-commit</code>, 那 <code>post-commit</code> 又是用到哪個地方呢? 在 <code>pre-commit</code>這邊, 我用了 <code>ogp</code> 有產生了新檔案(圖檔), 但對於git來說, 這個檔案並不在stage中(<code>git add</code>後), 所以當做完commit後, 這個檔案並不會被放進去, 因此我們得找一個方式把它一起放進去</p>
+<p>如果你有發現到在<code>pre-commit</code>這腳本中, 在跑完 <code>ogp</code>後有加了一個 <code>touch .commit</code>的動作, 這目的就是為了來解決前面所說的問題, 因為有產生新的檔案, 所以這邊建立一個 <code>.commit</code>的檔案來標記一下有新檔案產生, 這檔案本身沒太大意義, 而是為了在後面 <code>post-commit</code>使用</p>
+<p>那, 我的 <code>post-commit</code>的腳本就會長成這樣:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=color:#75715e>#!/bin/bash
 </span><span style=color:#75715e></span>echo <span style=color:#e6db74>&#34;Post commit&#34;</span>
 <span style=color:#66d9ef>if</span> <span style=color:#f92672>[</span> -e .commit <span style=color:#f92672>]</span>
     <span style=color:#66d9ef>then</span>
@@ -265,80 +515,146 @@ close(FH)
     git commit --amend -C HEAD --no-verify
 <span style=color:#66d9ef>fi</span>
 exit <span style=color:#ae81ff>0</span>
-</code></pre></div><p>很簡單, 只要有 <code>.commit</code>存在, 就會去多做一次<code>git add</code>和<code>git commit</code>把新的檔案放進去</p><p>要注意, 這兩個hooks都只在本地端作用, 如果要讓它其他電腦也會有作用, 要記得複製過去才會有用</p><h2 id=產生網頁並佈署>產生網頁並佈署</h2><p>寫完文章後, 由於原始文章是 mark down 語法寫的, 如果沒把它轉成網頁是沒辦法在瀏覽器上看的, 產生網頁很簡單, 執行</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>hugo --minify
-</code></pre></div><p>這就可以了, 當然你如果要簡單的執行 <code>hugo</code>不加任何參數也行, 產生的靜態網頁, 就會放到 <code>public</code> 這個目錄下</p><p>所以把 <code>public</code>目錄裡面的所有內容, 都放到你github page的repository下就好了!</p><p>慢著!!!慢著!!! 都手動嗎???</p><p>懶惰的攻城獅會同意嗎??? 沒關係, 接下來我介紹一下怎把它自動化</p><h2 id=使用github-actionshttpsdocsgithubcomenactions來自動化流程>使用<a href=https://docs.github.com/en/actions>GitHub Actions</a>來自動化流程</h2><p><a href=https://docs.github.com/en/actions>GitHub Actions</a>是GitHub的持續集成(Continue Integration, 簡稱CI)的服務, 可能有不少朋友已經知道CI是甚麼了, 這邊不多做介紹, 實際上使用過GitHub Actions後會發現, 它簡單而且強大</p><p>由於我這個blog的內容都是放在GitHub page, 而且原始檔也是放在GitHub, 所以使用<a href=https://docs.github.com/en/actions>GitHub Actions</a>來自動化建置頁面跟佈署看來也很理所當然</p><p><a href=https://docs.github.com/en/actions>GitHub Actions</a>的工作流程(workflow)設定檔都放在<code>.github/workflows</code>底下, 所以只要新增一個就可以使用了, 這邊要特別注意一下, 如果你用GitHub tokens來存取這目錄, 需要特別有<code>workflow</code>權限, 通常如果你clone你的repository時是用http的話, 那可能就無法更動到這個檔(無法push), 建議是使用ssh</p><p>我發現, 寫到這邊, 篇幅已經非常的長了, 如果要仔細介紹一下這工具的話, 那可能還要很長的篇幅來說, 所以這邊就不仔細介紹了, 底下分享一下我用的設定:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=color:#75715e># This is a basic workflow to help you get started with Actions</span>
+</code></pre></div><p>很簡單, 只要有 <code>.commit</code>存在, 就會去多做一次<code>git add</code>和<code>git commit</code>把新的檔案放進去</p>
+<p>要注意, 這兩個hooks都只在本地端作用, 如果要讓它其他電腦也會有作用, 要記得複製過去才會有用</p>
+<h2 id=產生網頁並佈署>產生網頁並佈署</h2>
+<p>寫完文章後, 由於原始文章是 mark down 語法寫的, 如果沒把它轉成網頁是沒辦法在瀏覽器上看的, 產生網頁很簡單, 執行</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>hugo --minify
+</code></pre></div><p>這就可以了, 當然你如果要簡單的執行 <code>hugo</code>不加任何參數也行, 產生的靜態網頁, 就會放到 <code>public</code> 這個目錄下</p>
+<p>所以把 <code>public</code>目錄裡面的所有內容, 都放到你github page的repository下就好了!</p>
+<p>慢著!!!慢著!!! 都手動嗎???</p>
+<p>懶惰的攻城獅會同意嗎??? 沒關係, 接下來我介紹一下怎把它自動化</p>
+<h2 id=使用github-actionshttpsdocsgithubcomenactions來自動化流程>使用<a href=https://docs.github.com/en/actions>GitHub Actions</a>來自動化流程</h2>
+<p><a href=https://docs.github.com/en/actions>GitHub Actions</a>是GitHub的持續集成(Continue Integration, 簡稱CI)的服務, 可能有不少朋友已經知道CI是甚麼了, 這邊不多做介紹, 實際上使用過GitHub Actions後會發現, 它簡單而且強大</p>
+<p>由於我這個blog的內容都是放在GitHub page, 而且原始檔也是放在GitHub, 所以使用<a href=https://docs.github.com/en/actions>GitHub Actions</a>來自動化建置頁面跟佈署看來也很理所當然</p>
+<p><a href=https://docs.github.com/en/actions>GitHub Actions</a>的工作流程(workflow)設定檔都放在<code>.github/workflows</code>底下, 所以只要新增一個就可以使用了, 這邊要特別注意一下, 如果你用GitHub tokens來存取這目錄, 需要特別有<code>workflow</code>權限, 通常如果你clone你的repository時是用http的話, 那可能就無法更動到這個檔(無法push), 建議是使用ssh</p>
+<p>我發現, 寫到這邊, 篇幅已經非常的長了, 如果要仔細介紹一下這工具的話, 那可能還要很長的篇幅來說, 所以這邊就不仔細介紹了, 底下分享一下我用的設定:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=color:#75715e># This is a basic workflow to help you get started with Actions</span>
 
-<span style=color:#66d9ef>name</span>: CI
+<span style=color:#f92672>name</span>: <span style=color:#ae81ff>CI</span>
 
 <span style=color:#75715e># Controls when the action will run. Triggers the workflow on push or pull request</span>
 <span style=color:#75715e># events but only for the master branch</span>
-<span style=color:#66d9ef>on</span>:
-  <span style=color:#66d9ef>push</span>:
-    <span style=color:#66d9ef>paths</span>: [<span style=color:#e6db74>&#34;content/**&#34;</span>, <span style=color:#e6db74>&#34;.github/workflows/main.yml&#34;</span>, <span style=color:#e6db74>&#34;config.toml&#34;</span>]
+<span style=color:#f92672>on</span>:
+  <span style=color:#f92672>push</span>:
+    <span style=color:#f92672>paths</span>: [<span style=color:#e6db74>&#34;content/**&#34;</span>, <span style=color:#e6db74>&#34;.github/workflows/main.yml&#34;</span>, <span style=color:#e6db74>&#34;config.toml&#34;</span>]
 
 <span style=color:#75715e># A workflow run is made up of one or more jobs that can run sequentially or in parallel</span>
-<span style=color:#66d9ef>jobs</span>:
+<span style=color:#f92672>jobs</span>:
   <span style=color:#75715e># This workflow contains a single job called &#34;build&#34;</span>
-  <span style=color:#66d9ef>build</span>:
+  <span style=color:#f92672>build</span>:
     <span style=color:#75715e># The type of runner that the job will run on</span>
-    <span style=color:#66d9ef>runs-on</span>: ubuntu-latest
+    <span style=color:#f92672>runs-on</span>: <span style=color:#ae81ff>ubuntu-latest</span>
 
     <span style=color:#75715e># Steps represent a sequence of tasks that will be executed as part of the job</span>
-    <span style=color:#66d9ef>steps</span>:
+    <span style=color:#f92672>steps</span>:
     <span style=color:#75715e># Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it</span>
-    - <span style=color:#66d9ef>uses</span>: actions/checkout@v2
+    - <span style=color:#f92672>uses</span>: <span style=color:#ae81ff>actions/checkout@v2</span>
 
-    - <span style=color:#66d9ef>name</span>: Hugo setup
-      <span style=color:#66d9ef>uses</span>: peaceiris/actions-hugo@v2<span style=color:#ae81ff>.4.12</span>
-      <span style=color:#66d9ef>with</span>:
+    - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Hugo setup</span>
+      <span style=color:#f92672>uses</span>: <span style=color:#ae81ff>peaceiris/actions-hugo@v2.4.12</span>
+      <span style=color:#f92672>with</span>:
         <span style=color:#75715e># The Hugo version to download (if necessary) and use. Example: 0.58.2</span>
-        <span style=color:#66d9ef>hugo-version</span>: latest
+        <span style=color:#f92672>hugo-version</span>: <span style=color:#ae81ff>latest</span>
         <span style=color:#75715e># Download (if necessary) and use Hugo extended version. Example: true</span>
-        <span style=color:#66d9ef>extended</span>: <span style=color:#66d9ef>false</span>
+        <span style=color:#f92672>extended</span>: <span style=color:#66d9ef>false</span>
     
-    - <span style=color:#66d9ef>name</span>: Build pages
-      <span style=color:#66d9ef>run</span>: hugo --minify
+    - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Build pages</span>
+      <span style=color:#f92672>run</span>: <span style=color:#ae81ff>hugo --minify</span>
 
-    - <span style=color:#66d9ef>name</span>: Deploy
-      <span style=color:#66d9ef>uses</span>: peaceiris/actions-gh-pages@v3
-      <span style=color:#66d9ef>with</span>:
-        <span style=color:#66d9ef>personal_token</span>: ${{ secrets.PERSONAL_TOKEN }}
-        <span style=color:#66d9ef>external_repository</span>: julianshen/julianshen.github.com
-        <span style=color:#66d9ef>publish_branch</span>: master
-        <span style=color:#66d9ef>publish_dir</span>: ./public
-        <span style=color:#66d9ef>cname</span>: blog.jln.co
-</code></pre></div><p>如果你用過另一個CI工具 <a href=https://drone.io/>drone</a> 的話, 你會發現, 對比起來, <a href=https://docs.github.com/en/actions>GitHub Actions</a>的彈性更大, 更方便, 觸發建置的條件不一定要是某個git事件(一般是push, pr), 檔案的更動也可以觸發,檔案的更動也可以觸發, 以這段為例:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=color:#66d9ef>on</span>:
-  <span style=color:#66d9ef>push</span>:
-    <span style=color:#66d9ef>paths</span>: [<span style=color:#e6db74>&#34;content/**&#34;</span>, <span style=color:#e6db74>&#34;.github/workflows/main.yml&#34;</span>, <span style=color:#e6db74>&#34;config.toml&#34;</span>]
-</code></pre></div><p>這就是指 content目錄下, 以及workflow或Hugo設定有改變後, 就會觸發</p><p>至於Hugo的建置跟發布, 就在請大家自己看設定檔吧, 其實很簡單的</p><h2 id=總結>總結</h2><p>好就沒寫blog, 也好久沒寫長文了, 我發現我廢話一樣多, 不過這邊也花了很長時間弄, 所以也多了一點</p><p>還有一些沒寫上, 例如說我現在是用vscode打這篇文章, 搭配hugoify這個plugin, 並且同時用瀏覽器預覽, 雖然整套工具很geek, 不過弄好後還蠻好玩的就是了</p></div></article><article class=hentry><header><div class=entry-meta><span class="entry-date date published updated"><time datetime="2017-06-18 12:21:33 +0000 UTC"><a href=/%E7%AD%86%E8%A8%98node.js-%E4%BD%BF%E7%94%A8nvm%E5%AE%89%E8%A3%9D%E6%9F%A5%E5%85%8B%E6%8B%89%E7%89%88%E7%9A%84node.js/>Jun 18, 2017</a></time></span>
-<span class=entry-reading-time><i class="fa fa-clock-o"></i>Reading time ~1 minute</span></div><h1 class=entry-title><a href=/%E7%AD%86%E8%A8%98node.js-%E4%BD%BF%E7%94%A8nvm%E5%AE%89%E8%A3%9D%E6%9F%A5%E5%85%8B%E6%8B%89%E7%89%88%E7%9A%84node.js/ rel=bookmark title="[筆記][node.js] 使用nvm安裝查克拉版的node.js" itemprop=url>[筆記][node.js] 使用nvm安裝查克拉版的node.js</a></h1></header><div class=entry-content><p>從<a href=https://nodejs.org/en/blog/release/v8.0.0/>nodejs 8</a>開始, nodejs可以不再需要一定跟V8綁在一起了, 之後底層的Engine可以換成微軟的<a href=https://github.com/Microsoft/ChakraCore>查克拉</a>(<a href=https://github.com/nodejs/node-chakracore>node-chakracore</a>), 甚至是Mozilla的<a href=https://developer.mozilla.org/zh-TW/docs/Mozilla/Projects/SpiderMonkey>SpiderMonkey</a>(<a href=https://github.com/mozilla/spidernode>spidernode</a>)</p><p>但<a href=https://github.com/nodejs/node-chakracore>node-chakracore</a>的官方文件用的version managent是<a href=https://github.com/jasongin/nvs>nvs</a>, 而我習慣用的<a href=https://github.com/creationix/nvm>nvm</a>則是尚未支援查克拉版本的安裝, 如果用nvm想嚐鮮的話, 要用下面的方式:</p><p><code>NVM_NODEJS_ORG_MIRROR=https://nodejs.org/download/chakracore-nightly/ nvm i node</code></p><p>這樣就會幫你裝最新版本的nodejs nightly (with Chakra Core), 以我剛剛執行的結果, 它就幫我裝了<code>v9.0.0-nightly20170617021fbca6bc</code>, 當然如果想用8而不是9一樣可以用:</p><p><code>NVM_NODEJS_ORG_MIRROR=https://nodejs.org/download/chakracore-nightly/ nvm list-remote</code></p><p>這樣就可以看有哪些版本可以安裝</p><p>裝完之後可以用<code>nvm alias</code>為<code>v9.0.0-nightly20170617021fbca6bc</code>取一個代號, 如<code>nvm alias v9.0.0-nightly20170617021fbca6bc chakra9</code>, 這樣之後就可以用<code>nvm use chakra9</code>來切換到這個版本, 這樣就搞定了! 歡迎來到木葉忍者村!!</p><p>另外, 補充一點, 怎知道用的版本是查克拉版的呢?</p><p>執行: <code>node -e "console.log('Hello from Node.js ' + process.jsEngine)"</code></p><p>如果是查克拉版的會顯示: <code>Hello from Node.js chakracore</code></p><p>如果是v8的則是: <code>Hello from Node.js undefined</code></p></div></article><article class=hentry><header><div class=entry-meta><span class="entry-date date published updated"><time datetime="2017-04-16 18:15:44 +0000 UTC"><a href=/%E7%AD%86%E8%A8%98Vue.js-Slot%E7%9A%84%E6%87%89%E7%94%A8/>Apr 16, 2017</a></time></span>
-<span class=entry-reading-time><i class="fa fa-clock-o"></i>Reading time ~5 minutes</span></div><h1 class=entry-title><a href=/%E7%AD%86%E8%A8%98Vue.js-Slot%E7%9A%84%E6%87%89%E7%94%A8/ rel=bookmark title="[筆記][Vue.js] Slot的應用" itemprop=url>[筆記][Vue.js] Slot的應用</a></h1></header><div class=entry-content><p>Vue的component裡有一個還蠻好用的東西叫做<a href=https://vuejs.org/v2/guide/components.html#Content-Distribution-with-Slots>Slot</a>(文件<a href=https://vuejs.org/v2/guide/components.html#Content-Distribution-with-Slots>在此</a>), 尤其適用在開發複雜或巢狀的元件</p><p>那Slot是用在什麼樣的地方, 舉個例子, 假設我們有個元件叫做panel:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-html data-lang=html>&lt;<span style=color:#f92672>panel</span>&gt;
+    - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Deploy</span>
+      <span style=color:#f92672>uses</span>: <span style=color:#ae81ff>peaceiris/actions-gh-pages@v3</span>
+      <span style=color:#f92672>with</span>:
+        <span style=color:#f92672>personal_token</span>: <span style=color:#ae81ff>${{ secrets.PERSONAL_TOKEN }}</span>
+        <span style=color:#f92672>external_repository</span>: <span style=color:#ae81ff>julianshen/julianshen.github.com</span>
+        <span style=color:#f92672>publish_branch</span>: <span style=color:#ae81ff>master</span>
+        <span style=color:#f92672>publish_dir</span>: <span style=color:#ae81ff>./public</span>
+        <span style=color:#f92672>cname</span>: <span style=color:#ae81ff>blog.jln.co</span>
+</code></pre></div><p>如果你用過另一個CI工具 <a href=https://drone.io/>drone</a> 的話, 你會發現, 對比起來, <a href=https://docs.github.com/en/actions>GitHub Actions</a>的彈性更大, 更方便, 觸發建置的條件不一定要是某個git事件(一般是push, pr), 檔案的更動也可以觸發,檔案的更動也可以觸發, 以這段為例:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=color:#f92672>on</span>:
+  <span style=color:#f92672>push</span>:
+    <span style=color:#f92672>paths</span>: [<span style=color:#e6db74>&#34;content/**&#34;</span>, <span style=color:#e6db74>&#34;.github/workflows/main.yml&#34;</span>, <span style=color:#e6db74>&#34;config.toml&#34;</span>]
+</code></pre></div><p>這就是指 content目錄下, 以及workflow或Hugo設定有改變後, 就會觸發</p>
+<p>至於Hugo的建置跟發布, 就在請大家自己看設定檔吧, 其實很簡單的</p>
+<h2 id=總結>總結</h2>
+<p>好就沒寫blog, 也好久沒寫長文了, 我發現我廢話一樣多, 不過這邊也花了很長時間弄, 所以也多了一點</p>
+<p>還有一些沒寫上, 例如說我現在是用vscode打這篇文章, 搭配hugoify這個plugin, 並且同時用瀏覽器預覽, 雖然整套工具很geek, 不過弄好後還蠻好玩的就是了</p>
+</div>
+</article>
+<article class=hentry>
+<header>
+<div class=entry-meta>
+<span class="entry-date date published updated"><time datetime="2017-06-18 12:21:33 +0000 UTC"><a href=/%E7%AD%86%E8%A8%98node.js-%E4%BD%BF%E7%94%A8nvm%E5%AE%89%E8%A3%9D%E6%9F%A5%E5%85%8B%E6%8B%89%E7%89%88%E7%9A%84node.js/>Jun 18, 2017</a></time></span>
+<span class=entry-reading-time>
+<i class="fa fa-clock-o"></i>
+Reading time ~1 minute
+</span>
+</div>
+<h1 class=entry-title><a href=/%E7%AD%86%E8%A8%98node.js-%E4%BD%BF%E7%94%A8nvm%E5%AE%89%E8%A3%9D%E6%9F%A5%E5%85%8B%E6%8B%89%E7%89%88%E7%9A%84node.js/ rel=bookmark title="[筆記][node.js] 使用nvm安裝查克拉版的node.js" itemprop=url>[筆記][node.js] 使用nvm安裝查克拉版的node.js</a></h1>
+</header>
+<div class=entry-content>
+<p>從<a href=https://nodejs.org/en/blog/release/v8.0.0/>nodejs 8</a>開始, nodejs可以不再需要一定跟V8綁在一起了, 之後底層的Engine可以換成微軟的<a href=https://github.com/Microsoft/ChakraCore>查克拉</a>(<a href=https://github.com/nodejs/node-chakracore>node-chakracore</a>), 甚至是Mozilla的<a href=https://developer.mozilla.org/zh-TW/docs/Mozilla/Projects/SpiderMonkey>SpiderMonkey</a>(<a href=https://github.com/mozilla/spidernode>spidernode</a>)</p>
+<p>但<a href=https://github.com/nodejs/node-chakracore>node-chakracore</a>的官方文件用的version managent是<a href=https://github.com/jasongin/nvs>nvs</a>, 而我習慣用的<a href=https://github.com/creationix/nvm>nvm</a>則是尚未支援查克拉版本的安裝, 如果用nvm想嚐鮮的話, 要用下面的方式:</p>
+<p><code>NVM_NODEJS_ORG_MIRROR=https://nodejs.org/download/chakracore-nightly/ nvm i node</code></p>
+<p>這樣就會幫你裝最新版本的nodejs nightly (with Chakra Core), 以我剛剛執行的結果, 它就幫我裝了<code>v9.0.0-nightly20170617021fbca6bc</code>, 當然如果想用8而不是9一樣可以用:</p>
+<p><code>NVM_NODEJS_ORG_MIRROR=https://nodejs.org/download/chakracore-nightly/ nvm list-remote</code></p>
+<p>這樣就可以看有哪些版本可以安裝</p>
+<p>裝完之後可以用<code>nvm alias</code>為<code>v9.0.0-nightly20170617021fbca6bc</code>取一個代號, 如<code>nvm alias v9.0.0-nightly20170617021fbca6bc chakra9</code>, 這樣之後就可以用<code>nvm use chakra9</code>來切換到這個版本, 這樣就搞定了! 歡迎來到木葉忍者村!!</p>
+<p>另外, 補充一點, 怎知道用的版本是查克拉版的呢?</p>
+<p>執行: <code>node -e "console.log('Hello from Node.js ' + process.jsEngine)"</code></p>
+<p>如果是查克拉版的會顯示: <code>Hello from Node.js chakracore</code></p>
+<p>如果是v8的則是: <code>Hello from Node.js undefined</code></p>
+</div>
+</article>
+<article class=hentry>
+<header>
+<div class=entry-meta>
+<span class="entry-date date published updated"><time datetime="2017-04-16 18:15:44 +0000 UTC"><a href=/%E7%AD%86%E8%A8%98Vue.js-Slot%E7%9A%84%E6%87%89%E7%94%A8/>Apr 16, 2017</a></time></span>
+<span class=entry-reading-time>
+<i class="fa fa-clock-o"></i>
+Reading time ~5 minutes
+</span>
+</div>
+<h1 class=entry-title><a href=/%E7%AD%86%E8%A8%98Vue.js-Slot%E7%9A%84%E6%87%89%E7%94%A8/ rel=bookmark title="[筆記][Vue.js] Slot的應用" itemprop=url>[筆記][Vue.js] Slot的應用</a></h1>
+</header>
+<div class=entry-content>
+<p>Vue的component裡有一個還蠻好用的東西叫做<a href=https://vuejs.org/v2/guide/components.html#Content-Distribution-with-Slots>Slot</a>(文件<a href=https://vuejs.org/v2/guide/components.html#Content-Distribution-with-Slots>在此</a>), 尤其適用在開發複雜或巢狀的元件</p>
+<p>那Slot是用在什麼樣的地方, 舉個例子, 假設我們有個元件叫做panel:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-html data-lang=html>&lt;<span style=color:#f92672>panel</span>&gt;
   &lt;<span style=color:#f92672>div</span>&gt;Inside panel&lt;/<span style=color:#f92672>div</span>&gt;
   &lt;<span style=color:#f92672>div</span>&gt;Panel content&lt;/<span style=color:#f92672>div</span>&gt;
 &lt;/<span style=color:#f92672>panel</span>&gt;
-</code></pre></div><p>Panel的定義可能會是這樣:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=color:#a6e22e>Vue</span>.<span style=color:#a6e22e>component</span>(<span style=color:#e6db74>&#39;panel&#39;</span>, {
+</code></pre></div><p>Panel的定義可能會是這樣:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=color:#a6e22e>Vue</span>.<span style=color:#a6e22e>component</span>(<span style=color:#e6db74>&#39;panel&#39;</span>, {
   <span style=color:#a6e22e>template</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;&lt;div&gt;&lt;slot&gt;&lt;/slot&gt;&lt;/div&gt;&#39;</span>
 })
-</code></pre></div><p><a href=https://jsfiddle.net/898f03os/0/>執行範例</a></p><p>簡單的說, 這邊template裡的slot會被拿來放前面例子<code>&lt;panel>&lt;/panel></code>裡面的<code>&lt;div></code></p><p>當然, 這也可以讓我們這個component裡面再放其他的component, 像是這樣的例子:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-html data-lang=html>&lt;<span style=color:#f92672>b-menu</span>&gt;
+</code></pre></div><p><a href=https://jsfiddle.net/898f03os/0/>執行範例</a></p>
+<p>簡單的說, 這邊template裡的slot會被拿來放前面例子<code>&lt;panel>&lt;/panel></code>裡面的<code>&lt;div></code></p>
+<p>當然, 這也可以讓我們這個component裡面再放其他的component, 像是這樣的例子:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-html data-lang=html>&lt;<span style=color:#f92672>b-menu</span>&gt;
  &lt;<span style=color:#f92672>b-menu-item</span>&gt;menu 1&lt;/<span style=color:#f92672>b-menu-item</span>&gt;
  &lt;<span style=color:#f92672>b-menu-item</span>&gt;menu 2&lt;/<span style=color:#f92672>b-menu-item</span>&gt;
  &lt;<span style=color:#f92672>b-menu-item</span>&gt;menu 3&lt;/<span style=color:#f92672>b-menu-item</span>&gt;
  &lt;<span style=color:#f92672>b-menu-item</span>&gt;menu 4&lt;/<span style=color:#f92672>b-menu-item</span>&gt;
 &lt;/<span style=color:#f92672>b-menu</span>&gt;
-</code></pre></div><p>實作上可以寫成這樣</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=color:#a6e22e>Vue</span>.<span style=color:#a6e22e>component</span>(<span style=color:#e6db74>&#39;b-menu&#39;</span>, {
+</code></pre></div><p>實作上可以寫成這樣</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=color:#a6e22e>Vue</span>.<span style=color:#a6e22e>component</span>(<span style=color:#e6db74>&#39;b-menu&#39;</span>, {
   <span style=color:#a6e22e>template</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;&lt;div&gt;&lt;ul&gt;&lt;slot&gt;&lt;/slot&gt;&lt;/ul&gt;&lt;/div&gt;&#39;</span>
 })
 
 <span style=color:#a6e22e>Vue</span>.<span style=color:#a6e22e>component</span>(<span style=color:#e6db74>&#39;b-menu-item&#39;</span>, {
   <span style=color:#a6e22e>template</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;&lt;li&gt;&lt;slot&gt;&lt;/slot&gt;&lt;/li&gt;&#39;</span>
 })
-</code></pre></div><p><a href=https://jsfiddle.net/898f03os/2/>執行範例</a></p><p>其實這範例看起來好像也沒啥必要寫成component(不過就ul/li), 當然, 實際上的應用可以再更複雜, 再來看一個更複雜的範例:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-html data-lang=html>&lt;<span style=color:#f92672>b-menu</span>&gt;
+</code></pre></div><p><a href=https://jsfiddle.net/898f03os/2/>執行範例</a></p>
+<p>其實這範例看起來好像也沒啥必要寫成component(不過就ul/li), 當然, 實際上的應用可以再更複雜, 再來看一個更複雜的範例:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-html data-lang=html>&lt;<span style=color:#f92672>b-menu</span>&gt;
 	&lt;<span style=color:#f92672>b-menu-item</span> <span style=color:#a6e22e>title</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;menu 1&#34;</span>&gt;Content 1&lt;/<span style=color:#f92672>b-menu-item</span>&gt;
 	&lt;<span style=color:#f92672>b-menu-item</span> <span style=color:#a6e22e>title</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;menu 2&#34;</span>&gt;Content 2&lt;/<span style=color:#f92672>b-menu-item</span>&gt;
 	&lt;<span style=color:#f92672>b-menu-item</span> <span style=color:#a6e22e>title</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;menu 3&#34;</span>&gt;Content 3&lt;/<span style=color:#f92672>b-menu-item</span>&gt;
 	&lt;<span style=color:#f92672>b-menu-item</span> <span style=color:#a6e22e>title</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;menu 4&#34;</span>&gt;Content 4&lt;/<span style=color:#f92672>b-menu-item</span>&gt;
 &lt;/<span style=color:#f92672>b-menu</span>&gt;
-</code></pre></div><p>跟上面不一樣的是, 這次想render成的結果是像這樣:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-html data-lang=html>&lt;<span style=color:#f92672>div</span>&gt;
+</code></pre></div><p>跟上面不一樣的是, 這次想render成的結果是像這樣:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-html data-lang=html>&lt;<span style=color:#f92672>div</span>&gt;
   &lt;<span style=color:#f92672>ul</span>&gt;
     &lt;<span style=color:#f92672>li</span>&gt;&lt;<span style=color:#f92672>a</span> <span style=color:#a6e22e>href</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;#a1&#34;</span>&gt;menu 1&lt;/<span style=color:#f92672>a</span>&gt;&lt;/<span style=color:#f92672>li</span>&gt;
     &lt;<span style=color:#f92672>li</span>&gt;&lt;<span style=color:#f92672>a</span> <span style=color:#a6e22e>href</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;#a2&#34;</span>&gt;menu 2&lt;/<span style=color:#f92672>a</span>&gt;&lt;/<span style=color:#f92672>li</span>&gt;
@@ -350,7 +666,10 @@ exit <span style=color:#ae81ff>0</span>
   &lt;<span style=color:#f92672>div</span> <span style=color:#a6e22e>id</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;a3&#34;</span>&gt;Content3&lt;/<span style=color:#f92672>div</span>&gt;
   &lt;<span style=color:#f92672>div</span> <span style=color:#a6e22e>id</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;a4&#34;</span>&gt;Content4&lt;/<span style=color:#f92672>div</span>&gt;
 &lt;/<span style=color:#f92672>div</span>&gt;
-</code></pre></div><p>這明顯被切成兩區了, title的部分顯示在<code>&lt;ul></code>內, 而content卻在另一區, 那這該怎麼做呢?</p><h3 id=取得slot內的子元件child-component->取得Slot內的子元件(Child component)</h3><p>上面的例子可以寫成這樣:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=color:#a6e22e>Vue</span>.<span style=color:#a6e22e>component</span>(<span style=color:#e6db74>&#39;b-menu&#39;</span>, {
+</code></pre></div><p>這明顯被切成兩區了, title的部分顯示在<code>&lt;ul></code>內, 而content卻在另一區, 那這該怎麼做呢?</p>
+<h3 id=取得slot內的子元件child-component>取得Slot內的子元件(Child component)</h3>
+<p>上面的例子可以寫成這樣:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=color:#a6e22e>Vue</span>.<span style=color:#a6e22e>component</span>(<span style=color:#e6db74>&#39;b-menu&#39;</span>, {
   <span style=color:#a6e22e>data</span> () {
   	<span style=color:#66d9ef>return</span> {
       <span style=color:#a6e22e>items</span><span style=color:#f92672>:</span> []
@@ -374,10 +693,17 @@ exit <span style=color:#ae81ff>0</span>
     }
   }
 })
-</code></pre></div><p>要取得slot裡面的child nodes可以用<code>this.$slots.default</code>, 但這個包含所有的child nodes, 如果我們要的只是child components, 那可以檢查這個node是否包含<code>componentInstance</code></p><p>因此, 透過filter和map, 我們可以以<code>this.$slots.default.filter(item => item.componentInstance || false).map(item => item.componentInstance)</code>來取得child components, 在這個例子就包含所有的b-menu-item</p><p>這段程式的作法就是取得所有child components放入items這個資料欄位中, 而在template中有<code>&lt;li v-for="(item,i) in items"></code>利用items內的值來渲染<code>&lt;li></code>的部分</p><p>這邊有一點需要注意的是, 這段必須要跑在 <code>mounted()</code>不能在<code>created()</code>, 因為在<code>created()</code>裡面雖然可以用<code>this.$slots.default</code>來取得child nodes, 但這時候child nodes的componentInstace全部都是undefined, 因為這時候child components其實都還沒準備好</p><h3 id=處理動態內容->處理動態內容</h3><p><code>b-menu-item</code>當然也可以用<code>v-for</code>來動態渲染, 像是:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-html data-lang=html>&lt;<span style=color:#f92672>b-menu</span>&gt;
+</code></pre></div><p>要取得slot裡面的child nodes可以用<code>this.$slots.default</code>, 但這個包含所有的child nodes, 如果我們要的只是child components, 那可以檢查這個node是否包含<code>componentInstance</code></p>
+<p>因此, 透過filter和map, 我們可以以<code>this.$slots.default.filter(item => item.componentInstance || false).map(item => item.componentInstance)</code>來取得child components, 在這個例子就包含所有的b-menu-item</p>
+<p>這段程式的作法就是取得所有child components放入items這個資料欄位中, 而在template中有<code>&lt;li v-for="(item,i) in items"></code>利用items內的值來渲染<code>&lt;li></code>的部分</p>
+<p>這邊有一點需要注意的是, 這段必須要跑在 <code>mounted()</code>不能在<code>created()</code>, 因為在<code>created()</code>裡面雖然可以用<code>this.$slots.default</code>來取得child nodes, 但這時候child nodes的componentInstace全部都是undefined, 因為這時候child components其實都還沒準備好</p>
+<h3 id=處理動態內容>處理動態內容</h3>
+<p><code>b-menu-item</code>當然也可以用<code>v-for</code>來動態渲染, 像是:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-html data-lang=html>&lt;<span style=color:#f92672>b-menu</span>&gt;
    &lt;<span style=color:#f92672>b-menu-item</span> <span style=color:#a6e22e>v-for</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;mItem in menuItems&#34;</span> <span style=color:#a6e22e>:title</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;mItem.title&#34;</span>&gt;{{mItem.content}}&lt;/<span style=color:#f92672>b-menu-item</span>&gt;
 &lt;/<span style=color:#f92672>b-menu</span>&gt;
-</code></pre></div><p>這邊的menuItems如果是一個靜態的陣列下面例子, 不會有問題</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=color:#66d9ef>let</span> <span style=color:#a6e22e>vue</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> <span style=color:#a6e22e>Vue</span>({
+</code></pre></div><p>這邊的menuItems如果是一個靜態的陣列下面例子, 不會有問題</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=color:#66d9ef>let</span> <span style=color:#a6e22e>vue</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> <span style=color:#a6e22e>Vue</span>({
   <span style=color:#a6e22e>el</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;#app&#39;</span>,
   <span style=color:#a6e22e>data</span> () {
      <span style=color:#66d9ef>return</span> {
@@ -398,7 +724,8 @@ exit <span style=color:#ae81ff>0</span>
      }
   }
 })
-</code></pre></div><p>但如果它的內容是由一個async function所產生, 像是</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=color:#66d9ef>let</span> <span style=color:#a6e22e>vue</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> <span style=color:#a6e22e>Vue</span>({
+</code></pre></div><p>但如果它的內容是由一個async function所產生, 像是</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=color:#66d9ef>let</span> <span style=color:#a6e22e>vue</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> <span style=color:#a6e22e>Vue</span>({
   <span style=color:#a6e22e>el</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;#app&#39;</span>,
   <span style=color:#a6e22e>data</span> () {
      <span style=color:#66d9ef>return</span> {
@@ -412,7 +739,9 @@ exit <span style=color:#ae81ff>0</span>
 	})
   }
 })
-</code></pre></div><p>你可能會發現畫面完全沒變化, 那是因為我們在<code>b-menu</code>的<code>mouted()</code>的時候去掃所有的child components, 而<code>menuItems</code>可能在mouted很之後才會被更新, 所以不會被重掃一次, <code>items</code>並不會被更新, 所以畫面也不會有變化, 因此必須要在<code>menuItems</code>資料被更新後再掃一次slot的child components</p><p>可以把b-menu改成這樣</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=color:#a6e22e>Vue</span>.<span style=color:#a6e22e>component</span>(<span style=color:#e6db74>&#39;b-menu&#39;</span>, {
+</code></pre></div><p>你可能會發現畫面完全沒變化, 那是因為我們在<code>b-menu</code>的<code>mouted()</code>的時候去掃所有的child components, 而<code>menuItems</code>可能在mouted很之後才會被更新, 所以不會被重掃一次, <code>items</code>並不會被更新, 所以畫面也不會有變化, 因此必須要在<code>menuItems</code>資料被更新後再掃一次slot的child components</p>
+<p>可以把b-menu改成這樣</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=color:#a6e22e>Vue</span>.<span style=color:#a6e22e>component</span>(<span style=color:#e6db74>&#39;b-menu&#39;</span>, {
   <span style=color:#a6e22e>data</span> () {
   	<span style=color:#66d9ef>return</span> {
       <span style=color:#a6e22e>items</span><span style=color:#f92672>:</span> []
@@ -431,10 +760,13 @@ exit <span style=color:#ae81ff>0</span>
      <span style=color:#a6e22e>updateItems</span>()
   }
 })
-</code></pre></div><p>這樣亦即是, 我們在更新完資料後必須要再呼叫一次<code>updateItems()</code></p><p>為了直接呼叫到b-menu的updateItems, 可以先替他加一個<code>ref="menu"</code>, 方便後面存取</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-html data-lang=html>&lt;<span style=color:#f92672>b-menu</span> <span style=color:#a6e22e>ref</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;menu&#34;</span>&gt;
+</code></pre></div><p>這樣亦即是, 我們在更新完資料後必須要再呼叫一次<code>updateItems()</code></p>
+<p>為了直接呼叫到b-menu的updateItems, 可以先替他加一個<code>ref="menu"</code>, 方便後面存取</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-html data-lang=html>&lt;<span style=color:#f92672>b-menu</span> <span style=color:#a6e22e>ref</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;menu&#34;</span>&gt;
    &lt;<span style=color:#f92672>b-menu-item</span> <span style=color:#a6e22e>v-for</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;mItem in menuItems&#34;</span> <span style=color:#a6e22e>:title</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;mItem.title&#34;</span>&gt;{{mItem.content}}&lt;/<span style=color:#f92672>b-menu-item</span>&gt;
 &lt;/<span style=color:#f92672>b-menu</span>&gt;
-</code></pre></div><p>前面更新menuItems的程式可以改寫成這樣:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=color:#66d9ef>let</span> <span style=color:#a6e22e>vue</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> <span style=color:#a6e22e>Vue</span>({
+</code></pre></div><p>前面更新menuItems的程式可以改寫成這樣:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=color:#66d9ef>let</span> <span style=color:#a6e22e>vue</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> <span style=color:#a6e22e>Vue</span>({
   <span style=color:#a6e22e>el</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;#app&#39;</span>,
   <span style=color:#a6e22e>data</span> () {
      <span style=color:#66d9ef>return</span> {
@@ -449,7 +781,9 @@ exit <span style=color:#ae81ff>0</span>
 	})
   }
 })
-</code></pre></div><p>這邊透過<code>vm.$refs.menu.updateItems()</code>來更新<code>items</code></p><p>但&mldr;.還是沒動靜呀&mldr;怎麼回事? 因為這時候menuItems才剛被更新, 它先去更新b-munu-item, 如果讓items更新後, 畫面要跟著更新, 就必須要在下一個DOM的更新週期, 也就是使用<code>$nextTick</code>, 如下:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=color:#66d9ef>let</span> <span style=color:#a6e22e>vue</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> <span style=color:#a6e22e>Vue</span>({
+</code></pre></div><p>這邊透過<code>vm.$refs.menu.updateItems()</code>來更新<code>items</code></p>
+<p>但&mldr;.還是沒動靜呀&mldr;怎麼回事? 因為這時候menuItems才剛被更新, 它先去更新b-munu-item, 如果讓items更新後, 畫面要跟著更新, 就必須要在下一個DOM的更新週期, 也就是使用<code>$nextTick</code>, 如下:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=color:#66d9ef>let</span> <span style=color:#a6e22e>vue</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> <span style=color:#a6e22e>Vue</span>({
   <span style=color:#a6e22e>el</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;#app&#39;</span>,
   <span style=color:#a6e22e>data</span> () {
      <span style=color:#66d9ef>return</span> {
@@ -466,7 +800,11 @@ exit <span style=color:#ae81ff>0</span>
 	})
   }
 })
-</code></pre></div><p>這樣就沒問題了!</p><p>但對於一個元件來說, 這樣的設計並不是很好, 變成這個元件必須相依於使用它的程式, 還有沒更好的寫法?</p><h3 id=在子原件更新時呼叫父元件呢->在子原件更新時呼叫父元件呢?</h3><p>把<code>b-menu-item</code>這樣改寫:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=color:#a6e22e>Vue</span>.<span style=color:#a6e22e>component</span>(<span style=color:#e6db74>&#39;b-menu-item&#39;</span>, {
+</code></pre></div><p>這樣就沒問題了!</p>
+<p>但對於一個元件來說, 這樣的設計並不是很好, 變成這個元件必須相依於使用它的程式, 還有沒更好的寫法?</p>
+<h3 id=在子原件更新時呼叫父元件呢>在子原件更新時呼叫父元件呢?</h3>
+<p>把<code>b-menu-item</code>這樣改寫:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=color:#a6e22e>Vue</span>.<span style=color:#a6e22e>component</span>(<span style=color:#e6db74>&#39;b-menu-item&#39;</span>, {
   <span style=color:#a6e22e>template</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;&lt;div :id=&#34;id&#34;&gt;&lt;slot&gt;&lt;/slot&gt;&lt;/div&gt;&#39;</span>,
   <span style=color:#a6e22e>props</span><span style=color:#f92672>:</span> [<span style=color:#e6db74>&#39;title&#39;</span>],
   <span style=color:#a6e22e>data</span> () {
@@ -478,7 +816,17 @@ exit <span style=color:#ae81ff>0</span>
      <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>$parent</span>.<span style=color:#a6e22e>updateItems</span>()
   }
 })
-</code></pre></div><p>這樣也是可行的, 當新的<code>b-menu-item</code>被加入slot中時, 就會呼叫一次updateItems</p><p>但這是有缺點的:</p><ol><li>每個child component會呼叫一次, 但實際上不需要被呼叫這麼多次, 有點浪費</li><li>這個子原件的設計變成會依賴父元件, 不易與用在其他元件內</li></ol><p>所以還是需要一個更好的方式</p><h3 id=mutationobserver->MutationObserver</h3><p>這時候就要借用HTML5的<a href=https://developer.mozilla.org/zh-TW/docs/Web/API/MutationObserver>MutationObserver</a>, 這個在Vuejs內部也是大量地被使用</p><p>使用<a href=https://developer.mozilla.org/zh-TW/docs/Web/API/MutationObserver>MutationObserver</a>, 我們可以把<code>b-menu</code>改成這樣:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=color:#a6e22e>Vue</span>.<span style=color:#a6e22e>component</span>(<span style=color:#e6db74>&#39;b-menu&#39;</span>, {
+</code></pre></div><p>這樣也是可行的, 當新的<code>b-menu-item</code>被加入slot中時, 就會呼叫一次updateItems</p>
+<p>但這是有缺點的:</p>
+<ol>
+<li>每個child component會呼叫一次, 但實際上不需要被呼叫這麼多次, 有點浪費</li>
+<li>這個子原件的設計變成會依賴父元件, 不易與用在其他元件內</li>
+</ol>
+<p>所以還是需要一個更好的方式</p>
+<h3 id=mutationobserver>MutationObserver</h3>
+<p>這時候就要借用HTML5的<a href=https://developer.mozilla.org/zh-TW/docs/Web/API/MutationObserver>MutationObserver</a>, 這個在Vuejs內部也是大量地被使用</p>
+<p>使用<a href=https://developer.mozilla.org/zh-TW/docs/Web/API/MutationObserver>MutationObserver</a>, 我們可以把<code>b-menu</code>改成這樣:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=color:#a6e22e>Vue</span>.<span style=color:#a6e22e>component</span>(<span style=color:#e6db74>&#39;b-menu&#39;</span>, {
   <span style=color:#a6e22e>data</span> () {
   	<span style=color:#66d9ef>return</span> {
       <span style=color:#a6e22e>items</span><span style=color:#f92672>:</span> [],
@@ -514,8 +862,23 @@ exit <span style=color:#ae81ff>0</span>
 	 <span style=color:#a6e22e>vm</span>.<span style=color:#a6e22e>domObserver</span>.<span style=color:#a6e22e>observer</span>(<span style=color:#a6e22e>vm</span>.<span style=color:#a6e22e>$refs</span>.<span style=color:#a6e22e>content</span>, {<span style=color:#a6e22e>childList</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>true</span>, <span style=color:#a6e22e>subtree</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>true</span>})
   }
 })
-</code></pre></div><p>藉由監控slot的父節點(parent node)的變化來確定是否要去更新items, 這樣一來就不用依賴其他人也可以做到自動更新了</p></div></article><article class=hentry><header><div class=entry-meta><span class="entry-date date published updated"><time datetime="2017-04-15 12:46:27 +0000 UTC"><a href=/%E7%AD%86%E8%A8%98%E5%88%A9%E7%94%A8axios-mock-adapter%E7%82%BAaxios%E6%8F%90%E4%BE%9B%E6%B8%AC%E8%A9%A6%E7%94%A8%E7%9A%84%E5%81%87%E8%B3%87%E6%96%99/>Apr 15, 2017</a></time></span>
-<span class=entry-reading-time><i class="fa fa-clock-o"></i>Reading time ~2 minutes</span></div><h1 class=entry-title><a href=/%E7%AD%86%E8%A8%98%E5%88%A9%E7%94%A8axios-mock-adapter%E7%82%BAaxios%E6%8F%90%E4%BE%9B%E6%B8%AC%E8%A9%A6%E7%94%A8%E7%9A%84%E5%81%87%E8%B3%87%E6%96%99/ rel=bookmark title=[筆記]利用axios-mock-adapter為axios提供測試用的假資料 itemprop=url>[筆記]利用axios-mock-adapter為axios提供測試用的假資料</a></h1></header><div class=entry-content><p><a href=https://github.com/mzabriskie/axios>axios</a>是蠻好用的javascript http client, 不僅可以在browser上跑, 也可以在node.js上用, 而且Promise形態的API寫起來就比較好看, 如果搭配async/await的寫法, 看起來就更加漂亮了</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>loadUser</span>(<span style=color:#a6e22e>uid</span>) {
+</code></pre></div><p>藉由監控slot的父節點(parent node)的變化來確定是否要去更新items, 這樣一來就不用依賴其他人也可以做到自動更新了</p>
+</div>
+</article>
+<article class=hentry>
+<header>
+<div class=entry-meta>
+<span class="entry-date date published updated"><time datetime="2017-04-15 12:46:27 +0000 UTC"><a href=/%E7%AD%86%E8%A8%98%E5%88%A9%E7%94%A8axios-mock-adapter%E7%82%BAaxios%E6%8F%90%E4%BE%9B%E6%B8%AC%E8%A9%A6%E7%94%A8%E7%9A%84%E5%81%87%E8%B3%87%E6%96%99/>Apr 15, 2017</a></time></span>
+<span class=entry-reading-time>
+<i class="fa fa-clock-o"></i>
+Reading time ~2 minutes
+</span>
+</div>
+<h1 class=entry-title><a href=/%E7%AD%86%E8%A8%98%E5%88%A9%E7%94%A8axios-mock-adapter%E7%82%BAaxios%E6%8F%90%E4%BE%9B%E6%B8%AC%E8%A9%A6%E7%94%A8%E7%9A%84%E5%81%87%E8%B3%87%E6%96%99/ rel=bookmark title=[筆記]利用axios-mock-adapter為axios提供測試用的假資料 itemprop=url>[筆記]利用axios-mock-adapter為axios提供測試用的假資料</a></h1>
+</header>
+<div class=entry-content>
+<p><a href=https://github.com/mzabriskie/axios>axios</a>是蠻好用的javascript http client, 不僅可以在browser上跑, 也可以在node.js上用, 而且Promise形態的API寫起來就比較好看, 如果搭配async/await的寫法, 看起來就更加漂亮了</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>loadUser</span>(<span style=color:#a6e22e>uid</span>) {
   <span style=color:#a6e22e>axios</span>.<span style=color:#a6e22e>get</span>(<span style=color:#e6db74>&#39;/user?ID=12345&#39;</span>)
     .<span style=color:#a6e22e>then</span>(<span style=color:#a6e22e>response</span> =&gt; {
       <span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>log</span>(<span style=color:#a6e22e>response</span>)
@@ -524,15 +887,18 @@ exit <span style=color:#ae81ff>0</span>
       <span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>log</span>(<span style=color:#a6e22e>error</span>)
     })
 }
-</code></pre></div><p>或是（async/await)</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=color:#a6e22e>async</span> <span style=color:#66d9ef>function</span> <span style=color:#a6e22e>loadUser</span>(<span style=color:#a6e22e>uid</span>) {
+</code></pre></div><p>或是（async/await)</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=color:#66d9ef>async</span> <span style=color:#66d9ef>function</span> <span style=color:#a6e22e>loadUser</span>(<span style=color:#a6e22e>uid</span>) {
   <span style=color:#66d9ef>try</span> {
-    <span style=color:#a6e22e>data</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>await</span> <span style=color:#a6e22e>axios</span>.<span style=color:#a6e22e>get</span>(<span style=color:#e6db74>&#39;/user?ID=12345&#39;</span>)
+    <span style=color:#a6e22e>data</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>await</span> <span style=color:#a6e22e>axios</span>.<span style=color:#a6e22e>get</span>(<span style=color:#e6db74>&#39;/user?ID=12345&#39;</span>)
 	<span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>log</span>(<span style=color:#a6e22e>data</span>)
   } <span style=color:#66d9ef>catch</span>(<span style=color:#a6e22e>e</span>) {
     <span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>log</span>(<span style=color:#a6e22e>e</span>)
   }
 }
-</code></pre></div><p>但如果開發時期或是要做Unit testing需要用假資料來取代server api直接回傳呢? 目前我看到兩套方案, 一個是<a href=https://github.com/mzabriskie/axios>axios</a>作者做的<a href=https://github.com/mzabriskie/moxios>moxios</a>另外一個是<a href=https://github.com/ctimmerm/axios-mock-adapter>axios-mock-adapter</a>, <a href=https://github.com/mzabriskie/moxios>moxios</a>看起來好像比較適合在Unit testing時, 而我是想在開發過程中使用, 所以我選的是<a href=https://github.com/ctimmerm/axios-mock-adapter>axios-mock-adapter</a></p><p>使用<a href=https://github.com/ctimmerm/axios-mock-adapter>axios-mock-adapter</a>還蠻簡單的:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=color:#66d9ef>import</span> <span style=color:#a6e22e>axios</span> <span style=color:#a6e22e>from</span> <span style=color:#e6db74>&#39;axios&#39;</span>
+</code></pre></div><p>但如果開發時期或是要做Unit testing需要用假資料來取代server api直接回傳呢? 目前我看到兩套方案, 一個是<a href=https://github.com/mzabriskie/axios>axios</a>作者做的<a href=https://github.com/mzabriskie/moxios>moxios</a>另外一個是<a href=https://github.com/ctimmerm/axios-mock-adapter>axios-mock-adapter</a>, <a href=https://github.com/mzabriskie/moxios>moxios</a>看起來好像比較適合在Unit testing時, 而我是想在開發過程中使用, 所以我選的是<a href=https://github.com/ctimmerm/axios-mock-adapter>axios-mock-adapter</a></p>
+<p>使用<a href=https://github.com/ctimmerm/axios-mock-adapter>axios-mock-adapter</a>還蠻簡單的:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=color:#66d9ef>import</span> <span style=color:#a6e22e>axios</span> <span style=color:#a6e22e>from</span> <span style=color:#e6db74>&#39;axios&#39;</span>
 <span style=color:#66d9ef>import</span> <span style=color:#a6e22e>MockAdapter</span> <span style=color:#a6e22e>from</span> <span style=color:#e6db74>&#39;axios-mock-adapter&#39;</span>
 
 <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>mock</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> <span style=color:#a6e22e>MockAdapter</span>(<span style=color:#a6e22e>axios</span>)
@@ -548,4 +914,99 @@ exit <span style=color:#ae81ff>0</span>
   .<span style=color:#a6e22e>then</span>(<span style=color:#a6e22e>response</span> =&gt; {
     <span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>log</span>(<span style=color:#a6e22e>response</span>.<span style=color:#a6e22e>data</span>)
   })
-</code></pre></div><p>創建uri跟假資料的對應很簡單, 基本上也就是&rsquo;on'&lsquo;Method&rsquo;, 比如說<code>onGet</code>, <code>onPost</code>, 另外還有一個<code>onAny</code>可以處理所有的HTTP methods</p><p>做過mock後, axios呼叫這個uri所拿回來的資料通通就都會是假資料了, 這樣也不用為了塞假資料開發測試而去改動自己的程式</p></div></article><div class=pagination><ul class=inline-list><li><strong class=current-page>1</strong></li><li><a href=/page/2/>2</a></li><li><a href=/page/3/>3</a></li><li><a href=/page/4/>4</a></li><li><a href=/page/5/>5</a></li><li><a href=/page/6/>6</a></li><li><a href=/page/7/>7</a></li><li><a href=/page/8/>8</a></li><li><a href=/page/9/>9</a></li><li><a href=/page/10/>10</a></li><li><a href=/page/11/>11</a></li><li><a href=/page/12/>12</a></li><li><a href=/page/13/>13</a></li><li><a href=/page/14/>14</a></li><li><a href=/page/15/>15</a></li><li><a href=/page/16/>16</a></li><li><a href=/page/17/>17</a></li><li><a href=/page/18/>18</a></li><li><a href=/page/19/>19</a></li><li><a href=/page/20/>20</a></li><li><a href=/page/21/>21</a></li><li><a href=/page/22/>22</a></li><li><a href=/page/23/>23</a></li><li><a href=/page/24/>24</a></li><li><a href=/page/25/>25</a></li><li><a href=/page/26/>26</a></li><li><a href=/page/27/>27</a></li><li><a href=/page/28/>28</a></li><li><a href=/page/29/>29</a></li><li><a href=/page/30/>30</a></li><li><a href=/page/31/>31</a></li><li><a href=/page/32/>32</a></li><li><a href=/page/33/>33</a></li><li><a href=/page/34/>34</a></li><li><a href=/page/35/>35</a></li><li><a href=/page/36/>36</a></li><li><a href=/page/37/>37</a></li><li><a href=/page/38/>38</a></li><li><a href=/page/39/>39</a></li><li><a href=/page/40/>40</a></li><li><a href=/page/41/>41</a></li><li><a href=/page/42/>42</a></li><li><a href=/page/43/>43</a></li><li><a href=/page/44/>44</a></li><li><a href=/page/45/>45</a></li><li><a href=/page/46/>46</a></li><li><a href=/page/47/>47</a></li><li><a href=/page/48/>48</a></li><li><a href=/page/49/>49</a></li><li><a href=/page/50/>50</a></li><li><a href=/page/51/>51</a></li><li><a href=/page/52/>52</a></li><li><a href=/page/53/>53</a></li><li><a href=/page/54/>54</a></li><li><a href=/page/55/>55</a></li><li><a href=/page/56/>56</a></li><li><a href=/page/57/>57</a></li><li><a href=/page/58/>58</a></li><li><a href=/page/59/>59</a></li><li><a href=/page/60/>60</a></li><li><a href=/page/61/>61</a></li><li><a href=/page/62/>62</a></li><li><a href=/page/63/>63</a></li><li><a href=/page/64/>64</a></li><li><a href=/page/65/>65</a></li><li><a href=/page/66/>66</a></li><li><a href=/page/67/>67</a></li><li><a href=/page/68/>68</a></li><li><a href=/page/69/>69</a></li><li><a href=/page/70/>70</a></li><li><a href=/page/71/>71</a></li><li><a href=/page/72/>72</a></li><li><a href=/page/2/ class=btn>Next</a></li></ul></div></div><div class=footer-wrapper><footer role=contentinfo><span>Powered by <a href=https://gohugo.io/ rel=nofollow>Hugo</a> using the <a href=https://github.com/dldx/hpstr-hugo-theme rel=nofollow>HPSTR theme</a>.</span></footer></div><script src=//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js></script><script src=https://kit.fontawesome.com/872a53b461.js crossorigin=anonymous></script><script>window.jQuery||document.write('<script src="\/js\/vendor\/jquery-1.9.1.min.js"><\/script>')</script><script src=/js/scripts.min.js></script><script type=application/javascript>var doNotTrack=false;if(!doNotTrack){(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');ga('create','UA-79243751-1','auto');ga('send','pageview');}</script><div id=fb-root></div><script async defer crossorigin=anonymous src="https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v7.0&appId=293999444006555&autoLogAppEvents=1" nonce=geZSUIUh></script></body></html>
+</code></pre></div><p>創建uri跟假資料的對應很簡單, 基本上也就是&rsquo;on'&lsquo;Method&rsquo;, 比如說<code>onGet</code>, <code>onPost</code>, 另外還有一個<code>onAny</code>可以處理所有的HTTP methods</p>
+<p>做過mock後, axios呼叫這個uri所拿回來的資料通通就都會是假資料了, 這樣也不用為了塞假資料開發測試而去改動自己的程式</p>
+</div>
+</article>
+<div class=pagination>
+<ul class=inline-list>
+<li><strong class=current-page>1</strong></li>
+<li><a href=/page/2/>2</a></li>
+<li><a href=/page/3/>3</a></li>
+<li><a href=/page/4/>4</a></li>
+<li><a href=/page/5/>5</a></li>
+<li><a href=/page/6/>6</a></li>
+<li><a href=/page/7/>7</a></li>
+<li><a href=/page/8/>8</a></li>
+<li><a href=/page/9/>9</a></li>
+<li><a href=/page/10/>10</a></li>
+<li><a href=/page/11/>11</a></li>
+<li><a href=/page/12/>12</a></li>
+<li><a href=/page/13/>13</a></li>
+<li><a href=/page/14/>14</a></li>
+<li><a href=/page/15/>15</a></li>
+<li><a href=/page/16/>16</a></li>
+<li><a href=/page/17/>17</a></li>
+<li><a href=/page/18/>18</a></li>
+<li><a href=/page/19/>19</a></li>
+<li><a href=/page/20/>20</a></li>
+<li><a href=/page/21/>21</a></li>
+<li><a href=/page/22/>22</a></li>
+<li><a href=/page/23/>23</a></li>
+<li><a href=/page/24/>24</a></li>
+<li><a href=/page/25/>25</a></li>
+<li><a href=/page/26/>26</a></li>
+<li><a href=/page/27/>27</a></li>
+<li><a href=/page/28/>28</a></li>
+<li><a href=/page/29/>29</a></li>
+<li><a href=/page/30/>30</a></li>
+<li><a href=/page/31/>31</a></li>
+<li><a href=/page/32/>32</a></li>
+<li><a href=/page/33/>33</a></li>
+<li><a href=/page/34/>34</a></li>
+<li><a href=/page/35/>35</a></li>
+<li><a href=/page/36/>36</a></li>
+<li><a href=/page/37/>37</a></li>
+<li><a href=/page/38/>38</a></li>
+<li><a href=/page/39/>39</a></li>
+<li><a href=/page/40/>40</a></li>
+<li><a href=/page/41/>41</a></li>
+<li><a href=/page/42/>42</a></li>
+<li><a href=/page/43/>43</a></li>
+<li><a href=/page/44/>44</a></li>
+<li><a href=/page/45/>45</a></li>
+<li><a href=/page/46/>46</a></li>
+<li><a href=/page/47/>47</a></li>
+<li><a href=/page/48/>48</a></li>
+<li><a href=/page/49/>49</a></li>
+<li><a href=/page/50/>50</a></li>
+<li><a href=/page/51/>51</a></li>
+<li><a href=/page/52/>52</a></li>
+<li><a href=/page/53/>53</a></li>
+<li><a href=/page/54/>54</a></li>
+<li><a href=/page/55/>55</a></li>
+<li><a href=/page/56/>56</a></li>
+<li><a href=/page/57/>57</a></li>
+<li><a href=/page/58/>58</a></li>
+<li><a href=/page/59/>59</a></li>
+<li><a href=/page/60/>60</a></li>
+<li><a href=/page/61/>61</a></li>
+<li><a href=/page/62/>62</a></li>
+<li><a href=/page/63/>63</a></li>
+<li><a href=/page/64/>64</a></li>
+<li><a href=/page/65/>65</a></li>
+<li><a href=/page/66/>66</a></li>
+<li><a href=/page/67/>67</a></li>
+<li><a href=/page/68/>68</a></li>
+<li><a href=/page/69/>69</a></li>
+<li><a href=/page/70/>70</a></li>
+<li><a href=/page/71/>71</a></li>
+<li><a href=/page/72/>72</a></li>
+<li><a href=/page/2/ class=btn>Next</a></li>
+</ul>
+</div>
+</div>
+<div class=footer-wrapper>
+<footer role=contentinfo>
+<span> Powered by <a href=https://gohugo.io/ rel=nofollow>Hugo</a> using the <a href=https://github.com/dldx/hpstr-hugo-theme rel=nofollow>HPSTR theme</a>.</span>
+</footer>
+</div>
+<script src=//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js></script>
+<script src=https://kit.fontawesome.com/872a53b461.js crossorigin=anonymous></script>
+<script>window.jQuery||document.write('<script src="/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src=/js/scripts.min.js></script>
+<script type=application/javascript>var doNotTrack=!1;doNotTrack||(function(a,e,f,g,b,c,d){a.GoogleAnalyticsObject=b,a[b]=a[b]||function(){(a[b].q=a[b].q||[]).push(arguments)},a[b].l=1*new Date,c=e.createElement(f),d=e.getElementsByTagName(f)[0],c.async=1,c.src=g,d.parentNode.insertBefore(c,d)}(window,document,'script','https://www.google-analytics.com/analytics.js','ga'),ga('create','UA-79243751-1','auto'),ga('send','pageview'))</script>
+<div id=fb-root></div>
+<script async defer crossorigin=anonymous src="https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v7.0&appId=293999444006555&autoLogAppEvents=1" nonce=geZSUIUh></script>
+</body>
+</html>

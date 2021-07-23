@@ -1,22 +1,175 @@
-<!doctype html><!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=en><![endif]--><!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang=en><![endif]--><!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang=en><![endif]--><!--[if gt IE 8]><!--><html class=no-js lang=en><!--<![endif]--><head><meta charset=utf-8><title>Le murmure de Julian</title><meta name=description content><meta property="og:title" content="Le murmure de Julian"><meta property="og:description" content><meta property="og:type" content="website"><meta property="og:url" content="https://blog.jln.co/"><meta property="og:image" content="https://blog.jln.co/images/avatar.png"><meta property="og:updated_time" content="2020-07-05T14:54:23+08:00"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://blog.jln.co/images/avatar.png"><meta name=twitter:title content="Le murmure de Julian"><meta name=twitter:description content><link rel=canonical href=https://blog.jln.co/><link href=https://blog.jln.co/feed.xml rel=alternate type=application/rss+xml title="Le murmure de Julian"><link href=https://blog.jln.co/feed.xml rel=feed type=application/rss+xml title="Le murmure de Julian"><meta name=HandheldFriendly content="True"><meta name=MobileOptimized content="320"><meta name=viewport content="width=device-width,initial-scale=1"><link rel=stylesheet href=/css/main.css><link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel=stylesheet type=text/css><meta http-equiv=cleartype content="on"><meta name=generator content="Hugo 0.73.0"><script src=/js/vendor/modernizr-2.6.2.custom.min.js></script><script async src=https://unpkg.com/mermaid@8.2.3/dist/mermaid.min.js></script><link rel="shortcut icon" href=/favicon.png></head><body id=post-index class=feature><nav id=dl-menu class=dl-menuwrapper role=navigation style=display:inline-block><button class=dl-trigger>Open Menu</button><ul class=dl-menu><li><a href=/>Home</a></li><li><a href=#>About</a><ul class=dl-submenu><li><img src=/images/avatar.png alt="Julian Shen's photo" class=author-photo><h4>Julian Shen</h4><p>Softward developer</p></li><li><a href=mailto:julianshen22@gmail.com><i class="fa fa-fw fa-envelope"></i>Email</a></li><li><a href=https://linkedin.com/in/julianshen><i class="fa fa-fw fa-linkedin"></i>LinkedIn</a></li><li><a href=https://github.com/julianshen><i class="fa fa-fw fa-github"></i>GitHub</a></li><li><a href=https://instagram.com/julianshen><i class="fa fa-fw fa-instagram"></i>Instagram</a></li></ul></li><li><a href=#>Posts</a><ul class=dl-submenu><li><a href=/post/>All Posts</a></li><li><a href=/tags/>All Tags</a></li></ul></li><li><a href=/></a></li></ul></nav><div class=entry-header><div class=entry-image><img src=/images/bkg2.jpg alt="Le murmure de Julian"></div><div class=header-title><div class=header-title-wrap><h1><a href=/ title="Go to the homepage">Le murmure de Julian</a></h1><h2>朱隸安貓囈語錄</h2></div></div></div><div id=main role=main><article class=hentry><header><div class=entry-meta><span class="entry-date date published updated"><time datetime="2017-03-01 17:08:32 +0000 UTC"><a href=/RSS-for-Ptt/>Mar 1, 2017</a></time></span>
-<span class=entry-reading-time><i class="fa fa-clock-o"></i>Reading time ~1 minute</span></div><h1 class=entry-title><a href=/RSS-for-Ptt/ rel=bookmark title="RSS for Ptt" itemprop=url>RSS for Ptt</a></h1></header><div class=entry-content><p>最近才發現, ptt的rss功能好像拿掉了, 這樣好像就不能拿feedly之類的來訂閱版面內容, 反正我自己有寫了一個<a href=https://github.com/julianshen/gopttcrawler>gopttcrawler</a>
-所幸自己來寫一個吧!</p><p>source code在: <a href=https://github.com/julianshen/pttrss>pttrss</a></p><p>可以自行deploy到heroku去, 如果不想這麼麻煩, 可以用:</p><p><a href=https://ptt.cowbay.wtf/rss/>https://ptt.cowbay.wtf/rss/</a>版名</p><p>例如:</p><ul><li>表特版的rss url是 - <a href=https://ptt.cowbay.wtf/rss/Beauty>https://ptt.cowbay.wtf/rss/Beauty</a></li><li>電影版的是 - <a href=https://ptt.cowbay.wtf/rss/movie>https://ptt.cowbay.wtf/rss/movie</a></li></ul><p>要找到英文版名才可以</p><p>資料30分鐘才會更新一次, 不會時時更新, 避免被灌</p></div></article><article class=hentry><header><div class=entry-meta><span class="entry-date date published updated"><time datetime="2017-02-07 17:18:05 +0000 UTC"><a href=/Swift-%E6%BC%AB%E7%95%AB%E7%88%AC%E8%9F%B2/>Feb 7, 2017</a></time></span>
-<span class=entry-reading-time><i class="fa fa-clock-o"></i>Reading time ~5 minutes</span></div><h1 class=entry-title><a href=/Swift-%E6%BC%AB%E7%95%AB%E7%88%AC%E8%9F%B2/ rel=bookmark title="[Swift] 漫畫爬蟲" itemprop=url>[Swift] 漫畫爬蟲</a></h1></header><div class=entry-content><p>最近搬家又讓我挖出了Amazon Kindle, 又覺得拿來看漫畫很方便(這戲演了幾次了呀?), 雖然說好像也有網站可以下載漫畫.mobi檔, 不過似乎是會員制的, 不喜歡</p><p>因此又讓我想寫漫畫的爬蟲了, 這次的目標是: <a href=http://www.comicbus.com/>無限動漫</a> (他們的app實在做得有夠差)</p><p>這次幾個需求是:</p><ol><li>Command line下就可以跑了(這也沒必要做UI吧?)</li><li>在os x下可以執行(我自己電腦是mac)</li><li>出來的檔案可以放到kindle看(.mobi檔或epub)</li></ol><p>mobi或epub的檔案格式似乎有點麻煩, 也不太好做得好, 所以決定用cbz檔再用<a href=https://calibre-ebook.com/>Calibre</a>轉mobi</p><p><a href=https://calibre-ebook.com/>Calibre</a>有一個方便的command line tool叫ebook-convert, 可以用來轉檔, 而cbz本身非常的簡單
-, 它就是一個zip檔, 裡面的圖片檔名照編號就好, 這code還算好寫</p><p>再來就是看一下怎麼解析<a href=http://www.comicbus.com/>無限動漫</a>的內容了, 它的URL是長這樣的:</p><pre><code>http://v.comicbus.com/online/comic-653.html?ch=1
-</code></pre><p>以上範例是名偵探柯南第一卷, 大膽猜測, 653是漫畫編號, ch是集數, 選到第二頁, URL會變成這樣</p><pre><code>http://v.comicbus.com/online/comic-653.html?ch=4-2
-</code></pre><p>這樣其實就很明顯了, 接下來是內容的部分</p><p>每一集的頭上有一個"正在觀看:[ 名偵探柯南 1 ]&rdquo;, &ldquo;[]&ldquo;內就是標題了吧, 另外還有一個"select&rdquo;, 裡面有這集所有的頁數資訊, 而圖片的id是"TheImg&rdquo;</p><p>不過麻煩的是, 這些資訊似乎隱藏在javascript中, page載入後才會出現</p><p>這如果使用headless browser像是<a href=http://phantomjs.org/>Phantomjs</a>就沒啥問題, 但這邊我不想用它, 因為使用這工具還要再裝它</p><p>我下一個選擇是Go + <a href=https://github.com/sourcegraph/webloop>Webloop</a>, <a href=https://github.com/sourcegraph/webloop>Webloop</a>是一個Go的headless browser lib, 它是基於WebkitGtk+做成的,
-不過我在mac上裝WebkitGTK+裝好久一直有問題, 所以&mldr;放棄&mldr;.</p><p>接下來的選擇呢? 還有其他的headless browser嗎?有的! <a href=https://github.com/phimage/Erik>Erik</a>, 這是一個Swift的head less browser,
-用Swift寫爬蟲好像挺酷的, 查了一下, 有人用<a href=https://github.com/Alamofire/Alamofire>Alamofire</a> + <a href=https://github.com/tid-kijyun/Kanna>Kanna</a>, 不過這在這例子不適用, 這例子還是比較適合<a href=https://github.com/phimage/Erik>Erik</a></p><h3 id=成品>成品</h3><p>先給成果: <a href="https://drive.google.com/open?id=0B5rbRldWhe82MWRnVkpMQlExTHc">ComicGo</a></p><p>這已經是一個OS X的可執行檔, 在Command line下執行 <code>ComicGo 653 1</code>就可以抓名偵探柯南第一集, 相關的漫畫編號集數, 就去<a href=http://www.comicbus.com/>無限動漫</a>查吧</p><p>抓完會在你的Download目錄出現"名偵探柯南 1.cbz"再用ebook-covert去轉成你要的格式就可以了</p><p>少少的時間隨便寫寫而已, 有bug就見諒囉</p><h3 id=os-x-command-line-tool>OS X Command line tool</h3><p>XCode + Swift是可以拿來寫command line tool的, 新增一個專案選"Command line tool&rdquo;:</p><p><img src=/images/posts/xcodecmd.png alt></p><p>這樣就可以開始寫了</p><p>一開始在專案內部會發現一個"main.swift&rdquo;, 由於用swift寫command line app並沒有像其他語言有main function這類的東西
-所以程式就寫在這吧</p><h3 id=開發command-line-tool的坑>開發Command line tool的坑</h3><p>坑&mldr;真的不少</p><p>首先, 你不能使用任何的framework, 因為command line tool產出會是一個可執行檔, 不是一個app bundle, 所以不能包含任何的framework</p><p>第二, swift framework不能static link, 像是Erik, Kanna這些swift module, 都是dynamic lib</p><p>慘, 光前面這兩點就麻煩了, 開發這個ComicGo, 我用到了<a href=https://github.com/phimage/Erik>Erik</a>, <a href=https://github.com/tid-kijyun/Kanna>Kanna</a>, <a href=https://github.com/marmelroy/Zip>Zip</a>等等
-, 這樣到底要怎麼辦? 跑起來就image not found</p><p>所以呢?土法煉鋼, 把這些module的codes全部引入到我的專案內(所以沒打算Open ssource, 太醜了), 這樣一來就解決掉問題了, 不過這功不算小, 因為Kanna相依libxml, Zip相依libz這些native lib</p><p>第三個坑, Erik是利用OS X裡面原生的WebKit去讀取網頁的, 因此他的設計是把載入網頁放到另一個DispatchQueue(javascript執行又是另一個),
-但Command line邏輯很單線, 它並不會等callback回來才結束程式, 因此會發現怎麼Erik都沒動作就結束程式了, 因此必須要有個機制來卡住</p><p>這個機制就是<a href="https://www.google.com.tw/webhp?sourceid=chrome-instant&ion=1&espv=2&ie=UTF-8#q=swift+runloop">RunLoop</a>, 關於RunLoop這邊不多做解釋, 看一下<a href="https://www.google.com.tw/webhp?sourceid=chrome-instant&ion=1&espv=2&ie=UTF-8#q=swift+runloop">官方文件</a>
-在程式內則是這樣:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-swift data-lang=swift><span style=color:#66d9ef>let</span> rl = RunLoop.current
+<!doctype html><!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=en><![endif]--><!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang=en><![endif]--><!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang=en><![endif]--><!--[if gt IE 8]><!--><html class=no-js lang=en><!--<![endif]-->
+<head>
+<meta charset=utf-8>
+<title>Le murmure de Julian</title>
+<meta name=description content>
+<meta property="og:title" content="Le murmure de Julian">
+<meta property="og:description" content>
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://blog.jln.co/"><meta property="og:image" content="https://blog.jln.co/images/avatar.png">
+<meta name=twitter:card content="summary_large_image">
+<meta name=twitter:image content="https://blog.jln.co/images/avatar.png">
+<meta name=twitter:title content="Le murmure de Julian">
+<meta name=twitter:description content>
+<link rel=canonical href=https://blog.jln.co/>
+<link href=https://blog.jln.co/feed.xml rel=alternate type=application/rss+xml title="Le murmure de Julian">
+<link href=https://blog.jln.co/feed.xml rel=feed type=application/rss+xml title="Le murmure de Julian">
+<meta name=HandheldFriendly content="True">
+<meta name=MobileOptimized content="320">
+<meta name=viewport content="width=device-width,initial-scale=1">
+<link rel=stylesheet href=/css/main.css>
+<link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel=stylesheet type=text/css>
+<meta http-equiv=cleartype content="on">
+<meta name=generator content="Hugo 0.86.0">
+<script src=/js/vendor/modernizr-2.6.2.custom.min.js></script>
+<script async src=https://unpkg.com/mermaid@8.2.3/dist/mermaid.min.js></script>
+<link rel="shortcut icon" href=/favicon.png>
+</head>
+<body id=post-index class=feature>
+<nav id=dl-menu class=dl-menuwrapper role=navigation style=display:inline-block>
+<button class=dl-trigger>Open Menu</button>
+<ul class=dl-menu>
+<li><a href=/>Home</a></li>
+<li>
+<a href=#>About</a>
+<ul class=dl-submenu>
+<li>
+<img src=/images/avatar.png alt="Julian Shen's photo" class=author-photo>
+<h4>Julian Shen</h4>
+<p>Softward developer</p>
+</li>
+<li>
+<a href=mailto:julianshen22@gmail.com><i class="fa fa-fw fa-envelope"></i> Email</a>
+</li>
+<li>
+<a href=https://linkedin.com/in/julianshen><i class="fa fa-fw fa-linkedin"></i> LinkedIn</a>
+</li>
+<li>
+<a href=https://github.com/julianshen><i class="fa fa-fw fa-github"></i> GitHub</a>
+</li>
+<li>
+<a href=https://instagram.com/julianshen><i class="fa fa-fw fa-instagram"></i> Instagram</a>
+</li>
+</ul>
+</li>
+<li>
+<a href=#>Posts</a>
+<ul class=dl-submenu>
+<li><a href=/post/>All Posts</a></li>
+<li><a href=/tags/>All Tags</a></li>
+</ul>
+</li>
+<li><a href=/></a></li>
+</ul>
+</nav>
+<div class=entry-header>
+<div class=entry-image>
+<img src=/images/bkg2.jpg alt="Le murmure de Julian">
+</div>
+<div class=header-title>
+<div class=header-title-wrap>
+<h1><a href=/ title="Go to the homepage">Le murmure de Julian</a></h1>
+<h2>
+朱隸安貓囈語錄
+</h2>
+</div>
+</div>
+</div>
+<div id=main role=main>
+<article class=hentry>
+<header>
+<div class=entry-meta>
+<span class="entry-date date published updated"><time datetime="2017-03-01 17:08:32 +0000 UTC"><a href=/RSS-for-Ptt/>Mar 1, 2017</a></time></span>
+<span class=entry-reading-time>
+<i class="fa fa-clock-o"></i>
+Reading time ~1 minute
+</span>
+</div>
+<h1 class=entry-title><a href=/RSS-for-Ptt/ rel=bookmark title="RSS for Ptt" itemprop=url>RSS for Ptt</a></h1>
+</header>
+<div class=entry-content>
+<p>最近才發現, ptt的rss功能好像拿掉了, 這樣好像就不能拿feedly之類的來訂閱版面內容, 反正我自己有寫了一個<a href=https://github.com/julianshen/gopttcrawler>gopttcrawler</a>
+所幸自己來寫一個吧!</p>
+<p>source code在: <a href=https://github.com/julianshen/pttrss>pttrss</a></p>
+<p>可以自行deploy到heroku去, 如果不想這麼麻煩, 可以用:</p>
+<p><a href=https://ptt.cowbay.wtf/rss/>https://ptt.cowbay.wtf/rss/</a>版名</p>
+<p>例如:</p>
+<ul>
+<li>表特版的rss url是 - <a href=https://ptt.cowbay.wtf/rss/Beauty>https://ptt.cowbay.wtf/rss/Beauty</a></li>
+<li>電影版的是 - <a href=https://ptt.cowbay.wtf/rss/movie>https://ptt.cowbay.wtf/rss/movie</a></li>
+</ul>
+<p>要找到英文版名才可以</p>
+<p>資料30分鐘才會更新一次, 不會時時更新, 避免被灌</p>
+</div>
+</article>
+<article class=hentry>
+<header>
+<div class=entry-meta>
+<span class="entry-date date published updated"><time datetime="2017-02-07 17:18:05 +0000 UTC"><a href=/Swift-%E6%BC%AB%E7%95%AB%E7%88%AC%E8%9F%B2/>Feb 7, 2017</a></time></span>
+<span class=entry-reading-time>
+<i class="fa fa-clock-o"></i>
+Reading time ~5 minutes
+</span>
+</div>
+<h1 class=entry-title><a href=/Swift-%E6%BC%AB%E7%95%AB%E7%88%AC%E8%9F%B2/ rel=bookmark title="[Swift] 漫畫爬蟲" itemprop=url>[Swift] 漫畫爬蟲</a></h1>
+</header>
+<div class=entry-content>
+<p>最近搬家又讓我挖出了Amazon Kindle, 又覺得拿來看漫畫很方便(這戲演了幾次了呀?), 雖然說好像也有網站可以下載漫畫.mobi檔, 不過似乎是會員制的, 不喜歡</p>
+<p>因此又讓我想寫漫畫的爬蟲了, 這次的目標是: <a href=http://www.comicbus.com/>無限動漫</a> (他們的app實在做得有夠差)</p>
+<p>這次幾個需求是:</p>
+<ol>
+<li>Command line下就可以跑了(這也沒必要做UI吧?)</li>
+<li>在os x下可以執行(我自己電腦是mac)</li>
+<li>出來的檔案可以放到kindle看(.mobi檔或epub)</li>
+</ol>
+<p>mobi或epub的檔案格式似乎有點麻煩, 也不太好做得好, 所以決定用cbz檔再用<a href=https://calibre-ebook.com/>Calibre</a>轉mobi</p>
+<p><a href=https://calibre-ebook.com/>Calibre</a>有一個方便的command line tool叫ebook-convert, 可以用來轉檔, 而cbz本身非常的簡單
+, 它就是一個zip檔, 裡面的圖片檔名照編號就好, 這code還算好寫</p>
+<p>再來就是看一下怎麼解析<a href=http://www.comicbus.com/>無限動漫</a>的內容了, 它的URL是長這樣的:</p>
+<pre><code>http://v.comicbus.com/online/comic-653.html?ch=1
+</code></pre><p>以上範例是名偵探柯南第一卷, 大膽猜測, 653是漫畫編號, ch是集數, 選到第二頁, URL會變成這樣</p>
+<pre><code>http://v.comicbus.com/online/comic-653.html?ch=4-2
+</code></pre><p>這樣其實就很明顯了, 接下來是內容的部分</p>
+<p>每一集的頭上有一個"正在觀看:[ 名偵探柯南 1 ]", &ldquo;[]&ldquo;內就是標題了吧, 另外還有一個"select&rdquo;, 裡面有這集所有的頁數資訊, 而圖片的id是"TheImg&rdquo;</p>
+<p>不過麻煩的是, 這些資訊似乎隱藏在javascript中, page載入後才會出現</p>
+<p>這如果使用headless browser像是<a href=http://phantomjs.org/>Phantomjs</a>就沒啥問題, 但這邊我不想用它, 因為使用這工具還要再裝它</p>
+<p>我下一個選擇是Go + <a href=https://github.com/sourcegraph/webloop>Webloop</a>, <a href=https://github.com/sourcegraph/webloop>Webloop</a>是一個Go的headless browser lib, 它是基於WebkitGtk+做成的,
+不過我在mac上裝WebkitGTK+裝好久一直有問題, 所以&mldr;放棄&mldr;.</p>
+<p>接下來的選擇呢? 還有其他的headless browser嗎?有的! <a href=https://github.com/phimage/Erik>Erik</a>, 這是一個Swift的head less browser,
+用Swift寫爬蟲好像挺酷的, 查了一下, 有人用<a href=https://github.com/Alamofire/Alamofire>Alamofire</a> + <a href=https://github.com/tid-kijyun/Kanna>Kanna</a>, 不過這在這例子不適用, 這例子還是比較適合<a href=https://github.com/phimage/Erik>Erik</a></p>
+<h3 id=成品>成品</h3>
+<p>先給成果: <a href="https://drive.google.com/open?id=0B5rbRldWhe82MWRnVkpMQlExTHc">ComicGo</a></p>
+<p>這已經是一個OS X的可執行檔, 在Command line下執行 <code>ComicGo 653 1</code>就可以抓名偵探柯南第一集, 相關的漫畫編號集數, 就去<a href=http://www.comicbus.com/>無限動漫</a>查吧</p>
+<p>抓完會在你的Download目錄出現"名偵探柯南 1.cbz"再用ebook-covert去轉成你要的格式就可以了</p>
+<p>少少的時間隨便寫寫而已, 有bug就見諒囉</p>
+<h3 id=os-x-command-line-tool>OS X Command line tool</h3>
+<p>XCode + Swift是可以拿來寫command line tool的, 新增一個專案選"Command line tool":</p>
+<p><img src=/images/posts/xcodecmd.png alt></p>
+<p>這樣就可以開始寫了</p>
+<p>一開始在專案內部會發現一個"main.swift", 由於用swift寫command line app並沒有像其他語言有main function這類的東西
+所以程式就寫在這吧</p>
+<h3 id=開發command-line-tool的坑>開發Command line tool的坑</h3>
+<p>坑&mldr;真的不少</p>
+<p>首先, 你不能使用任何的framework, 因為command line tool產出會是一個可執行檔, 不是一個app bundle, 所以不能包含任何的framework</p>
+<p>第二, swift framework不能static link, 像是Erik, Kanna這些swift module, 都是dynamic lib</p>
+<p>慘, 光前面這兩點就麻煩了, 開發這個ComicGo, 我用到了<a href=https://github.com/phimage/Erik>Erik</a>, <a href=https://github.com/tid-kijyun/Kanna>Kanna</a>, <a href=https://github.com/marmelroy/Zip>Zip</a>等等
+, 這樣到底要怎麼辦? 跑起來就image not found</p>
+<p>所以呢?土法煉鋼, 把這些module的codes全部引入到我的專案內(所以沒打算Open ssource, 太醜了), 這樣一來就解決掉問題了, 不過這功不算小, 因為Kanna相依libxml, Zip相依libz這些native lib</p>
+<p>第三個坑, Erik是利用OS X裡面原生的WebKit去讀取網頁的, 因此他的設計是把載入網頁放到另一個DispatchQueue(javascript執行又是另一個),
+但Command line邏輯很單線, 它並不會等callback回來才結束程式, 因此會發現怎麼Erik都沒動作就結束程式了, 因此必須要有個機制來卡住</p>
+<p>這個機制就是<a href="https://www.google.com.tw/webhp?sourceid=chrome-instant&ion=1&espv=2&ie=UTF-8#q=swift+runloop">RunLoop</a>, 關於RunLoop這邊不多做解釋, 看一下<a href="https://www.google.com.tw/webhp?sourceid=chrome-instant&ion=1&espv=2&ie=UTF-8#q=swift+runloop">官方文件</a>
+在程式內則是這樣:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-swift data-lang=swift><span style=color:#66d9ef>let</span> rl = RunLoop.current
 <span style=color:#66d9ef>var</span> finished = <span style=color:#66d9ef>false</span>
 
 <span style=color:#66d9ef>while</span> <span style=color:#f92672>!</span>finished {
     rl.run(mode: RunLoopMode.defaultRunLoopMode, before: Date(timeIntervalSinceNow: <span style=color:#ae81ff>2</span>))
 }
-</code></pre></div><p>當callback完畢後, 把finished設成true就可以結束整個程式了</p><h3 id=erik>Erik</h3><p>好像還沒介紹<a href=https://github.com/phimage/Erik>Erik</a>喔?其實有點想偷懶跳過了 :P</p><p>使用<a href=https://github.com/phimage/Erik>Erik</a>來爬網頁其實很簡單,</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-swift data-lang=swift>Erik.visit(url: url) { object, error <span style=color:#66d9ef>in</span>
+</code></pre></div><p>當callback完畢後, 把finished設成true就可以結束整個程式了</p>
+<h3 id=erik>Erik</h3>
+<p>好像還沒介紹<a href=https://github.com/phimage/Erik>Erik</a>喔?其實有點想偷懶跳過了 :P</p>
+<p>使用<a href=https://github.com/phimage/Erik>Erik</a>來爬網頁其實很簡單,</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-swift data-lang=swift>Erik.visit(url: url) { object, error <span style=color:#66d9ef>in</span>
     <span style=color:#66d9ef>if</span> <span style=color:#66d9ef>let</span> e = error {
 
     } <span style=color:#66d9ef>else</span> <span style=color:#66d9ef>if</span> <span style=color:#66d9ef>let</span> doc = object {
@@ -28,10 +181,39 @@
     }
 }
 </code></pre></div><p>只要有些CSS selector的觀念就可以了, 連querySelectorAll這名字都是一樣的, Erik並不是直接用Webkit去做CSS query的, 而是把webkit的內容拿來用<a href=https://github.com/tid-kijyun/Kanna>Kanna</a>解析,
-javascript的執行也一樣, 因此如果對html node有任何變動, 是不會反映到webkit裡面去的, 用Erik來爬的優點是專門針對那些動態網頁的, 有這個就簡單太多了!</p></div></article><article class=hentry><header><div class=entry-meta><span class="entry-date date published updated"><time datetime="2017-02-07 16:20:37 +0000 UTC"><a href=/Go-Bleve-%E8%87%AA%E5%B8%B6%E5%85%A8%E6%96%87%E6%90%9C%E5%B0%8B/>Feb 7, 2017</a></time></span>
-<span class=entry-reading-time><i class="fa fa-clock-o"></i>Reading time ~4 minutes</span></div><h1 class=entry-title><a href=/Go-Bleve-%E8%87%AA%E5%B8%B6%E5%85%A8%E6%96%87%E6%90%9C%E5%B0%8B/ rel=bookmark title="[Go] Bleve - 自帶全文搜尋" itemprop=url>[Go] Bleve - 自帶全文搜尋</a></h1></header><div class=entry-content><p>最近在把之前弄的新聞萬事通做優化, 話說, 好久沒來宣傳一下新聞萬事通了(毆飛~~)</p><p>加入新聞萬事通請按 :</p><p><a href=https://line.me/R/ti/p/%40cur4648v><img src=http://qr-official.line.me/L/8J7Xfy_Tas.png alt=加入好友> <img src=https://scdn.line-apps.com/n/line_add_friends/btn/zh-Hant.png alt=加入好友></a></p><p>好, 回歸正題, 之前新聞萬事通檢查假新聞的邏輯是:</p><ol><li>載入新聞小幫手資料庫到記憶體(server啟動時), 四千多筆資料存放在一個map的資料結構</li><li>使用者輸入的訊息如果含有url去map裡面找到對應的url</li><li>但常常有類似內容的新聞有不同來源, 因此會用<a href=https://github.com/yanyiwu/gojieba>Gojieba</a>取出標題的關鍵字去四千多筆資料的標題對應關鍵字出現的次數</li></ol><p>聽起來很沒效率(四千筆在記憶體內, 其實也不算慢啦, 但就吃記憶體), 那就要優化囉? 那需要一個搜尋引擎囉?</p><p>第一個先想到的是<a href=https://www.elastic.co/products/elasticsearch>Elastic search</a>, 但我還不想搞那麼大, 為了四千多筆資料多拉一台search server,我只想
-一台respberry pi就能搞定</p><p>從<a href=https://github.com/yanyiwu/gojieba>Gojieba</a>知道, 有<a href=http://www.blevesearch.com/>Bleve Search</a>這東西, <a href=http://www.blevesearch.com/>Bleve Search</a>也是一個full text index engine,
-但跟<a href=https://www.elastic.co/products/elasticsearch>Elastic search</a>不同的是, 它是內嵌在你的程式內, 而不是獨立的server, 而且它是用Go寫的(開心), 而不是Java</p><h3 id=bleve>Bleve</h3><p><a href=http://www.blevesearch.com/>Bleve Search</a>的來頭也不小,它是來自於著名的ＮoSQL DB : <a href=https://www.couchbase.com/>Couchbase</a>, 這篇有介紹一下他的功能 : <a href=http://www.infoq.com/cn/news/2015/03/bleve-couchbase-go>Bleve:来自Couchbase、基于Go语言的全文索引与检索库</a></p><p>使用<a href=http://www.blevesearch.com/>Bleve Search</a>也很簡單, 就建立index, 然後search:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#f92672>import</span> <span style=color:#e6db74>&#34;github.com/blevesearch/bleve&#34;</span>
+javascript的執行也一樣, 因此如果對html node有任何變動, 是不會反映到webkit裡面去的, 用Erik來爬的優點是專門針對那些動態網頁的, 有這個就簡單太多了!</p>
+</div>
+</article>
+<article class=hentry>
+<header>
+<div class=entry-meta>
+<span class="entry-date date published updated"><time datetime="2017-02-07 16:20:37 +0000 UTC"><a href=/Go-Bleve-%E8%87%AA%E5%B8%B6%E5%85%A8%E6%96%87%E6%90%9C%E5%B0%8B/>Feb 7, 2017</a></time></span>
+<span class=entry-reading-time>
+<i class="fa fa-clock-o"></i>
+Reading time ~4 minutes
+</span>
+</div>
+<h1 class=entry-title><a href=/Go-Bleve-%E8%87%AA%E5%B8%B6%E5%85%A8%E6%96%87%E6%90%9C%E5%B0%8B/ rel=bookmark title="[Go] Bleve - 自帶全文搜尋" itemprop=url>[Go] Bleve - 自帶全文搜尋</a></h1>
+</header>
+<div class=entry-content>
+<p>最近在把之前弄的新聞萬事通做優化, 話說, 好久沒來宣傳一下新聞萬事通了(毆飛~~)</p>
+<p>加入新聞萬事通請按 :</p>
+<p><a href=https://line.me/R/ti/p/%40cur4648v><img src=http://qr-official.line.me/L/8J7Xfy_Tas.png alt=加入好友> <img src=https://scdn.line-apps.com/n/line_add_friends/btn/zh-Hant.png alt=加入好友></a></p>
+<p>好, 回歸正題, 之前新聞萬事通檢查假新聞的邏輯是:</p>
+<ol>
+<li>載入新聞小幫手資料庫到記憶體(server啟動時), 四千多筆資料存放在一個map的資料結構</li>
+<li>使用者輸入的訊息如果含有url去map裡面找到對應的url</li>
+<li>但常常有類似內容的新聞有不同來源, 因此會用<a href=https://github.com/yanyiwu/gojieba>Gojieba</a>取出標題的關鍵字去四千多筆資料的標題對應關鍵字出現的次數</li>
+</ol>
+<p>聽起來很沒效率(四千筆在記憶體內, 其實也不算慢啦, 但就吃記憶體), 那就要優化囉? 那需要一個搜尋引擎囉?</p>
+<p>第一個先想到的是<a href=https://www.elastic.co/products/elasticsearch>Elastic search</a>, 但我還不想搞那麼大, 為了四千多筆資料多拉一台search server,我只想
+一台respberry pi就能搞定</p>
+<p>從<a href=https://github.com/yanyiwu/gojieba>Gojieba</a>知道, 有<a href=http://www.blevesearch.com/>Bleve Search</a>這東西, <a href=http://www.blevesearch.com/>Bleve Search</a>也是一個full text index engine,
+但跟<a href=https://www.elastic.co/products/elasticsearch>Elastic search</a>不同的是, 它是內嵌在你的程式內, 而不是獨立的server, 而且它是用Go寫的(開心), 而不是Java</p>
+<h3 id=bleve>Bleve</h3>
+<p><a href=http://www.blevesearch.com/>Bleve Search</a>的來頭也不小,它是來自於著名的ＮoSQL DB : <a href=https://www.couchbase.com/>Couchbase</a>, 這篇有介紹一下他的功能 : <a href=http://www.infoq.com/cn/news/2015/03/bleve-couchbase-go>Bleve:来自Couchbase、基于Go语言的全文索引与检索库</a></p>
+<p>使用<a href=http://www.blevesearch.com/>Bleve Search</a>也很簡單, 就建立index, 然後search:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#f92672>import</span> <span style=color:#e6db74>&#34;github.com/blevesearch/bleve&#34;</span>
 
 <span style=color:#66d9ef>func</span> <span style=color:#a6e22e>main</span>() {
     <span style=color:#75715e>// open a new index
@@ -47,7 +229,14 @@ javascript的執行也一樣, 因此如果對html node有任何變動, 是不會
     <span style=color:#a6e22e>searchResults</span>, <span style=color:#a6e22e>err</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>index</span>.<span style=color:#a6e22e>Search</span>(<span style=color:#a6e22e>search</span>)
 }
 </code></pre></div><p><a href=http://www.blevesearch.com/>Bleve Search</a>會把indexes放到資料庫內, 預設是使用<a href=https://github.com/boltdb/bolt>Bolt DB</a>, Bolt跟<a href=https://github.com/google/leveldb>leveldb</a>和<a href=http://rocksdb.org/>RocksDb</a>
-類似, 都是一種Key-Value database, 只是Bolt是純粹以Go開發的</p><p>如果你不想要用Bolt, Bleve也是支援使用leveldb和Rocksdb的, 純粹是作者想做成全Go的方案才預設Bolt db, 我自己有實測幾次, 使用這三種DB, 搜尋的速度差不多, 但建立index時bolt較快, 需求的磁碟空間則是Rocksdb優(比Bolt好很多)</p><p><a href=http://www.blevesearch.com/>Bleve Search</a>的架構做成很有彈性, 除了可以使用不同的DB(我自己也有實作以Redis當KV database的plugin, 不過實在也沒好多少就作罷了), 文字分析(Text Analysis)比如說斷詞, 也是可以用plugin擴增的</p><p>官方支援的語言為: Danish, Dutch, English, Finnish, French, German, Hungarian, Italian, Norwegian, Persian, Portuguese, Romanian, Russian, Sorani, Spanish, Swedish, Thai, Turkish</p><p>就是沒中文!</p><p>還好<a href=https://github.com/yanyiwu/gojieba>Gojieba</a>後來也加入了bleve的analyzer和tokenizer, 這一部分可以獲得解決</p><p>使用<a href=https://github.com/yanyiwu/gojieba>Gojieba</a>斷詞:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go>	<span style=color:#a6e22e>indexMapping</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>bleve</span>.<span style=color:#a6e22e>NewIndexMapping</span>()
+類似, 都是一種Key-Value database, 只是Bolt是純粹以Go開發的</p>
+<p>如果你不想要用Bolt, Bleve也是支援使用leveldb和Rocksdb的, 純粹是作者想做成全Go的方案才預設Bolt db, 我自己有實測幾次, 使用這三種DB, 搜尋的速度差不多, 但建立index時bolt較快, 需求的磁碟空間則是Rocksdb優(比Bolt好很多)</p>
+<p><a href=http://www.blevesearch.com/>Bleve Search</a>的架構做成很有彈性, 除了可以使用不同的DB(我自己也有實作以Redis當KV database的plugin, 不過實在也沒好多少就作罷了), 文字分析(Text Analysis)比如說斷詞, 也是可以用plugin擴增的</p>
+<p>官方支援的語言為: Danish, Dutch, English, Finnish, French, German, Hungarian, Italian, Norwegian, Persian, Portuguese, Romanian, Russian, Sorani, Spanish, Swedish, Thai, Turkish</p>
+<p>就是沒中文!</p>
+<p>還好<a href=https://github.com/yanyiwu/gojieba>Gojieba</a>後來也加入了bleve的analyzer和tokenizer, 這一部分可以獲得解決</p>
+<p>使用<a href=https://github.com/yanyiwu/gojieba>Gojieba</a>斷詞:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go>	<span style=color:#a6e22e>indexMapping</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>bleve</span>.<span style=color:#a6e22e>NewIndexMapping</span>()
     <span style=color:#a6e22e>os</span>.<span style=color:#a6e22e>RemoveAll</span>(<span style=color:#a6e22e>INDEX_DIR</span>)
     <span style=color:#75715e>// clean index when example finished
 </span><span style=color:#75715e></span>    <span style=color:#66d9ef>defer</span> <span style=color:#a6e22e>os</span>.<span style=color:#a6e22e>RemoveAll</span>(<span style=color:#a6e22e>INDEX_DIR</span>)
@@ -73,7 +262,10 @@ javascript的執行也一樣, 因此如果對html node有任何變動, 是不會
         panic(<span style=color:#a6e22e>err</span>)
     }
     <span style=color:#a6e22e>indexMapping</span>.<span style=color:#a6e22e>DefaultAnalyzer</span> = <span style=color:#e6db74>&#34;gojieba&#34;</span>
-</code></pre></div><h3 id=wukong>Wukong</h3><p>除了Bleve外, 還有一個<a href=https://github.com/huichen/wukong>悟空 Wukong</a>, 這孫猴子也好像蠻識字的嘛</p><p>這個<a href=https://github.com/huichen/wukong>Wukong</a>是由阿里巴巴的陳輝所開發的, 一樣是內嵌的全文檢索引擎</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#f92672>package</span> <span style=color:#a6e22e>main</span>
+</code></pre></div><h3 id=wukong>Wukong</h3>
+<p>除了Bleve外, 還有一個<a href=https://github.com/huichen/wukong>悟空 Wukong</a>, 這孫猴子也好像蠻識字的嘛</p>
+<p>這個<a href=https://github.com/huichen/wukong>Wukong</a>是由阿里巴巴的陳輝所開發的, 一樣是內嵌的全文檢索引擎</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#f92672>package</span> <span style=color:#a6e22e>main</span>
 
 <span style=color:#f92672>import</span> (
     <span style=color:#e6db74>&#34;github.com/huichen/wukong/engine&#34;</span>
@@ -103,8 +295,15 @@ javascript的執行也一樣, 因此如果對html node有任何變動, 是不會
     <span style=color:#75715e>// 搜索输出格式见types.SearchResponse结构体
 </span><span style=color:#75715e></span>    <span style=color:#a6e22e>log</span>.<span style=color:#a6e22e>Print</span>(<span style=color:#a6e22e>searcher</span>.<span style=color:#a6e22e>Search</span>(<span style=color:#a6e22e>types</span>.<span style=color:#a6e22e>SearchRequest</span>{<span style=color:#a6e22e>Text</span>:<span style=color:#e6db74>&#34;百度中国&#34;</span>}))
 }
-</code></pre></div><p>架構上跟Bleve有點接近, 寫法也差不多, 但效率上來說, Bleve根本不能比, index的效率快上許多, 它的docId不像是Bleve用string而是uint64</p><p>比較快的原因目前我也還沒深究, 不過它存儲並沒用到BoltDB或LevelDB之類的, 而是自己的格式, 它也像Bleve一樣支援換資料庫引擎, 我嘗試想用BoltDB來取代它原生的, 想試看看是不是這原因, 但一直沒換成功過(後來也懶得追了)</p><p>另一點的差別在於是, 剛剛Bleve我用的斷詞器是<a href=https://github.com/yanyiwu/gojieba>Gojieba</a>, 而Wukong用的是陳輝自己寫的<a href=https://github.com/huichen/sego>sego</a>,
-這時我就好奇這會不會有影響?</p><h3 id=blevesego>BleveSego</h3><p>好, 既然要確認斷詞器對index效率有沒影響, 我就得自己實作一個基於Sego的Bleve text analyzer和Tokenizer, 因此仿Gojieba的做了:</p><p><a href=https://github.com/julianshen/blevesego>blevesego</a></p><p>使用<a href=https://github.com/julianshen/blevesego>blevesego</a>跟使用Gojieba的有點類似:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go>	<span style=color:#a6e22e>indexMapping</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>bleve</span>.<span style=color:#a6e22e>NewIndexMapping</span>()
+</code></pre></div><p>架構上跟Bleve有點接近, 寫法也差不多, 但效率上來說, Bleve根本不能比, index的效率快上許多, 它的docId不像是Bleve用string而是uint64</p>
+<p>比較快的原因目前我也還沒深究, 不過它存儲並沒用到BoltDB或LevelDB之類的, 而是自己的格式, 它也像Bleve一樣支援換資料庫引擎, 我嘗試想用BoltDB來取代它原生的, 想試看看是不是這原因, 但一直沒換成功過(後來也懶得追了)</p>
+<p>另一點的差別在於是, 剛剛Bleve我用的斷詞器是<a href=https://github.com/yanyiwu/gojieba>Gojieba</a>, 而Wukong用的是陳輝自己寫的<a href=https://github.com/huichen/sego>sego</a>,
+這時我就好奇這會不會有影響?</p>
+<h3 id=blevesego>BleveSego</h3>
+<p>好, 既然要確認斷詞器對index效率有沒影響, 我就得自己實作一個基於Sego的Bleve text analyzer和Tokenizer, 因此仿Gojieba的做了:</p>
+<p><a href=https://github.com/julianshen/blevesego>blevesego</a></p>
+<p>使用<a href=https://github.com/julianshen/blevesego>blevesego</a>跟使用Gojieba的有點類似:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go>	<span style=color:#a6e22e>indexMapping</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>bleve</span>.<span style=color:#a6e22e>NewIndexMapping</span>()
 	<span style=color:#a6e22e>err</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>indexMapping</span>.<span style=color:#a6e22e>AddCustomTokenizer</span>(<span style=color:#e6db74>&#34;sego&#34;</span>,
 		<span style=color:#66d9ef>map</span>[<span style=color:#66d9ef>string</span>]<span style=color:#66d9ef>interface</span>{}{
 			<span style=color:#e6db74>&#34;dictpath&#34;</span>: <span style=color:#e6db74>&#34;dictionary.txt&#34;</span>,
@@ -130,16 +329,75 @@ javascript的執行也一樣, 因此如果對html node有任何變動, 是不會
 	}
 
 	<span style=color:#a6e22e>newsHelperIndexMapping</span>.<span style=color:#a6e22e>DefaultAnalyzer</span> = <span style=color:#e6db74>&#34;sego&#34;</span>
-</code></pre></div><p>實驗的結果, 同樣Bleve, 用不同的斷詞, 似乎用sego有稍微快一點(在raspberry pi下, 約五千多筆資料大約快個一秒鐘), 但似乎不是Wukong效率高過於Bleve的主因</p><p>到最後, 我是選擇了Bleve, 原因是, 它目前看起來比較活躍, 而Wukong就比較沒啥更新</p></div></article><article class=hentry><header><div class=entry-meta><span class="entry-date date published updated"><time datetime="2017-02-07 15:40:05 +0000 UTC"><a href=/Dynamic-DNS-with-Cloudflare/>Feb 7, 2017</a></time></span>
-<span class=entry-reading-time><i class="fa fa-clock-o"></i>Reading time ~2 minutes</span></div><h1 class=entry-title><a href=/Dynamic-DNS-with-Cloudflare/ rel=bookmark title="Dynamic DNS with Cloudflare" itemprop=url>Dynamic DNS with Cloudflare</a></h1></header><div class=entry-content><p>這陣子都在寫line bot, 本來都host在heroku上面的, 簡單且方便, 後來突發奇想, 想用Rasberry pi 跑看看(跑得動喔)</p><p>Line的webhook有一個需求就是要有SSL連結, 走https, 但我不想申請一個certificate, 在raspberry pi上弄, 所幸<a href=https://www.cloudflare.com/>Cloudflare</a>
-有提供免費的SSL certificate, 利用他們的flexible SSL就可以了</p><p><img src=https://support.cloudflare.com/hc/en-us/article_attachments/206124658/cfssl_flexible.png alt></p><p>flexible SSL的方式是client到他們CDN server走的是SSL沒錯, 但他們server到你的server則是可以走一般的http connection,
-再來的第二個問題是, 我家的網路是浮動IP的（後來才去申請固定IP）, 所以必須能動態更新<a href=https://www.cloudflare.com/>Cloudflare</a>上的DNS紀錄</p><p>還好Cloudflare是有<a href=https://api.cloudflare.com/>API</a>的</p><p>直接自己自幹一個也是可以啦, 但Cloudflare其實也有一個客製版的ddclient:</p><p><a href=https://www.cloudflare.com/technical-resources/#ddclient>Dynamic DNS Client: ddclient</a></p><p>步驟可以照著上面文件的步驟來做, 可以從My settings -> Account -> Global API Key取得API key當作ddclient的密碼</p><p>接下來碰到的問題是, 我ddclient是跑在raspberry pi上, ddclient預設是用local IP, 這很明顯不對, 因為會用到內部的IP而不是對外那個, 而我家的ASUS無線分享器並沒支援Cloudflare, 我也不太想改firmware,
-但這還是有解的, 把ddclient.conf裡加上這行:</p><pre><code>use=web, web=checkip.dyndns.org/, web-skip='IP Address' # found after IP Address
-</code></pre><p>這是告訴ddclient不要用local ip而是用web api去找出IP</p><p>但這一切&mldr;.都還是太麻煩了&mldr;.raspbeery pi總是會不小心碰掉電源, 總是會當機或跑不動, 更何況, 我都已經跑一個server了, ddclient不要再來搶記憶體了啦</p><p>最後我的解法是: <a href=https://www.dnsomatic.com/>DNS-O-Matic</a></p><p>這是一個Dynamic DNS的服務, 我的無線分享器也有支援, 它不是自身有DNS server, 而是可以代你去更新妳的DNS紀錄, 而且, 有支援Cloudflare!!! OK, 結案 (偷懶!)</p></div></article><article class=hentry><header><div class=entry-meta><span class="entry-date date published updated"><time datetime="2017-02-04 16:17:19 +0000 UTC"><a href=/%E7%94%A8ifttt-heroku%E8%B7%91%E5%AE%9A%E6%99%82%E7%9A%84tasks/>Feb 4, 2017</a></time></span>
-<span class=entry-reading-time><i class="fa fa-clock-o"></i>Reading time ~2 minutes</span></div><h1 class=entry-title><a href=/%E7%94%A8ifttt-heroku%E8%B7%91%E5%AE%9A%E6%99%82%E7%9A%84tasks/ rel=bookmark title="用ifttt + heroku跑定時的tasks" itemprop=url>用ifttt + heroku跑定時的tasks</a></h1></header><div class=entry-content><p>這篇是延續&rdquo;<a href=http://blog.jln.co/%E4%BD%BF%E7%94%A8aws-lambda%E5%92%8Cgithub%E4%BE%86%E6%8F%90%E4%BE%9B%E4%B8%AD%E8%8F%AF%E8%81%B7%E6%A3%92%E8%B3%BD%E7%A8%8B%E8%B3%87%E6%96%99/>使用AWS lambda和Github來提供中華職棒賽程資料</a>&rdquo;,
+</code></pre></div><p>實驗的結果, 同樣Bleve, 用不同的斷詞, 似乎用sego有稍微快一點(在raspberry pi下, 約五千多筆資料大約快個一秒鐘), 但似乎不是Wukong效率高過於Bleve的主因</p>
+<p>到最後, 我是選擇了Bleve, 原因是, 它目前看起來比較活躍, 而Wukong就比較沒啥更新</p>
+</div>
+</article>
+<article class=hentry>
+<header>
+<div class=entry-meta>
+<span class="entry-date date published updated"><time datetime="2017-02-07 15:40:05 +0000 UTC"><a href=/Dynamic-DNS-with-Cloudflare/>Feb 7, 2017</a></time></span>
+<span class=entry-reading-time>
+<i class="fa fa-clock-o"></i>
+Reading time ~2 minutes
+</span>
+</div>
+<h1 class=entry-title><a href=/Dynamic-DNS-with-Cloudflare/ rel=bookmark title="Dynamic DNS with Cloudflare" itemprop=url>Dynamic DNS with Cloudflare</a></h1>
+</header>
+<div class=entry-content>
+<p>這陣子都在寫line bot, 本來都host在heroku上面的, 簡單且方便, 後來突發奇想, 想用Rasberry pi 跑看看(跑得動喔)</p>
+<p>Line的webhook有一個需求就是要有SSL連結, 走https, 但我不想申請一個certificate, 在raspberry pi上弄, 所幸<a href=https://www.cloudflare.com/>Cloudflare</a>
+有提供免費的SSL certificate, 利用他們的flexible SSL就可以了</p>
+<p><img src=https://support.cloudflare.com/hc/en-us/article_attachments/206124658/cfssl_flexible.png alt></p>
+<p>flexible SSL的方式是client到他們CDN server走的是SSL沒錯, 但他們server到你的server則是可以走一般的http connection,
+再來的第二個問題是, 我家的網路是浮動IP的（後來才去申請固定IP）, 所以必須能動態更新<a href=https://www.cloudflare.com/>Cloudflare</a>上的DNS紀錄</p>
+<p>還好Cloudflare是有<a href=https://api.cloudflare.com/>API</a>的</p>
+<p>直接自己自幹一個也是可以啦, 但Cloudflare其實也有一個客製版的ddclient:</p>
+<p><a href=https://www.cloudflare.com/technical-resources/#ddclient>Dynamic DNS Client: ddclient</a></p>
+<p>步驟可以照著上面文件的步驟來做, 可以從My settings -> Account -> Global API Key取得API key當作ddclient的密碼</p>
+<p>接下來碰到的問題是, 我ddclient是跑在raspberry pi上, ddclient預設是用local IP, 這很明顯不對, 因為會用到內部的IP而不是對外那個, 而我家的ASUS無線分享器並沒支援Cloudflare, 我也不太想改firmware,
+但這還是有解的, 把ddclient.conf裡加上這行:</p>
+<pre><code>use=web, web=checkip.dyndns.org/, web-skip='IP Address' # found after IP Address
+</code></pre><p>這是告訴ddclient不要用local ip而是用web api去找出IP</p>
+<p>但這一切&mldr;.都還是太麻煩了&mldr;.raspbeery pi總是會不小心碰掉電源, 總是會當機或跑不動, 更何況, 我都已經跑一個server了, ddclient不要再來搶記憶體了啦</p>
+<p>最後我的解法是: <a href=https://www.dnsomatic.com/>DNS-O-Matic</a></p>
+<p>這是一個Dynamic DNS的服務, 我的無線分享器也有支援, 它不是自身有DNS server, 而是可以代你去更新妳的DNS紀錄, 而且, 有支援Cloudflare!!! OK, 結案 (偷懶!)</p>
+</div>
+</article>
+<article class=hentry>
+<header>
+<div class=entry-meta>
+<span class="entry-date date published updated"><time datetime="2017-02-04 16:17:19 +0000 UTC"><a href=/%E7%94%A8ifttt-heroku%E8%B7%91%E5%AE%9A%E6%99%82%E7%9A%84tasks/>Feb 4, 2017</a></time></span>
+<span class=entry-reading-time>
+<i class="fa fa-clock-o"></i>
+Reading time ~2 minutes
+</span>
+</div>
+<h1 class=entry-title><a href=/%E7%94%A8ifttt-heroku%E8%B7%91%E5%AE%9A%E6%99%82%E7%9A%84tasks/ rel=bookmark title="用ifttt + heroku跑定時的tasks" itemprop=url>用ifttt + heroku跑定時的tasks</a></h1>
+</header>
+<div class=entry-content>
+<p>這篇是延續"<a href=http://blog.jln.co/%E4%BD%BF%E7%94%A8aws-lambda%E5%92%8Cgithub%E4%BE%86%E6%8F%90%E4%BE%9B%E4%B8%AD%E8%8F%AF%E8%81%B7%E6%A3%92%E8%B3%BD%E7%A8%8B%E8%B3%87%E6%96%99/>使用AWS lambda和Github來提供中華職棒賽程資料</a>",
 之前的做法是用Cloud watch加上lambda來做這件事, 但我跑的東西並不是那麼的頻繁, 在AWS上還是會被收到流量的費用,
-因此就打算用更經濟的方式, 利用heroku免費的額度來做這事(真是壞客戶 XD)</p><p>目的是定時(比如說每四小時)去爬一些網頁的資訊, 爬這些網頁其實也不需要花太久時間</p><p>用Cloud watch + lambda的好處是不用架一台server, 但用Heroku這種PAAS其實也不用太去管server這事</p><p>Heroku是可以設定<a href=https://devcenter.heroku.com/articles/scheduled-jobs-custom-clock-processes>scheduled tasks</a>的, 但額外的work dyno是要另外付費的,
-因此, 如果需求不是需要太頻繁, 也不需要執行太久的, 這時候就可以利用<a href=https://ifttt.com/>ifttt</a>來定時觸發一個url的方式來做</p><p><img src=/images/posts/ifttt1.png alt></p><p>要定時觸發一個URL, ifttt applet該怎麼設定呢? 首先"this"要選用的是Date & Time, 如下:</p><p><img src=/images/posts/ifttt_time.png alt></p><p>設定上並沒有很多, 就像是每小時, 每天之類的, 沒辦法訂多個, 如果需要一次多個設定, 那就多新增幾個Applets吧</p><p><img src=/images/posts/ifttt_time_sel.png alt></p><p>這邊設定每小時, 就設定每小時的15分來觸發吧</p><p><img src=/images/posts/ifttt_set_time.png alt></p><p>那"that"的動作呢? 觸發URL的動作是利用"Maker&rdquo;, 這是設計給iot用的吧, 不過, 拿來做這用途也是沒問題的:</p><p><img src=/images/posts/ifttt_maker.png alt></p><p>Maker只有一個選項"Make a web request&rdquo;</p><p><img src=/images/posts/ifttt_choose_action.png alt></p><p>設定很單純, 就給定URL, 使用的HTTP Method(GET, POST, PUT &mldr;), Content-type, 跟Body</p><p><img src=/images/posts/ifttt_make_req.png alt></p><p>這邊我用的是POST + Json, Json裡面會帶一個TOKEN來辨識, 以免有心人士利用了這個URL, go的檢查範例如下:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>checkID</span>(<span style=color:#a6e22e>body</span> <span style=color:#a6e22e>io</span>.<span style=color:#a6e22e>Reader</span>) <span style=color:#66d9ef>bool</span> {
+因此就打算用更經濟的方式, 利用heroku免費的額度來做這事(真是壞客戶 XD)</p>
+<p>目的是定時(比如說每四小時)去爬一些網頁的資訊, 爬這些網頁其實也不需要花太久時間</p>
+<p>用Cloud watch + lambda的好處是不用架一台server, 但用Heroku這種PAAS其實也不用太去管server這事</p>
+<p>Heroku是可以設定<a href=https://devcenter.heroku.com/articles/scheduled-jobs-custom-clock-processes>scheduled tasks</a>的, 但額外的work dyno是要另外付費的,
+因此, 如果需求不是需要太頻繁, 也不需要執行太久的, 這時候就可以利用<a href=https://ifttt.com/>ifttt</a>來定時觸發一個url的方式來做</p>
+<p><img src=/images/posts/ifttt1.png alt></p>
+<p>要定時觸發一個URL, ifttt applet該怎麼設定呢? 首先"this"要選用的是Date & Time, 如下:</p>
+<p><img src=/images/posts/ifttt_time.png alt></p>
+<p>設定上並沒有很多, 就像是每小時, 每天之類的, 沒辦法訂多個, 如果需要一次多個設定, 那就多新增幾個Applets吧</p>
+<p><img src=/images/posts/ifttt_time_sel.png alt></p>
+<p>這邊設定每小時, 就設定每小時的15分來觸發吧</p>
+<p><img src=/images/posts/ifttt_set_time.png alt></p>
+<p>那"that"的動作呢? 觸發URL的動作是利用"Maker", 這是設計給iot用的吧, 不過, 拿來做這用途也是沒問題的:</p>
+<p><img src=/images/posts/ifttt_maker.png alt></p>
+<p>Maker只有一個選項"Make a web request"</p>
+<p><img src=/images/posts/ifttt_choose_action.png alt></p>
+<p>設定很單純, 就給定URL, 使用的HTTP Method(GET, POST, PUT &mldr;), Content-type, 跟Body</p>
+<p><img src=/images/posts/ifttt_make_req.png alt></p>
+<p>這邊我用的是POST + Json, Json裡面會帶一個TOKEN來辨識, 以免有心人士利用了這個URL, go的檢查範例如下:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>checkID</span>(<span style=color:#a6e22e>body</span> <span style=color:#a6e22e>io</span>.<span style=color:#a6e22e>Reader</span>) <span style=color:#66d9ef>bool</span> {
         <span style=color:#a6e22e>data</span>, <span style=color:#a6e22e>err</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>ioutil</span>.<span style=color:#a6e22e>ReadAll</span>(<span style=color:#a6e22e>body</span>)
 
         <span style=color:#66d9ef>if</span> <span style=color:#a6e22e>err</span> <span style=color:#f92672>!=</span> <span style=color:#66d9ef>nil</span> {
@@ -157,4 +415,99 @@ javascript的執行也一樣, 因此如果對html node有任何變動, 是不會
 
         <span style=color:#66d9ef>return</span> <span style=color:#a6e22e>rbody</span>.<span style=color:#a6e22e>Token</span> <span style=color:#f92672>==</span> <span style=color:#a6e22e>os</span>.<span style=color:#a6e22e>Getenv</span>(<span style=color:#e6db74>&#34;SEC_TOKEN&#34;</span>) <span style=color:#f92672>&amp;&amp;</span> <span style=color:#a6e22e>rbody</span>.<span style=color:#a6e22e>Token</span> <span style=color:#f92672>!=</span> <span style=color:#e6db74>&#34;&#34;</span>
 }
-</code></pre></div><p>接到request後, 其實是可以把執行的task丟給另一個go routine處理, 原本的就可以回傳給ifttt, 避免執行太久而timeout的問題, 不過對heroku來說, 這還是在同一個web dyno上就是了</p></div></article><div class=pagination><ul class=inline-list><li><a href=/page/2/ class=btn>Previous</a></li><li><a href=/>1</a></li><li><a href=/page/2/>2</a></li><li><strong class=current-page>3</strong></li><li><a href=/page/4/>4</a></li><li><a href=/page/5/>5</a></li><li><a href=/page/6/>6</a></li><li><a href=/page/7/>7</a></li><li><a href=/page/8/>8</a></li><li><a href=/page/9/>9</a></li><li><a href=/page/10/>10</a></li><li><a href=/page/11/>11</a></li><li><a href=/page/12/>12</a></li><li><a href=/page/13/>13</a></li><li><a href=/page/14/>14</a></li><li><a href=/page/15/>15</a></li><li><a href=/page/16/>16</a></li><li><a href=/page/17/>17</a></li><li><a href=/page/18/>18</a></li><li><a href=/page/19/>19</a></li><li><a href=/page/20/>20</a></li><li><a href=/page/21/>21</a></li><li><a href=/page/22/>22</a></li><li><a href=/page/23/>23</a></li><li><a href=/page/24/>24</a></li><li><a href=/page/25/>25</a></li><li><a href=/page/26/>26</a></li><li><a href=/page/27/>27</a></li><li><a href=/page/28/>28</a></li><li><a href=/page/29/>29</a></li><li><a href=/page/30/>30</a></li><li><a href=/page/31/>31</a></li><li><a href=/page/32/>32</a></li><li><a href=/page/33/>33</a></li><li><a href=/page/34/>34</a></li><li><a href=/page/35/>35</a></li><li><a href=/page/36/>36</a></li><li><a href=/page/37/>37</a></li><li><a href=/page/38/>38</a></li><li><a href=/page/39/>39</a></li><li><a href=/page/40/>40</a></li><li><a href=/page/41/>41</a></li><li><a href=/page/42/>42</a></li><li><a href=/page/43/>43</a></li><li><a href=/page/44/>44</a></li><li><a href=/page/45/>45</a></li><li><a href=/page/46/>46</a></li><li><a href=/page/47/>47</a></li><li><a href=/page/48/>48</a></li><li><a href=/page/49/>49</a></li><li><a href=/page/50/>50</a></li><li><a href=/page/51/>51</a></li><li><a href=/page/52/>52</a></li><li><a href=/page/53/>53</a></li><li><a href=/page/54/>54</a></li><li><a href=/page/55/>55</a></li><li><a href=/page/56/>56</a></li><li><a href=/page/57/>57</a></li><li><a href=/page/58/>58</a></li><li><a href=/page/59/>59</a></li><li><a href=/page/60/>60</a></li><li><a href=/page/61/>61</a></li><li><a href=/page/62/>62</a></li><li><a href=/page/63/>63</a></li><li><a href=/page/64/>64</a></li><li><a href=/page/65/>65</a></li><li><a href=/page/66/>66</a></li><li><a href=/page/67/>67</a></li><li><a href=/page/68/>68</a></li><li><a href=/page/69/>69</a></li><li><a href=/page/70/>70</a></li><li><a href=/page/71/>71</a></li><li><a href=/page/72/>72</a></li><li><a href=/page/4/ class=btn>Next</a></li></ul></div></div><div class=footer-wrapper><footer role=contentinfo><span>Powered by <a href=https://gohugo.io/ rel=nofollow>Hugo</a> using the <a href=https://github.com/dldx/hpstr-hugo-theme rel=nofollow>HPSTR theme</a>.</span></footer></div><script src=//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js></script><script src=https://kit.fontawesome.com/872a53b461.js crossorigin=anonymous></script><script>window.jQuery||document.write('<script src="\/js\/vendor\/jquery-1.9.1.min.js"><\/script>')</script><script src=/js/scripts.min.js></script><script type=application/javascript>var doNotTrack=false;if(!doNotTrack){(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');ga('create','UA-79243751-1','auto');ga('send','pageview');}</script><div id=fb-root></div><script async defer crossorigin=anonymous src="https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v7.0&appId=293999444006555&autoLogAppEvents=1" nonce=geZSUIUh></script></body></html>
+</code></pre></div><p>接到request後, 其實是可以把執行的task丟給另一個go routine處理, 原本的就可以回傳給ifttt, 避免執行太久而timeout的問題, 不過對heroku來說, 這還是在同一個web dyno上就是了</p>
+</div>
+</article>
+<div class=pagination>
+<ul class=inline-list>
+<li><a href=/page/2/ class=btn>Previous</a></li>
+<li><a href=/>1</a></li>
+<li><a href=/page/2/>2</a></li>
+<li><strong class=current-page>3</strong></li>
+<li><a href=/page/4/>4</a></li>
+<li><a href=/page/5/>5</a></li>
+<li><a href=/page/6/>6</a></li>
+<li><a href=/page/7/>7</a></li>
+<li><a href=/page/8/>8</a></li>
+<li><a href=/page/9/>9</a></li>
+<li><a href=/page/10/>10</a></li>
+<li><a href=/page/11/>11</a></li>
+<li><a href=/page/12/>12</a></li>
+<li><a href=/page/13/>13</a></li>
+<li><a href=/page/14/>14</a></li>
+<li><a href=/page/15/>15</a></li>
+<li><a href=/page/16/>16</a></li>
+<li><a href=/page/17/>17</a></li>
+<li><a href=/page/18/>18</a></li>
+<li><a href=/page/19/>19</a></li>
+<li><a href=/page/20/>20</a></li>
+<li><a href=/page/21/>21</a></li>
+<li><a href=/page/22/>22</a></li>
+<li><a href=/page/23/>23</a></li>
+<li><a href=/page/24/>24</a></li>
+<li><a href=/page/25/>25</a></li>
+<li><a href=/page/26/>26</a></li>
+<li><a href=/page/27/>27</a></li>
+<li><a href=/page/28/>28</a></li>
+<li><a href=/page/29/>29</a></li>
+<li><a href=/page/30/>30</a></li>
+<li><a href=/page/31/>31</a></li>
+<li><a href=/page/32/>32</a></li>
+<li><a href=/page/33/>33</a></li>
+<li><a href=/page/34/>34</a></li>
+<li><a href=/page/35/>35</a></li>
+<li><a href=/page/36/>36</a></li>
+<li><a href=/page/37/>37</a></li>
+<li><a href=/page/38/>38</a></li>
+<li><a href=/page/39/>39</a></li>
+<li><a href=/page/40/>40</a></li>
+<li><a href=/page/41/>41</a></li>
+<li><a href=/page/42/>42</a></li>
+<li><a href=/page/43/>43</a></li>
+<li><a href=/page/44/>44</a></li>
+<li><a href=/page/45/>45</a></li>
+<li><a href=/page/46/>46</a></li>
+<li><a href=/page/47/>47</a></li>
+<li><a href=/page/48/>48</a></li>
+<li><a href=/page/49/>49</a></li>
+<li><a href=/page/50/>50</a></li>
+<li><a href=/page/51/>51</a></li>
+<li><a href=/page/52/>52</a></li>
+<li><a href=/page/53/>53</a></li>
+<li><a href=/page/54/>54</a></li>
+<li><a href=/page/55/>55</a></li>
+<li><a href=/page/56/>56</a></li>
+<li><a href=/page/57/>57</a></li>
+<li><a href=/page/58/>58</a></li>
+<li><a href=/page/59/>59</a></li>
+<li><a href=/page/60/>60</a></li>
+<li><a href=/page/61/>61</a></li>
+<li><a href=/page/62/>62</a></li>
+<li><a href=/page/63/>63</a></li>
+<li><a href=/page/64/>64</a></li>
+<li><a href=/page/65/>65</a></li>
+<li><a href=/page/66/>66</a></li>
+<li><a href=/page/67/>67</a></li>
+<li><a href=/page/68/>68</a></li>
+<li><a href=/page/69/>69</a></li>
+<li><a href=/page/70/>70</a></li>
+<li><a href=/page/71/>71</a></li>
+<li><a href=/page/72/>72</a></li>
+<li><a href=/page/4/ class=btn>Next</a></li>
+</ul>
+</div>
+</div>
+<div class=footer-wrapper>
+<footer role=contentinfo>
+<span> Powered by <a href=https://gohugo.io/ rel=nofollow>Hugo</a> using the <a href=https://github.com/dldx/hpstr-hugo-theme rel=nofollow>HPSTR theme</a>.</span>
+</footer>
+</div>
+<script src=//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js></script>
+<script src=https://kit.fontawesome.com/872a53b461.js crossorigin=anonymous></script>
+<script>window.jQuery||document.write('<script src="/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src=/js/scripts.min.js></script>
+<script type=application/javascript>var doNotTrack=!1;doNotTrack||(function(a,e,f,g,b,c,d){a.GoogleAnalyticsObject=b,a[b]=a[b]||function(){(a[b].q=a[b].q||[]).push(arguments)},a[b].l=1*new Date,c=e.createElement(f),d=e.getElementsByTagName(f)[0],c.async=1,c.src=g,d.parentNode.insertBefore(c,d)}(window,document,'script','https://www.google-analytics.com/analytics.js','ga'),ga('create','UA-79243751-1','auto'),ga('send','pageview'))</script>
+<div id=fb-root></div>
+<script async defer crossorigin=anonymous src="https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v7.0&appId=293999444006555&autoLogAppEvents=1" nonce=geZSUIUh></script>
+</body>
+</html>

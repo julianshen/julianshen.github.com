@@ -1,22 +1,119 @@
-<!doctype html><!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=en><![endif]--><!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang=en><![endif]--><!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang=en><![endif]--><!--[if gt IE 8]><!--><html class=no-js lang=en><!--<![endif]--><head><meta charset=utf-8><title>Le murmure de Julian</title><meta name=description content><meta property="og:title" content="Le murmure de Julian"><meta property="og:description" content><meta property="og:type" content="website"><meta property="og:url" content="https://blog.jln.co/"><meta property="og:image" content="https://blog.jln.co/images/avatar.png"><meta property="og:updated_time" content="2020-07-05T14:54:23+08:00"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://blog.jln.co/images/avatar.png"><meta name=twitter:title content="Le murmure de Julian"><meta name=twitter:description content><link rel=canonical href=https://blog.jln.co/><link href=https://blog.jln.co/feed.xml rel=alternate type=application/rss+xml title="Le murmure de Julian"><link href=https://blog.jln.co/feed.xml rel=feed type=application/rss+xml title="Le murmure de Julian"><meta name=HandheldFriendly content="True"><meta name=MobileOptimized content="320"><meta name=viewport content="width=device-width,initial-scale=1"><link rel=stylesheet href=/css/main.css><link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel=stylesheet type=text/css><meta http-equiv=cleartype content="on"><meta name=generator content="Hugo 0.73.0"><script src=/js/vendor/modernizr-2.6.2.custom.min.js></script><script async src=https://unpkg.com/mermaid@8.2.3/dist/mermaid.min.js></script><link rel="shortcut icon" href=/favicon.png></head><body id=post-index class=feature><nav id=dl-menu class=dl-menuwrapper role=navigation style=display:inline-block><button class=dl-trigger>Open Menu</button><ul class=dl-menu><li><a href=/>Home</a></li><li><a href=#>About</a><ul class=dl-submenu><li><img src=/images/avatar.png alt="Julian Shen's photo" class=author-photo><h4>Julian Shen</h4><p>Softward developer</p></li><li><a href=mailto:julianshen22@gmail.com><i class="fa fa-fw fa-envelope"></i>Email</a></li><li><a href=https://linkedin.com/in/julianshen><i class="fa fa-fw fa-linkedin"></i>LinkedIn</a></li><li><a href=https://github.com/julianshen><i class="fa fa-fw fa-github"></i>GitHub</a></li><li><a href=https://instagram.com/julianshen><i class="fa fa-fw fa-instagram"></i>Instagram</a></li></ul></li><li><a href=#>Posts</a><ul class=dl-submenu><li><a href=/post/>All Posts</a></li><li><a href=/tags/>All Tags</a></li></ul></li><li><a href=/></a></li></ul></nav><div class=entry-header><div class=entry-image><img src=/images/bkg2.jpg alt="Le murmure de Julian"></div><div class=header-title><div class=header-title-wrap><h1><a href=/ title="Go to the homepage">Le murmure de Julian</a></h1><h2>朱隸安貓囈語錄</h2></div></div></div><div id=main role=main><article class=hentry><header><div class=entry-meta><span class="entry-date date published updated"><time datetime="2016-12-29 15:33:25 +0000 UTC"><a href=/Android-Retrofit-Protobuf-Wire/>Dec 29, 2016</a></time></span>
-<span class=entry-reading-time><i class="fa fa-clock-o"></i>Reading time ~3 minutes</span></div><h1 class=entry-title><a href=/Android-Retrofit-Protobuf-Wire/ rel=bookmark title="[Android] Retrofit + Protobuf + Wire" itemprop=url>[Android] Retrofit + Protobuf + Wire</a></h1></header><div class=entry-content><p><a href=https://square.github.io/retrofit/>Retrofit</a>目前已然成為最熱門的呼叫REST API的開源程式庫了,不過,
-大部分的Retrofit多是用來處理Json類的REST API, 但Retrofit的能力卻不僅限於此</p><p>透過Converter, Retrofit可以處理的不只是Json, 還包含了XML, <a href=https://developers.google.com/protocol-buffers/>Protobuf</a>, 甚至你自己的自訂格式, 剛好最近看Json不太順眼,
-想來試試<a href=https://developers.google.com/protocol-buffers/>Protobuf</a>, 就來試試這部分</p><p><a href=https://square.github.io/retrofit/>Retrofit</a>官方網頁上列的<a href=https://developers.google.com/protocol-buffers/>Protobuf</a> converter有兩種,
+<!doctype html><!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=en><![endif]--><!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang=en><![endif]--><!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang=en><![endif]--><!--[if gt IE 8]><!--><html class=no-js lang=en><!--<![endif]-->
+<head>
+<meta charset=utf-8>
+<title>Le murmure de Julian</title>
+<meta name=description content>
+<meta property="og:title" content="Le murmure de Julian">
+<meta property="og:description" content>
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://blog.jln.co/"><meta property="og:image" content="https://blog.jln.co/images/avatar.png">
+<meta name=twitter:card content="summary_large_image">
+<meta name=twitter:image content="https://blog.jln.co/images/avatar.png">
+<meta name=twitter:title content="Le murmure de Julian">
+<meta name=twitter:description content>
+<link rel=canonical href=https://blog.jln.co/>
+<link href=https://blog.jln.co/feed.xml rel=alternate type=application/rss+xml title="Le murmure de Julian">
+<link href=https://blog.jln.co/feed.xml rel=feed type=application/rss+xml title="Le murmure de Julian">
+<meta name=HandheldFriendly content="True">
+<meta name=MobileOptimized content="320">
+<meta name=viewport content="width=device-width,initial-scale=1">
+<link rel=stylesheet href=/css/main.css>
+<link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel=stylesheet type=text/css>
+<meta http-equiv=cleartype content="on">
+<meta name=generator content="Hugo 0.86.0">
+<script src=/js/vendor/modernizr-2.6.2.custom.min.js></script>
+<script async src=https://unpkg.com/mermaid@8.2.3/dist/mermaid.min.js></script>
+<link rel="shortcut icon" href=/favicon.png>
+</head>
+<body id=post-index class=feature>
+<nav id=dl-menu class=dl-menuwrapper role=navigation style=display:inline-block>
+<button class=dl-trigger>Open Menu</button>
+<ul class=dl-menu>
+<li><a href=/>Home</a></li>
+<li>
+<a href=#>About</a>
+<ul class=dl-submenu>
+<li>
+<img src=/images/avatar.png alt="Julian Shen's photo" class=author-photo>
+<h4>Julian Shen</h4>
+<p>Softward developer</p>
+</li>
+<li>
+<a href=mailto:julianshen22@gmail.com><i class="fa fa-fw fa-envelope"></i> Email</a>
+</li>
+<li>
+<a href=https://linkedin.com/in/julianshen><i class="fa fa-fw fa-linkedin"></i> LinkedIn</a>
+</li>
+<li>
+<a href=https://github.com/julianshen><i class="fa fa-fw fa-github"></i> GitHub</a>
+</li>
+<li>
+<a href=https://instagram.com/julianshen><i class="fa fa-fw fa-instagram"></i> Instagram</a>
+</li>
+</ul>
+</li>
+<li>
+<a href=#>Posts</a>
+<ul class=dl-submenu>
+<li><a href=/post/>All Posts</a></li>
+<li><a href=/tags/>All Tags</a></li>
+</ul>
+</li>
+<li><a href=/></a></li>
+</ul>
+</nav>
+<div class=entry-header>
+<div class=entry-image>
+<img src=/images/bkg2.jpg alt="Le murmure de Julian">
+</div>
+<div class=header-title>
+<div class=header-title-wrap>
+<h1><a href=/ title="Go to the homepage">Le murmure de Julian</a></h1>
+<h2>
+朱隸安貓囈語錄
+</h2>
+</div>
+</div>
+</div>
+<div id=main role=main>
+<article class=hentry>
+<header>
+<div class=entry-meta>
+<span class="entry-date date published updated"><time datetime="2016-12-29 15:33:25 +0000 UTC"><a href=/Android-Retrofit-Protobuf-Wire/>Dec 29, 2016</a></time></span>
+<span class=entry-reading-time>
+<i class="fa fa-clock-o"></i>
+Reading time ~3 minutes
+</span>
+</div>
+<h1 class=entry-title><a href=/Android-Retrofit-Protobuf-Wire/ rel=bookmark title="[Android] Retrofit + Protobuf + Wire" itemprop=url>[Android] Retrofit + Protobuf + Wire</a></h1>
+</header>
+<div class=entry-content>
+<p><a href=https://square.github.io/retrofit/>Retrofit</a>目前已然成為最熱門的呼叫REST API的開源程式庫了,不過,
+大部分的Retrofit多是用來處理Json類的REST API, 但Retrofit的能力卻不僅限於此</p>
+<p>透過Converter, Retrofit可以處理的不只是Json, 還包含了XML, <a href=https://developers.google.com/protocol-buffers/>Protobuf</a>, 甚至你自己的自訂格式, 剛好最近看Json不太順眼,
+想來試試<a href=https://developers.google.com/protocol-buffers/>Protobuf</a>, 就來試試這部分</p>
+<p><a href=https://square.github.io/retrofit/>Retrofit</a>官方網頁上列的<a href=https://developers.google.com/protocol-buffers/>Protobuf</a> converter有兩種,
 一種是使用Google親生的<a href=https://developers.google.com/protocol-buffers/>Protobuf</a>, 這個只要引入<code>com.squareup.retrofit2:converter-protobuf</code>即可使用,
 另一種是有點比較吸引我的是Square自己開發出來的<a href=https://github.com/square/wire>Wire</a>, Sqaure真的是蠻喜歡打造自己的東西的, 打造出來的又比別人威,
-這點讓我對<a href=https://github.com/square/wire>Wire</a>的興趣比較大, 因此這篇主要是以<a href=https://github.com/square/wire>Wire</a>當範例來介紹</p><p>使用Wire converter其實相當簡單的:</p><p>在build.gradle內加入相關的dependencies, 包含了wire runtime跟retorfit的converter:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-groovy data-lang=groovy>compile <span style=color:#e6db74>&#39;com.squareup.retrofit2:converter-wire:2.1.0&#39;</span>
+這點讓我對<a href=https://github.com/square/wire>Wire</a>的興趣比較大, 因此這篇主要是以<a href=https://github.com/square/wire>Wire</a>當範例來介紹</p>
+<p>使用Wire converter其實相當簡單的:</p>
+<p>在build.gradle內加入相關的dependencies, 包含了wire runtime跟retorfit的converter:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-groovy data-lang=groovy>compile <span style=color:#e6db74>&#39;com.squareup.retrofit2:converter-wire:2.1.0&#39;</span>
 compile <span style=color:#e6db74>&#39;com.squareup.wire:wire-runtime:2.2.0&#39;</span>
-</code></pre></div><p>在build service時, 用<code>addConverterFactory</code>將<code>WireConverterFactory</code>加入即可</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>Retrofit retrofit <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> Retrofit<span style=color:#f92672>.</span><span style=color:#a6e22e>Builder</span><span style=color:#f92672>()</span>
+</code></pre></div><p>在build service時, 用<code>addConverterFactory</code>將<code>WireConverterFactory</code>加入即可</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>Retrofit retrofit <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> Retrofit<span style=color:#f92672>.</span><span style=color:#a6e22e>Builder</span><span style=color:#f92672>()</span>
 		<span style=color:#f92672>.</span><span style=color:#a6e22e>baseUrl</span><span style=color:#f92672>(</span>baseUrl<span style=color:#f92672>)</span>
 		<span style=color:#f92672>.</span><span style=color:#a6e22e>addConverterFactory</span><span style=color:#f92672>(</span>WireConverterFactory<span style=color:#f92672>.</span><span style=color:#a6e22e>create</span><span style=color:#f92672>())</span>
 		<span style=color:#f92672>.</span><span style=color:#a6e22e>addCallAdapterFactory</span><span style=color:#f92672>(</span>RxJava2CallAdapterFactory<span style=color:#f92672>.</span><span style=color:#a6e22e>create</span><span style=color:#f92672>())</span>
 		<span style=color:#f92672>.</span><span style=color:#a6e22e>build</span><span style=color:#f92672>();</span>
 DataService service <span style=color:#f92672>=</span> retrofit<span style=color:#f92672>.</span><span style=color:#a6e22e>create</span><span style=color:#f92672>(</span>DataService<span style=color:#f92672>.</span><span style=color:#a6e22e>class</span><span style=color:#f92672>);</span>
-</code></pre></div><p>DataService的定義如下(這範例搭配了rxjava2):</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>interface</span> <span style=color:#a6e22e>DataService</span> <span style=color:#f92672>{</span>
+</code></pre></div><p>DataService的定義如下(這範例搭配了rxjava2):</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>interface</span> <span style=color:#a6e22e>DataService</span> <span style=color:#f92672>{</span>
     <span style=color:#a6e22e>@GET</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;data&#34;</span><span style=color:#f92672>)</span>
     Single<span style=color:#f92672>&lt;</span>Posts<span style=color:#f92672>&gt;</span> <span style=color:#a6e22e>getPosts</span><span style=color:#f92672>();</span>
 <span style=color:#f92672>}</span>
-</code></pre></div><p>這邊有個問題, <code>Posts</code>這個class並不是直接用Java刻出來的, 而是由<code>.proto</code>檔產生的, 內容如下:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-protobuf data-lang=protobuf>syntax <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;proto3&#34;</span>;<span style=color:#960050;background-color:#1e0010>
+</code></pre></div><p>這邊有個問題, <code>Posts</code>這個class並不是直接用Java刻出來的, 而是由<code>.proto</code>檔產生的, 內容如下:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-protobuf data-lang=protobuf>syntax <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;proto3&#34;</span>;<span style=color:#960050;background-color:#1e0010>
 </span><span style=color:#960050;background-color:#1e0010></span><span style=color:#f92672>package</span> wtf<span style=color:#f92672>.</span>cowbay.dp;<span style=color:#960050;background-color:#1e0010>
 </span><span style=color:#960050;background-color:#1e0010>
 </span><span style=color:#960050;background-color:#1e0010></span><span style=color:#66d9ef>message</span> <span style=color:#a6e22e>FBPost</span> {<span style=color:#960050;background-color:#1e0010>
@@ -31,9 +128,12 @@ DataService service <span style=color:#f92672>=</span> retrofit<span style=color
 </span><span style=color:#960050;background-color:#1e0010></span><span style=color:#66d9ef>message</span> <span style=color:#a6e22e>Posts</span> {<span style=color:#960050;background-color:#1e0010>
 </span><span style=color:#960050;background-color:#1e0010></span>	<span style=color:#66d9ef>repeated</span> FBPost data <span style=color:#f92672>=</span> <span style=color:#ae81ff>1</span>;<span style=color:#960050;background-color:#1e0010>
 </span><span style=color:#960050;background-color:#1e0010></span>}<span style=color:#960050;background-color:#1e0010>
-</span></code></pre></div><p>必須要用工具產生Java class才能使用, Google的Protobuf有自己的工具, 而Wire也有自己的, 如果手動自己執行工具產生檔案後再加入, 未免太鳥,</p><p>還好Wire有<a href=https://github.com/square/wire-gradle-plugin>wire-gradle-plugin</a>, 不過這個有個大問題, 雖然放在Square的repo下, 但似乎
+</span></code></pre></div><p>必須要用工具產生Java class才能使用, Google的Protobuf有自己的工具, 而Wire也有自己的, 如果手動自己執行工具產生檔案後再加入, 未免太鳥,</p>
+<p>還好Wire有<a href=https://github.com/square/wire-gradle-plugin>wire-gradle-plugin</a>, 不過這個有個大問題, 雖然放在Square的repo下, 但似乎
 不是官方版本, 而是有人貢獻的, 因此並沒有跟上最新的2.x的版本, <a href=https://github.com/square/wire-gradle-plugin/issues/11>JakeWharton大神說將會有官方版本</a>,
-但似乎從六月到現在都沒出現, 所以只好<a href=https://github.com/CowBayStudio/wire-gradle-plugin>自力救濟自己改 - 我的版本</a></p><p>使用這個plugin很簡單, 先在第一層的build.gradle裡的buildscript加入:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-groovy data-lang=groovy>buildscript <span style=color:#f92672>{</span>
+但似乎從六月到現在都沒出現, 所以只好<a href=https://github.com/CowBayStudio/wire-gradle-plugin>自力救濟自己改 - 我的版本</a></p>
+<p>使用這個plugin很簡單, 先在第一層的build.gradle裡的buildscript加入:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-groovy data-lang=groovy>buildscript <span style=color:#f92672>{</span>
     repositories <span style=color:#f92672>{</span>
         jcenter<span style=color:#f92672>()</span>
         maven <span style=color:#f92672>{</span>
@@ -46,41 +146,134 @@ DataService service <span style=color:#f92672>=</span> retrofit<span style=color
         classpath <span style=color:#e6db74>&#39;com.github.CowBayStudio:wire-gradle-plugin:ver12&#39;</span>
     <span style=color:#f92672>}</span>
 <span style=color:#f92672>}</span>
-</code></pre></div><p>主要是加入jitpack.io, 並把我的版本的plugin放到dependencies去</p><p>接下來在app的build.gradle裡加入:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-groovy data-lang=groovy>apply plugin: <span style=color:#e6db74>&#39;com.squareup.wire&#39;</span>
-</code></pre></div><p><code>.proto</code>檔案放置的位子在<code>app/src/main/proto</code>, 把檔案放在這邊, build的時候就會自動產生這些對應的Java classes了</p></div></article><article class=hentry><header><div class=entry-meta><span class="entry-date date published updated"><time datetime="2016-12-27 15:39:59 +0000 UTC"><a href=/Android-%E6%8A%8AGithub%E7%95%B6Maven-repository%E7%94%A8/>Dec 27, 2016</a></time></span>
-<span class=entry-reading-time><i class="fa fa-clock-o"></i>Reading time ~2 minutes</span></div><h1 class=entry-title><a href=/Android-%E6%8A%8AGithub%E7%95%B6Maven-repository%E7%94%A8/ rel=bookmark title="[Android] 把Github當Maven repository用" itemprop=url>[Android] 把Github當Maven repository用</a></h1></header><div class=entry-content><p>自從Android導入gradle之後, 使用開放的第三方的程式庫就越來越方便了, 雖然方便, 但也不免會碰到這類的問題:</p><ol><li>想要的功能在master branch上更新了, 但卻遲遲不release以至於想用新的功能無法用</li><li>程式碼已經沒在維護了, maven repository上一直都還是有問題的舊版本, 明知道怎麼修卻無法代他release到maven repository上去, PR又遲遲沒人理</li><li>想加上自己的私有功能, 又不想包整包source codes到app裡面去</li><li>想要開放自己做的程式庫卻覺得release到maven很麻煩</li></ol><p>還好有<a href=https://jitpack.io/>Jitpack</a>這東西, 剛剛就是碰到一個東西有問題, 想把它修掉直接用, 研究了一下</p><p>用法很簡單, 首先要先把<code>maven { url 'https://jitpack.io' }</code>加入到repositories裡面去</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-groovy data-lang=groovy>allprojects <span style=color:#f92672>{</span>
+</code></pre></div><p>主要是加入jitpack.io, 並把我的版本的plugin放到dependencies去</p>
+<p>接下來在app的build.gradle裡加入:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-groovy data-lang=groovy>apply plugin: <span style=color:#e6db74>&#39;com.squareup.wire&#39;</span>
+</code></pre></div><p><code>.proto</code>檔案放置的位子在<code>app/src/main/proto</code>, 把檔案放在這邊, build的時候就會自動產生這些對應的Java classes了</p>
+</div>
+</article>
+<article class=hentry>
+<header>
+<div class=entry-meta>
+<span class="entry-date date published updated"><time datetime="2016-12-27 15:39:59 +0000 UTC"><a href=/Android-%E6%8A%8AGithub%E7%95%B6Maven-repository%E7%94%A8/>Dec 27, 2016</a></time></span>
+<span class=entry-reading-time>
+<i class="fa fa-clock-o"></i>
+Reading time ~2 minutes
+</span>
+</div>
+<h1 class=entry-title><a href=/Android-%E6%8A%8AGithub%E7%95%B6Maven-repository%E7%94%A8/ rel=bookmark title="[Android] 把Github當Maven repository用" itemprop=url>[Android] 把Github當Maven repository用</a></h1>
+</header>
+<div class=entry-content>
+<p>自從Android導入gradle之後, 使用開放的第三方的程式庫就越來越方便了, 雖然方便, 但也不免會碰到這類的問題:</p>
+<ol>
+<li>想要的功能在master branch上更新了, 但卻遲遲不release以至於想用新的功能無法用</li>
+<li>程式碼已經沒在維護了, maven repository上一直都還是有問題的舊版本, 明知道怎麼修卻無法代他release到maven repository上去, PR又遲遲沒人理</li>
+<li>想加上自己的私有功能, 又不想包整包source codes到app裡面去</li>
+<li>想要開放自己做的程式庫卻覺得release到maven很麻煩</li>
+</ol>
+<p>還好有<a href=https://jitpack.io/>Jitpack</a>這東西, 剛剛就是碰到一個東西有問題, 想把它修掉直接用, 研究了一下</p>
+<p>用法很簡單, 首先要先把<code>maven { url 'https://jitpack.io' }</code>加入到repositories裡面去</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-groovy data-lang=groovy>allprojects <span style=color:#f92672>{</span>
     repositories <span style=color:#f92672>{</span>
         maven <span style=color:#f92672>{</span> url <span style=color:#e6db74>&#39;https://jitpack.io&#39;</span> <span style=color:#f92672>}</span>
     <span style=color:#f92672>}</span>
 <span style=color:#f92672>}</span>
-</code></pre></div><p>然後在你的<code>dependencies</code>裡面加入:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-groovy data-lang=groovy>compile <span style=color:#e6db74>&#39;com.github.User:Repo:Tag&#39;</span>
+</code></pre></div><p>然後在你的<code>dependencies</code>裡面加入:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-groovy data-lang=groovy>compile <span style=color:#e6db74>&#39;com.github.User:Repo:Tag&#39;</span>
 </code></pre></div><p>User就是你Github的user name, Repo是Repository的名稱, Tag是Git的tag名稱, 舉個例：https://github.com/CowBayStudio/wire-gradle-plugin ,
 像這樣的Url, User name就是CowBayStudio, repo就是wire-gradle-plugin , 如果你的Git repo並沒有任何的Tag, 可以用Commit hash或是branch-SNAPSHOT(例如master-SNAPSHOT), 當然
-自己加上tag會是比較好的做法, 比較好控管</p><p>當你去build你的app時, 在抓這個dependency時, Jitpack就會自動幫你把code從github抓下來build好,
-當然是developer就免不了有bug, 導致build fail, 去 Jitpack網站把你Github的URL貼上去就可以找到build log了, 像是<a href=https://jitpack.io/com/github/CowBayStudio/wire-gradle-plugin/ver11/build.log>這個</a></p><p>我在弄我的東西時, 就發生了build fail的狀況, 而問題的原因是其中一個依賴的jar是JAVA 8 build出來的, 但jitpack用Java 7去build我的程式庫(文件說default應該是Java 8呀, 騙我!),
-這時候可以加一個jitpack.yml, 內容如下:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yml data-lang=yml><span style=color:#66d9ef>jdk</span>:
-  - oraclejdk8
-</code></pre></div><p>透過jitpack.yml可以有很多客制可設定, 詳情就看一下<a href=https://jitpack.io/docs/BUILDING/#build-customization>文件</a>吧!</p><p>所以碰到自己想動的程式庫, 可以直接fork出來改, 改出來的就可以直接這樣用了</p><p>那private repo呢?付錢給<a href=https://jitpack.io/private#subscribe>Jitpack</a>就有啦! XD</p></div></article><article class=hentry><header><div class=entry-meta><span class="entry-date date published updated"><time datetime="2016-12-11 21:27:45 +0000 UTC"><a href=/Android-%E5%9C%A8Android-Studio%E5%8F%96%E5%BE%97certificate-fingerprints/>Dec 11, 2016</a></time></span>
-<span class=entry-reading-time><i class="fa fa-clock-o"></i>Reading time ~1 minute</span></div><h1 class=entry-title><a href=/Android-%E5%9C%A8Android-Studio%E5%8F%96%E5%BE%97certificate-fingerprints/ rel=bookmark title="[Android] 在Android Studio取得certificate fingerprints" itemprop=url>[Android] 在Android Studio取得certificate fingerprints</a></h1></header><div class=entry-content><p>在使用很多API服務像是Google的API或是Facebook的API, 常常會需要拿簽署APK的Key的signature登錄,
-取得這sigature的方法有很多種, 剛學到一種是直接可以從Android studio的Gardle選單內取得的, 方法如下:</p><p>Gradle->(Project name)->Tasks->singningReports</p><div style=position:relative;padding-bottom:56.25%;height:0;overflow:hidden><iframe src=https://www.youtube.com/embed/D1HwAnk49xU style=position:absolute;top:0;left:0;width:100%;height:100%;border:0 allowfullscreen title="YouTube Video"></iframe></div></div></article><article class=hentry><header><div class=entry-meta><span class="entry-date date published updated"><time datetime="2016-11-29 17:39:41 +0000 UTC"><a href=/Android-Firebase-WebRTC-on-Android/>Nov 29, 2016</a></time></span>
-<span class=entry-reading-time><i class="fa fa-clock-o"></i>Reading time ~7 minutes</span></div><h1 class=entry-title><a href=/Android-Firebase-WebRTC-on-Android/ rel=bookmark title="[Android] Firebase + WebRTC on Android" itemprop=url>[Android] Firebase + WebRTC on Android</a></h1></header><div class=entry-content><p><a href=https://webrtc.org/>WebRTC</a>是一個支援瀏覽器的即時影音對話的架構, 算是一個業界標(W3C,IETF), 最近由於想做一個有影音通話的應用, 就研究了一下這東西</p><p>如果只是想嘗試一下<a href=https://webrtc.org/>WebRTC</a>, 是可以直接是可以直接試<a href=https://appr.tc/>AppRTC</a>這個Google的範例, 不過這個是Web的版本, 我想要做的是
-手機的版本(Android, iOS), <a href=https://appr.tc/>AppRTC</a>其實也有Android的版本可搭配</p><p>為了熟悉一下整個用WebRTC建立video call的流程, 因此我就決定改一下這個Android版本, 原本Google的版本是透過Web Socket</p><p>至於流程與架構我會建議看這影片:</p><div style=position:relative;padding-bottom:56.25%;height:0;overflow:hidden><iframe src=https://www.youtube.com/embed/HS1eKPL4f1o style=position:absolute;top:0;left:0;width:100%;height:100%;border:0 allowfullscreen title="YouTube Video"></iframe></div><p>如果不想看太長, 就看這個:</p><div style=position:relative;padding-bottom:56.25%;height:0;overflow:hidden><iframe src=https://www.youtube.com/embed/nDPlGcoArdM style=position:absolute;top:0;left:0;width:100%;height:100%;border:0 allowfullscreen title="YouTube Video"></iframe></div><p>把Web RTC那段換成Firebase(好, 其實我蠻後悔選Firebase來實作的)其實就是把Signaling這段給換掉, 而這段流程是(節錄自影片):</p><p><img src=/images/posts/webrtc.png alt></p><p>這部分其實就是交換兩邊的SDP和ICE candidate的過程, 詳細可以參考<a href=http://blog.mozilla.com.tw/posts/3261/webrtc-%E7%9B%B8%E9%97%9C%E7%B8%AE%E5%AF%AB%E5%90%8D%E8%A9%9E%E7%B0%A1%E4%BB%8B>這邊:WebRTC 相關縮寫名詞簡介</a></p><p>結果的source code放在<a href=https://github.com/julianshen/apprtc-android-demo>這邊 : apprtc-android-demo</a></p><h3 id=building-webrtc-lib-on-android->Building WebRTC lib on Android</h3><p>其實現在寫WebRTC的應用的話, 也不用從頭實作, Google老早就把它實作在<a href=http://chromium.org>Chromium</a>裡面了, 也可以單獨build出library用</p><p>這邊有官方的<a href=https://webrtc.org/native-code/android/>如何建置出Android版本的Web RTC library</a>, 不過, 不要照著這份文件做呀, 不然頭髮會白好幾根, 可能還build不太起來,
+自己加上tag會是比較好的做法, 比較好控管</p>
+<p>當你去build你的app時, 在抓這個dependency時, Jitpack就會自動幫你把code從github抓下來build好,
+當然是developer就免不了有bug, 導致build fail, 去 Jitpack網站把你Github的URL貼上去就可以找到build log了, 像是<a href=https://jitpack.io/com/github/CowBayStudio/wire-gradle-plugin/ver11/build.log>這個</a></p>
+<p>我在弄我的東西時, 就發生了build fail的狀況, 而問題的原因是其中一個依賴的jar是JAVA 8 build出來的, 但jitpack用Java 7去build我的程式庫(文件說default應該是Java 8呀, 騙我!),
+這時候可以加一個jitpack.yml, 內容如下:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yml data-lang=yml><span style=color:#f92672>jdk</span>:
+  - <span style=color:#ae81ff>oraclejdk8</span>
+</code></pre></div><p>透過jitpack.yml可以有很多客制可設定, 詳情就看一下<a href=https://jitpack.io/docs/BUILDING/#build-customization>文件</a>吧!</p>
+<p>所以碰到自己想動的程式庫, 可以直接fork出來改, 改出來的就可以直接這樣用了</p>
+<p>那private repo呢?付錢給<a href=https://jitpack.io/private#subscribe>Jitpack</a>就有啦! XD</p>
+</div>
+</article>
+<article class=hentry>
+<header>
+<div class=entry-meta>
+<span class="entry-date date published updated"><time datetime="2016-12-11 21:27:45 +0000 UTC"><a href=/Android-%E5%9C%A8Android-Studio%E5%8F%96%E5%BE%97certificate-fingerprints/>Dec 11, 2016</a></time></span>
+<span class=entry-reading-time>
+<i class="fa fa-clock-o"></i>
+Reading time ~1 minute
+</span>
+</div>
+<h1 class=entry-title><a href=/Android-%E5%9C%A8Android-Studio%E5%8F%96%E5%BE%97certificate-fingerprints/ rel=bookmark title="[Android] 在Android Studio取得certificate fingerprints" itemprop=url>[Android] 在Android Studio取得certificate fingerprints</a></h1>
+</header>
+<div class=entry-content>
+<p>在使用很多API服務像是Google的API或是Facebook的API, 常常會需要拿簽署APK的Key的signature登錄,
+取得這sigature的方法有很多種, 剛學到一種是直接可以從Android studio的Gardle選單內取得的, 方法如下:</p>
+<p>Gradle->(Project name)->Tasks->singningReports</p>
+<div style=position:relative;padding-bottom:56.25%;height:0;overflow:hidden>
+<iframe src=https://www.youtube.com/embed/D1HwAnk49xU style=position:absolute;top:0;left:0;width:100%;height:100%;border:0 allowfullscreen title="YouTube Video"></iframe>
+</div>
+</div>
+</article>
+<article class=hentry>
+<header>
+<div class=entry-meta>
+<span class="entry-date date published updated"><time datetime="2016-11-29 17:39:41 +0000 UTC"><a href=/Android-Firebase-WebRTC-on-Android/>Nov 29, 2016</a></time></span>
+<span class=entry-reading-time>
+<i class="fa fa-clock-o"></i>
+Reading time ~7 minutes
+</span>
+</div>
+<h1 class=entry-title><a href=/Android-Firebase-WebRTC-on-Android/ rel=bookmark title="[Android] Firebase + WebRTC on Android" itemprop=url>[Android] Firebase + WebRTC on Android</a></h1>
+</header>
+<div class=entry-content>
+<p><a href=https://webrtc.org/>WebRTC</a>是一個支援瀏覽器的即時影音對話的架構, 算是一個業界標(W3C,IETF), 最近由於想做一個有影音通話的應用, 就研究了一下這東西</p>
+<p>如果只是想嘗試一下<a href=https://webrtc.org/>WebRTC</a>, 是可以直接是可以直接試<a href=https://appr.tc/>AppRTC</a>這個Google的範例, 不過這個是Web的版本, 我想要做的是
+手機的版本(Android, iOS), <a href=https://appr.tc/>AppRTC</a>其實也有Android的版本可搭配</p>
+<p>為了熟悉一下整個用WebRTC建立video call的流程, 因此我就決定改一下這個Android版本, 原本Google的版本是透過Web Socket</p>
+<p>至於流程與架構我會建議看這影片:</p>
+<div style=position:relative;padding-bottom:56.25%;height:0;overflow:hidden>
+<iframe src=https://www.youtube.com/embed/HS1eKPL4f1o style=position:absolute;top:0;left:0;width:100%;height:100%;border:0 allowfullscreen title="YouTube Video"></iframe>
+</div>
+<p>如果不想看太長, 就看這個:</p>
+<div style=position:relative;padding-bottom:56.25%;height:0;overflow:hidden>
+<iframe src=https://www.youtube.com/embed/nDPlGcoArdM style=position:absolute;top:0;left:0;width:100%;height:100%;border:0 allowfullscreen title="YouTube Video"></iframe>
+</div>
+<p>把Web RTC那段換成Firebase(好, 其實我蠻後悔選Firebase來實作的)其實就是把Signaling這段給換掉, 而這段流程是(節錄自影片):</p>
+<p><img src=/images/posts/webrtc.png alt></p>
+<p>這部分其實就是交換兩邊的SDP和ICE candidate的過程, 詳細可以參考<a href=http://blog.mozilla.com.tw/posts/3261/webrtc-%E7%9B%B8%E9%97%9C%E7%B8%AE%E5%AF%AB%E5%90%8D%E8%A9%9E%E7%B0%A1%E4%BB%8B>這邊:WebRTC 相關縮寫名詞簡介</a></p>
+<p>結果的source code放在<a href=https://github.com/julianshen/apprtc-android-demo>這邊 : apprtc-android-demo</a></p>
+<h3 id=building-webrtc-lib-on-android>Building WebRTC lib on Android</h3>
+<p>其實現在寫WebRTC的應用的話, 也不用從頭實作, Google老早就把它實作在<a href=http://chromium.org>Chromium</a>裡面了, 也可以單獨build出library用</p>
+<p>這邊有官方的<a href=https://webrtc.org/native-code/android/>如何建置出Android版本的Web RTC library</a>, 不過, 不要照著這份文件做呀, 不然頭髮會白好幾根, 可能還build不太起來,
 找了一堆網路上人家的建議也都是不要直接build, 直接用人家build好現成的, 不過, 現成的雖然有一些, 但大多是過時的, API跟現今的也不太一樣, 如果
-要套用到現在的Android版本AppRTC的source code內, 大多都沒辦法用</p><p>所幸找到這個<a href=https://github.com/pristineio/webrtc-build-scripts/tree/master/android>build script: pristineio/webrtc-build-scripts</a>,
-這個從下載最新的source code到build出library一律包辦, 用法也很簡單, 只要執行下面的:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>source android/build.sh
+要套用到現在的Android版本AppRTC的source code內, 大多都沒辦法用</p>
+<p>所幸找到這個<a href=https://github.com/pristineio/webrtc-build-scripts/tree/master/android>build script: pristineio/webrtc-build-scripts</a>,
+這個從下載最新的source code到build出library一律包辦, 用法也很簡單, 只要執行下面的:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>source android/build.sh
 install_dependencies
 get_webrtc
 build_apprtc
 </code></pre></div><p>簡單明暸, 但&mldr;有幾個問題, 第一個是只能在Linux下build, 因此在Mac跟Windows下要透過<a href=https://www.vagrantup.com/>Vagrant</a>這類的工具,
 而且對硬體需求也很高, 我的2012年中版的Macbook Pro retina實在是跑不動, 後來跑去Digital Ocean租了台VM來build, 本以為最便宜的可以勝任,
-後來發現, 至少要4G RAM, 硬碟要20G以上的instance(哭哭, 浪費好多時間)</p><p>build出來後, 所需要的東西包含了libjingle_peerconnection.jar和libjingle_peerconnection_so.so, 把這幾個備份起來就是了, 待會build apk需要用</p><h3 id=apprtc-範例的android-source-codes->AppRTC 範例的Android source codes</h3><p>Android的範例的source codes<a href=https://chromium.googlesource.com/external/webrtc/+/master/webrtc/examples/androidapp/>可以在這邊下載</a></p><p>不過這並不是Android studio的project格式, 因此需要用匯入的方式, 或是可以直接fork<a href=https://github.com/julianshen/apprtc-android-demo>我的版本</a>去改,
+後來發現, 至少要4G RAM, 硬碟要20G以上的instance(哭哭, 浪費好多時間)</p>
+<p>build出來後, 所需要的東西包含了libjingle_peerconnection.jar和libjingle_peerconnection_so.so, 把這幾個備份起來就是了, 待會build apk需要用</p>
+<h3 id=apprtc-範例的android-source-codes>AppRTC 範例的Android source codes</h3>
+<p>Android的範例的source codes<a href=https://chromium.googlesource.com/external/webrtc/+/master/webrtc/examples/androidapp/>可以在這邊下載</a></p>
+<p>不過這並不是Android studio的project格式, 因此需要用匯入的方式, 或是可以直接fork<a href=https://github.com/julianshen/apprtc-android-demo>我的版本</a>去改,
 由於原本的版本使用了Web socket做singaling的管道, 因此需要<a href=http://autobahn.ws/>Autobahn</a>, 但你切記絕對不能用<a href=http://autobahn.ws/>Autobahn</a>官方最新的jar檔,
 而是要用Google放在third_party裡面那個autobanh.jar(啊, 我到現在才發現名字有些許不同), 這邊的差異是, 原本<a href=http://autobahn.ws/>Autobahn</a>是沒有支援SSL的websocket的,
-但AppRTC的websocket則是要透過SSL來連接</p><p>把jar跟so檔放到對應的目錄去後, 記得改一下app目錄下的build.gradle加入 (因為import產生的不會幫你加):</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-gradle data-lang=gradle>dependencies <span style=color:#f92672>{</span>
+但AppRTC的websocket則是要透過SSL來連接</p>
+<p>把jar跟so檔放到對應的目錄去後, 記得改一下app目錄下的build.gradle加入 (因為import產生的不會幫你加):</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-gradle data-lang=gradle>dependencies <span style=color:#f92672>{</span>
     compile <span style=color:#a6e22e>fileTree</span><span style=color:#f92672>(</span>dir: <span style=color:#e6db74>&#39;libs&#39;</span><span style=color:#f92672>,</span> include: <span style=color:#f92672>[</span><span style=color:#e6db74>&#39;*.jar&#39;</span><span style=color:#f92672>])</span>
 <span style=color:#f92672>}</span>
-</code></pre></div><h3 id=加上firebase->加上firebase</h3><p>除了原本的Webcoket和Direct connect兩種方式外, 為了跑一次他的流程我多加了Firebase的部分, 利用它的realtime database來做Signaling這部分,
-至於怎樣開始開發firebase, 就參考一下他的<a href=https://firebase.google.com/docs/database/android/start/>官方文件</a>吧</p><h3 id=signaling的實作->Signaling的實作</h3><h4 id=callactivity->CallActivity</h4><p>選擇哪種signaling的方式是在CallActivity裡面依據roomId來看使用哪一個signaling client, 程式碼如下:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>    <span style=color:#75715e>// Create connection client. Use DirectRTCClient if room name is an IP otherwise use the
+</code></pre></div><h3 id=加上firebase>加上firebase</h3>
+<p>除了原本的Webcoket和Direct connect兩種方式外, 為了跑一次他的流程我多加了Firebase的部分, 利用它的realtime database來做Signaling這部分,
+至於怎樣開始開發firebase, 就參考一下他的<a href=https://firebase.google.com/docs/database/android/start/>官方文件</a>吧</p>
+<h3 id=signaling的實作>Signaling的實作</h3>
+<h4 id=callactivity>CallActivity</h4>
+<p>選擇哪種signaling的方式是在CallActivity裡面依據roomId來看使用哪一個signaling client, 程式碼如下:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>    <span style=color:#75715e>// Create connection client. Use DirectRTCClient if room name is an IP otherwise use the
 </span><span style=color:#75715e></span>    <span style=color:#75715e>// standard WebSocketRTCClient.
 </span><span style=color:#75715e></span>    <span style=color:#66d9ef>if</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;firebase&#34;</span><span style=color:#f92672>.</span><span style=color:#a6e22e>equals</span><span style=color:#f92672>(</span>roomId<span style=color:#f92672>))</span> <span style=color:#f92672>{</span>
       Log<span style=color:#f92672>.</span><span style=color:#a6e22e>d</span><span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;firebase&#34;</span><span style=color:#f92672>);</span>
@@ -91,7 +284,11 @@ build_apprtc
       Log<span style=color:#f92672>.</span><span style=color:#a6e22e>i</span><span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;Using DirectRTCClient because room name looks like an IP.&#34;</span><span style=color:#f92672>);</span>
       appRtcClient <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> DirectRTCClient<span style=color:#f92672>(</span><span style=color:#66d9ef>this</span><span style=color:#f92672>);</span>
     <span style=color:#f92672>}</span>
-</code></pre></div><p>原本有WebSocketRTCClient和DirectRTCClient, 如果是IP的話就用DirectRTCClient,這邊我多加一個FirebaseRTCClient, 只要roomId是firebase就會使用這個(我偷懶)</p><h4 id=firebasertcclient->FirebaseRTCClient</h4><p>XXXRTCClient這部分實作了signaling的部分, 因此我參考了WebSocketRTCClient和DirectRTCClient的內容來寫FirebaseRTCClient</p><p>跟WebSocketRTCClinet一樣, 它必須實作AppRTCClient, AppRTCClient這個Interface定義如下:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#75715e>/**
+</code></pre></div><p>原本有WebSocketRTCClient和DirectRTCClient, 如果是IP的話就用DirectRTCClient,這邊我多加一個FirebaseRTCClient, 只要roomId是firebase就會使用這個(我偷懶)</p>
+<h4 id=firebasertcclient>FirebaseRTCClient</h4>
+<p>XXXRTCClient這部分實作了signaling的部分, 因此我參考了WebSocketRTCClient和DirectRTCClient的內容來寫FirebaseRTCClient</p>
+<p>跟WebSocketRTCClinet一樣, 它必須實作AppRTCClient, AppRTCClient這個Interface定義如下:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#75715e>/**
 </span><span style=color:#75715e> * AppRTCClient is the interface representing an AppRTC client.
 </span><span style=color:#75715e> */</span>
 <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>interface</span> <span style=color:#a6e22e>AppRTCClient</span> <span style=color:#f92672>{</span>
@@ -206,10 +403,15 @@ build_apprtc
 <span style=color:#f92672>}</span>
 </code></pre></div><p>主要就是定義了如何處理connect, disconnect, 還有怎麼去註冊SDP和ICE candidate, 在確定好連接成功後, AppRTCClient要負責呼叫onConnectedToRoom來通知
 CallActivity已經可以準備建立video call的後續流程, 且要負責處理如果Signal server(這邊是firebase)有傳來遠端的SDP跟ICE candidate, 要負責呼叫SignalingEvents對應的處理
-(這邊一樣會叫到CallActivity, 而CallActivity則會使用PeerConnectionClient來處理需要傳遞給PeerConnection相關的參數)</p><p>這邊用Firebase處理Signaling的方式是監聽某一個key的改變, 有新的裝置連接, 註冊SDP, ICE Candidate, 就寫到這下面去, 這其實不是一個很好的方式,
-因為這下面只要有值的改變, 就會觸發, 不像是WebSocket那個版本是一來一往的API calls, 而且你不知道每次觸發被更動的是哪一部分, 一開始發生了好幾次PeerConnection重複註冊SDP才讓我發現因為這原因被重複呼叫的問題</p><h3 id=turn-server->TURN server</h3><p>WebRTC是P2P的, 因此如果不具備穿牆能力的話, 在牆外就會被擋掉, 一開始我本來想說試驗P2P而不走TURN Server穿牆的(因為我一時也懶得架一台), 結果測試時老是連不上, 後來才發現我阿呆,
-我的測試環境是一台實體手機, 另一台是電腦上跑模擬器, 本以為兩個(手機, 電腦)是同一個區網沒問題, 後來才想到模擬器是在另一個虛擬網路, 因此還是有需要TURN server</p><p>如果不想架一台, 要怎辦? 用Google免錢的, 他們做了這個demo, 一定有! 因此就偷看了一下WebRTCClient的code跟傳輸內容,發現它跟https://networktraversal.googleapis.com/v1alpha/iceconfig?key=AIzaSyAJdh2HkajseEIltlZ3SIXO02Tze9sO3NY
-去要TURN server list, 所以基本上只要照copy下面這段就好:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>   <span style=color:#66d9ef>private</span> LinkedList<span style=color:#f92672>&lt;</span>PeerConnection<span style=color:#f92672>.</span><span style=color:#a6e22e>IceServer</span><span style=color:#f92672>&gt;</span> <span style=color:#a6e22e>requestTurnServers</span><span style=color:#f92672>(</span>String url<span style=color:#f92672>)</span>
+(這邊一樣會叫到CallActivity, 而CallActivity則會使用PeerConnectionClient來處理需要傳遞給PeerConnection相關的參數)</p>
+<p>這邊用Firebase處理Signaling的方式是監聽某一個key的改變, 有新的裝置連接, 註冊SDP, ICE Candidate, 就寫到這下面去, 這其實不是一個很好的方式,
+因為這下面只要有值的改變, 就會觸發, 不像是WebSocket那個版本是一來一往的API calls, 而且你不知道每次觸發被更動的是哪一部分, 一開始發生了好幾次PeerConnection重複註冊SDP才讓我發現因為這原因被重複呼叫的問題</p>
+<h3 id=turn-server>TURN server</h3>
+<p>WebRTC是P2P的, 因此如果不具備穿牆能力的話, 在牆外就會被擋掉, 一開始我本來想說試驗P2P而不走TURN Server穿牆的(因為我一時也懶得架一台), 結果測試時老是連不上, 後來才發現我阿呆,
+我的測試環境是一台實體手機, 另一台是電腦上跑模擬器, 本以為兩個(手機, 電腦)是同一個區網沒問題, 後來才想到模擬器是在另一個虛擬網路, 因此還是有需要TURN server</p>
+<p>如果不想架一台, 要怎辦? 用Google免錢的, 他們做了這個demo, 一定有! 因此就偷看了一下WebRTCClient的code跟傳輸內容,發現它跟https://networktraversal.googleapis.com/v1alpha/iceconfig?key=AIzaSyAJdh2HkajseEIltlZ3SIXO02Tze9sO3NY
+去要TURN server list, 所以基本上只要照copy下面這段就好:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>   <span style=color:#66d9ef>private</span> LinkedList<span style=color:#f92672>&lt;</span>PeerConnection<span style=color:#f92672>.</span><span style=color:#a6e22e>IceServer</span><span style=color:#f92672>&gt;</span> <span style=color:#a6e22e>requestTurnServers</span><span style=color:#f92672>(</span>String url<span style=color:#f92672>)</span>
             <span style=color:#66d9ef>throws</span> IOException<span style=color:#f92672>,</span> JSONException <span style=color:#f92672>{</span>
         LinkedList<span style=color:#f92672>&lt;</span>PeerConnection<span style=color:#f92672>.</span><span style=color:#a6e22e>IceServer</span><span style=color:#f92672>&gt;</span> turnServers <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> LinkedList<span style=color:#f92672>&lt;</span>PeerConnection<span style=color:#f92672>.</span><span style=color:#a6e22e>IceServer</span><span style=color:#f92672>&gt;();</span>
         Log<span style=color:#f92672>.</span><span style=color:#a6e22e>d</span><span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;Request TURN from: &#34;</span> <span style=color:#f92672>+</span> url<span style=color:#f92672>);</span>
@@ -247,22 +449,60 @@ CallActivity已經可以準備建立video call的後續流程, 且要負責處�
         Scanner s <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> Scanner<span style=color:#f92672>(</span>in<span style=color:#f92672>).</span><span style=color:#a6e22e>useDelimiter</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;\\A&#34;</span><span style=color:#f92672>);</span>
         <span style=color:#66d9ef>return</span> s<span style=color:#f92672>.</span><span style=color:#a6e22e>hasNext</span><span style=color:#f92672>()</span> <span style=color:#f92672>?</span> s<span style=color:#f92672>.</span><span style=color:#a6e22e>next</span><span style=color:#f92672>()</span> <span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;&#34;</span><span style=color:#f92672>;</span>
     <span style=color:#f92672>}</span>
-</code></pre></div><p>把這邊拿來的list當ICE candidate, 就可以成功透過Google的TURN server去穿牆了(長久之計還是自己架一台吧)</p></div></article><article class=hentry><header><div class=entry-meta><span class="entry-date date published updated"><time datetime="2016-11-23 12:05:38 +0000 UTC"><a href=/Rate-limit-with-Go-and-Gin/>Nov 23, 2016</a></time></span>
-<span class=entry-reading-time><i class="fa fa-clock-o"></i>Reading time ~4 minutes</span></div><h1 class=entry-title><a href=/Rate-limit-with-Go-and-Gin/ rel=bookmark title="Rate limit with Go and Gin" itemprop=url>Rate limit with Go and Gin</a></h1></header><div class=entry-content><p>昨天趁等著去面試前稍微把這之前想要寫一下的這題目打包成一個<a href=https://github.com/gin-gonic/gin>Gin</a>的middleware :</p><ul><li><a href=https://github.com/julianshen/gin-limiter>Gin-limiter</a></li></ul><p>Rate limiting 通常在很多開放API的服務內會常看到, 像是<a href=https://dev.twitter.com/rest/public/rate-limiting>Twitter</a>,
+</code></pre></div><p>把這邊拿來的list當ICE candidate, 就可以成功透過Google的TURN server去穿牆了(長久之計還是自己架一台吧)</p>
+</div>
+</article>
+<article class=hentry>
+<header>
+<div class=entry-meta>
+<span class="entry-date date published updated"><time datetime="2016-11-23 12:05:38 +0000 UTC"><a href=/Rate-limit-with-Go-and-Gin/>Nov 23, 2016</a></time></span>
+<span class=entry-reading-time>
+<i class="fa fa-clock-o"></i>
+Reading time ~4 minutes
+</span>
+</div>
+<h1 class=entry-title><a href=/Rate-limit-with-Go-and-Gin/ rel=bookmark title="Rate limit with Go and Gin" itemprop=url>Rate limit with Go and Gin</a></h1>
+</header>
+<div class=entry-content>
+<p>昨天趁等著去面試前稍微把這之前想要寫一下的這題目打包成一個<a href=https://github.com/gin-gonic/gin>Gin</a>的middleware :</p>
+<ul>
+<li><a href=https://github.com/julianshen/gin-limiter>Gin-limiter</a></li>
+</ul>
+<p>Rate limiting 通常在很多開放API的服務內會常看到, 像是<a href=https://dev.twitter.com/rest/public/rate-limiting>Twitter</a>,
 像是<a href=https://developers.facebook.com/docs/graph-api/advanced/rate-limiting>Facebook</a>或是<a href=http://open.weibo.com/wiki/Rate-limiting>新浪微博</a>,
-其目的就是希望API不要被特定節點頻繁存取以致於造成伺服器端的過載</p><h3 id=rate-limiter->rate limiter</h3><p>一般的Rate limiting的設計大致上來說就是限制某一個特定的節點(或使用者或API Key等等)在一段特定的時間內的存取次數,
+其目的就是希望API不要被特定節點頻繁存取以致於造成伺服器端的過載</p>
+<h3 id=rate-limiter>rate limiter</h3>
+<p>一般的Rate limiting的設計大致上來說就是限制某一個特定的節點(或使用者或API Key等等)在一段特定的時間內的存取次數,
 比如說, 限制一分鐘最多60次存取這樣的規則, 最直覺的方式我們是可以起一個timer和一個counter, counter大於60就限制存取, timer則每60秒重置counter一次,
 看似這樣就好了, 但其實這有漏洞, 假設我在第59秒時瞬間存取了60次, 第61秒又瞬間存取了60次, 在這設計上是合法的, 因為counter在第60秒時就被重置了,
 但實質上卻違反了一分鐘最多60次這限制, 因為他在兩秒內就存取了120次, 遠大於我們設計的限制, 當然我們也可以用Sliding time window來解決,
-但那個實作上就稍稍複雜點</p><p>目前兩個主流比較常見的做法是<a href=https://en.wikipedia.org/wiki/Token_bucket>Token Bucket</a>和<a href=https://en.wikipedia.org/wiki/Leaky_bucket>Leaky Bucket</a>,
-這兩個原理上大同小異</p><p>先來說說<a href=https://en.wikipedia.org/wiki/Token_bucket>Token Bucket</a>, 他的做法是, 假設你有個桶子, 裡面是拿來裝令牌(Token)的,
+但那個實作上就稍稍複雜點</p>
+<p>目前兩個主流比較常見的做法是<a href=https://en.wikipedia.org/wiki/Token_bucket>Token Bucket</a>和<a href=https://en.wikipedia.org/wiki/Leaky_bucket>Leaky Bucket</a>,
+這兩個原理上大同小異</p>
+<p>先來說說<a href=https://en.wikipedia.org/wiki/Token_bucket>Token Bucket</a>, 他的做法是, 假設你有個桶子, 裡面是拿來裝令牌(Token)的,
 桶子不是Doraemon的四次元口袋, 所以他空間是有限的, 令牌(Token)的作用在於, 要執行命令的人, 如果沒從桶子內摸到令牌, 就不准執行,
 然後我們一段時間內丟一些令牌進去, 如果桶子裡面已經裝滿就不丟, 以上個例子來說, 我們可以準備一個最多可以裝60個令牌的桶子, 每秒鐘丟一個進去,
-如果消耗速度大於每秒一個, 自然桶子很快就乾了, 就沒牌子拿了</p><p><a href=https://en.wikipedia.org/wiki/Leaky_bucket>Leaky Bucket</a>跟<a href=https://en.wikipedia.org/wiki/Token_bucket>Token Bucket</a>很像, 不過就是反過來,
-我們把每次的存取都當作一滴水滴入桶子中, 桶子滿了就會溢出(拒絕存取), 桶子底下打個洞, 讓水以固定速率流出去, 這樣一樣能達到類似的效果</p><p><img src=https://upload.wikimedia.org/wikipedia/commons/c/c4/Leaky_bucket_analogy.JPG alt="Leaky Bucket"></p><h3 id=go的rate-limiter實作->Go的rate limiter實作</h3><p>Go官方的package內其實是有rate limiter的實作的:</p><ul><li><a href=https://godoc.org/golang.org/x/time/rate>package rate</a></li></ul><p>照他的說法他是實作了<a href=https://en.wikipedia.org/wiki/Token_bucket>Token Bucket</a>, <a href=https://godoc.org/golang.org/x/time/rate#NewLimiter>創建一個Limiter</a>,
+如果消耗速度大於每秒一個, 自然桶子很快就乾了, 就沒牌子拿了</p>
+<p><a href=https://en.wikipedia.org/wiki/Leaky_bucket>Leaky Bucket</a>跟<a href=https://en.wikipedia.org/wiki/Token_bucket>Token Bucket</a>很像, 不過就是反過來,
+我們把每次的存取都當作一滴水滴入桶子中, 桶子滿了就會溢出(拒絕存取), 桶子底下打個洞, 讓水以固定速率流出去, 這樣一樣能達到類似的效果</p>
+<p><img src=https://upload.wikimedia.org/wikipedia/commons/c/c4/Leaky_bucket_analogy.JPG alt="Leaky Bucket"></p>
+<h3 id=go的rate-limiter實作>Go的rate limiter實作</h3>
+<p>Go官方的package內其實是有rate limiter的實作的:</p>
+<ul>
+<li><a href=https://godoc.org/golang.org/x/time/rate>package rate</a></li>
+</ul>
+<p>照他的說法他是實作了<a href=https://en.wikipedia.org/wiki/Token_bucket>Token Bucket</a>, <a href=https://godoc.org/golang.org/x/time/rate#NewLimiter>創建一個Limiter</a>,
 要給的參數是<a href=https://godoc.org/golang.org/x/time/rate#Limit>Limit</a>和b, 這個Limit指的是每秒鐘丟多少Token進桶字(? 我不知道有沒理解錯),
-而b是桶子的大小</p><p>實際上去用了之後發現好像也不是那麼好用, 可能我理解有問題, 出現的並不是我想像的結果, 因此我換用了<a href=https://github.com/juju/ratelimit>Juju&rsquo;s ratelimit</a>,
-這個是在<a href=https://github.com/go-kit/kit>gokit</a>這邊看到它有用, 所以應該不會差到哪去, 一樣也是Token Bucket,給的參數就是多久餵一次牌子, 跟桶子的大小, 這就簡單用了一點</p><h3 id=包裝成gin-middleware->包裝成Gin middleware</h3><p>要套在web server上使用的話, 包裝成middleware是比較方便的, 因此我就花了點時間把<a href=https://github.com/juju/ratelimit>Juju&rsquo;s ratelimit</a>包裝成這個:</p><ul><li><a href=https://github.com/julianshen/gin-limiter>Gin-limiter</a></li></ul><p>使用範例如下:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go>    <span style=color:#75715e>//Allow only 10 requests per minute per API-Key
+而b是桶子的大小</p>
+<p>實際上去用了之後發現好像也不是那麼好用, 可能我理解有問題, 出現的並不是我想像的結果, 因此我換用了<a href=https://github.com/juju/ratelimit>Juju&rsquo;s ratelimit</a>,
+這個是在<a href=https://github.com/go-kit/kit>gokit</a>這邊看到它有用, 所以應該不會差到哪去, 一樣也是Token Bucket,給的參數就是多久餵一次牌子, 跟桶子的大小, 這就簡單用了一點</p>
+<h3 id=包裝成gin-middleware>包裝成Gin middleware</h3>
+<p>要套在web server上使用的話, 包裝成middleware是比較方便的, 因此我就花了點時間把<a href=https://github.com/juju/ratelimit>Juju&rsquo;s ratelimit</a>包裝成這個:</p>
+<ul>
+<li><a href=https://github.com/julianshen/gin-limiter>Gin-limiter</a></li>
+</ul>
+<p>使用範例如下:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go>    <span style=color:#75715e>//Allow only 10 requests per minute per API-Key
 </span><span style=color:#75715e></span>	<span style=color:#a6e22e>lm</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>limiter</span>.<span style=color:#a6e22e>NewRateLimiter</span>(<span style=color:#a6e22e>time</span>.<span style=color:#a6e22e>Minute</span>, <span style=color:#ae81ff>10</span>, <span style=color:#66d9ef>func</span>(<span style=color:#a6e22e>ctx</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>gin</span>.<span style=color:#a6e22e>Context</span>) (<span style=color:#66d9ef>string</span>, <span style=color:#66d9ef>error</span>) {
 		<span style=color:#a6e22e>key</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>ctx</span>.<span style=color:#a6e22e>Request</span>.<span style=color:#a6e22e>Header</span>.<span style=color:#a6e22e>Get</span>(<span style=color:#e6db74>&#34;X-API-KEY&#34;</span>)
 		<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>key</span> <span style=color:#f92672>!=</span> <span style=color:#e6db74>&#34;&#34;</span> {
@@ -302,5 +542,103 @@ CallActivity已經可以準備建立video call的後續流程, 且要負責處�
 		})
 	}
 </code></pre></div><p>這邊本來想說為了簡單理解一點把參數設計成"每分鐘不能超過10次"這樣的描述, 然後後面再轉換成實際的fillInterval, 不過好像覺得怪怪的,
-有點不太符合Token Bucket的特質, 寫成middleware後的彈性就較大一點, 可以全部都用一個limiter或是分不同的資源不同限制都可</p><p>這邊建構時要傳入一個用來產生key的函數, 這是考慮到每個人想限制的依據不同, 例如根據API key, 或是session, 或是不同來源之類的, 由這函數去
-產生一個對應的key來找到limiter, 如果傳回error, 就是這個request不符合規則, 直接把他拒絕掉</p><h3 id=跨server的rate-limit->跨server的rate limit</h3><p>這方法只能針對單一server, 但現在通常都是多台server水平擴展, 因此也是會需要橫跨server的解決方案, 這部分的話, 用Redis來實作Token Bucket是可行的, 這等下次再來弄好了</p></div></article><div class=pagination><ul class=inline-list><li><a href=/page/4/ class=btn>Previous</a></li><li><a href=/>1</a></li><li><a href=/page/2/>2</a></li><li><a href=/page/3/>3</a></li><li><a href=/page/4/>4</a></li><li><strong class=current-page>5</strong></li><li><a href=/page/6/>6</a></li><li><a href=/page/7/>7</a></li><li><a href=/page/8/>8</a></li><li><a href=/page/9/>9</a></li><li><a href=/page/10/>10</a></li><li><a href=/page/11/>11</a></li><li><a href=/page/12/>12</a></li><li><a href=/page/13/>13</a></li><li><a href=/page/14/>14</a></li><li><a href=/page/15/>15</a></li><li><a href=/page/16/>16</a></li><li><a href=/page/17/>17</a></li><li><a href=/page/18/>18</a></li><li><a href=/page/19/>19</a></li><li><a href=/page/20/>20</a></li><li><a href=/page/21/>21</a></li><li><a href=/page/22/>22</a></li><li><a href=/page/23/>23</a></li><li><a href=/page/24/>24</a></li><li><a href=/page/25/>25</a></li><li><a href=/page/26/>26</a></li><li><a href=/page/27/>27</a></li><li><a href=/page/28/>28</a></li><li><a href=/page/29/>29</a></li><li><a href=/page/30/>30</a></li><li><a href=/page/31/>31</a></li><li><a href=/page/32/>32</a></li><li><a href=/page/33/>33</a></li><li><a href=/page/34/>34</a></li><li><a href=/page/35/>35</a></li><li><a href=/page/36/>36</a></li><li><a href=/page/37/>37</a></li><li><a href=/page/38/>38</a></li><li><a href=/page/39/>39</a></li><li><a href=/page/40/>40</a></li><li><a href=/page/41/>41</a></li><li><a href=/page/42/>42</a></li><li><a href=/page/43/>43</a></li><li><a href=/page/44/>44</a></li><li><a href=/page/45/>45</a></li><li><a href=/page/46/>46</a></li><li><a href=/page/47/>47</a></li><li><a href=/page/48/>48</a></li><li><a href=/page/49/>49</a></li><li><a href=/page/50/>50</a></li><li><a href=/page/51/>51</a></li><li><a href=/page/52/>52</a></li><li><a href=/page/53/>53</a></li><li><a href=/page/54/>54</a></li><li><a href=/page/55/>55</a></li><li><a href=/page/56/>56</a></li><li><a href=/page/57/>57</a></li><li><a href=/page/58/>58</a></li><li><a href=/page/59/>59</a></li><li><a href=/page/60/>60</a></li><li><a href=/page/61/>61</a></li><li><a href=/page/62/>62</a></li><li><a href=/page/63/>63</a></li><li><a href=/page/64/>64</a></li><li><a href=/page/65/>65</a></li><li><a href=/page/66/>66</a></li><li><a href=/page/67/>67</a></li><li><a href=/page/68/>68</a></li><li><a href=/page/69/>69</a></li><li><a href=/page/70/>70</a></li><li><a href=/page/71/>71</a></li><li><a href=/page/72/>72</a></li><li><a href=/page/6/ class=btn>Next</a></li></ul></div></div><div class=footer-wrapper><footer role=contentinfo><span>Powered by <a href=https://gohugo.io/ rel=nofollow>Hugo</a> using the <a href=https://github.com/dldx/hpstr-hugo-theme rel=nofollow>HPSTR theme</a>.</span></footer></div><script src=//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js></script><script src=https://kit.fontawesome.com/872a53b461.js crossorigin=anonymous></script><script>window.jQuery||document.write('<script src="\/js\/vendor\/jquery-1.9.1.min.js"><\/script>')</script><script src=/js/scripts.min.js></script><script type=application/javascript>var doNotTrack=false;if(!doNotTrack){(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');ga('create','UA-79243751-1','auto');ga('send','pageview');}</script><div id=fb-root></div><script async defer crossorigin=anonymous src="https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v7.0&appId=293999444006555&autoLogAppEvents=1" nonce=geZSUIUh></script></body></html>
+有點不太符合Token Bucket的特質, 寫成middleware後的彈性就較大一點, 可以全部都用一個limiter或是分不同的資源不同限制都可</p>
+<p>這邊建構時要傳入一個用來產生key的函數, 這是考慮到每個人想限制的依據不同, 例如根據API key, 或是session, 或是不同來源之類的, 由這函數去
+產生一個對應的key來找到limiter, 如果傳回error, 就是這個request不符合規則, 直接把他拒絕掉</p>
+<h3 id=跨server的rate-limit>跨server的rate limit</h3>
+<p>這方法只能針對單一server, 但現在通常都是多台server水平擴展, 因此也是會需要橫跨server的解決方案, 這部分的話, 用Redis來實作Token Bucket是可行的, 這等下次再來弄好了</p>
+</div>
+</article>
+<div class=pagination>
+<ul class=inline-list>
+<li><a href=/page/4/ class=btn>Previous</a></li>
+<li><a href=/>1</a></li>
+<li><a href=/page/2/>2</a></li>
+<li><a href=/page/3/>3</a></li>
+<li><a href=/page/4/>4</a></li>
+<li><strong class=current-page>5</strong></li>
+<li><a href=/page/6/>6</a></li>
+<li><a href=/page/7/>7</a></li>
+<li><a href=/page/8/>8</a></li>
+<li><a href=/page/9/>9</a></li>
+<li><a href=/page/10/>10</a></li>
+<li><a href=/page/11/>11</a></li>
+<li><a href=/page/12/>12</a></li>
+<li><a href=/page/13/>13</a></li>
+<li><a href=/page/14/>14</a></li>
+<li><a href=/page/15/>15</a></li>
+<li><a href=/page/16/>16</a></li>
+<li><a href=/page/17/>17</a></li>
+<li><a href=/page/18/>18</a></li>
+<li><a href=/page/19/>19</a></li>
+<li><a href=/page/20/>20</a></li>
+<li><a href=/page/21/>21</a></li>
+<li><a href=/page/22/>22</a></li>
+<li><a href=/page/23/>23</a></li>
+<li><a href=/page/24/>24</a></li>
+<li><a href=/page/25/>25</a></li>
+<li><a href=/page/26/>26</a></li>
+<li><a href=/page/27/>27</a></li>
+<li><a href=/page/28/>28</a></li>
+<li><a href=/page/29/>29</a></li>
+<li><a href=/page/30/>30</a></li>
+<li><a href=/page/31/>31</a></li>
+<li><a href=/page/32/>32</a></li>
+<li><a href=/page/33/>33</a></li>
+<li><a href=/page/34/>34</a></li>
+<li><a href=/page/35/>35</a></li>
+<li><a href=/page/36/>36</a></li>
+<li><a href=/page/37/>37</a></li>
+<li><a href=/page/38/>38</a></li>
+<li><a href=/page/39/>39</a></li>
+<li><a href=/page/40/>40</a></li>
+<li><a href=/page/41/>41</a></li>
+<li><a href=/page/42/>42</a></li>
+<li><a href=/page/43/>43</a></li>
+<li><a href=/page/44/>44</a></li>
+<li><a href=/page/45/>45</a></li>
+<li><a href=/page/46/>46</a></li>
+<li><a href=/page/47/>47</a></li>
+<li><a href=/page/48/>48</a></li>
+<li><a href=/page/49/>49</a></li>
+<li><a href=/page/50/>50</a></li>
+<li><a href=/page/51/>51</a></li>
+<li><a href=/page/52/>52</a></li>
+<li><a href=/page/53/>53</a></li>
+<li><a href=/page/54/>54</a></li>
+<li><a href=/page/55/>55</a></li>
+<li><a href=/page/56/>56</a></li>
+<li><a href=/page/57/>57</a></li>
+<li><a href=/page/58/>58</a></li>
+<li><a href=/page/59/>59</a></li>
+<li><a href=/page/60/>60</a></li>
+<li><a href=/page/61/>61</a></li>
+<li><a href=/page/62/>62</a></li>
+<li><a href=/page/63/>63</a></li>
+<li><a href=/page/64/>64</a></li>
+<li><a href=/page/65/>65</a></li>
+<li><a href=/page/66/>66</a></li>
+<li><a href=/page/67/>67</a></li>
+<li><a href=/page/68/>68</a></li>
+<li><a href=/page/69/>69</a></li>
+<li><a href=/page/70/>70</a></li>
+<li><a href=/page/71/>71</a></li>
+<li><a href=/page/72/>72</a></li>
+<li><a href=/page/6/ class=btn>Next</a></li>
+</ul>
+</div>
+</div>
+<div class=footer-wrapper>
+<footer role=contentinfo>
+<span> Powered by <a href=https://gohugo.io/ rel=nofollow>Hugo</a> using the <a href=https://github.com/dldx/hpstr-hugo-theme rel=nofollow>HPSTR theme</a>.</span>
+</footer>
+</div>
+<script src=//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js></script>
+<script src=https://kit.fontawesome.com/872a53b461.js crossorigin=anonymous></script>
+<script>window.jQuery||document.write('<script src="/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src=/js/scripts.min.js></script>
+<script type=application/javascript>var doNotTrack=!1;doNotTrack||(function(a,e,f,g,b,c,d){a.GoogleAnalyticsObject=b,a[b]=a[b]||function(){(a[b].q=a[b].q||[]).push(arguments)},a[b].l=1*new Date,c=e.createElement(f),d=e.getElementsByTagName(f)[0],c.async=1,c.src=g,d.parentNode.insertBefore(c,d)}(window,document,'script','https://www.google-analytics.com/analytics.js','ga'),ga('create','UA-79243751-1','auto'),ga('send','pageview'))</script>
+<div id=fb-root></div>
+<script async defer crossorigin=anonymous src="https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v7.0&appId=293999444006555&autoLogAppEvents=1" nonce=geZSUIUh></script>
+</body>
+</html>

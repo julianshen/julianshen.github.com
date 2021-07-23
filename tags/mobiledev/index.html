@@ -1,24 +1,158 @@
-<!doctype html><!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=en><![endif]--><!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang=en><![endif]--><!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang=en><![endif]--><!--[if gt IE 8]><!--><html class=no-js lang=en><!--<![endif]--><head><meta charset=utf-8><title>mobiledev &#8211; Le murmure de Julian</title><meta name=description content><meta property="og:title" content="mobiledev"><meta property="og:description" content><meta property="og:type" content="website"><meta property="og:url" content="https://blog.jln.co/tags/mobiledev/"><meta property="og:image" content="https://blog.jln.co/images/avatar.png"><meta property="og:updated_time" content="2016-12-11T21:27:45+00:00"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://blog.jln.co/images/avatar.png"><meta name=twitter:title content="mobiledev"><meta name=twitter:description content><link rel=canonical href=https://blog.jln.co/tags/mobiledev/><link href=https://blog.jln.co/tags/mobiledev/feed.xml rel=alternate type=application/rss+xml title="Le murmure de Julian"><link href=https://blog.jln.co/tags/mobiledev/feed.xml rel=feed type=application/rss+xml title="Le murmure de Julian"><meta name=HandheldFriendly content="True"><meta name=MobileOptimized content="320"><meta name=viewport content="width=device-width,initial-scale=1"><link rel=stylesheet href=/css/main.css><link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel=stylesheet type=text/css><meta http-equiv=cleartype content="on"><meta name=generator content="Hugo 0.73.0"><script src=/js/vendor/modernizr-2.6.2.custom.min.js></script><script async src=https://unpkg.com/mermaid@8.2.3/dist/mermaid.min.js></script><link rel="shortcut icon" href=/favicon.png></head><body id=post-index><nav id=dl-menu class=dl-menuwrapper role=navigation style=display:inline-block><button class=dl-trigger>Open Menu</button><ul class=dl-menu><li><a href=/>Home</a></li><li><a href=#>About</a><ul class=dl-submenu><li><img src=/images/avatar.png alt="Julian Shen's photo" class=author-photo><h4>Julian Shen</h4><p>Softward developer</p></li><li><a href=mailto:julianshen22@gmail.com><i class="fa fa-fw fa-envelope"></i>Email</a></li><li><a href=https://linkedin.com/in/julianshen><i class="fa fa-fw fa-linkedin"></i>LinkedIn</a></li><li><a href=https://github.com/julianshen><i class="fa fa-fw fa-github"></i>GitHub</a></li><li><a href=https://instagram.com/julianshen><i class="fa fa-fw fa-instagram"></i>Instagram</a></li></ul></li><li><a href=#>Posts</a><ul class=dl-submenu><li><a href=/post/>All Posts</a></li><li><a href=/tags/>All Tags</a></li></ul></li><li><a href=/></a></li></ul></nav><div class=entry-header><div class=header-title><div class=header-title-wrap><h1><a href=/ title="Go to the homepage">Le murmure de Julian</a></h1><h2>mobiledev</h2></div></div></div><div id=main role=main><article class=hentry><header><div class=entry-meta><span class="entry-date date published updated"><time datetime="2016-12-11 21:27:45 +0000 UTC"><a href=/Android-%E5%9C%A8Android-Studio%E5%8F%96%E5%BE%97certificate-fingerprints/>Dec 11, 2016</a></time></span>
-<span class=entry-reading-time><i class="fa fa-clock-o"></i>Reading time ~1 minute</span></div><h1 class=entry-title><a href=/Android-%E5%9C%A8Android-Studio%E5%8F%96%E5%BE%97certificate-fingerprints/ rel=bookmark title="[Android] 在Android Studio取得certificate fingerprints" itemprop=url>[Android] 在Android Studio取得certificate fingerprints</a></h1></header><div class=entry-content><p>在使用很多API服務像是Google的API或是Facebook的API, 常常會需要拿簽署APK的Key的signature登錄,
-取得這sigature的方法有很多種, 剛學到一種是直接可以從Android studio的Gardle選單內取得的, 方法如下:</p><p>Gradle->(Project name)->Tasks->singningReports</p><div style=position:relative;padding-bottom:56.25%;height:0;overflow:hidden><iframe src=https://www.youtube.com/embed/D1HwAnk49xU style=position:absolute;top:0;left:0;width:100%;height:100%;border:0 allowfullscreen title="YouTube Video"></iframe></div></div></article><article class=hentry><header><div class=entry-meta><span class="entry-date date published updated"><time datetime="2016-11-29 17:39:41 +0000 UTC"><a href=/Android-Firebase-WebRTC-on-Android/>Nov 29, 2016</a></time></span>
-<span class=entry-reading-time><i class="fa fa-clock-o"></i>Reading time ~7 minutes</span></div><h1 class=entry-title><a href=/Android-Firebase-WebRTC-on-Android/ rel=bookmark title="[Android] Firebase + WebRTC on Android" itemprop=url>[Android] Firebase + WebRTC on Android</a></h1></header><div class=entry-content><p><a href=https://webrtc.org/>WebRTC</a>是一個支援瀏覽器的即時影音對話的架構, 算是一個業界標(W3C,IETF), 最近由於想做一個有影音通話的應用, 就研究了一下這東西</p><p>如果只是想嘗試一下<a href=https://webrtc.org/>WebRTC</a>, 是可以直接是可以直接試<a href=https://appr.tc/>AppRTC</a>這個Google的範例, 不過這個是Web的版本, 我想要做的是
-手機的版本(Android, iOS), <a href=https://appr.tc/>AppRTC</a>其實也有Android的版本可搭配</p><p>為了熟悉一下整個用WebRTC建立video call的流程, 因此我就決定改一下這個Android版本, 原本Google的版本是透過Web Socket</p><p>至於流程與架構我會建議看這影片:</p><div style=position:relative;padding-bottom:56.25%;height:0;overflow:hidden><iframe src=https://www.youtube.com/embed/HS1eKPL4f1o style=position:absolute;top:0;left:0;width:100%;height:100%;border:0 allowfullscreen title="YouTube Video"></iframe></div><p>如果不想看太長, 就看這個:</p><div style=position:relative;padding-bottom:56.25%;height:0;overflow:hidden><iframe src=https://www.youtube.com/embed/nDPlGcoArdM style=position:absolute;top:0;left:0;width:100%;height:100%;border:0 allowfullscreen title="YouTube Video"></iframe></div><p>把Web RTC那段換成Firebase(好, 其實我蠻後悔選Firebase來實作的)其實就是把Signaling這段給換掉, 而這段流程是(節錄自影片):</p><p><img src=/images/posts/webrtc.png alt></p><p>這部分其實就是交換兩邊的SDP和ICE candidate的過程, 詳細可以參考<a href=http://blog.mozilla.com.tw/posts/3261/webrtc-%E7%9B%B8%E9%97%9C%E7%B8%AE%E5%AF%AB%E5%90%8D%E8%A9%9E%E7%B0%A1%E4%BB%8B>這邊:WebRTC 相關縮寫名詞簡介</a></p><p>結果的source code放在<a href=https://github.com/julianshen/apprtc-android-demo>這邊 : apprtc-android-demo</a></p><h3 id=building-webrtc-lib-on-android->Building WebRTC lib on Android</h3><p>其實現在寫WebRTC的應用的話, 也不用從頭實作, Google老早就把它實作在<a href=http://chromium.org>Chromium</a>裡面了, 也可以單獨build出library用</p><p>這邊有官方的<a href=https://webrtc.org/native-code/android/>如何建置出Android版本的Web RTC library</a>, 不過, 不要照著這份文件做呀, 不然頭髮會白好幾根, 可能還build不太起來,
+<!doctype html><!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=en><![endif]--><!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang=en><![endif]--><!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang=en><![endif]--><!--[if gt IE 8]><!--><html class=no-js lang=en><!--<![endif]-->
+<head>
+<meta charset=utf-8>
+<title>mobiledev &#8211; Le murmure de Julian</title>
+<meta name=description content>
+<meta property="og:title" content="mobiledev">
+<meta property="og:description" content>
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://blog.jln.co/tags/mobiledev/"><meta property="og:image" content="https://blog.jln.co/images/avatar.png">
+<meta name=twitter:card content="summary_large_image">
+<meta name=twitter:image content="https://blog.jln.co/images/avatar.png">
+<meta name=twitter:title content="mobiledev">
+<meta name=twitter:description content>
+<link rel=canonical href=https://blog.jln.co/tags/mobiledev/>
+<link href=https://blog.jln.co/tags/mobiledev/feed.xml rel=alternate type=application/rss+xml title="Le murmure de Julian">
+<link href=https://blog.jln.co/tags/mobiledev/feed.xml rel=feed type=application/rss+xml title="Le murmure de Julian">
+<meta name=HandheldFriendly content="True">
+<meta name=MobileOptimized content="320">
+<meta name=viewport content="width=device-width,initial-scale=1">
+<link rel=stylesheet href=/css/main.css>
+<link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel=stylesheet type=text/css>
+<meta http-equiv=cleartype content="on">
+<meta name=generator content="Hugo 0.86.0">
+<script src=/js/vendor/modernizr-2.6.2.custom.min.js></script>
+<script async src=https://unpkg.com/mermaid@8.2.3/dist/mermaid.min.js></script>
+<link rel="shortcut icon" href=/favicon.png>
+</head>
+<body id=post-index>
+<nav id=dl-menu class=dl-menuwrapper role=navigation style=display:inline-block>
+<button class=dl-trigger>Open Menu</button>
+<ul class=dl-menu>
+<li><a href=/>Home</a></li>
+<li>
+<a href=#>About</a>
+<ul class=dl-submenu>
+<li>
+<img src=/images/avatar.png alt="Julian Shen's photo" class=author-photo>
+<h4>Julian Shen</h4>
+<p>Softward developer</p>
+</li>
+<li>
+<a href=mailto:julianshen22@gmail.com><i class="fa fa-fw fa-envelope"></i> Email</a>
+</li>
+<li>
+<a href=https://linkedin.com/in/julianshen><i class="fa fa-fw fa-linkedin"></i> LinkedIn</a>
+</li>
+<li>
+<a href=https://github.com/julianshen><i class="fa fa-fw fa-github"></i> GitHub</a>
+</li>
+<li>
+<a href=https://instagram.com/julianshen><i class="fa fa-fw fa-instagram"></i> Instagram</a>
+</li>
+</ul>
+</li>
+<li>
+<a href=#>Posts</a>
+<ul class=dl-submenu>
+<li><a href=/post/>All Posts</a></li>
+<li><a href=/tags/>All Tags</a></li>
+</ul>
+</li>
+<li><a href=/></a></li>
+</ul>
+</nav>
+<div class=entry-header>
+<div class=header-title>
+<div class=header-title-wrap>
+<h1><a href=/ title="Go to the homepage">Le murmure de Julian</a></h1>
+<h2>
+mobiledev
+</h2>
+</div>
+</div>
+</div>
+<div id=main role=main>
+<article class=hentry>
+<header>
+<div class=entry-meta>
+<span class="entry-date date published updated"><time datetime="2016-12-11 21:27:45 +0000 UTC"><a href=/Android-%E5%9C%A8Android-Studio%E5%8F%96%E5%BE%97certificate-fingerprints/>Dec 11, 2016</a></time></span>
+<span class=entry-reading-time>
+<i class="fa fa-clock-o"></i>
+Reading time ~1 minute
+</span>
+</div>
+<h1 class=entry-title><a href=/Android-%E5%9C%A8Android-Studio%E5%8F%96%E5%BE%97certificate-fingerprints/ rel=bookmark title="[Android] 在Android Studio取得certificate fingerprints" itemprop=url>[Android] 在Android Studio取得certificate fingerprints</a></h1>
+</header>
+<div class=entry-content>
+<p>在使用很多API服務像是Google的API或是Facebook的API, 常常會需要拿簽署APK的Key的signature登錄,
+取得這sigature的方法有很多種, 剛學到一種是直接可以從Android studio的Gardle選單內取得的, 方法如下:</p>
+<p>Gradle->(Project name)->Tasks->singningReports</p>
+<div style=position:relative;padding-bottom:56.25%;height:0;overflow:hidden>
+<iframe src=https://www.youtube.com/embed/D1HwAnk49xU style=position:absolute;top:0;left:0;width:100%;height:100%;border:0 allowfullscreen title="YouTube Video"></iframe>
+</div>
+</div>
+</article>
+<article class=hentry>
+<header>
+<div class=entry-meta>
+<span class="entry-date date published updated"><time datetime="2016-11-29 17:39:41 +0000 UTC"><a href=/Android-Firebase-WebRTC-on-Android/>Nov 29, 2016</a></time></span>
+<span class=entry-reading-time>
+<i class="fa fa-clock-o"></i>
+Reading time ~7 minutes
+</span>
+</div>
+<h1 class=entry-title><a href=/Android-Firebase-WebRTC-on-Android/ rel=bookmark title="[Android] Firebase + WebRTC on Android" itemprop=url>[Android] Firebase + WebRTC on Android</a></h1>
+</header>
+<div class=entry-content>
+<p><a href=https://webrtc.org/>WebRTC</a>是一個支援瀏覽器的即時影音對話的架構, 算是一個業界標(W3C,IETF), 最近由於想做一個有影音通話的應用, 就研究了一下這東西</p>
+<p>如果只是想嘗試一下<a href=https://webrtc.org/>WebRTC</a>, 是可以直接是可以直接試<a href=https://appr.tc/>AppRTC</a>這個Google的範例, 不過這個是Web的版本, 我想要做的是
+手機的版本(Android, iOS), <a href=https://appr.tc/>AppRTC</a>其實也有Android的版本可搭配</p>
+<p>為了熟悉一下整個用WebRTC建立video call的流程, 因此我就決定改一下這個Android版本, 原本Google的版本是透過Web Socket</p>
+<p>至於流程與架構我會建議看這影片:</p>
+<div style=position:relative;padding-bottom:56.25%;height:0;overflow:hidden>
+<iframe src=https://www.youtube.com/embed/HS1eKPL4f1o style=position:absolute;top:0;left:0;width:100%;height:100%;border:0 allowfullscreen title="YouTube Video"></iframe>
+</div>
+<p>如果不想看太長, 就看這個:</p>
+<div style=position:relative;padding-bottom:56.25%;height:0;overflow:hidden>
+<iframe src=https://www.youtube.com/embed/nDPlGcoArdM style=position:absolute;top:0;left:0;width:100%;height:100%;border:0 allowfullscreen title="YouTube Video"></iframe>
+</div>
+<p>把Web RTC那段換成Firebase(好, 其實我蠻後悔選Firebase來實作的)其實就是把Signaling這段給換掉, 而這段流程是(節錄自影片):</p>
+<p><img src=/images/posts/webrtc.png alt></p>
+<p>這部分其實就是交換兩邊的SDP和ICE candidate的過程, 詳細可以參考<a href=http://blog.mozilla.com.tw/posts/3261/webrtc-%E7%9B%B8%E9%97%9C%E7%B8%AE%E5%AF%AB%E5%90%8D%E8%A9%9E%E7%B0%A1%E4%BB%8B>這邊:WebRTC 相關縮寫名詞簡介</a></p>
+<p>結果的source code放在<a href=https://github.com/julianshen/apprtc-android-demo>這邊 : apprtc-android-demo</a></p>
+<h3 id=building-webrtc-lib-on-android>Building WebRTC lib on Android</h3>
+<p>其實現在寫WebRTC的應用的話, 也不用從頭實作, Google老早就把它實作在<a href=http://chromium.org>Chromium</a>裡面了, 也可以單獨build出library用</p>
+<p>這邊有官方的<a href=https://webrtc.org/native-code/android/>如何建置出Android版本的Web RTC library</a>, 不過, 不要照著這份文件做呀, 不然頭髮會白好幾根, 可能還build不太起來,
 找了一堆網路上人家的建議也都是不要直接build, 直接用人家build好現成的, 不過, 現成的雖然有一些, 但大多是過時的, API跟現今的也不太一樣, 如果
-要套用到現在的Android版本AppRTC的source code內, 大多都沒辦法用</p><p>所幸找到這個<a href=https://github.com/pristineio/webrtc-build-scripts/tree/master/android>build script: pristineio/webrtc-build-scripts</a>,
-這個從下載最新的source code到build出library一律包辦, 用法也很簡單, 只要執行下面的:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>source android/build.sh
+要套用到現在的Android版本AppRTC的source code內, 大多都沒辦法用</p>
+<p>所幸找到這個<a href=https://github.com/pristineio/webrtc-build-scripts/tree/master/android>build script: pristineio/webrtc-build-scripts</a>,
+這個從下載最新的source code到build出library一律包辦, 用法也很簡單, 只要執行下面的:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>source android/build.sh
 install_dependencies
 get_webrtc
 build_apprtc
 </code></pre></div><p>簡單明暸, 但&mldr;有幾個問題, 第一個是只能在Linux下build, 因此在Mac跟Windows下要透過<a href=https://www.vagrantup.com/>Vagrant</a>這類的工具,
 而且對硬體需求也很高, 我的2012年中版的Macbook Pro retina實在是跑不動, 後來跑去Digital Ocean租了台VM來build, 本以為最便宜的可以勝任,
-後來發現, 至少要4G RAM, 硬碟要20G以上的instance(哭哭, 浪費好多時間)</p><p>build出來後, 所需要的東西包含了libjingle_peerconnection.jar和libjingle_peerconnection_so.so, 把這幾個備份起來就是了, 待會build apk需要用</p><h3 id=apprtc-範例的android-source-codes->AppRTC 範例的Android source codes</h3><p>Android的範例的source codes<a href=https://chromium.googlesource.com/external/webrtc/+/master/webrtc/examples/androidapp/>可以在這邊下載</a></p><p>不過這並不是Android studio的project格式, 因此需要用匯入的方式, 或是可以直接fork<a href=https://github.com/julianshen/apprtc-android-demo>我的版本</a>去改,
+後來發現, 至少要4G RAM, 硬碟要20G以上的instance(哭哭, 浪費好多時間)</p>
+<p>build出來後, 所需要的東西包含了libjingle_peerconnection.jar和libjingle_peerconnection_so.so, 把這幾個備份起來就是了, 待會build apk需要用</p>
+<h3 id=apprtc-範例的android-source-codes>AppRTC 範例的Android source codes</h3>
+<p>Android的範例的source codes<a href=https://chromium.googlesource.com/external/webrtc/+/master/webrtc/examples/androidapp/>可以在這邊下載</a></p>
+<p>不過這並不是Android studio的project格式, 因此需要用匯入的方式, 或是可以直接fork<a href=https://github.com/julianshen/apprtc-android-demo>我的版本</a>去改,
 由於原本的版本使用了Web socket做singaling的管道, 因此需要<a href=http://autobahn.ws/>Autobahn</a>, 但你切記絕對不能用<a href=http://autobahn.ws/>Autobahn</a>官方最新的jar檔,
 而是要用Google放在third_party裡面那個autobanh.jar(啊, 我到現在才發現名字有些許不同), 這邊的差異是, 原本<a href=http://autobahn.ws/>Autobahn</a>是沒有支援SSL的websocket的,
-但AppRTC的websocket則是要透過SSL來連接</p><p>把jar跟so檔放到對應的目錄去後, 記得改一下app目錄下的build.gradle加入 (因為import產生的不會幫你加):</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-gradle data-lang=gradle>dependencies <span style=color:#f92672>{</span>
+但AppRTC的websocket則是要透過SSL來連接</p>
+<p>把jar跟so檔放到對應的目錄去後, 記得改一下app目錄下的build.gradle加入 (因為import產生的不會幫你加):</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-gradle data-lang=gradle>dependencies <span style=color:#f92672>{</span>
     compile <span style=color:#a6e22e>fileTree</span><span style=color:#f92672>(</span>dir: <span style=color:#e6db74>&#39;libs&#39;</span><span style=color:#f92672>,</span> include: <span style=color:#f92672>[</span><span style=color:#e6db74>&#39;*.jar&#39;</span><span style=color:#f92672>])</span>
 <span style=color:#f92672>}</span>
-</code></pre></div><h3 id=加上firebase->加上firebase</h3><p>除了原本的Webcoket和Direct connect兩種方式外, 為了跑一次他的流程我多加了Firebase的部分, 利用它的realtime database來做Signaling這部分,
-至於怎樣開始開發firebase, 就參考一下他的<a href=https://firebase.google.com/docs/database/android/start/>官方文件</a>吧</p><h3 id=signaling的實作->Signaling的實作</h3><h4 id=callactivity->CallActivity</h4><p>選擇哪種signaling的方式是在CallActivity裡面依據roomId來看使用哪一個signaling client, 程式碼如下:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>    <span style=color:#75715e>// Create connection client. Use DirectRTCClient if room name is an IP otherwise use the
+</code></pre></div><h3 id=加上firebase>加上firebase</h3>
+<p>除了原本的Webcoket和Direct connect兩種方式外, 為了跑一次他的流程我多加了Firebase的部分, 利用它的realtime database來做Signaling這部分,
+至於怎樣開始開發firebase, 就參考一下他的<a href=https://firebase.google.com/docs/database/android/start/>官方文件</a>吧</p>
+<h3 id=signaling的實作>Signaling的實作</h3>
+<h4 id=callactivity>CallActivity</h4>
+<p>選擇哪種signaling的方式是在CallActivity裡面依據roomId來看使用哪一個signaling client, 程式碼如下:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>    <span style=color:#75715e>// Create connection client. Use DirectRTCClient if room name is an IP otherwise use the
 </span><span style=color:#75715e></span>    <span style=color:#75715e>// standard WebSocketRTCClient.
 </span><span style=color:#75715e></span>    <span style=color:#66d9ef>if</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;firebase&#34;</span><span style=color:#f92672>.</span><span style=color:#a6e22e>equals</span><span style=color:#f92672>(</span>roomId<span style=color:#f92672>))</span> <span style=color:#f92672>{</span>
       Log<span style=color:#f92672>.</span><span style=color:#a6e22e>d</span><span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;firebase&#34;</span><span style=color:#f92672>);</span>
@@ -29,7 +163,11 @@ build_apprtc
       Log<span style=color:#f92672>.</span><span style=color:#a6e22e>i</span><span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;Using DirectRTCClient because room name looks like an IP.&#34;</span><span style=color:#f92672>);</span>
       appRtcClient <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> DirectRTCClient<span style=color:#f92672>(</span><span style=color:#66d9ef>this</span><span style=color:#f92672>);</span>
     <span style=color:#f92672>}</span>
-</code></pre></div><p>原本有WebSocketRTCClient和DirectRTCClient, 如果是IP的話就用DirectRTCClient,這邊我多加一個FirebaseRTCClient, 只要roomId是firebase就會使用這個(我偷懶)</p><h4 id=firebasertcclient->FirebaseRTCClient</h4><p>XXXRTCClient這部分實作了signaling的部分, 因此我參考了WebSocketRTCClient和DirectRTCClient的內容來寫FirebaseRTCClient</p><p>跟WebSocketRTCClinet一樣, 它必須實作AppRTCClient, AppRTCClient這個Interface定義如下:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#75715e>/**
+</code></pre></div><p>原本有WebSocketRTCClient和DirectRTCClient, 如果是IP的話就用DirectRTCClient,這邊我多加一個FirebaseRTCClient, 只要roomId是firebase就會使用這個(我偷懶)</p>
+<h4 id=firebasertcclient>FirebaseRTCClient</h4>
+<p>XXXRTCClient這部分實作了signaling的部分, 因此我參考了WebSocketRTCClient和DirectRTCClient的內容來寫FirebaseRTCClient</p>
+<p>跟WebSocketRTCClinet一樣, 它必須實作AppRTCClient, AppRTCClient這個Interface定義如下:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#75715e>/**
 </span><span style=color:#75715e> * AppRTCClient is the interface representing an AppRTC client.
 </span><span style=color:#75715e> */</span>
 <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>interface</span> <span style=color:#a6e22e>AppRTCClient</span> <span style=color:#f92672>{</span>
@@ -144,10 +282,15 @@ build_apprtc
 <span style=color:#f92672>}</span>
 </code></pre></div><p>主要就是定義了如何處理connect, disconnect, 還有怎麼去註冊SDP和ICE candidate, 在確定好連接成功後, AppRTCClient要負責呼叫onConnectedToRoom來通知
 CallActivity已經可以準備建立video call的後續流程, 且要負責處理如果Signal server(這邊是firebase)有傳來遠端的SDP跟ICE candidate, 要負責呼叫SignalingEvents對應的處理
-(這邊一樣會叫到CallActivity, 而CallActivity則會使用PeerConnectionClient來處理需要傳遞給PeerConnection相關的參數)</p><p>這邊用Firebase處理Signaling的方式是監聽某一個key的改變, 有新的裝置連接, 註冊SDP, ICE Candidate, 就寫到這下面去, 這其實不是一個很好的方式,
-因為這下面只要有值的改變, 就會觸發, 不像是WebSocket那個版本是一來一往的API calls, 而且你不知道每次觸發被更動的是哪一部分, 一開始發生了好幾次PeerConnection重複註冊SDP才讓我發現因為這原因被重複呼叫的問題</p><h3 id=turn-server->TURN server</h3><p>WebRTC是P2P的, 因此如果不具備穿牆能力的話, 在牆外就會被擋掉, 一開始我本來想說試驗P2P而不走TURN Server穿牆的(因為我一時也懶得架一台), 結果測試時老是連不上, 後來才發現我阿呆,
-我的測試環境是一台實體手機, 另一台是電腦上跑模擬器, 本以為兩個(手機, 電腦)是同一個區網沒問題, 後來才想到模擬器是在另一個虛擬網路, 因此還是有需要TURN server</p><p>如果不想架一台, 要怎辦? 用Google免錢的, 他們做了這個demo, 一定有! 因此就偷看了一下WebRTCClient的code跟傳輸內容,發現它跟https://networktraversal.googleapis.com/v1alpha/iceconfig?key=AIzaSyAJdh2HkajseEIltlZ3SIXO02Tze9sO3NY
-去要TURN server list, 所以基本上只要照copy下面這段就好:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>   <span style=color:#66d9ef>private</span> LinkedList<span style=color:#f92672>&lt;</span>PeerConnection<span style=color:#f92672>.</span><span style=color:#a6e22e>IceServer</span><span style=color:#f92672>&gt;</span> <span style=color:#a6e22e>requestTurnServers</span><span style=color:#f92672>(</span>String url<span style=color:#f92672>)</span>
+(這邊一樣會叫到CallActivity, 而CallActivity則會使用PeerConnectionClient來處理需要傳遞給PeerConnection相關的參數)</p>
+<p>這邊用Firebase處理Signaling的方式是監聽某一個key的改變, 有新的裝置連接, 註冊SDP, ICE Candidate, 就寫到這下面去, 這其實不是一個很好的方式,
+因為這下面只要有值的改變, 就會觸發, 不像是WebSocket那個版本是一來一往的API calls, 而且你不知道每次觸發被更動的是哪一部分, 一開始發生了好幾次PeerConnection重複註冊SDP才讓我發現因為這原因被重複呼叫的問題</p>
+<h3 id=turn-server>TURN server</h3>
+<p>WebRTC是P2P的, 因此如果不具備穿牆能力的話, 在牆外就會被擋掉, 一開始我本來想說試驗P2P而不走TURN Server穿牆的(因為我一時也懶得架一台), 結果測試時老是連不上, 後來才發現我阿呆,
+我的測試環境是一台實體手機, 另一台是電腦上跑模擬器, 本以為兩個(手機, 電腦)是同一個區網沒問題, 後來才想到模擬器是在另一個虛擬網路, 因此還是有需要TURN server</p>
+<p>如果不想架一台, 要怎辦? 用Google免錢的, 他們做了這個demo, 一定有! 因此就偷看了一下WebRTCClient的code跟傳輸內容,發現它跟https://networktraversal.googleapis.com/v1alpha/iceconfig?key=AIzaSyAJdh2HkajseEIltlZ3SIXO02Tze9sO3NY
+去要TURN server list, 所以基本上只要照copy下面這段就好:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>   <span style=color:#66d9ef>private</span> LinkedList<span style=color:#f92672>&lt;</span>PeerConnection<span style=color:#f92672>.</span><span style=color:#a6e22e>IceServer</span><span style=color:#f92672>&gt;</span> <span style=color:#a6e22e>requestTurnServers</span><span style=color:#f92672>(</span>String url<span style=color:#f92672>)</span>
             <span style=color:#66d9ef>throws</span> IOException<span style=color:#f92672>,</span> JSONException <span style=color:#f92672>{</span>
         LinkedList<span style=color:#f92672>&lt;</span>PeerConnection<span style=color:#f92672>.</span><span style=color:#a6e22e>IceServer</span><span style=color:#f92672>&gt;</span> turnServers <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> LinkedList<span style=color:#f92672>&lt;</span>PeerConnection<span style=color:#f92672>.</span><span style=color:#a6e22e>IceServer</span><span style=color:#f92672>&gt;();</span>
         Log<span style=color:#f92672>.</span><span style=color:#a6e22e>d</span><span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;Request TURN from: &#34;</span> <span style=color:#f92672>+</span> url<span style=color:#f92672>);</span>
@@ -185,14 +328,47 @@ CallActivity已經可以準備建立video call的後續流程, 且要負責處�
         Scanner s <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> Scanner<span style=color:#f92672>(</span>in<span style=color:#f92672>).</span><span style=color:#a6e22e>useDelimiter</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;\\A&#34;</span><span style=color:#f92672>);</span>
         <span style=color:#66d9ef>return</span> s<span style=color:#f92672>.</span><span style=color:#a6e22e>hasNext</span><span style=color:#f92672>()</span> <span style=color:#f92672>?</span> s<span style=color:#f92672>.</span><span style=color:#a6e22e>next</span><span style=color:#f92672>()</span> <span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;&#34;</span><span style=color:#f92672>;</span>
     <span style=color:#f92672>}</span>
-</code></pre></div><p>把這邊拿來的list當ICE candidate, 就可以成功透過Google的TURN server去穿牆了(長久之計還是自己架一台吧)</p></div></article><article class=hentry><header><div class=entry-meta><span class="entry-date date published updated"><time datetime="2016-10-07 23:10:04 +0000 UTC"><a href=/%E7%AD%86%E8%A8%98ios%E9%96%8B%E7%99%BC-%E4%BD%BF%E7%94%A8MapKit%E5%81%9A%E4%B8%80%E5%80%8B%E7%B0%A1%E5%96%AE%E7%9A%84%E9%A3%9B%E8%A1%8C%E5%8B%95%E7%95%AB/>Oct 7, 2016</a></time></span>
-<span class=entry-reading-time><i class="fa fa-clock-o"></i>Reading time ~3 minutes</span></div><h1 class=entry-title><a href=/%E7%AD%86%E8%A8%98ios%E9%96%8B%E7%99%BC-%E4%BD%BF%E7%94%A8MapKit%E5%81%9A%E4%B8%80%E5%80%8B%E7%B0%A1%E5%96%AE%E7%9A%84%E9%A3%9B%E8%A1%8C%E5%8B%95%E7%95%AB/ rel=bookmark title="[筆記][ios開發] 使用MapKit做一個簡單的飛行動畫" itemprop=url>[筆記][ios開發] 使用MapKit做一個簡單的飛行動畫</a></h1></header><div class=entry-content><p>小時候很喜歡Indiana Jones系列的電影, 對於它裡面的地圖片段也一直覺得很有趣</p><div style=position:relative;padding-bottom:56.25%;height:0;overflow:hidden><iframe src=https://www.youtube.com/embed/FhoPTyMUgX0 style=position:absolute;top:0;left:0;width:100%;height:100%;border:0 allowfullscreen title="YouTube Video"></iframe></div><p>如果這樣的動畫, 用在遊記類的blog上, 應該也蠻酷的, 但好像也沒一個比較好的工具, 因此想說用MapKit來實作一個試試</p><h3 id=功能需求>功能需求</h3><p>先來定義一個簡單的功能需求</p><ol><li>在起點跟終點畫一條連結線</li><li>一架飛機延這條線飛到終點</li><li>地圖視角跟著飛機走</li></ol><h3 id=實作>實作</h3><h4 id=在起點跟終點畫一條連結線>在起點跟終點畫一條連結線</h4><p>這部份要用到MKGeodesicPolyline, 給它兩個點, 它就會自動連結成一條線, 但這條線並不是完美的直線, 因為地球表面是曲面的, 所以它是一條弧線</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-swift data-lang=swift><span style=color:#66d9ef>let</span> coords = [start, end]
+</code></pre></div><p>把這邊拿來的list當ICE candidate, 就可以成功透過Google的TURN server去穿牆了(長久之計還是自己架一台吧)</p>
+</div>
+</article>
+<article class=hentry>
+<header>
+<div class=entry-meta>
+<span class="entry-date date published updated"><time datetime="2016-10-07 23:10:04 +0000 UTC"><a href=/%E7%AD%86%E8%A8%98ios%E9%96%8B%E7%99%BC-%E4%BD%BF%E7%94%A8MapKit%E5%81%9A%E4%B8%80%E5%80%8B%E7%B0%A1%E5%96%AE%E7%9A%84%E9%A3%9B%E8%A1%8C%E5%8B%95%E7%95%AB/>Oct 7, 2016</a></time></span>
+<span class=entry-reading-time>
+<i class="fa fa-clock-o"></i>
+Reading time ~3 minutes
+</span>
+</div>
+<h1 class=entry-title><a href=/%E7%AD%86%E8%A8%98ios%E9%96%8B%E7%99%BC-%E4%BD%BF%E7%94%A8MapKit%E5%81%9A%E4%B8%80%E5%80%8B%E7%B0%A1%E5%96%AE%E7%9A%84%E9%A3%9B%E8%A1%8C%E5%8B%95%E7%95%AB/ rel=bookmark title="[筆記][ios開發] 使用MapKit做一個簡單的飛行動畫" itemprop=url>[筆記][ios開發] 使用MapKit做一個簡單的飛行動畫</a></h1>
+</header>
+<div class=entry-content>
+<p>小時候很喜歡Indiana Jones系列的電影, 對於它裡面的地圖片段也一直覺得很有趣</p>
+<div style=position:relative;padding-bottom:56.25%;height:0;overflow:hidden>
+<iframe src=https://www.youtube.com/embed/FhoPTyMUgX0 style=position:absolute;top:0;left:0;width:100%;height:100%;border:0 allowfullscreen title="YouTube Video"></iframe>
+</div>
+<p>如果這樣的動畫, 用在遊記類的blog上, 應該也蠻酷的, 但好像也沒一個比較好的工具, 因此想說用MapKit來實作一個試試</p>
+<h3 id=功能需求>功能需求</h3>
+<p>先來定義一個簡單的功能需求</p>
+<ol>
+<li>在起點跟終點畫一條連結線</li>
+<li>一架飛機延這條線飛到終點</li>
+<li>地圖視角跟著飛機走</li>
+</ol>
+<h3 id=實作>實作</h3>
+<h4 id=在起點跟終點畫一條連結線>在起點跟終點畫一條連結線</h4>
+<p>這部份要用到MKGeodesicPolyline, 給它兩個點, 它就會自動連結成一條線, 但這條線並不是完美的直線, 因為地球表面是曲面的, 所以它是一條弧線</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-swift data-lang=swift><span style=color:#66d9ef>let</span> coords = [start, end]
 
 geodesicPolyline = MKGeodesicPolyline(coordinates: coords, count: <span style=color:#ae81ff>2</span>)
 
 print(geodesicPolyline!.pointCount)
 mapView.add(geodesicPolyline!)
-</code></pre></div><p>這邊coors只要給訂起始點跟終點的位置就好, 印出pointCount就會發現它把經由的點都補足了(實際上印出來的會多出2很多很多)</p><p>MKGeodesicPolyline裡的參數coordinates是一個UnsafeMutablePointer, 在Swift 3之前要寫成&coords, 但在Swift 3大改之後, &ldquo;&&ldquo;就不需要了</p><p>由於MKGeodesicPolyline是一個Overlay, 因此最後只需要用mapView.add (Swift 3之前是addOverlay)加入mapView就可以了, 但加入之後, 會發現, 這條線根本沒被畫出來, 那是因為少寫了一部分</p><p>在MapView裡面要畫出Overlay, 就必須要跟MapView說怎麼畫出這個Overlay, 這就要實作MKMapViewDelegate裡的mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay)</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-swift data-lang=swift><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>mapView</span>(<span style=color:#66d9ef>_</span> mapView: MKMapView, rendererFor overlay: MKOverlay) -&gt; MKOverlayRenderer {
+</code></pre></div><p>這邊coors只要給訂起始點跟終點的位置就好, 印出pointCount就會發現它把經由的點都補足了(實際上印出來的會多出2很多很多)</p>
+<p>MKGeodesicPolyline裡的參數coordinates是一個UnsafeMutablePointer, 在Swift 3之前要寫成&coords, 但在Swift 3大改之後, &ldquo;&&ldquo;就不需要了</p>
+<p>由於MKGeodesicPolyline是一個Overlay, 因此最後只需要用mapView.add (Swift 3之前是addOverlay)加入mapView就可以了, 但加入之後, 會發現, 這條線根本沒被畫出來, 那是因為少寫了一部分</p>
+<p>在MapView裡面要畫出Overlay, 就必須要跟MapView說怎麼畫出這個Overlay, 這就要實作MKMapViewDelegate裡的mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay)</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-swift data-lang=swift><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>mapView</span>(<span style=color:#66d9ef>_</span> mapView: MKMapView, rendererFor overlay: MKOverlay) -&gt; MKOverlayRenderer {
     <span style=color:#66d9ef>guard</span> <span style=color:#66d9ef>let</span> polyline = overlay <span style=color:#66d9ef>as</span>? MKPolyline <span style=color:#66d9ef>else</span> {
         <span style=color:#66d9ef>return</span> MKOverlayRenderer()
     }
@@ -204,11 +380,16 @@ mapView.add(geodesicPolyline!)
     
     <span style=color:#66d9ef>return</span> renderer
 }
-</code></pre></div><p>由於我們是要畫Poly line, 因此這邊回傳給它一個MKPolylineRenderer, 線寬是3.0, 線的顏色是藍色(alpha = 0.5)</p><p>這樣就可以很完美的畫出那條線了</p><h4 id=在地圖上畫出飛機>在地圖上畫出飛機</h4><p>這部份就要借重到MKPointAnnotation</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-swift data-lang=swift><span style=color:#66d9ef>let</span> thePlane = MKPointAnnotation()
+</code></pre></div><p>由於我們是要畫Poly line, 因此這邊回傳給它一個MKPolylineRenderer, 線寬是3.0, 線的顏色是藍色(alpha = 0.5)</p>
+<p>這樣就可以很完美的畫出那條線了</p>
+<h4 id=在地圖上畫出飛機>在地圖上畫出飛機</h4>
+<p>這部份就要借重到MKPointAnnotation</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-swift data-lang=swift><span style=color:#66d9ef>let</span> thePlane = MKPointAnnotation()
 thePlane.coordinate = start <span style=color:#75715e>//給定起始座標</span>
         
 mapView.addAnnotation(thePlane)
-</code></pre></div><p>一樣, 這邊如果沒告訴MapView怎畫這Annotation, 它是會用預設的取代, 因此我們一樣要去實作MKMapViewDelegate</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-swift data-lang=swift><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>mapView</span>(<span style=color:#66d9ef>_</span> mapView: MKMapView, viewFor annotation: MKAnnotation) -&gt; MKAnnotationView? {
+</code></pre></div><p>一樣, 這邊如果沒告訴MapView怎畫這Annotation, 它是會用預設的取代, 因此我們一樣要去實作MKMapViewDelegate</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-swift data-lang=swift><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>mapView</span>(<span style=color:#66d9ef>_</span> mapView: MKMapView, viewFor annotation: MKAnnotation) -&gt; MKAnnotationView? {
     <span style=color:#66d9ef>let</span> planeIdentifier = <span style=color:#e6db74>&#34;Plane&#34;</span>
     
     <span style=color:#66d9ef>let</span> annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: planeIdentifier)
@@ -218,10 +399,15 @@ mapView.addAnnotation(thePlane)
     
     <span style=color:#66d9ef>return</span> annotationView
 }
-</code></pre></div><p>這邊用一個UIImage來指定飛機的圖標</p><h4 id=地圖視角>地圖視角</h4><p>把飛機置於地圖正中央, 我們才看得到他, 因此, 需要設定可視的區域, 包含中心點跟範圍, 如下:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-swift data-lang=swift><span style=color:#66d9ef>let</span> span = MKCoordinateSpanMake(<span style=color:#ae81ff>8.0</span>, <span style=color:#ae81ff>8.0</span>)
+</code></pre></div><p>這邊用一個UIImage來指定飛機的圖標</p>
+<h4 id=地圖視角>地圖視角</h4>
+<p>把飛機置於地圖正中央, 我們才看得到他, 因此, 需要設定可視的區域, 包含中心點跟範圍, 如下:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-swift data-lang=swift><span style=color:#66d9ef>let</span> span = MKCoordinateSpanMake(<span style=color:#ae81ff>8.0</span>, <span style=color:#ae81ff>8.0</span>)
 <span style=color:#66d9ef>let</span> region1 = MKCoordinateRegion(center: start, span: span)
 <span style=color:#66d9ef>self</span>.mapView.setRegion(region1, animated: <span style=color:#66d9ef>true</span>)
-</code></pre></div><h4 id=沿著線飛>沿著線飛</h4><p>這時候要利用到 perform(#selector(updatePlane), with: self, afterDelay: 0.4) 讓它每隔0.4秒去更新一次飛機位置, 直到到終點為止, 當然也要一直更新region, 以讓飛機維持在正中央</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-swift data-lang=swift><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>updatePlane</span>() {
+</code></pre></div><h4 id=沿著線飛>沿著線飛</h4>
+<p>這時候要利用到 perform(#selector(updatePlane), with: self, afterDelay: 0.4) 讓它每隔0.4秒去更新一次飛機位置, 直到到終點為止, 當然也要一直更新region, 以讓飛機維持在正中央</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-swift data-lang=swift><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>updatePlane</span>() {
     planePositionIndex = planePositionIndex <span style=color:#f92672>+</span> step;
     
     <span style=color:#66d9ef>if</span> (planePositionIndex <span style=color:#f92672>&gt;=</span> geodesicPolyline!.pointCount)
@@ -240,8 +426,68 @@ mapView.addAnnotation(thePlane)
 
     perform(<span style=color:#66d9ef>#selector</span>(updatePlane), with: <span style=color:#66d9ef>self</span>, afterDelay: <span style=color:#ae81ff>0.4</span>)
 }
-</code></pre></div><h3 id=結果>結果</h3><div style=position:relative;padding-bottom:56.25%;height:0;overflow:hidden><iframe src=https://www.youtube.com/embed/GSAd1Vygkhw style=position:absolute;top:0;left:0;width:100%;height:100%;border:0 allowfullscreen title="YouTube Video"></iframe></div><p>這邊有幾個缺點尚待改進</p><ol><li>飛機閃爍</li><li>如果把可視區域範圍縮小, 或是位置更新過快, 就會造成地圖來不及載入的現象(可能需要預跑幾次將map tile載入cache內)</li><li>飛機頭永遠保持往上, 應該要朝著線方向轉</li></ol><h3 id=完整程式碼>完整程式碼</h3><script type=application/javascript src=https://gist.github.com/julianshen/229f4ac32b3893816bd7636b96fe6f7d.js></script></div></article><article class=hentry><header><div class=entry-meta><span class="entry-date date published updated"><time datetime="2016-09-18 22:41:43 +0000 UTC"><a href=/%E7%AD%86%E8%A8%98-%E4%B8%AD%E7%A7%8B%E9%80%A3%E5%81%87%E5%B0%8F%E5%AF%A6%E9%A9%97/>Sep 18, 2016</a></time></span>
-<span class=entry-reading-time><i class="fa fa-clock-o"></i>Reading time ~7 minutes</span></div><h1 class=entry-title><a href=/%E7%AD%86%E8%A8%98-%E4%B8%AD%E7%A7%8B%E9%80%A3%E5%81%87%E5%B0%8F%E5%AF%A6%E9%A9%97/ rel=bookmark title="[筆記] 中秋連假小實驗" itemprop=url>[筆記] 中秋連假小實驗</a></h1></header><div class=entry-content><p>最近直播蠻火紅的, 直播服務也不少, 連Facebook都做了直播功能, 最近也跟人聊了不少這方面的東西, 所以想說趁中秋連假來自己研究看看, 只是中秋節連假雖然多, 做的事情還真是不少, 看電影, 打球, 打電動, 看球的, 又碰上颱風天, 不過還是先搞個簡單的雛形唄</p><h3 id=相關應用->相關應用</h3><p>市面上有不少關於直播的應用, 應該說, 簡直是氾濫, 而且每一種人氣似乎都是很旺, 還不是很了解在旺啥的, 現在可能也不少人認為當個網紅就可以一炮而紅之類的</p><ul><li>Live.me<ul><li><img src=/images/posts/IMG_9517.PNG alt></li></ul></li><li>小米直播<ul><li><img src=/images/posts/IMG_9519.PNG alt></li><li><img src=/images/posts/IMG_9520.PNG alt></li></ul></li><li>17<ul><li><img src=/images/posts/IMG_9521.PNG alt></li><li><img src=/images/posts/IMG_9522.PNG alt></li></ul></li><li>麥卡貝<ul><li><img src=/images/posts/IMG_9523.PNG alt></li></ul></li></ul><p>這邊其實可以看出, 根本大同小異, 大多是賣肉&mldr;喔, 不是, 賣網紅, 後面故意舉了一個麥卡貝當例子, 它是稍微不一樣, 以賣直播節目像是運動比賽的轉播(嗚~~金鋒退休了). 而不是一般的UGC(User generated), 當然這邊也沒舉一般很流行的遊戲直播像是<a href=https://www.twitch.tv>Twitch</a>, 不過這類早已為大家所熟知了</p><p>不管是哪一種, 大部分的設計都是大同小異, 都是以單向直播為主, 輔以文字聊天室, 可以送個愛心或禮物, Facebook稍稍進階點, 會將直播過程錄製下來, 不只錄製節目, 還有過程中的互動, 不過大家都是蠻近似的</p><h3 id=基本原理->基本原理</h3><p>如果照以上的功能設計, 簡單的可以畫成兩個部分, 一個是直播串流(Video Stream)的部分, 一個則是聊天室的部分, 大致上的後端可以以這兩個為核心</p><p>關於直播串流的技術部分, Facebook 曾分享了一篇關於他們做直播串流經驗的文章:</p><p><a href=https://code.facebook.com/posts/1653074404941839/under-the-hood-broadcasting-live-video-to-millions/>Under the hood: Broadcasting live video to millions</a></p><p>從這邊可以了解到, 串流需要能夠支撐到非常多人同時觀賞, 網紅可能數百到數千, 像是蘋果的發表會, 或是Google I/O, WWDC 這種會議則可能是數萬到數十萬, 所以服務的高並發, 高流量是可以預期的, 架構上也要能夠承受這樣的強度, 簡化的畫起來應該像是這樣:</p><div class=mermaid>graph LR;
+</code></pre></div><h3 id=結果>結果</h3>
+<div style=position:relative;padding-bottom:56.25%;height:0;overflow:hidden>
+<iframe src=https://www.youtube.com/embed/GSAd1Vygkhw style=position:absolute;top:0;left:0;width:100%;height:100%;border:0 allowfullscreen title="YouTube Video"></iframe>
+</div>
+<p>這邊有幾個缺點尚待改進</p>
+<ol>
+<li>飛機閃爍</li>
+<li>如果把可視區域範圍縮小, 或是位置更新過快, 就會造成地圖來不及載入的現象(可能需要預跑幾次將map tile載入cache內)</li>
+<li>飛機頭永遠保持往上, 應該要朝著線方向轉</li>
+</ol>
+<h3 id=完整程式碼>完整程式碼</h3>
+<script type=application/javascript src=https://gist.github.com/julianshen/229f4ac32b3893816bd7636b96fe6f7d.js></script>
+</div>
+</article>
+<article class=hentry>
+<header>
+<div class=entry-meta>
+<span class="entry-date date published updated"><time datetime="2016-09-18 22:41:43 +0000 UTC"><a href=/%E7%AD%86%E8%A8%98-%E4%B8%AD%E7%A7%8B%E9%80%A3%E5%81%87%E5%B0%8F%E5%AF%A6%E9%A9%97/>Sep 18, 2016</a></time></span>
+<span class=entry-reading-time>
+<i class="fa fa-clock-o"></i>
+Reading time ~7 minutes
+</span>
+</div>
+<h1 class=entry-title><a href=/%E7%AD%86%E8%A8%98-%E4%B8%AD%E7%A7%8B%E9%80%A3%E5%81%87%E5%B0%8F%E5%AF%A6%E9%A9%97/ rel=bookmark title="[筆記] 中秋連假小實驗" itemprop=url>[筆記] 中秋連假小實驗</a></h1>
+</header>
+<div class=entry-content>
+<p>最近直播蠻火紅的, 直播服務也不少, 連Facebook都做了直播功能, 最近也跟人聊了不少這方面的東西, 所以想說趁中秋連假來自己研究看看, 只是中秋節連假雖然多, 做的事情還真是不少, 看電影, 打球, 打電動, 看球的, 又碰上颱風天, 不過還是先搞個簡單的雛形唄</p>
+<h3 id=相關應用>相關應用</h3>
+<p>市面上有不少關於直播的應用, 應該說, 簡直是氾濫, 而且每一種人氣似乎都是很旺, 還不是很了解在旺啥的, 現在可能也不少人認為當個網紅就可以一炮而紅之類的</p>
+<ul>
+<li>Live.me
+<ul>
+<li><img src=/images/posts/IMG_9517.PNG alt></li>
+</ul>
+</li>
+<li>小米直播
+<ul>
+<li><img src=/images/posts/IMG_9519.PNG alt></li>
+<li><img src=/images/posts/IMG_9520.PNG alt></li>
+</ul>
+</li>
+<li>17
+<ul>
+<li><img src=/images/posts/IMG_9521.PNG alt></li>
+<li><img src=/images/posts/IMG_9522.PNG alt></li>
+</ul>
+</li>
+<li>麥卡貝
+<ul>
+<li><img src=/images/posts/IMG_9523.PNG alt></li>
+</ul>
+</li>
+</ul>
+<p>這邊其實可以看出, 根本大同小異, 大多是賣肉&mldr;喔, 不是, 賣網紅, 後面故意舉了一個麥卡貝當例子, 它是稍微不一樣, 以賣直播節目像是運動比賽的轉播(嗚~~金鋒退休了). 而不是一般的UGC(User generated), 當然這邊也沒舉一般很流行的遊戲直播像是<a href=https://www.twitch.tv>Twitch</a>, 不過這類早已為大家所熟知了</p>
+<p>不管是哪一種, 大部分的設計都是大同小異, 都是以單向直播為主, 輔以文字聊天室, 可以送個愛心或禮物, Facebook稍稍進階點, 會將直播過程錄製下來, 不只錄製節目, 還有過程中的互動, 不過大家都是蠻近似的</p>
+<h3 id=基本原理>基本原理</h3>
+<p>如果照以上的功能設計, 簡單的可以畫成兩個部分, 一個是直播串流(Video Stream)的部分, 一個則是聊天室的部分, 大致上的後端可以以這兩個為核心</p>
+<p>關於直播串流的技術部分, Facebook 曾分享了一篇關於他們做直播串流經驗的文章:</p>
+<p><a href=https://code.facebook.com/posts/1653074404941839/under-the-hood-broadcasting-live-video-to-millions/>Under the hood: Broadcasting live video to millions</a></p>
+<p>從這邊可以了解到, 串流需要能夠支撐到非常多人同時觀賞, 網紅可能數百到數千, 像是蘋果的發表會, 或是Google I/O, WWDC 這種會議則可能是數萬到數十萬, 所以服務的高並發, 高流量是可以預期的, 架構上也要能夠承受這樣的強度, 簡化的畫起來應該像是這樣:</p>
+<div class=mermaid>
+graph LR;
 C[Client]--publish-->M[Media Server];
 M--forward-->E(Edge Server);
 M--forward-->E2(Edge Server);
@@ -253,7 +499,21 @@ E2-->V4(Viewer);
 E3-->CDN;
 CDN-->V5(Viewer);
 CDN-->V6(Viewer);
-CDN-->V7(Viewer);</div><p>Viewer不直接從Media Server取串流內容是考量到Media server通常要接收多個Client發佈的串流, 一個假設性的想法是, 對於UGC(User generated content), 主播應該遠少於觀眾, 假設就算一個服務可以吸引到百萬級別的觀眾, 同時線上的主播應該了不起是幾千個而已, 即便如此, Media server本身從Client接收發布的串流資料後, 可能還需要做轉碼(transcoding), 和轉送的動作, 尤其是轉碼是較為耗CPU資源的工作, 如果把主播跟觀眾放在同一個伺服器上, 除了影響品質外, 也會不方便擴充, 因此減少Media server上的"觀眾&rdquo;(讓觀眾只是其他少數的edge servers), 便可以在觀眾增加時相對好擴充容量(增加edge的數量)</p><p>但大部分的狀況來說, 每個直播的觀眾不一定是非常大量, 在Facebook那篇文章內也有提到, 在小量觀眾的狀況下, 分流到多個edge的效率應該就沒那麼的好了, 反而這時候放在同一台server減少延遲會是更好的選擇</p><p>串流的通訊協定有不少, 像是<a href=https://en.wikipedia.org/wiki/Real-time_Transport_Protocol>RTP</a>, <a href=https://en.wikipedia.org/wiki/Real_Time_Streaming_Protocol>RTSP</a>, <a href=https://en.wikipedia.org/wiki/Real-Time_Messaging_Protocol>RTMP</a>, <a href=https://en.wikipedia.org/wiki/HTTP_Live_Streaming>HLS</a>, <a href=https://webrtc.org>WebRTC</a>等等, Facebook那篇文章主要提到的是<a href=https://en.wikipedia.org/wiki/Real-Time_Messaging_Protocol>RTMP</a>, <a href=https://en.wikipedia.org/wiki/HTTP_Live_Streaming>HLS</a>, 查了一下資料, 似乎這兩個也是目前比較主流做直播用的, 雖然WebRTC被討論的也蠻多的, 但似乎比較沒被應用在大量的直播, RTMP跟HLS都是可以透過HTTP來做傳輸(RTMP需要做封裝 - RTMPT), 讓他們具有穿越防火牆的優勢, 而HLS是以檔案為基礎的, 所以適合用一般的CDN來做快取, 在做大量的直播優勢較大, 缺點是延遲太長了, 但這兩者其實也是可以合併使用的, 在小群體時用RTMP, 等觀眾成長到一定數量實再導流到HLS去</p><h3 id=proof-of-concept-的初步想法與簡單的設計->Proof of concept 的初步想法與簡單的設計</h3><p>幾個初步的想法</p><ol><li>直播 = live stream + chat room</li><li>現在直播應用很多, 所以應該不少現成的open source解決方案可以套用, POC可以從這些東西下手, 不用重造輪子</li><li>需求: Client發布直播後, Viewer可以知道現在有誰在直播並觀看, 並可以透過訊息聊天</li></ol><p><strong>發布</strong></p><div class=mermaid>sequenceDiagram
+CDN-->V7(Viewer);
+</div>
+<p>Viewer不直接從Media Server取串流內容是考量到Media server通常要接收多個Client發佈的串流, 一個假設性的想法是, 對於UGC(User generated content), 主播應該遠少於觀眾, 假設就算一個服務可以吸引到百萬級別的觀眾, 同時線上的主播應該了不起是幾千個而已, 即便如此, Media server本身從Client接收發布的串流資料後, 可能還需要做轉碼(transcoding), 和轉送的動作, 尤其是轉碼是較為耗CPU資源的工作, 如果把主播跟觀眾放在同一個伺服器上, 除了影響品質外, 也會不方便擴充, 因此減少Media server上的"觀眾"(讓觀眾只是其他少數的edge servers), 便可以在觀眾增加時相對好擴充容量(增加edge的數量)</p>
+<p>但大部分的狀況來說, 每個直播的觀眾不一定是非常大量, 在Facebook那篇文章內也有提到, 在小量觀眾的狀況下, 分流到多個edge的效率應該就沒那麼的好了, 反而這時候放在同一台server減少延遲會是更好的選擇</p>
+<p>串流的通訊協定有不少, 像是<a href=https://en.wikipedia.org/wiki/Real-time_Transport_Protocol>RTP</a>, <a href=https://en.wikipedia.org/wiki/Real_Time_Streaming_Protocol>RTSP</a>, <a href=https://en.wikipedia.org/wiki/Real-Time_Messaging_Protocol>RTMP</a>, <a href=https://en.wikipedia.org/wiki/HTTP_Live_Streaming>HLS</a>, <a href=https://webrtc.org>WebRTC</a>等等, Facebook那篇文章主要提到的是<a href=https://en.wikipedia.org/wiki/Real-Time_Messaging_Protocol>RTMP</a>, <a href=https://en.wikipedia.org/wiki/HTTP_Live_Streaming>HLS</a>, 查了一下資料, 似乎這兩個也是目前比較主流做直播用的, 雖然WebRTC被討論的也蠻多的, 但似乎比較沒被應用在大量的直播, RTMP跟HLS都是可以透過HTTP來做傳輸(RTMP需要做封裝 - RTMPT), 讓他們具有穿越防火牆的優勢, 而HLS是以檔案為基礎的, 所以適合用一般的CDN來做快取, 在做大量的直播優勢較大, 缺點是延遲太長了, 但這兩者其實也是可以合併使用的, 在小群體時用RTMP, 等觀眾成長到一定數量實再導流到HLS去</p>
+<h3 id=proof-of-concept-的初步想法與簡單的設計>Proof of concept 的初步想法與簡單的設計</h3>
+<p>幾個初步的想法</p>
+<ol>
+<li>直播 = live stream + chat room</li>
+<li>現在直播應用很多, 所以應該不少現成的open source解決方案可以套用, POC可以從這些東西下手, 不用重造輪子</li>
+<li>需求: Client發布直播後, Viewer可以知道現在有誰在直播並觀看, 並可以透過訊息聊天</li>
+</ol>
+<p><strong>發布</strong></p>
+<div class=mermaid>
+sequenceDiagram
 participant Client
 participant Register
 participant MediaServer
@@ -276,7 +536,40 @@ Register->>Viewer: Somebody is ready to live
 activate Viewer
 deactivate Register
 Viewer->Viewer: Update UI
-deactivate Viewer</div><p><strong>觀賞直播</strong></p><p>這部分就沒什麼特別的了, 當一般的chat room做就好</p><h3 id=先看一下成果->先看一下成果</h3><p>這成品有點粗劣, 有點不好意思 :P</p><div style=position:relative;padding-bottom:56.25%;height:0;overflow:hidden><iframe src=https://www.youtube.com/embed/DyF27GlfuZ8 style=position:absolute;top:0;left:0;width:100%;height:100%;border:0 allowfullscreen title="YouTube Video"></iframe></div><p>我publish client只實作iOS版本, 而Viewer只實作了Android版本(根本只各做一半嘛!!/翻桌), 後端用<a href=firebase.google.com>firebase</a>處理資料的部分, 所以即時通知新的直播, 和聊天沒啥問題(但我聊天的UI還是沒刻 >"&lt;)</p><h3 id=相關解決方案->相關解決方案</h3><p>既然沒有重新做輪子, 自然用了不少Open source的解決方案來達成, 從Server到Android, iOS要找到相關可用的實在不難, 可以說這部份實在是太成熟了, 研究完後覺得Facebook那篇文章也只是一般般而已</p><h4 id=steaming-server->Steaming server</h4><p>RTMP相關的解決方案還算不少, 這邊列幾個</p><ol><li><a href=https://github.com/arut/nginx-rtmp-module>Nginx RTMP Module</a> - 架構在Nginx之上, 也算老牌了, 支援RTMP和HLS, 但看code base, 實在也沒啥在更新</li><li><a href=http://www.monaserver.ovh>Mona server</a> - 支援RTMP, HTTP(非HLS), Web socket等等</li><li><a href=http://red5.org>Red5 Media Server</a> - 支援RTMP, HLS, WebSocket, RTSP, 好像是要錢</li><li><a href=https://github.com/ossrs/srs/>Simpe RTMP Server</a> - 這是由中國的觀止雲這家開源出來的, 講"Simple"其實一點都不Simple, 輕量, 穩定(至少我試直播一晚上都還蠻順利的), 好擴展(支援forward to edge), 可RTMP轉HLS, 因此我最後選擇這個方案</li></ol><h5 id=srs-simple-rtmp-server->SRS (Simple RTMP Server)</h5><p><strong>硬體</strong></p><p>我沒看到文件有寫硬體需求, 但我用Digital Ocean 1GB RAM, 30GB SSD的Droplet跑, 單一個直播, 直播好幾個鐘頭, CPU都不超過5%, 所以應該足夠</p><p><strong>安裝</strong></p><p>安裝上相當簡單</p><ol><li>從git上抓下來: <code>git clone https://github.com/ossrs/srs.git</code></li><li>切換到相對應版本的branch(我是用2.0release) - <code>git checkout 2.0release</code></li><li><code>cd srs/trunk; ./configure ; make ;</code></li></ol><p>建置好的執行檔會在srs/trunk/objs目錄下, 可以直接執行</p><p><strong>設定</strong></p><p>conf目錄下有很多不同的設定檔可以參考, 因為我要試RTMP, HLS所以我用的設定檔如下:</p><pre><code>listen              1935;
+deactivate Viewer
+</div>
+<p><strong>觀賞直播</strong></p>
+<p>這部分就沒什麼特別的了, 當一般的chat room做就好</p>
+<h3 id=先看一下成果>先看一下成果</h3>
+<p>這成品有點粗劣, 有點不好意思 :P</p>
+<div style=position:relative;padding-bottom:56.25%;height:0;overflow:hidden>
+<iframe src=https://www.youtube.com/embed/DyF27GlfuZ8 style=position:absolute;top:0;left:0;width:100%;height:100%;border:0 allowfullscreen title="YouTube Video"></iframe>
+</div>
+<p>我publish client只實作iOS版本, 而Viewer只實作了Android版本(根本只各做一半嘛!!/翻桌), 後端用<a href=firebase.google.com>firebase</a>處理資料的部分, 所以即時通知新的直播, 和聊天沒啥問題(但我聊天的UI還是沒刻 >"&lt;)</p>
+<h3 id=相關解決方案>相關解決方案</h3>
+<p>既然沒有重新做輪子, 自然用了不少Open source的解決方案來達成, 從Server到Android, iOS要找到相關可用的實在不難, 可以說這部份實在是太成熟了, 研究完後覺得Facebook那篇文章也只是一般般而已</p>
+<h4 id=steaming-server>Steaming server</h4>
+<p>RTMP相關的解決方案還算不少, 這邊列幾個</p>
+<ol>
+<li><a href=https://github.com/arut/nginx-rtmp-module>Nginx RTMP Module</a> - 架構在Nginx之上, 也算老牌了, 支援RTMP和HLS, 但看code base, 實在也沒啥在更新</li>
+<li><a href=http://www.monaserver.ovh>Mona server</a> - 支援RTMP, HTTP(非HLS), Web socket等等</li>
+<li><a href=http://red5.org>Red5 Media Server</a> - 支援RTMP, HLS, WebSocket, RTSP, 好像是要錢</li>
+<li><a href=https://github.com/ossrs/srs/>Simpe RTMP Server</a> - 這是由中國的觀止雲這家開源出來的, 講"Simple"其實一點都不Simple, 輕量, 穩定(至少我試直播一晚上都還蠻順利的), 好擴展(支援forward to edge), 可RTMP轉HLS, 因此我最後選擇這個方案</li>
+</ol>
+<h5 id=srs-simple-rtmp-server>SRS (Simple RTMP Server)</h5>
+<p><strong>硬體</strong></p>
+<p>我沒看到文件有寫硬體需求, 但我用Digital Ocean 1GB RAM, 30GB SSD的Droplet跑, 單一個直播, 直播好幾個鐘頭, CPU都不超過5%, 所以應該足夠</p>
+<p><strong>安裝</strong></p>
+<p>安裝上相當簡單</p>
+<ol>
+<li>從git上抓下來: <code>git clone https://github.com/ossrs/srs.git</code></li>
+<li>切換到相對應版本的branch(我是用2.0release) - <code>git checkout 2.0release</code></li>
+<li><code>cd srs/trunk; ./configure ; make ;</code></li>
+</ol>
+<p>建置好的執行檔會在srs/trunk/objs目錄下, 可以直接執行</p>
+<p><strong>設定</strong></p>
+<p>conf目錄下有很多不同的設定檔可以參考, 因為我要試RTMP, HLS所以我用的設定檔如下:</p>
+<pre><code>listen              1935;
 max_connections     1000;
 srs_log_tank        file;
 srs_log_file        ./objs/srs.log;
@@ -303,14 +596,31 @@ vhost __defaultVhost__ {
         hls_ts_file     [app]/[stream]-[seq].ts;
     }
 }
-</code></pre><p>相對應的設定可以參考文件</p><p><strong>執行</strong></p><p>很簡單: <code>srs -c my.conf</code> 即可</p><h4 id=ios-rtmp-publish->iOS RTMP Publish</h4><p>找到iOS支援RTMP publish的解決方案有幾種:</p><ol><li><a href=https://github.com/jgh-/VideoCore>VideoCore</a> - 這個我還沒去試過, 不知道好不好用, 但似乎有支援Filter和Watermark, 感覺蠻威的</li><li><a href=https://github.com/shogo4405/lf.swift>lf.swift</a> - 簡單, Swift做的, 這兩個是優點, 對我這個只看得懂Swift看不懂ObjC的, debug是比較方便, 但除此之外好像也沒啥特色了</li><li><a href=https://github.com/runner365/LiveVideoCoreSDK>LiveVideoCoreSDK</a> - 這文件不多, 我暫時就沒試了, 也支援濾鏡, 而且似乎這個作者也提供了Android版本, 只是好像沒支援Cocoapods或Cathage, 有空再來玩玩</li><li><a href=https://github.com/LaiFengiOS/LFLiveKit>LFLiveKit</a> - 我最後是選用這個, 簡單, 且"自帶美顏&rdquo;(現在騙人是很基本的)</li></ol><h5 id=lfswift->lf.swift</h5><p>雖然文件上有提供cocoapods跟Carhtage的安裝方式, 但絕對不要用Carthage的那個, 第一原因是它Carthage支援似乎尚未搞定, 就算改點東西解決了它, 是可以安裝成功沒錯, 但會崩潰在XCGLogger, 似乎用framework含進來的方式會導致XCGLogger == nil, 這害我花了好多時間, 畢竟我是Carthage的愛用者, 後來轉用Cocoapods就沒事了</p><p>幾個需要加的部分:</p><p><em>AppDelegate.swift</em></p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-swift data-lang=swift><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>application</span>(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -&gt; Bool {
+</code></pre><p>相對應的設定可以參考文件</p>
+<p><strong>執行</strong></p>
+<p>很簡單: <code>srs -c my.conf</code> 即可</p>
+<h4 id=ios-rtmp-publish>iOS RTMP Publish</h4>
+<p>找到iOS支援RTMP publish的解決方案有幾種:</p>
+<ol>
+<li><a href=https://github.com/jgh-/VideoCore>VideoCore</a> - 這個我還沒去試過, 不知道好不好用, 但似乎有支援Filter和Watermark, 感覺蠻威的</li>
+<li><a href=https://github.com/shogo4405/lf.swift>lf.swift</a> - 簡單, Swift做的, 這兩個是優點, 對我這個只看得懂Swift看不懂ObjC的, debug是比較方便, 但除此之外好像也沒啥特色了</li>
+<li><a href=https://github.com/runner365/LiveVideoCoreSDK>LiveVideoCoreSDK</a> - 這文件不多, 我暫時就沒試了, 也支援濾鏡, 而且似乎這個作者也提供了Android版本, 只是好像沒支援Cocoapods或Cathage, 有空再來玩玩</li>
+<li><a href=https://github.com/LaiFengiOS/LFLiveKit>LFLiveKit</a> - 我最後是選用這個, 簡單, 且"自帶美顏"(現在騙人是很基本的)</li>
+</ol>
+<h5 id=lfswift>lf.swift</h5>
+<p>雖然文件上有提供cocoapods跟Carhtage的安裝方式, 但絕對不要用Carthage的那個, 第一原因是它Carthage支援似乎尚未搞定, 就算改點東西解決了它, 是可以安裝成功沒錯, 但會崩潰在XCGLogger, 似乎用framework含進來的方式會導致XCGLogger == nil, 這害我花了好多時間, 畢竟我是Carthage的愛用者, 後來轉用Cocoapods就沒事了</p>
+<p>幾個需要加的部分:</p>
+<p><em>AppDelegate.swift</em></p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-swift data-lang=swift><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>application</span>(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -&gt; Bool {
 
         XCGLogger.defaultInstance().outputLogLevel = .Info
         XCGLogger.defaultInstance().xcodeColorsEnabled = <span style=color:#66d9ef>true</span>
         
         <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>true</span>
     }
-</code></pre></div><p>這兩行是設定logger要記錄的東西, 方便debug用</p><p><em>ViewController</em></p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-swift data-lang=swift><span style=color:#66d9ef>override</span> <span style=color:#66d9ef>func</span> <span style=color:#a6e22e>viewDidLoad</span>() {
+</code></pre></div><p>這兩行是設定logger要記錄的東西, 方便debug用</p>
+<p><em>ViewController</em></p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-swift data-lang=swift><span style=color:#66d9ef>override</span> <span style=color:#66d9ef>func</span> <span style=color:#a6e22e>viewDidLoad</span>() {
 	rtmpStream = RTMPStream(rtmpConnection: rtmpConnection)
     rtmpStream.syncOrientation = <span style=color:#66d9ef>true</span>
     rtmpStream.attachAudio(AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeAudio))
@@ -331,7 +641,11 @@ vhost __defaultVhost__ {
 
     view.addSubview(lfView)
 }
-</code></pre></div><p>直播的部分會跟他的LFView綁一起</p><h5 id=lflivekithttpsgithubcomlaifengioslflivekit-><a href=https://github.com/LaiFengiOS/LFLiveKit>LFLiveKit</a></h5><p>後來選用LFLiveKit的原因不是因為他自帶美顏 :D, 他寫法跟lf.swift一樣簡單, 而且不一定要把preview加到UI裡面, 而且他的preview不用用特定的class,只要是UIView就可</p><p>範例直接貼他文件裡的就很清楚了:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-swift data-lang=swift><span style=color:#75715e>// import LFLiveKit in [ProjectName]-Bridging-Header.h</span>
+</code></pre></div><p>直播的部分會跟他的LFView綁一起</p>
+<h5 id=lflivekithttpsgithubcomlaifengioslflivekit><a href=https://github.com/LaiFengiOS/LFLiveKit>LFLiveKit</a></h5>
+<p>後來選用LFLiveKit的原因不是因為他自帶美顏 :D, 他寫法跟lf.swift一樣簡單, 而且不一定要把preview加到UI裡面, 而且他的preview不用用特定的class,只要是UIView就可</p>
+<p>範例直接貼他文件裡的就很清楚了:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-swift data-lang=swift><span style=color:#75715e>// import LFLiveKit in [ProjectName]-Bridging-Header.h</span>
 <span style=color:#66d9ef>import</span> &lt;<span style=color:#a6e22e>LFLiveKit</span>.<span style=color:#a6e22e>h</span>&gt; 
 
 <span style=color:#75715e>//</span><span style=color:#75715e>MARK:</span><span style=color:#75715e> - Getters and Setters</span>
@@ -360,8 +674,42 @@ vhost __defaultVhost__ {
 <span style=color:#66d9ef>func</span> <span style=color:#a6e22e>liveSession</span>(session: LFLiveSession?, debugInfo: LFLiveDebug?) 
 <span style=color:#66d9ef>func</span> <span style=color:#a6e22e>liveSession</span>(session: LFLiveSession?, errorCode: LFLiveSocketErrorCode)
 <span style=color:#66d9ef>func</span> <span style=color:#a6e22e>liveSession</span>(session: LFLiveSession?, liveStateDidChange state: LFLiveState)
-</code></pre></div><h4 id=android-stream-player->Android stream player</h4><p>寫到後面有點累了, 也有點懶了, 還剩下Android這塊沒寫, 這邊就只列出方案不寫細節了, 主要我測過:</p><ol><li><a href=https://github.com/google/ExoPlayer/>ExoPlayer</a>: Google開源的Media player, 之前在做另一個東西時我有用過, 所以第一時間就想起這個, 不過, 原生的完全不支援RTMP, 不過可以參考<a href=https://github.com/ButterflyTV/ExoPlayer-with-RTMP-and-FLV-seek/blob/master/demo/src/main/java/com/google/android/exoplayer/demo/player/RtmpDataSource.java>這邊</a>, 但我實際上用, RTMP完全沒成功過, 一直出現FLV parse的問題, 倒是HLS沒問題</li><li><a href=https://github.com/Bilibili/ijkplayer>Ijkplayer</a> - 這同時有Android和iOS版本, 是Bilibili開源的, 有點強大, 但基於ffmpeg, 不知道在license上會不會有風險, 使用起來還有點複雜, 但HLS, RTMP都是沒問題</li><li><a href=https://github.com/pili-engineering/PLDroidPlayer>PLDroidPlayer</a> - 七牛雲針對ijkplayer的再製品, 比較方便的是, 它有封裝出一個video view可以直接使用, 相較於ijkplayer來說比較簡單易用</li></ol></div></article><article class=hentry><header><div class=entry-meta><span class="entry-date date published updated"><time datetime="2016-08-17 23:46:04 +0000 UTC"><a href=/%E7%AD%86%E8%A8%98%E8%A3%BD%E4%BD%9C%E8%87%AA%E5%B7%B1%E7%9A%84Icon-font/>Aug 17, 2016</a></time></span>
-<span class=entry-reading-time><i class="fa fa-clock-o"></i>Reading time ~3 minutes</span></div><h1 class=entry-title><a href=/%E7%AD%86%E8%A8%98%E8%A3%BD%E4%BD%9C%E8%87%AA%E5%B7%B1%E7%9A%84Icon-font/ rel=bookmark title="[筆記]製作自己的Icon font" itemprop=url>[筆記]製作自己的Icon font</a></h1></header><div class=entry-content><p>承續<a href=http://blog.jln.co/%E7%AD%86%E8%A8%98-ios%E9%96%8B%E7%99%BC-%E4%BD%BF%E7%94%A8icon-font%E4%BE%86%E7%AF%80%E7%9C%81%E5%9C%96%E7%A4%BA%E7%A9%BA%E9%96%93/>上篇</a>的用icon font來製作圖示, 之前所提到的都是利用現成的icon font, 但似乎大部分的icon font都沒有像material icon有支援ligatures, 沒支援的話, 在xcode裡面就無法像上一篇一樣, 直接在UI designer顯示對應的圖示, 另外如果需要使用自己的圖示呢?其實是有方法用SVG圖檔來製作自己的icon font的, 這篇就來介紹兩種用SVG圖檔製作一個有ligatures支援的字型檔</p><h3 id=grunt-webfont>grunt-webfont</h3><p>第一個方法就是利用<a href=https://github.com/sapegin/grunt-webfont>grunt-webfont</a>, <a href=http://gruntjs.com>Grunt</a>是一個前端常用的建構工具, 而<a href=https://github.com/sapegin/grunt-webfont>grunt-webfont</a>是一個用來產生字型的task</p><h5 id=安裝相關工具>安裝相關工具</h5><p>由於需要使用<a href=http://gruntjs.com>Grunt</a>, <a href=nodejs.org>node.js</a>是必須的, 另外由於需要使用到<a href=http://fontforge.github.io>fontforge</a>, 所以python也是必須的, 雖然說grunt-webfont也可以純nodejs的module來產生字型, 但那並無法支援ligatures, 所以fontforge是一定需要的</p><p>用<code>npm i grunt --global</code>來安裝grunt</p><h5 id=製作字型>製作字型</h5><ol><li>建立一個空的目錄</li><li>在這個目錄執行<code>npm init</code>來產生<code>package.json</code></li><li><code>npm i grunt-webfont --save</code>來安裝grunt-webfont並且把這個dependency 加到<code>package.json</code></li><li>建立一個svg子目錄(目錄名稱隨你高興, 這邊以svg當例子), 把所有圖示的svg檔案全部放到這目錄去</li><li>建立Gruntfile.js , 這檔案就像是Makefile, 或像是build.gradle這樣的角色, 內容就像下面</li></ol><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=color:#a6e22e>module</span>.<span style=color:#a6e22e>exports</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>function</span>(<span style=color:#a6e22e>grunt</span>) {
+</code></pre></div><h4 id=android-stream-player>Android stream player</h4>
+<p>寫到後面有點累了, 也有點懶了, 還剩下Android這塊沒寫, 這邊就只列出方案不寫細節了, 主要我測過:</p>
+<ol>
+<li><a href=https://github.com/google/ExoPlayer/>ExoPlayer</a>: Google開源的Media player, 之前在做另一個東西時我有用過, 所以第一時間就想起這個, 不過, 原生的完全不支援RTMP, 不過可以參考<a href=https://github.com/ButterflyTV/ExoPlayer-with-RTMP-and-FLV-seek/blob/master/demo/src/main/java/com/google/android/exoplayer/demo/player/RtmpDataSource.java>這邊</a>, 但我實際上用, RTMP完全沒成功過, 一直出現FLV parse的問題, 倒是HLS沒問題</li>
+<li><a href=https://github.com/Bilibili/ijkplayer>Ijkplayer</a> - 這同時有Android和iOS版本, 是Bilibili開源的, 有點強大, 但基於ffmpeg, 不知道在license上會不會有風險, 使用起來還有點複雜, 但HLS, RTMP都是沒問題</li>
+<li><a href=https://github.com/pili-engineering/PLDroidPlayer>PLDroidPlayer</a> - 七牛雲針對ijkplayer的再製品, 比較方便的是, 它有封裝出一個video view可以直接使用, 相較於ijkplayer來說比較簡單易用</li>
+</ol>
+</div>
+</article>
+<article class=hentry>
+<header>
+<div class=entry-meta>
+<span class="entry-date date published updated"><time datetime="2016-08-17 23:46:04 +0000 UTC"><a href=/%E7%AD%86%E8%A8%98%E8%A3%BD%E4%BD%9C%E8%87%AA%E5%B7%B1%E7%9A%84Icon-font/>Aug 17, 2016</a></time></span>
+<span class=entry-reading-time>
+<i class="fa fa-clock-o"></i>
+Reading time ~3 minutes
+</span>
+</div>
+<h1 class=entry-title><a href=/%E7%AD%86%E8%A8%98%E8%A3%BD%E4%BD%9C%E8%87%AA%E5%B7%B1%E7%9A%84Icon-font/ rel=bookmark title="[筆記]製作自己的Icon font" itemprop=url>[筆記]製作自己的Icon font</a></h1>
+</header>
+<div class=entry-content>
+<p>承續<a href=http://blog.jln.co/%E7%AD%86%E8%A8%98-ios%E9%96%8B%E7%99%BC-%E4%BD%BF%E7%94%A8icon-font%E4%BE%86%E7%AF%80%E7%9C%81%E5%9C%96%E7%A4%BA%E7%A9%BA%E9%96%93/>上篇</a>的用icon font來製作圖示, 之前所提到的都是利用現成的icon font, 但似乎大部分的icon font都沒有像material icon有支援ligatures, 沒支援的話, 在xcode裡面就無法像上一篇一樣, 直接在UI designer顯示對應的圖示, 另外如果需要使用自己的圖示呢?其實是有方法用SVG圖檔來製作自己的icon font的, 這篇就來介紹兩種用SVG圖檔製作一個有ligatures支援的字型檔</p>
+<h3 id=grunt-webfont>grunt-webfont</h3>
+<p>第一個方法就是利用<a href=https://github.com/sapegin/grunt-webfont>grunt-webfont</a>, <a href=http://gruntjs.com>Grunt</a>是一個前端常用的建構工具, 而<a href=https://github.com/sapegin/grunt-webfont>grunt-webfont</a>是一個用來產生字型的task</p>
+<h5 id=安裝相關工具>安裝相關工具</h5>
+<p>由於需要使用<a href=http://gruntjs.com>Grunt</a>, <a href=nodejs.org>node.js</a>是必須的, 另外由於需要使用到<a href=http://fontforge.github.io>fontforge</a>, 所以python也是必須的, 雖然說grunt-webfont也可以純nodejs的module來產生字型, 但那並無法支援ligatures, 所以fontforge是一定需要的</p>
+<p>用<code>npm i grunt --global</code>來安裝grunt</p>
+<h5 id=製作字型>製作字型</h5>
+<ol>
+<li>建立一個空的目錄</li>
+<li>在這個目錄執行<code>npm init</code>來產生<code>package.json</code></li>
+<li><code>npm i grunt-webfont --save</code>來安裝grunt-webfont並且把這個dependency 加到<code>package.json</code></li>
+<li>建立一個svg子目錄(目錄名稱隨你高興, 這邊以svg當例子), 把所有圖示的svg檔案全部放到這目錄去</li>
+<li>建立Gruntfile.js , 這檔案就像是Makefile, 或像是build.gradle這樣的角色, 內容就像下面</li>
+</ol>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=color:#a6e22e>module</span>.<span style=color:#a6e22e>exports</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>function</span>(<span style=color:#a6e22e>grunt</span>) {
 
   <span style=color:#a6e22e>grunt</span>.<span style=color:#a6e22e>initConfig</span>({
     <span style=color:#a6e22e>pkg</span><span style=color:#f92672>:</span> <span style=color:#a6e22e>grunt</span>.<span style=color:#a6e22e>file</span>.<span style=color:#a6e22e>readJSON</span>(<span style=color:#e6db74>&#39;package.json&#39;</span>),
@@ -394,4 +742,37 @@ vhost __defaultVhost__ {
   <span style=color:#a6e22e>grunt</span>.<span style=color:#a6e22e>registerTask</span>(<span style=color:#e6db74>&#39;font&#39;</span>, [<span style=color:#e6db74>&#39;clean&#39;</span>, <span style=color:#e6db74>&#39;webfont&#39;</span>]);
   <span style=color:#a6e22e>grunt</span>.<span style=color:#a6e22e>registerTask</span>(<span style=color:#e6db74>&#39;default&#39;</span>, [ <span style=color:#e6db74>&#39;font&#39;</span>]);
 };
-</code></pre></div><p>這邊最主要也最重要的task就是webfont這個, 這裡面<code>src</code>是svg檔的目錄, <code>dest</code>是字型輸出的目錄, engine的部分指名fontforge, ligatures設定必須要是true(產生的字型的ligature的名字其實就是沿用svg的檔名)</p><p>建立好這個檔後執行<code>grunt</code>即可</p><h3 id=icomoon>icomoon</h3><p>上面的方法還是有點麻煩, 蠻手動的, 還有一個更方便的工具就是<a href=https://icomoon.io/app/>icomoon</a>, 這東西方便更多, 它是一個相當強大的工具</p><p><img src=/images/posts/icomoon1.png alt=Icomoon></p><p>從畫面上看, 它其實很簡單操作, 選定你所需要的圖示後, 按右下角的<code>Generate Font</code>即可, 除了你可以自己import自己的svg檔案外, 它也提供很多付費跟免費的圖示供選用:</p><p><img src=/images/posts/icomoon2.png alt=Icomoon></p><p>按下<code>Generate Font</code>後, 並不會馬上讓你下載字型回家, 它會先讓你檢視字型將會包含的圖示, 這邊有件事很重要, 左上角有個<code>fi</code>圖示(參照下圖), 按下去後, 下面的圖示下面會多一個fi的欄位, 這就是讓你設定這些圖示的ligature的, 如果需要一個有支援ligature的字型, 就需要去設定這邊</p><p><img src=/images/posts/icomoon3.png alt=Icomoon></p><p>所有都沒問題後按下右下角的<code>Download</code>就沒問題了</p></div></article><div class=pagination><ul class=inline-list><li><strong class=current-page>1</strong></li><li><a href=/tags/mobiledev/page/2/>2</a></li><li><a href=/tags/mobiledev/page/2/ class=btn>Next</a></li></ul></div></div><div class=footer-wrapper><footer role=contentinfo><span>Powered by <a href=https://gohugo.io/ rel=nofollow>Hugo</a> using the <a href=https://github.com/dldx/hpstr-hugo-theme rel=nofollow>HPSTR theme</a>.</span></footer></div><script src=//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js></script><script src=https://kit.fontawesome.com/872a53b461.js crossorigin=anonymous></script><script>window.jQuery||document.write('<script src="\/js\/vendor\/jquery-1.9.1.min.js"><\/script>')</script><script src=/js/scripts.min.js></script><script type=application/javascript>var doNotTrack=false;if(!doNotTrack){(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');ga('create','UA-79243751-1','auto');ga('send','pageview');}</script><div id=fb-root></div><script async defer crossorigin=anonymous src="https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v7.0&appId=293999444006555&autoLogAppEvents=1" nonce=geZSUIUh></script></body></html>
+</code></pre></div><p>這邊最主要也最重要的task就是webfont這個, 這裡面<code>src</code>是svg檔的目錄, <code>dest</code>是字型輸出的目錄, engine的部分指名fontforge, ligatures設定必須要是true(產生的字型的ligature的名字其實就是沿用svg的檔名)</p>
+<p>建立好這個檔後執行<code>grunt</code>即可</p>
+<h3 id=icomoon>icomoon</h3>
+<p>上面的方法還是有點麻煩, 蠻手動的, 還有一個更方便的工具就是<a href=https://icomoon.io/app/>icomoon</a>, 這東西方便更多, 它是一個相當強大的工具</p>
+<p><img src=/images/posts/icomoon1.png alt=Icomoon></p>
+<p>從畫面上看, 它其實很簡單操作, 選定你所需要的圖示後, 按右下角的<code>Generate Font</code>即可, 除了你可以自己import自己的svg檔案外, 它也提供很多付費跟免費的圖示供選用:</p>
+<p><img src=/images/posts/icomoon2.png alt=Icomoon></p>
+<p>按下<code>Generate Font</code>後, 並不會馬上讓你下載字型回家, 它會先讓你檢視字型將會包含的圖示, 這邊有件事很重要, 左上角有個<code>fi</code>圖示(參照下圖), 按下去後, 下面的圖示下面會多一個fi的欄位, 這就是讓你設定這些圖示的ligature的, 如果需要一個有支援ligature的字型, 就需要去設定這邊</p>
+<p><img src=/images/posts/icomoon3.png alt=Icomoon></p>
+<p>所有都沒問題後按下右下角的<code>Download</code>就沒問題了</p>
+</div>
+</article>
+<div class=pagination>
+<ul class=inline-list>
+<li><strong class=current-page>1</strong></li>
+<li><a href=/tags/mobiledev/page/2/>2</a></li>
+<li><a href=/tags/mobiledev/page/2/ class=btn>Next</a></li>
+</ul>
+</div>
+</div>
+<div class=footer-wrapper>
+<footer role=contentinfo>
+<span> Powered by <a href=https://gohugo.io/ rel=nofollow>Hugo</a> using the <a href=https://github.com/dldx/hpstr-hugo-theme rel=nofollow>HPSTR theme</a>.</span>
+</footer>
+</div>
+<script src=//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js></script>
+<script src=https://kit.fontawesome.com/872a53b461.js crossorigin=anonymous></script>
+<script>window.jQuery||document.write('<script src="/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src=/js/scripts.min.js></script>
+<script type=application/javascript>var doNotTrack=!1;doNotTrack||(function(a,e,f,g,b,c,d){a.GoogleAnalyticsObject=b,a[b]=a[b]||function(){(a[b].q=a[b].q||[]).push(arguments)},a[b].l=1*new Date,c=e.createElement(f),d=e.getElementsByTagName(f)[0],c.async=1,c.src=g,d.parentNode.insertBefore(c,d)}(window,document,'script','https://www.google-analytics.com/analytics.js','ga'),ga('create','UA-79243751-1','auto'),ga('send','pageview'))</script>
+<div id=fb-root></div>
+<script async defer crossorigin=anonymous src="https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v7.0&appId=293999444006555&autoLogAppEvents=1" nonce=geZSUIUh></script>
+</body>
+</html>

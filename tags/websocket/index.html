@@ -1,22 +1,138 @@
-<!doctype html><!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=en><![endif]--><!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang=en><![endif]--><!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang=en><![endif]--><!--[if gt IE 8]><!--><html class=no-js lang=en><!--<![endif]--><head><meta charset=utf-8><title>websocket &#8211; Le murmure de Julian</title><meta name=description content><meta property="og:title" content="websocket"><meta property="og:description" content><meta property="og:type" content="website"><meta property="og:url" content="https://blog.jln.co/tags/websocket/"><meta property="og:image" content="https://blog.jln.co/images/avatar.png"><meta property="og:updated_time" content="2016-11-29T17:39:41+00:00"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://blog.jln.co/images/avatar.png"><meta name=twitter:title content="websocket"><meta name=twitter:description content><link rel=canonical href=https://blog.jln.co/tags/websocket/><link href=https://blog.jln.co/tags/websocket/feed.xml rel=alternate type=application/rss+xml title="Le murmure de Julian"><link href=https://blog.jln.co/tags/websocket/feed.xml rel=feed type=application/rss+xml title="Le murmure de Julian"><meta name=HandheldFriendly content="True"><meta name=MobileOptimized content="320"><meta name=viewport content="width=device-width,initial-scale=1"><link rel=stylesheet href=/css/main.css><link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel=stylesheet type=text/css><meta http-equiv=cleartype content="on"><meta name=generator content="Hugo 0.73.0"><script src=/js/vendor/modernizr-2.6.2.custom.min.js></script><script async src=https://unpkg.com/mermaid@8.2.3/dist/mermaid.min.js></script><link rel="shortcut icon" href=/favicon.png></head><body id=post-index><nav id=dl-menu class=dl-menuwrapper role=navigation style=display:inline-block><button class=dl-trigger>Open Menu</button><ul class=dl-menu><li><a href=/>Home</a></li><li><a href=#>About</a><ul class=dl-submenu><li><img src=/images/avatar.png alt="Julian Shen's photo" class=author-photo><h4>Julian Shen</h4><p>Softward developer</p></li><li><a href=mailto:julianshen22@gmail.com><i class="fa fa-fw fa-envelope"></i>Email</a></li><li><a href=https://linkedin.com/in/julianshen><i class="fa fa-fw fa-linkedin"></i>LinkedIn</a></li><li><a href=https://github.com/julianshen><i class="fa fa-fw fa-github"></i>GitHub</a></li><li><a href=https://instagram.com/julianshen><i class="fa fa-fw fa-instagram"></i>Instagram</a></li></ul></li><li><a href=#>Posts</a><ul class=dl-submenu><li><a href=/post/>All Posts</a></li><li><a href=/tags/>All Tags</a></li></ul></li><li><a href=/></a></li></ul></nav><div class=entry-header><div class=header-title><div class=header-title-wrap><h1><a href=/ title="Go to the homepage">Le murmure de Julian</a></h1><h2>websocket</h2></div></div></div><div id=main role=main><article class=hentry><header><div class=entry-meta><span class="entry-date date published updated"><time datetime="2016-11-29 17:39:41 +0000 UTC"><a href=/Android-Firebase-WebRTC-on-Android/>Nov 29, 2016</a></time></span>
-<span class=entry-reading-time><i class="fa fa-clock-o"></i>Reading time ~7 minutes</span></div><h1 class=entry-title><a href=/Android-Firebase-WebRTC-on-Android/ rel=bookmark title="[Android] Firebase + WebRTC on Android" itemprop=url>[Android] Firebase + WebRTC on Android</a></h1></header><div class=entry-content><p><a href=https://webrtc.org/>WebRTC</a>是一個支援瀏覽器的即時影音對話的架構, 算是一個業界標(W3C,IETF), 最近由於想做一個有影音通話的應用, 就研究了一下這東西</p><p>如果只是想嘗試一下<a href=https://webrtc.org/>WebRTC</a>, 是可以直接是可以直接試<a href=https://appr.tc/>AppRTC</a>這個Google的範例, 不過這個是Web的版本, 我想要做的是
-手機的版本(Android, iOS), <a href=https://appr.tc/>AppRTC</a>其實也有Android的版本可搭配</p><p>為了熟悉一下整個用WebRTC建立video call的流程, 因此我就決定改一下這個Android版本, 原本Google的版本是透過Web Socket</p><p>至於流程與架構我會建議看這影片:</p><div style=position:relative;padding-bottom:56.25%;height:0;overflow:hidden><iframe src=https://www.youtube.com/embed/HS1eKPL4f1o style=position:absolute;top:0;left:0;width:100%;height:100%;border:0 allowfullscreen title="YouTube Video"></iframe></div><p>如果不想看太長, 就看這個:</p><div style=position:relative;padding-bottom:56.25%;height:0;overflow:hidden><iframe src=https://www.youtube.com/embed/nDPlGcoArdM style=position:absolute;top:0;left:0;width:100%;height:100%;border:0 allowfullscreen title="YouTube Video"></iframe></div><p>把Web RTC那段換成Firebase(好, 其實我蠻後悔選Firebase來實作的)其實就是把Signaling這段給換掉, 而這段流程是(節錄自影片):</p><p><img src=/images/posts/webrtc.png alt></p><p>這部分其實就是交換兩邊的SDP和ICE candidate的過程, 詳細可以參考<a href=http://blog.mozilla.com.tw/posts/3261/webrtc-%E7%9B%B8%E9%97%9C%E7%B8%AE%E5%AF%AB%E5%90%8D%E8%A9%9E%E7%B0%A1%E4%BB%8B>這邊:WebRTC 相關縮寫名詞簡介</a></p><p>結果的source code放在<a href=https://github.com/julianshen/apprtc-android-demo>這邊 : apprtc-android-demo</a></p><h3 id=building-webrtc-lib-on-android->Building WebRTC lib on Android</h3><p>其實現在寫WebRTC的應用的話, 也不用從頭實作, Google老早就把它實作在<a href=http://chromium.org>Chromium</a>裡面了, 也可以單獨build出library用</p><p>這邊有官方的<a href=https://webrtc.org/native-code/android/>如何建置出Android版本的Web RTC library</a>, 不過, 不要照著這份文件做呀, 不然頭髮會白好幾根, 可能還build不太起來,
+<!doctype html><!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=en><![endif]--><!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang=en><![endif]--><!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang=en><![endif]--><!--[if gt IE 8]><!--><html class=no-js lang=en><!--<![endif]-->
+<head>
+<meta charset=utf-8>
+<title>websocket &#8211; Le murmure de Julian</title>
+<meta name=description content>
+<meta property="og:title" content="websocket">
+<meta property="og:description" content>
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://blog.jln.co/tags/websocket/"><meta property="og:image" content="https://blog.jln.co/images/avatar.png">
+<meta name=twitter:card content="summary_large_image">
+<meta name=twitter:image content="https://blog.jln.co/images/avatar.png">
+<meta name=twitter:title content="websocket">
+<meta name=twitter:description content>
+<link rel=canonical href=https://blog.jln.co/tags/websocket/>
+<link href=https://blog.jln.co/tags/websocket/feed.xml rel=alternate type=application/rss+xml title="Le murmure de Julian">
+<link href=https://blog.jln.co/tags/websocket/feed.xml rel=feed type=application/rss+xml title="Le murmure de Julian">
+<meta name=HandheldFriendly content="True">
+<meta name=MobileOptimized content="320">
+<meta name=viewport content="width=device-width,initial-scale=1">
+<link rel=stylesheet href=/css/main.css>
+<link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel=stylesheet type=text/css>
+<meta http-equiv=cleartype content="on">
+<meta name=generator content="Hugo 0.86.0">
+<script src=/js/vendor/modernizr-2.6.2.custom.min.js></script>
+<script async src=https://unpkg.com/mermaid@8.2.3/dist/mermaid.min.js></script>
+<link rel="shortcut icon" href=/favicon.png>
+</head>
+<body id=post-index>
+<nav id=dl-menu class=dl-menuwrapper role=navigation style=display:inline-block>
+<button class=dl-trigger>Open Menu</button>
+<ul class=dl-menu>
+<li><a href=/>Home</a></li>
+<li>
+<a href=#>About</a>
+<ul class=dl-submenu>
+<li>
+<img src=/images/avatar.png alt="Julian Shen's photo" class=author-photo>
+<h4>Julian Shen</h4>
+<p>Softward developer</p>
+</li>
+<li>
+<a href=mailto:julianshen22@gmail.com><i class="fa fa-fw fa-envelope"></i> Email</a>
+</li>
+<li>
+<a href=https://linkedin.com/in/julianshen><i class="fa fa-fw fa-linkedin"></i> LinkedIn</a>
+</li>
+<li>
+<a href=https://github.com/julianshen><i class="fa fa-fw fa-github"></i> GitHub</a>
+</li>
+<li>
+<a href=https://instagram.com/julianshen><i class="fa fa-fw fa-instagram"></i> Instagram</a>
+</li>
+</ul>
+</li>
+<li>
+<a href=#>Posts</a>
+<ul class=dl-submenu>
+<li><a href=/post/>All Posts</a></li>
+<li><a href=/tags/>All Tags</a></li>
+</ul>
+</li>
+<li><a href=/></a></li>
+</ul>
+</nav>
+<div class=entry-header>
+<div class=header-title>
+<div class=header-title-wrap>
+<h1><a href=/ title="Go to the homepage">Le murmure de Julian</a></h1>
+<h2>
+websocket
+</h2>
+</div>
+</div>
+</div>
+<div id=main role=main>
+<article class=hentry>
+<header>
+<div class=entry-meta>
+<span class="entry-date date published updated"><time datetime="2016-11-29 17:39:41 +0000 UTC"><a href=/Android-Firebase-WebRTC-on-Android/>Nov 29, 2016</a></time></span>
+<span class=entry-reading-time>
+<i class="fa fa-clock-o"></i>
+Reading time ~7 minutes
+</span>
+</div>
+<h1 class=entry-title><a href=/Android-Firebase-WebRTC-on-Android/ rel=bookmark title="[Android] Firebase + WebRTC on Android" itemprop=url>[Android] Firebase + WebRTC on Android</a></h1>
+</header>
+<div class=entry-content>
+<p><a href=https://webrtc.org/>WebRTC</a>是一個支援瀏覽器的即時影音對話的架構, 算是一個業界標(W3C,IETF), 最近由於想做一個有影音通話的應用, 就研究了一下這東西</p>
+<p>如果只是想嘗試一下<a href=https://webrtc.org/>WebRTC</a>, 是可以直接是可以直接試<a href=https://appr.tc/>AppRTC</a>這個Google的範例, 不過這個是Web的版本, 我想要做的是
+手機的版本(Android, iOS), <a href=https://appr.tc/>AppRTC</a>其實也有Android的版本可搭配</p>
+<p>為了熟悉一下整個用WebRTC建立video call的流程, 因此我就決定改一下這個Android版本, 原本Google的版本是透過Web Socket</p>
+<p>至於流程與架構我會建議看這影片:</p>
+<div style=position:relative;padding-bottom:56.25%;height:0;overflow:hidden>
+<iframe src=https://www.youtube.com/embed/HS1eKPL4f1o style=position:absolute;top:0;left:0;width:100%;height:100%;border:0 allowfullscreen title="YouTube Video"></iframe>
+</div>
+<p>如果不想看太長, 就看這個:</p>
+<div style=position:relative;padding-bottom:56.25%;height:0;overflow:hidden>
+<iframe src=https://www.youtube.com/embed/nDPlGcoArdM style=position:absolute;top:0;left:0;width:100%;height:100%;border:0 allowfullscreen title="YouTube Video"></iframe>
+</div>
+<p>把Web RTC那段換成Firebase(好, 其實我蠻後悔選Firebase來實作的)其實就是把Signaling這段給換掉, 而這段流程是(節錄自影片):</p>
+<p><img src=/images/posts/webrtc.png alt></p>
+<p>這部分其實就是交換兩邊的SDP和ICE candidate的過程, 詳細可以參考<a href=http://blog.mozilla.com.tw/posts/3261/webrtc-%E7%9B%B8%E9%97%9C%E7%B8%AE%E5%AF%AB%E5%90%8D%E8%A9%9E%E7%B0%A1%E4%BB%8B>這邊:WebRTC 相關縮寫名詞簡介</a></p>
+<p>結果的source code放在<a href=https://github.com/julianshen/apprtc-android-demo>這邊 : apprtc-android-demo</a></p>
+<h3 id=building-webrtc-lib-on-android>Building WebRTC lib on Android</h3>
+<p>其實現在寫WebRTC的應用的話, 也不用從頭實作, Google老早就把它實作在<a href=http://chromium.org>Chromium</a>裡面了, 也可以單獨build出library用</p>
+<p>這邊有官方的<a href=https://webrtc.org/native-code/android/>如何建置出Android版本的Web RTC library</a>, 不過, 不要照著這份文件做呀, 不然頭髮會白好幾根, 可能還build不太起來,
 找了一堆網路上人家的建議也都是不要直接build, 直接用人家build好現成的, 不過, 現成的雖然有一些, 但大多是過時的, API跟現今的也不太一樣, 如果
-要套用到現在的Android版本AppRTC的source code內, 大多都沒辦法用</p><p>所幸找到這個<a href=https://github.com/pristineio/webrtc-build-scripts/tree/master/android>build script: pristineio/webrtc-build-scripts</a>,
-這個從下載最新的source code到build出library一律包辦, 用法也很簡單, 只要執行下面的:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>source android/build.sh
+要套用到現在的Android版本AppRTC的source code內, 大多都沒辦法用</p>
+<p>所幸找到這個<a href=https://github.com/pristineio/webrtc-build-scripts/tree/master/android>build script: pristineio/webrtc-build-scripts</a>,
+這個從下載最新的source code到build出library一律包辦, 用法也很簡單, 只要執行下面的:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>source android/build.sh
 install_dependencies
 get_webrtc
 build_apprtc
 </code></pre></div><p>簡單明暸, 但&mldr;有幾個問題, 第一個是只能在Linux下build, 因此在Mac跟Windows下要透過<a href=https://www.vagrantup.com/>Vagrant</a>這類的工具,
 而且對硬體需求也很高, 我的2012年中版的Macbook Pro retina實在是跑不動, 後來跑去Digital Ocean租了台VM來build, 本以為最便宜的可以勝任,
-後來發現, 至少要4G RAM, 硬碟要20G以上的instance(哭哭, 浪費好多時間)</p><p>build出來後, 所需要的東西包含了libjingle_peerconnection.jar和libjingle_peerconnection_so.so, 把這幾個備份起來就是了, 待會build apk需要用</p><h3 id=apprtc-範例的android-source-codes->AppRTC 範例的Android source codes</h3><p>Android的範例的source codes<a href=https://chromium.googlesource.com/external/webrtc/+/master/webrtc/examples/androidapp/>可以在這邊下載</a></p><p>不過這並不是Android studio的project格式, 因此需要用匯入的方式, 或是可以直接fork<a href=https://github.com/julianshen/apprtc-android-demo>我的版本</a>去改,
+後來發現, 至少要4G RAM, 硬碟要20G以上的instance(哭哭, 浪費好多時間)</p>
+<p>build出來後, 所需要的東西包含了libjingle_peerconnection.jar和libjingle_peerconnection_so.so, 把這幾個備份起來就是了, 待會build apk需要用</p>
+<h3 id=apprtc-範例的android-source-codes>AppRTC 範例的Android source codes</h3>
+<p>Android的範例的source codes<a href=https://chromium.googlesource.com/external/webrtc/+/master/webrtc/examples/androidapp/>可以在這邊下載</a></p>
+<p>不過這並不是Android studio的project格式, 因此需要用匯入的方式, 或是可以直接fork<a href=https://github.com/julianshen/apprtc-android-demo>我的版本</a>去改,
 由於原本的版本使用了Web socket做singaling的管道, 因此需要<a href=http://autobahn.ws/>Autobahn</a>, 但你切記絕對不能用<a href=http://autobahn.ws/>Autobahn</a>官方最新的jar檔,
 而是要用Google放在third_party裡面那個autobanh.jar(啊, 我到現在才發現名字有些許不同), 這邊的差異是, 原本<a href=http://autobahn.ws/>Autobahn</a>是沒有支援SSL的websocket的,
-但AppRTC的websocket則是要透過SSL來連接</p><p>把jar跟so檔放到對應的目錄去後, 記得改一下app目錄下的build.gradle加入 (因為import產生的不會幫你加):</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-gradle data-lang=gradle>dependencies <span style=color:#f92672>{</span>
+但AppRTC的websocket則是要透過SSL來連接</p>
+<p>把jar跟so檔放到對應的目錄去後, 記得改一下app目錄下的build.gradle加入 (因為import產生的不會幫你加):</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-gradle data-lang=gradle>dependencies <span style=color:#f92672>{</span>
     compile <span style=color:#a6e22e>fileTree</span><span style=color:#f92672>(</span>dir: <span style=color:#e6db74>&#39;libs&#39;</span><span style=color:#f92672>,</span> include: <span style=color:#f92672>[</span><span style=color:#e6db74>&#39;*.jar&#39;</span><span style=color:#f92672>])</span>
 <span style=color:#f92672>}</span>
-</code></pre></div><h3 id=加上firebase->加上firebase</h3><p>除了原本的Webcoket和Direct connect兩種方式外, 為了跑一次他的流程我多加了Firebase的部分, 利用它的realtime database來做Signaling這部分,
-至於怎樣開始開發firebase, 就參考一下他的<a href=https://firebase.google.com/docs/database/android/start/>官方文件</a>吧</p><h3 id=signaling的實作->Signaling的實作</h3><h4 id=callactivity->CallActivity</h4><p>選擇哪種signaling的方式是在CallActivity裡面依據roomId來看使用哪一個signaling client, 程式碼如下:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>    <span style=color:#75715e>// Create connection client. Use DirectRTCClient if room name is an IP otherwise use the
+</code></pre></div><h3 id=加上firebase>加上firebase</h3>
+<p>除了原本的Webcoket和Direct connect兩種方式外, 為了跑一次他的流程我多加了Firebase的部分, 利用它的realtime database來做Signaling這部分,
+至於怎樣開始開發firebase, 就參考一下他的<a href=https://firebase.google.com/docs/database/android/start/>官方文件</a>吧</p>
+<h3 id=signaling的實作>Signaling的實作</h3>
+<h4 id=callactivity>CallActivity</h4>
+<p>選擇哪種signaling的方式是在CallActivity裡面依據roomId來看使用哪一個signaling client, 程式碼如下:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>    <span style=color:#75715e>// Create connection client. Use DirectRTCClient if room name is an IP otherwise use the
 </span><span style=color:#75715e></span>    <span style=color:#75715e>// standard WebSocketRTCClient.
 </span><span style=color:#75715e></span>    <span style=color:#66d9ef>if</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;firebase&#34;</span><span style=color:#f92672>.</span><span style=color:#a6e22e>equals</span><span style=color:#f92672>(</span>roomId<span style=color:#f92672>))</span> <span style=color:#f92672>{</span>
       Log<span style=color:#f92672>.</span><span style=color:#a6e22e>d</span><span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;firebase&#34;</span><span style=color:#f92672>);</span>
@@ -27,7 +143,11 @@ build_apprtc
       Log<span style=color:#f92672>.</span><span style=color:#a6e22e>i</span><span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;Using DirectRTCClient because room name looks like an IP.&#34;</span><span style=color:#f92672>);</span>
       appRtcClient <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> DirectRTCClient<span style=color:#f92672>(</span><span style=color:#66d9ef>this</span><span style=color:#f92672>);</span>
     <span style=color:#f92672>}</span>
-</code></pre></div><p>原本有WebSocketRTCClient和DirectRTCClient, 如果是IP的話就用DirectRTCClient,這邊我多加一個FirebaseRTCClient, 只要roomId是firebase就會使用這個(我偷懶)</p><h4 id=firebasertcclient->FirebaseRTCClient</h4><p>XXXRTCClient這部分實作了signaling的部分, 因此我參考了WebSocketRTCClient和DirectRTCClient的內容來寫FirebaseRTCClient</p><p>跟WebSocketRTCClinet一樣, 它必須實作AppRTCClient, AppRTCClient這個Interface定義如下:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#75715e>/**
+</code></pre></div><p>原本有WebSocketRTCClient和DirectRTCClient, 如果是IP的話就用DirectRTCClient,這邊我多加一個FirebaseRTCClient, 只要roomId是firebase就會使用這個(我偷懶)</p>
+<h4 id=firebasertcclient>FirebaseRTCClient</h4>
+<p>XXXRTCClient這部分實作了signaling的部分, 因此我參考了WebSocketRTCClient和DirectRTCClient的內容來寫FirebaseRTCClient</p>
+<p>跟WebSocketRTCClinet一樣, 它必須實作AppRTCClient, AppRTCClient這個Interface定義如下:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#75715e>/**
 </span><span style=color:#75715e> * AppRTCClient is the interface representing an AppRTC client.
 </span><span style=color:#75715e> */</span>
 <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>interface</span> <span style=color:#a6e22e>AppRTCClient</span> <span style=color:#f92672>{</span>
@@ -142,10 +262,15 @@ build_apprtc
 <span style=color:#f92672>}</span>
 </code></pre></div><p>主要就是定義了如何處理connect, disconnect, 還有怎麼去註冊SDP和ICE candidate, 在確定好連接成功後, AppRTCClient要負責呼叫onConnectedToRoom來通知
 CallActivity已經可以準備建立video call的後續流程, 且要負責處理如果Signal server(這邊是firebase)有傳來遠端的SDP跟ICE candidate, 要負責呼叫SignalingEvents對應的處理
-(這邊一樣會叫到CallActivity, 而CallActivity則會使用PeerConnectionClient來處理需要傳遞給PeerConnection相關的參數)</p><p>這邊用Firebase處理Signaling的方式是監聽某一個key的改變, 有新的裝置連接, 註冊SDP, ICE Candidate, 就寫到這下面去, 這其實不是一個很好的方式,
-因為這下面只要有值的改變, 就會觸發, 不像是WebSocket那個版本是一來一往的API calls, 而且你不知道每次觸發被更動的是哪一部分, 一開始發生了好幾次PeerConnection重複註冊SDP才讓我發現因為這原因被重複呼叫的問題</p><h3 id=turn-server->TURN server</h3><p>WebRTC是P2P的, 因此如果不具備穿牆能力的話, 在牆外就會被擋掉, 一開始我本來想說試驗P2P而不走TURN Server穿牆的(因為我一時也懶得架一台), 結果測試時老是連不上, 後來才發現我阿呆,
-我的測試環境是一台實體手機, 另一台是電腦上跑模擬器, 本以為兩個(手機, 電腦)是同一個區網沒問題, 後來才想到模擬器是在另一個虛擬網路, 因此還是有需要TURN server</p><p>如果不想架一台, 要怎辦? 用Google免錢的, 他們做了這個demo, 一定有! 因此就偷看了一下WebRTCClient的code跟傳輸內容,發現它跟https://networktraversal.googleapis.com/v1alpha/iceconfig?key=AIzaSyAJdh2HkajseEIltlZ3SIXO02Tze9sO3NY
-去要TURN server list, 所以基本上只要照copy下面這段就好:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>   <span style=color:#66d9ef>private</span> LinkedList<span style=color:#f92672>&lt;</span>PeerConnection<span style=color:#f92672>.</span><span style=color:#a6e22e>IceServer</span><span style=color:#f92672>&gt;</span> <span style=color:#a6e22e>requestTurnServers</span><span style=color:#f92672>(</span>String url<span style=color:#f92672>)</span>
+(這邊一樣會叫到CallActivity, 而CallActivity則會使用PeerConnectionClient來處理需要傳遞給PeerConnection相關的參數)</p>
+<p>這邊用Firebase處理Signaling的方式是監聽某一個key的改變, 有新的裝置連接, 註冊SDP, ICE Candidate, 就寫到這下面去, 這其實不是一個很好的方式,
+因為這下面只要有值的改變, 就會觸發, 不像是WebSocket那個版本是一來一往的API calls, 而且你不知道每次觸發被更動的是哪一部分, 一開始發生了好幾次PeerConnection重複註冊SDP才讓我發現因為這原因被重複呼叫的問題</p>
+<h3 id=turn-server>TURN server</h3>
+<p>WebRTC是P2P的, 因此如果不具備穿牆能力的話, 在牆外就會被擋掉, 一開始我本來想說試驗P2P而不走TURN Server穿牆的(因為我一時也懶得架一台), 結果測試時老是連不上, 後來才發現我阿呆,
+我的測試環境是一台實體手機, 另一台是電腦上跑模擬器, 本以為兩個(手機, 電腦)是同一個區網沒問題, 後來才想到模擬器是在另一個虛擬網路, 因此還是有需要TURN server</p>
+<p>如果不想架一台, 要怎辦? 用Google免錢的, 他們做了這個demo, 一定有! 因此就偷看了一下WebRTCClient的code跟傳輸內容,發現它跟https://networktraversal.googleapis.com/v1alpha/iceconfig?key=AIzaSyAJdh2HkajseEIltlZ3SIXO02Tze9sO3NY
+去要TURN server list, 所以基本上只要照copy下面這段就好:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>   <span style=color:#66d9ef>private</span> LinkedList<span style=color:#f92672>&lt;</span>PeerConnection<span style=color:#f92672>.</span><span style=color:#a6e22e>IceServer</span><span style=color:#f92672>&gt;</span> <span style=color:#a6e22e>requestTurnServers</span><span style=color:#f92672>(</span>String url<span style=color:#f92672>)</span>
             <span style=color:#66d9ef>throws</span> IOException<span style=color:#f92672>,</span> JSONException <span style=color:#f92672>{</span>
         LinkedList<span style=color:#f92672>&lt;</span>PeerConnection<span style=color:#f92672>.</span><span style=color:#a6e22e>IceServer</span><span style=color:#f92672>&gt;</span> turnServers <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> LinkedList<span style=color:#f92672>&lt;</span>PeerConnection<span style=color:#f92672>.</span><span style=color:#a6e22e>IceServer</span><span style=color:#f92672>&gt;();</span>
         Log<span style=color:#f92672>.</span><span style=color:#a6e22e>d</span><span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;Request TURN from: &#34;</span> <span style=color:#f92672>+</span> url<span style=color:#f92672>);</span>
@@ -183,4 +308,21 @@ CallActivity已經可以準備建立video call的後續流程, 且要負責處�
         Scanner s <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> Scanner<span style=color:#f92672>(</span>in<span style=color:#f92672>).</span><span style=color:#a6e22e>useDelimiter</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;\\A&#34;</span><span style=color:#f92672>);</span>
         <span style=color:#66d9ef>return</span> s<span style=color:#f92672>.</span><span style=color:#a6e22e>hasNext</span><span style=color:#f92672>()</span> <span style=color:#f92672>?</span> s<span style=color:#f92672>.</span><span style=color:#a6e22e>next</span><span style=color:#f92672>()</span> <span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;&#34;</span><span style=color:#f92672>;</span>
     <span style=color:#f92672>}</span>
-</code></pre></div><p>把這邊拿來的list當ICE candidate, 就可以成功透過Google的TURN server去穿牆了(長久之計還是自己架一台吧)</p></div></article></div><div class=footer-wrapper><footer role=contentinfo><span>Powered by <a href=https://gohugo.io/ rel=nofollow>Hugo</a> using the <a href=https://github.com/dldx/hpstr-hugo-theme rel=nofollow>HPSTR theme</a>.</span></footer></div><script src=//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js></script><script src=https://kit.fontawesome.com/872a53b461.js crossorigin=anonymous></script><script>window.jQuery||document.write('<script src="\/js\/vendor\/jquery-1.9.1.min.js"><\/script>')</script><script src=/js/scripts.min.js></script><script type=application/javascript>var doNotTrack=false;if(!doNotTrack){(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');ga('create','UA-79243751-1','auto');ga('send','pageview');}</script><div id=fb-root></div><script async defer crossorigin=anonymous src="https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v7.0&appId=293999444006555&autoLogAppEvents=1" nonce=geZSUIUh></script></body></html>
+</code></pre></div><p>把這邊拿來的list當ICE candidate, 就可以成功透過Google的TURN server去穿牆了(長久之計還是自己架一台吧)</p>
+</div>
+</article>
+</div>
+<div class=footer-wrapper>
+<footer role=contentinfo>
+<span> Powered by <a href=https://gohugo.io/ rel=nofollow>Hugo</a> using the <a href=https://github.com/dldx/hpstr-hugo-theme rel=nofollow>HPSTR theme</a>.</span>
+</footer>
+</div>
+<script src=//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js></script>
+<script src=https://kit.fontawesome.com/872a53b461.js crossorigin=anonymous></script>
+<script>window.jQuery||document.write('<script src="/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src=/js/scripts.min.js></script>
+<script type=application/javascript>var doNotTrack=!1;doNotTrack||(function(a,e,f,g,b,c,d){a.GoogleAnalyticsObject=b,a[b]=a[b]||function(){(a[b].q=a[b].q||[]).push(arguments)},a[b].l=1*new Date,c=e.createElement(f),d=e.getElementsByTagName(f)[0],c.async=1,c.src=g,d.parentNode.insertBefore(c,d)}(window,document,'script','https://www.google-analytics.com/analytics.js','ga'),ga('create','UA-79243751-1','auto'),ga('send','pageview'))</script>
+<div id=fb-root></div>
+<script async defer crossorigin=anonymous src="https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v7.0&appId=293999444006555&autoLogAppEvents=1" nonce=geZSUIUh></script>
+</body>
+</html>
