@@ -20,7 +20,7 @@
 <link rel=stylesheet href=/css/main.css>
 <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel=stylesheet type=text/css>
 <meta http-equiv=cleartype content="on">
-<meta name=generator content="Hugo 0.86.0">
+<meta name=generator content="Hugo 0.86.1">
 <script src=/js/vendor/modernizr-2.6.2.custom.min.js></script>
 <script async src=https://unpkg.com/mermaid@8.2.3/dist/mermaid.min.js></script>
 <link rel="shortcut icon" href=/favicon.png>
@@ -76,6 +76,39 @@
 </div>
 </div>
 <div id=main role=main>
+<article class=hentry>
+<header>
+<div class=entry-meta>
+<span class="entry-date date published updated"><time datetime="2016-02-18 09:23:42 +0000 UTC"><a href=/%E7%AD%86%E8%A8%98-%E8%A2%AB%E5%86%A4%E6%9E%89%E7%9A%84MongoDB/>Feb 18, 2016</a></time></span>
+<span class=entry-reading-time>
+<i class="fa fa-clock-o"></i>
+Reading time ~2 minutes
+</span>
+</div>
+<h1 class=entry-title><a href=/%E7%AD%86%E8%A8%98-%E8%A2%AB%E5%86%A4%E6%9E%89%E7%9A%84MongoDB/ rel=bookmark title="[筆記] 被冤枉的MongoDB" itemprop=url>[筆記] 被冤枉的MongoDB</a></h1>
+</header>
+<div class=entry-content>
+<p>續<a href=http://blog.jln.co/post/139117302737/%E7%AD%86%E8%A8%98-deploy-mongodb-replica-set-to-coreosfleet>前篇</a> 裝好了MongoDB的Cluster後(1 Primary, 2 Secondaries)就開始進行大量的資料移轉</p>
+<p>結果資料寫到一半, 突然發現Primary換人了, 雖然因為有Secondaries, 會有人上來替代, 因為Mongo只有Primary才可以被寫入, 這使得client必須重新建立對新的primary的connection, 一度以為機器被reboot了, 但查logs並沒這現象, 後來又以為, MongoDB也太不濟了吧, 這種量級的寫入居然可以擊倒它, 結果後來查了log發現, 他的確被restart了, 只是兇手不是他, 是別人叫他去死的</p>
+<p>一切是Fleet惹的禍, 根據這篇<a href=https://github.com/coreos/fleet/issues/1289>Fleet engine stops units when etcd leadership change or has connectivity issues #1289</a>, Fleet只要聯絡不到etcd, 就會認為不能獨活了, 就會把其他人也給殺了(可惡的殺人兇手),追根據底就是timeout設的太短了, 以至於當系統稍微(只是稍微而已)一忙, 就很容易超過timeout, 然後他就認為, 他的情人死了!(也太玻璃心了)</p>
+<p>解決方案就是延長timeout, 修改cloud-config加上如下的東西(把etcd的heartbeat跟election timeout延長, 把fleet相關的也給延長):</p>
+<pre>
+
+#cloud-config
+
+coreos:
+  etcd2:
+    heartbeat-interval: 600
+    election-timeout: 6000
+  fleet:
+    engine-reconcile-interval: 10
+    etcd-request-timeout: 5
+    agent-ttl: 120s
+
+</pre>
+<p>至於Azure上裝的coreos, cloud-config位置是在: <code>/var/lib/waagent/CustomData</code>, 改完restart機器就好</p>
+</div>
+</article>
 <article class=hentry>
 <header>
 <div class=entry-meta>
@@ -238,21 +271,6 @@ Reading time ~2 minutes
 </header>
 <div class=entry-content>
 <p>在Swift裡, Protocol和Protocol extension是非常強悍的東西, 比起OO世界的Class, 其實是更加犀利, 在今年(2015)的WWDC有一場個人很推薦的<a href=https://developer.apple.com/videos/play/wwdc2015-408/><i>Protocol-Oriented Programming in Swift</i></a> <i>, </i>這場講的蠻精闢的, 熱門到後來加開了第二場, 今年我去WWDC, 我自己就兩場都去了, 回來又再回為了一次, 相當建議聽看看的:<br></p><p><a href=https://developer.apple.com/videos/play/wwdc2015-408/>https://developer.apple.com/videos/play/wwdc2015-408/</a></p><p>好, 這篇重點不是推薦這場演講&mldr;.而是怎在Swift中去建立Array extension? 這好像沒什麼難的, 不就像下面這樣就可以了?<br></p><blockquote><p><i>extension Array {<br>    func concat() -> String {<br>        var str = &ldquo;&rdquo;<br>        for i in self {<br>            str += String(i)<br>        }<br>        return str<br>    }<br>}</i></p></blockquote><p>沒錯, 這是最簡單的方式, 但其實有個問題, Array內的元件(element)是泛型, 也就可能是任意的型態, 以這個例子來說, 也有可能是無法轉成String的型態, 在這邊就有可能出問題, 因為這寫法會被套用到所有的Array型態去, 不管是String array, In array或其他, 但大部分現實的例子(也就是我手上在寫的東西剛好碰到的例子), 我們只希望延伸出的東西只被套用到某些特定的型態, 這時候就得加上”where”來解決這問題:</p><p><script src=https://gist.github.com/julianshen/bf4895ab31f4fbda09c4.js></script><br></p><p>以上面這例子, 雖然字串陣列跟整數陣列都有find這函式, 參數型態也一樣(Self.Generator.Element), 但這兩者的find的行為是不同的, 以字串陣列來說是找含有這一字串的, 而以整數陣列來說則是找一樣的, 這邊就是靠extension裡的where</p><p>這邊有個不一樣的地方是, Array被換成CollectionType了, 這是因為where裡面要判斷Element是不是我們所要的型態, 而Array是一個struct, CollectionType才是一個Protocol, 所以這邊我們用CollectionType來達到這目的<br></p>
-</div>
-</article>
-<article class=hentry>
-<header>
-<div class=entry-meta>
-<span class="entry-date date published updated"><time datetime="2015-09-28 01:33:13 +0000 UTC"><a href=/iOS%E7%94%9F%E6%89%8B%E7%AD%86%E8%A8%98-Swift%E8%A3%A1%E7%9A%84%5Cr%E8%88%87%5Cr%5Cn/>Sep 28, 2015</a></time></span>
-<span class=entry-reading-time>
-<i class="fa fa-clock-o"></i>
-Reading time ~1 minute
-</span>
-</div>
-<h1 class=entry-title><a href=/iOS%E7%94%9F%E6%89%8B%E7%AD%86%E8%A8%98-Swift%E8%A3%A1%E7%9A%84%5Cr%E8%88%87%5Cr%5Cn/ rel=bookmark title="[iOS生手筆記] Swift裡的“\r”與”\r\n”" itemprop=url>[iOS生手筆記] Swift裡的“\r”與”\r\n”</a></h1>
-</header>
-<div class=entry-content>
-<p>實在有點詭異的問題, 解決後又覺得實在有點蠢, 結果這問題足足花了我一個半小時才得到答案</p><p>問題是這樣的, 我拿了這一個字串 <i><b>&ldquo;&lsquo;x\\r\nx&rsquo;&rdquo;</b></i> 來做解析, 一個個Character去檢查是不是”\r”, 如:</p><blockquote><p><i>let x=&ldquo;'x\\r\nx&rsquo;&rdquo;<br>for s in x.characters {<br>    if s == “\r” {<br>         print(”got you!”)<br>    }<br>}</i><br></p></blockquote><p>邏輯上看起來沒啥問題, 但執行結果一直不如預期(沒印出”got you”), 把第四個字元substring出來它也不等於字串”\r”</p><p>百思不得其解, 結果最後在\r\n中間加一個空白後, 就得到預期的結果了, 原來&mldr;.它是把”\r\n”整個當成一個字元!!!</p>
 </div>
 </article>
 <div class=pagination>

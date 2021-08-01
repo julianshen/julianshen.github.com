@@ -20,7 +20,7 @@
 <link rel=stylesheet href=/css/main.css>
 <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel=stylesheet type=text/css>
 <meta http-equiv=cleartype content="on">
-<meta name=generator content="Hugo 0.86.0">
+<meta name=generator content="Hugo 0.86.1">
 <script src=/js/vendor/modernizr-2.6.2.custom.min.js></script>
 <script async src=https://unpkg.com/mermaid@8.2.3/dist/mermaid.min.js></script>
 <link rel="shortcut icon" href=/favicon.png>
@@ -77,6 +77,21 @@ All posts
 </div>
 </div>
 <div id=main role=main>
+<article class=hentry>
+<header>
+<div class=entry-meta>
+<span class="entry-date date published updated"><time datetime="2015-07-30 14:34:47 +0000 UTC"><a href=/%E5%9C%A8Azure-Web-App%E4%B8%8A%E4%BD%BF%E7%94%A8%E7%A7%81%E6%9C%89%E7%9A%84npm-registry/>Jul 30, 2015</a></time></span>
+<span class=entry-reading-time>
+<i class="fa fa-clock-o"></i>
+Reading time ~2 minutes
+</span>
+</div>
+<h1 class=entry-title><a href=/%E5%9C%A8Azure-Web-App%E4%B8%8A%E4%BD%BF%E7%94%A8%E7%A7%81%E6%9C%89%E7%9A%84npm-registry/ rel=bookmark title="在Azure Web App上使用私有的npm registry" itemprop=url>在Azure Web App上使用私有的npm registry</a></h1>
+</header>
+<div class=entry-content>
+<p>Azure Web App是一個還算簡單好用的PAAS, 它是基於一個open source project - <a href=https://github.com/projectkudu/kudu>Kudu</a>, 因此除了C#外, 也支援了Java, PHP, Node.js, Python等環境, 部屬的方法也簡單到只需要用”git push”就可以了</p><p>使用node.js來開發程式的話, 免不了需要安裝許多不同的模組(module), 這對Web App來說也不是問題, 在”git push”之後, 它自動就會用”npm install”來幫你安裝package.json裡面指定的所有模組</p><p>但有時候, 用到的模組未必是放在公開的npm registry而是放在私有的registry, 那這時候就得做一點手腳了</p><p>首先在專案目錄中, 新增一個.npmrc的檔案(<a href=https://docs.npmjs.com/files/npmrc>https://docs.npmjs.com/files/npmrc</a>), 把private registry相關資訊(url, auth)放在這檔案, 並push上去</p><p>這時候你會看到push過程中, 雖然有找到private registry, 但會有一個錯誤產生:</p><blockquote><p><i>Error: can&rsquo;t access restricted package without auth, did you forget &lsquo;npm set always-auth true&rsquo;?</i></p></blockquote><p>原因是你必須要先跑過”npm set always-auth true”, 不然在連接私有的registry會因為沒有認證而出錯, 那要怎樣在事前跑這指令呢? 這時候就要借助deployment script了</p><blockquote><p><i>azure site deploymentscript &ndash;node</i></p></blockquote><p>在你的專案目錄下跑以上那指令, 在你目錄下就會產生兩個檔案: .deployment和deploy.sh, 在deploy.sh找到下面這段:</p><blockquote><p><i># 3. Install npm packages</i></p></blockquote><p>在這行下面加上:</p><blockquote><p><i>eval $NPM_CMD set always-auth true</i></p></blockquote><p>再把這些給push到Azure Web App上, 大功告成!</p>
+</div>
+</article>
 <article class=hentry>
 <header>
 <div class=entry-meta>
@@ -161,36 +176,6 @@ if let s = p.lightMutedSwatch {
 }
 </pre>
 <p>目前產生的結果可能跟Android版本的結果會有落差, 可能還需要很用力的debug吧&mldr;.</p>
-</div>
-</article>
-<article class=hentry>
-<header>
-<div class=entry-meta>
-<span class="entry-date date published updated"><time datetime="2015-05-18 02:16:37 +0000 UTC"><a href=/iOS%E9%96%8B%E7%99%BC%E7%94%9F%E6%89%8B%E7%AD%86%E8%A8%98-%E6%8A%8AUnsafeMutablePointer/UnsafePointer-%E8%BD%89%E6%88%90Array-Swift/>May 18, 2015</a></time></span>
-<span class=entry-reading-time>
-<i class="fa fa-clock-o"></i>
-Reading time ~2 minutes
-</span>
-</div>
-<h1 class=entry-title><a href=/iOS%E9%96%8B%E7%99%BC%E7%94%9F%E6%89%8B%E7%AD%86%E8%A8%98-%E6%8A%8AUnsafeMutablePointer/UnsafePointer-%E8%BD%89%E6%88%90Array-Swift/ rel=bookmark title="[iOS開發生手筆記] 把UnsafeMutablePointer/UnsafePointer 轉成Array (Swift)" itemprop=url>[iOS開發生手筆記] 把UnsafeMutablePointer/UnsafePointer 轉成Array (Swift)</a></h1>
-</header>
-<div class=entry-content>
-<p>在寫我的週末習作時, 為了抓取bitmap上所有的pixels時, 碰到這問題, 找了整個晚上才找到答案</p>
-<p>首先, 要抓取bitmap上所有的pixel必須要使用到CoreGraphics裡的CGBitmapContextGetData, 想當然爾, 這是老舊的API, C API, 那用Swift可以去取用嗎? 參照<a href=https://developer.apple.com/library/ios/documentation/Swift/Conceptual/BuildingCocoaApps/InteractingWithCAPIs.html>Interacting with C APIs</a> 這篇裡面有相關的Swift與C之間的對照</p>
-<p>回到取pixels這目的, 我希望取到的值是一個整數陣列, 精確來說是[UInt32]的陣列, 但CGBitmapContextGetData回傳的是什麼呢? 查文件可知是UnsafeMutablePointer&lt;Void> ,依照上面的文件來說, 對照到C則是"void *&ldquo;, 文件裡面有提到:</p>
-<pre>
-When a function is declared as taking an UnsafeMutablePointer&lt;Void&gt; argument, it can accept the same operands as UnsafeMutablePointer&lt;Type&gt; for any type Type.
-</pre>
-<p>意思就是, 它也可以是整數陣列指標, 但, 怎麼轉回去呢? 這就是讓我整個晚上超崩潰的, 幹, 這文件沒寫!</p>
-<p>搞半天, 才終於讓我找到答案:</p>
-<pre>
-let data = CGBitmapContextGetData(context)
-    
-let intData = UnsafeMutablePointer&lt;UInt32&gt;(data)
-let intArray = Array(UnsafeBufferPointer(start: intData, count: bitmapByteCount))
-</pre>
-<p>原來必須先把它轉型成UnsafeMutablePointer&lt;UInt32>, 然後再用UnsafeBufferPointer轉存到實際的陣列中(因為UnsafeBufferPointer是SequenceType, 才可以轉成Array), 當然也要給它陣列大小</p>
-<p>但實際上這樣做對不對, 安不安全&mldr;還不知道, 找到答案寫下來先</p>
 </div>
 </article>
 <div class=pagination>

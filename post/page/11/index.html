@@ -20,7 +20,7 @@
 <link rel=stylesheet href=/css/main.css>
 <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel=stylesheet type=text/css>
 <meta http-equiv=cleartype content="on">
-<meta name=generator content="Hugo 0.86.0">
+<meta name=generator content="Hugo 0.86.1">
 <script src=/js/vendor/modernizr-2.6.2.custom.min.js></script>
 <script async src=https://unpkg.com/mermaid@8.2.3/dist/mermaid.min.js></script>
 <link rel="shortcut icon" href=/favicon.png>
@@ -80,6 +80,21 @@ All posts
 <article class=hentry>
 <header>
 <div class=entry-meta>
+<span class="entry-date date published updated"><time datetime="2015-09-28 01:33:13 +0000 UTC"><a href=/iOS%E7%94%9F%E6%89%8B%E7%AD%86%E8%A8%98-Swift%E8%A3%A1%E7%9A%84%5Cr%E8%88%87%5Cr%5Cn/>Sep 28, 2015</a></time></span>
+<span class=entry-reading-time>
+<i class="fa fa-clock-o"></i>
+Reading time ~1 minute
+</span>
+</div>
+<h1 class=entry-title><a href=/iOS%E7%94%9F%E6%89%8B%E7%AD%86%E8%A8%98-Swift%E8%A3%A1%E7%9A%84%5Cr%E8%88%87%5Cr%5Cn/ rel=bookmark title="[iOS生手筆記] Swift裡的“\r”與”\r\n”" itemprop=url>[iOS生手筆記] Swift裡的“\r”與”\r\n”</a></h1>
+</header>
+<div class=entry-content>
+<p>實在有點詭異的問題, 解決後又覺得實在有點蠢, 結果這問題足足花了我一個半小時才得到答案</p><p>問題是這樣的, 我拿了這一個字串 <i><b>&ldquo;&lsquo;x\\r\nx&rsquo;&rdquo;</b></i> 來做解析, 一個個Character去檢查是不是”\r”, 如:</p><blockquote><p><i>let x=&ldquo;'x\\r\nx&rsquo;&rdquo;<br>for s in x.characters {<br>    if s == “\r” {<br>         print(”got you!”)<br>    }<br>}</i><br></p></blockquote><p>邏輯上看起來沒啥問題, 但執行結果一直不如預期(沒印出”got you”), 把第四個字元substring出來它也不等於字串”\r”</p><p>百思不得其解, 結果最後在\r\n中間加一個空白後, 就得到預期的結果了, 原來&mldr;.它是把”\r\n”整個當成一個字元!!!</p>
+</div>
+</article>
+<article class=hentry>
+<header>
+<div class=entry-meta>
 <span class="entry-date date published updated"><time datetime="2015-09-26 03:30:05 +0000 UTC"><a href=/%E9%96%8B%E7%AE%B1%E6%96%87-Sentri%E5%88%9D%E9%AB%94%E9%A9%97/>Sep 26, 2015</a></time></span>
 <span class=entry-reading-time>
 <i class="fa fa-clock-o"></i>
@@ -136,21 +151,6 @@ Reading time ~2 minutes
 <div class=entry-content>
 <p>會寫這東西, 起因是上週跟同事聊到, 在social network上, 尤其是我們自己的ㄍservice, 似乎很多人不習慣或是會沒設大頭照, 如果有一個可以自動產生不同的大頭照的服務, 應該會不錯, 所以就用週末寫了這個小程式, 先給兒子試玩了一下, 他對改個東西就能產生變化還頗有興趣的, 以後再來教他寫, 哈 
 </p><p>Source code在此: <a href=https://github.com/julianshen/goticon>github.com/julianshen/goticon</a></p><p>有了動機後, 突然想到, Github也是會給沒設大頭照的人設定一張方格圖像當預設大頭照, 所以第一個方向就是拷貝出一個這樣的功能:</p><img src=https://github.com/identicons/julianshen.png><p>這樣的東西並不難寫, 它只是一個5x5的方格, 我把名字用SHA512算出一個固定長度的binary string (5x5有25個方格, 我打算每格是1byte, 所以至少要有25 bytes), 每一byte如果大於某一數就填滿對應那格, 本來我的設定是128, 不過後來想說這樣如果有些極端的案例可能造成方格太多或太少, 因此這個數我取前25 bytes的中位數, 至於顏色, 我採用了一個叫go-colorful的lib去產生隨機的暖色, 以下就是我做出的結果:<br></p><figure class=tmblr-full data-orig-height=512 data-orig-width=512><img src=http://66.media.tumblr.com/c979812740dddcbccf8778a3ef608dc5/tumblr_inline_nu00zdDtvf1qzg4zq_540.png data-orig-height=512 data-orig-width=512></figure><p>不過這離有趣還有一些些距離, 所以又找到一個應用: <a href=https://github.com/matveyco/8biticon>https://github.com/matveyco/8biticon</a> </p><p>這是一個做8bits人偶的應用程式(open source, MIT License), 不過它是一個web app, 然後讓使用者自己拼湊, 這當然跟我懶人的目的不同, 我是希望只要有名字就自動產生, 所以就利用了它的圖, 自己來疊囉, 這比上面那個稍稍有趣點但更簡單, 只是依照對應的資料選出不一樣的圖疊起來而已：</p><figure class=tmblr-full data-orig-height=400 data-orig-width=400><img src=http://67.media.tumblr.com/95ea59edac52035b8b22c5b25d03fbe9/tumblr_inline_nu019bNAiu1qzg4zq_540.png data-orig-height=400 data-orig-width=400></figure><p>我把這整個應用放到heroku去了(我原始碼也已經用godep整理好了, 有興趣的人也可以自行deploy到heroku去修改測試)”</p><p>有興趣的可以用以下的URL產生自己的identicon:</p><ol><li><i><b>Github style: </b></i><a href=https://goticon.herokuapp.com/i/g/julianshen>https://goticon.herokuapp.com/i/g/julianshen</a> (把julianshen取代成你自己名字就可以了)<br></li><li><b><i>8 bits style:</i></b> <a href=https://goticon.herokuapp.com/i/8/m/julianshen>https://goticon.herokuapp.com/i/8/m/julianshen</a> (一樣換掉名字, 如果你是女生, 把”m”(male)換成”f”(female)就好, 像: <a href=https://goticon.herokuapp.com/i/8/f/julianshen>https://goticon.herokuapp.com/i/8/f/julianshen</a></li></ol>
-</div>
-</article>
-<article class=hentry>
-<header>
-<div class=entry-meta>
-<span class="entry-date date published updated"><time datetime="2015-07-30 14:34:47 +0000 UTC"><a href=/%E5%9C%A8Azure-Web-App%E4%B8%8A%E4%BD%BF%E7%94%A8%E7%A7%81%E6%9C%89%E7%9A%84npm-registry/>Jul 30, 2015</a></time></span>
-<span class=entry-reading-time>
-<i class="fa fa-clock-o"></i>
-Reading time ~2 minutes
-</span>
-</div>
-<h1 class=entry-title><a href=/%E5%9C%A8Azure-Web-App%E4%B8%8A%E4%BD%BF%E7%94%A8%E7%A7%81%E6%9C%89%E7%9A%84npm-registry/ rel=bookmark title="在Azure Web App上使用私有的npm registry" itemprop=url>在Azure Web App上使用私有的npm registry</a></h1>
-</header>
-<div class=entry-content>
-<p>Azure Web App是一個還算簡單好用的PAAS, 它是基於一個open source project - <a href=https://github.com/projectkudu/kudu>Kudu</a>, 因此除了C#外, 也支援了Java, PHP, Node.js, Python等環境, 部屬的方法也簡單到只需要用”git push”就可以了</p><p>使用node.js來開發程式的話, 免不了需要安裝許多不同的模組(module), 這對Web App來說也不是問題, 在”git push”之後, 它自動就會用”npm install”來幫你安裝package.json裡面指定的所有模組</p><p>但有時候, 用到的模組未必是放在公開的npm registry而是放在私有的registry, 那這時候就得做一點手腳了</p><p>首先在專案目錄中, 新增一個.npmrc的檔案(<a href=https://docs.npmjs.com/files/npmrc>https://docs.npmjs.com/files/npmrc</a>), 把private registry相關資訊(url, auth)放在這檔案, 並push上去</p><p>這時候你會看到push過程中, 雖然有找到private registry, 但會有一個錯誤產生:</p><blockquote><p><i>Error: can&rsquo;t access restricted package without auth, did you forget &lsquo;npm set always-auth true&rsquo;?</i></p></blockquote><p>原因是你必須要先跑過”npm set always-auth true”, 不然在連接私有的registry會因為沒有認證而出錯, 那要怎樣在事前跑這指令呢? 這時候就要借助deployment script了</p><blockquote><p><i>azure site deploymentscript &ndash;node</i></p></blockquote><p>在你的專案目錄下跑以上那指令, 在你目錄下就會產生兩個檔案: .deployment和deploy.sh, 在deploy.sh找到下面這段:</p><blockquote><p><i># 3. Install npm packages</i></p></blockquote><p>在這行下面加上:</p><blockquote><p><i>eval $NPM_CMD set always-auth true</i></p></blockquote><p>再把這些給push到Azure Web App上, 大功告成!</p>
 </div>
 </article>
 <div class=pagination>

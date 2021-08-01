@@ -20,7 +20,7 @@
 <link rel=stylesheet href=/css/main.css>
 <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel=stylesheet type=text/css>
 <meta http-equiv=cleartype content="on">
-<meta name=generator content="Hugo 0.86.0">
+<meta name=generator content="Hugo 0.86.1">
 <script src=/js/vendor/modernizr-2.6.2.custom.min.js></script>
 <script async src=https://unpkg.com/mermaid@8.2.3/dist/mermaid.min.js></script>
 <link rel="shortcut icon" href=/favicon.png>
@@ -76,6 +76,40 @@
 </div>
 </div>
 <div id=main role=main>
+<article class=hentry>
+<header>
+<div class=entry-meta>
+<span class="entry-date date published updated"><time datetime="2015-05-05 09:23:15 +0000 UTC"><a href=/iOS%E9%96%8B%E7%99%BC%E7%94%9F%E6%89%8B%E7%AD%86%E8%A8%98-KVO-on-Swift/>May 5, 2015</a></time></span>
+<span class=entry-reading-time>
+<i class="fa fa-clock-o"></i>
+Reading time ~2 minutes
+</span>
+</div>
+<h1 class=entry-title><a href=/iOS%E9%96%8B%E7%99%BC%E7%94%9F%E6%89%8B%E7%AD%86%E8%A8%98-KVO-on-Swift/ rel=bookmark title="[iOS開發生手筆記] KVO on Swift" itemprop=url>[iOS開發生手筆記] KVO on Swift</a></h1>
+</header>
+<div class=entry-content>
+<p>(通車的路上寫blog最討厭碰到網路出狀況呀!) KVO (Key Value Observing) 是用來監控一個變數是否有改變的技巧, 在做UI的data binding來說是蠻有用的, 舉個例子, 如果有個Label是一直顯示網路蒐集過來的讀數會一直變化, 一般的作法是收到這讀數再直接去操作設定這個label, 缺點是會把這類的資料邏輯跟UI邏輯綁死, 而且如果是有多個以上要跟這資料連動, 較不易擴充 (還沒完全醒, 例子舉得很爛), KVO提供一個比較好的方式利用監控數值變化來處理這件事</p>
+<p>網路上找到一篇文章, 或許這篇解釋的比我好: <a href=http://blog.riaproject.com/objective-c/2147/%E4%BA%86%E8%A7%A3-objective-c-%E4%B8%8A%E7%9A%84-kvokey-value-observing-%E6%A9%9F%E5%88%B6.html>了解 Objective-C 上的 KVO(Key-Value Observing) 機制</a></p>
+<p>不過這篇主要是針對Objective C的, 觀察者利用實作observerValueForKeyPath來得到狀態, 而被觀察者利用了addObserver加入觀察者</p>
+<p>當數值變動時, 必須要透過willChangeValueForKey 和 didChangeValueForKey 來通知觀察者, 這點算比較麻煩, Swift則不需要自己去呼叫, Swift在語言本身來說就已經設計了監看變數變化的特性, 最簡單的方式是透過willSet和didSet, 例如:</p>
+<pre>
+  var myVar:Int {
+     willSet {   
+       ....
+     }
+     didSet {
+       ....
+     }     
+  }
+</pre>
+<p>不過這樣其實還沒達到KVO的效果, 只算是一個hook來處理數值變化時要做的事, 在Swift中也是透過addObserver和observerValueForKeyPath, 唯一不同的是不需要willChangeValueForKey 和 didChangeValueForKey, 基本上只要把變數宣告成dynamic就好</p>
+<pre>
+dynamic var myVar: String = "ssss"
+</pre>
+<p>這邊很重要的是一定要宣告成dynamic, 不然會沒效果喔!</p>
+<p>(剛好到站, 寫完下車)</p>
+</div>
+</article>
 <article class=hentry>
 <header>
 <div class=entry-meta>
@@ -214,35 +248,6 @@ Reading time ~2 minutes
 <h1 class=gh-header-title><span class=js-issue-title>There is no &ldquo;message&rdquo; element for key extName</span></h1>
 </blockquote>
 <p><span>這問題是由於產生的檔案中在_locale/en底下那個檔, extName的部分只有descriiption沒有message這屬性, 補上去就好, 內容可以是你的app name</span></p>
-</div>
-</article>
-<article class=hentry>
-<header>
-<div class=entry-meta>
-<span class="entry-date date published updated"><time datetime="2014-08-21 00:41:30 +0000 UTC"><a href=/Android-Clean-Master-%E9%81%8A%E6%88%B2%E6%8D%B7%E5%BE%91%E7%9A%84%E5%9C%96%E6%A8%99%E6%98%AF%E6%80%8E%E5%81%9A%E7%9A%84/>Aug 21, 2014</a></time></span>
-<span class=entry-reading-time>
-<i class="fa fa-clock-o"></i>
-Reading time ~2 minutes
-</span>
-</div>
-<h1 class=entry-title><a href=/Android-Clean-Master-%E9%81%8A%E6%88%B2%E6%8D%B7%E5%BE%91%E7%9A%84%E5%9C%96%E6%A8%99%E6%98%AF%E6%80%8E%E5%81%9A%E7%9A%84/ rel=bookmark title='[Android] Clean Master "遊戲"捷徑的圖標是怎做的?' itemprop=url>[Android] Clean Master "遊戲"捷徑的圖標是怎做的?</a></h1>
-</header>
-<div class=entry-content>
-<p>著名的工具軟體Clean Master有一項遊戲加速的功能, 它會放一個捷徑在桌面上, 而它的長得就像是跟資料夾一樣:</p>
-<p><img src=http://67.media.tumblr.com/d64b0513ccd6b5852223c4810734b203/tumblr_inline_nam5j8q0pN1qzg4zq.png></p>
-<p>之前沒仔細去看它, 一直以為它是個小工具(AppWidget), 但其實它只是個捷徑而已, 點選它會跳出一個透明背景的對話窗, 所以很容易誤以為是桌面上的資料夾(如圖右)</p>
-<p>這用了個小技巧, 雖然有點唬人, 但其實不難, 以下就如法炮製一個類似的吧!</p>
-<p><img src=http://67.media.tumblr.com/f6d83eff297d480f76e64b27da22a609/tumblr_inline_nam5t2k00w1qzg4zq.png></p>
-<p>在這實驗, 就把Youtube, Google plus, Google map三個app的圖示放一起, 邊框, 麻煩就先省略</p>
-<p>
-<script src=https://gist.github.com/julianshen/0c85f482caac64ed26b7.js type=text/javascript></script></p>
-<p>利用"com.android.launcher.action.INSTALL_SHORTCUT"這個Intent可以在桌面上創建捷徑, 應該幾乎所有的桌面軟體都有支援, 關鍵點在於這Intent裡會帶的Intent.EXTRA_SHORTCUT_ICON, 這可以帶一個Bitmap來當作這個捷徑的圖示, 沒意外的, 就是從這邊動手</p>
-<p>因為我們需要把四個圖示畫到一個上面, 所以每個圖示變成原本的1/4, 因此, 在用BitmapFactory.decodeResource載入圖示時, 可以把sample size設成2(也就是1/4大小), 這樣可以減少一些記憶體的使用, 取得了圖示後就可以把它們畫到另一個新的Bitmap了</p>
-<p>要注意的是, 要用INSTALL_SHORTCUT的話, 要在AndroidManifest.xml裡加上:</p>
-<blockquote>
-<p>&lt;uses-permission android:name=&ldquo;com.android.launcher.permission.INSTALL_SHORTCUT&rdquo; /></p>
-</blockquote>
-<p>這方法的缺點是, 一旦捷徑被創建好後, 就沒機會改它的圖示了</p>
 </div>
 </article>
 <div class=pagination>

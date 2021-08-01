@@ -20,7 +20,7 @@
 <link rel=stylesheet href=/css/main.css>
 <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel=stylesheet type=text/css>
 <meta http-equiv=cleartype content="on">
-<meta name=generator content="Hugo 0.86.0">
+<meta name=generator content="Hugo 0.86.1">
 <script src=/js/vendor/modernizr-2.6.2.custom.min.js></script>
 <script async src=https://unpkg.com/mermaid@8.2.3/dist/mermaid.min.js></script>
 <link rel="shortcut icon" href=/favicon.png>
@@ -76,6 +76,95 @@
 </div>
 </div>
 <div id=main role=main>
+<article class=hentry>
+<header>
+<div class=entry-meta>
+<span class="entry-date date published updated"><time datetime="2017-01-01 01:56:29 +0000 UTC"><a href=/Go-%E5%88%A9%E7%94%A8goquery-otto%E4%BE%86%E5%88%86%E6%9E%90%E7%B6%B2%E9%A0%81/>Jan 1, 2017</a></time></span>
+<span class=entry-reading-time>
+<i class="fa fa-clock-o"></i>
+Reading time ~3 minutes
+</span>
+</div>
+<h1 class=entry-title><a href=/Go-%E5%88%A9%E7%94%A8goquery-otto%E4%BE%86%E5%88%86%E6%9E%90%E7%B6%B2%E9%A0%81/ rel=bookmark title="[Go] 利用goquery + otto來分析網頁" itemprop=url>[Go] 利用goquery + otto來分析網頁</a></h1>
+</header>
+<div class=entry-content>
+<p>2017的第一篇blog就先又來回的go跟爬蟲了</p>
+<p><a href=https://github.com/PuerkitoBio/goquery>goquery</a>在Go是像jquery一樣的存在, 可以讓你用jquery一樣的selector來解析html檔案內容, 像這樣:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#a6e22e>doc</span>.<span style=color:#a6e22e>Find</span>(<span style=color:#e6db74>&#34;.sidebar-reviews article .content-block&#34;</span>)
+</code></pre></div><p>只要有一些jquery的知識大概就不難上手, 但一般的網頁內容並不只有html這麼簡單而已, 有非常多的網頁是根本把資料給放在javascript, 在browser端再重組而成,
+碰到這種, 光解析網頁原始檔是不夠的, 因為很多tag的內容都是之後被javascript所產生的</p>
+<p>因此解析這類的網頁, 便可能需要去解析javascript的內容, 甚至是執行javascript, 在Go有一個好用的套件叫<a href=https://github.com/robertkrimen/otto>Otto</a>可以來解決這麻煩</p>
+<p>這邊以<a href=https://today.line.me/TW>Line Today</a>的網頁當作範例來說明, 如果你打開Line today的網頁原始檔來看, 絕大部分都是javascript, 而且資料似乎都在categoryJson內(如下)</p>
+<pre><code>&lt;script&gt;
+    var categoryJson = {
+		&quot;categories&quot;:[
+			{&quot;id&quot;:100003,&quot;name&quot;:&quot;今日頭條&quot;,&quot;source&quot;:0,&quot;title&quot;:null,&quot;thumbnail&quot;:null,&quot;url&quot;:{&quot;type&quot;:&quot;FILE&quot;,&quot;hash&quot;:
+		...
+		}
+		...
+&lt;/script&gt;
+</code></pre><p>一個土法煉鋼的方式是找到categoryJson前後的{},把它substring出來, 這內容當Json來分析, 但這樣其實還蠻容易出錯的</p>
+<p>另一個方式是先用goquery取得這個script內容, 然後用Otto去執行它後把值取出來, 像:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#a6e22e>url</span> <span style=color:#f92672>:=</span> <span style=color:#e6db74>&#34;https://today.line.me/TW&#34;</span>
+<span style=color:#a6e22e>doc</span>, <span style=color:#a6e22e>err</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>goquery</span>.<span style=color:#a6e22e>NewDocument</span>(<span style=color:#a6e22e>url</span>)
+
+<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>err</span> <span style=color:#f92672>!=</span> <span style=color:#66d9ef>nil</span> {
+	<span style=color:#a6e22e>log</span>.<span style=color:#a6e22e>Println</span>(<span style=color:#a6e22e>err</span>)
+	<span style=color:#66d9ef>return</span>
+}
+
+<span style=color:#a6e22e>s</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>doc</span>.<span style=color:#a6e22e>Find</span>(<span style=color:#e6db74>&#34;script&#34;</span>)
+<span style=color:#a6e22e>script</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>s</span>.<span style=color:#a6e22e>Nodes</span>[<span style=color:#ae81ff>1</span>].<span style=color:#a6e22e>FirstChild</span>.<span style=color:#a6e22e>Data</span>
+
+<span style=color:#a6e22e>vm</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>otto</span>.<span style=color:#a6e22e>New</span>()
+<span style=color:#a6e22e>vm</span>.<span style=color:#a6e22e>Run</span>(<span style=color:#a6e22e>script</span>)
+
+<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>value</span>, <span style=color:#a6e22e>err</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>vm</span>.<span style=color:#a6e22e>Get</span>(<span style=color:#e6db74>&#34;categoryJson&#34;</span>); <span style=color:#a6e22e>err</span> <span style=color:#f92672>==</span> <span style=color:#66d9ef>nil</span> {
+	<span style=color:#a6e22e>goData</span>, <span style=color:#a6e22e>_</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>value</span>.<span style=color:#a6e22e>Export</span>()
+	<span style=color:#a6e22e>mapData</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>goData</span>.([]<span style=color:#66d9ef>map</span>[<span style=color:#66d9ef>string</span>]<span style=color:#66d9ef>interface</span>{})
+	<span style=color:#f92672>...</span>
+}
+</code></pre></div><p>otto很方便, 可以直接執行這個javascript, 還可以取裡面的值, 取出來的值其實是一個叫Value的struct, 如果要方便用的話, 就要用Export()來把資料轉成<code>interface{}</code></p>
+<p>但<code>interface{}</code>對object來說還是很不好取用, 如果確定你要的值是個javascript object, 那轉成<code>[]map[string]interface{}</code>會稍稍方便點</p>
+<p>不過針對很複雜也很深的物件來說, <code>[]map[string]interface{}</code>也不是那麼的好用, 當你要存取的值要往下好多層時, 光轉型就要做到瘋掉, 多層次的map很麻煩的呀!</p>
+<p>因此我的做法是, 多加一段javascript來減低取出的結構的複雜度, 像這樣:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#a6e22e>vm</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>otto</span>.<span style=color:#a6e22e>New</span>()
+<span style=color:#a6e22e>vm</span>.<span style=color:#a6e22e>Run</span>(<span style=color:#a6e22e>script</span>)
+<span style=color:#a6e22e>_</span>, <span style=color:#a6e22e>err</span> = <span style=color:#a6e22e>vm</span>.<span style=color:#a6e22e>Run</span>(<span style=color:#e6db74>`
+</span><span style=color:#e6db74>	var news = categoryJson.categories[0].templates[0].sections[0].articles;
+</span><span style=color:#e6db74>
+</span><span style=color:#e6db74>	var articles = [];
+</span><span style=color:#e6db74>
+</span><span style=color:#e6db74>	for(var n in news) {
+</span><span style=color:#e6db74>		var article = {
+</span><span style=color:#e6db74>			&#39;title&#39;: news[n].title,
+</span><span style=color:#e6db74>			&#39;link&#39;: news[n].url.url,
+</span><span style=color:#e6db74>			&#39;publisher&#39;: news[n].publisher
+</span><span style=color:#e6db74>		};
+</span><span style=color:#e6db74>		articles.push(article);
+</span><span style=color:#e6db74>	}
+</span><span style=color:#e6db74>`</span>)
+
+<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>err</span> <span style=color:#f92672>!=</span> <span style=color:#66d9ef>nil</span> {
+	<span style=color:#a6e22e>fmt</span>.<span style=color:#a6e22e>Println</span>(<span style=color:#a6e22e>err</span>)
+}
+
+<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>value</span>, <span style=color:#a6e22e>err</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>vm</span>.<span style=color:#a6e22e>Get</span>(<span style=color:#e6db74>&#34;articles&#34;</span>); <span style=color:#a6e22e>err</span> <span style=color:#f92672>==</span> <span style=color:#66d9ef>nil</span> {
+	<span style=color:#a6e22e>goData</span>, <span style=color:#a6e22e>_</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>value</span>.<span style=color:#a6e22e>Export</span>()
+
+	<span style=color:#a6e22e>mapData</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>goData</span>.([]<span style=color:#66d9ef>map</span>[<span style=color:#66d9ef>string</span>]<span style=color:#66d9ef>interface</span>{})
+	<span style=color:#a6e22e>todayNews</span> = make([]<span style=color:#a6e22e>TodayNews</span>, <span style=color:#ae81ff>0</span>)
+	<span style=color:#66d9ef>for</span> <span style=color:#a6e22e>_</span>, <span style=color:#a6e22e>data</span> <span style=color:#f92672>:=</span> <span style=color:#66d9ef>range</span> <span style=color:#a6e22e>mapData</span> {
+		<span style=color:#a6e22e>news</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>TodayNews</span>{}
+		<span style=color:#a6e22e>news</span>.<span style=color:#a6e22e>Title</span> = <span style=color:#a6e22e>data</span>[<span style=color:#e6db74>&#34;title&#34;</span>].(<span style=color:#66d9ef>string</span>)
+		<span style=color:#a6e22e>news</span>.<span style=color:#a6e22e>Link</span> = <span style=color:#a6e22e>data</span>[<span style=color:#e6db74>&#34;link&#34;</span>].(<span style=color:#66d9ef>string</span>)
+		<span style=color:#a6e22e>news</span>.<span style=color:#a6e22e>ImageUrl</span> = <span style=color:#a6e22e>data</span>[<span style=color:#e6db74>&#34;imageUrl&#34;</span>].(<span style=color:#66d9ef>string</span>)
+		<span style=color:#a6e22e>todayNews</span> = append(<span style=color:#a6e22e>todayNews</span>, <span style=color:#a6e22e>news</span>)
+	}
+}
+</code></pre></div><p>這樣一來就稍微簡單多了, 不過目前碰到的缺點是, 似乎有些ES6的語法, 它不太認得呀</p>
+</div>
+</article>
 <article class=hentry>
 <header>
 <div class=entry-meta>
@@ -450,103 +539,6 @@ CallActivity已經可以準備建立video call的後續流程, 且要負責處�
         <span style=color:#66d9ef>return</span> s<span style=color:#f92672>.</span><span style=color:#a6e22e>hasNext</span><span style=color:#f92672>()</span> <span style=color:#f92672>?</span> s<span style=color:#f92672>.</span><span style=color:#a6e22e>next</span><span style=color:#f92672>()</span> <span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;&#34;</span><span style=color:#f92672>;</span>
     <span style=color:#f92672>}</span>
 </code></pre></div><p>把這邊拿來的list當ICE candidate, 就可以成功透過Google的TURN server去穿牆了(長久之計還是自己架一台吧)</p>
-</div>
-</article>
-<article class=hentry>
-<header>
-<div class=entry-meta>
-<span class="entry-date date published updated"><time datetime="2016-11-23 12:05:38 +0000 UTC"><a href=/Rate-limit-with-Go-and-Gin/>Nov 23, 2016</a></time></span>
-<span class=entry-reading-time>
-<i class="fa fa-clock-o"></i>
-Reading time ~4 minutes
-</span>
-</div>
-<h1 class=entry-title><a href=/Rate-limit-with-Go-and-Gin/ rel=bookmark title="Rate limit with Go and Gin" itemprop=url>Rate limit with Go and Gin</a></h1>
-</header>
-<div class=entry-content>
-<p>昨天趁等著去面試前稍微把這之前想要寫一下的這題目打包成一個<a href=https://github.com/gin-gonic/gin>Gin</a>的middleware :</p>
-<ul>
-<li><a href=https://github.com/julianshen/gin-limiter>Gin-limiter</a></li>
-</ul>
-<p>Rate limiting 通常在很多開放API的服務內會常看到, 像是<a href=https://dev.twitter.com/rest/public/rate-limiting>Twitter</a>,
-像是<a href=https://developers.facebook.com/docs/graph-api/advanced/rate-limiting>Facebook</a>或是<a href=http://open.weibo.com/wiki/Rate-limiting>新浪微博</a>,
-其目的就是希望API不要被特定節點頻繁存取以致於造成伺服器端的過載</p>
-<h3 id=rate-limiter>rate limiter</h3>
-<p>一般的Rate limiting的設計大致上來說就是限制某一個特定的節點(或使用者或API Key等等)在一段特定的時間內的存取次數,
-比如說, 限制一分鐘最多60次存取這樣的規則, 最直覺的方式我們是可以起一個timer和一個counter, counter大於60就限制存取, timer則每60秒重置counter一次,
-看似這樣就好了, 但其實這有漏洞, 假設我在第59秒時瞬間存取了60次, 第61秒又瞬間存取了60次, 在這設計上是合法的, 因為counter在第60秒時就被重置了,
-但實質上卻違反了一分鐘最多60次這限制, 因為他在兩秒內就存取了120次, 遠大於我們設計的限制, 當然我們也可以用Sliding time window來解決,
-但那個實作上就稍稍複雜點</p>
-<p>目前兩個主流比較常見的做法是<a href=https://en.wikipedia.org/wiki/Token_bucket>Token Bucket</a>和<a href=https://en.wikipedia.org/wiki/Leaky_bucket>Leaky Bucket</a>,
-這兩個原理上大同小異</p>
-<p>先來說說<a href=https://en.wikipedia.org/wiki/Token_bucket>Token Bucket</a>, 他的做法是, 假設你有個桶子, 裡面是拿來裝令牌(Token)的,
-桶子不是Doraemon的四次元口袋, 所以他空間是有限的, 令牌(Token)的作用在於, 要執行命令的人, 如果沒從桶子內摸到令牌, 就不准執行,
-然後我們一段時間內丟一些令牌進去, 如果桶子裡面已經裝滿就不丟, 以上個例子來說, 我們可以準備一個最多可以裝60個令牌的桶子, 每秒鐘丟一個進去,
-如果消耗速度大於每秒一個, 自然桶子很快就乾了, 就沒牌子拿了</p>
-<p><a href=https://en.wikipedia.org/wiki/Leaky_bucket>Leaky Bucket</a>跟<a href=https://en.wikipedia.org/wiki/Token_bucket>Token Bucket</a>很像, 不過就是反過來,
-我們把每次的存取都當作一滴水滴入桶子中, 桶子滿了就會溢出(拒絕存取), 桶子底下打個洞, 讓水以固定速率流出去, 這樣一樣能達到類似的效果</p>
-<p><img src=https://upload.wikimedia.org/wikipedia/commons/c/c4/Leaky_bucket_analogy.JPG alt="Leaky Bucket"></p>
-<h3 id=go的rate-limiter實作>Go的rate limiter實作</h3>
-<p>Go官方的package內其實是有rate limiter的實作的:</p>
-<ul>
-<li><a href=https://godoc.org/golang.org/x/time/rate>package rate</a></li>
-</ul>
-<p>照他的說法他是實作了<a href=https://en.wikipedia.org/wiki/Token_bucket>Token Bucket</a>, <a href=https://godoc.org/golang.org/x/time/rate#NewLimiter>創建一個Limiter</a>,
-要給的參數是<a href=https://godoc.org/golang.org/x/time/rate#Limit>Limit</a>和b, 這個Limit指的是每秒鐘丟多少Token進桶字(? 我不知道有沒理解錯),
-而b是桶子的大小</p>
-<p>實際上去用了之後發現好像也不是那麼好用, 可能我理解有問題, 出現的並不是我想像的結果, 因此我換用了<a href=https://github.com/juju/ratelimit>Juju&rsquo;s ratelimit</a>,
-這個是在<a href=https://github.com/go-kit/kit>gokit</a>這邊看到它有用, 所以應該不會差到哪去, 一樣也是Token Bucket,給的參數就是多久餵一次牌子, 跟桶子的大小, 這就簡單用了一點</p>
-<h3 id=包裝成gin-middleware>包裝成Gin middleware</h3>
-<p>要套在web server上使用的話, 包裝成middleware是比較方便的, 因此我就花了點時間把<a href=https://github.com/juju/ratelimit>Juju&rsquo;s ratelimit</a>包裝成這個:</p>
-<ul>
-<li><a href=https://github.com/julianshen/gin-limiter>Gin-limiter</a></li>
-</ul>
-<p>使用範例如下:</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go>    <span style=color:#75715e>//Allow only 10 requests per minute per API-Key
-</span><span style=color:#75715e></span>	<span style=color:#a6e22e>lm</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>limiter</span>.<span style=color:#a6e22e>NewRateLimiter</span>(<span style=color:#a6e22e>time</span>.<span style=color:#a6e22e>Minute</span>, <span style=color:#ae81ff>10</span>, <span style=color:#66d9ef>func</span>(<span style=color:#a6e22e>ctx</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>gin</span>.<span style=color:#a6e22e>Context</span>) (<span style=color:#66d9ef>string</span>, <span style=color:#66d9ef>error</span>) {
-		<span style=color:#a6e22e>key</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>ctx</span>.<span style=color:#a6e22e>Request</span>.<span style=color:#a6e22e>Header</span>.<span style=color:#a6e22e>Get</span>(<span style=color:#e6db74>&#34;X-API-KEY&#34;</span>)
-		<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>key</span> <span style=color:#f92672>!=</span> <span style=color:#e6db74>&#34;&#34;</span> {
-			<span style=color:#66d9ef>return</span> <span style=color:#a6e22e>key</span>, <span style=color:#66d9ef>nil</span>
-		}
-		<span style=color:#66d9ef>return</span> <span style=color:#e6db74>&#34;&#34;</span>, <span style=color:#a6e22e>errors</span>.<span style=color:#a6e22e>New</span>(<span style=color:#e6db74>&#34;API key is missing&#34;</span>)
-	})
-	<span style=color:#75715e>//Apply only to /ping
-</span><span style=color:#75715e></span>	<span style=color:#a6e22e>r</span>.<span style=color:#a6e22e>GET</span>(<span style=color:#e6db74>&#34;/ping&#34;</span>, <span style=color:#a6e22e>lm</span>.<span style=color:#a6e22e>Middleware</span>(), <span style=color:#66d9ef>func</span>(<span style=color:#a6e22e>c</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>gin</span>.<span style=color:#a6e22e>Context</span>) {
-		<span style=color:#a6e22e>c</span>.<span style=color:#a6e22e>JSON</span>(<span style=color:#ae81ff>200</span>, <span style=color:#a6e22e>gin</span>.<span style=color:#a6e22e>H</span>{
-			<span style=color:#e6db74>&#34;message&#34;</span>: <span style=color:#e6db74>&#34;pong&#34;</span>,
-		})
-	})
-
-	<span style=color:#75715e>//Allow only 5 requests per second per user
-</span><span style=color:#75715e></span>	<span style=color:#a6e22e>lm2</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>limiter</span>.<span style=color:#a6e22e>NewRateLimiter</span>(<span style=color:#a6e22e>time</span>.<span style=color:#a6e22e>Second</span>, <span style=color:#ae81ff>5</span>, <span style=color:#66d9ef>func</span>(<span style=color:#a6e22e>ctx</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>gin</span>.<span style=color:#a6e22e>Context</span>) (<span style=color:#66d9ef>string</span>, <span style=color:#66d9ef>error</span>) {
-		<span style=color:#a6e22e>key</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>ctx</span>.<span style=color:#a6e22e>Request</span>.<span style=color:#a6e22e>Header</span>.<span style=color:#a6e22e>Get</span>(<span style=color:#e6db74>&#34;X-USER-TOKEN&#34;</span>)
-		<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>key</span> <span style=color:#f92672>!=</span> <span style=color:#e6db74>&#34;&#34;</span> {
-			<span style=color:#66d9ef>return</span> <span style=color:#a6e22e>key</span>, <span style=color:#66d9ef>nil</span>
-		}
-		<span style=color:#66d9ef>return</span> <span style=color:#e6db74>&#34;&#34;</span>, <span style=color:#a6e22e>errors</span>.<span style=color:#a6e22e>New</span>(<span style=color:#e6db74>&#34;User is not authorized&#34;</span>)
-	})
-
-	<span style=color:#75715e>//Apply to a group
-</span><span style=color:#75715e></span>	<span style=color:#a6e22e>x</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>r</span>.<span style=color:#a6e22e>Group</span>(<span style=color:#e6db74>&#34;/v2&#34;</span>)
-	<span style=color:#a6e22e>x</span>.<span style=color:#a6e22e>Use</span>(<span style=color:#a6e22e>lm2</span>.<span style=color:#a6e22e>Middleware</span>())
-	{
-		<span style=color:#a6e22e>x</span>.<span style=color:#a6e22e>GET</span>(<span style=color:#e6db74>&#34;/ping&#34;</span>, <span style=color:#66d9ef>func</span>(<span style=color:#a6e22e>c</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>gin</span>.<span style=color:#a6e22e>Context</span>) {
-			<span style=color:#a6e22e>c</span>.<span style=color:#a6e22e>JSON</span>(<span style=color:#ae81ff>200</span>, <span style=color:#a6e22e>gin</span>.<span style=color:#a6e22e>H</span>{
-				<span style=color:#e6db74>&#34;message&#34;</span>: <span style=color:#e6db74>&#34;pong&#34;</span>,
-			})
-		})
-		<span style=color:#a6e22e>x</span>.<span style=color:#a6e22e>GET</span>(<span style=color:#e6db74>&#34;/another_ping&#34;</span>, <span style=color:#66d9ef>func</span>(<span style=color:#a6e22e>c</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>gin</span>.<span style=color:#a6e22e>Context</span>) {
-			<span style=color:#a6e22e>c</span>.<span style=color:#a6e22e>JSON</span>(<span style=color:#ae81ff>200</span>, <span style=color:#a6e22e>gin</span>.<span style=color:#a6e22e>H</span>{
-				<span style=color:#e6db74>&#34;message&#34;</span>: <span style=color:#e6db74>&#34;pong pong&#34;</span>,
-			})
-		})
-	}
-</code></pre></div><p>這邊本來想說為了簡單理解一點把參數設計成"每分鐘不能超過10次"這樣的描述, 然後後面再轉換成實際的fillInterval, 不過好像覺得怪怪的,
-有點不太符合Token Bucket的特質, 寫成middleware後的彈性就較大一點, 可以全部都用一個limiter或是分不同的資源不同限制都可</p>
-<p>這邊建構時要傳入一個用來產生key的函數, 這是考慮到每個人想限制的依據不同, 例如根據API key, 或是session, 或是不同來源之類的, 由這函數去
-產生一個對應的key來找到limiter, 如果傳回error, 就是這個request不符合規則, 直接把他拒絕掉</p>
-<h3 id=跨server的rate-limit>跨server的rate limit</h3>
-<p>這方法只能針對單一server, 但現在通常都是多台server水平擴展, 因此也是會需要橫跨server的解決方案, 這部分的話, 用Redis來實作Token Bucket是可行的, 這等下次再來弄好了</p>
 </div>
 </article>
 <div class=pagination>
