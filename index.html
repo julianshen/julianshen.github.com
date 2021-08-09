@@ -224,7 +224,7 @@ Reading time ~7 minutes
 	})
 }
 </code></pre></div><p>其實這支是抄自<code>chrome.FullScreenshot</code>, 但不一樣的是<code>WithClip</code>這邊的寬高用的是1200x630, 這是因為原本<code>chrome.FullScreenshot</code>會抓整頁完整頁面, 要多長有多長, 結果寬度雖是1200, 但長度可能超長, 這樣的比例可能也會被Facebook視為要用小版面來顯示</p>
-<h3 id=部屬到heroku>部屬到heroku</h3>
+<h3 id=佈署到heroku>佈署到heroku</h3>
 <p><a href=https://github.com/chromedp/chromedp>chromedp</a>是沒辦法單獨運作的, 必須要有chrome才可以正常運作, 如果要部屬到heroku, heroku的環境上是沒裝chrome的, 這該怎麼辦?</p>
 <p>一種方式是建立自己的<a href=https://devcenter.heroku.com/articles/buildpacks#creating-a-buildpack>Build Pack</a>, <a href=https://developers.google.com/web/updates/2017/04/headless-chrome>裝個chrome跑headless mode</a>, 不過這條路太麻煩, 不是我選擇的路</p>
 <p>一個是在heroku上用<a href=https://devcenter.heroku.com/articles/build-docker-images-heroku-yml>docker image來跑</a>, 這樣只要包裝好一個docker image就搞定了, 簡單</p>
