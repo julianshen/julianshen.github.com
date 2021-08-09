@@ -80,6 +80,77 @@ All posts
 <article class=hentry>
 <header>
 <div class=entry-meta>
+<span class="entry-date date published updated"><time datetime="2016-08-17 23:46:04 +0000 UTC"><a href=/%E7%AD%86%E8%A8%98%E8%A3%BD%E4%BD%9C%E8%87%AA%E5%B7%B1%E7%9A%84Icon-font/>Aug 17, 2016</a></time></span>
+<span class=entry-reading-time>
+<i class="fa fa-clock-o"></i>
+Reading time ~3 minutes
+</span>
+</div>
+<h1 class=entry-title><a href=/%E7%AD%86%E8%A8%98%E8%A3%BD%E4%BD%9C%E8%87%AA%E5%B7%B1%E7%9A%84Icon-font/ rel=bookmark title="[筆記]製作自己的Icon font" itemprop=url>[筆記]製作自己的Icon font</a></h1>
+</header>
+<div class=entry-content>
+<p>承續<a href=http://blog.jln.co/%E7%AD%86%E8%A8%98-ios%E9%96%8B%E7%99%BC-%E4%BD%BF%E7%94%A8icon-font%E4%BE%86%E7%AF%80%E7%9C%81%E5%9C%96%E7%A4%BA%E7%A9%BA%E9%96%93/>上篇</a>的用icon font來製作圖示, 之前所提到的都是利用現成的icon font, 但似乎大部分的icon font都沒有像material icon有支援ligatures, 沒支援的話, 在xcode裡面就無法像上一篇一樣, 直接在UI designer顯示對應的圖示, 另外如果需要使用自己的圖示呢?其實是有方法用SVG圖檔來製作自己的icon font的, 這篇就來介紹兩種用SVG圖檔製作一個有ligatures支援的字型檔</p>
+<h3 id=grunt-webfont>grunt-webfont</h3>
+<p>第一個方法就是利用<a href=https://github.com/sapegin/grunt-webfont>grunt-webfont</a>, <a href=http://gruntjs.com>Grunt</a>是一個前端常用的建構工具, 而<a href=https://github.com/sapegin/grunt-webfont>grunt-webfont</a>是一個用來產生字型的task</p>
+<h5 id=安裝相關工具>安裝相關工具</h5>
+<p>由於需要使用<a href=http://gruntjs.com>Grunt</a>, <a href=nodejs.org>node.js</a>是必須的, 另外由於需要使用到<a href=http://fontforge.github.io>fontforge</a>, 所以python也是必須的, 雖然說grunt-webfont也可以純nodejs的module來產生字型, 但那並無法支援ligatures, 所以fontforge是一定需要的</p>
+<p>用<code>npm i grunt --global</code>來安裝grunt</p>
+<h5 id=製作字型>製作字型</h5>
+<ol>
+<li>建立一個空的目錄</li>
+<li>在這個目錄執行<code>npm init</code>來產生<code>package.json</code></li>
+<li><code>npm i grunt-webfont --save</code>來安裝grunt-webfont並且把這個dependency 加到<code>package.json</code></li>
+<li>建立一個svg子目錄(目錄名稱隨你高興, 這邊以svg當例子), 把所有圖示的svg檔案全部放到這目錄去</li>
+<li>建立Gruntfile.js , 這檔案就像是Makefile, 或像是build.gradle這樣的角色, 內容就像下面</li>
+</ol>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=color:#a6e22e>module</span>.<span style=color:#a6e22e>exports</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>function</span>(<span style=color:#a6e22e>grunt</span>) {
+
+  <span style=color:#a6e22e>grunt</span>.<span style=color:#a6e22e>initConfig</span>({
+    <span style=color:#a6e22e>pkg</span><span style=color:#f92672>:</span> <span style=color:#a6e22e>grunt</span>.<span style=color:#a6e22e>file</span>.<span style=color:#a6e22e>readJSON</span>(<span style=color:#e6db74>&#39;package.json&#39;</span>),
+    <span style=color:#a6e22e>webfont</span><span style=color:#f92672>:</span> {
+        <span style=color:#a6e22e>icons</span><span style=color:#f92672>:</span> {
+                <span style=color:#a6e22e>src</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;svg/*.svg&#39;</span>,
+                <span style=color:#a6e22e>dest</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;build/fonts&#39;</span>,
+                <span style=color:#a6e22e>options</span><span style=color:#f92672>:</span> {
+                        <span style=color:#a6e22e>engine</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;fontforge&#39;</span>,
+                        <span style=color:#a6e22e>htmlDemo</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>true</span>,
+                        <span style=color:#a6e22e>fontHeight</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>96</span>,
+                        <span style=color:#a6e22e>normalize</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>false</span>,
+                        <span style=color:#a6e22e>ascent</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>84</span>,
+                        <span style=color:#a6e22e>descent</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>12</span>,
+                        <span style=color:#a6e22e>font</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;octicon&#39;</span>,
+                        <span style=color:#a6e22e>fontFamilyName</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;octicon&#39;</span>,
+                        <span style=color:#a6e22e>types</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;ttf&#39;</span>,
+                        <span style=color:#a6e22e>ligatures</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>true</span>,
+                        <span style=color:#a6e22e>startCodepoint</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>0xF101</span>
+                    }
+                }
+    },
+    <span style=color:#a6e22e>clean</span><span style=color:#f92672>:</span> [
+        <span style=color:#e6db74>&#39;build/fonts/*&#39;</span>
+      ]
+  });
+
+  <span style=color:#a6e22e>grunt</span>.<span style=color:#a6e22e>loadNpmTasks</span>(<span style=color:#e6db74>&#39;grunt-contrib-clean&#39;</span>);
+  <span style=color:#a6e22e>grunt</span>.<span style=color:#a6e22e>loadNpmTasks</span>(<span style=color:#e6db74>&#39;grunt-webfont&#39;</span>);
+  <span style=color:#a6e22e>grunt</span>.<span style=color:#a6e22e>registerTask</span>(<span style=color:#e6db74>&#39;font&#39;</span>, [<span style=color:#e6db74>&#39;clean&#39;</span>, <span style=color:#e6db74>&#39;webfont&#39;</span>]);
+  <span style=color:#a6e22e>grunt</span>.<span style=color:#a6e22e>registerTask</span>(<span style=color:#e6db74>&#39;default&#39;</span>, [ <span style=color:#e6db74>&#39;font&#39;</span>]);
+};
+</code></pre></div><p>這邊最主要也最重要的task就是webfont這個, 這裡面<code>src</code>是svg檔的目錄, <code>dest</code>是字型輸出的目錄, engine的部分指名fontforge, ligatures設定必須要是true(產生的字型的ligature的名字其實就是沿用svg的檔名)</p>
+<p>建立好這個檔後執行<code>grunt</code>即可</p>
+<h3 id=icomoon>icomoon</h3>
+<p>上面的方法還是有點麻煩, 蠻手動的, 還有一個更方便的工具就是<a href=https://icomoon.io/app/>icomoon</a>, 這東西方便更多, 它是一個相當強大的工具</p>
+<p><img src=/images/posts/icomoon1.png alt=Icomoon></p>
+<p>從畫面上看, 它其實很簡單操作, 選定你所需要的圖示後, 按右下角的<code>Generate Font</code>即可, 除了你可以自己import自己的svg檔案外, 它也提供很多付費跟免費的圖示供選用:</p>
+<p><img src=/images/posts/icomoon2.png alt=Icomoon></p>
+<p>按下<code>Generate Font</code>後, 並不會馬上讓你下載字型回家, 它會先讓你檢視字型將會包含的圖示, 這邊有件事很重要, 左上角有個<code>fi</code>圖示(參照下圖), 按下去後, 下面的圖示下面會多一個fi的欄位, 這就是讓你設定這些圖示的ligature的, 如果需要一個有支援ligature的字型, 就需要去設定這邊</p>
+<p><img src=/images/posts/icomoon3.png alt=Icomoon></p>
+<p>所有都沒問題後按下右下角的<code>Download</code>就沒問題了</p>
+</div>
+</article>
+<article class=hentry>
+<header>
+<div class=entry-meta>
 <span class="entry-date date published updated"><time datetime="2016-08-04 21:48:57 +0000 UTC"><a href=/iOS%E9%96%8B%E7%99%BC%E7%AD%86%E8%A8%98-%E4%BD%BF%E7%94%A8Icon-font%E4%BE%86%E7%AF%80%E7%9C%81%E5%9C%96%E7%A4%BA%E7%A9%BA%E9%96%93/>Aug 4, 2016</a></time></span>
 <span class=entry-reading-time>
 <i class="fa fa-clock-o"></i>
@@ -434,32 +505,6 @@ ruby -rubygems -e 'require &quot;jekyll-import&quot;;
 <p>這當然是用<a href=http://ifttt.com>ifttt</a>囉, 因為有用到jekyll-feed這個plugin, 所以會產生一個feed.xml的檔案, 所以就利用ifttt的feed channel來設定觸發</p>
 <h4 id=結語>結語</h4>
 <p>本來明明不想花太多功夫的, 結果不但花了很多功夫, 還花了一頁來紀錄這篇 orz</p>
-</div>
-</article>
-<article class=hentry>
-<header>
-<div class=entry-meta>
-<span class="entry-date date published updated"><time datetime="2016-02-25 01:13:36 +0000 UTC"><a href=/%E7%AD%86%E8%A8%98-%E7%A7%BB%E6%A4%8DParse-Push/>Feb 25, 2016</a></time></span>
-<span class=entry-reading-time>
-<i class="fa fa-clock-o"></i>
-Reading time ~3 minutes
-</span>
-</div>
-<h1 class=entry-title><a href=/%E7%AD%86%E8%A8%98-%E7%A7%BB%E6%A4%8DParse-Push/ rel=bookmark title="[筆記] 移植Parse Push" itemprop=url>[筆記] 移植Parse Push</a></h1>
-</header>
-<div class=entry-content>
-<p>今天追完了綠箭, 該來點功課, 不過今天忘了買啤酒了:(</p>
-<p>Parse Push, 這功能無疑應該是Parse本身比較受歡迎的部分, 既然Parse明年要關門大吉了,這部份也是必須要搬家的, 但搬家比較麻煩的不是要搬到哪去, 而是之前累積的使用者, 總不希望一搬了就找不到他們了, Parse Push支援了包含了Google的GCM和Apple的APNS,以及他們自己的PPNS,以GCM來說, 在_Installation裡面, Parse是有儲存了GCM的deviceToken, 如果你之前用的是自己的GCM Sender ID, 那這部份直接搬了就可以用了, 但如果不是, 那預設用的是Parse自己的, 這樣這些deviceToken就不能夠使用自己的Sender ID來送, 必須要用用下面的方法來補救:</p>
-<ul><li>從Google的<a href=https://console.developers.google.com/>Developer console</a>取的Sender ID跟API Key</li>
-<li>在AndroidManifest.xml加入 <code>&lt;meta-data android:name="com.parse.push.gcm_sender_id" android:value="id:12345678"></code> (必須要以"id:&ldquo;加上你的sender id)</li>
-<li>發布新的升級到Play store</li>
-<li>使用者更新後至少發送一次Push (如果你在Application中有去儲存Installation, 這時候因為有了新的sender, 所以deviceToken會被更新)</li>
-<li>可以用你自己的API key送給新的device token了(可以不用透過Parse console去送, 也可以用其他程式)</li>
-</ul><p>這個Go的範例可以用來試驗送PUSH到你的手機上:</p>
-<script src=https://gist.github.com/julianshen/90a7b5c4a24eb13f41fa.js></script><p>找出你手機的deviceToken後即可用這個來驗證是否能夠成功送出push</p>
-<p>但這樣還不夠, 我們還需要一個負責幫我們送push的server, 在之前那篇<a href=http://blog.jln.co/post/139174339467/%E7%AD%86%E8%A8%98-parse-%E8%87%AA%E6%95%91%E6%96%B9%E6%A1%88%E4%B9%8B%E4%B8%80-pushd>Parse自救方案</a>裡有提到一個Pushd, 這是其中一個作法, 不過需要改一些東西才可以符合Parse Android SDK接收的格式, 另一個作法是透過open source的<a href=https://github.com/ParsePlatform/parse-server/>Parse Server</a>, 原本它剛一出來時, 並沒支援Push, 但後來有其他人幫它加了上去了, 但它的方式是提供了API給你送PUSH, 但一來把API server跟PUSH server放一起並不是件好事, 二來當送大量的PUSH這樣的設計並不保險(並沒有queue, 送到一半server死了就麻煩了)</p>
-<p>不過要以Parse server的為基礎拆出push的部分也不是很難, 做了一個簡單的範例: <a href=https://github.com/julianshen/parse_push_js>github.com/julianshen/parse_push_js</a></p>
-<p>在這範例裡, 使用了Parse Server的ParsePushAdapter, 並且利用了Redis當作queue來做成的簡單的push server, 這樣應該就加減堪用了, 不過這邊有一個還需要再改的是, ParsePushAdapter 並不會把產生的push id回傳到上一層, 這樣要做追蹤紀錄其實有點比較不方便, 這邊還需要再加強一下</p>
 </div>
 </article>
 <div class=pagination>

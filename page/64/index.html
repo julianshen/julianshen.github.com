@@ -79,6 +79,21 @@
 <article class=hentry>
 <header>
 <div class=entry-meta>
+<span class="entry-date date published updated"><time datetime="2010-12-24 18:32:04 +0000 UTC"><a href=/Android%E7%AD%86%E8%A8%98-Single-Sign-on-with-Facebook-SDK/>Dec 24, 2010</a></time></span>
+<span class=entry-reading-time>
+<i class="fa fa-clock-o"></i>
+Reading time ~2 minutes
+</span>
+</div>
+<h1 class=entry-title><a href=/Android%E7%AD%86%E8%A8%98-Single-Sign-on-with-Facebook-SDK/ rel=bookmark title="[Android][筆記] Single Sign on with Facebook SDK" itemprop=url>[Android][筆記] Single Sign on with Facebook SDK</a></h1>
+</header>
+<div class=entry-content>
+<div class=posterous_autopost><p>透過Facebook Android SDK去sign in Facebook其實很單純, 只需要這樣幾行code:</p> <blockquote> <p class=p1><span class=s1>if</span> (!<span class=s2>facebook</span>.isSessionValid()) {</p> <p class=p1><span class=s2><span style=color:#000>    </span>facebook</span>.authorize(<span class=s1>this</span>, <span class=s1>new</span> String[] { <span class=s3>&ldquo;publish_stream&rdquo;</span> }, <span class=s1>new</span> AuthDialogListener());</p> <p class=p1>}</p> </blockquote> <p>其中AuthDialogListener是繼承自Facebook.DialogListener, 因為Authentication dialog是由Facebook SDK處理的, 應用程式只要負責處理onComplete, onError等等callback</p> <p>但單純這樣的code會在手機內有安裝Facebook for Android時發生問題</p> <p>因為後來Facebook導入所謂Single sign on的機制, 讓Application跟Facebook for Android是可以用同一使用者的</p> <p>Single sign on的原理很簡單, 只是透過Facebook for Android去做proxy login的動作而已, Application只消去Facebook註冊一個自己的package signature就可以了</p> <p>但由於原本舊的Login視窗是包在SDK內一起被build進applciation package, 但在SSO機制內, Dialog是由Facebook for Android出的, 因此如果沒有加下面的code, AuthDialogListener的callback都不會被call到</p> <blockquote> <p>p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 11.0px Monaco} span.s1 {color: #9a1867} span.s2 {color: #0023c7} span.Apple-tab-span {white-space:pre} </p><p class=p1><span> </span><span class=s1>protected</span> <span class=s1>void</span> onActivityResult(<span class=s1>int</span> requestCode, <span class=s1>int</span> resultCode, Intent data) {</p> <p class=p1><span> </span><span> </span><span class=s1>super</span>.onActivityResult(requestCode, resultCode, data);</p> <p class=p1><span> </span><span> </span><span class=s2>facebook</span>.authorizeCallback(requestCode, resultCode, data);</p> <p class=p1><span> </span>}</p> </blockquote> <p>這是由於Facebook SDK是用startActivityForResult去call Facebook for Android, 因此application必須加上這行自己接它的callback再轉送給原本的listener</p></div>
+</div>
+</article>
+<article class=hentry>
+<header>
+<div class=entry-meta>
 <span class="entry-date date published updated"><time datetime="2010-12-24 02:14:52 +0000 UTC"><a href=/%E6%9C%80%E5%BE%8C%E4%B8%80%E9%A1%86%E9%98%BF%E8%8A%B1%E5%90%88%E9%AB%94/>Dec 24, 2010</a></time></span>
 <span class=entry-reading-time>
 <i class="fa fa-clock-o"></i>
@@ -134,21 +149,6 @@ Reading time ~2 minutes
 </header>
 <div class=entry-content>
 <div class=posterous_autopost><p>其實這是我自己無聊寫的啦, 這是我第一隻Safari Extension, 不過我不打算publish到Safari extension網站, 放這邊就好, <a href=http://dl.dropbox.com/u/2789919/safari2phone.safariextz>請點此下載</a></p> <p>這是從Chrome2Phone porting來的, 如果不知道Chrome2Phone是啥東西, 可以先看一下這段影片:</p> <p><iframe src=http://www.youtube.com/embed/pQb243niMlg frameborder=0 height=345 width=560></iframe></p> <p>要玩這個東西, 首先你必須要有隻Android手機&mldr;.</p> <p>然後Android手機上必須裝<a>Chrome2Phone</a>:</p> <p><img src=http://posterous.com/getfile/files.posterous.com/temp-2010-12-22/qqIlkezHEarwqmyslivbEizCxoEjmmioxheqxynljIyjDkszGkevbgxqsEdA/1120233-1289334697434.png.scaled500.png width=164 height=164> 裝完後, 你會發現有個烏七媽黑的button <img src=http://posterous.com/getfile/files.posterous.com/temp-2010-12-22/tkdcvsftlvEfpsvClImBxmbEtygwhIwgkGrEdnHaiFFdtdwnAurJFgiCIgrk/_2010-12-23_1.00.59.png.scaled500.png width=43 height=31> 在你的tool bar上(抱歉, 沒做美工&mldr; orz)</p> <p>當你想把正在看的網頁送到手機上, 就按下這個button, 如果沒有登入, 會有一條新的bar上面有顯示訊息叫你登入, 點選連結即可登入</p> <p>Chrome extension跟Safari extension本質上蠻像的, 所以要po蠻容易的, 基本上花了我一晚上的時間, 從開始看Safari extension的文件開始, 到這個可以正常工作, 今晚回來後又稍微小修點bug再release</p> <p>Chrome2Phone本身原理也蠻簡單的, 加上也open source, server端跟Chrome extension端都有source可看, extension端其實只是透過XMLHttpRequest把資料傳送過去, 這部份甚至可以原封不動reuse</p> <p>讓我花比較多時間才發現的是, redirect url居然hard code在server端, 導致我的extension最後登入完只能被導到醜醜的圖, 本來想透過injected script讓他碰到那張圖的url就導到我的page, 但似乎好像沒辦法在tab內開啟extension package裡的一個HTML</p> <p>總之, 先這樣, 有空再修好了, 繼續找看看有沒其他好玩的來玩..</p></div>
-</div>
-</article>
-<article class=hentry>
-<header>
-<div class=entry-meta>
-<span class="entry-date date published updated"><time datetime="2010-12-22 13:54:08 +0000 UTC"><a href=/%E9%96%8B%E7%99%BCSafari-Extension-%E4%B9%8B%E4%B8%80/>Dec 22, 2010</a></time></span>
-<span class=entry-reading-time>
-<i class="fa fa-clock-o"></i>
-Reading time ~3 minutes
-</span>
-</div>
-<h1 class=entry-title><a href=/%E9%96%8B%E7%99%BCSafari-Extension-%E4%B9%8B%E4%B8%80/ rel=bookmark title="開發Safari Extension (之一)" itemprop=url>開發Safari Extension (之一)</a></h1>
-</header>
-<div class=entry-content>
-<div class=posterous_autopost><p>現在的Browser好像不開放給人家掛一些外掛就落伍了, 大部分的Desktop Browser也都有提供這樣的功能, Apple的Safari也不例外</p> <p>開發Safari Extension其實不難, 如果有開發過Google Chrome browser extension的話, 可能還更好上手, 架構差不多類似, 文件也沒很多, 大概花個半小時看一下文件就應該可以上手了 </p> <p>不過, 前置作業的門檻可能就大了一點了!</p> <p>首先&mldr;.你必須要有台&mldr;. <span style=font-size:large;color:#888>Mac</span> &mldr; 光聽到這需求感覺就很鳥, 我沒在Windows底下的Safari開發, 所以我不確定有沒方法解決, 不過我相信, 至少要能找到Keychain的替代方案才可以! 所以, 用Mac是最保險的!</p> <p>然後你必須上蘋果的開發者網站去申請一個Safari developer的帳號, 好消息是, 這不像iOS developer方案是要錢的, 它是&mldr;完全免費</p> <p>有了帳號後就要申請憑證, 申請憑證先要透過keychain這隻MacOS內建的程式去產生certificate request (CSR)檔, 如下(中文是憑證授權要求憑證&mldr;好爛的翻譯):</p> <p><a href=http://posterous.com/getfile/files.posterous.com/temp-2010-12-21/uBrytGBqccddsgmsmkBxEnfxayBawdCgvwEwpkabwpqxCBzecFBhEftvwpyt/_2010-12-22_1.36.30.png.scaled1000.png><img src=http://posterous.com/getfile/files.posterous.com/temp-2010-12-21/uBrytGBqccddsgmsmkBxEnfxayBawdCgvwEwpkabwpqxCBzecFBhEftvwpyt/_2010-12-22_1.36.30.png.scaled500.png width=500 height=259></a> 把CSR檔上傳後就可以產生憑證, 記得下載回來安裝, 不過這邊有點要注意一點, 用Chrome browser上傳總是會失敗, 用Safari就沒問題了, 光這部份搞了我一個晚上&mldr; orz</p> <p>要開發Safari Extension的起始點是Extension Builder(延伸功能建構器), 打開你的Safari然後從"開發人員"->&ldquo;顯示延伸功能建構器&rdquo;</p> <p><img src=http://posterous.com/getfile/files.posterous.com/temp-2010-12-21/pGsfqyHEczxiJrFbkthxbuioaEdjyCmoxctzstdHtFddmsGbkkcxkDupHaqC/_2010-12-22_11.21.43.png.scaled500.png width=281 height=333> 打開後從"+&ldquo;的地方新增新的Extension, 它會讓你指定你Extension要存放的目錄, 之後只要把你的程式還有資源(圖檔等等)都copy到這目錄即可</p> <p>先設定一下你的Extension的基本資料:</p> <p><a href=http://posterous.com/getfile/files.posterous.com/temp-2010-12-21/uiuFIuixBbmHbkthvBGJpzuefaICnxBhqgAqmjfHqrmqmriCwygzpqzljhed/_2010-12-22_11.21.29.png.scaled1000.png><img src=http://posterous.com/getfile/files.posterous.com/temp-2010-12-21/uiuFIuixBbmHbkthvBGJpzuefaICnxBhqgAqmjfHqrmqmriCwygzpqzljhed/_2010-12-22_11.21.29.png.scaled500.png width=500 height=373></a> 此外別忘了設定存取權限, 如果你的Extension要存取比預設多的資訊</p> <p>接著設定一下幾個主要的元件, 以及資料庫所需要的容量大小(如果你會需要儲存資料的話)</p> <p><a href=http://posterous.com/getfile/files.posterous.com/temp-2010-12-21/ysyAGqFdBtkjFFqpIhptzsBpEhCBHpyIczcqAICnHbuGbvgFCligflyEIctI/_2010-12-22_11.23.02.png.scaled1000.png><img src=http://posterous.com/getfile/files.posterous.com/temp-2010-12-21/ysyAGqFdBtkjFFqpIhptzsBpEhCBHpyIczcqAICnHbuGbvgFCligflyEIctI/_2010-12-22_11.23.02.png.scaled500.png width=500 height=372></a> 這邊稍微簡單介紹幾個基本的元件, 以後有空再細寫</p> <p>基本上一個Safari extension可以由以下的幾種東西構成</p> <ol><li>Global page : 不會被顯示出來的一個背景頁面, html檔案, 通常用來提供function而非顯示</li> <li>Tool button : 工具列上的一個按鈕 (由新增工具列項目那邊新增)</li> <li>Context menu item : 按滑鼠右鍵叫出的選單(中翻譯成特色選單)</li> <li>Extension bar(中文翻譯成"列&rdquo;) : 一整列工具列, 可以由一個Html檔案來構成</li> <li>Injected script : 像是Chrome Browser的content script, 嵌入到網頁的java script</li> <li>Injected style : 嵌入到網頁的style sheet</li> </ol><p>基本上這些都可以在extension builder這邊設定, 不過看API, 也應該可以由程式動態控制去設定, 大概組合這六樣就可以簡單寫出一個Safari extension了</p></div>
 </div>
 </article>
 <div class=pagination>

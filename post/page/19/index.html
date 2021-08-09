@@ -80,6 +80,22 @@ All posts
 <article class=hentry>
 <header>
 <div class=entry-meta>
+<span class="entry-date date published updated"><time datetime="2013-06-27 01:46:42 +0000 UTC"><a href=/Android-%E8%87%AA%E5%AE%9A%E7%BE%A9View%E5%B1%AC%E6%80%A7/>Jun 27, 2013</a></time></span>
+<span class=entry-reading-time>
+<i class="fa fa-clock-o"></i>
+Reading time ~3 minutes
+</span>
+</div>
+<h1 class=entry-title><a href=/Android-%E8%87%AA%E5%AE%9A%E7%BE%A9View%E5%B1%AC%E6%80%A7/ rel=bookmark title="[Android] 自定義View屬性" itemprop=url>[Android] 自定義View屬性</a></h1>
+</header>
+<div class=entry-content>
+<p>在<a href=http://bit.ly/14xA3IP target=_blank>前一篇寫了一個自訂義的layout - SimpleCellLayout</a>, 前一個版本的問題就是, 必須是寫程式把child view加進這個layout之中, 而且針對像是欄與行的數目也必須在程式裡設定, 並無法寫到layout xml中, 所以這次的目邊就是要讓這個layout可以像下面這樣用layout xml來擺佈:<br><br><script src=http://bit.ly/1af6Kkh></script><br>在這範例之中, 用到幾個像是col, row, gapsize, cellX這些在原生Android並不存在的屬性, 為了這些屬性, 就需要定義一個attrs.xml在res/values目錄內, attrs.xml 裡面要定義的就是這些樣式描述屬性, 這邊定義了: 給SimpleCellLayout本身用的col(欄數), row(行數), gapsize(間距大小), 以及給他的Child views用的cellX(格子的橫軸位置), cellY(格子的縱軸位置), colspan(格子寬), rowspan(格子高), 除了gapsize我們需要的跟實際螢幕上的大小有關, 所以格式定義為dimension外(就是可以用3dp, 1px這類的值), 其他都是整數就可<br><br><script src=http://bit.ly/14xA5Ap></script> 這些屬性, 到時候就是要放在xml標籤內的屬性 <br><br>要用到這些屬性, 需要先在tag裡面定義一個新的name space, 如同在前面範例寫的:<br><br></p><blockquote class=tr_bq>xmlns:celllayout=&ldquo;http://bit.ly/GEGVYd&rdquo;</blockquote>文件內的範例大多是apk/後面接著package name, 不過Android Studio卻是建議使用"res-auto", 定義了這個name space後, 便可以在後面的tag內使用像是"celllayout:col"這樣的屬性了<br><br>那在layout內又要怎處理這些屬性? ViewGroup有兩個建構子所需要帶的參數含有AttributeSet, 基本上只要從這兩個建構子處理就好<br><br><script src=http://bit.ly/14xA5Ar></script> 這範例內的initFromAttributes就是用來從AttributeSet擷取這些屬性, 前面attrs.xml有定義stylable, 所以基本上有一堆相對應的Resource ID可以使用,這邊只處理了col, row, 和gapsize, 因為只有這三個屬性直接跟這layout相關, 至於這layout的child views該怎處理呢? 它就要靠LayoutParams了, 我在SimpleCellLayout內定義了一個CellLayoutParams, 基本上這類別也有一個建構子是用來處理AttributeSet的<br><br><br><script src=http://bit.ly/1af6Lor></script> 這邊比較重要的就是要overwrite掉generateLayoutParams, 因為ViewGroup原有的generateLayoutParams實作的是回傳ViewGroup.LayoutParams, 他並不認得CellLayoutParams, 但SimpleCellLayout靠的是CellLayoutParams來儲存layout所需的資訊, 原本用程式來加入view的範例部份, 我是手動產生一個CellLayoutParams來給child view, 但如果是放在layout xml, 並無法指定要用哪個LayoutParams類別, 這時候就要靠generateLayoutParams了 有趣的是, 雖然是我自訂的layout, 但在我做完這些後, Android studio的UI編輯器, 卻知道怎去依據我的layout把元件畫到正確的位子上面: <br><div class=separator style=clear:both;text-align:center><a href=http://bit.ly/14xA3IR imageanchor=1 style=clear:left;float:left;margin-bottom:1em;margin-right:1em><img border=0 height=304 src=http://bit.ly/1af6Kkn width=640></a></div><br><br><br>
+via Blogger <a href=http://bit.ly/1af6KAB>http://bit.ly/1af6KAB</a>
+</div>
+</article>
+<article class=hentry>
+<header>
+<div class=entry-meta>
 <span class="entry-date date published updated"><time datetime="2013-06-26 01:31:50 +0000 UTC"><a href=/Android-%E4%B8%80%E5%80%8B%E7%B0%A1%E5%96%AE%E7%9A%84%E8%87%AA%E8%A3%BD-layout-SimpleCellLayout/>Jun 26, 2013</a></time></span>
 <span class=entry-reading-time>
 <i class="fa fa-clock-o"></i>
@@ -139,22 +155,6 @@ Reading time ~2 minutes
 <div class=entry-content>
 <p>本想說有直接整合了Git, GitHub是件不錯的事, 沒想到要把新project push到remote git就栽了&mldr;.<br><br>Android Studio/Intellij 似乎沒介面設定remote (搜尋了半天沒發現這種答案, 啃了半天的使用手冊也沒發現), 現在如果要把既有的project給匯出到遠端的git (如bitbucket), 就得利用command line (以bitbucket 為例):<br><br></p><ol><li>在bitbucket上create一個新的project</li><li>在Android studio選"VCS"->&ldquo;Import into version control&rdquo;->&ldquo;Create Git repository&rdquo;, 這樣就可以建立一個local的repository</li><li>&ldquo;VCS&rdquo;->&ldquo;Git&rdquo;->&ldquo;Add to VCS&rdquo;</li><li>&ldquo;VCS&rdquo;->&ldquo;Git&rdquo;->&ldquo;Commit File&rdquo;</li><li>到command line下切換到project目錄下<i>&ldquo;git remote add origin ssh://git@bitbucket.org/xxx/xxx.git&rdquo;</i></li><li>回到Android studio, &ldquo;VCS&rdquo;->&ldquo;Git&rdquo;->&ldquo;Push&rdquo;</li></ol><div>要注意的是, 如果你已經有一個remote repository,&ldquo;VCS&rdquo;->&ldquo;Import into version control&rdquo;->&ldquo;Share project on GitHub"會失敗</div><br><br><br><br>
 via Blogger <a href=http://bit.ly/13MAjob>http://bit.ly/13MAjob</a>
-</div>
-</article>
-<article class=hentry>
-<header>
-<div class=entry-meta>
-<span class="entry-date date published updated"><time datetime="2013-06-16 00:01:29 +0000 UTC"><a href=/%E7%AD%86%E8%A8%98-Android-Studio-Gradle-Native-libraries/>Jun 16, 2013</a></time></span>
-<span class=entry-reading-time>
-<i class="fa fa-clock-o"></i>
-Reading time ~1 minute
-</span>
-</div>
-<h1 class=entry-title><a href=/%E7%AD%86%E8%A8%98-Android-Studio-Gradle-Native-libraries/ rel=bookmark title="[筆記] Android Studio, Gradle & Native libraries" itemprop=url>[筆記] Android Studio, Gradle & Native libraries</a></h1>
-</header>
-<div class=entry-content>
-<p>最近試用Android studio開發, 可能有些習慣被以往Eclipse慣壞了, 剛剛發現放在libs/底下的東西不像以前會被自動建置到apk內, 有點小訝異, 對jar file來說, 可能還好不算太難, 在build.gradle的dependencies內補上一筆就夠了, 但對native library (jni)那些.so檔, 就沒辦法<br><br>用這樣解決了 Google了一下, 並且在Stack overflow上找到些解法來試, 可能因為Android studio跟Gradle Android plugin還一直在變化中, 在現在這版一直沒成功, 後來小改一下成底下這樣就成功了: <br><script src=http://bit.ly/11PxIJZ></script><br><br>原本找到的解法是pkgTask.jniDir <b><span style=color:red>new File</span></b>(&lsquo;build/native-libs&rsquo;) , 這樣會得到<br></p><blockquote class=tr_bq><blockquote class=tr_bq><i>> Directory 'build/native-libs&rsquo; specified for property 'jniDir&rsquo; does not exist.</i></blockquote></blockquote>把"new File"改成"file"就沒問題了,不過現在一切應該都還在開發中, 未來可能會有原生的native lib 支援也不一定, 未來可能這方法也不管用了吧<br><blockquote class=tr_bq><blockquote class=tr_bq></blockquote></blockquote><br><br>
-via Blogger <a href=http://bit.ly/13Ouh50>http://bit.ly/13Ouh50</a>
 </div>
 </article>
 <div class=pagination>

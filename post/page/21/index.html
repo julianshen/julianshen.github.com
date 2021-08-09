@@ -80,6 +80,22 @@ All posts
 <article class=hentry>
 <header>
 <div class=entry-meta>
+<span class="entry-date date published updated"><time datetime="2013-02-15 22:31:25 +0000 UTC"><a href=/Mac-%E5%9C%A8Qt%E4%B8%AD%E4%BD%BF%E7%94%A8%E8%87%AA%E8%A8%82%E7%9A%84Info.plist/>Feb 15, 2013</a></time></span>
+<span class=entry-reading-time>
+<i class="fa fa-clock-o"></i>
+Reading time ~1 minute
+</span>
+</div>
+<h1 class=entry-title><a href=/Mac-%E5%9C%A8Qt%E4%B8%AD%E4%BD%BF%E7%94%A8%E8%87%AA%E8%A8%82%E7%9A%84Info.plist/ rel=bookmark title="[Mac] 在Qt中使用自訂的Info.plist" itemprop=url>[Mac] 在Qt中使用自訂的Info.plist</a></h1>
+</header>
+<div class=entry-content>
+<p>iOS和Mac OS的應用程式裡都有個<a href=http://bit.ly/VYVPQL>info.plist</a>放置著應用程式相關的設置, 用Qt開發Mac應用程式時, 這個檔是在編譯時自動產生, 因此幾乎是固定內容<br><br>但還是有需要在info.plist內加入額外的內容, 比如說Retina display的支援(NSHighResolutionCapable), 預設並沒有, 因此還是有需要做自訂的info.plist<br><br>作法並不難, 在專案檔(通常是 xxxx.pro)內加入下面的內容:<br></p><blockquote class=tr_bq><blockquote class=tr_bq><i><b>mac {</b></i></blockquote><blockquote class=tr_bq><i><b>QMAKE_INFO_PLIST = XXXX.plist</b></i></blockquote><blockquote class=tr_bq><i><b>}</b></i></blockquote></blockquote><br>mac {}內指得是, 這些內容只有針對mac os才有效, 而XXXX.plist則是你的Info.plist的範本檔名, 這個檔跟專案檔放在同一個目錄<br><br>XXXX.plist的內容則像這樣:<br><script src=http://bit.ly/UmZADl></script><br>跟一般的Info.plist其實是一樣的, 我在這範例裡面加上了"NSHighResolutionCapable", 其餘都跟原先自動產生的內容是差不多的, 除了幾個關鍵內容用變數取代, 這邊變數都是以"@&ldquo;包起來的, 比如說&rdquo;@ICON@&ldquo;就是應用程式的圖示<br><br>重新做一次qmake後, 下次編譯的Info.plist便會以這個檔案為範本產生了<br><br><br><br>
+via Blogger <a href=http://bit.ly/VYVRbw>http://bit.ly/VYVRbw</a>
+</div>
+</article>
+<article class=hentry>
+<header>
+<div class=entry-meta>
 <span class="entry-date date published updated"><time datetime="2013-02-10 05:18:50 +0000 UTC"><a href=/%E8%AE%93Eclipse%E6%94%AF%E6%8F%B4Retina-Display/>Feb 10, 2013</a></time></span>
 <span class=entry-reading-time>
 <i class="fa fa-clock-o"></i>
@@ -139,22 +155,6 @@ Reading time ~1 minute
 <div class=entry-content>
 <p>等了那麼久, 蝴蝶終於飛來了, 實在有點歷經波折呀~~~<br><br></p><div class=separator style=clear:both;text-align:center><a href=http://bit.ly/UoDiz5 imageanchor=1 style=margin-left:1em;margin-right:1em><img border=0 height=240 src=http://bit.ly/VDbmUF width=320></a></div><div class=separator style=clear:both;text-align:center><br></div><br>這不是我第一支預購的自己公司的產品, 第一支是給老婆的Sensation, 這算第二支, 為啥堅持要預購, 還追那麼勤勞? 1. 自己用過一段時間, 這的確是好產品! 2. 從預購開始, 才能真正體驗完整的使用者體驗呀&mldr; (剛掰的) 3. 拿好手機在街上走不用遮遮掩掩的&mldr;.<br><br>不過這次還真一波三折, 經歷了貨等不到, 換了顏色(本想買紅的), 又拿到亮點機, 都已經跟店員打熟了&mldr;.<br><br><div class=separator style=clear:both;text-align:center><a href=http://bit.ly/UoDiz7 imageanchor=1 style=margin-left:1em;margin-right:1em><img border=0 height=150 src=http://bit.ly/VDbmUH width=200></a><a href=http://bit.ly/UoDiz9 imageanchor=1 style=margin-left:1em;margin-right:1em><img border=0 height=200 src=http://bit.ly/VDbkMz width=150></a></div><div class=separator style=clear:both;text-align:center><br></div><div style=clear:both;text-align:left>外盒, 蠻簡潔的, 不過少了以前HTC一貫的塗鴉風格設計, 有一點不習慣, 還是喜歡塗鴉風, 比較可愛</div><div class=separator style=clear:both;text-align:center></div><div class=separator style=clear:both;text-align:center><a href=http://bit.ly/UoDkHf imageanchor=1 style=margin-left:1em;margin-right:1em><img border=0 height=200 src=http://bit.ly/VDbmUJ width=150></a><a href=http://bit.ly/UoDkHh imageanchor=1 style=margin-left:1em;margin-right:1em><img border=0 height=200 src=http://bit.ly/VDbmUL width=150></a><a href=http://bit.ly/UoDkHl imageanchor=1 style=margin-left:1em;margin-right:1em><img border=0 height=200 src=http://bit.ly/VDbkMB width=150></a></div><div class=separator style=clear:both;text-align:center><br></div><div class=separator style=clear:both;text-align:left>本來想買紅的, 之前用過一陣子紅的, 覺得紅的很搶眼頗漂亮的, 但紅的實在缺的兇, 只好跟店員說我紅白都可(我實在沒辦法喜歡黑的), 本想說白不是整支純白並沒紅的來的好看, 但拿上手後, 反而覺得我喜歡白的勝過紅的呀</div><div class=separator style=clear:both;text-align:left><br></div><div class=separator style=clear:both;text-align:center><a href=http://bit.ly/UoDizb imageanchor=1 style=margin-left:1em;margin-right:1em><img border=0 height=240 src=http://bit.ly/VDbnb5 width=320></a></div><div class=separator style=clear:both;text-align:center><br></div><div class=separator style=clear:both;text-align:left>去專賣店預購就是為了這個呀&mldr;送皮套的刮刮卡呀&mldr;. </div><br><br><br><br><br>
 via Blogger <a href=http://bit.ly/UoDizd>http://bit.ly/UoDizd</a>
-</div>
-</article>
-<article class=hentry>
-<header>
-<div class=entry-meta>
-<span class="entry-date date published updated"><time datetime="2012-11-25 22:56:48 +0000 UTC"><a href=/%E9%96%8B%E7%AE%B1-%E4%BB%8A%E5%B9%B4%E7%9A%84%E7%94%9F%E6%97%A5%E7%A6%AE%E7%89%A9-Tissot-PRC-200-%E6%A9%9F%E6%A2%B0%E9%8C%B6/>Nov 25, 2012</a></time></span>
-<span class=entry-reading-time>
-<i class="fa fa-clock-o"></i>
-Reading time ~2 minutes
-</span>
-</div>
-<h1 class=entry-title><a href=/%E9%96%8B%E7%AE%B1-%E4%BB%8A%E5%B9%B4%E7%9A%84%E7%94%9F%E6%97%A5%E7%A6%AE%E7%89%A9-Tissot-PRC-200-%E6%A9%9F%E6%A2%B0%E9%8C%B6/ rel=bookmark title="[開箱] 今年的生日禮物 Tissot PRC 200 機械錶" itemprop=url>[開箱] 今年的生日禮物 Tissot PRC 200 機械錶</a></h1>
-</header>
-<div class=entry-content>
-<p>去年的生日禮物是<a href=http://bit.ly/TX65q1>耳機 (AKG K-701)</a> , 今年則是因為原本戴的FOSSIL錶打球的時候壞了,修又差不多買新的一半以上的錢(壞的好嚴重呀), 備用的錶的錶帶又常常脫落戴的不舒服, 所以就打算換隻錶<br><br>本來是看SEIKO, CITIZEN, 看金城武跟王力宏代言看起來蠻帥的, 日本錶功能又多, 科技感濃厚, 就有點感興趣, 不過直到昨天, 跑去看007電影Skyfall, Bonds戴的Omega也蠻帥的呀, 不過自己平常對錶沒啥研究, 不知道, 這還真是我買不起的高貴, 買不起Omega還是繼續跑去專櫃看了SEIKO, CITIZEN, 實際上看了實物, 還是失望了, 這不是我想要的型, 才發現我喜歡的並不是這麼濃的科技感, 而是比較古老一點的機械<br><br>再逛了一下瑞士的錶款, 還真一個比一個高貴, 好像只有TISSOT是外型跟價位還是我可以接受的, 所以今天就找了老婆, 小遠跟我去敗了這隻 - TISSOT PRC 200機械錶, 這還真是我戴過最貴的(羞), 也是第一隻機械錶<br><br>紅黑色的外盒:<br></p><div class=separator style=clear:both;text-align:center><a href=http://bit.ly/XRlNM0 imageanchor=1 style=margin-left:1em;margin-right:1em><img border=0 height=180 src=http://bit.ly/TX68lK width=320></a></div><div class=separator style=clear:both;text-align:center><br></div>躺在盒內的樣子&mldr;其實這是偽開箱啦&mldr;為了拍照再擺回去的 XD<br><div class=separator style=clear:both;text-align:center><a href=http://bit.ly/XRlLUu imageanchor=1 style=margin-left:1em;margin-right:1em><img border=0 height=180 src=http://bit.ly/TX65q3 width=320></a></div><div class=separator style=clear:both;text-align:center><a href=http://bit.ly/XRlLUw imageanchor=1 style=margin-left:1em;margin-right:1em><img border=0 height=180 src=http://bit.ly/XRlNM7 width=320></a></div><div class=separator style=clear:both;text-align:left><br></div><div class=separator style=clear:both;text-align:left>錶面很單純, 沒多餘的圈圈(?!), 我還蠻喜歡那秒針的, 上面有個T, 其實我更喜歡BALL的指針設計, 不過那在預算外了, 白色錶面銀色框是我喜歡的, 黑錶面跟玫瑰金就不是我的菜了&mldr; ^^</div><div class=separator style=clear:both;text-align:center><a href=http://bit.ly/TX68lM imageanchor=1 style=margin-left:1em;margin-right:1em><img border=0 height=180 src=http://bit.ly/XRlLUy width=320></a></div><div class=separator style=clear:both;text-align:left><br></div><div class=separator style=clear:both;text-align:left>透明的背面看的到一些機械錶的結構</div><div class=separator style=clear:both;text-align:center><a href=http://bit.ly/TX68lO imageanchor=1 style=margin-left:1em;margin-right:1em><img border=0 height=180 src=http://bit.ly/XRlO2q width=320></a></div><div class=separator style=clear:both;text-align:center><br></div><div class=separator style=clear:both;text-align:left>戴在手上的樣子</div><div class=separator style=clear:both;text-align:center><a href=http://bit.ly/TX65q5 imageanchor=1 style=margin-left:1em;margin-right:1em><img border=0 height=320 src=http://bit.ly/XRlO2s width=180></a></div><div class=separator style=clear:both;text-align:center><br></div><div class=separator style=clear:both;text-align:left>此外還有送一條贈品, USB 線, 不過這種線我有好多條了&mldr;. XD </div><div class=separator style=clear:both;text-align:center><a href=http://bit.ly/TX68lQ imageanchor=1 style=margin-left:1em;margin-right:1em><img border=0 height=180 src=http://bit.ly/XRlO2u width=320></a></div><br><br><br>
-via Blogger <a href=http://bit.ly/TX65q7>http://bit.ly/TX65q7</a>
 </div>
 </article>
 <div class=pagination>
