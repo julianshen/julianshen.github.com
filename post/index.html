@@ -196,7 +196,7 @@ Reading time ~7 minutes
 	}
 	<span style=color:#66d9ef>return</span> <span style=color:#66d9ef>nil</span>, <span style=color:#a6e22e>err</span>
 }
-</code></pre></div><p>這邊要擷取的URL一樣是透過base64編碼完放在url傳過來的, 因為我們要的圖大小是1200x630, 所以這邊的View port就設定成那個大小, 有一個比較要特別注意的是, 跟原本chromdp範例不同的地方是, 這邊要用<code>ctx, _ := chromedp.NewExecAllocator(context.Background(), chromedp.NoSandbox)</code> ** &ldquo;NoSandbox&rdquo; ** 的模式來初始chrome, 要不然無法在heroku下跑</p>
+</code></pre></div><p>這邊要擷取的URL一樣是透過base64編碼完放在url傳過來的, 因為我們要的圖大小是1200x630, 所以這邊的View port就設定成那個大小, 有一個比較要特別注意的是, 跟原本chromdp範例不同的地方是, 這邊要用<code>ctx, _ := chromedp.NewExecAllocator(context.Background(), chromedp.NoSandbox)</code> <strong>&ldquo;NoSandbox&rdquo;</strong> 的模式來初始chrome, 要不然無法在heroku下跑</p>
 <p>這邊並不是使用<code>chrome.FullScreenshot</code>來擷取畫面, 取而代之的是用自己寫的<code>FullScreenshotInViewport</code></p>
 <div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>FullScreenshotInViewport</span>(<span style=color:#a6e22e>res</span> <span style=color:#f92672>*</span>[]<span style=color:#66d9ef>byte</span>, <span style=color:#a6e22e>quality</span> <span style=color:#66d9ef>int</span>) <span style=color:#a6e22e>chromedp</span>.<span style=color:#a6e22e>EmulateAction</span> {
 	<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>res</span> <span style=color:#f92672>==</span> <span style=color:#66d9ef>nil</span> {
