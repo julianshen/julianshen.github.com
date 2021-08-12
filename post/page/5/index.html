@@ -80,6 +80,35 @@ All posts
 <article class=hentry>
 <header>
 <div class=entry-meta>
+<span class="entry-date date published updated"><time datetime="2017-01-21 00:22:49 +0000 UTC"><a href=/%E5%9C%A8Heroku%E4%B8%8A%E7%94%A8apt-get%E5%AE%89%E8%A3%9D%E5%A5%97%E4%BB%B6/>Jan 21, 2017</a></time></span>
+<span class=entry-reading-time>
+<i class="fa fa-clock-o"></i>
+Reading time ~2 minutes
+</span>
+</div>
+<h1 class=entry-title><a href=/%E5%9C%A8Heroku%E4%B8%8A%E7%94%A8apt-get%E5%AE%89%E8%A3%9D%E5%A5%97%E4%BB%B6/ rel=bookmark title=在Heroku上用apt-get安裝套件 itemprop=url>在Heroku上用apt-get安裝套件</a></h1>
+</header>
+<div class=entry-content>
+<p><a href=https://www.heroku.com>Heroku</a>蠻好用的, 也用了好幾年了, 拿來做prototype真是方便, 不過慚愧的是, 我還沒付過錢給他(真惡劣)
+最近chatbot玩得比較多, 不想花錢租server, 所以就比較頻繁的用它, 說到這裡, 照例, 先來廣告一下:</p>
+<p>新的<a href=https://line.me/R/ti/p/%40dlk1367a>Line叭寇(Barcode)小幫手</a> (轉含有條碼的圖片給它, 它會幫你解讀):</p>
+<p><a href=https://line.me/R/ti/p/%40dlk1367a><img src=http://qr-official.line.me/L/zMCfmfxLHk.png alt></a></p>
+<p>好了, 回歸正題, Heroku 雖然是一個Paas的服務, 但它彈性非常大, 透過不同的buildpack也可以支援不同的語言跟框架,
+不像Google的GAE, 支援的平台就比較有限</p>
+<p>Heroku本身也是跑在Linux上, 因此, 如果你需要額外的套件, 其實也是沒問題的, 舉個例子, 雖然我這個叭寇小幫手是用Go來寫的
+但卻會用到<a href=http://zbar.sourceforge.net/>ZBar</a>這個讀取條碼的C程式庫, Heroku上當然沒裝, 所以建置Go時, 會因為找不到
+程式庫而失敗</p>
+<p>在Linux上, 我們可以用<code>apt-get</code>去安裝套件, 以zbar這例子是<code>apt-get install libzbar-dev</code>, 但在Heroku上又該怎麼裝呢?</p>
+<p>還是要透過buildpack, 在command line下執行下面指令:</p>
+<pre><code>heroku buildpacks:add --index 1 https://github.com/heroku/heroku-buildpack-apt
+</code></pre><p>apt這個build pack是放在官方的Github上, 因為我們希望該需要的, 軟體在一開始就把它準備好了</p>
+<p>除了加build pack外, 還是不夠的, 你的套件還是沒被安裝, 因此繼續加一個叫<code>Aptfile</code>的檔案, 內容是你需要安裝的套件</p>
+<p>當你push你的程式到heroku上後, 它就會根據<code>Aptfile</code>去安裝相對應的套件了</p>
+</div>
+</article>
+<article class=hentry>
+<header>
+<div class=entry-meta>
 <span class="entry-date date published updated"><time datetime="2017-01-19 11:45:30 +0000 UTC"><a href=/Go-%E7%94%A8Go%E6%8A%93PTT%E6%96%87%E7%AB%A0/>Jan 19, 2017</a></time></span>
 <span class=entry-reading-time>
 <i class="fa fa-clock-o"></i>
@@ -616,48 +645,6 @@ DataService service <span style=color:#f92672>=</span> retrofit<span style=color
 </code></pre></div><p><code>.proto</code>檔案放置的位子在<code>app/src/main/proto</code>, 把檔案放在這邊, build的時候就會自動產生這些對應的Java classes了</p>
 </div>
 </article>
-<article class=hentry>
-<header>
-<div class=entry-meta>
-<span class="entry-date date published updated"><time datetime="2016-12-27 15:39:59 +0000 UTC"><a href=/Android-%E6%8A%8AGithub%E7%95%B6Maven-repository%E7%94%A8/>Dec 27, 2016</a></time></span>
-<span class=entry-reading-time>
-<i class="fa fa-clock-o"></i>
-Reading time ~2 minutes
-</span>
-</div>
-<h1 class=entry-title><a href=/Android-%E6%8A%8AGithub%E7%95%B6Maven-repository%E7%94%A8/ rel=bookmark title="[Android] 把Github當Maven repository用" itemprop=url>[Android] 把Github當Maven repository用</a></h1>
-</header>
-<div class=entry-content>
-<p>自從Android導入gradle之後, 使用開放的第三方的程式庫就越來越方便了, 雖然方便, 但也不免會碰到這類的問題:</p>
-<ol>
-<li>想要的功能在master branch上更新了, 但卻遲遲不release以至於想用新的功能無法用</li>
-<li>程式碼已經沒在維護了, maven repository上一直都還是有問題的舊版本, 明知道怎麼修卻無法代他release到maven repository上去, PR又遲遲沒人理</li>
-<li>想加上自己的私有功能, 又不想包整包source codes到app裡面去</li>
-<li>想要開放自己做的程式庫卻覺得release到maven很麻煩</li>
-</ol>
-<p>還好有<a href=https://jitpack.io/>Jitpack</a>這東西, 剛剛就是碰到一個東西有問題, 想把它修掉直接用, 研究了一下</p>
-<p>用法很簡單, 首先要先把<code>maven { url 'https://jitpack.io' }</code>加入到repositories裡面去</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-groovy data-lang=groovy>allprojects <span style=color:#f92672>{</span>
-    repositories <span style=color:#f92672>{</span>
-        maven <span style=color:#f92672>{</span> url <span style=color:#e6db74>&#39;https://jitpack.io&#39;</span> <span style=color:#f92672>}</span>
-    <span style=color:#f92672>}</span>
-<span style=color:#f92672>}</span>
-</code></pre></div><p>然後在你的<code>dependencies</code>裡面加入:</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-groovy data-lang=groovy>compile <span style=color:#e6db74>&#39;com.github.User:Repo:Tag&#39;</span>
-</code></pre></div><p>User就是你Github的user name, Repo是Repository的名稱, Tag是Git的tag名稱, 舉個例：https://github.com/CowBayStudio/wire-gradle-plugin ,
-像這樣的Url, User name就是CowBayStudio, repo就是wire-gradle-plugin , 如果你的Git repo並沒有任何的Tag, 可以用Commit hash或是branch-SNAPSHOT(例如master-SNAPSHOT), 當然
-自己加上tag會是比較好的做法, 比較好控管</p>
-<p>當你去build你的app時, 在抓這個dependency時, Jitpack就會自動幫你把code從github抓下來build好,
-當然是developer就免不了有bug, 導致build fail, 去 Jitpack網站把你Github的URL貼上去就可以找到build log了, 像是<a href=https://jitpack.io/com/github/CowBayStudio/wire-gradle-plugin/ver11/build.log>這個</a></p>
-<p>我在弄我的東西時, 就發生了build fail的狀況, 而問題的原因是其中一個依賴的jar是JAVA 8 build出來的, 但jitpack用Java 7去build我的程式庫(文件說default應該是Java 8呀, 騙我!),
-這時候可以加一個jitpack.yml, 內容如下:</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yml data-lang=yml><span style=color:#f92672>jdk</span>:
-  - <span style=color:#ae81ff>oraclejdk8</span>
-</code></pre></div><p>透過jitpack.yml可以有很多客制可設定, 詳情就看一下<a href=https://jitpack.io/docs/BUILDING/#build-customization>文件</a>吧!</p>
-<p>所以碰到自己想動的程式庫, 可以直接fork出來改, 改出來的就可以直接這樣用了</p>
-<p>那private repo呢?付錢給<a href=https://jitpack.io/private#subscribe>Jitpack</a>就有啦! XD</p>
-</div>
-</article>
 <div class=pagination>
 <ul class=inline-list>
 <li><a href=/post/page/4/ class=btn>Previous</a></li>
@@ -733,6 +720,7 @@ Reading time ~2 minutes
 <li><a href=/post/page/70/>70</a></li>
 <li><a href=/post/page/71/>71</a></li>
 <li><a href=/post/page/72/>72</a></li>
+<li><a href=/post/page/73/>73</a></li>
 <li><a href=/post/page/6/ class=btn>Next</a></li>
 </ul>
 </div>

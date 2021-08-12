@@ -80,6 +80,48 @@ All posts
 <article class=hentry>
 <header>
 <div class=entry-meta>
+<span class="entry-date date published updated"><time datetime="2016-12-27 15:39:59 +0000 UTC"><a href=/Android-%E6%8A%8AGithub%E7%95%B6Maven-repository%E7%94%A8/>Dec 27, 2016</a></time></span>
+<span class=entry-reading-time>
+<i class="fa fa-clock-o"></i>
+Reading time ~2 minutes
+</span>
+</div>
+<h1 class=entry-title><a href=/Android-%E6%8A%8AGithub%E7%95%B6Maven-repository%E7%94%A8/ rel=bookmark title="[Android] 把Github當Maven repository用" itemprop=url>[Android] 把Github當Maven repository用</a></h1>
+</header>
+<div class=entry-content>
+<p>自從Android導入gradle之後, 使用開放的第三方的程式庫就越來越方便了, 雖然方便, 但也不免會碰到這類的問題:</p>
+<ol>
+<li>想要的功能在master branch上更新了, 但卻遲遲不release以至於想用新的功能無法用</li>
+<li>程式碼已經沒在維護了, maven repository上一直都還是有問題的舊版本, 明知道怎麼修卻無法代他release到maven repository上去, PR又遲遲沒人理</li>
+<li>想加上自己的私有功能, 又不想包整包source codes到app裡面去</li>
+<li>想要開放自己做的程式庫卻覺得release到maven很麻煩</li>
+</ol>
+<p>還好有<a href=https://jitpack.io/>Jitpack</a>這東西, 剛剛就是碰到一個東西有問題, 想把它修掉直接用, 研究了一下</p>
+<p>用法很簡單, 首先要先把<code>maven { url 'https://jitpack.io' }</code>加入到repositories裡面去</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-groovy data-lang=groovy>allprojects <span style=color:#f92672>{</span>
+    repositories <span style=color:#f92672>{</span>
+        maven <span style=color:#f92672>{</span> url <span style=color:#e6db74>&#39;https://jitpack.io&#39;</span> <span style=color:#f92672>}</span>
+    <span style=color:#f92672>}</span>
+<span style=color:#f92672>}</span>
+</code></pre></div><p>然後在你的<code>dependencies</code>裡面加入:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-groovy data-lang=groovy>compile <span style=color:#e6db74>&#39;com.github.User:Repo:Tag&#39;</span>
+</code></pre></div><p>User就是你Github的user name, Repo是Repository的名稱, Tag是Git的tag名稱, 舉個例：https://github.com/CowBayStudio/wire-gradle-plugin ,
+像這樣的Url, User name就是CowBayStudio, repo就是wire-gradle-plugin , 如果你的Git repo並沒有任何的Tag, 可以用Commit hash或是branch-SNAPSHOT(例如master-SNAPSHOT), 當然
+自己加上tag會是比較好的做法, 比較好控管</p>
+<p>當你去build你的app時, 在抓這個dependency時, Jitpack就會自動幫你把code從github抓下來build好,
+當然是developer就免不了有bug, 導致build fail, 去 Jitpack網站把你Github的URL貼上去就可以找到build log了, 像是<a href=https://jitpack.io/com/github/CowBayStudio/wire-gradle-plugin/ver11/build.log>這個</a></p>
+<p>我在弄我的東西時, 就發生了build fail的狀況, 而問題的原因是其中一個依賴的jar是JAVA 8 build出來的, 但jitpack用Java 7去build我的程式庫(文件說default應該是Java 8呀, 騙我!),
+這時候可以加一個jitpack.yml, 內容如下:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yml data-lang=yml><span style=color:#f92672>jdk</span>:
+  - <span style=color:#ae81ff>oraclejdk8</span>
+</code></pre></div><p>透過jitpack.yml可以有很多客制可設定, 詳情就看一下<a href=https://jitpack.io/docs/BUILDING/#build-customization>文件</a>吧!</p>
+<p>所以碰到自己想動的程式庫, 可以直接fork出來改, 改出來的就可以直接這樣用了</p>
+<p>那private repo呢?付錢給<a href=https://jitpack.io/private#subscribe>Jitpack</a>就有啦! XD</p>
+</div>
+</article>
+<article class=hentry>
+<header>
+<div class=entry-meta>
 <span class="entry-date date published updated"><time datetime="2016-12-11 21:27:45 +0000 UTC"><a href=/Android-%E5%9C%A8Android-Studio%E5%8F%96%E5%BE%97certificate-fingerprints/>Dec 11, 2016</a></time></span>
 <span class=entry-reading-time>
 <i class="fa fa-clock-o"></i>
@@ -576,50 +618,6 @@ Reading time ~4 minutes
 </code></pre></div><p>這只是一個sample而已, 還有一些待改進的</p>
 </div>
 </article>
-<article class=hentry>
-<header>
-<div class=entry-meta>
-<span class="entry-date date published updated"><time datetime="2016-11-04 15:11:58 +0000 UTC"><a href=/ES6-Generators/>Nov 4, 2016</a></time></span>
-<span class=entry-reading-time>
-<i class="fa fa-clock-o"></i>
-Reading time ~2 minutes
-</span>
-</div>
-<h1 class=entry-title><a href=/ES6-Generators/ rel=bookmark title="[ES6] Generators" itemprop=url>[ES6] Generators</a></h1>
-</header>
-<div class=entry-content>
-<p>這個語法蠻有趣的, 早上一直都在看這個想能拿來幹嘛? 結果早上有個phone interview就有點腦袋小小的轉不過來,
-不過這不是重點, 先簡單的來講一下<a href=https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Statements/function*>Generators</a></p>
-<p>產生器? 顧名思義或許是這樣, 可以先看一下MDN上的<a href=https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Statements/function*>文件</a>,
-這是一個從ES6開始才有的功能, 因此要在比較新的瀏覽器, 或是nodejs 6之後才有支援, 先來看看MDN上那個簡單的例子:</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=color:#66d9ef>function</span><span style=color:#f92672>*</span> <span style=color:#a6e22e>idMaker</span>(){
-  <span style=color:#66d9ef>var</span> <span style=color:#a6e22e>index</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>;
-  <span style=color:#66d9ef>while</span>(<span style=color:#a6e22e>index</span> <span style=color:#f92672>&lt;</span> <span style=color:#ae81ff>3</span>)
-    <span style=color:#66d9ef>yield</span> <span style=color:#a6e22e>index</span><span style=color:#f92672>++</span>;
-}
-
-<span style=color:#66d9ef>var</span> <span style=color:#a6e22e>gen</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>idMaker</span>();
-
-<span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>log</span>(<span style=color:#a6e22e>gen</span>.<span style=color:#a6e22e>next</span>().<span style=color:#a6e22e>value</span>); <span style=color:#75715e>// 0
-</span><span style=color:#75715e></span><span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>log</span>(<span style=color:#a6e22e>gen</span>.<span style=color:#a6e22e>next</span>().<span style=color:#a6e22e>value</span>); <span style=color:#75715e>// 1
-</span><span style=color:#75715e></span><span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>log</span>(<span style=color:#a6e22e>gen</span>.<span style=color:#a6e22e>next</span>().<span style=color:#a6e22e>value</span>); <span style=color:#75715e>// 2
-</span><span style=color:#75715e></span><span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>log</span>(<span style=color:#a6e22e>gen</span>.<span style=color:#a6e22e>next</span>().<span style=color:#a6e22e>value</span>); <span style=color:#75715e>// undefined
-</span></code></pre></div><p>一個generator是以"function*&ldquo;宣告的, 可以說它是一種特別的function, 跟一般的function一次跑到結束不同,
-它是可以中途暫停的, 以上面這例子來說, 如果習慣傳統的寫法, 可能會有點小暈, while loop在idMaker裡面不是一次做到完嗎?
-剛剛說generator是可被中途暫停的, 因此, 在第一輪的時候會先停在"yield"處, 當你呼叫next()才會到下一個yield位置停下來並回傳,
-我的感覺是比較像一種有帶state的function之類的</p>
-<p>有什麼用途? 從上面的例子, 當然最直覺想到的是ID產生器或是計數器之類的東西, 網路上應該可以找到一些不同的用法, 比如說搭配Promise, 有興趣可以自己找找,
-是不只可以用在產生器, 拿我早上interview被問到的實作strstr, 不是很難的東西, 我原本拿go寫,出了點小槌, 而且也只能找第一個發生的字串, 後來用generator改了這版本:</p>
-<script type=application/javascript src=https://gist.github.com/julianshen/6c06ccfa0942829ea24973778a96ab64.js></script>
-<p>以這個來說, 第一次呼叫會找出第一個發生的點, 可以持續呼叫到所有的都找出來為止, generator是可以被iterate的, 因此這邊可以用</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=color:#66d9ef>for</span>(<span style=color:#66d9ef>var</span> <span style=color:#a6e22e>i</span> <span style=color:#66d9ef>of</span> <span style=color:#a6e22e>gen</span>) {
-    <span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>log</span>(<span style=color:#a6e22e>i</span>);
-}
-</code></pre></div><p>不需要一直call next(), next()回傳回來的會是{value:&mldr;, done:&mldr;}, 因此可以看done知道是否已經結束</p>
-<p>下面這範例則是一個質數產生器, 一直call next就可以產生下一個質數:</p>
-<script type=application/javascript src=https://gist.github.com/julianshen/0c283f6f76abf258f9c0d4292a1e14f9.js></script>
-</div>
-</article>
 <div class=pagination>
 <ul class=inline-list>
 <li><a href=/post/page/5/ class=btn>Previous</a></li>
@@ -695,6 +693,7 @@ Reading time ~2 minutes
 <li><a href=/post/page/70/>70</a></li>
 <li><a href=/post/page/71/>71</a></li>
 <li><a href=/post/page/72/>72</a></li>
+<li><a href=/post/page/73/>73</a></li>
 <li><a href=/post/page/7/ class=btn>Next</a></li>
 </ul>
 </div>

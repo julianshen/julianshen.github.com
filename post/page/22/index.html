@@ -80,6 +80,22 @@ All posts
 <article class=hentry>
 <header>
 <div class=entry-meta>
+<span class="entry-date date published updated"><time datetime="2012-12-28 02:24:19 +0000 UTC"><a href=/iOS-%E5%88%A9%E7%94%A8Smart-App-Banners%E5%9C%A8%E7%B6%B2%E9%A0%81%E4%B8%8A%E6%8E%A8%E5%BB%A3Native-App/>Dec 28, 2012</a></time></span>
+<span class=entry-reading-time>
+<i class="fa fa-clock-o"></i>
+Reading time ~1 minute
+</span>
+</div>
+<h1 class=entry-title><a href=/iOS-%E5%88%A9%E7%94%A8Smart-App-Banners%E5%9C%A8%E7%B6%B2%E9%A0%81%E4%B8%8A%E6%8E%A8%E5%BB%A3Native-App/ rel=bookmark title="[iOS] 利用Smart App Banners在網頁上推廣Native App" itemprop=url>[iOS] 利用Smart App Banners在網頁上推廣Native App</a></h1>
+</header>
+<div class=entry-content>
+<div class=separator style=clear:both;text-align:left>起初先在Flickr網頁注意到這個:</div><div class=separator style=clear:both;text-align:left><br></div><div class=separator style=clear:both;text-align:center><a href=http://bit.ly/VDf9Bk imageanchor=1 style=margin-left:1em;margin-right:1em><img border=0 height=320 src=http://bit.ly/UoEQcg width=213></a></div><div class=separator style=clear:both;text-align:center><br></div><div class=separator style=clear:both;text-align:left>按下open就會直接帶你到App store下載Flickr App, 這就是iOS6開始有的Smart App Banners, 覺得頗有趣的, 就去看了原始碼查了一下作法:</div><div class=separator style=clear:both;text-align:left><br></div><blockquote class=tr_bq></blockquote><div class=separator style=clear:both;text-align:left>以上這是Flickr的HTML裡面的, 作法很簡單, 就只是在HTML內放個"apple-itunes-app"的meta tag, 指定app-id和參數(非必須)</div><div class=separator style=clear:both;text-align:left><br></div><div class=separator style=clear:both;text-align:left>Android應該也要加個這東西才對呀&mldr;..</div><br><br>
+via Blogger <a href=http://bit.ly/VDfbcw>http://bit.ly/VDfbcw</a>
+</div>
+</article>
+<article class=hentry>
+<header>
+<div class=entry-meta>
 <span class="entry-date date published updated"><time datetime="2012-12-28 02:07:37 +0000 UTC"><a href=/%E5%A5%BD%E5%83%8F%E8%A9%B2%E5%AF%AB%E5%80%8B%E9%96%8B%E7%AE%B1%E6%96%87-%E7%99%BD%E8%9D%B4%E8%9D%B6/>Dec 28, 2012</a></time></span>
 <span class=entry-reading-time>
 <i class="fa fa-clock-o"></i>
@@ -139,22 +155,6 @@ Reading time ~4 minutes
 <div class=entry-content>
 <p>在做web applications時，或多或少都會使用到像是jQuery, bootstrap這類的第三方元件，使用已經host在既有CDN 的版本（比如說google的）是一個不錯的方法，但不是每一種都有這類方案，一個個從各網站下載回本地端又不是那麼容易管理，<a href=http://bit.ly/QuXxeM>bower</a>就是為此出現的，<a href=http://bit.ly/QuXxeM>bower</a>是一個類似npm的軟體，由Twitter所開發出來且是開放原始碼，所不同的是，npm是管理node.js相關的套件，但bower是管前端的<br><br>舉一個例子，你可以利用bower來安裝jQuery :<br></p><blockquote><em>bower install jQuery</em></blockquote>bower會把jQuery 安裝到<i>&ldquo;components/jQuery&rdquo;</i> 目錄裡<br><br>在npm , 你可以把所有相關的模組設定在package.json中，這樣就不用一個個下"npm install mypackage"這樣的指令了，bower也有類似的設計，只是為了避免跟package.json造成混淆它採用的檔名是component.json，內容跟package.json差不多：<br><blockquote><em>{</em><br><em>    dependencies: {</em><br><em>      &ldquo;JQuery&rdquo;: &ldquo;*&rdquo;</em><br><em>    }</em><br><em>}</em></blockquote>在Heroku deploy node.js app有個很方便的地方是，當你做git push 後，它會根據package.json自動幫你安裝相關的node.js 模組，但不幸的是它並不支援bower，只支援npm<br><br>還好Heroku很有彈性，可以藉由buildpack來自己加這部份<br><br><a href=http://bit.ly/SqrY1M>buildpack API</a>其實還蠻簡單的, 基本上只要準備三支shell script:<br><ul><li>bin/detect</li><li>bin/compile</li><li>bin/release</li></ul><div>大部分的東西, 大多在"bin/compile"裡完成的</div><div><br></div><div>自己做的buildpack也只要放github, 然後將自己app的buildpack指定到這來即可 (使用heroku toolbelt):</div><div><ul><li>新建的程式使用自己的buildpack:  <br><i style=background-color:#ccc>heroku create myapp &ndash;buildpack <a href=http://bit.ly/SqrV6k>http://bit.ly/SqrV6k</a> </i></li><li>既有的程式更換buildpack:<br><span style=background-color:#ccc><i>heroku config:add BUILDPACK_URL=http://bit.ly/SqrV6k</i></span></li></ul></div>當然, 不需要重頭建立自己的buildpack, Heroku官方的buildpack都有open source在github上, 如<a href=http://bit.ly/RVJcUf>Node.js buildpack</a>, 所以只要fork出來修改即可, 因此我從<a href=http://bit.ly/RVJcUf>Node.js buildpack</a> fork出一個新的<a href=http://bit.ly/RVJf2u>buidlpack</a>, 主要的修改是:<br><br><ol><li>安裝bower</li><li>找出所有的component.json並用"bower install"安裝套件</li></ol><div>本想說 &ldquo;1&rdquo; 應該蠻簡單的, 因為bower也是用node.js開發的, 應該只要用npm install bower就搞定了, 但事實是, 這樣會碰壁, 因為bower採用了<a href=http://bit.ly/Js8SYF>lodash</a> , lodash跟Heroku的npm似乎八字不合, 安裝過程到lodash的post-install就會失敗, 也沒明顯的錯誤, 只說這應該是套件問題, 而去查了lodash, 也有人報過類似的issue, 但作者卻以lodash沒問題應該是npm的問題把這issue給關了(鬼打牆?), 但:</div><div><ul><li>自己電腦上安裝bower或lodash都沒問題</li><li>在自己的package.json加上lodash, deploy到Heroku也一樣掛</li><li>在package.json裡設定engine裡的npm版本到最新的1.1.65(跟自己電腦上一樣版本), 也一樣不行</li></ul></div><br>那&mldr;就不得不懷疑是npm問題了, 查了原本buildpack寫的, Heroku的node.js和npm其實是拿他們自己放在S3的binary package來安裝的, 可疑!<br><br>因此就使用了下一招 - 用npm來裝npm<br><br>用Heroku系統內的npm來裝npm是可行的, npm install npm的結果是, 會有一份最新的npm被安裝到node_modules底下, 可以用"node_modules/.bin/npm"來呼叫這版本, 因此就加上了:<br><blockquote class=tr_bq><i>node_modules/.bin/npm install bower</i></blockquote>Bingo! 這樣可行, bower一樣被安裝到 node_modules/.bin底下, 加上 &ldquo;2"的邏輯到"bin/compile"後就大功告成了,<br><br>有修改的部份只有<a href=http://bit.ly/RVJf2w>"bin/compile&rdquo;</a>, 比對一下commit history就可以知道我修改過啥, 中間有做了很多實驗, 所以有不少垃圾commits, 可以忽略<br><br>如果有需要這版本buildpack, 也歡迎利用:<br><h3><a href=http://bit.ly/RVJf2u>http://bit.ly/RVJf2u</a></h3><br><br><br><div id=blogsy_footer style=clear:both;font-size:small;text-align:right><a href=http://bit.ly/jKo32O target=_blank><img alt=在Blogsy發表的 height=20 src=http://bit.ly/Nh8z1A style=margin-right:5px;vertical-align:middle width=20>在Blogsy發表的</a></div><br><br>
 via Blogger <a href=http://bit.ly/WAoUr6>http://bit.ly/WAoUr6</a>
-</div>
-</article>
-<article class=hentry>
-<header>
-<div class=entry-meta>
-<span class="entry-date date published updated"><time datetime="2012-11-05 22:13:04 +0000 UTC"><a href=/node.js-%E7%94%A8npm%E5%AE%89%E8%A3%9D%E6%94%BE%E5%9C%A8github%E4%B8%8A%E7%9A%84module/>Nov 5, 2012</a></time></span>
-<span class=entry-reading-time>
-<i class="fa fa-clock-o"></i>
-Reading time ~2 minutes
-</span>
-</div>
-<h1 class=entry-title><a href=/node.js-%E7%94%A8npm%E5%AE%89%E8%A3%9D%E6%94%BE%E5%9C%A8github%E4%B8%8A%E7%9A%84module/ rel=bookmark title="[node.js] 用npm安裝放在github上的module" itemprop=url>[node.js] 用npm安裝放在github上的module</a></h1>
-</header>
-<div class=entry-content>
-<p>剛剛為了想要做一個東西, 需要用到Flickr API, 本想要拿<a href=http://passport.js/>Passport.js</a>來處理Flickr OAuth的部份,但卻發現, FLickr Strategy的部份不但年久, 而且permission這部份居然是hard code &ldquo;read&rdquo;, 由於我想做的東西是要write, 其實是可以靠overwrite &ldquo;userAuthorizationURL"來達到這目的, 不過這樣不好看, 所以就乾脆自己fork一版來改 (Github真是好物來改)<br><br>改完後的一個問題是, 原本可以用"npm install passport-flickr"來安裝這module, 但由於我fork出來的並未註冊在npm, 所以就得用另一個方式:<br></p><blockquote class=tr_bq><i>npm install git://github.com/julianshen/passport-flickr.git#master</i></blockquote>這方式是直接把git url給npm, 不過要deploy上heroku就麻煩了, 還好寫在package.json裡也是沒問題的<br><blockquote class=tr_bq><i>"dependencies&rdquo;: {</i><i>    &ldquo;passport-flickr&rdquo;: &ldquo;git://github.com/julianshen/passport-flickr.git#master&rdquo;</i><i>}</i></blockquote>這還蠻簡單的, 只是把原先寫version的地方換成git URL就好, 在Heroku上也是沒問題的<br><br>題外話: 剛deply到heroku上時發現express 3.0.1無法安裝, 原因是我忘了在package.json裡註名我node.js的版本, 這種狀況下, <a href=http://bit.ly/YviOq0>Heroku會自動幫你挑v0.4.7版</a><br><br><br><br>
-via Blogger <a href=http://bit.ly/St4Ksd>http://bit.ly/St4Ksd</a>
 </div>
 </article>
 <div class=pagination>
@@ -232,6 +232,7 @@ via Blogger <a href=http://bit.ly/St4Ksd>http://bit.ly/St4Ksd</a>
 <li><a href=/post/page/70/>70</a></li>
 <li><a href=/post/page/71/>71</a></li>
 <li><a href=/post/page/72/>72</a></li>
+<li><a href=/post/page/73/>73</a></li>
 <li><a href=/post/page/23/ class=btn>Next</a></li>
 </ul>
 </div>
