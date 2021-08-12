@@ -110,9 +110,9 @@ Reading time ~12 minutes
 <li>Logs</li>
 </ol>
 <p>也就是說除了追蹤資訊, 它也囊括了系統狀態跟Logs, 另外也支援很多不同語言, 算是野心蠻大的, 這邊來看一下它的架構:</p>
-<p><a href=https://raw.github.com/open-telemetry/opentelemetry.io/main/iconography/Reference_Architecture.svg></a></p>
+<p><img src=https://raw.github.com/open-telemetry/opentelemetry.io/main/iconography/Reference_Architecture.svg alt></p>
 <p>主要它包含了兩部分, 一個是各程式語言使用的程式庫 - OT Library, 另一個是蒐集資訊的Collector, 而Collector是這樣的:</p>
-<p><a href=https://raw.github.com/open-telemetry/opentelemetry.io/main/iconography/Otel_Collector.svg></a></p>
+<p><img src=https://raw.github.com/open-telemetry/opentelemetry.io/main/iconography/Otel_Collector.svg alt></p>
 <p>Collector包含了Receiver, Processor, Exporter, 這架構讓它有能力相容/支援不同的系統, 所以像是Finagle這種本來就有支援ZipKin的, 其實只要把原本倒到ZipKin的資料轉倒到OpenTelemetry的Collector就好, 這邊算是好解決, 如果系統是跑在K8S這類的環境上的話, 也可以考慮把Collector
 當成sidecar來佈署</p>
 <p>而各程式語言的程式庫的部分, 方便的是在某些程式語言有支援所謂的auto instrumentation, 針對有支援的程式庫或是框架, 可以在不寫任何程式碼或是寫少少的程式碼, 就可以達到分散式追蹤的目的(聽來有點玄), 像是Java就<a href=https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/docs/supported-libraries.md#libraries--frameworks>支援了這些</a>(請參考連結), 而<a href=https://github.com/open-telemetry/opentelemetry-js-contrib>Javascript有這些</a>(請參考連結)</p>
