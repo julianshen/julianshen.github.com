@@ -80,6 +80,21 @@ All posts
 <article class=hentry>
 <header>
 <div class=entry-meta>
+<span class="entry-date date published updated"><time datetime="2010-12-27 22:40:07 +0000 UTC"><a href=/Android-Building-Gingerbread-for-Nexus-One/>Dec 27, 2010</a></time></span>
+<span class=entry-reading-time>
+<i class="fa fa-clock-o"></i>
+Reading time ~2 minutes
+</span>
+</div>
+<h1 class=entry-title><a href=/Android-Building-Gingerbread-for-Nexus-One/ rel=bookmark title="[Android] Building Gingerbread for Nexus One" itemprop=url>[Android] Building Gingerbread for Nexus One</a></h1>
+</header>
+<div class=entry-content>
+<div class=posterous_autopost><p>抓到Gingerbread之後本來要build一份給Nexus one的, 後來Build break後就懶得管它, 昨天稍微研究一下解法, 果然跟我想的差不多</p> <p>Builde break的點在於libcameraservice, 主要是某H公司的camera driver並沒open source, 要build必須先從Nexus One取出binary來build, 但偏偏Gingerbread的libcameraservice跟camera driver的interface有變, 像是HAL_getNumberOfCameras, HAL_getCameraInfo在舊版的driver並不存在</p> <p>解決的方法有兩種:</p> <ol><li>用dummy driver</li> <li>加個wrapper給它</li> </ol><p>目前實驗出來的結果很&mldr;殘念..還是沒能讓它的camera可以正常使用&mldr; orz</p> <p>第一個方法比較簡單, 只要改makefile: frameworks/base/services/camera/libcameraservice/Android.mk</p> <p>把USE_CAMERA_STUB:=true變成always的true (就是把一些判斷都mark掉就好)</p> <p>這樣build出來的就會是用camera stub</p> <p>第二個方法可以參考<a href=http://pixass.online.ac/android:nexusone>這邊</a></p> <p>這方法只是加個wrapper把需要的幾個function加上去, 並包裝舊的call</p> <p>一樣要改frameworks/base/services/camera/libcameraservice/Android.mk, 只是多個目錄放wrapper</p> <p>Cyanogenmod也是用同一招解決的, 不同的是, 它並沒多生出一個lib來放這warpper, 它是直接改在<a href=https://github.com/CyanogenMod/android_frameworks_base/blob/gingerbread/services/camera/libcameraservice/CameraService.cpp>CameraService.cpp</a></p> <p>其實是同一個方法, 由於它多生一個define : <span style="color:#999;font-family:Bitstream Vera Sans Mono,Courier,monospace;font-size:12px;font-weight:700;line-height:17px">BOARD_USE_FROYO_LIBCAMERA</span>來enable/disable這段code(畢竟Cyanogenmod不是只有for N1), 所以要在 device/htc/passion-common/BoardConfigCommon.mk 裡面加上 BOARD_USE_FROYO_LIBCAMERA := true 來把它打開</p> <p>基本上, 兩種方法N1的Camera都等於廢了, 所以用哪一種都一樣 </p> <p> </p> </div>
+</div>
+</article>
+<article class=hentry>
+<header>
+<div class=entry-meta>
 <span class="entry-date date published updated"><time datetime="2010-12-25 11:16:39 +0000 UTC"><a href=/%E8%81%96%E8%AA%95%E6%B4%BB%E5%8B%95/>Dec 25, 2010</a></time></span>
 <span class=entry-reading-time>
 <i class="fa fa-clock-o"></i>
@@ -135,21 +150,6 @@ Reading time ~1 minute
 </header>
 <div class=entry-content>
 <div class=posterous_autopost><p><a href=http://www.flickr.com/photos/julianshen/5285269881/ title="Untitled by Julian Shen, on Flickr"><img src=http://farm6.static.flickr.com/5167/5285269881_9afba875d9.jpg height=374 alt width=500></a></p> <p>買GF-1之前本來是用Sony Alpha-100, 本來是Minolta 50mm F1.7, Sigma 17-70mm, Sony 105mm三鏡, 為了買GF-1, 賣掉105mm的, 而50mm F1.7懶的賣, 而且Sigma 17-70mm在之前變焦環壞了, 這兩顆就留了下來了</p> <p>後來買了M42的老鏡加轉接環後發現手動拍攝也蠻好玩的, 所以就去買了Alpha to M4/3轉接環(有光圈播桿, 可調手動光圈), 接了50mm F1.7後, 覺得還蠻不錯的, 就想說壞掉的西格馬也拿去送修拿來用好了</p> <p>送到恆伸修的經驗還蠻好的, 不得不說服務不錯, 星期一我用黑貓寄到台中的維修部, 星期二他們一收到就打來問我壞掉原因, 下午就跟我報價問我要不要修, 然後請我匯維修費, 費用匯完隔天馬上就說修好要寄回給我了, 今天(12/23)回到家, 包裹已經在等著我了</p> <p>當然不用說, 馬上合體, 雖然不能自動對焦, 所有都得手動來, 但這還是一顆不折不扣到Marco, 對焦距離短, 以後有多一顆鏡頭可以應用了</p> <p>這顆算是我第一顆單眼鏡頭, 當初買A-100沒買Kit, 買這隻當Kit, 雖然不是我最喜歡那顆(最喜歡的賣掉了), 不過也算蠻常用的(被我轉到對焦環壞了)</p></div>
-</div>
-</article>
-<article class=hentry>
-<header>
-<div class=entry-meta>
-<span class="entry-date date published updated"><time datetime="2010-12-23 21:28:04 +0000 UTC"><a href=/%E7%AD%86%E8%A8%98-Touch-Draw-with-in-HTML5/>Dec 23, 2010</a></time></span>
-<span class=entry-reading-time>
-<i class="fa fa-clock-o"></i>
-Reading time ~1 minute
-</span>
-</div>
-<h1 class=entry-title><a href=/%E7%AD%86%E8%A8%98-Touch-Draw-with-in-HTML5/ rel=bookmark title="[筆記] Touch Draw with  in HTML5" itemprop=url>[筆記] Touch Draw with in HTML5</a></h1>
-</header>
-<div class=entry-content>
-<div class=posterous_autopost><p>&ndash; 前言 &ndash;</p> <p>Safari2Phone做兩天就膩了(天呀, 我無可救藥), 昨天想到玩點別的</p> <p>第一階段目標, 用"&lt;canvas>&ldquo; tag + JQMobile (其實非必要) 做了一個Tocuh Draw, 就是手指在Canvas上畫圖, 像這樣(這是測試結果):</p> <p><img src=http://posterous.com/getfile/files.posterous.com/temp-2010-12-23/EkutiHDEdcrhxmpixDenFvmFeruwpsHsFEufJycJGnrjkJCpwlAdAafHGdnD/demodraw.png.scaled500.png width=480 height=800></p> <p>&mdash;-</p> <p>測試平台: Nexus One (Android) + WebView</p> <p>碰到的問題:</p> <p>Canvas可以很正常的在Android上跑沒問題, 但主要是event的問題, 本來用addEventListener(&lsquo;mousemove&rsquo;, draw)的方式, 沒想到在mobile環境全部怪怪的</p> <p>手機上的event應該是touchstart, touchend, touchmove, 其中touchmove跟mousemove有點不同, mousemove不用mousedown就會被觸發, 但touchmove卻是在有touch的狀況下才會發生</p> <p>touch event的點也不一定只有一點, 所以有event.touches, 而這是一個array, 裡面放每一點座標, 像是clientX, clientY之類的</p> <p>Canvas的部份, 用moveTo->lineTo來畫這些經過點就可以達成了(筆記: 下一步做一個queue來儲存)</p></div>
 </div>
 </article>
 <div class=pagination>

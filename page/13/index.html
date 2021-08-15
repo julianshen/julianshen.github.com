@@ -79,6 +79,30 @@
 <article class=hentry>
 <header>
 <div class=entry-meta>
+<span class="entry-date date published updated"><time datetime="2015-06-10 04:12:46 +0000 UTC"><a href=/WWDC-Day2-%E5%BF%83%E5%BE%97-WWDC%E8%B7%9FGoogle-IO%E6%9C%89%E5%95%A5%E4%B8%8D%E5%90%8C/>Jun 10, 2015</a></time></span>
+<span class=entry-reading-time>
+<i class="fa fa-clock-o"></i>
+Reading time ~1 minute
+</span>
+</div>
+<h1 class=entry-title><a href=/WWDC-Day2-%E5%BF%83%E5%BE%97-WWDC%E8%B7%9FGoogle-IO%E6%9C%89%E5%95%A5%E4%B8%8D%E5%90%8C/ rel=bookmark title="WWDC Day2 心得 - WWDC跟Google IO有啥不同？" itemprop=url>WWDC Day2 心得 - WWDC跟Google IO有啥不同？</a></h1>
+</header>
+<div class=entry-content>
+<p>1. wwdc 比較貴<br>
+2. google是凱子爹，會給禮物<br>
+3. io找的到貼紙<br>
+4. wwdc 到哪都排隊，而且要提早排，連lab也在排！io看主題熱不熱門<br>
+5. io有一堆sandbox攤位，wwdc有一堆lab<br>
+6. wwdc 中場休息時間比較長<br>
+7. wwdc每層樓都有午餐可以拿，Google io得走到一樓<br>
+8. wwdc餐點飲料比較健康點，但io的比較好吃一點<br>
+9. wwdc不會有android! <br>
+10. wwdc到處可以看到一堆mac，google io上，到處也是一堆mac，差別的是wwdc上看到的mac比較少人有貼貼紙</p>
+</div>
+</article>
+<article class=hentry>
+<header>
+<div class=entry-meta>
 <span class="entry-date date published updated"><time datetime="2015-06-10 04:00:14 +0000 UTC"><a href=/wwdc-day-2-%E7%9C%9F%E7%9A%84%E9%83%BD%E5%BE%97%E6%8F%90%E6%97%A9%E5%8D%8A%E5%80%8B%E5%B0%8F%E6%99%82%E4%BE%86%E6%8E%92%E9%9A%8A%E3%84%A7%E4%B8%8D%E5%B0%8F%E5%BF%83%E5%B0%B1%E9%95%B7%E9%95%B7%E7%9A%84%E4%BA%BA%E9%BE%8D%E4%BA%86%E7%9C%9F%E6%98%AF%E6%81%90%E6%80%96google/>Jun 10, 2015</a></time></span>
 <span class=entry-reading-time>
 <i class="fa fa-clock-o"></i>
@@ -166,21 +190,6 @@ let intArray = Array(UnsafeBufferPointer(start: intData, count: bitmapByteCount)
 </pre>
 <p>原來必須先把它轉型成UnsafeMutablePointer&lt;UInt32>, 然後再用UnsafeBufferPointer轉存到實際的陣列中(因為UnsafeBufferPointer是SequenceType, 才可以轉成Array), 當然也要給它陣列大小</p>
 <p>但實際上這樣做對不對, 安不安全&mldr;還不知道, 找到答案寫下來先</p>
-</div>
-</article>
-<article class=hentry>
-<header>
-<div class=entry-meta>
-<span class="entry-date date published updated"><time datetime="2015-05-12 03:02:52 +0000 UTC"><a href=/iOS%E9%96%8B%E7%99%BC%E7%94%9F%E6%89%8B%E7%AD%86%E8%A8%98-%E5%9C%A8UITextField%E5%85%A7%E6%94%BE%E5%85%A5%E8%BC%89%E5%85%A5%E5%8B%95%E7%95%ABUIActivityIndicatorView/>May 12, 2015</a></time></span>
-<span class=entry-reading-time>
-<i class="fa fa-clock-o"></i>
-Reading time ~1 minute
-</span>
-</div>
-<h1 class=entry-title><a href=/iOS%E9%96%8B%E7%99%BC%E7%94%9F%E6%89%8B%E7%AD%86%E8%A8%98-%E5%9C%A8UITextField%E5%85%A7%E6%94%BE%E5%85%A5%E8%BC%89%E5%85%A5%E5%8B%95%E7%95%ABUIActivityIndicatorView/ rel=bookmark title="[iOS開發生手筆記] 在UITextField內放入載入動畫(UIActivityIndicatorView)" itemprop=url>[iOS開發生手筆記] 在UITextField內放入載入動畫(UIActivityIndicatorView)</a></h1>
-</header>
-<div class=entry-content>
-<p>主要是看<a href="https://itunes.apple.com/us/app/medium/id828256236?mt=8">Medium iOS版</a>的搜尋畫面, 覺得他在UITextField裡顯示載入動畫還蠻不錯的, 不會有礙整個畫面的觀瞻, 所以就想做成像這樣:</p><figure class=tmblr-full data-orig-height=643 data-orig-width=375><img src=http://66.media.tumblr.com/0fabc4425e110a68867ace07d0c3bd7b/tumblr_inline_no78lkpgQu1qzg4zq_540.png data-orig-height=643 data-orig-width=375></figure><p>其實這也不難, 靠的是UITextField的rightView(有rightView和leftView可用), 只要把rightView指定到一個UIActivityIndicatorView, 把rightViewMode設成.Always, 然後呼叫startAnimation就可以了:</p><p><a href=https://github.com/julianshen/RAC-GitHubUserSearch/blob/aa3754787f2eec9e779493dffc65a65aa918c50a/GithubUserSearch/ViewController.swift#L39-L41>https://github.com/julianshen/RAC-GitHubUserSearch/blob/aa3754787f2eec9e779493dffc65a65aa918c50a/GithubUserSearch/ViewController.swift#L39-L41</a><br></p><p>另外在loading結束後把rightViewMode設成.Never</p><p><a href=https://github.com/julianshen/RAC-GitHubUserSearch/blob/aa3754787f2eec9e779493dffc65a65aa918c50a/GithubUserSearch/ViewController.swift#L52-L54>https://github.com/julianshen/RAC-GitHubUserSearch/blob/master/GithubUserSearch/ViewController.swift#L52-L54</a><br></p><p>那怎判斷loading開始了呢? 那就要借重另一個東西, 在呼叫GitHubAPI前呼叫observe:</p><p><a href=https://github.com/julianshen/RAC-GitHubUserSearch/blob/aa3754787f2eec9e779493dffc65a65aa918c50a/GithubUserSearch/ViewController.swift#L35-L44>https://github.com/julianshen/RAC-GitHubUserSearch/blob/aa3754787f2eec9e779493dffc65a65aa918c50a/GithubUserSearch/ViewController.swift#L35-L44</a><br></p>
 </div>
 </article>
 <div class=pagination>

@@ -80,6 +80,82 @@ All posts
 <article class=hentry>
 <header>
 <div class=entry-meta>
+<span class="entry-date date published updated"><time datetime="2016-12-29 15:33:25 +0000 UTC"><a href=/Android-Retrofit-Protobuf-Wire/>Dec 29, 2016</a></time></span>
+<span class=entry-reading-time>
+<i class="fa fa-clock-o"></i>
+Reading time ~3 minutes
+</span>
+</div>
+<h1 class=entry-title><a href=/Android-Retrofit-Protobuf-Wire/ rel=bookmark title="[Android] Retrofit + Protobuf + Wire" itemprop=url>[Android] Retrofit + Protobuf + Wire</a></h1>
+</header>
+<div class=entry-content>
+<p><a href=https://square.github.io/retrofit/>Retrofit</a>目前已然成為最熱門的呼叫REST API的開源程式庫了,不過,
+大部分的Retrofit多是用來處理Json類的REST API, 但Retrofit的能力卻不僅限於此</p>
+<p>透過Converter, Retrofit可以處理的不只是Json, 還包含了XML, <a href=https://developers.google.com/protocol-buffers/>Protobuf</a>, 甚至你自己的自訂格式, 剛好最近看Json不太順眼,
+想來試試<a href=https://developers.google.com/protocol-buffers/>Protobuf</a>, 就來試試這部分</p>
+<p><a href=https://square.github.io/retrofit/>Retrofit</a>官方網頁上列的<a href=https://developers.google.com/protocol-buffers/>Protobuf</a> converter有兩種,
+一種是使用Google親生的<a href=https://developers.google.com/protocol-buffers/>Protobuf</a>, 這個只要引入<code>com.squareup.retrofit2:converter-protobuf</code>即可使用,
+另一種是有點比較吸引我的是Square自己開發出來的<a href=https://github.com/square/wire>Wire</a>, Sqaure真的是蠻喜歡打造自己的東西的, 打造出來的又比別人威,
+這點讓我對<a href=https://github.com/square/wire>Wire</a>的興趣比較大, 因此這篇主要是以<a href=https://github.com/square/wire>Wire</a>當範例來介紹</p>
+<p>使用Wire converter其實相當簡單的:</p>
+<p>在build.gradle內加入相關的dependencies, 包含了wire runtime跟retorfit的converter:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-groovy data-lang=groovy>compile <span style=color:#e6db74>&#39;com.squareup.retrofit2:converter-wire:2.1.0&#39;</span>
+compile <span style=color:#e6db74>&#39;com.squareup.wire:wire-runtime:2.2.0&#39;</span>
+</code></pre></div><p>在build service時, 用<code>addConverterFactory</code>將<code>WireConverterFactory</code>加入即可</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>Retrofit retrofit <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> Retrofit<span style=color:#f92672>.</span><span style=color:#a6e22e>Builder</span><span style=color:#f92672>()</span>
+		<span style=color:#f92672>.</span><span style=color:#a6e22e>baseUrl</span><span style=color:#f92672>(</span>baseUrl<span style=color:#f92672>)</span>
+		<span style=color:#f92672>.</span><span style=color:#a6e22e>addConverterFactory</span><span style=color:#f92672>(</span>WireConverterFactory<span style=color:#f92672>.</span><span style=color:#a6e22e>create</span><span style=color:#f92672>())</span>
+		<span style=color:#f92672>.</span><span style=color:#a6e22e>addCallAdapterFactory</span><span style=color:#f92672>(</span>RxJava2CallAdapterFactory<span style=color:#f92672>.</span><span style=color:#a6e22e>create</span><span style=color:#f92672>())</span>
+		<span style=color:#f92672>.</span><span style=color:#a6e22e>build</span><span style=color:#f92672>();</span>
+DataService service <span style=color:#f92672>=</span> retrofit<span style=color:#f92672>.</span><span style=color:#a6e22e>create</span><span style=color:#f92672>(</span>DataService<span style=color:#f92672>.</span><span style=color:#a6e22e>class</span><span style=color:#f92672>);</span>
+</code></pre></div><p>DataService的定義如下(這範例搭配了rxjava2):</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>interface</span> <span style=color:#a6e22e>DataService</span> <span style=color:#f92672>{</span>
+    <span style=color:#a6e22e>@GET</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;data&#34;</span><span style=color:#f92672>)</span>
+    Single<span style=color:#f92672>&lt;</span>Posts<span style=color:#f92672>&gt;</span> <span style=color:#a6e22e>getPosts</span><span style=color:#f92672>();</span>
+<span style=color:#f92672>}</span>
+</code></pre></div><p>這邊有個問題, <code>Posts</code>這個class並不是直接用Java刻出來的, 而是由<code>.proto</code>檔產生的, 內容如下:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-protobuf data-lang=protobuf>syntax <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;proto3&#34;</span>;<span style=color:#960050;background-color:#1e0010>
+</span><span style=color:#960050;background-color:#1e0010></span><span style=color:#f92672>package</span> wtf<span style=color:#f92672>.</span>cowbay.dp;<span style=color:#960050;background-color:#1e0010>
+</span><span style=color:#960050;background-color:#1e0010>
+</span><span style=color:#960050;background-color:#1e0010></span><span style=color:#66d9ef>message</span> <span style=color:#a6e22e>FBPost</span> {<span style=color:#960050;background-color:#1e0010>
+</span><span style=color:#960050;background-color:#1e0010></span>	<span style=color:#66d9ef>string</span> id <span style=color:#f92672>=</span> <span style=color:#ae81ff>1</span>;<span style=color:#960050;background-color:#1e0010>
+</span><span style=color:#960050;background-color:#1e0010></span>	<span style=color:#66d9ef>string</span> title <span style=color:#f92672>=</span> <span style=color:#ae81ff>2</span>;<span style=color:#960050;background-color:#1e0010>
+</span><span style=color:#960050;background-color:#1e0010></span>	<span style=color:#66d9ef>string</span> <span style=color:#66d9ef>message</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>3</span>;<span style=color:#960050;background-color:#1e0010>
+</span><span style=color:#960050;background-color:#1e0010></span>	<span style=color:#66d9ef>string</span> imgsrc <span style=color:#f92672>=</span> <span style=color:#ae81ff>4</span>;<span style=color:#960050;background-color:#1e0010>
+</span><span style=color:#960050;background-color:#1e0010></span>	<span style=color:#66d9ef>string</span> target <span style=color:#f92672>=</span> <span style=color:#ae81ff>5</span>;<span style=color:#960050;background-color:#1e0010>
+</span><span style=color:#960050;background-color:#1e0010></span>	<span style=color:#66d9ef>string</span> createdtime <span style=color:#f92672>=</span> <span style=color:#ae81ff>6</span>;<span style=color:#960050;background-color:#1e0010>
+</span><span style=color:#960050;background-color:#1e0010></span>}<span style=color:#960050;background-color:#1e0010>
+</span><span style=color:#960050;background-color:#1e0010>
+</span><span style=color:#960050;background-color:#1e0010></span><span style=color:#66d9ef>message</span> <span style=color:#a6e22e>Posts</span> {<span style=color:#960050;background-color:#1e0010>
+</span><span style=color:#960050;background-color:#1e0010></span>	<span style=color:#66d9ef>repeated</span> FBPost data <span style=color:#f92672>=</span> <span style=color:#ae81ff>1</span>;<span style=color:#960050;background-color:#1e0010>
+</span><span style=color:#960050;background-color:#1e0010></span>}<span style=color:#960050;background-color:#1e0010>
+</span></code></pre></div><p>必須要用工具產生Java class才能使用, Google的Protobuf有自己的工具, 而Wire也有自己的, 如果手動自己執行工具產生檔案後再加入, 未免太鳥,</p>
+<p>還好Wire有<a href=https://github.com/square/wire-gradle-plugin>wire-gradle-plugin</a>, 不過這個有個大問題, 雖然放在Square的repo下, 但似乎
+不是官方版本, 而是有人貢獻的, 因此並沒有跟上最新的2.x的版本, <a href=https://github.com/square/wire-gradle-plugin/issues/11>JakeWharton大神說將會有官方版本</a>,
+但似乎從六月到現在都沒出現, 所以只好<a href=https://github.com/CowBayStudio/wire-gradle-plugin>自力救濟自己改 - 我的版本</a></p>
+<p>使用這個plugin很簡單, 先在第一層的build.gradle裡的buildscript加入:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-groovy data-lang=groovy>buildscript <span style=color:#f92672>{</span>
+    repositories <span style=color:#f92672>{</span>
+        jcenter<span style=color:#f92672>()</span>
+        maven <span style=color:#f92672>{</span>
+            url <span style=color:#e6db74>&#34;https://jitpack.io&#34;</span>
+        <span style=color:#f92672>}</span>
+    <span style=color:#f92672>}</span>
+    dependencies <span style=color:#f92672>{</span>
+        classpath <span style=color:#e6db74>&#39;com.android.tools.build:gradle:2.2.3&#39;</span>
+
+        classpath <span style=color:#e6db74>&#39;com.github.CowBayStudio:wire-gradle-plugin:ver12&#39;</span>
+    <span style=color:#f92672>}</span>
+<span style=color:#f92672>}</span>
+</code></pre></div><p>主要是加入jitpack.io, 並把我的版本的plugin放到dependencies去</p>
+<p>接下來在app的build.gradle裡加入:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-groovy data-lang=groovy>apply plugin: <span style=color:#e6db74>&#39;com.squareup.wire&#39;</span>
+</code></pre></div><p><code>.proto</code>檔案放置的位子在<code>app/src/main/proto</code>, 把檔案放在這邊, build的時候就會自動產生這些對應的Java classes了</p>
+</div>
+</article>
+<article class=hentry>
+<header>
+<div class=entry-meta>
 <span class="entry-date date published updated"><time datetime="2016-12-27 15:39:59 +0000 UTC"><a href=/Android-%E6%8A%8AGithub%E7%95%B6Maven-repository%E7%94%A8/>Dec 27, 2016</a></time></span>
 <span class=entry-reading-time>
 <i class="fa fa-clock-o"></i>
@@ -472,150 +548,6 @@ Reading time ~4 minutes
 產生一個對應的key來找到limiter, 如果傳回error, 就是這個request不符合規則, 直接把他拒絕掉</p>
 <h3 id=跨server的rate-limit>跨server的rate limit</h3>
 <p>這方法只能針對單一server, 但現在通常都是多台server水平擴展, 因此也是會需要橫跨server的解決方案, 這部分的話, 用Redis來實作Token Bucket是可行的, 這等下次再來弄好了</p>
-</div>
-</article>
-<article class=hentry>
-<header>
-<div class=entry-meta>
-<span class="entry-date date published updated"><time datetime="2016-11-11 14:53:03 +0000 UTC"><a href=/%E7%94%A8Groupcache%E5%92%8Cetcd%E5%BB%BA%E7%BD%AEthumbnail%E6%9C%8D%E5%8B%99/>Nov 11, 2016</a></time></span>
-<span class=entry-reading-time>
-<i class="fa fa-clock-o"></i>
-Reading time ~4 minutes
-</span>
-</div>
-<h1 class=entry-title><a href=/%E7%94%A8Groupcache%E5%92%8Cetcd%E5%BB%BA%E7%BD%AEthumbnail%E6%9C%8D%E5%8B%99/ rel=bookmark title=用Groupcache和etcd建置thumbnail服務 itemprop=url>用Groupcache和etcd建置thumbnail服務</a></h1>
-</header>
-<div class=entry-content>
-<p>在之前工作的時候, 做了一個專門用來產生thumbnail(縮圖)的服務, 當時這東西主要的目的是為了因應<a href=http://www.zencircle.com>Zencircle</a>會有不同尺寸的縮圖的需求,
-而且每次client app改版又可能多新的尺寸, 因此當時寫了這個叫Minami的服務, 當時幾個簡單的需求是:</p>
-<ol>
-<li>要能夠被CDN所cache (因此URL設定上不採用query string,而是簡單的URL)</li>
-<li>能夠容易被deploy</li>
-<li>能夠的簡單的被擴展 (加一台新的instance就可以)</li>
-<li>不需要太多額外的dependencies</li>
-</ol>
-<p>不過那時候寫的版本, 沒寫得很好, 這兩天花了點時間重寫了一個叫做<a href=https://github.com/julianshen/minami_t>Minami_t</a>(本來Minami這名字就是來自於Minami Takahashi, 所以加個"t" XD),
-新的這個重寫的版本採一樣的架構(使用了<a href=https://github.com/golang/groupcache>groupcache</a>), 但多加了Peer discovery的功能(使用<a href=https://github.com/coreos/etcd>etcd</a>), 但少了
-臉部辨識跟色情照片偵測功能(原本在前公司的版本有, 新寫的這個我懶得加了)</p>
-<p>我把這次重寫的版本放到github上: <a href=https://github.com/julianshen/minami_t>Minami_t</a></p>
-<p>不過這算是一個sample project, 影像來源來自於Imgur, 如何使用或如何改成支援自己的Image host, 那就自行看source code吧, 這版本縮圖的部分用了我改過的<a href=https://github.com/julianshen/vips>VIPS</a>,
-當然原來版本的VIPS也是可用, 這版本只是我當初為了支援Face crop所改出來的</p>
-<h3 id=groupcache>Groupcache</h3>
-<p>先來說說為什麼採用<a href=https://github.com/golang/groupcache>groupcache</a>? 我不是很確定當時為何會看到<a href=https://github.com/golang/groupcache>groupcache</a>這來, 但後來想想, 採用它的原因可能是看到<a href=https://talks.golang.org/2013/oscon-dl.slide#43>這份投影片</a>,
-它是memchached的作者寫來用在dl.google.com上面的, 架構上剛好也適合thumbnail service, 可能剛好投影片又提到thumbnail(我腦波也太弱了吧), 所以當初採用它來實作這個service</p>
-<p>架構上會像是這樣:</p>
-<p><img src=/images/posts/minami1.001.jpeg alt></p>
-<p>Groupcache有幾個特色</p>
-<ol>
-<li>Embedded, 不像memcached, redis需要額外的server, 它是嵌入在你原本的程式內的</li>
-<li>Shared, Cache是可以所有Peer共享的, 資料未必放在某特定的Peer上, 有可能在本機, 也可能在另一台, 當然如果剛好在本機時就會快一點</li>
-<li>LRU, Cache總量有上限限制的, 過久沒使用的資料有可能會被移出記憶體</li>
-<li>Immutable, key所對應的值不像memcached, redis可以修改, 而是當cache miss時, 他會再透過你實作的getter去抓真正的資料</li>
-</ol>
-<p>要讓Groupcache可以在不同node間共享cache, 就必須開啟HTTPPool, 像下面</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-golang data-lang=golang>	<span style=color:#a6e22e>ln</span>, <span style=color:#a6e22e>err</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>net</span>.<span style=color:#a6e22e>Listen</span>(<span style=color:#e6db74>&#34;tcp&#34;</span>, <span style=color:#a6e22e>fmt</span>.<span style=color:#a6e22e>Sprintf</span>(<span style=color:#e6db74>&#34;:%d&#34;</span>, <span style=color:#a6e22e>port</span>))
-	<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>err</span> <span style=color:#f92672>!=</span> <span style=color:#66d9ef>nil</span> {
-		<span style=color:#66d9ef>return</span> <span style=color:#66d9ef>nil</span>, <span style=color:#a6e22e>err</span>
-	}
-
-	<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>port</span> <span style=color:#f92672>==</span> <span style=color:#ae81ff>0</span> {
-		<span style=color:#a6e22e>port</span> = <span style=color:#a6e22e>ln</span>.<span style=color:#a6e22e>Addr</span>().(<span style=color:#f92672>*</span><span style=color:#a6e22e>net</span>.<span style=color:#a6e22e>TCPAddr</span>).<span style=color:#a6e22e>Port</span>
-	}
-
-	<span style=color:#a6e22e>_url</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>fmt</span>.<span style=color:#a6e22e>Sprintf</span>(<span style=color:#e6db74>&#34;http://%s:%d&#34;</span>, <span style=color:#a6e22e>ip</span>, <span style=color:#a6e22e>port</span>)
-	<span style=color:#a6e22e>pool</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>groupcache</span>.<span style=color:#a6e22e>NewHTTPPool</span>(<span style=color:#a6e22e>_url</span>)
-
-	<span style=color:#66d9ef>go</span> <span style=color:#66d9ef>func</span>() {
-		<span style=color:#a6e22e>log</span>.<span style=color:#a6e22e>Printf</span>(<span style=color:#e6db74>&#34;Group cache served at port %s:%d\n&#34;</span>, <span style=color:#a6e22e>ip</span>, <span style=color:#a6e22e>port</span>)
-		<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>err</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>http</span>.<span style=color:#a6e22e>Serve</span>(<span style=color:#a6e22e>ln</span>, <span style=color:#a6e22e>http</span>.<span style=color:#a6e22e>HandlerFunc</span>(<span style=color:#a6e22e>pool</span>.<span style=color:#a6e22e>ServeHTTP</span>)); <span style=color:#a6e22e>err</span> <span style=color:#f92672>!=</span> <span style=color:#66d9ef>nil</span> {
-			<span style=color:#a6e22e>log</span>.<span style=color:#a6e22e>Printf</span>(<span style=color:#e6db74>&#34;GROUPCACHE PORT %d, ERROR: %s\n&#34;</span>, <span style=color:#a6e22e>port</span>, <span style=color:#a6e22e>err</span>.<span style=color:#a6e22e>Error</span>())
-			<span style=color:#a6e22e>os</span>.<span style=color:#a6e22e>Exit</span>(<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>)
-		}
-	}()
-</code></pre></div><p>Groupcache 的getter範例:</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-golang data-lang=golang><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>getter</span>(<span style=color:#a6e22e>ctx</span> <span style=color:#a6e22e>groupcache</span>.<span style=color:#a6e22e>Context</span>, <span style=color:#a6e22e>key</span> <span style=color:#66d9ef>string</span>, <span style=color:#a6e22e>dest</span> <span style=color:#a6e22e>groupcache</span>.<span style=color:#a6e22e>Sink</span>) <span style=color:#66d9ef>error</span> {
-	<span style=color:#a6e22e>log</span>.<span style=color:#a6e22e>Println</span>(<span style=color:#e6db74>&#34;Cache missed for &#34;</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>key</span>)
-
-	<span style=color:#a6e22e>params</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>strings</span>.<span style=color:#a6e22e>Split</span>(<span style=color:#a6e22e>key</span>, <span style=color:#e6db74>&#34;:&#34;</span>)
-
-	<span style=color:#66d9ef>if</span> len(<span style=color:#a6e22e>params</span>) <span style=color:#f92672>!=</span> <span style=color:#ae81ff>3</span> {
-		<span style=color:#66d9ef>return</span> <span style=color:#a6e22e>ErrWrongKey</span>
-	}
-
-	<span style=color:#a6e22e>d</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>ctx</span>.(<span style=color:#f92672>*</span><span style=color:#a6e22e>Downloader</span>)
-	<span style=color:#a6e22e>fileName</span>, <span style=color:#a6e22e>err</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>d</span>.<span style=color:#a6e22e>Download</span>(<span style=color:#e6db74>&#34;http://i.imgur.com/&#34;</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>params</span>[<span style=color:#ae81ff>2</span>])
-
-	<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>err</span> <span style=color:#f92672>!=</span> <span style=color:#66d9ef>nil</span> {
-		<span style=color:#66d9ef>return</span> <span style=color:#a6e22e>err</span>
-	}
-
-	<span style=color:#75715e>//Should assume correct since it is checked at where it is from
-</span><span style=color:#75715e></span>	<span style=color:#a6e22e>width</span>, <span style=color:#a6e22e>_</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>strconv</span>.<span style=color:#a6e22e>Atoi</span>(<span style=color:#a6e22e>params</span>[<span style=color:#ae81ff>0</span>])
-	<span style=color:#a6e22e>height</span>, <span style=color:#a6e22e>_</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>strconv</span>.<span style=color:#a6e22e>Atoi</span>(<span style=color:#a6e22e>params</span>[<span style=color:#ae81ff>1</span>])
-
-	<span style=color:#a6e22e>data</span>, <span style=color:#a6e22e>err</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>resize</span>(<span style=color:#a6e22e>fileName</span>, <span style=color:#a6e22e>width</span>, <span style=color:#a6e22e>height</span>)
-
-	<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>err</span> <span style=color:#f92672>!=</span> <span style=color:#66d9ef>nil</span> {
-		<span style=color:#66d9ef>return</span> <span style=color:#a6e22e>err</span>
-	}
-
-	<span style=color:#a6e22e>dest</span>.<span style=color:#a6e22e>SetBytes</span>(<span style=color:#a6e22e>data</span>)
-	<span style=color:#66d9ef>return</span> <span style=color:#66d9ef>nil</span>
-}
-</code></pre></div><h3 id=etcd>etcd</h3>
-<p>我之前寫的版本有個問題是, 沒有自動的peer discovery的功能, 所以必須手動加peer, 這版本把etcd導入, etcd已經是coreos的核心之一了, 簡單, 又蠻好用的,
-不過選它也是它直接有Go的client了</p>
-<p>Peer discovery的部分, 參考了<a href=https://github.com/go-kit/kit>Go kit</a>的<a href=https://github.com/go-kit/kit/tree/master/sd/etcd>etcd實作</a>,
-<a href=https://github.com/go-kit/kit>Go kit</a>是一個蠻好的Go的微服務框架, 它裡面也有實作用etcd做service discovery, 這一部分正好是這邊需要的, 因此
-參考並寫出了這邊這個版本</p>
-<p>重點是要能夠在有新server加入後就新增到peer list去, 有server離開後要拿掉, 因此必須利用到etcd的watch功能</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-golang data-lang=golang><span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>s</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>ServiceRegistry</span>) <span style=color:#a6e22e>Watch</span>(<span style=color:#a6e22e>watcher</span> <span style=color:#a6e22e>Watcher</span>) {
-	<span style=color:#a6e22e>key</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>fmt</span>.<span style=color:#a6e22e>Sprintf</span>(<span style=color:#e6db74>&#34;/%s/nodes&#34;</span>, <span style=color:#a6e22e>s</span>.<span style=color:#a6e22e>name</span>)
-	<span style=color:#a6e22e>log</span>.<span style=color:#a6e22e>Println</span>(<span style=color:#e6db74>&#34;watch &#34;</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>key</span>)
-	<span style=color:#a6e22e>w</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>s</span>.<span style=color:#a6e22e>etcd_client</span>.<span style=color:#a6e22e>Watcher</span>(<span style=color:#a6e22e>key</span>, <span style=color:#f92672>&amp;</span><span style=color:#a6e22e>etcd</span>.<span style=color:#a6e22e>WatcherOptions</span>{<span style=color:#a6e22e>AfterIndex</span>: <span style=color:#ae81ff>0</span>, <span style=color:#a6e22e>Recursive</span>: <span style=color:#66d9ef>true</span>})
-
-	<span style=color:#66d9ef>var</span> <span style=color:#a6e22e>retryInterval</span> <span style=color:#a6e22e>time</span>.<span style=color:#a6e22e>Duration</span> = <span style=color:#ae81ff>1</span>
-
-	<span style=color:#66d9ef>for</span> {
-		<span style=color:#a6e22e>_</span>, <span style=color:#a6e22e>err</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>w</span>.<span style=color:#a6e22e>Next</span>(<span style=color:#a6e22e>s</span>.<span style=color:#a6e22e>ctx</span>)
-
-		<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>err</span> <span style=color:#f92672>!=</span> <span style=color:#66d9ef>nil</span> {
-			<span style=color:#a6e22e>log</span>.<span style=color:#a6e22e>Printf</span>(<span style=color:#e6db74>&#34;Failed to connect to etcd. Will retry after %d sec \n&#34;</span>, <span style=color:#a6e22e>retryInterval</span>)
-			<span style=color:#a6e22e>time</span>.<span style=color:#a6e22e>Sleep</span>(<span style=color:#a6e22e>retryInterval</span> <span style=color:#f92672>*</span> <span style=color:#a6e22e>time</span>.<span style=color:#a6e22e>Second</span>)
-
-			<span style=color:#a6e22e>retryInterval</span> = (<span style=color:#a6e22e>retryInterval</span> <span style=color:#f92672>*</span> <span style=color:#ae81ff>2</span>) <span style=color:#f92672>%</span> <span style=color:#ae81ff>4096</span>
-		} <span style=color:#66d9ef>else</span> {
-			<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>retryInterval</span> &gt; <span style=color:#ae81ff>1</span> {
-				<span style=color:#a6e22e>retryInterval</span> = <span style=color:#ae81ff>1</span>
-			}
-
-			<span style=color:#a6e22e>list</span>, <span style=color:#a6e22e>err</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>s</span>.<span style=color:#a6e22e>GetNodes</span>()
-			<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>err</span> <span style=color:#f92672>==</span> <span style=color:#66d9ef>nil</span> {
-				<span style=color:#a6e22e>watcher</span>(<span style=color:#a6e22e>list</span>)
-			} <span style=color:#66d9ef>else</span> {
-				<span style=color:#75715e>//skip first
-</span><span style=color:#75715e></span>			}
-		}
-	}
-}
-</code></pre></div><p>Watch可以用來監測某一個key有無改變, 因此我們只要一直監測server node的list就好(指定一個key來放), 因此流程是這樣的:</p>
-<ol>
-<li>Server開啟後, 自己到etcd註冊自己, 並把etcd上找到的nodes全加到peer list中</li>
-<li>另一台由etcd發現有另一台出現後, 把它加到peer list中</li>
-<li>Server下線後, 要移除自己的註冊, 其他機器要從peer list把它移除</li>
-</ol>
-<p>問題點在最後一點, Server下線有可能是被kill的, 也有可能按ctrl-c中斷的, 這時候就要監聽os的signal,
-在程式被結束前, 可以先去移除註冊, 像這樣:</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-golang data-lang=golang><span style=color:#75715e>//Listening to exit signals for graceful leave
-</span><span style=color:#75715e></span><span style=color:#66d9ef>go</span> <span style=color:#66d9ef>func</span>() {
-	<span style=color:#a6e22e>c</span> <span style=color:#f92672>:=</span> make(<span style=color:#66d9ef>chan</span> <span style=color:#a6e22e>os</span>.<span style=color:#a6e22e>Signal</span>, <span style=color:#ae81ff>1</span>)
-	<span style=color:#a6e22e>signal</span>.<span style=color:#a6e22e>Notify</span>(<span style=color:#a6e22e>c</span>, <span style=color:#a6e22e>os</span>.<span style=color:#a6e22e>Interrupt</span>, <span style=color:#a6e22e>syscall</span>.<span style=color:#a6e22e>SIGINT</span>, <span style=color:#a6e22e>syscall</span>.<span style=color:#a6e22e>SIGTERM</span>)
-	<span style=color:#f92672>&lt;-</span><span style=color:#a6e22e>c</span>
-	<span style=color:#a6e22e>log</span>.<span style=color:#a6e22e>Println</span>(<span style=color:#e6db74>&#34;I&#39;m leaving&#34;</span>)
-	<span style=color:#a6e22e>cm</span>.<span style=color:#a6e22e>Leave</span>()
-	<span style=color:#a6e22e>os</span>.<span style=color:#a6e22e>Exit</span>(<span style=color:#ae81ff>0</span>)
-}()
-</code></pre></div><p>這只是一個sample而已, 還有一些待改進的</p>
 </div>
 </article>
 <div class=pagination>
