@@ -1,0 +1,169 @@
+<!doctype html><!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=en><![endif]--><!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang=en><![endif]--><!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang=en><![endif]--><!--[if gt IE 8]><!--><html class=no-js lang=en><!--<![endif]-->
+<head>
+<meta charset=utf-8>
+<title>用gradle／sbt直接建置Docker Image &#8211; Le murmure de Julian</title>
+<meta name=description content>
+<meta property="og:title" content="用gradle／sbt直接建置Docker Image">
+<meta property="og:description" content="現在流行甚麼東西都要包成Docker image來部署, 每一個都要寫一個Dockerfile, 每個又很類似, 建置完程式碼又得立刻跑Docker">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://blog.jln.co/%E7%94%A8gradlesbt%E7%9B%B4%E6%8E%A5%E5%BB%BA%E7%BD%AEDocker-Image/"><meta property="og:image" content="https://og.jln.co/jlns1/55SoZ3JhZGxl77yPc2J055u05o6l5bu6572uRG9ja2VyIEltYWdl"><meta property="article:section" content="post">
+<meta property="article:published_time" content="2021-08-20T19:11:48+08:00">
+<meta property="article:modified_time" content="2021-08-20T19:11:48+08:00">
+<meta name=twitter:card content="summary_large_image">
+<meta name=twitter:image content="https://og.jln.co/jlns1/55SoZ3JhZGxl77yPc2J055u05o6l5bu6572uRG9ja2VyIEltYWdl">
+<meta name=twitter:title content="用gradle／sbt直接建置Docker Image">
+<meta name=twitter:description content="現在流行甚麼東西都要包成Docker image來部署, 每一個都要寫一個Dockerfile, 每個又很類似, 建置完程式碼又得立刻跑Docker">
+<link rel=canonical href=https://blog.jln.co/%E7%94%A8gradlesbt%E7%9B%B4%E6%8E%A5%E5%BB%BA%E7%BD%AEDocker-Image/>
+<meta name=HandheldFriendly content="True">
+<meta name=MobileOptimized content="320">
+<meta name=viewport content="width=device-width,initial-scale=1">
+<link rel=stylesheet href=/css/main.css>
+<link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel=stylesheet type=text/css>
+<meta http-equiv=cleartype content="on">
+<meta name=generator content="Hugo 0.87.0">
+<script src=/js/vendor/modernizr-2.6.2.custom.min.js></script>
+<script async src=https://unpkg.com/mermaid@8.2.3/dist/mermaid.min.js></script>
+<link rel="shortcut icon" href=/favicon.png>
+</head>
+<body id=post>
+<nav id=dl-menu class=dl-menuwrapper role=navigation style=display:inline-block>
+<button class=dl-trigger>Open Menu</button>
+<ul class=dl-menu>
+<li><a href=/>Home</a></li>
+<li>
+<a href=#>About</a>
+<ul class=dl-submenu>
+<li>
+<img src=/images/avatar.png alt="Julian Shen's photo" class=author-photo>
+<h4>Julian Shen</h4>
+<p>Softward developer</p>
+</li>
+<li>
+<a href=mailto:julianshen22@gmail.com><i class="fa fa-fw fa-envelope"></i> Email</a>
+</li>
+<li>
+<a href=https://linkedin.com/in/julianshen><i class="fa fa-fw fa-linkedin"></i> LinkedIn</a>
+</li>
+<li>
+<a href=https://github.com/julianshen><i class="fa fa-fw fa-github"></i> GitHub</a>
+</li>
+<li>
+<a href=https://instagram.com/julianshen><i class="fa fa-fw fa-instagram"></i> Instagram</a>
+</li>
+</ul>
+</li>
+<li>
+<a href=#>Posts</a>
+<ul class=dl-submenu>
+<li><a href=/post/>All Posts</a></li>
+<li><a href=/tags/>All Tags</a></li>
+</ul>
+</li>
+<li><a href=/></a></li>
+</ul>
+</nav>
+<div id=main role=main>
+<article class=hentry>
+<header class=header-title>
+<div class=header-title-wrap>
+<h1 class=entry-title><a href=/%E7%94%A8gradlesbt%E7%9B%B4%E6%8E%A5%E5%BB%BA%E7%BD%AEDocker-Image/ rel=bookmark title="用gradle／sbt直接建置Docker Image">用gradle／sbt直接建置Docker Image</a></h1>
+<h2><span class="entry-date date published"><time datetime="2021-08-20 19:11:48 +0800 +0800">August 20, 2021</time></span></h2>
+<p class=entry-reading-time>
+<i class="fa fa-clock-o"></i>
+Reading time ~2 minutes
+</p>
+</div>
+</header>
+<div class=entry-content>
+<p>現在流行甚麼東西都要包成Docker image來部署, 每一個都要寫一個Dockerfile, 每個又很類似, 建置完程式碼又得立刻跑Docker來建置Docker image, 如果有更簡單的方法可以一次做完, 應該會省事很多</p>
+<p>以下提到的這些方法可以一行Dockerfile都不用寫</p>
+<h2 id=使用gradle把java-application建置並包裝成docker-image>使用gradle把Java application建置並包裝成Docker image</h2>
+<p>要達到這個目的, 可以使用 <code>com.bmuschko.docker-java-application</code> - <a href=https://bmuschko.github.io/gradle-docker-plugin/#java-application-plugin>https://bmuschko.github.io/gradle-docker-plugin/#java-application-plugin</a> 這個Gradle plugin, 這個plugin會去呼叫Docker client API, 所以使用前確定你有啟動dockerd</p>
+<p>先來看一下底下這範例, 這是一個用<a href=https://ktor.io/>Ktor</a>寫的server application:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-kotlin data-lang=kotlin><span style=color:#66d9ef>val</span> ktor_version: String <span style=color:#66d9ef>by</span> project
+<span style=color:#66d9ef>val</span> kotlin_version: String <span style=color:#66d9ef>by</span> project
+<span style=color:#66d9ef>val</span> logback_version: String <span style=color:#66d9ef>by</span> project
+
+plugins {
+    application
+    kotlin(<span style=color:#e6db74>&#34;jvm&#34;</span>) version <span style=color:#e6db74>&#34;1.5.21&#34;</span>
+    id(<span style=color:#e6db74>&#34;com.bmuschko.docker-java-application&#34;</span>) version <span style=color:#e6db74>&#34;6.7.0&#34;</span>
+}
+
+group = <span style=color:#e6db74>&#34;co.jln&#34;</span>
+version = <span style=color:#e6db74>&#34;0.0.1&#34;</span>
+application {
+    mainClass.<span style=color:#66d9ef>set</span>(<span style=color:#e6db74>&#34;co.jln.ApplicationKt&#34;</span>)
+}
+
+docker {
+    javaApplication {
+        baseImage.<span style=color:#66d9ef>set</span>(<span style=color:#e6db74>&#34;openjdk:11-jre&#34;</span>)
+        ports.<span style=color:#66d9ef>set</span>(listOf(<span style=color:#ae81ff>8080</span>))
+        images.<span style=color:#66d9ef>set</span>(setOf(<span style=color:#e6db74>&#34;julianshen/myexamplekt:&#34;</span> + version, <span style=color:#e6db74>&#34;julianshen/myexamplekt:latest&#34;</span>))
+        jvmArgs.<span style=color:#66d9ef>set</span>(listOf(<span style=color:#e6db74>&#34;-Xms256m&#34;</span>, <span style=color:#e6db74>&#34;-Xmx2048m&#34;</span>))
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation(<span style=color:#e6db74>&#34;io.ktor:ktor-server-core:</span><span style=color:#e6db74>$ktor_version</span><span style=color:#e6db74>&#34;</span>)
+    implementation(<span style=color:#e6db74>&#34;io.ktor:ktor-server-netty:</span><span style=color:#e6db74>$ktor_version</span><span style=color:#e6db74>&#34;</span>)
+    implementation(<span style=color:#e6db74>&#34;ch.qos.logback:logback-classic:</span><span style=color:#e6db74>$logback_version</span><span style=color:#e6db74>&#34;</span>)
+    testImplementation(<span style=color:#e6db74>&#34;io.ktor:ktor-server-tests:</span><span style=color:#e6db74>$ktor_version</span><span style=color:#e6db74>&#34;</span>)
+    testImplementation(<span style=color:#e6db74>&#34;org.jetbrains.kotlin:kotlin-test:</span><span style=color:#e6db74>$kotlin_version</span><span style=color:#e6db74>&#34;</span>)
+}
+</code></pre></div><p>雖然是kotlin寫的, 不過這是一個標準的Java Application, 有它的main class, 我們要加上的只有 <code>id("com.bmuschko.docker-java-application") version "6.7.0"</code> 和 <code>docker {}</code> 內的內容而已, 基本主要就是baseImage跟image的名字就好了</p>
+<p>執行 <code>gradle dockerBuildImage</code> 就可以直接幫你把程式建置好並包裝成docker image了</p>
+<p>如果是要把image給push到repository上的話, 執行 <code>gradle dockerPushImage</code></p>
+<p>如果你的不是一般的Java application 而是Spring boot application的話, 則是可以用 <code>com.bmuschko.docker-spring-boot-application</code> 這個plugin而不是上面那個, 不過如果是Spring boot 2.3之後, 還有另一個方法</p>
+<h2 id=直接把spring-boot應用程式建置成docker-image>直接把Spring Boot應用程式建置成Docker image</h2>
+<p>如果是Spring Boot 2.3之後, 因為內建就有支援 <a href=https://buildpacks.io/>Cloud Native Buildpacks</a> , 所以直接就可以建置成docker image , 蠻簡單的, 只要執行</p>
+<pre><code>gradle bootBuildImage
+</code></pre><p>不過, 它image的名字會是 <code>library/project_name</code> , 所以如果你需要用其他的名字取代的話, 有兩種方法, 一種是加上 <code>--imageName</code> 給定名字, 像是:</p>
+<pre><code>gradle bootBuildImage --imageName=julianshen/springsample
+</code></pre><p>另一種是把這段加到 <code>build.gradle.kts</code> 去(這邊以kotlin當範例):</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-kotlin data-lang=kotlin>tasks.getByName&lt;org.springframework.boot.gradle.tasks.bundling.BootBuildImage&gt;(<span style=color:#e6db74>&#34;bootBuildImage&#34;</span>) {
+	docker {
+		imageName = <span style=color:#e6db74>&#34;julianshen/sprintsmaple&#34;</span>
+	}
+}
+</code></pre></div><p>這個的缺點是, 不像前面提到的plugin有支援push, 如果你需要把建置好的結果放到repository上的話, 就得自己執行 <code>docker push</code></p>
+<h2 id=把scala-application包裝成docker-image>把Scala application包裝成Docker image</h2>
+<p>如果是Scala就需要用到 <a href=https://www.scala-sbt.org/sbt-native-packager/index.html>SBT Native Packager</a></p>
+<p>用法也不難, 首先先把下面這段加到 <code>plugins.sbt</code> 去:</p>
+<pre><code>addSbtPlugin(&quot;com.typesafe.sbt&quot; % &quot;sbt-native-packager&quot; % &quot;1.7.6&quot;)
+</code></pre><p>在 <code>build.sbt</code> 內加入:</p>
+<pre><code>enablePlugins(DockerPlugin)
+</code></pre><p>然後執行 <code>sbt docker:publishLocal</code>即可, 相關設定可以參考 <a href=https://www.scala-sbt.org/sbt-native-packager/formats/docker.html>Docker plugin的文件</a></p>
+<footer class=entry-meta>
+<span class=entry-tags></span>
+<div class=social-share>
+<ul class="socialcount socialcount-small inline-list">
+<li class=facebook><a href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fblog.jln.co%2f%25E7%2594%25A8gradlesbt%25E7%259B%25B4%25E6%258E%25A5%25E5%25BB%25BA%25E7%25BD%25AEDocker-Image%2f" target=_blank title="Share on Facebook"><span class=count><i class="fa fa-facebook-square"></i> Like</span></a></li>
+<li class=twitter><a href="https://twitter.com/intent/tweet?text=https%3a%2f%2fblog.jln.co%2f%25E7%2594%25A8gradlesbt%25E7%259B%25B4%25E6%258E%25A5%25E5%25BB%25BA%25E7%25BD%25AEDocker-Image%2f" target=_blank title="Share on Twitter"><span class=count><i class="fa fa-twitter-square"></i> Tweet</span></a></li>
+<li class=line><a href="https://social-plugins.line.me/lineit/share?url=https%3a%2f%2fblog.jln.co%2f%25E7%2594%25A8gradlesbt%25E7%259B%25B4%25E6%258E%25A5%25E5%25BB%25BA%25E7%25BD%25AEDocker-Image%2f" target=_blank title="Share on LINE"><span class=count><i class="fab fa-line"></i>LINE</span></a></li>
+</ul>
+</div>
+</footer>
+</div>
+<section id=disqus_thread><div class=fb-comments data-href=https://blog.jln.co/%E7%94%A8gradlesbt%E7%9B%B4%E6%8E%A5%E5%BB%BA%E7%BD%AEDocker-Image/ data-numposts=5 data-width></div></section>
+</article>
+</div>
+<div class=footer-wrapper>
+<footer role=contentinfo>
+<span> Powered by <a href=https://gohugo.io/ rel=nofollow>Hugo</a> using the <a href=https://github.com/dldx/hpstr-hugo-theme rel=nofollow>HPSTR theme</a>.</span>
+</footer>
+</div>
+<script src=//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js></script>
+<script src=https://kit.fontawesome.com/872a53b461.js crossorigin=anonymous></script>
+<script>window.jQuery||document.write('<script src="/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src=/js/scripts.min.js></script>
+<script type=application/javascript>var doNotTrack=!1;doNotTrack||(function(a,e,f,g,b,c,d){a.GoogleAnalyticsObject=b,a[b]=a[b]||function(){(a[b].q=a[b].q||[]).push(arguments)},a[b].l=1*new Date,c=e.createElement(f),d=e.getElementsByTagName(f)[0],c.async=1,c.src=g,d.parentNode.insertBefore(c,d)}(window,document,'script','https://www.google-analytics.com/analytics.js','ga'),ga('create','UA-79243751-1','auto'),ga('send','pageview'))</script>
+<div id=fb-root></div>
+<script async defer crossorigin=anonymous src="https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v7.0&appId=293999444006555&autoLogAppEvents=1" nonce=geZSUIUh></script>
+</body>
+</html>
