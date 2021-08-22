@@ -80,6 +80,22 @@ All posts
 <article class=hentry>
 <header>
 <div class=entry-meta>
+<span class="entry-date date published updated"><time datetime="2012-09-07 15:31:43 +0000 UTC"><a href=/Android-%E5%A6%82%E4%BD%95%E7%9F%A5%E9%81%93%E4%BD%BF%E7%94%A8%E8%80%85%E6%98%AF%E5%90%A6%E5%B7%B2%E7%A7%BB%E9%99%A4%E4%BD%A0%E7%9A%84%E7%A8%8B%E5%BC%8F/>Sep 7, 2012</a></time></span>
+<span class=entry-reading-time>
+<i class="fa fa-clock-o"></i>
+Reading time ~1 minute
+</span>
+</div>
+<h1 class=entry-title><a href=/Android-%E5%A6%82%E4%BD%95%E7%9F%A5%E9%81%93%E4%BD%BF%E7%94%A8%E8%80%85%E6%98%AF%E5%90%A6%E5%B7%B2%E7%A7%BB%E9%99%A4%E4%BD%A0%E7%9A%84%E7%A8%8B%E5%BC%8F/ rel=bookmark title="[Android] 如何知道使用者是否已移除你的程式" itemprop=url>[Android] 如何知道使用者是否已移除你的程式</a></h1>
+</header>
+<div class=entry-content>
+<p>這問題我原先是在Stack overflow看到的:<br><br><a href=http://bit.ly/PNSz84>http://bit.ly/PNSz84</a><br><br>我也提供了一個解法, 不過, 慚愧的是, 我當初突然想到這解法後, 自己並沒有去實驗它, 只是覺得理論上可行&mldr; :P<br><br>我的方法是, 利用<a href=http://bit.ly/PNSyku>GCM (Google Cloud Messaging)</a>, 裡面有一段:<br><br></p><blockquote class=tr_bq><span style="background-color:#eee;font-family:Arial,liberation sans,dejavu sans,sans-serif;font-size:14px;line-height:18px">When users uninstall an application, it is not automatically unregistered on GCM. It is only unregistered when the GCM server tries to send a message to the device and the device answers that the application is uninstalled. At that point, you server should mark the device as unregistered (the server will receive a NotRegistered error).</span></blockquote><br>後來拿了GCM sample試了一下, 好像也可行, 只是不是那麼即時, 也就是沒辦法剛移除就知道了, 我的測試結果是, 一兩個小時候才出現 &ldquo;NotRegistered&rdquo;, 不過似乎也是個解法就是了&mldr;<br><br>
+via Blogger <a href=http://bit.ly/Qqr2Mn>http://bit.ly/Qqr2Mn</a>
+</div>
+</article>
+<article class=hentry>
+<header>
+<div class=entry-meta>
 <span class="entry-date date published updated"><time datetime="2012-09-03 01:05:41 +0000 UTC"><a href=/%E7%AD%86%E8%A8%98-2012-9%E6%9C%88%E7%AC%AC%E4%B8%80%E9%80%B1/>Sep 3, 2012</a></time></span>
 <span class=entry-reading-time>
 <i class="fa fa-clock-o"></i>
@@ -138,21 +154,6 @@ Reading time ~1 minute
 </header>
 <div class=entry-content>
 <div class=posterous_autopost><p>My personal blog will move to Blogger from now on due to Posterous is aquired by Twitter. I like Posterous but it might be end of life someday. Moving to Blogger might be a better decesion.</p> <p>我之前會選擇Posterous的原因是它的介面還算好用, 而且可以e-mail post以及轉貼到各個不同的地方去, 不過現在既然它被Twitter給併購了, 隨時也有可能不見, 所以只好撤回Blogger去了, 本考慮Blogger或是Tumblr, Tumblr也一樣簡單, 只是想說投靠Google還是比較保險, 未來在Posterous這邊我就不會再張貼新文章了</p> </div>
-</div>
-</article>
-<article class=hentry>
-<header>
-<div class=entry-meta>
-<span class="entry-date date published updated"><time datetime="2012-07-20 00:14:34 +0000 UTC"><a href=/ADK-%E9%80%A3%E6%8E%A5ADK2012%E5%88%B0MacOS-Lion/>Jul 20, 2012</a></time></span>
-<span class=entry-reading-time>
-<i class="fa fa-clock-o"></i>
-Reading time ~2 minutes
-</span>
-</div>
-<h1 class=entry-title><a href=/ADK-%E9%80%A3%E6%8E%A5ADK2012%E5%88%B0MacOS-Lion/ rel=bookmark title="[ADK] 連接ADK2012到MacOS Lion" itemprop=url>[ADK] 連接ADK2012到MacOS Lion</a></h1>
-</header>
-<div class=entry-content>
-<div class=posterous_autopost><p>我家裡的電腦是Mac mini, OS是Mac OS Lion, 如果照著<a href=http://developer.android.com/tools/adk/adk2.html#dev>ADK2012的開發文件</a>想要去設定環境來開發, 一開始就會碰壁了</p> <p>在文件中寫著, 你可以從"repo init -u <a href=https://android.googlesource.com/accessories/manifest>https://android.googlesource.com/accessories/manifest</a>&ldquo;下載原始碼, 或是下載<a href=https://dl-ssl.google.com/android/adk/adk2012_ide-macosx-20120626.zip>Mac版的ADK 2012 IDE</a> (應該是由Arduino IDE改的)來開始開發</p> <p>但不管是IDE也好, 還是照著command line的步驟來做, 都會得到無法在找到/dev/ttyUSB0的錯誤(在IDE裡面也根本看不到這個), 剛用估狗大神查了一下, 有人討論, 但也沒有答案, 最後是在ADK2011的文件裡找到解答, 差的就是FTDI USB Driver, 其實照它講的位置也沒找到mac版本的driver, 只有windows版本的driver, mac版本的可以到<a href=http://www.ftdichip.com/Drivers/VCP.htm>FTDI chip的官網下載</a></p> <p>裝完FTDI driver後, 打開IDE就可以看到USB serial的位置了</p> <div class="p_embed p_image_embed"> <a href=http://getfile4.posterous.com/getfile/files.posterous.com/temp-2012-07-19/DfvfcmErDzJghmDFCzwdmzmDsFujjrJAycFgrAgwavkIpyvejqdDatkevnDF/_2012-07-19_11.59.08.png.scaled1000.png><img alt=_2012-07-19_11 height=320 src=http://getfile1.posterous.com/getfile/files.posterous.com/temp-2012-07-19/DfvfcmErDzJghmDFCzwdmzmDsFujjrJAycFgrAgwavkIpyvejqdDatkevnDF/_2012-07-19_11.59.08.png.scaled500.png width=500></a> </div> 在我電腦的例子是/dev/tty.usbserial-AH015SE1 <p>接下來如果到"android-accessories/adk2012/board/MakefileBasedBuild"去在重build一次並重燒, 這次會發現, 在做</p> <blockquote> <div class=CodeRay> <div class=code><pre>$&gt; ./flash</pre></div> </div> </blockquote> <p>這步驟時還是會失敗, 這是因為在這script裡寫死了</p> <blockquote class=posterous_short_quote> <p>UART=/dev/ttyUSB0</p> </blockquote> <p>所以UART的位置不是這個就會有問題, 因此我改成下列的方式燒</p> <blockquote class=posterous_medium_quote> <p><em>$> android-accessories/ADK2012.app/Contents/Resources/Java/hardware/tools/adk2tool /dev/tty.usbserial-AH015SE1 erase</em></p> <p><em>$> android-accessories/ADK2012.app/Contents/Resources/Java/hardware/tools/bossac &ndash;port=tty.usbserial-AH015SE1 -w -b app/bin/test_sam3x_ek_sam3x8-flash.bin</em></p> <p><em>$> android-accessories/ADK2012.app/Contents/Resources/Java/hardware/tools/adk2tool /dev/tty.usbserial-AH015SE1 reset</em></p> </blockquote> <p>要照這順序執行, 一開始我不小心erase掉了後, 燒不成功(因為bossac少加了 &ndash;port), 整台黑漆漆的不動, 嚇了我一身汗, 以為把它搞掛了&mldr; :P</p> <p>好吧, 可以開始亂改看看了</p></div>
 </div>
 </article>
 <div class=pagination>

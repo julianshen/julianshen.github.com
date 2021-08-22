@@ -79,6 +79,46 @@
 <article class=hentry>
 <header>
 <div class=entry-meta>
+<span class="entry-date date published updated"><time datetime="2015-05-05 21:35:09 +0000 UTC"><a href=/iOS%E9%96%8B%E7%99%BC%E7%94%9F%E6%89%8B%E7%AD%86%E8%A8%98-%E5%88%9D%E8%A9%A6ReactiveCocoa/>May 5, 2015</a></time></span>
+<span class=entry-reading-time>
+<i class="fa fa-clock-o"></i>
+Reading time ~1 minute
+</span>
+</div>
+<h1 class=entry-title><a href=/iOS%E9%96%8B%E7%99%BC%E7%94%9F%E6%89%8B%E7%AD%86%E8%A8%98-%E5%88%9D%E8%A9%A6ReactiveCocoa/ rel=bookmark title="[iOS開發生手筆記] 初試ReactiveCocoa" itemprop=url>[iOS開發生手筆記] 初試ReactiveCocoa</a></h1>
+</header>
+<div class=entry-content>
+<p>對FRP跟Swift還沒很熟, 直接玩<a href=https://github.com/ReactiveCocoa/ReactiveCocoa>ReactiveCocoa</a> 有點苦手, 不過, 還挺好玩的</p>
+<p>狀況設計: 畫面上有一個輸入框, 和一個文字標籤, 在輸入框輸入文字後, 標籤要同步顯示一樣的文字, 文字框輸入不滿三個字母時背景要顯示紅色,像這樣:
+<img src=http://66.media.tumblr.com/f1c851fbc75ebffca37e7656a2f3791a/tumblr_inline_nnvikzOMn21qzg4zq_540.png alt><img src=http://67.media.tumblr.com/db637264f9db9135387840229ad35f96/tumblr_inline_nnvilcyh921qzg4zq_540.png alt></p>
+<p>所以會有一個標籤(myLabel)和一個輸入框(myInput):</p>
+<pre>
+    @IBOutlet weak var myLabel: UILabel!
+    @IBOutlet weak var myInput: UITextField!
+</pre>
+<p>要做到這樣的功能, 不只有一種作法, 像是也可以用KVO去observe一個變數由那個來改變myLabel的值,但KVO的缺點是, 被observe的那個必須是dynamic的, 所以沒辦法直接observer <code>myInput.text</code></p>
+<p>但用ReactiveCocoa來做的話就簡單的有趣, 首先如果要達到第一個需求, 只需要</p>
+<pre>
+    var text_signal = myInput.rac_textSignal()
+    text_signal.setKeyPath("text", onObject: myLabel)
+</pre>
+<p>這還真是么壽簡單, 只是把myInput.text跟myLabel.text抓條線連一起就好了!</p>
+<p>那第二項呢?</p>
+<pre>
+
+text_signal.map({
+  (textObj:AnyObject!)-&gt;AnyObject in
+    var text = textObj as! String
+    return count(text) &lt; 3 ? UIColor.redColor():UIColor.whiteColor()
+}).setKeyPath("backgroundColor", onObject: myInput)
+
+</pre>
+<p>這也是簡單的不行, 把輸入的Signal用map轉換成UIColor, 而轉換的條件就是以text的長度來計算, 最後連到myInput.backgroundColor去, 挺有趣的(雖然也不是很好懂)</p>
+</div>
+</article>
+<article class=hentry>
+<header>
+<div class=entry-meta>
 <span class="entry-date date published updated"><time datetime="2015-05-05 09:23:15 +0000 UTC"><a href=/iOS%E9%96%8B%E7%99%BC%E7%94%9F%E6%89%8B%E7%AD%86%E8%A8%98-KVO-on-Swift/>May 5, 2015</a></time></span>
 <span class=entry-reading-time>
 <i class="fa fa-clock-o"></i>
@@ -218,36 +258,6 @@ Reading time ~1 minute
     }
 }
 </code></pre>
-</div>
-</article>
-<article class=hentry>
-<header>
-<div class=entry-meta>
-<span class="entry-date date published updated"><time datetime="2014-11-06 13:00:19 +0000 UTC"><a href=/%E5%9C%A8Chrome-OS%E4%B8%8A%E5%AE%89%E8%A3%9DAndroid%E6%87%89%E7%94%A8%E7%A8%8B%E5%BC%8F/>Nov 6, 2014</a></time></span>
-<span class=entry-reading-time>
-<i class="fa fa-clock-o"></i>
-Reading time ~2 minutes
-</span>
-</div>
-<h1 class=entry-title><a href=/%E5%9C%A8Chrome-OS%E4%B8%8A%E5%AE%89%E8%A3%9DAndroid%E6%87%89%E7%94%A8%E7%A8%8B%E5%BC%8F/ rel=bookmark title="在Chrome OS上安裝Android應用程式" itemprop=url>在Chrome OS上安裝Android應用程式</a></h1>
-</header>
-<div class=entry-content>
-<p><img alt=image src=http://65.media.tumblr.com/4d97930bdfa7368c5acdd83eb4e295ff/tumblr_inline_nelop8VeZx1qzg4zq.png></p>
-<p>在今年Google IO時, Google宣布了m 未來Chrome OS上可以跑Android的應用程式, 可能有人對Chrome OS不以為意, 覺得既然有了Android何必又有一個Chrome OS, 對於沒用過Chrome OS的人可能會有這樣的感覺, 不過我必須說, 兩者設計的導向是不同的, Chrome OS速度快, 輕便, 這也是Android所比不上的, Google這一舉動, 讓Chrome OS又可以補足功能性不足的部分, 雖然不會全部的Android 應用程式都可以適用, 不過這已經足夠開啟另一個可能性了</p>
-<p>目前開放放在Chrome App store的還不多, 只有像是Vine, Evernote這些少數Google已經測試過的, 如可以在這邊找到Evernote: https://chrome.google.com/webstore/detail/evernote/dhfolfjkgpeaojbiicgheljefkfbbfkc</p>
-<p>但這些以外的呢?除了等Google大神以外, 還有其他管道嗎?所幸還有其他大神放出相關的工具讓你包裝, 還是Open source:</p>
-<p><a href=https://github.com/vladikoff/chromeos-apk>https://github.com/vladikoff/chromeos-apk</a></p>
-<p>使用這工具你首先必須要有安裝node.js, 之後用npm安裝chromeos-apk這個module即可: &ldquo;npm i chromeos-apk -g&rdquo;</p>
-<p>使用方法也很簡單, 只要:</p>
-<blockquote>
-<p>chromeos-apk xxxx.apk</p>
-</blockquote>
-<p>這樣即可, 就會產生一個Chrome extension的目錄, 然後進到Chome, 用"<span>chrome://extensions"進入安裝extension的畫面, 載入unpacked extension即可</span></p>
-<p><span>不過, 我在安裝時碰到一個問題, 出現了一個訊息: </span></p>
-<blockquote>
-<h1 class=gh-header-title><span class=js-issue-title>There is no &ldquo;message&rdquo; element for key extName</span></h1>
-</blockquote>
-<p><span>這問題是由於產生的檔案中在_locale/en底下那個檔, extName的部分只有descriiption沒有message這屬性, 補上去就好, 內容可以是你的app name</span></p>
 </div>
 </article>
 <div class=pagination>

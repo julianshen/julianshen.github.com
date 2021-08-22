@@ -80,6 +80,21 @@ All posts
 <article class=hentry>
 <header>
 <div class=entry-meta>
+<span class="entry-date date published updated"><time datetime="2011-05-10 14:19:21 +0000 UTC"><a href=/Generating-Facebook-key-hash-for-Android/>May 10, 2011</a></time></span>
+<span class=entry-reading-time>
+<i class="fa fa-clock-o"></i>
+Reading time ~1 minute
+</span>
+</div>
+<h1 class=entry-title><a href=/Generating-Facebook-key-hash-for-Android/ rel=bookmark title="Generating Facebook key hash for Android" itemprop=url>Generating Facebook key hash for Android</a></h1>
+</header>
+<div class=entry-content>
+<div class=posterous_autopost><p>According to<a href=http://developers.facebook.com/docs/guides/mobile/#android> Facebook mobile development document</a> (Android), you need to generate a key hash for your application in order to apply Facebook SSO(Single Sign on).</p> <p>Here is the formal way to do this:</p> <blockquote> <p><span style=color:#9c0>keytool -exportcert -alias androiddebugkey -keystore ~/.android/debug.keystore | openssl sha1 -binary | openssl base64</span></p> </blockquote> <p>But sometimes you won&rsquo;t have a tradtional key store especially when building with Android open sources. Keys in Android open sources are in pk8 format. In order to generate key hashes with these keys, you need to tranfer them into a pk12 key store.</p> <p>I created another way to generate keyhash without <em><strong>keytool</strong></em> and <em><strong>openssl</strong></em>. Here is the source codes: <a href=https://github.com/julianshen/FacebookKeyHashGen>FacebookKeyHashGen</a></p> <p>This program get package sigature directly from package itself. </p></div>
+</div>
+</article>
+<article class=hentry>
+<header>
+<div class=entry-meta>
 <span class="entry-date date published updated"><time datetime="2011-05-09 10:09:58 +0000 UTC"><a href=/Mos-%E6%98%A5%E8%8F%87%E8%B1%86%E8%85%90%E9%9B%9E%E8%82%89%E5%A0%A1/>May 9, 2011</a></time></span>
 <span class=entry-reading-time>
 <i class="fa fa-clock-o"></i>
@@ -135,21 +150,6 @@ Reading time ~1 minute
 </header>
 <div class=entry-content>
 <div class=posterous_autopost><a href=http://instagr.am/p/D_gb2/><div class="p_embed p_image_embed"> <a href=http://posterous.com/getfile/files.posterous.com/julianshen/cAhixDsJwiaekqgapIlonmwpujEzyvJDArcbzjkoelemwmofbsEAjtjxAceB/media_httpimagesinsta_wgAgz.jpg.scaled1000.jpg><img alt=Media_httpimagesinsta_wgagz height=500 src=http://posterous.com/getfile/files.posterous.com/julianshen/cAhixDsJwiaekqgapIlonmwpujEzyvJDArcbzjkoelemwmofbsEAjtjxAceB/media_httpimagesinsta_wgAgz.jpg.scaled500.jpg width=500></a> </div> </a></div>
-</div>
-</article>
-<article class=hentry>
-<header>
-<div class=entry-meta>
-<span class="entry-date date published updated"><time datetime="2011-05-07 13:06:01 +0000 UTC"><a href=/%E7%AD%86%E8%A8%98-building-64-bit-v8-on-Ubuntu/>May 7, 2011</a></time></span>
-<span class=entry-reading-time>
-<i class="fa fa-clock-o"></i>
-Reading time ~1 minute
-</span>
-</div>
-<h1 class=entry-title><a href=/%E7%AD%86%E8%A8%98-building-64-bit-v8-on-Ubuntu/ rel=bookmark title="[筆記] building 64 bit v8 on Ubuntu" itemprop=url>[筆記] building 64 bit v8 on Ubuntu</a></h1>
-</header>
-<div class=entry-content>
-<div class=posterous_autopost><p>Install &ldquo;scons&rdquo; first.</p> <p>Run &ldquo;scons target=x64&rdquo; -> Done</p></div>
 </div>
 </article>
 <div class=pagination>
