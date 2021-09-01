@@ -79,6 +79,115 @@
 <article class=hentry>
 <header>
 <div class=entry-meta>
+<span class="entry-date date published updated"><time datetime="2016-10-07 23:10:04 +0000 UTC"><a href=/%E7%AD%86%E8%A8%98ios%E9%96%8B%E7%99%BC-%E4%BD%BF%E7%94%A8MapKit%E5%81%9A%E4%B8%80%E5%80%8B%E7%B0%A1%E5%96%AE%E7%9A%84%E9%A3%9B%E8%A1%8C%E5%8B%95%E7%95%AB/>Oct 7, 2016</a></time></span>
+<span class=entry-reading-time>
+<i class="fa fa-clock-o"></i>
+Reading time ~3 minutes
+</span>
+</div>
+<h1 class=entry-title><a href=/%E7%AD%86%E8%A8%98ios%E9%96%8B%E7%99%BC-%E4%BD%BF%E7%94%A8MapKit%E5%81%9A%E4%B8%80%E5%80%8B%E7%B0%A1%E5%96%AE%E7%9A%84%E9%A3%9B%E8%A1%8C%E5%8B%95%E7%95%AB/ rel=bookmark title="[筆記][ios開發] 使用MapKit做一個簡單的飛行動畫" itemprop=url>[筆記][ios開發] 使用MapKit做一個簡單的飛行動畫</a></h1>
+</header>
+<div class=entry-content>
+<p>小時候很喜歡Indiana Jones系列的電影, 對於它裡面的地圖片段也一直覺得很有趣</p>
+<div style=position:relative;padding-bottom:56.25%;height:0;overflow:hidden>
+<iframe src=https://www.youtube.com/embed/FhoPTyMUgX0 style=position:absolute;top:0;left:0;width:100%;height:100%;border:0 allowfullscreen title="YouTube Video"></iframe>
+</div>
+<p>如果這樣的動畫, 用在遊記類的blog上, 應該也蠻酷的, 但好像也沒一個比較好的工具, 因此想說用MapKit來實作一個試試</p>
+<h3 id=功能需求>功能需求</h3>
+<p>先來定義一個簡單的功能需求</p>
+<ol>
+<li>在起點跟終點畫一條連結線</li>
+<li>一架飛機延這條線飛到終點</li>
+<li>地圖視角跟著飛機走</li>
+</ol>
+<h3 id=實作>實作</h3>
+<h4 id=在起點跟終點畫一條連結線>在起點跟終點畫一條連結線</h4>
+<p>這部份要用到MKGeodesicPolyline, 給它兩個點, 它就會自動連結成一條線, 但這條線並不是完美的直線, 因為地球表面是曲面的, 所以它是一條弧線</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-swift data-lang=swift><span style=color:#66d9ef>let</span> coords = [start, end]
+
+geodesicPolyline = MKGeodesicPolyline(coordinates: coords, count: <span style=color:#ae81ff>2</span>)
+
+print(geodesicPolyline!.pointCount)
+mapView.add(geodesicPolyline!)
+</code></pre></div><p>這邊coors只要給訂起始點跟終點的位置就好, 印出pointCount就會發現它把經由的點都補足了(實際上印出來的會多出2很多很多)</p>
+<p>MKGeodesicPolyline裡的參數coordinates是一個UnsafeMutablePointer, 在Swift 3之前要寫成&coords, 但在Swift 3大改之後, &ldquo;&&ldquo;就不需要了</p>
+<p>由於MKGeodesicPolyline是一個Overlay, 因此最後只需要用mapView.add (Swift 3之前是addOverlay)加入mapView就可以了, 但加入之後, 會發現, 這條線根本沒被畫出來, 那是因為少寫了一部分</p>
+<p>在MapView裡面要畫出Overlay, 就必須要跟MapView說怎麼畫出這個Overlay, 這就要實作MKMapViewDelegate裡的mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay)</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-swift data-lang=swift><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>mapView</span>(<span style=color:#66d9ef>_</span> mapView: MKMapView, rendererFor overlay: MKOverlay) -&gt; MKOverlayRenderer {
+    <span style=color:#66d9ef>guard</span> <span style=color:#66d9ef>let</span> polyline = overlay <span style=color:#66d9ef>as</span>? MKPolyline <span style=color:#66d9ef>else</span> {
+        <span style=color:#66d9ef>return</span> MKOverlayRenderer()
+    }
+    
+    <span style=color:#66d9ef>let</span> renderer = MKPolylineRenderer(polyline: polyline)
+    renderer.lineWidth = <span style=color:#ae81ff>3.0</span>
+    renderer.alpha = <span style=color:#ae81ff>0.5</span>
+    renderer.strokeColor = UIColor.blue
+    
+    <span style=color:#66d9ef>return</span> renderer
+}
+</code></pre></div><p>由於我們是要畫Poly line, 因此這邊回傳給它一個MKPolylineRenderer, 線寬是3.0, 線的顏色是藍色(alpha = 0.5)</p>
+<p>這樣就可以很完美的畫出那條線了</p>
+<h4 id=在地圖上畫出飛機>在地圖上畫出飛機</h4>
+<p>這部份就要借重到MKPointAnnotation</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-swift data-lang=swift><span style=color:#66d9ef>let</span> thePlane = MKPointAnnotation()
+thePlane.coordinate = start <span style=color:#75715e>//給定起始座標</span>
+        
+mapView.addAnnotation(thePlane)
+</code></pre></div><p>一樣, 這邊如果沒告訴MapView怎畫這Annotation, 它是會用預設的取代, 因此我們一樣要去實作MKMapViewDelegate</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-swift data-lang=swift><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>mapView</span>(<span style=color:#66d9ef>_</span> mapView: MKMapView, viewFor annotation: MKAnnotation) -&gt; MKAnnotationView? {
+    <span style=color:#66d9ef>let</span> planeIdentifier = <span style=color:#e6db74>&#34;Plane&#34;</span>
+    
+    <span style=color:#66d9ef>let</span> annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: planeIdentifier)
+        ?? MKAnnotationView(annotation: annotation, reuseIdentifier: planeIdentifier)
+    
+    annotationView.image = UIImage(named: <span style=color:#e6db74>&#34;ic_flight_48pt&#34;</span>)
+    
+    <span style=color:#66d9ef>return</span> annotationView
+}
+</code></pre></div><p>這邊用一個UIImage來指定飛機的圖標</p>
+<h4 id=地圖視角>地圖視角</h4>
+<p>把飛機置於地圖正中央, 我們才看得到他, 因此, 需要設定可視的區域, 包含中心點跟範圍, 如下:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-swift data-lang=swift><span style=color:#66d9ef>let</span> span = MKCoordinateSpanMake(<span style=color:#ae81ff>8.0</span>, <span style=color:#ae81ff>8.0</span>)
+<span style=color:#66d9ef>let</span> region1 = MKCoordinateRegion(center: start, span: span)
+<span style=color:#66d9ef>self</span>.mapView.setRegion(region1, animated: <span style=color:#66d9ef>true</span>)
+</code></pre></div><h4 id=沿著線飛>沿著線飛</h4>
+<p>這時候要利用到 perform(#selector(updatePlane), with: self, afterDelay: 0.4) 讓它每隔0.4秒去更新一次飛機位置, 直到到終點為止, 當然也要一直更新region, 以讓飛機維持在正中央</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-swift data-lang=swift><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>updatePlane</span>() {
+    planePositionIndex = planePositionIndex <span style=color:#f92672>+</span> step;
+    
+    <span style=color:#66d9ef>if</span> (planePositionIndex <span style=color:#f92672>&gt;=</span> geodesicPolyline!.pointCount)
+    {
+        <span style=color:#75715e>//plane has reached end, stop moving</span>
+        planePositionIndex = <span style=color:#ae81ff>0</span>
+        <span style=color:#66d9ef>return</span>;
+    }
+    
+    <span style=color:#66d9ef>let</span> s = <span style=color:#ae81ff>8.0</span>
+    
+    <span style=color:#66d9ef>let</span> nextMapPoint = geodesicPolyline?.points()[planePositionIndex]
+
+    thePlane.coordinate = MKCoordinateForMapPoint(nextMapPoint!) 
+    mapView.region = MKCoordinateRegionMake(thePlane.coordinate, MKCoordinateSpan(latitudeDelta: s, longitudeDelta: s))
+
+    perform(<span style=color:#66d9ef>#selector</span>(updatePlane), with: <span style=color:#66d9ef>self</span>, afterDelay: <span style=color:#ae81ff>0.4</span>)
+}
+</code></pre></div><h3 id=結果>結果</h3>
+<div style=position:relative;padding-bottom:56.25%;height:0;overflow:hidden>
+<iframe src=https://www.youtube.com/embed/GSAd1Vygkhw style=position:absolute;top:0;left:0;width:100%;height:100%;border:0 allowfullscreen title="YouTube Video"></iframe>
+</div>
+<p>這邊有幾個缺點尚待改進</p>
+<ol>
+<li>飛機閃爍</li>
+<li>如果把可視區域範圍縮小, 或是位置更新過快, 就會造成地圖來不及載入的現象(可能需要預跑幾次將map tile載入cache內)</li>
+<li>飛機頭永遠保持往上, 應該要朝著線方向轉</li>
+</ol>
+<h3 id=完整程式碼>完整程式碼</h3>
+<script type=application/javascript src=https://gist.github.com/julianshen/229f4ac32b3893816bd7636b96fe6f7d.js></script>
+</div>
+</article>
+<article class=hentry>
+<header>
+<div class=entry-meta>
 <span class="entry-date date published updated"><time datetime="2016-10-04 23:41:22 +0000 UTC"><a href=/%E4%B8%80%E4%BA%9B%E5%81%9A%E7%88%AC%E8%9F%B2%E7%9A%84%E5%B7%A5%E5%85%B7%E8%88%87%E6%96%B9%E6%B3%95/>Oct 4, 2016</a></time></span>
 <span class=entry-reading-time>
 <i class="fa fa-clock-o"></i>
@@ -798,71 +907,6 @@ vhost __defaultVhost__ {
 <li><a href=https://github.com/google/ExoPlayer/>ExoPlayer</a>: Google開源的Media player, 之前在做另一個東西時我有用過, 所以第一時間就想起這個, 不過, 原生的完全不支援RTMP, 不過可以參考<a href=https://github.com/ButterflyTV/ExoPlayer-with-RTMP-and-FLV-seek/blob/master/demo/src/main/java/com/google/android/exoplayer/demo/player/RtmpDataSource.java>這邊</a>, 但我實際上用, RTMP完全沒成功過, 一直出現FLV parse的問題, 倒是HLS沒問題</li>
 <li><a href=https://github.com/Bilibili/ijkplayer>Ijkplayer</a> - 這同時有Android和iOS版本, 是Bilibili開源的, 有點強大, 但基於ffmpeg, 不知道在license上會不會有風險, 使用起來還有點複雜, 但HLS, RTMP都是沒問題</li>
 <li><a href=https://github.com/pili-engineering/PLDroidPlayer>PLDroidPlayer</a> - 七牛雲針對ijkplayer的再製品, 比較方便的是, 它有封裝出一個video view可以直接使用, 相較於ijkplayer來說比較簡單易用</li>
-</ol>
-</div>
-</article>
-<article class=hentry>
-<header>
-<div class=entry-meta>
-<span class="entry-date date published updated"><time datetime="2016-08-31 16:33:15 +0000 UTC"><a href=/Blog-%E6%9B%BFJekyll%E7%9A%84markdown%E5%8A%A0%E4%B8%8A%E7%B0%A1%E6%98%93%E6%B5%81%E7%A8%8B%E5%9C%96%E5%8A%9F%E8%83%BD/>Aug 31, 2016</a></time></span>
-<span class=entry-reading-time>
-<i class="fa fa-clock-o"></i>
-Reading time ~1 minute
-</span>
-</div>
-<h1 class=entry-title><a href=/Blog-%E6%9B%BFJekyll%E7%9A%84markdown%E5%8A%A0%E4%B8%8A%E7%B0%A1%E6%98%93%E6%B5%81%E7%A8%8B%E5%9C%96%E5%8A%9F%E8%83%BD/ rel=bookmark title="[Blog] 替Jekyll的markdown加上簡易流程圖功能" itemprop=url>[Blog] 替Jekyll的markdown加上簡易流程圖功能</a></h1>
-</header>
-<div class=entry-content>
-<p>對一個developer的blog來說, 流程圖似乎是蠻需要的, 比較能夠清楚來解釋一些東西, 但每個東西都轉圖檔還蠻麻煩的, 下面介紹一個有用的Jekyll plugin, 可以做到像下面這樣的效果:</p>
-<p><strong>第一例</strong></p>
-<div class=mermaid>
-graph TD;
-A-->B;
-A-->C;
-B-->D;
-C-->D;
-</div>
-<p><strong>第二例</strong></p>
-<div class=mermaid>
-sequenceDiagram
-participant John
-participant Alice
-Alice->>John: Hello John, how are you?
-John-->>Alice: Great!
-</div>
-<p>這是利用一個叫做<a href=https://github.com/jasonbellamy/jekyll-mermaid>Jekyll-mermaid</a> 來達成的</p>
-<p>而這plugin其實也沒做很多事, 它是包裝了<a href=https://github.com/knsv/mermaid>mermaid</a>這個工具, 而mermaid這工具他是利用了<a href=https://d3js.org>ds.js</a>來讓你用很簡單的方式來繪製流程, 以上面兩個例子為例</p>
-<p><strong>第一例</strong></p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-markdown data-lang=markdown>graph TD;
-    A--&gt;B;
-    A--&gt;C;
-    B--&gt;D;
-    C--&gt;D;
-</code></pre></div><p><strong>第二例</strong></p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-markdown data-lang=markdown>sequenceDiagram
-    participant John
-    participant Alice
-    Alice-&gt;&gt;John: Hello John, how are you?
-    John--&gt;&gt;Alice: Great!
-</code></pre></div><p>所以你在markdown裡面只要加上</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-markdown data-lang=markdown>{ % mermaid % }
-sequenceDiagram
-    participant John
-    participant Alice
-    Alice-&gt;&gt;John: Hello John, how are you?
-    John--&gt;&gt;Alice: Great!
-{ % endmermaid % }
-</code></pre></div><p>他就會幫你render出相關的流程了</p>
-<h4 id=安裝方法>安裝方法</h4>
-<p>這邊以我自己blog的安裝方法來說明</p>
-<ol>
-<li>把jekyll-mermaid.rb放到_plugins目錄去</li>
-<li>在_config.yml加上 (這邊以6.0.0的mermaid為例):</li>
-</ol>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-markdown data-lang=markdown>mermaid:
-  src: &#39;https://cdn.rawgit.com/knsv/mermaid/6.0.0/dist/mermaid.js&#39;
-</code></pre></div><ol>
-<li>還要在head.html加上css (要配合版面顏色), 可以用這個 : <a href=https://cdn.rawgit.com/knsv/mermaid/6.0.0/dist/mermaid.css>https://cdn.rawgit.com/knsv/mermaid/6.0.0/dist/mermaid.css</a></li>
 </ol>
 </div>
 </article>

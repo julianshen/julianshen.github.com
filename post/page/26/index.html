@@ -80,6 +80,22 @@ All posts
 <article class=hentry>
 <header>
 <div class=entry-meta>
+<span class="entry-date date published updated"><time datetime="2012-09-08 00:21:43 +0000 UTC"><a href=/Android-GCM%E5%8F%AF%E4%BB%A5%E6%80%8E%E9%BA%BC%E7%94%A8/>Sep 8, 2012</a></time></span>
+<span class=entry-reading-time>
+<i class="fa fa-clock-o"></i>
+Reading time ~1 minute
+</span>
+</div>
+<h1 class=entry-title><a href=/Android-GCM%E5%8F%AF%E4%BB%A5%E6%80%8E%E9%BA%BC%E7%94%A8/ rel=bookmark title="[Android] GCM可以怎麼用?" itemprop=url>[Android] GCM可以怎麼用?</a></h1>
+</header>
+<div class=entry-content>
+GCM的前身就是所謂的C2DM, 最早在今年Google I/O時聽到C2DM將進化到GCM時, 就在想, 一定要架個server才可以利用GCM嗎?<br><br>其實是可以不用的<br><br><div class=separator style=clear:both;text-align:center><a href=http://bit.ly/Ngg8t2 imageanchor=1 style=margin-left:1em;margin-right:1em><img border=0 height=104 src=http://bit.ly/Q9qUPv width=320></a></div>從API console可知, 是可以設定允許從任意IP傳送的<br><br>再來看看一般的流程:<br>1. Regster:<br><blockquote class=tr_bq><pre class="prettyprint pretty-java"><span class=typ>GCMRegistrar</span><span class=pun>.</span><span class=pln>checkDevice</span><span class=pun>(</span><span class=kwd>this</span><span class=pun>);</span><span class=pln><br></span><span class=typ>GCMRegistrar</span><span class=pun>.</span><span class=pln>checkManifest</span><span class=pun>(</span><span class=kwd>this</span><span class=pun>);</span><span class=pln><br></span><span class=kwd>final</span><span class=pln> </span><span class=typ>String</span><span class=pln> regId </span><span class=pun>=</span><span class=pln> </span><b><span class=typ>GCMRegistrar</span><span class=pun>.</span><span class=pln>getRegistrationId</span><span class=pun>(</span><span class=kwd>this</span><span class=pun>);</span></b><span class=pln><br></span><span class=kwd>if</span><span class=pln> </span><span class=pun>(</span><span class=pln>regId</span><span class=pun>.</span><span class=pln>equals</span><span class=pun>(</span><span class=str>""</span><span class=pun>))</span><span class=pln> </span><span class=pun>{</span><span class=pln><br></span><span class=typ>GCMRegistrar</span><span class=pun>.</span><span class=kwd>register</span><span class=pun>(</span><span class=kwd>this</span><span class=pun>,</span><span class=pln> SENDER_ID</span><span class=pun>);</span><span class=pln><br></span><span class=pun>}</span><span class=pln> </span><span class=kwd>else</span><span class=pln> </span><span class=pun>{</span><span class=pln><br></span><span class=typ>Log</span><span class=pun>.</span><span class=pln>v</span><span class=pun>(</span><span class=pln>TAG</span><span class=pun>,</span><span class=pln> </span><span class=str>"Already registered"</span><span class=pun>);</span><span class=pln><br></span><span class=pun>}</span></pre></blockquote>2. 取得Registration ID後將ID送至Server <br>3. Server之後可以用這ID送訊息給這一支手機<br><br>由"2"看來, 其實Registration ID是關鍵, 而不是Server, 任何人只要有Registration ID, 就可以傳送訊息給這隻手機了<br><br>做了個小小實驗, 寫了一支Activity同時具備了收訊息以及傳送(給自己)的能力:<br><a href=http://bit.ly/Nggb8b><br></a><a href=http://bit.ly/Q9qSag>http://bit.ly/Q9qSag</a><br><br>想到的應用: 兩隻手機透過條碼或藍牙交換Registration ID, 就可以透過GCM互傳訊息了<br><br>缺點: Registration ID如果有變(GCM是有可能更換ID), 就失效了<br><br>
+via Blogger <a href=http://bit.ly/Q9qSai>http://bit.ly/Q9qSai</a>
+</div>
+</article>
+<article class=hentry>
+<header>
+<div class=entry-meta>
 <span class="entry-date date published updated"><time datetime="2012-09-07 15:31:43 +0000 UTC"><a href=/Android-%E5%A6%82%E4%BD%95%E7%9F%A5%E9%81%93%E4%BD%BF%E7%94%A8%E8%80%85%E6%98%AF%E5%90%A6%E5%B7%B2%E7%A7%BB%E9%99%A4%E4%BD%A0%E7%9A%84%E7%A8%8B%E5%BC%8F/>Sep 7, 2012</a></time></span>
 <span class=entry-reading-time>
 <i class="fa fa-clock-o"></i>
@@ -139,21 +155,6 @@ Reading time ~2 minutes
 <div class=entry-content>
 <p>這是我給自己練習NDK的作業,選擇node.js的原因是, 沒啥, 就只是覺得應該會蠻好玩的, 之前就有念頭想po, 加上node.js所需要的像是openssl, v8等等, 在Android上早就有了, 想說porting應該也不會有太大的困難吧, 應該也不用改太多code才對<br><br>實際是,還是有點問題, 需要改些東西, ndk的build system可以說是原本Android的簡化版, 所以有些東西並沒有, 所以並不是把原本的Android.mk copy過來就沒問題了, 比如說v8, LOCAL_GENERATED_SOURCES, intermediates 這些東西雖然有在原本aosp的build system內, 但在NDK就完全不存在, 但由於v8和node都有需要把js lib轉成CPP一起build進去, 所以這時候就要借助這類的東西:<br><i>$(shell python $(JS2C_PY) $(GEN1) CORE off $(LOCAL_JS_LIBRARY_FILES))</i><br><br>起初我並沒注意到js2c這部份, 結果最後link不過, 缺了一堆東西, trace之後才發現少這部份<br><br>此外, 在uv的部份, 由於uv是node的native library的部份, 有一些OS相關的code, 但由於Andorid的bionic比起libc是算簡化版本, 有些API並不存在, 因此除了為android產生一些專屬的config.h (我從linux的版本去改的), 還要改一些code<br><br>目前的進度是, 可以用ndk-r8b build出Android可用的可執行檔(還沒完全測過, 應該有些bug代解), 先全用static link的<br><br>Source codes放在GitHub : <a href=http://bit.ly/ODaijv>http://bit.ly/ODaijv</a><br><br>還有一些想做的還沒做:<br></p><ol><li>接上NativeActivity</li><li>OpenGL ES api</li><li>其他?</li></ol><br><br>
 via Blogger <a href=http://bit.ly/ODaijB>http://bit.ly/ODaijB</a>
-</div>
-</article>
-<article class=hentry>
-<header>
-<div class=entry-meta>
-<span class="entry-date date published updated"><time datetime="2012-07-20 00:44:05 +0000 UTC"><a href=/%E5%85%AC%E5%91%8A-%E5%80%8B%E4%BA%BAblog%E6%90%AC%E5%AE%B6/>Jul 20, 2012</a></time></span>
-<span class=entry-reading-time>
-<i class="fa fa-clock-o"></i>
-Reading time ~1 minute
-</span>
-</div>
-<h1 class=entry-title><a href=/%E5%85%AC%E5%91%8A-%E5%80%8B%E4%BA%BAblog%E6%90%AC%E5%AE%B6/ rel=bookmark title="[公告] 個人blog搬家" itemprop=url>[公告] 個人blog搬家</a></h1>
-</header>
-<div class=entry-content>
-<div class=posterous_autopost><p>My personal blog will move to Blogger from now on due to Posterous is aquired by Twitter. I like Posterous but it might be end of life someday. Moving to Blogger might be a better decesion.</p> <p>我之前會選擇Posterous的原因是它的介面還算好用, 而且可以e-mail post以及轉貼到各個不同的地方去, 不過現在既然它被Twitter給併購了, 隨時也有可能不見, 所以只好撤回Blogger去了, 本考慮Blogger或是Tumblr, Tumblr也一樣簡單, 只是想說投靠Google還是比較保險, 未來在Posterous這邊我就不會再張貼新文章了</p> </div>
 </div>
 </article>
 <div class=pagination>

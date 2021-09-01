@@ -79,6 +79,21 @@
 <article class=hentry>
 <header>
 <div class=entry-meta>
+<span class="entry-date date published updated"><time datetime="2011-01-18 02:43:37 +0000 UTC"><a href=/Android-Google-Analytics-for-Android/>Jan 18, 2011</a></time></span>
+<span class=entry-reading-time>
+<i class="fa fa-clock-o"></i>
+Reading time ~4 minutes
+</span>
+</div>
+<h1 class=entry-title><a href=/Android-Google-Analytics-for-Android/ rel=bookmark title="[Android] Google Analytics for Android" itemprop=url>[Android] Google Analytics for Android</a></h1>
+</header>
+<div class=entry-content>
+<div class=posterous_autopost><p>今天晚上的GTUG請來了Tony Chan講GB的新features, 不過, 這些內容其實大部分都已經在Android網站上看過很多次了, 提起不了啥興趣, 雖然是對StorageManager有點興趣, 但卻不在這次講的內容, 可見這東西真的並不是個完成品, 不足以拿出來推</p> <p>唯一讓我有點感興趣的是Google Analytics for Android, 所以回來的時候在車上稍微研究了一下</p> <p>目前這東西, 說起來有點陽春, 把user行為的tracking定義成兩個分類 - pageview和event</p> <p>pageview這觀念感覺就是從Web上來的, 但mobile application其實也沒啥page, 硬要分的話, 可以拿Activity來當做一個page吧, 不過有很多user interaction是在同一個Activity發生, 所以這分類應該是拿來應用在追蹤使用者使用某大功能的頻率</p> <p>既然pageview不能夠表示in-activity的互動行為, 其實還可以拿"event"來用, 可以把button click, gesture之類的當做event來記錄分析</p> <p>不過, 對於pageview和event其實沒有很明確的分野, developer可以在任何時候任何地方使用這兩者記錄, 並沒有特別強制性(比如說只能在activity用pageview或是pageview只能每個activity記錄一次之類的), 所以要胡搞也可以啦 (不過那就失去意義了)</p> <p>比較恐怖的功能是可以允許developer自定變數, 如果把使用者個人資訊一起送上去, 就不妙囉</p> <p>這整個功能上還稍嫌陽春, 如果要tracking使用者的使用流程, 這樣的東西並沒辦法做到</p> <p>這部份有被問了幾個問題, 回來後我稍微查了一下:</p> <p>1. 使用權限問題: 要不要使用者先同意收集才可以使用? 很不幸的, 這一點似乎是developer自由心證了, 並沒有任何強制步驟是使用者同意後才可以使用, 雖然使用這lib必須在manifest加上兩個uses-permission:</p> <blockquote class=posterous_short_quote> <p>&lt;uses-permission android:name=&ldquo;android.permission.INTERNET&rdquo; /></p> <p>&lt;uses-permission android:name=&ldquo;android.permission.ACCESS_NETWORK_STATE&rdquo; /></p> </blockquote> <p>但這兩個, 一個是存取Internet, 一個是存取網路狀態的, 完全跟Privacy無關</p> <p>2. Tony提到, 在沒有網路的時候會先keep在local的database等有網路時在上傳資料, 我當時提的問題是, 是否會有background service來做這件事, 還是AP launch之後才會真正去檢查網路並重送, 是只會有一個background service來做這件事? 還是每個AP獨立, 我會想到這問題有兩點, 第一點是資料庫問題, 如果每個AP負責自己的, 那每個AP會有各自獨立的資料庫, 而不會統一管理, 第二個是background processes數量問題</p> <p>在會中時沒得到啥答案, 所以我只好自己簡單的追了一下, 基本上, 這設計沒我想的複雜, 簡單很多, 沒任何background service, 只有一個AnalysticsReceiver但看起來是來處理com.android.vending.INSTALL_REFERRER而非Connectivity change</p> <p>所以這問題的答案就是, 它其實只是一個AP內的thread來處理而已(應該是NetworkDispatcher的dispatcherThread)</p> <p>而且tacking code是存於各個AP的data目錄下一個叫google_analytics.db資料庫內, 所以只要取得這資料庫就可以取得了</p> <p>整個設計上應該可以再加強, 尤其是保護User privacy這部份, 不然有可能被告吧? 我認為比較好一點的設計應該是在Market那隻AP裡面放個service來負責上傳analytics的資料, 只要提供API給AP去呼叫這隻service就好, 這樣第一步可以透過Android permission的機制先卡第一關, 而且可以比較容易統一設計一個end user agreement的dialog, 當AP第一次使用的時候跳出來取得user同意, 此外, 亦可以自動在網路狀態從無到有時自動把未送出的資料送出, 而非一定要AP正在使用的時候</p></div>
+</div>
+</article>
+<article class=hentry>
+<header>
+<div class=entry-meta>
 <span class="entry-date date published updated"><time datetime="2011-01-15 19:04:26 +0000 UTC"><a href=/Android-Gingerbread-StorageManager-and-Obb/>Jan 15, 2011</a></time></span>
 <span class=entry-reading-time>
 <i class="fa fa-clock-o"></i>
@@ -134,21 +149,6 @@ Reading time ~1 minute
 </header>
 <div class=entry-content>
 <div class=posterous_autopost><p>其實這是一個沒啥用的技巧（至少我還想不出應用）, 就是加上一個像是浮水印的東西在畫面上, 不管在哪都會出現的, 像是這樣:</p> <p><img src=http://posterous.com/getfile/files.posterous.com/temp-2011-01-07/xncheEwklHDpaebkmswmhzddFAirDfiIyIeJpeCzADvttFwlcunfcetqEJzr/ova1.png.scaled500.png width=480 height=800><img src=http://posterous.com/getfile/files.posterous.com/temp-2011-01-07/FgtouerECIfvBFrGeorctwbJDykaDEqFDDqxamtvcmthjgdzxAkECstjaofg/ova2.png.scaled500.png width=480 height=800> 因為這個image要讓他一直不會消失, 所以他並不會是一個Activity, 因為Activity會有他的生命週期, 離開後就沒了, 所以要透過WindowManager去加上這個ImageView, 而且加上View的動作必須要給Background service去處理(這樣也就可以去做一些變化, 或動畫之類的)</p> <p>首先, 要建立一個Service, 要達成這目的也很簡單, 在onCreate加上:</p> <blockquote> <p><span> </span>WindowManager wm = (WindowManager) this</p> <p><span> </span>.getSystemService(Service.WINDOW_SERVICE);</p> <p><span> </span>ImageView logo = new ImageView(this);</p> <p><span> </span>logo.setImageResource(R.drawable.onepieceoverlay);</p> <p><span> </span>WindowManager.LayoutParams lparam = new WindowManager.LayoutParams(</p> <p><span> </span>WindowManager.LayoutParams.WRAP_CONTENT,</p> <p><span> </span>WindowManager.LayoutParams.WRAP_CONTENT,</p> <p><span> </span>WindowManager.LayoutParams.TYPE_SYSTEM_OVERLAY, 0, PixelFormat.TRANSLUCENT);</p> <p><span> </span>lparam.gravity = Gravity.RIGHT | Gravity.TOP;</p> <p><span> </span>wm.addView(logo, lparam);</p> </blockquote> <p>這樣就好了, 其實很簡單, 就是透過WindowManager在system overlay上加個view</p> <p>但這樣還不會work, 因為少了一個permission, 所以必須在AndroidManifest裡面加上</p> <blockquote class=posterous_short_quote> <p>&lt;uses-permission android:name=&ldquo;android.permission.SYSTEM_ALERT_WINDOW&rdquo;>&lt;/uses-permission></p> </blockquote> <p>這樣就好了</p> <p>不過system overlay沒辦法接touch event, 所以這邊放的view真的只是拿來放好看的</p></div>
-</div>
-</article>
-<article class=hentry>
-<header>
-<div class=entry-meta>
-<span class="entry-date date published updated"><time datetime="2011-01-07 19:18:09 +0000 UTC"><a href=/Evernote-for-Mac/>Jan 7, 2011</a></time></span>
-<span class=entry-reading-time>
-<i class="fa fa-clock-o"></i>
-Reading time ~1 minute
-</span>
-</div>
-<h1 class=entry-title><a href=/Evernote-for-Mac/ rel=bookmark title="Evernote for Mac" itemprop=url>Evernote for Mac</a></h1>
-</header>
-<div class=entry-content>
-<div class=posterous_autopost><p>昨天Mac的App store終於出來了, 這個東西還真是邪惡&mldr;不過, 也多了讓我們找好軟體的地方, 昨天抓了Evernote for Mac, 感覺還真好用</p> <p><a href=http://posterous.com/getfile/files.posterous.com/temp-2011-01-07/epxndrgquBcatBcGlHfHtCydInnfAEdHnHaoBFpfxnweDqvhyvsFsJgAJAof/_2011-01-07_5.05.24.png.scaled1000.png><img src=http://posterous.com/getfile/files.posterous.com/temp-2011-01-07/epxndrgquBcatBcGlHfHtCydInnfAEdHnHaoBFpfxnweDqvhyvsFsJgAJAof/_2011-01-07_5.05.24.png.scaled500.png width=500 height=348></a> 整個畫面很乾淨, 簡單, 不難上手</p> <p>其中有幾個不錯的功能, 比如說可以從iSight拍照新增Note, 或是擷取screenshot來新增記事, 或是由剪貼簿貼入(如下)<img src=http://posterous.com/getfile/files.posterous.com/temp-2011-01-07/jmGmaxFnDJJipGnJpvafEAkIyjGDczJradyrtFykdGvwqnggBieEmyJnyskb/_2011-01-07_5.06.45.png.scaled500.png width=279 height=200></p> <p>加上所有的寫好的東西都是備份在網路上, 所以在其他裝置上也可以存取一樣的內容, 真的是很便利</p></div>
 </div>
 </article>
 <div class=pagination>
