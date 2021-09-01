@@ -79,19 +79,19 @@
 <article class=hentry>
 <header>
 <div class=entry-meta>
-<span class="entry-date date published updated"><time datetime="2021-09-01 14:13:25 +0800 +0800"><a href=/%E5%9C%A8-Next.js-%E5%AF%A6%E4%BD%9C-Feature-Toggle/>Sep 1, 2021</a></time></span>
+<span class="entry-date date published updated"><time datetime="2021-09-01 14:13:25 +0800 +0800"><a href=/%E5%9C%A8-Next.js-%E5%AF%A6%E4%BD%9C-Feature-Toggles/>Sep 1, 2021</a></time></span>
 <span class=entry-reading-time>
 <i class="fa fa-clock-o"></i>
 Reading time ~8 minutes
 </span>
 </div>
-<h1 class=entry-title><a href=/%E5%9C%A8-Next.js-%E5%AF%A6%E4%BD%9C-Feature-Toggle/ rel=bookmark title="在 Next.js 實作 Feature Toggle" itemprop=url>在 Next.js 實作 Feature Toggle</a></h1>
+<h1 class=entry-title><a href=/%E5%9C%A8-Next.js-%E5%AF%A6%E4%BD%9C-Feature-Toggles/ rel=bookmark title="在 Next.js 實作 Feature Toggles" itemprop=url>在 Next.js 實作 Feature Toggles</a></h1>
 </header>
 <div class=entry-content>
 <p>之前一直有在思考, 如果把 Feature toggles或Feature flags帶入開發流程可以有甚麼幫助, 先撇開A/B Test不談(因為這還是要配合產品策略考量), 在一個開發Sprint週期時間越來越短下, 一個feature的完成通常也需要跨越多個sprints, 如果加上某些可能需要配合event時間推出的功能, 這對release也是會帶來一些挑戰, 理想化的狀況就是最新的程式碼一直都在, 測試沒問題後開個開關就可以打開, 甚或搭配一些技巧可以讓QA也能夠在生產環境驗證還沒release的功能</p>
 <p>需要feature toggles的場合, 可能前後端都會有機會, 不過, 我想了一下, 後端還是可以從API版本或是其他方法隱藏未釋出功能, 而從前端一次隱藏整個功能區塊或是整個頁面, 或許是一個比較好開始切入的部分</p>
 <p>先來介紹一下Feature toggle好了</p>
-<h2 id=feature-toggle>Feature Toggle</h2>
+<h2 id=feature-toggles>Feature Toggles</h2>
 <p>Feature Toggles (又名Feature Flags)是一個應該算是常見的軟體開發方式, 藉由開關旗標(flag)來開啟或隱藏程式中的功能, 土法一點, 你是可以自訂一個布林變數, 在release之前去打開或關閉它(true or false), 當然這樣彈性比較小, 理想上當然會希望可以彈性隨時開關</p>
 <p>根據Martin Fowler這篇<a href=https://martinfowler.com/bliki/FeatureToggle.html>FeatureToggle</a>以及Pete Hodgson先生寫的這篇: <a href=https://www.martinfowler.com/articles/feature-toggles.html>Feature Toggles (aka Feature Flags)</a>, Feature toggles根據用途可以分做不同種類(後面那篇介紹比較詳細):</p>
 <ol>
