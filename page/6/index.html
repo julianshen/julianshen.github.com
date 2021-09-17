@@ -79,6 +79,60 @@
 <article class=hentry>
 <header>
 <div class=entry-meta>
+<span class="entry-date date published updated"><time datetime="2017-02-04 16:17:19 +0000 UTC"><a href=/%E7%94%A8ifttt-heroku%E8%B7%91%E5%AE%9A%E6%99%82%E7%9A%84tasks/>Feb 4, 2017</a></time></span>
+<span class=entry-reading-time>
+<i class="fa fa-clock-o"></i>
+Reading time ~2 minutes
+</span>
+</div>
+<h1 class=entry-title><a href=/%E7%94%A8ifttt-heroku%E8%B7%91%E5%AE%9A%E6%99%82%E7%9A%84tasks/ rel=bookmark title="用ifttt + heroku跑定時的tasks" itemprop=url>用ifttt + heroku跑定時的tasks</a></h1>
+</header>
+<div class=entry-content>
+<p>這篇是延續"<a href=http://blog.jln.co/%E4%BD%BF%E7%94%A8aws-lambda%E5%92%8Cgithub%E4%BE%86%E6%8F%90%E4%BE%9B%E4%B8%AD%E8%8F%AF%E8%81%B7%E6%A3%92%E8%B3%BD%E7%A8%8B%E8%B3%87%E6%96%99/>使用AWS lambda和Github來提供中華職棒賽程資料</a>",
+之前的做法是用Cloud watch加上lambda來做這件事, 但我跑的東西並不是那麼的頻繁, 在AWS上還是會被收到流量的費用,
+因此就打算用更經濟的方式, 利用heroku免費的額度來做這事(真是壞客戶 XD)</p>
+<p>目的是定時(比如說每四小時)去爬一些網頁的資訊, 爬這些網頁其實也不需要花太久時間</p>
+<p>用Cloud watch + lambda的好處是不用架一台server, 但用Heroku這種PAAS其實也不用太去管server這事</p>
+<p>Heroku是可以設定<a href=https://devcenter.heroku.com/articles/scheduled-jobs-custom-clock-processes>scheduled tasks</a>的, 但額外的work dyno是要另外付費的,
+因此, 如果需求不是需要太頻繁, 也不需要執行太久的, 這時候就可以利用<a href=https://ifttt.com/>ifttt</a>來定時觸發一個url的方式來做</p>
+<p><img src=/images/posts/ifttt1.png alt></p>
+<p>要定時觸發一個URL, ifttt applet該怎麼設定呢? 首先"this"要選用的是Date & Time, 如下:</p>
+<p><img src=/images/posts/ifttt_time.png alt></p>
+<p>設定上並沒有很多, 就像是每小時, 每天之類的, 沒辦法訂多個, 如果需要一次多個設定, 那就多新增幾個Applets吧</p>
+<p><img src=/images/posts/ifttt_time_sel.png alt></p>
+<p>這邊設定每小時, 就設定每小時的15分來觸發吧</p>
+<p><img src=/images/posts/ifttt_set_time.png alt></p>
+<p>那"that"的動作呢? 觸發URL的動作是利用"Maker", 這是設計給iot用的吧, 不過, 拿來做這用途也是沒問題的:</p>
+<p><img src=/images/posts/ifttt_maker.png alt></p>
+<p>Maker只有一個選項"Make a web request"</p>
+<p><img src=/images/posts/ifttt_choose_action.png alt></p>
+<p>設定很單純, 就給定URL, 使用的HTTP Method(GET, POST, PUT &mldr;), Content-type, 跟Body</p>
+<p><img src=/images/posts/ifttt_make_req.png alt></p>
+<p>這邊我用的是POST + Json, Json裡面會帶一個TOKEN來辨識, 以免有心人士利用了這個URL, go的檢查範例如下:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>checkID</span>(<span style=color:#a6e22e>body</span> <span style=color:#a6e22e>io</span>.<span style=color:#a6e22e>Reader</span>) <span style=color:#66d9ef>bool</span> {
+        <span style=color:#a6e22e>data</span>, <span style=color:#a6e22e>err</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>ioutil</span>.<span style=color:#a6e22e>ReadAll</span>(<span style=color:#a6e22e>body</span>)
+
+        <span style=color:#66d9ef>if</span> <span style=color:#a6e22e>err</span> <span style=color:#f92672>!=</span> <span style=color:#66d9ef>nil</span> {
+                <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>false</span>
+        }
+
+        <span style=color:#66d9ef>var</span> <span style=color:#a6e22e>rbody</span> <span style=color:#66d9ef>struct</span> {
+                <span style=color:#a6e22e>Id</span> <span style=color:#66d9ef>string</span>
+        }
+        <span style=color:#a6e22e>err</span> = <span style=color:#a6e22e>json</span>.<span style=color:#a6e22e>Unmarshal</span>(<span style=color:#a6e22e>data</span>, <span style=color:#f92672>&amp;</span><span style=color:#a6e22e>rbody</span>)
+
+        <span style=color:#66d9ef>if</span> <span style=color:#a6e22e>err</span> <span style=color:#f92672>!=</span> <span style=color:#66d9ef>nil</span> {
+                <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>false</span>
+        }
+
+        <span style=color:#66d9ef>return</span> <span style=color:#a6e22e>rbody</span>.<span style=color:#a6e22e>Token</span> <span style=color:#f92672>==</span> <span style=color:#a6e22e>os</span>.<span style=color:#a6e22e>Getenv</span>(<span style=color:#e6db74>&#34;SEC_TOKEN&#34;</span>) <span style=color:#f92672>&amp;&amp;</span> <span style=color:#a6e22e>rbody</span>.<span style=color:#a6e22e>Token</span> <span style=color:#f92672>!=</span> <span style=color:#e6db74>&#34;&#34;</span>
+}
+</code></pre></div><p>接到request後, 其實是可以把執行的task丟給另一個go routine處理, 原本的就可以回傳給ifttt, 避免執行太久而timeout的問題, 不過對heroku來說, 這還是在同一個web dyno上就是了</p>
+</div>
+</article>
+<article class=hentry>
+<header>
+<div class=entry-meta>
 <span class="entry-date date published updated"><time datetime="2017-01-24 01:38:19 +0000 UTC"><a href=/Go-Open-graph-parser/>Jan 24, 2017</a></time></span>
 <span class=entry-reading-time>
 <i class="fa fa-clock-o"></i>
@@ -566,95 +620,6 @@ Reading time ~8 minutes
 <h2 id=還有其他嗎>還有其他嗎?</h2>
 <p>document還沒補齊, 也還沒sample codes, 這需要之後來補齊了, 本來是想包裝成line跟Facebook通用的, 不過還沒真的去看Facebook, 就先把Line的包一包吧</p>
 <p>新聞萬事通也還沒改成這個架構, 這架構打算在我下一個bot上來應用吧, 新聞萬事通, 目前用戶太少了, 沒動力改 :P</p>
-</div>
-</article>
-<article class=hentry>
-<header>
-<div class=entry-meta>
-<span class="entry-date date published updated"><time datetime="2017-01-01 01:56:29 +0000 UTC"><a href=/Go-%E5%88%A9%E7%94%A8goquery-otto%E4%BE%86%E5%88%86%E6%9E%90%E7%B6%B2%E9%A0%81/>Jan 1, 2017</a></time></span>
-<span class=entry-reading-time>
-<i class="fa fa-clock-o"></i>
-Reading time ~3 minutes
-</span>
-</div>
-<h1 class=entry-title><a href=/Go-%E5%88%A9%E7%94%A8goquery-otto%E4%BE%86%E5%88%86%E6%9E%90%E7%B6%B2%E9%A0%81/ rel=bookmark title="[Go] 利用goquery + otto來分析網頁" itemprop=url>[Go] 利用goquery + otto來分析網頁</a></h1>
-</header>
-<div class=entry-content>
-<p>2017的第一篇blog就先又來回的go跟爬蟲了</p>
-<p><a href=https://github.com/PuerkitoBio/goquery>goquery</a>在Go是像jquery一樣的存在, 可以讓你用jquery一樣的selector來解析html檔案內容, 像這樣:</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#a6e22e>doc</span>.<span style=color:#a6e22e>Find</span>(<span style=color:#e6db74>&#34;.sidebar-reviews article .content-block&#34;</span>)
-</code></pre></div><p>只要有一些jquery的知識大概就不難上手, 但一般的網頁內容並不只有html這麼簡單而已, 有非常多的網頁是根本把資料給放在javascript, 在browser端再重組而成,
-碰到這種, 光解析網頁原始檔是不夠的, 因為很多tag的內容都是之後被javascript所產生的</p>
-<p>因此解析這類的網頁, 便可能需要去解析javascript的內容, 甚至是執行javascript, 在Go有一個好用的套件叫<a href=https://github.com/robertkrimen/otto>Otto</a>可以來解決這麻煩</p>
-<p>這邊以<a href=https://today.line.me/TW>Line Today</a>的網頁當作範例來說明, 如果你打開Line today的網頁原始檔來看, 絕大部分都是javascript, 而且資料似乎都在categoryJson內(如下)</p>
-<pre tabindex=0><code>&lt;script&gt;
-    var categoryJson = {
-		&quot;categories&quot;:[
-			{&quot;id&quot;:100003,&quot;name&quot;:&quot;今日頭條&quot;,&quot;source&quot;:0,&quot;title&quot;:null,&quot;thumbnail&quot;:null,&quot;url&quot;:{&quot;type&quot;:&quot;FILE&quot;,&quot;hash&quot;:
-		...
-		}
-		...
-&lt;/script&gt;
-</code></pre><p>一個土法煉鋼的方式是找到categoryJson前後的{},把它substring出來, 這內容當Json來分析, 但這樣其實還蠻容易出錯的</p>
-<p>另一個方式是先用goquery取得這個script內容, 然後用Otto去執行它後把值取出來, 像:</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#a6e22e>url</span> <span style=color:#f92672>:=</span> <span style=color:#e6db74>&#34;https://today.line.me/TW&#34;</span>
-<span style=color:#a6e22e>doc</span>, <span style=color:#a6e22e>err</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>goquery</span>.<span style=color:#a6e22e>NewDocument</span>(<span style=color:#a6e22e>url</span>)
-
-<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>err</span> <span style=color:#f92672>!=</span> <span style=color:#66d9ef>nil</span> {
-	<span style=color:#a6e22e>log</span>.<span style=color:#a6e22e>Println</span>(<span style=color:#a6e22e>err</span>)
-	<span style=color:#66d9ef>return</span>
-}
-
-<span style=color:#a6e22e>s</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>doc</span>.<span style=color:#a6e22e>Find</span>(<span style=color:#e6db74>&#34;script&#34;</span>)
-<span style=color:#a6e22e>script</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>s</span>.<span style=color:#a6e22e>Nodes</span>[<span style=color:#ae81ff>1</span>].<span style=color:#a6e22e>FirstChild</span>.<span style=color:#a6e22e>Data</span>
-
-<span style=color:#a6e22e>vm</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>otto</span>.<span style=color:#a6e22e>New</span>()
-<span style=color:#a6e22e>vm</span>.<span style=color:#a6e22e>Run</span>(<span style=color:#a6e22e>script</span>)
-
-<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>value</span>, <span style=color:#a6e22e>err</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>vm</span>.<span style=color:#a6e22e>Get</span>(<span style=color:#e6db74>&#34;categoryJson&#34;</span>); <span style=color:#a6e22e>err</span> <span style=color:#f92672>==</span> <span style=color:#66d9ef>nil</span> {
-	<span style=color:#a6e22e>goData</span>, <span style=color:#a6e22e>_</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>value</span>.<span style=color:#a6e22e>Export</span>()
-	<span style=color:#a6e22e>mapData</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>goData</span>.([]<span style=color:#66d9ef>map</span>[<span style=color:#66d9ef>string</span>]<span style=color:#66d9ef>interface</span>{})
-	<span style=color:#f92672>...</span>
-}
-</code></pre></div><p>otto很方便, 可以直接執行這個javascript, 還可以取裡面的值, 取出來的值其實是一個叫Value的struct, 如果要方便用的話, 就要用Export()來把資料轉成<code>interface{}</code></p>
-<p>但<code>interface{}</code>對object來說還是很不好取用, 如果確定你要的值是個javascript object, 那轉成<code>[]map[string]interface{}</code>會稍稍方便點</p>
-<p>不過針對很複雜也很深的物件來說, <code>[]map[string]interface{}</code>也不是那麼的好用, 當你要存取的值要往下好多層時, 光轉型就要做到瘋掉, 多層次的map很麻煩的呀!</p>
-<p>因此我的做法是, 多加一段javascript來減低取出的結構的複雜度, 像這樣:</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#a6e22e>vm</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>otto</span>.<span style=color:#a6e22e>New</span>()
-<span style=color:#a6e22e>vm</span>.<span style=color:#a6e22e>Run</span>(<span style=color:#a6e22e>script</span>)
-<span style=color:#a6e22e>_</span>, <span style=color:#a6e22e>err</span> = <span style=color:#a6e22e>vm</span>.<span style=color:#a6e22e>Run</span>(<span style=color:#e6db74>`
-</span><span style=color:#e6db74>	var news = categoryJson.categories[0].templates[0].sections[0].articles;
-</span><span style=color:#e6db74>
-</span><span style=color:#e6db74>	var articles = [];
-</span><span style=color:#e6db74>
-</span><span style=color:#e6db74>	for(var n in news) {
-</span><span style=color:#e6db74>		var article = {
-</span><span style=color:#e6db74>			&#39;title&#39;: news[n].title,
-</span><span style=color:#e6db74>			&#39;link&#39;: news[n].url.url,
-</span><span style=color:#e6db74>			&#39;publisher&#39;: news[n].publisher
-</span><span style=color:#e6db74>		};
-</span><span style=color:#e6db74>		articles.push(article);
-</span><span style=color:#e6db74>	}
-</span><span style=color:#e6db74>`</span>)
-
-<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>err</span> <span style=color:#f92672>!=</span> <span style=color:#66d9ef>nil</span> {
-	<span style=color:#a6e22e>fmt</span>.<span style=color:#a6e22e>Println</span>(<span style=color:#a6e22e>err</span>)
-}
-
-<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>value</span>, <span style=color:#a6e22e>err</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>vm</span>.<span style=color:#a6e22e>Get</span>(<span style=color:#e6db74>&#34;articles&#34;</span>); <span style=color:#a6e22e>err</span> <span style=color:#f92672>==</span> <span style=color:#66d9ef>nil</span> {
-	<span style=color:#a6e22e>goData</span>, <span style=color:#a6e22e>_</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>value</span>.<span style=color:#a6e22e>Export</span>()
-
-	<span style=color:#a6e22e>mapData</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>goData</span>.([]<span style=color:#66d9ef>map</span>[<span style=color:#66d9ef>string</span>]<span style=color:#66d9ef>interface</span>{})
-	<span style=color:#a6e22e>todayNews</span> = make([]<span style=color:#a6e22e>TodayNews</span>, <span style=color:#ae81ff>0</span>)
-	<span style=color:#66d9ef>for</span> <span style=color:#a6e22e>_</span>, <span style=color:#a6e22e>data</span> <span style=color:#f92672>:=</span> <span style=color:#66d9ef>range</span> <span style=color:#a6e22e>mapData</span> {
-		<span style=color:#a6e22e>news</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>TodayNews</span>{}
-		<span style=color:#a6e22e>news</span>.<span style=color:#a6e22e>Title</span> = <span style=color:#a6e22e>data</span>[<span style=color:#e6db74>&#34;title&#34;</span>].(<span style=color:#66d9ef>string</span>)
-		<span style=color:#a6e22e>news</span>.<span style=color:#a6e22e>Link</span> = <span style=color:#a6e22e>data</span>[<span style=color:#e6db74>&#34;link&#34;</span>].(<span style=color:#66d9ef>string</span>)
-		<span style=color:#a6e22e>news</span>.<span style=color:#a6e22e>ImageUrl</span> = <span style=color:#a6e22e>data</span>[<span style=color:#e6db74>&#34;imageUrl&#34;</span>].(<span style=color:#66d9ef>string</span>)
-		<span style=color:#a6e22e>todayNews</span> = append(<span style=color:#a6e22e>todayNews</span>, <span style=color:#a6e22e>news</span>)
-	}
-}
-</code></pre></div><p>這樣一來就稍微簡單多了, 不過目前碰到的缺點是, 似乎有些ES6的語法, 它不太認得呀</p>
 </div>
 </article>
 <div class=pagination>

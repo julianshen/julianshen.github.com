@@ -80,6 +80,21 @@ All posts
 <article class=hentry>
 <header>
 <div class=entry-meta>
+<span class="entry-date date published updated"><time datetime="2012-05-08 02:47:37 +0000 UTC"><a href=/%E7%AD%86%E8%A8%98-Self-published-B2G-app/>May 8, 2012</a></time></span>
+<span class=entry-reading-time>
+<i class="fa fa-clock-o"></i>
+Reading time ~1 minute
+</span>
+</div>
+<h1 class=entry-title><a href=/%E7%AD%86%E8%A8%98-Self-published-B2G-app/ rel=bookmark title="[筆記] Self published B2G app" itemprop=url>[筆記] Self published B2G app</a></h1>
+</header>
+<div class=entry-content>
+<div class=posterous_autopost><p>B2G並未一定要開發者把應用程式發表到一個特別的app store, 網站也可以自行加一個install按鍵, 讓使用者把你的網站當應用程式裝到手機內</p> <p>首先, 你必須要先有個manifest, 目前manifest並沒強制的檔名, 但文件裡建議叫 xxxx.webapp, 以下是範例內容:</p> <blockquote> <div class=CodeRay> <div class=code><pre>{ "name": "MyTestApp", "description": "test app", "launch_path": "/", "icons": { "128": "/img/icon.png" }, "developer": { "name": "Julian Shen" } }</pre></div> </div> <p> </p> </blockquote> <p>然後在網頁內加上檢查是否安裝, 以及安裝的程式碼, 範例如下:</p> <blockquote> <div class=CodeRay> <div class=code><pre>var manifestUrl = 'http://localhost:3000/manifest.webapp'; var app = navigator.mozApps;  function checkInstalled() { var request = app.getSelf(); request.onsuccess = function() { if(request.result) { //installed console.log('installed'); document.getElementById('installmsg').style.display='none'; } else { //not installed console.log('not installed'); } }; }  function install(cb) { var request = app.install(manifestUrl); request.onsuccess = function() { alert('installed'); };  request. function() { alert('Not installed'); } }</pre></div> </div> <div class=CodeRay> <div class=code><pre></pre></div> </div> </blockquote> <div class=CodeRay> <div class=code><pre>這邊要注意的是manifestUrl必須是full path而不是只有相對位置, 寫相對位置, 它還是讀的到, 但會出parse error, 之前害我搞半天一直以為是格式問題, trace了一下Webapps.js, 發現可能是判斷install origin有問題</pre></div> </div> <div class=CodeRay> <div class=code><pre>目前安裝介面很醜:</pre></div> </div> <div class=CodeRay> <div class=code><pre><div class="p_embed p_image_embed"> <img alt=_2012-05-08_2 height=750 src=http://getfile1.posterous.com/getfile/files.posterous.com/temp-2012-05-07/ooihkDHBpywonfhojaAcdErhAkrtxFGhBqdpjkkHCkzwsumiaffekgqCquag/_2012-05-08_2.19.34.png.scaled500.png width=480></div> </pre></div> </div> <div class=CodeRay> <div class=code><pre>安裝完就可以在Home screen看到它的存在了:</pre></div> </div> <div class=CodeRay> <div class=code><pre><div class="p_embed p_image_embed"> <img alt=_2012-05-08_2 height=654 src=http://getfile9.posterous.com/getfile/files.posterous.com/temp-2012-05-07/IJiheCGjzyIaelczhvgxorgBGyciodoGxCHinExhzpbJGurzadiDqwAJkcgu/_2012-05-08_2.23.43.png.scaled500.png width=452></div> </pre></div> </div></div>
+</div>
+</article>
+<article class=hentry>
+<header>
+<div class=entry-meta>
 <span class="entry-date date published updated"><time datetime="2012-04-16 22:55:49 +0000 UTC"><a href=/%E7%AD%86%E8%A8%98-Deploy-Mojito-app-to-Heroku/>Apr 16, 2012</a></time></span>
 <span class=entry-reading-time>
 <i class="fa fa-clock-o"></i>
@@ -135,21 +150,6 @@ Reading time ~2 minutes
 </header>
 <div class=entry-content>
 <div class=posterous_autopost><div class="p_embed p_image_embed"> <a href=http://getfile9.posterous.com/getfile/files.posterous.com/temp-2012-03-17/tEkrBJtczxGaFydtqJfhygwdhgydBsyFcwsgwzlyBsbiCIkErpfGApanHgqa/_001.jpg.scaled1000.jpg><img alt=_001 height=373 src=http://getfile1.posterous.com/getfile/files.posterous.com/temp-2012-03-17/tEkrBJtczxGaFydtqJfhygwdhgydBsyFcwsgwzlyBsbiCIkErpfGApanHgqa/_001.jpg.scaled500.jpg width=500></a> </div> <div class="p_embed p_image_embed"> <a href=http://getfile7.posterous.com/getfile/files.posterous.com/temp-2012-03-17/BoiGdtJhCEskaqzwAEDAtaAhcuBhEeEsEpzgzAwpcuFFkmbtenbfnEtBHCqu/_002.jpg.scaled1000.jpg><img alt=_002 height=373 src=http://getfile2.posterous.com/getfile/files.posterous.com/temp-2012-03-17/BoiGdtJhCEskaqzwAEDAtaAhcuBhEeEsEpzgzAwpcuFFkmbtenbfnEtBHCqu/_002.jpg.scaled500.jpg width=500></a> </div> <p>這家店還頗小的, 位子並不是很寬敞, 不過就有種來到日本拉麵店的感覺(也不是很寬敞)</p> <p>而且, 連同煮麵跟外場服務, 總共也才不過兩個人(一人煮, 一人服務), 所以也難怪出餐的速度不是很快了, 不過小店嘛, 可以原諒&mldr;話說回來, 日本很多拉麵店更窄狹, 反而需求的人力也就不需要很多, 位子不多, 出餐的距離也不長</p> <div class="p_embed p_image_embed"> <a href=http://getfile5.posterous.com/getfile/files.posterous.com/temp-2012-03-17/BvqyAxIpbkCvubGFFIgDrhpJjngzAgilHcfDxBlmHdnjeoxAsvedkvvrBuJm/_003.jpg.scaled1000.jpg><img alt=_003 height=373 src=http://getfile7.posterous.com/getfile/files.posterous.com/temp-2012-03-17/BvqyAxIpbkCvubGFFIgDrhpJjngzAgilHcfDxBlmHdnjeoxAsvedkvvrBuJm/_003.jpg.scaled500.jpg width=500></a> </div> <p>先說餃子&mldr;煎的頗脆的, 一面脆一面軟, 口感不差, 我喜歡它的內餡, 蠻香的, 也不會覺得太過油</p> <div class="p_embed p_image_embed"> <a href=http://getfile5.posterous.com/getfile/files.posterous.com/temp-2012-03-17/lloEnwkbFgzlBmdmBjmsmDHdxuEmhCtDFgsepHHEFydsinvHnevlFqHJBIgq/_004.jpeg.scaled1000.jpg><img alt=_004 height=373 src=http://getfile4.posterous.com/getfile/files.posterous.com/temp-2012-03-17/lloEnwkbFgzlBmdmBjmsmDHdxuEmhCtDFgsepHHEFydsinvHnevlFqHJBIgq/_004.jpeg.scaled500.jpg width=500></a> </div> <p>拉麵的部份我點的是叉燒拉麵, 是他們基本的喜多方醬油拉麵多加幾片叉燒, 屬於醬油系的拉麵, 叉燒薄薄的, 沒啥口感, 就沒啥好說的</p> <p>湯頭是醬油湯頭, 口感清爽, 並不是像他們說的很鹹(不過以一般台灣人口味來說有可能啦), 算是我最近吃過比較清淡的, 但我覺得還不錯</p> <p>麵條是整碗中最好吃的, 口感不錯, 雖是細麵, 但有彈性, 還蠻好吃的</p> <div class="p_embed p_image_embed"> <a href=http://getfile5.posterous.com/getfile/files.posterous.com/temp-2012-03-17/vxvpAwChDmFuBwBHeFqosICnvgFoEdisxwulIomymrhHkdgpwoaFeoaAeEog/_005.jpeg.scaled1000.jpg><img alt=_005 height=373 src=http://getfile9.posterous.com/getfile/files.posterous.com/temp-2012-03-17/vxvpAwChDmFuBwBHeFqosICnvgFoEdisxwulIomymrhHkdgpwoaFeoaAeEog/_005.jpeg.scaled500.jpg width=500></a> </div> <p>雖然服務不是很周到, 等餐也等很久, 但還蠻親切的, 我看隔壁桌的客人本來想點"涼麵"(但其實聽他解說起來就是沾麵), 她還阻止他們, 說第一次來建議還是點拉麵,他們的涼麵在網路上最常被打槍, 就是因為很多顧客來, 不習慣這種吃法之類的, 還真誠懇呀</p> <p>結帳時, 我跟她說我偏好比較重口味的, 她推薦我他們的味噌叉燒, 我下次會再去試試的</p></div>
-</div>
-</article>
-<article class=hentry>
-<header>
-<div class=entry-meta>
-<span class="entry-date date published updated"><time datetime="2012-03-10 16:29:50 +0000 UTC"><a href=/%E6%8B%89%E9%BA%B5%E9%A3%9F%E8%A8%98-%E5%8F%B0%E5%8C%97-%E6%97%BA%E5%91%B3%E9%BA%B5%E5%A0%B4/>Mar 10, 2012</a></time></span>
-<span class=entry-reading-time>
-<i class="fa fa-clock-o"></i>
-Reading time ~1 minute
-</span>
-</div>
-<h1 class=entry-title><a href=/%E6%8B%89%E9%BA%B5%E9%A3%9F%E8%A8%98-%E5%8F%B0%E5%8C%97-%E6%97%BA%E5%91%B3%E9%BA%B5%E5%A0%B4/ rel=bookmark title="[拉麵食記] 台北 旺味麵場" itemprop=url>[拉麵食記] 台北 旺味麵場</a></h1>
-</header>
-<div class=entry-content>
-<div class=posterous_autopost><p>[[posterous-content:pid___0]]</p> <p>昨天Amy說, 這家是尼克大大推薦的台北最好吃的拉麵, 剛好這家也在我預計嘗試的清單內, 所以昨天晚上就跑去吃了</p> <p>台灣吃到的拉麵大多是豚骨系的, 味噌系的不多, 有得話大多也只是吃起來像是味噌湯加麵, 但這家吃起來還真是紮實的味噌拉麵</p> <p>我點的是季節限定的北海道粉雪拉麵, 就是味噌拉麵上加上一大堆的cheese粉, 湯頭甘口, 也就是比較甜, 但夠厚實, 麵條嚼勁不錯, 還蠻好吃的, 叉燒還算OK, 裡面還有兩條馬鈴薯, 建議不要在一開始就吃, 不然會覺得太硬裡面又涼涼的, 吸收過湯之後就很不錯了</p> <p>比較大的缺點是, 選錯chesse了, 我以前也吃過這種加上chesse粉的, 不過跟湯頭融合的都不錯, 不會吃到後面, 碗底黏了一大堆黏黏的cheese, 這碗就是這樣, 吃到後面看到那一堆還真有點噁</p> <p>[[posterous-content:pid___1]]</p> <p>另外還點了叉燒飯</p> <p>[[posterous-content:pid___2]]</p> <p>這碗我沒有很推, 醬汁淋不夠, 叉燒有吃到軟骨沒剃除乾淨, 那個咬也咬不下去, 還得啃出來, 我不是很喜歡</p> <p>下次想去試試信州味噌的&mldr;.</p></div>
 </div>
 </article>
 <div class=pagination>
