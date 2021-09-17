@@ -80,6 +80,21 @@ All posts
 <article class=hentry>
 <header>
 <div class=entry-meta>
+<span class="entry-date date published updated"><time datetime="2012-07-18 01:05:39 +0000 UTC"><a href=/Android-Enable/Disable-Activity-at-runtime/>Jul 18, 2012</a></time></span>
+<span class=entry-reading-time>
+<i class="fa fa-clock-o"></i>
+Reading time ~2 minutes
+</span>
+</div>
+<h1 class=entry-title><a href=/Android-Enable/Disable-Activity-at-runtime/ rel=bookmark title="[Android] Enable/Disable Activity at runtime" itemprop=url>[Android] Enable/Disable Activity at runtime</a></h1>
+</header>
+<div class=entry-content>
+<div class=posterous_autopost><p>這篇主要來自Google I/O 2012這兩個Sessions:</p> <p><a href=https://developers.google.com/events/io/sessions/gooio2012/101/>Making Good Apps Great: More Advanced Topics for Expert Android Developers</a></p> <p><a href=https://developers.google.com/events/io/sessions/gooio2012/103/>Doing More With Less: Being a Good Android Citizen</a></p> <p>在這兩堂演講中有提到, 可以利用"<a href=http://developer.android.com/reference/android/content/pm/PackageManager.html#setComponentEnabledSetting%28android.content.ComponentName,%20int,%20int%29>PackageManager.setComponentEnabledSetting</a>&ldquo;把不用的Intent receiver給停用, 這在Android中的確相當有用處, 常常Intent broadcast都是一個造成系統忙碌的主要原因, 在早期的Android版本, 甚至常常碰到因"android.net.conn.CONNECTIVITY_CHANGE"所導致的ANR, 這是因為註冊聽這Intent的receiver常常非常的多(大多網路相關, 而智慧型手機最常見就是網路相關的軟體)</p> <p>不過這邊要講的並不是這個問題, 不過也可以應用到同樣的技巧</p> <p>Android中, 可以設定多個Activity去處理同一種的Intent, Share (android.intent.action.SEND)就是最典型的例子, 但這也造成另一種困擾, 註冊的應用程式太多, 導致整個Share menu相當的雜亂難選:</p> <div class="p_embed p_image_embed"> <a href=http://getfile3.posterous.com/getfile/files.posterous.com/temp-2012-07-17/HFxpssxguCgnDwwACebnqGHiGbzCdEFqdemdkngthwmJIkviiJEvcjIysCGp/device-2012-07-18-005244.png.scaled1000.png><img alt=Device-2012-07-18-005244 height=889 src=http://getfile4.posterous.com/getfile/files.posterous.com/temp-2012-07-17/HFxpssxguCgnDwwACebnqGHiGbzCdEFqdemdkngthwmJIkviiJEvcjIysCGp/device-2012-07-18-005244.png.scaled500.png width=500></a> <a href=http://getfile9.posterous.com/getfile/files.posterous.com/temp-2012-07-17/olyCDiyjymsychmBqulibxtncpeduyEJCAurjrEDsoauBDuFypxomikyaday/device-2012-07-18-005244.png.scaled1000.png><img alt=Device-2012-07-18-005244 height=889 src=http://getfile1.posterous.com/getfile/files.posterous.com/temp-2012-07-17/olyCDiyjymsychmBqulibxtncpeduyEJCAurjrEDsoauBDuFypxomikyaday/device-2012-07-18-005244.png.scaled500.png width=500></a> <div class=p_see_full_gallery><a href=http://julianshen.posterous.com/android-enabledisable-activity-at-runtime>See the full gallery on Posterous</a></div> </div> <p>由這個例子看來整個list相當的長, 這對使用者來說可能不好用, 而且問題在於, 有些可能不用一開始就出現, 比如說如果沒有登入任何一個e-mail account, Mail這選項是可以被藏起來的, 這作法就是</p> <p>ShareActivity 預設成disable:</p> <blockquote class=posterous_short_quote> <p>&lt;activity android:name="ShareActivity&rdquo;<strong> android:enabled=&ldquo;false&rdquo;</strong>></p> </blockquote> <p>這樣如果沒enable它的話, 就不會在Share list出現, 只要我們在某個點(比如說已經完成登入帳號)去enable它, 它就又可以回到這list了:</p> <p style=padding-left:30px>if(pm.getComponentEnabledSetting(cname) != PackageManager.COMPONENT_ENABLED_STATE_ENABLED ) {<br>            pm.setComponentEnabledSetting(cname, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, 0);<br>        } else {<br>            pm.setComponentEnabledSetting(cname, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, 0);<br>        }</p></div>
+</div>
+</article>
+<article class=hentry>
+<header>
+<div class=entry-meta>
 <span class="entry-date date published updated"><time datetime="2012-07-09 03:29:29 +0000 UTC"><a href=/Google-IO-2012/>Jul 9, 2012</a></time></span>
 <span class=entry-reading-time>
 <i class="fa fa-clock-o"></i>
@@ -135,21 +150,6 @@ Reading time ~1 minute
 </header>
 <div class=entry-content>
 <div class=posterous_autopost><p>B2G並未一定要開發者把應用程式發表到一個特別的app store, 網站也可以自行加一個install按鍵, 讓使用者把你的網站當應用程式裝到手機內</p> <p>首先, 你必須要先有個manifest, 目前manifest並沒強制的檔名, 但文件裡建議叫 xxxx.webapp, 以下是範例內容:</p> <blockquote> <div class=CodeRay> <div class=code><pre>{ "name": "MyTestApp", "description": "test app", "launch_path": "/", "icons": { "128": "/img/icon.png" }, "developer": { "name": "Julian Shen" } }</pre></div> </div> <p> </p> </blockquote> <p>然後在網頁內加上檢查是否安裝, 以及安裝的程式碼, 範例如下:</p> <blockquote> <div class=CodeRay> <div class=code><pre>var manifestUrl = 'http://localhost:3000/manifest.webapp'; var app = navigator.mozApps;  function checkInstalled() { var request = app.getSelf(); request.onsuccess = function() { if(request.result) { //installed console.log('installed'); document.getElementById('installmsg').style.display='none'; } else { //not installed console.log('not installed'); } }; }  function install(cb) { var request = app.install(manifestUrl); request.onsuccess = function() { alert('installed'); };  request. function() { alert('Not installed'); } }</pre></div> </div> <div class=CodeRay> <div class=code><pre></pre></div> </div> </blockquote> <div class=CodeRay> <div class=code><pre>這邊要注意的是manifestUrl必須是full path而不是只有相對位置, 寫相對位置, 它還是讀的到, 但會出parse error, 之前害我搞半天一直以為是格式問題, trace了一下Webapps.js, 發現可能是判斷install origin有問題</pre></div> </div> <div class=CodeRay> <div class=code><pre>目前安裝介面很醜:</pre></div> </div> <div class=CodeRay> <div class=code><pre><div class="p_embed p_image_embed"> <img alt=_2012-05-08_2 height=750 src=http://getfile1.posterous.com/getfile/files.posterous.com/temp-2012-05-07/ooihkDHBpywonfhojaAcdErhAkrtxFGhBqdpjkkHCkzwsumiaffekgqCquag/_2012-05-08_2.19.34.png.scaled500.png width=480></div> </pre></div> </div> <div class=CodeRay> <div class=code><pre>安裝完就可以在Home screen看到它的存在了:</pre></div> </div> <div class=CodeRay> <div class=code><pre><div class="p_embed p_image_embed"> <img alt=_2012-05-08_2 height=654 src=http://getfile9.posterous.com/getfile/files.posterous.com/temp-2012-05-07/IJiheCGjzyIaelczhvgxorgBGyciodoGxCHinExhzpbJGurzadiDqwAJkcgu/_2012-05-08_2.23.43.png.scaled500.png width=452></div> </pre></div> </div></div>
-</div>
-</article>
-<article class=hentry>
-<header>
-<div class=entry-meta>
-<span class="entry-date date published updated"><time datetime="2012-04-16 22:55:49 +0000 UTC"><a href=/%E7%AD%86%E8%A8%98-Deploy-Mojito-app-to-Heroku/>Apr 16, 2012</a></time></span>
-<span class=entry-reading-time>
-<i class="fa fa-clock-o"></i>
-Reading time ~1 minute
-</span>
-</div>
-<h1 class=entry-title><a href=/%E7%AD%86%E8%A8%98-Deploy-Mojito-app-to-Heroku/ rel=bookmark title="[筆記] Deploy Mojito app to Heroku" itemprop=url>[筆記] Deploy Mojito app to Heroku</a></h1>
-</header>
-<div class=entry-content>
-<div class=posterous_autopost><p> First, you need to follow this doc (<a href=http://developer.yahoo.com/cocktails/mojito/docs/quickstart/ title target=_blank>http://developer.yahoo.com/cocktails/mojito/docs/quickstart/</a><a href=http://developer.yahoo.com/cocktails/mojito/docs/quickstart/ title=http://developer.yahoo.com/cocktails/mojito/docs/quickstart/ target=_blank></a><a href=http://developer.yahoo.com/cocktails/mojito/docs/quickstart/ title=http://developer.yahoo.com/cocktails/mojito/docs/quickstart/ target=_blank></a><a href=http://developer.yahoo.com/cocktails/mojito/docs/quickstart/ title target=_self></a>) to install Mojito as a global node module. Why install it globally? Because you need the Mojito command line to create your first app.</p><p>Create application with command line:</p><blockquote class=posterous_short_quote><p>mojito create app mymojito</p></blockquote><p>Change working directory to &ldquo;mymojito&rdquo;.</p><p>Create a &ldquo;Procfile&rdquo; whose content is:</p><blockquote class=posterous_short_quote><p>web: mojito start $PORT</p></blockquote><p>Use the following command to create an application on heroku and deploy codes to it.</p><blockquote><ul><li>git init</li><li>git add .</li><li>git commit -am init</li><li>heroku create mymojitotest &ndash;stack cedar</li><li>git push heroku master</li></ul></blockquote><p>After successfully commit codes to heroku, you could check running process with &ldquo;heroku ps&rdquo;. However, you cannot find any running process. That is because there is one important step missed:</p><blockquote class=posterous_short_quote><p>heroku ps:scale web=1</p></blockquote><p> This command adds one dyno for web process. After that, you will find one web process when you check with &ldquo;heroku ps&rdquo;. And the server is now started up. You can check your app with browser.</p></div>
 </div>
 </article>
 <div class=pagination>

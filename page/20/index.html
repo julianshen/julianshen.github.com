@@ -79,6 +79,22 @@
 <article class=hentry>
 <header>
 <div class=entry-meta>
+<span class="entry-date date published updated"><time datetime="2013-08-21 22:16:26 +0000 UTC"><a href=/%E7%AD%86%E8%A8%98-Google-Drive-API%E5%85%A9%E4%B8%89%E4%BA%8B-App-data-%E9%9D%9C%E6%85%8B%E7%B6%B2%E9%A0%81%E9%80%A3%E7%B5%90/>Aug 21, 2013</a></time></span>
+<span class=entry-reading-time>
+<i class="fa fa-clock-o"></i>
+Reading time ~2 minutes
+</span>
+</div>
+<h1 class=entry-title><a href=/%E7%AD%86%E8%A8%98-Google-Drive-API%E5%85%A9%E4%B8%89%E4%BA%8B-App-data-%E9%9D%9C%E6%85%8B%E7%B6%B2%E9%A0%81%E9%80%A3%E7%B5%90/ rel=bookmark title="[筆記] Google Drive API兩三事: App data, 靜態網頁連結" itemprop=url>[筆記] Google Drive API兩三事: App data, 靜態網頁連結</a></h1>
+</header>
+<div class=entry-content>
+<p>颱風天, 適合寫點東西, 所以就把上次的<a href=http://bit.ly/18JQHas target=_blank>PinterestRSSAggregator</a>加上發佈到Google Drive功能, 第一次碰Google drive api, 不過還好Google已經有了一個node.js的module: <a href=http://bit.ly/1d1GImW>http://bit.ly/1d1GImW</a>,省去了重刻Google API的功(這module還頗有趣的, 利用了Google discovery API, 支援了相當多Google API, 但實際上各API的細節的實作卻不在這module之中), 不過一開始還是在Google drive上碰到了一些問題:<br></p><ol><li>想說要存個設定檔, 但檔案如果可以被使用者看到, 就會有機會被他砍了</li><li>因為是要發佈rss檔, 所以最好可以有一靜態連結</li><li>Google drive是允許在同一目錄有同名的檔案的, 這似乎跟Dropbox不一樣, 它真正獨一無二的識別是id不是檔名, 所以要更新某個檔案還得先找到它的id, 有點小麻煩</li></ol>第一項的解法還蠻簡單, 只要使用app data就好, 這目錄比較單純, 它的id就叫做"appdata"(真是夠怪了, 這個id是固定的, 但使用者的根目錄的id卻不是, 還得先用about去取得), 我用它實作了一個放設定的(<a href=http://bit.ly/1d1GImX target=_blank>參考這, AppConfig</a>), 放在這目錄的好處是不會被使用者看到並刪除掉, 但要注意的一點是, 取得auth token時所做的認證用的scope必須包含"http://bit.ly/18JQG6D"<br><br>至於第二項的作法就是建立一個public folder, 並取得這目錄的webViewLink, 比如說是"http://bit.ly/1d1GH2a", 這樣你在這目錄下建的檔案, 例如 julianshen.rss 就可以用 &ldquo;http://bit.ly/18JQHaw&rdquo; 這連結來存取 <br><br>
+via Blogger <a href=http://bit.ly/1d1GH2c>http://bit.ly/1d1GH2c</a>
+</div>
+</article>
+<article class=hentry>
+<header>
+<div class=entry-meta>
 <span class="entry-date date published updated"><time datetime="2013-08-15 10:01:19 +0000 UTC"><a href=/%E7%9C%8B%E8%91%97%E6%B5%B7%E5%AF%AB%E7%A8%8B%E5%BC%8F%E6%9C%83%E4%B8%8D%E6%9C%83%E5%A4%AA%E5%AE%85%E9%BB%9E-PinterestRSSAggregator/>Aug 15, 2013</a></time></span>
 <span class=entry-reading-time>
 <i class="fa fa-clock-o"></i>
@@ -138,22 +154,6 @@ Reading time ~1 minute
 <div class=entry-content>
 <p>寫Android寫了這麼久, 才想到自己沒寫過custom layout, 剛剛花了點時間(主要時間還是花在跟Android studio和gradle搏鬥)寫了一個簡單的CellLayout (還很陽春) :<br><br><a href=http://bit.ly/12nuhGn>http://bit.ly/12nuhGn</a><br><br>寫custom layout還蠻簡單的, 在onMeasure決定自己和child views的大小, 在onLayout時把每個child views放到適當的位置, 目前還沒加入attibrtues的支援, 所以暫時還只能寫code自己把view加進去, 另外也還沒加檢查是不是會有重疊的views, 之後再來寫<br><br>這個layout跟GridView不同, 可以不用每個格子都是同一大小, 以下範例是把畫面劃成4x4的格子, 左上角的那張圖大小是2x2, 下方則是 4x2<br><br></p><div class=separator style=clear:both;text-align:center><a href=http://bit.ly/12nuhGp imageanchor=1 style=margin-left:1em;margin-right:1em><img border=0 height=640 src=http://bit.ly/1aKMLbI width=360></a></div><div class=separator style=clear:both;text-align:center><br></div><br><br><br>
 via Blogger <a href=http://bit.ly/12nuj0X>http://bit.ly/12nuj0X</a>
-</div>
-</article>
-<article class=hentry>
-<header>
-<div class=entry-meta>
-<span class="entry-date date published updated"><time datetime="2013-06-22 01:31:57 +0000 UTC"><a href=/Android-%E5%9C%93%E5%BD%A2%E5%A4%A7%E9%A0%AD%E8%B2%BC-%E4%BD%BF%E7%94%A8Picasso%E7%9A%84Transformation/>Jun 22, 2013</a></time></span>
-<span class=entry-reading-time>
-<i class="fa fa-clock-o"></i>
-Reading time ~1 minute
-</span>
-</div>
-<h1 class=entry-title><a href=/Android-%E5%9C%93%E5%BD%A2%E5%A4%A7%E9%A0%AD%E8%B2%BC-%E4%BD%BF%E7%94%A8Picasso%E7%9A%84Transformation/ rel=bookmark title="[Android] 圓形大頭貼 - 使用Picasso的Transformation" itemprop=url>[Android] 圓形大頭貼 - 使用Picasso的Transformation</a></h1>
-</header>
-<div class=entry-content>
-現在不管是Google+也好, 或是Facebook (Home), 似乎都很喜歡用圓形的大頭貼像這樣 (左上角圖形, <br><div class=separator style=clear:both;text-align:center><a href=http://bit.ly/10Ea6Kt imageanchor=1 style=margin-left:1em;margin-right:1em><img border=0 height=400 src=http://bit.ly/11DoFZH width=225></a></div><br>但在server端存的大頭照其實都是都是方形的, 所以必須抓下來後再轉畫成圓的, 最近從網路抓圖的部分, 我還蠻喜歡用<a href=http://bit.ly/10Ea9FT target=_blank>Picasso</a>的<br><br><div class=separator style=clear:both;text-align:center><a href=http://bit.ly/11DoFZJ imageanchor=1 style=margin-left:1em;margin-right:1em><img border=0 height=191 src=http://bit.ly/11DoFZJ width=400></a></div>沒啥別的原因, 就是它簡單, 雖然說, 它似乎還是有一些小小問題, 不過它可以用這樣短短一行解決圖檔下載並顯示到ImageView的一連串動作:<br><br><pre class="prettyprint prettyprinted" style="background-color:#f5f5f5;border-bottom-left-radius:4px;border-bottom-right-radius:4px;border-top-left-radius:4px;border-top-right-radius:4px;border:1px solid rgba(0,0,0,.14902);color:#666;font-family:Monaco,Menlo,Consolas,courier new,monospace;font-size:13px;line-height:20px;margin-bottom:20px;padding:9.5px;white-space:pre-wrap;word-break:break-all;word-wrap:break-word"><span style=background-color:#eee><span class=typ style=color:#222>Picasso</span><span class=pun style=color:#888>.</span><span class=kwd>with</span><span class=pun style=color:#888>(</span><span class=pln style=color:#000>context</span><span class=pun style=color:#888>).</span><span class=pln style=color:#000>load</span><span class=pun style=color:#888>(</span><span class=str style=color:#953a39>"http://bit.ly/11DoFZL"</span><span class=pun style=color:#888>).</span><span class=kwd>into</span><span class=pun style=color:#888>(</span><span class=pln style=color:#000>imageView</span><span class=pun style=color:#888>);</span></span></pre><div><br>不過, 簡單的代價可能在其他的地方來說彈性就不高了, 不過, 做這樣一個小玩意兒的彈性倒是還有, 在Picasso中, 可以實作Transformation把下載下來的圖檔再作一次後處理, 在它的網頁有一個CropSquareTransformation的範例, 圓形的大頭貼可以視為這一個的延伸:</div><div><br></div><div><script src=http://bit.ly/10Ea996></script></div><div>這邊利用了BitmapShader重畫了一張圓形的大頭貼, 出來的結果就會像是這樣:<br><div class=separator style=clear:both;text-align:center><a href=http://bit.ly/11DoFZP imageanchor=1 style=margin-left:1em;margin-right:1em><img border=0 height=400 src=http://bit.ly/10Ea998 width=225></a></div><br></div><div><br></div><br><br>
-via Blogger <a href=http://bit.ly/11DoEVG>http://bit.ly/11DoEVG</a>
 </div>
 </article>
 <div class=pagination>
