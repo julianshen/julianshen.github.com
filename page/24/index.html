@@ -20,7 +20,7 @@
 <link rel=stylesheet href=/css/main.css>
 <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel=stylesheet type=text/css>
 <meta http-equiv=cleartype content="on">
-<meta name=generator content="Hugo 0.87.0">
+<meta name=generator content="Hugo 0.88.1">
 <script src=/js/vendor/modernizr-2.6.2.custom.min.js></script>
 <script async src=https://unpkg.com/mermaid@8.2.3/dist/mermaid.min.js></script>
 <link rel="shortcut icon" href=/favicon.png>
@@ -76,6 +76,22 @@
 </div>
 </div>
 <div id=main role=main>
+<article class=hentry>
+<header>
+<div class=entry-meta>
+<span class="entry-date date published updated"><time datetime="2012-11-05 22:13:04 +0000 UTC"><a href=/node.js-%E7%94%A8npm%E5%AE%89%E8%A3%9D%E6%94%BE%E5%9C%A8github%E4%B8%8A%E7%9A%84module/>Nov 5, 2012</a></time></span>
+<span class=entry-reading-time>
+<i class="fa fa-clock-o"></i>
+Reading time ~2 minutes
+</span>
+</div>
+<h1 class=entry-title><a href=/node.js-%E7%94%A8npm%E5%AE%89%E8%A3%9D%E6%94%BE%E5%9C%A8github%E4%B8%8A%E7%9A%84module/ rel=bookmark title="[node.js] 用npm安裝放在github上的module" itemprop=url>[node.js] 用npm安裝放在github上的module</a></h1>
+</header>
+<div class=entry-content>
+<p>剛剛為了想要做一個東西, 需要用到Flickr API, 本想要拿<a href=http://passport.js/>Passport.js</a>來處理Flickr OAuth的部份,但卻發現, FLickr Strategy的部份不但年久, 而且permission這部份居然是hard code &ldquo;read&rdquo;, 由於我想做的東西是要write, 其實是可以靠overwrite &ldquo;userAuthorizationURL"來達到這目的, 不過這樣不好看, 所以就乾脆自己fork一版來改 (Github真是好物來改)<br><br>改完後的一個問題是, 原本可以用"npm install passport-flickr"來安裝這module, 但由於我fork出來的並未註冊在npm, 所以就得用另一個方式:<br></p><blockquote class=tr_bq><i>npm install git://github.com/julianshen/passport-flickr.git#master</i></blockquote>這方式是直接把git url給npm, 不過要deploy上heroku就麻煩了, 還好寫在package.json裡也是沒問題的<br><blockquote class=tr_bq><i>"dependencies&rdquo;: {</i><i>    &ldquo;passport-flickr&rdquo;: &ldquo;git://github.com/julianshen/passport-flickr.git#master&rdquo;</i><i>}</i></blockquote>這還蠻簡單的, 只是把原先寫version的地方換成git URL就好, 在Heroku上也是沒問題的<br><br>題外話: 剛deply到heroku上時發現express 3.0.1無法安裝, 原因是我忘了在package.json裡註名我node.js的版本, 這種狀況下, <a href=http://bit.ly/YviOq0>Heroku會自動幫你挑v0.4.7版</a><br><br><br><br>
+via Blogger <a href=http://bit.ly/St4Ksd>http://bit.ly/St4Ksd</a>
+</div>
+</article>
 <article class=hentry>
 <header>
 <div class=entry-meta>
@@ -138,22 +154,6 @@ Reading time ~1 minute
 <div class=entry-content>
 <p>明天要在team內開一堂node.js簡介的課, 每次老是用Powerpoint和keynote做投影片, 開始有點乏味了, 所以這次打算嘗試一下<br><br><a href=http://impress.js/><b><span style=font-size:large>Impress.js</span></b></a><br><br>這跟一般投影片製作軟體很不一樣, 正確說來它是一個javascript framework而非一個完整的軟體, 所以也沒啥GUI(似乎也有不少人幫它寫editor), 不過基本說來, 用它來做投影片的方式, 就是拿source codes裡的html檔來改就對了<br><br>出來的結果很炫, 但編寫的過程有點小累, 所以後面有點偷懶, 不過也完成了明天要講的投影片:<br><br><a href=http://bit.ly/X0S95r>Introduction to node.js</a><br><br>寫完了之後, 想把它開放出來, 我之前放投影片都依賴了slideshare, 不過slideshare並不能吃這種檔案呀! 所以host又是另一個問題, 所幸, 還有developer的好朋友 - github<br><br>github有個好東西叫page, 可以讓你放一些介紹網頁, 也可以有自己的host name像是"julianshen.github.com", 只要照下面這網頁內的說明, 就可以建立屬於自己project的"page":<br></p><h2 style="border:0;color:#333;font-family:helvetica,arial,freesans,clean,sans-serif;font-weight:300;font:inherit;margin:10px 0;padding:0;vertical-align:baseline"><a href=http://bit.ly/VDCRON>Creating Project Pages manually</a></h2><br><br>
 via Blogger <a href=http://bit.ly/X0SaGq>http://bit.ly/X0SaGq</a>
-</div>
-</article>
-<article class=hentry>
-<header>
-<div class=entry-meta>
-<span class="entry-date date published updated"><time datetime="2012-10-25 00:18:23 +0000 UTC"><a href=/Go%E7%AD%86%E8%A8%98-Go-on-GAE-%E6%AF%94Hello-World%E5%A4%9A%E4%B8%80%E9%BB%9E%E9%BB%9E-%E8%99%95%E7%90%86static-files/>Oct 25, 2012</a></time></span>
-<span class=entry-reading-time>
-<i class="fa fa-clock-o"></i>
-Reading time ~3 minutes
-</span>
-</div>
-<h1 class=entry-title><a href=/Go%E7%AD%86%E8%A8%98-Go-on-GAE-%E6%AF%94Hello-World%E5%A4%9A%E4%B8%80%E9%BB%9E%E9%BB%9E-%E8%99%95%E7%90%86static-files/ rel=bookmark title='[Go筆記] Go on GAE: 比"Hello World"多一點點: 處理static files' itemprop=url>[Go筆記] Go on GAE: 比"Hello World"多一點點: 處理static files</a></h1>
-</header>
-<div class=entry-content>
-<p>今天被問到Go適合用在哪方面, 至今只看了Go兩個晚上的我, 實在很難回答這問題, 先從FAQ找來創立Go的目的說起:<br><br></p><blockquote class=tr_bq><i><span style=color:#222;font-family:Helvetica,Arial,sans-serif;font-size:16px>&ldquo;Go is an attempt to combine the ease of programming of an interpreted, dynamically typed language with the efficiency and safety of a statically typed, compiled language. It also aims to be modern, with support for networked and multicore computing. Finally, it is intended to be </span><span style=color:#222;font-family:Helvetica,Arial,sans-serif;font-size:16px>fast</span><span style=color:#222;font-family:Helvetica,Arial,sans-serif;font-size:16px>: it should take at most a few seconds to build a large executable on a single computer. To meet these goals required addressing a number of linguistic issues: an expressive but lightweight type system; concurrency and garbage collection; rigid dependency specification; and so on. These cannot be addressed well by libraries or tools; a new language was called for.&rdquo;</span></i></blockquote>簡而言之, Go的目標是一個簡單又有效率的語言, 加上一開始設計就考慮網路以及多核, 就姑且說它適合server端的開發吧<br><br>事實上, GAE(Google AppEngine)也是有支援Go的 (怎麼說呢, 好歹這也是Google自己親生的呀)<br><br>那, 現在開發server端的工具那麼多種, 有什麼樣的理由是選Go優於其他解決方案呢? 以效率來說, 或許比較好吧, 既然它是原生碼, 應該會快一些吧, 但這也沒啥好的benchmark來佐證, 劣勢呢? 以node.js來相比好了(今年看比較多這個, 直覺拿這來做比較), 它不但沒既有的developer做基礎(既有的javascript developer是很大一群的), 也沒有數量很多且快速增長的第三方模組可供利用(雖然, 盲目用npm上的模組, 某種程度上要承擔一定的風險), 最大的問題就是&mldr;.<b>&ldquo;文件&rdquo;</b><br><br>以上前半段是抱怨文, 不過文件不足也沒辦法當啥藉口, 這年頭&mldr;.&ldquo;做就對了&rdquo;&mldr;..GAE上關於Go的文件也不是沒有, 跟著做, 就可以做出"Hello World"了, 但剛做完後, 突然楞住想&mldr;.那&mldr;我的html檔案放哪裡? 我總不能每個文件都寫在程式內, 總會有靜態檔案的呀! 有點讓我回到十幾年前寫CGI的感覺<br><br>GAE的文件還真找不到, 但在Go的文件<a href=http://bit.ly/SticN6>http.FileServer的範例</a>可以找到解答, 但要把"FileServer"這個interface跟這件事聯想在一起還真有點不容易, 不過反正就是在程式內要加入下面這行來處理靜態檔案<br><br><blockquote class=tr_bq><span class=n style="background-color:#fff;border:0;color:#333;font-family:Consolas,liberation mono,Courier,monospace;line-height:16px;margin:0;padding:0;white-space:pre">http</span><span class=p style="background-color:#fff;border:0;color:#333;font-family:Consolas,liberation mono,Courier,monospace;line-height:16px;margin:0;padding:0;white-space:pre">.</span><span class=n style="background-color:#fff;border:0;color:#333;font-family:Consolas,liberation mono,Courier,monospace;line-height:16px;margin:0;padding:0;white-space:pre">Handle</span><span class=p style="background-color:#fff;border:0;color:#333;font-family:Consolas,liberation mono,Courier,monospace;line-height:16px;margin:0;padding:0;white-space:pre">(</span><span class=s style="background-color:#fff;border:0;color:#d14;font-family:Consolas,liberation mono,Courier,monospace;line-height:16px;margin:0;padding:0;white-space:pre">&ldquo;/&rdquo;</span><span class=p style="background-color:#fff;border:0;color:#333;font-family:Consolas,liberation mono,Courier,monospace;line-height:16px;margin:0;padding:0;white-space:pre">,</span><span style="background-color:#fff;color:#333;font-family:Consolas,liberation mono,Courier,monospace;line-height:16px;white-space:pre"> </span><span class=n style="background-color:#fff;border:0;color:#333;font-family:Consolas,liberation mono,Courier,monospace;line-height:16px;margin:0;padding:0;white-space:pre">http</span><span class=p style="background-color:#fff;border:0;color:#333;font-family:Consolas,liberation mono,Courier,monospace;line-height:16px;margin:0;padding:0;white-space:pre">.</span><span class=n style="background-color:#fff;border:0;color:#333;font-family:Consolas,liberation mono,Courier,monospace;line-height:16px;margin:0;padding:0;white-space:pre">FileServer</span><span class=p style="background-color:#fff;border:0;color:#333;font-family:Consolas,liberation mono,Courier,monospace;line-height:16px;margin:0;padding:0;white-space:pre">(</span><span class=n style="background-color:#fff;border:0;color:#333;font-family:Consolas,liberation mono,Courier,monospace;line-height:16px;margin:0;padding:0;white-space:pre">http</span><span class=p style="background-color:#fff;border:0;color:#333;font-family:Consolas,liberation mono,Courier,monospace;line-height:16px;margin:0;padding:0;white-space:pre">.</span><span class=n style="background-color:#fff;border:0;color:#333;font-family:Consolas,liberation mono,Courier,monospace;line-height:16px;margin:0;padding:0;white-space:pre">Dir</span><span class=p style="background-color:#fff;border:0;color:#333;font-family:Consolas,liberation mono,Courier,monospace;line-height:16px;margin:0;padding:0;white-space:pre">(</span><span class=s style="background-color:#fff;border:0;color:#d14;font-family:Consolas,liberation mono,Courier,monospace;line-height:16px;margin:0;padding:0;white-space:pre">&ldquo;./static&rdquo;</span><span class=p style="background-color:#fff;border:0;color:#333;font-family:Consolas,liberation mono,Courier,monospace;line-height:16px;margin:0;padding:0;white-space:pre">)))</span></blockquote>這範例讓你可以把靜態檔案放在"static"目錄下, 假設你在static目錄下放一個a.html, 那這行的目的就是可以讓你用 http://your_app_host/a.html來存取它<br><br>我起始一個範例<a href=http://bit.ly/StibZC>放在github上</a>, 從這可以看完整的目錄結構, 未來相關範例也會放在這邊<br><br>
-via Blogger <a href=http://bit.ly/SixshC>http://bit.ly/SixshC</a>
 </div>
 </article>
 <div class=pagination>
@@ -232,6 +232,7 @@ via Blogger <a href=http://bit.ly/SixshC>http://bit.ly/SixshC</a>
 <li><a href=/page/71/>71</a></li>
 <li><a href=/page/72/>72</a></li>
 <li><a href=/page/73/>73</a></li>
+<li><a href=/page/74/>74</a></li>
 <li><a href=/page/25/ class=btn>Next</a></li>
 </ul>
 </div>

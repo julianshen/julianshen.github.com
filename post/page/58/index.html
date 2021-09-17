@@ -20,7 +20,7 @@
 <link rel=stylesheet href=/css/main.css>
 <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel=stylesheet type=text/css>
 <meta http-equiv=cleartype content="on">
-<meta name=generator content="Hugo 0.87.0">
+<meta name=generator content="Hugo 0.88.1">
 <script src=/js/vendor/modernizr-2.6.2.custom.min.js></script>
 <script async src=https://unpkg.com/mermaid@8.2.3/dist/mermaid.min.js></script>
 <link rel="shortcut icon" href=/favicon.png>
@@ -80,6 +80,21 @@ All posts
 <article class=hentry>
 <header>
 <div class=entry-meta>
+<span class="entry-date date published updated"><time datetime="2011-02-25 02:17:40 +0000 UTC"><a href=/%E7%84%A1/>Feb 25, 2011</a></time></span>
+<span class=entry-reading-time>
+<i class="fa fa-clock-o"></i>
+Reading time ~2 minutes
+</span>
+</div>
+<h1 class=entry-title><a href=/%E7%84%A1/ rel=bookmark title=無 itemprop=url>無</a></h1>
+</header>
+<div class=entry-content>
+<div class=posterous_autopost><p>想了好久, 不知道該怎下這標題, blog的好處是可以比噗浪推特多寫些字, 但有時候還是常常楞在那邊不知道該怎下筆, 突然不知道怎去形容自己的心情, 不知道怎麼表達自己的想法</p> <p>那&mldr;就是什麼都沒有吧? &ldquo;無&rdquo;&mldr;</p> <p>說實在的, 自己覺得好像也快成為"無"狀態了, 就是什麼都不是的狀態, 今天已經不知道摔了幾次電話了, 雖然這並不好, 也不知道為什麼開了水龍頭了, 很多東西湧出, 但我實在已經想不起是什麼了, 頭痛欲裂一整天</p> <p>兩年多前換工作, 並不是為了錢, 而是為了一個很可笑的念頭 &ldquo;我想做Android&rdquo;&mldr;.這好笑嗎? 的確很可笑&mldr;.一直把自己定位在RD, 因為我不想是別的角色, 但不知不覺就當了自己不會想做的角色一陣子了, 現在想回頭, 卻發現自己啥都不是</p> <p>很想說: &ldquo;我是RD, 我不懂code&rdquo;</p> <p>一段時間沒進步了, 知識停留在某一個角落, 就沒再前進了, 沒有再研究新的東西, 沒有再有更新的想法, 更不用說有突破</p> <p>昨晚, 看著3.0新的東西, 我睡著了, 早上搭車想繼續看, 卻又開始對這些東西感到模糊</p> <p>這幾年, 重心一直在工作上, 但工作的意義到底是什麼? 又從工作獲得了什麼? 有時候還得昧著自己的心做一些自己實在很看不下去的東西, 不覺自己是忍受不了汙穢的完美主義者, 但工作久了, 還真不知道自己是什麼</p> <p>如果每個人都有價值, 那, 我賣的到底是什麼?</p> <p>唉</p></div>
+</div>
+</article>
+<article class=hentry>
+<header>
+<div class=entry-meta>
 <span class="entry-date date published updated"><time datetime="2011-02-23 17:11:52 +0000 UTC"><a href=/Android%E7%AD%86%E8%A8%98-HoneyComb-RemoteViewsService/>Feb 23, 2011</a></time></span>
 <span class=entry-reading-time>
 <i class="fa fa-clock-o"></i>
@@ -135,21 +150,6 @@ Reading time ~2 minutes
 </header>
 <div class=entry-content>
 <div class=posterous_autopost><p>在Android裡, 做IPC(Inter process call)的方法有很多種, 可以寫一個Intent receiver接收來自於另一個process的Intent, 也可以自己用AIDL定義interface來做</p> <p>不過用Receiver的方式, intent會先跑到system server在送到目的地去, 而且Receiver的角色有點像是一對多, 不是很經濟, 至於AIDL, 實在太麻煩了, 對於簡單的應用, 或是懶人來說&mldr;.只有兩個字&mldr;.&ldquo;麻煩&rdquo;</p> <p>所幸, 還有一個東西: <a href=http://developer.android.com/reference/android/os/Messenger.html>Messenger</a></p> <p>這東西可以讓你對目標的Handler發送message&mldr;對, 沒錯, 就是對另一個process的Handler發送message, 感覺好像很神奇, 一般不都是對同一個process的Handler發送message, 這個卻可以對remote, 但說穿了很簡單, 它只是先用AIDL定好了送message的interface而已</p> <p>使用的方法很簡單, 以下是Service端:</p> <p> <script src="https://gist.github.com/838564.js?file=gistfile1.java"></script></p> <p>只要在onBind的時候把Messenger的Binder回傳回去就好</p> <p>Client端也很簡單, 把service給bind上, 然後用binder來創建Messenger, 這樣對Messenger送的message自然就會透過binder丟到遠端的process去了</p> <p> <script src="https://gist.github.com/838573.js?file=gistfile1.java"></script></p> <p>那, 可以雙向溝通嗎? 其實是可以的&mldr;.<a href=http://developer.android.com/reference/android/os/Message.html>Message</a>這class有個member: replyTo, 它就是一個Messenger, 把Messenger也附帶一起傳過去, 自然就可以做雙向溝通了</p></div>
-</div>
-</article>
-<article class=hentry>
-<header>
-<div class=entry-meta>
-<span class="entry-date date published updated"><time datetime="2011-02-22 01:58:12 +0000 UTC"><a href=/Miro-Media-converter/>Feb 22, 2011</a></time></span>
-<span class=entry-reading-time>
-<i class="fa fa-clock-o"></i>
-Reading time ~1 minute
-</span>
-</div>
-<h1 class=entry-title><a href=/Miro-Media-converter/ rel=bookmark title="Miro Media converter" itemprop=url>Miro Media converter</a></h1>
-</header>
-<div class=entry-content>
-<div class=posterous_autopost><p><img src=http://posterous.com/getfile/files.posterous.com/temp-2011-02-21/clcrsHlqzafiwavjloAsmghGnljvyHjvwrvCsvkAAIquFDulrBcJshJzeasJ/_2011-02-21_9.52.51.png.scaled500.png width=365 height=594> 用這個已經一段時間了, 之前是為了轉日劇到iPad上看, 所以在Apple App store上找到這個, 其實這是個Open source的ffmpeg前端, 有興趣可以上<a href=http://www.mirovideoconverter.com/>官方網頁</a>看看它有support哪些裝置跟格式</p> <p>這軟體好用的地方在於簡單, 只要簡單的拖拉就可以轉檔了, 而且可以自動幫你把轉好的檔放進iTunes中</p> <p>最可貴的是&mldr;它是GPL&mldr;<a href=https://github.com/8planes/mirovideoconverter>Source在此</a></p></div>
 </div>
 </article>
 <div class=pagination>
@@ -228,6 +228,7 @@ Reading time ~1 minute
 <li><a href=/post/page/71/>71</a></li>
 <li><a href=/post/page/72/>72</a></li>
 <li><a href=/post/page/73/>73</a></li>
+<li><a href=/post/page/74/>74</a></li>
 <li><a href=/post/page/59/ class=btn>Next</a></li>
 </ul>
 </div>

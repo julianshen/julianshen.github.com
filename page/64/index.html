@@ -20,7 +20,7 @@
 <link rel=stylesheet href=/css/main.css>
 <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel=stylesheet type=text/css>
 <meta http-equiv=cleartype content="on">
-<meta name=generator content="Hugo 0.87.0">
+<meta name=generator content="Hugo 0.88.1">
 <script src=/js/vendor/modernizr-2.6.2.custom.min.js></script>
 <script async src=https://unpkg.com/mermaid@8.2.3/dist/mermaid.min.js></script>
 <link rel="shortcut icon" href=/favicon.png>
@@ -79,6 +79,27 @@
 <article class=hentry>
 <header>
 <div class=entry-meta>
+<span class="entry-date date published updated"><time datetime="2010-12-31 10:17:45 +0000 UTC"><a href=/no-title/>Dec 31, 2010</a></time></span>
+<span class=entry-reading-time>
+<i class="fa fa-clock-o"></i>
+Reading time ~1 minute
+</span>
+</div>
+<h1 class=entry-title><a href=/no-title/ rel=bookmark title="no title" itemprop=url>no title</a></h1>
+</header>
+<div class=entry-content>
+<div class=gowalla-checkin>
+<a style=float:left;margin-right:15px;position:relative;top:-15px;border:none class=gowalla-checkin-stamp href=http://gowalla.com/spots/4387515><img style=border:none src=http://static.gowalla.com/categories/164-cec38cfaaa9b93593fe4d1980ed4f087-100.png alt=捷運萬隆站></a>
+<h2 class=gowalla-checkin-header><a href=http://gowalla.com/spots/4387515>I’m at 捷運萬隆站</a></h2>
+<p class=gowalla-checkin-comment>“Test”</p>
+<p><a href=http://gowalla.com/julianshen>Follow me on Gowalla</a></p>
+<div style=clear:left;height:0> </div>
+</div>
+</div>
+</article>
+<article class=hentry>
+<header>
+<div class=entry-meta>
 <span class="entry-date date published updated"><time datetime="2010-12-29 23:03:34 +0000 UTC"><a href=/Android-Screen-capture-for-Android/>Dec 29, 2010</a></time></span>
 <span class=entry-reading-time>
 <i class="fa fa-clock-o"></i>
@@ -134,21 +155,6 @@ Reading time ~2 minutes
 </header>
 <div class=entry-content>
 <div class=posterous_autopost><p>抓到Gingerbread之後本來要build一份給Nexus one的, 後來Build break後就懶得管它, 昨天稍微研究一下解法, 果然跟我想的差不多</p> <p>Builde break的點在於libcameraservice, 主要是某H公司的camera driver並沒open source, 要build必須先從Nexus One取出binary來build, 但偏偏Gingerbread的libcameraservice跟camera driver的interface有變, 像是HAL_getNumberOfCameras, HAL_getCameraInfo在舊版的driver並不存在</p> <p>解決的方法有兩種:</p> <ol><li>用dummy driver</li> <li>加個wrapper給它</li> </ol><p>目前實驗出來的結果很&mldr;殘念..還是沒能讓它的camera可以正常使用&mldr; orz</p> <p>第一個方法比較簡單, 只要改makefile: frameworks/base/services/camera/libcameraservice/Android.mk</p> <p>把USE_CAMERA_STUB:=true變成always的true (就是把一些判斷都mark掉就好)</p> <p>這樣build出來的就會是用camera stub</p> <p>第二個方法可以參考<a href=http://pixass.online.ac/android:nexusone>這邊</a></p> <p>這方法只是加個wrapper把需要的幾個function加上去, 並包裝舊的call</p> <p>一樣要改frameworks/base/services/camera/libcameraservice/Android.mk, 只是多個目錄放wrapper</p> <p>Cyanogenmod也是用同一招解決的, 不同的是, 它並沒多生出一個lib來放這warpper, 它是直接改在<a href=https://github.com/CyanogenMod/android_frameworks_base/blob/gingerbread/services/camera/libcameraservice/CameraService.cpp>CameraService.cpp</a></p> <p>其實是同一個方法, 由於它多生一個define : <span style="color:#999;font-family:Bitstream Vera Sans Mono,Courier,monospace;font-size:12px;font-weight:700;line-height:17px">BOARD_USE_FROYO_LIBCAMERA</span>來enable/disable這段code(畢竟Cyanogenmod不是只有for N1), 所以要在 device/htc/passion-common/BoardConfigCommon.mk 裡面加上 BOARD_USE_FROYO_LIBCAMERA := true 來把它打開</p> <p>基本上, 兩種方法N1的Camera都等於廢了, 所以用哪一種都一樣 </p> <p> </p> </div>
-</div>
-</article>
-<article class=hentry>
-<header>
-<div class=entry-meta>
-<span class="entry-date date published updated"><time datetime="2010-12-25 11:16:39 +0000 UTC"><a href=/%E8%81%96%E8%AA%95%E6%B4%BB%E5%8B%95/>Dec 25, 2010</a></time></span>
-<span class=entry-reading-time>
-<i class="fa fa-clock-o"></i>
-Reading time ~1 minute
-</span>
-</div>
-<h1 class=entry-title><a href=/%E8%81%96%E8%AA%95%E6%B4%BB%E5%8B%95/ rel=bookmark title=聖誕活動 itemprop=url>聖誕活動</a></h1>
-</header>
-<div class=entry-content>
-<div class=posterous_autopost><div style="padding:5px 5px 10px;margin-top:5px;border:1px solid #ddd;background-color:#fff;line-height:16px"> <div style=float:left;margin-right:5px;overflow:visible><a href=http://posterous.com/getfile/files.posterous.com/julianshen/oHtcFelCBhrakgnHijrxeAradIkfcCGlJDaHgfkAChIoxhvpvsggyfHcijoA/p450.mov style=color:#bc7134><img src=http://posterous.com/images/filetypes/mov.png style=border:none></a></div> <div style=font-size:10px;color:#424037;line-height:16px>Download now or <a href=http://julianshen.posterous.com/37395876 style=color:#bc7134>watch on posterous</a></div> <b><a href=http://posterous.com/getfile/files.posterous.com/julianshen/oHtcFelCBhrakgnHijrxeAradIkfcCGlJDaHgfkAChIoxhvpvsggyfHcijoA/p450.mov style=color:#bc7134>p450.mov</a></b> <span style=font-size:10px;color:#424037>(2000 KB)</span> <br style=clear:both></div> </div>
 </div>
 </article>
 <div class=pagination>
@@ -227,6 +233,7 @@ Reading time ~1 minute
 <li><a href=/page/71/>71</a></li>
 <li><a href=/page/72/>72</a></li>
 <li><a href=/page/73/>73</a></li>
+<li><a href=/page/74/>74</a></li>
 <li><a href=/page/65/ class=btn>Next</a></li>
 </ul>
 </div>

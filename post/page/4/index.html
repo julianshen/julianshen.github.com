@@ -20,7 +20,7 @@
 <link rel=stylesheet href=/css/main.css>
 <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel=stylesheet type=text/css>
 <meta http-equiv=cleartype content="on">
-<meta name=generator content="Hugo 0.87.0">
+<meta name=generator content="Hugo 0.88.1">
 <script src=/js/vendor/modernizr-2.6.2.custom.min.js></script>
 <script async src=https://unpkg.com/mermaid@8.2.3/dist/mermaid.min.js></script>
 <link rel="shortcut icon" href=/favicon.png>
@@ -77,6 +77,73 @@ All posts
 </div>
 </div>
 <div id=main role=main>
+<article class=hentry>
+<header>
+<div class=entry-meta>
+<span class="entry-date date published updated"><time datetime="2017-04-01 10:00:58 +0000 UTC"><a href=/Golang-Go%E7%9A%84httptest/>Apr 1, 2017</a></time></span>
+<span class=entry-reading-time>
+<i class="fa fa-clock-o"></i>
+Reading time ~2 minutes
+</span>
+</div>
+<h1 class=entry-title><a href=/Golang-Go%E7%9A%84httptest/ rel=bookmark title="[Golang] Go的httptest" itemprop=url>[Golang] Go的httptest</a></h1>
+</header>
+<div class=entry-content>
+<p>在標準的go package中除了已經內建了http相關的實作外, 還有一個<code>net/http/httptest</code>, 這的package是用來給寫http相關測試用的, 可分為測試http server (http handler)和http client的(提供mock server給client)</p>
+<p>如果要測試http handler, 所需要的是ResponseRecorder, 基本上相關的也只需要兩個方法<code>NewRequest</code>, <code>NewRecorder</code>, 參照下面範例:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#f92672>package</span> <span style=color:#a6e22e>main</span>
+
+<span style=color:#f92672>import</span> (
+        <span style=color:#e6db74>&#34;fmt&#34;</span>
+        <span style=color:#e6db74>&#34;github.com/stretchr/testify/assert&#34;</span>
+        <span style=color:#e6db74>&#34;io&#34;</span>
+        <span style=color:#e6db74>&#34;io/ioutil&#34;</span>
+        <span style=color:#e6db74>&#34;net/http&#34;</span>
+        <span style=color:#e6db74>&#34;net/http/httptest&#34;</span>
+        <span style=color:#e6db74>&#34;testing&#34;</span>
+)
+
+<span style=color:#66d9ef>func</span> <span style=color:#a6e22e>TestHttpServer</span>(<span style=color:#a6e22e>t</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>testing</span>.<span style=color:#a6e22e>T</span>) {
+        <span style=color:#a6e22e>assert</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>assert</span>.<span style=color:#a6e22e>New</span>(<span style=color:#a6e22e>t</span>)
+        <span style=color:#a6e22e>handler</span> <span style=color:#f92672>:=</span> <span style=color:#66d9ef>func</span>(<span style=color:#a6e22e>w</span> <span style=color:#a6e22e>http</span>.<span style=color:#a6e22e>ResponseWriter</span>, <span style=color:#a6e22e>r</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>http</span>.<span style=color:#a6e22e>Request</span>) {
+                <span style=color:#a6e22e>io</span>.<span style=color:#a6e22e>WriteString</span>(<span style=color:#a6e22e>w</span>, <span style=color:#e6db74>&#34;&lt;html&gt;&lt;body&gt;Hello World!&lt;/body&gt;&lt;/html&gt;&#34;</span>)
+        }
+
+        <span style=color:#a6e22e>req</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>httptest</span>.<span style=color:#a6e22e>NewRequest</span>(<span style=color:#e6db74>&#34;GET&#34;</span>, <span style=color:#e6db74>&#34;http://example.com/foo&#34;</span>, <span style=color:#66d9ef>nil</span>)
+        <span style=color:#a6e22e>w</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>httptest</span>.<span style=color:#a6e22e>NewRecorder</span>()
+        <span style=color:#a6e22e>handler</span>(<span style=color:#a6e22e>w</span>, <span style=color:#a6e22e>req</span>)
+
+        <span style=color:#a6e22e>resp</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>w</span>.<span style=color:#a6e22e>Result</span>()
+        <span style=color:#a6e22e>body</span>, <span style=color:#a6e22e>_</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>ioutil</span>.<span style=color:#a6e22e>ReadAll</span>(<span style=color:#a6e22e>resp</span>.<span style=color:#a6e22e>Body</span>)
+
+        <span style=color:#a6e22e>assert</span>.<span style=color:#a6e22e>Equal</span>(<span style=color:#ae81ff>200</span>, <span style=color:#a6e22e>resp</span>.<span style=color:#a6e22e>StatusCode</span>)
+        <span style=color:#a6e22e>assert</span>.<span style=color:#a6e22e>Equal</span>(<span style=color:#e6db74>&#34;text/html; charset=utf-8&#34;</span>, <span style=color:#a6e22e>resp</span>.<span style=color:#a6e22e>Header</span>.<span style=color:#a6e22e>Get</span>(<span style=color:#e6db74>&#34;Content-Type&#34;</span>))
+        <span style=color:#a6e22e>fmt</span>.<span style=color:#a6e22e>Println</span>(string(<span style=color:#a6e22e>body</span>))
+}
+</code></pre></div><p>範例中先用<code>NewRequest</code>假造出一個連接到<code>http://example.com/foo</code>的request, 而對於一個http handler來說的話, 所需要的參數一個是*Request, 另一個則是ResponseWriter了, ResponseWriter便可以由<code>NewRecorder</code>假冒, 再將這兩者傳給handler去處理, 並可以由<code>ResponseRecorder.Result</code>取得回傳內容來驗證</p>
+<p>那如果是要測試http client呢?測client通常我們會需要mock server來偽造成真著server餵給client適當的假資料來測試, 以下是一個測試的範例:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>TestServer</span>(<span style=color:#a6e22e>t</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>testing</span>.<span style=color:#a6e22e>T</span>) {
+        <span style=color:#a6e22e>assert</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>assert</span>.<span style=color:#a6e22e>New</span>(<span style=color:#a6e22e>t</span>)
+        <span style=color:#a6e22e>ts</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>httptest</span>.<span style=color:#a6e22e>NewServer</span>(<span style=color:#a6e22e>http</span>.<span style=color:#a6e22e>HandlerFunc</span>(<span style=color:#66d9ef>func</span>(<span style=color:#a6e22e>w</span> <span style=color:#a6e22e>http</span>.<span style=color:#a6e22e>ResponseWriter</span>, <span style=color:#a6e22e>r</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>http</span>.<span style=color:#a6e22e>Request</span>) {
+                <span style=color:#a6e22e>fmt</span>.<span style=color:#a6e22e>Fprintln</span>(<span style=color:#a6e22e>w</span>, <span style=color:#e6db74>&#34;Hello, client&#34;</span>)
+        }))
+        <span style=color:#66d9ef>defer</span> <span style=color:#a6e22e>ts</span>.<span style=color:#a6e22e>Close</span>()
+
+        <span style=color:#a6e22e>res</span>, <span style=color:#a6e22e>err</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>http</span>.<span style=color:#a6e22e>Get</span>(<span style=color:#a6e22e>ts</span>.<span style=color:#a6e22e>URL</span>)
+        <span style=color:#66d9ef>if</span> <span style=color:#a6e22e>err</span> <span style=color:#f92672>!=</span> <span style=color:#66d9ef>nil</span> {
+                <span style=color:#a6e22e>t</span>.<span style=color:#a6e22e>Fatal</span>(<span style=color:#a6e22e>err</span>)
+        }
+        <span style=color:#a6e22e>greeting</span>, <span style=color:#a6e22e>err</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>ioutil</span>.<span style=color:#a6e22e>ReadAll</span>(<span style=color:#a6e22e>res</span>.<span style=color:#a6e22e>Body</span>)
+        <span style=color:#a6e22e>res</span>.<span style=color:#a6e22e>Body</span>.<span style=color:#a6e22e>Close</span>()
+        <span style=color:#66d9ef>if</span> <span style=color:#a6e22e>err</span> <span style=color:#f92672>!=</span> <span style=color:#66d9ef>nil</span> {
+                <span style=color:#a6e22e>t</span>.<span style=color:#a6e22e>Fatal</span>(<span style=color:#a6e22e>err</span>)
+        }
+
+        <span style=color:#a6e22e>assert</span>.<span style=color:#a6e22e>Equal</span>(<span style=color:#e6db74>&#34;Hello, client\n&#34;</span>, string(<span style=color:#a6e22e>greeting</span>))
+}
+</code></pre></div><p>利用<code>httptest.NewServer</code>創建一個test server, 這邊的handler就看你需要利用什麼樣的假資料測試來做, 上面這例子只是用單純的http client來測, 回傳總是是"Hello, client", 但假設你是測試restful API, 那也可以準備一系列的JSON回傳, 你只要把<code>ts.URL</code>當作你的API endpoint給你的REST client的實作使用即可</p>
+</div>
+</article>
 <article class=hentry>
 <header>
 <div class=entry-meta>
@@ -144,7 +211,7 @@ Reading time ~11 minutes
 <p>這篇主要是根據<a href=http://jakewharton.com/>Jake Wharton</a>的<a href=https://speakerdeck.com/jakewharton/making-retrofit-work-for-you-ohio-devfest-2016>Making Retrofit Work For You (Ohio DevFest 2016)</a>整理出來的, 這篇滿滿都是codes的投影片已經非常清楚的講了一堆關於Retrofit的技巧了, 這邊針對幾個有用的整理出來, 並加上一些我自己的內容(看完我文章後想繼續深入研究可以再回頭看投影片)</p>
 <h2 id=retrofit的基本使用>Retrofit的基本使用</h2>
 <p>在看這些技巧之前, 我們先來看看<a href=http://square.github.io/retrofit/>Retrofit</a>的基本使用, 這邊使用官方的例子來說明, 官方的範例是以<a href=https://developer.github.com/v3/repos/#list-user-repositories>GitHub Api為例子</a>, 以GitHub Api的<a href=https://developer.github.com/v3/repos/#list-user-repositories>&ldquo;List user repository&rdquo;</a>為例, 它的URL是長這樣的:</p>
-<pre><code>GET /users/:username/repos
+<pre tabindex=0><code>GET /users/:username/repos
 </code></pre><p>因此Retrofit的API interface (或稱Service class)可以定義成這樣:</p>
 <div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>interface</span> <span style=color:#a6e22e>GitHubService</span> <span style=color:#f92672>{</span>
   <span style=color:#a6e22e>@GET</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;users/{user}/repos&#34;</span><span style=color:#f92672>)</span>
@@ -561,88 +628,6 @@ Reading time ~1 minute
 <p>資料30分鐘才會更新一次, 不會時時更新, 避免被灌</p>
 </div>
 </article>
-<article class=hentry>
-<header>
-<div class=entry-meta>
-<span class="entry-date date published updated"><time datetime="2017-02-07 17:18:05 +0000 UTC"><a href=/Swift-%E6%BC%AB%E7%95%AB%E7%88%AC%E8%9F%B2/>Feb 7, 2017</a></time></span>
-<span class=entry-reading-time>
-<i class="fa fa-clock-o"></i>
-Reading time ~5 minutes
-</span>
-</div>
-<h1 class=entry-title><a href=/Swift-%E6%BC%AB%E7%95%AB%E7%88%AC%E8%9F%B2/ rel=bookmark title="[Swift] 漫畫爬蟲" itemprop=url>[Swift] 漫畫爬蟲</a></h1>
-</header>
-<div class=entry-content>
-<p>最近搬家又讓我挖出了Amazon Kindle, 又覺得拿來看漫畫很方便(這戲演了幾次了呀?), 雖然說好像也有網站可以下載漫畫.mobi檔, 不過似乎是會員制的, 不喜歡</p>
-<p>因此又讓我想寫漫畫的爬蟲了, 這次的目標是: <a href=http://www.comicbus.com/>無限動漫</a> (他們的app實在做得有夠差)</p>
-<p>這次幾個需求是:</p>
-<ol>
-<li>Command line下就可以跑了(這也沒必要做UI吧?)</li>
-<li>在os x下可以執行(我自己電腦是mac)</li>
-<li>出來的檔案可以放到kindle看(.mobi檔或epub)</li>
-</ol>
-<p>mobi或epub的檔案格式似乎有點麻煩, 也不太好做得好, 所以決定用cbz檔再用<a href=https://calibre-ebook.com/>Calibre</a>轉mobi</p>
-<p><a href=https://calibre-ebook.com/>Calibre</a>有一個方便的command line tool叫ebook-convert, 可以用來轉檔, 而cbz本身非常的簡單
-, 它就是一個zip檔, 裡面的圖片檔名照編號就好, 這code還算好寫</p>
-<p>再來就是看一下怎麼解析<a href=http://www.comicbus.com/>無限動漫</a>的內容了, 它的URL是長這樣的:</p>
-<pre><code>http://v.comicbus.com/online/comic-653.html?ch=1
-</code></pre><p>以上範例是名偵探柯南第一卷, 大膽猜測, 653是漫畫編號, ch是集數, 選到第二頁, URL會變成這樣</p>
-<pre><code>http://v.comicbus.com/online/comic-653.html?ch=4-2
-</code></pre><p>這樣其實就很明顯了, 接下來是內容的部分</p>
-<p>每一集的頭上有一個"正在觀看:[ 名偵探柯南 1 ]", &ldquo;[]&ldquo;內就是標題了吧, 另外還有一個"select&rdquo;, 裡面有這集所有的頁數資訊, 而圖片的id是"TheImg&rdquo;</p>
-<p>不過麻煩的是, 這些資訊似乎隱藏在javascript中, page載入後才會出現</p>
-<p>這如果使用headless browser像是<a href=http://phantomjs.org/>Phantomjs</a>就沒啥問題, 但這邊我不想用它, 因為使用這工具還要再裝它</p>
-<p>我下一個選擇是Go + <a href=https://github.com/sourcegraph/webloop>Webloop</a>, <a href=https://github.com/sourcegraph/webloop>Webloop</a>是一個Go的headless browser lib, 它是基於WebkitGtk+做成的,
-不過我在mac上裝WebkitGTK+裝好久一直有問題, 所以&mldr;放棄&mldr;.</p>
-<p>接下來的選擇呢? 還有其他的headless browser嗎?有的! <a href=https://github.com/phimage/Erik>Erik</a>, 這是一個Swift的head less browser,
-用Swift寫爬蟲好像挺酷的, 查了一下, 有人用<a href=https://github.com/Alamofire/Alamofire>Alamofire</a> + <a href=https://github.com/tid-kijyun/Kanna>Kanna</a>, 不過這在這例子不適用, 這例子還是比較適合<a href=https://github.com/phimage/Erik>Erik</a></p>
-<h3 id=成品>成品</h3>
-<p>先給成果: <a href="https://drive.google.com/open?id=0B5rbRldWhe82MWRnVkpMQlExTHc">ComicGo</a></p>
-<p>這已經是一個OS X的可執行檔, 在Command line下執行 <code>ComicGo 653 1</code>就可以抓名偵探柯南第一集, 相關的漫畫編號集數, 就去<a href=http://www.comicbus.com/>無限動漫</a>查吧</p>
-<p>抓完會在你的Download目錄出現"名偵探柯南 1.cbz"再用ebook-covert去轉成你要的格式就可以了</p>
-<p>少少的時間隨便寫寫而已, 有bug就見諒囉</p>
-<h3 id=os-x-command-line-tool>OS X Command line tool</h3>
-<p>XCode + Swift是可以拿來寫command line tool的, 新增一個專案選"Command line tool":</p>
-<p><img src=/images/posts/xcodecmd.png alt></p>
-<p>這樣就可以開始寫了</p>
-<p>一開始在專案內部會發現一個"main.swift", 由於用swift寫command line app並沒有像其他語言有main function這類的東西
-所以程式就寫在這吧</p>
-<h3 id=開發command-line-tool的坑>開發Command line tool的坑</h3>
-<p>坑&mldr;真的不少</p>
-<p>首先, 你不能使用任何的framework, 因為command line tool產出會是一個可執行檔, 不是一個app bundle, 所以不能包含任何的framework</p>
-<p>第二, swift framework不能static link, 像是Erik, Kanna這些swift module, 都是dynamic lib</p>
-<p>慘, 光前面這兩點就麻煩了, 開發這個ComicGo, 我用到了<a href=https://github.com/phimage/Erik>Erik</a>, <a href=https://github.com/tid-kijyun/Kanna>Kanna</a>, <a href=https://github.com/marmelroy/Zip>Zip</a>等等
-, 這樣到底要怎麼辦? 跑起來就image not found</p>
-<p>所以呢?土法煉鋼, 把這些module的codes全部引入到我的專案內(所以沒打算Open ssource, 太醜了), 這樣一來就解決掉問題了, 不過這功不算小, 因為Kanna相依libxml, Zip相依libz這些native lib</p>
-<p>第三個坑, Erik是利用OS X裡面原生的WebKit去讀取網頁的, 因此他的設計是把載入網頁放到另一個DispatchQueue(javascript執行又是另一個),
-但Command line邏輯很單線, 它並不會等callback回來才結束程式, 因此會發現怎麼Erik都沒動作就結束程式了, 因此必須要有個機制來卡住</p>
-<p>這個機制就是<a href="https://www.google.com.tw/webhp?sourceid=chrome-instant&ion=1&espv=2&ie=UTF-8#q=swift+runloop">RunLoop</a>, 關於RunLoop這邊不多做解釋, 看一下<a href="https://www.google.com.tw/webhp?sourceid=chrome-instant&ion=1&espv=2&ie=UTF-8#q=swift+runloop">官方文件</a>
-在程式內則是這樣:</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-swift data-lang=swift><span style=color:#66d9ef>let</span> rl = RunLoop.current
-<span style=color:#66d9ef>var</span> finished = <span style=color:#66d9ef>false</span>
-
-<span style=color:#66d9ef>while</span> <span style=color:#f92672>!</span>finished {
-    rl.run(mode: RunLoopMode.defaultRunLoopMode, before: Date(timeIntervalSinceNow: <span style=color:#ae81ff>2</span>))
-}
-</code></pre></div><p>當callback完畢後, 把finished設成true就可以結束整個程式了</p>
-<h3 id=erik>Erik</h3>
-<p>好像還沒介紹<a href=https://github.com/phimage/Erik>Erik</a>喔?其實有點想偷懶跳過了 :P</p>
-<p>使用<a href=https://github.com/phimage/Erik>Erik</a>來爬網頁其實很簡單,</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-swift data-lang=swift>Erik.visit(url: url) { object, error <span style=color:#66d9ef>in</span>
-    <span style=color:#66d9ef>if</span> <span style=color:#66d9ef>let</span> e = error {
-
-    } <span style=color:#66d9ef>else</span> <span style=color:#66d9ef>if</span> <span style=color:#66d9ef>let</span> doc = object {
-        <span style=color:#75715e>// HTML Inspection</span>
-		<span style=color:#66d9ef>for</span> link <span style=color:#66d9ef>in</span> doc.querySelectorAll(<span style=color:#e6db74>&#34;a, link&#34;</span>) {
-    		print(link.text)
-    		print(link[<span style=color:#e6db74>&#34;href&#34;</span>])
-		}
-    }
-}
-</code></pre></div><p>只要有些CSS selector的觀念就可以了, 連querySelectorAll這名字都是一樣的, Erik並不是直接用Webkit去做CSS query的, 而是把webkit的內容拿來用<a href=https://github.com/tid-kijyun/Kanna>Kanna</a>解析,
-javascript的執行也一樣, 因此如果對html node有任何變動, 是不會反映到webkit裡面去的, 用Erik來爬的優點是專門針對那些動態網頁的, 有這個就簡單太多了!</p>
-</div>
-</article>
 <div class=pagination>
 <ul class=inline-list>
 <li><a href=/post/page/3/ class=btn>Previous</a></li>
@@ -719,6 +704,7 @@ javascript的執行也一樣, 因此如果對html node有任何變動, 是不會
 <li><a href=/post/page/71/>71</a></li>
 <li><a href=/post/page/72/>72</a></li>
 <li><a href=/post/page/73/>73</a></li>
+<li><a href=/post/page/74/>74</a></li>
 <li><a href=/post/page/5/ class=btn>Next</a></li>
 </ul>
 </div>

@@ -20,7 +20,7 @@
 <link rel=stylesheet href=/css/main.css>
 <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel=stylesheet type=text/css>
 <meta http-equiv=cleartype content="on">
-<meta name=generator content="Hugo 0.87.0">
+<meta name=generator content="Hugo 0.88.1">
 <script src=/js/vendor/modernizr-2.6.2.custom.min.js></script>
 <script async src=https://unpkg.com/mermaid@8.2.3/dist/mermaid.min.js></script>
 <link rel="shortcut icon" href=/favicon.png>
@@ -79,7 +79,7 @@ Reading time ~2 minutes
 <p>這邊這個範例其實針對的是javascript, 而其由Thrift idl產生javascript的指令是:</p>
 <div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh>thrift -r --gen js:node tutorial.thrift
 </code></pre></div><p>但如果我們想要用typescript來寫呢? 這邊產生的程式碼就沒有適用於typescript的封裝, 那這個thrift generator有沒支援typescript呢? 如果我們用 <code>thrift --help</code> 來看看它的說明:</p>
-<pre><code>  js (Javascript):
+<pre tabindex=0><code>  js (Javascript):
     jquery:          Generate jQuery compatible code.
     node:            Generate node.js compatible code.
     ts:              Generate TypeScript definition files.

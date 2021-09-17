@@ -20,7 +20,7 @@
 <link rel=stylesheet href=/css/main.css>
 <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel=stylesheet type=text/css>
 <meta http-equiv=cleartype content="on">
-<meta name=generator content="Hugo 0.87.0">
+<meta name=generator content="Hugo 0.88.1">
 <script src=/js/vendor/modernizr-2.6.2.custom.min.js></script>
 <script async src=https://unpkg.com/mermaid@8.2.3/dist/mermaid.min.js></script>
 <link rel="shortcut icon" href=/favicon.png>
@@ -143,7 +143,7 @@ Retrofit retrofit <span style=color:#f92672>=</span> <span style=color:#66d9ef>n
 <div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>openssl s_client -connect cdn.rawgit.com:443 -servername cdn.rawgit.com | openssl x509 -pubkey -noout | openssl rsa -pubin -outform der | openssl
 dgst -sha256 -binary | openssl enc -base64
 </code></pre></div><p>最後產生的內容如下</p>
-<pre><code>depth=2 /C=GB/ST=Greater Manchester/L=Salford/O=COMODO CA Limited/CN=COMODO RSA Certification Authority
+<pre tabindex=0><code>depth=2 /C=GB/ST=Greater Manchester/L=Salford/O=COMODO CA Limited/CN=COMODO RSA Certification Authority
 verify error:num=20:unable to get local issuer certificate
 verify return:0
 writing RSA key
@@ -151,7 +151,7 @@ p0962nIqD0mv1APQ1mgmRiuwrhZXBuj+t6dey/Adk0U=
 </code></pre><p>所以我們要填的參數就是 <strong>&ldquo;sha256/p0962nIqD0mv1APQ1mgmRiuwrhZXBuj+t6dey/Adk0U="</strong></p>
 <p>關於HPKP的openssl相關的指令可以參考<a href=https://developer.mozilla.org/en-US/docs/Web/Security/Public_Key_Pinning>Public Key Pinning</a></p>
 <p>如果你用<a href=https://www.charlesproxy.com>Charles Proxy</a>當中間人來測試這段程式的話, 你會得到下面這樣的exception</p>
-<pre><code>javax.net.ssl.SSLPeerUnverifiedException: Certificate pinning failure!
+<pre tabindex=0><code>javax.net.ssl.SSLPeerUnverifiedException: Certificate pinning failure!
                                             Peer certificate chain:
                                             sha256/ENlqFHtfARof3AK50Hbc1sj47M5hWhc5kQ5Z2vyfxq4=: CN=rawgit.com,OU=PositiveSSL Multi-Domain,OU=Domain Control Validated
                                             sha256/mXmLzo8k5ANwi11PlLSW/b4OC/Anjw1OeACDyZxD/WM=: C=NZ,ST=Auckland,L=Auckland,O=XK72 Ltd,OU=http://charlesproxy.com/ssl,CN=Charles Proxy Custom Root Certificate (built on Jlnmbp-retina.local\, 11 十二月 2015)
@@ -251,13 +251,13 @@ Retrofit retrofit <span style=color:#f92672>=</span> <span style=color:#66d9ef>n
 </code></pre></div><p>看到這麼長的東西大概就不會想看了吧?(老實說我也寫的很懶, 這邊要特別提到有用到一個Class叫做Buffer,這是來自於<a href=https://github.com/square/okio>okio</a>, 蠻方便的東西), 跟前一個不同的地方在於, 前一個利用了CertificatePinner,
 而這一個則是改了sslSocketFactory的TrustManager(喂!!!前面不是隱約有提到這樣不太好?!),
 這個TrustManager全部也只信任這一個certifcate, 如果碰到其他的, 就會發生以下的exception:</p>
-<pre><code>javax.net.ssl.SSLHandshakeException: java.security.cert.CertPathValidatorException: Trust anchor for certification path not found.
+<pre tabindex=0><code>javax.net.ssl.SSLHandshakeException: java.security.cert.CertPathValidatorException: Trust anchor for certification path not found.
         at com.android.org.conscrypt.OpenSSLSocketImpl.startHandshake(OpenSSLSocketImpl.java:328)
 </code></pre><p>那, 上面那一大坨憑證資料是怎樣取得的? 方法其實差不多:</p>
 <pre><code>openssl s_client -connect cdn.rawgit.com:443 -showcerts
 </code></pre>
 <p>會得到這樣的結果:</p>
-<pre><code>CONNECTED(00000003)
+<pre tabindex=0><code>CONNECTED(00000003)
 depth=2 /C=GB/ST=Greater Manchester/L=Salford/O=COMODO CA Limited/CN=COMODO RSA Certification Authority
 verify error:num=20:unable to get local issuer certificate
 verify return:0

@@ -20,7 +20,7 @@
 <link rel=stylesheet href=/css/main.css>
 <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel=stylesheet type=text/css>
 <meta http-equiv=cleartype content="on">
-<meta name=generator content="Hugo 0.87.0">
+<meta name=generator content="Hugo 0.88.1">
 <script src=/js/vendor/modernizr-2.6.2.custom.min.js></script>
 <script async src=https://unpkg.com/mermaid@8.2.3/dist/mermaid.min.js></script>
 <link rel="shortcut icon" href=/favicon.png>
@@ -143,7 +143,7 @@ Reading time ~11 minutes
 <p>這篇主要是根據<a href=http://jakewharton.com/>Jake Wharton</a>的<a href=https://speakerdeck.com/jakewharton/making-retrofit-work-for-you-ohio-devfest-2016>Making Retrofit Work For You (Ohio DevFest 2016)</a>整理出來的, 這篇滿滿都是codes的投影片已經非常清楚的講了一堆關於Retrofit的技巧了, 這邊針對幾個有用的整理出來, 並加上一些我自己的內容(看完我文章後想繼續深入研究可以再回頭看投影片)</p>
 <h2 id=retrofit的基本使用>Retrofit的基本使用</h2>
 <p>在看這些技巧之前, 我們先來看看<a href=http://square.github.io/retrofit/>Retrofit</a>的基本使用, 這邊使用官方的例子來說明, 官方的範例是以<a href=https://developer.github.com/v3/repos/#list-user-repositories>GitHub Api為例子</a>, 以GitHub Api的<a href=https://developer.github.com/v3/repos/#list-user-repositories>&ldquo;List user repository&rdquo;</a>為例, 它的URL是長這樣的:</p>
-<pre><code>GET /users/:username/repos
+<pre tabindex=0><code>GET /users/:username/repos
 </code></pre><p>因此Retrofit的API interface (或稱Service class)可以定義成這樣:</p>
 <div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>interface</span> <span style=color:#a6e22e>GitHubService</span> <span style=color:#f92672>{</span>
   <span style=color:#a6e22e>@GET</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;users/{user}/repos&#34;</span><span style=color:#f92672>)</span>

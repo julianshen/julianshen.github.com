@@ -21,7 +21,7 @@
 <link rel=stylesheet href=/css/main.css>
 <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel=stylesheet type=text/css>
 <meta http-equiv=cleartype content="on">
-<meta name=generator content="Hugo 0.87.0">
+<meta name=generator content="Hugo 0.88.1">
 <script src=/js/vendor/modernizr-2.6.2.custom.min.js></script>
 <script async src=https://unpkg.com/mermaid@8.2.3/dist/mermaid.min.js></script>
 <link rel="shortcut icon" href=/favicon.png>
@@ -88,7 +88,7 @@ Reading time ~2 minutes
 <p>步驟可以照著上面文件的步驟來做, 可以從My settings -> Account -> Global API Key取得API key當作ddclient的密碼</p>
 <p>接下來碰到的問題是, 我ddclient是跑在raspberry pi上, ddclient預設是用local IP, 這很明顯不對, 因為會用到內部的IP而不是對外那個, 而我家的ASUS無線分享器並沒支援Cloudflare, 我也不太想改firmware,
 但這還是有解的, 把ddclient.conf裡加上這行:</p>
-<pre><code>use=web, web=checkip.dyndns.org/, web-skip='IP Address' # found after IP Address
+<pre tabindex=0><code>use=web, web=checkip.dyndns.org/, web-skip='IP Address' # found after IP Address
 </code></pre><p>這是告訴ddclient不要用local ip而是用web api去找出IP</p>
 <p>但這一切&mldr;.都還是太麻煩了&mldr;.raspbeery pi總是會不小心碰掉電源, 總是會當機或跑不動, 更何況, 我都已經跑一個server了, ddclient不要再來搶記憶體了啦</p>
 <p>最後我的解法是: <a href=https://www.dnsomatic.com/>DNS-O-Matic</a></p>

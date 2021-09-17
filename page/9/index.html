@@ -20,7 +20,7 @@
 <link rel=stylesheet href=/css/main.css>
 <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel=stylesheet type=text/css>
 <meta http-equiv=cleartype content="on">
-<meta name=generator content="Hugo 0.87.0">
+<meta name=generator content="Hugo 0.88.1">
 <script src=/js/vendor/modernizr-2.6.2.custom.min.js></script>
 <script async src=https://unpkg.com/mermaid@8.2.3/dist/mermaid.min.js></script>
 <link rel="shortcut icon" href=/favicon.png>
@@ -76,6 +76,35 @@
 </div>
 </div>
 <div id=main role=main>
+<article class=hentry>
+<header>
+<div class=entry-meta>
+<span class="entry-date date published updated"><time datetime="2016-10-17 20:38:54 +0000 UTC"><a href=/%E5%9C%A8Ubuntu%E4%B8%8Bmount-box.com%E7%9A%84%E5%85%A7%E5%AE%B9/>Oct 17, 2016</a></time></span>
+<span class=entry-reading-time>
+<i class="fa fa-clock-o"></i>
+Reading time ~1 minute
+</span>
+</div>
+<h1 class=entry-title><a href=/%E5%9C%A8Ubuntu%E4%B8%8Bmount-box.com%E7%9A%84%E5%85%A7%E5%AE%B9/ rel=bookmark title="在Ubuntu下mount box.com的內容" itemprop=url>在Ubuntu下mount box.com的內容</a></h1>
+</header>
+<div class=entry-content>
+<p>雖然很久沒用box.com的服務了, 不過既然老婆大人問起, 就來寫一下這解法吧</p>
+<p>box.com是一個像Dropbox一樣的網路磁碟, 不過它目標客戶跟Dropbox不同, 是比較傾向企業用戶, 可以讓用戶很簡單的分享檔案,
+存取box.com除了一般使用Web介面的方式外, 還有其他的方式, 像是透過它的REST API, 另外還有一種就是透過WebDav,
+如果要寫程式去存取它, 一般可以用這兩種方式, 用REST稍微複雜一點, 還要搞定OAuth2的部分, 但透過WebDav的話就簡單多了, 可以掛載成為你作業系統底下的目錄, 當本地檔案來處理</p>
+<h4 id=安裝davfs2>安裝davfs2</h4>
+<p>首先, 你會需要的是davfs2, 在Ubuntu下用apt-get安裝:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh>sudo apt-get install davfs2
+</code></pre></div><h4 id=設定帳號密碼>設定帳號密碼</h4>
+<p>修改<code>/etc/davfs2/secrets</code>, 加入</p>
+<pre tabindex=0><code>https://dav.box.com/dav box.com帳號 密碼
+</code></pre><h4 id=掛載>掛載</h4>
+<p>執行底下指令掛載</p>
+<pre tabindex=0><code>sudo mkdir /mnt/box.com
+sudo -t davfs https://dav.box.com/dav /mnt/box.com
+</code></pre><p>成功之後,就會在/mnt/box.com底下看到你的檔案了(包含人家分享給你協作的檔案根目錄), 之後當本地端檔案存取即可, 設定好auto mount即可在開機後掛載</p>
+</div>
+</article>
 <article class=hentry>
 <header>
 <div class=entry-meta>
@@ -387,7 +416,7 @@ Retrofit retrofit <span style=color:#f92672>=</span> <span style=color:#66d9ef>n
 <div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>openssl s_client -connect cdn.rawgit.com:443 -servername cdn.rawgit.com | openssl x509 -pubkey -noout | openssl rsa -pubin -outform der | openssl
 dgst -sha256 -binary | openssl enc -base64
 </code></pre></div><p>最後產生的內容如下</p>
-<pre><code>depth=2 /C=GB/ST=Greater Manchester/L=Salford/O=COMODO CA Limited/CN=COMODO RSA Certification Authority
+<pre tabindex=0><code>depth=2 /C=GB/ST=Greater Manchester/L=Salford/O=COMODO CA Limited/CN=COMODO RSA Certification Authority
 verify error:num=20:unable to get local issuer certificate
 verify return:0
 writing RSA key
@@ -395,7 +424,7 @@ p0962nIqD0mv1APQ1mgmRiuwrhZXBuj+t6dey/Adk0U=
 </code></pre><p>所以我們要填的參數就是 <strong>&ldquo;sha256/p0962nIqD0mv1APQ1mgmRiuwrhZXBuj+t6dey/Adk0U="</strong></p>
 <p>關於HPKP的openssl相關的指令可以參考<a href=https://developer.mozilla.org/en-US/docs/Web/Security/Public_Key_Pinning>Public Key Pinning</a></p>
 <p>如果你用<a href=https://www.charlesproxy.com>Charles Proxy</a>當中間人來測試這段程式的話, 你會得到下面這樣的exception</p>
-<pre><code>javax.net.ssl.SSLPeerUnverifiedException: Certificate pinning failure!
+<pre tabindex=0><code>javax.net.ssl.SSLPeerUnverifiedException: Certificate pinning failure!
                                             Peer certificate chain:
                                             sha256/ENlqFHtfARof3AK50Hbc1sj47M5hWhc5kQ5Z2vyfxq4=: CN=rawgit.com,OU=PositiveSSL Multi-Domain,OU=Domain Control Validated
                                             sha256/mXmLzo8k5ANwi11PlLSW/b4OC/Anjw1OeACDyZxD/WM=: C=NZ,ST=Auckland,L=Auckland,O=XK72 Ltd,OU=http://charlesproxy.com/ssl,CN=Charles Proxy Custom Root Certificate (built on Jlnmbp-retina.local\, 11 十二月 2015)
@@ -495,13 +524,13 @@ Retrofit retrofit <span style=color:#f92672>=</span> <span style=color:#66d9ef>n
 </code></pre></div><p>看到這麼長的東西大概就不會想看了吧?(老實說我也寫的很懶, 這邊要特別提到有用到一個Class叫做Buffer,這是來自於<a href=https://github.com/square/okio>okio</a>, 蠻方便的東西), 跟前一個不同的地方在於, 前一個利用了CertificatePinner,
 而這一個則是改了sslSocketFactory的TrustManager(喂!!!前面不是隱約有提到這樣不太好?!),
 這個TrustManager全部也只信任這一個certifcate, 如果碰到其他的, 就會發生以下的exception:</p>
-<pre><code>javax.net.ssl.SSLHandshakeException: java.security.cert.CertPathValidatorException: Trust anchor for certification path not found.
+<pre tabindex=0><code>javax.net.ssl.SSLHandshakeException: java.security.cert.CertPathValidatorException: Trust anchor for certification path not found.
         at com.android.org.conscrypt.OpenSSLSocketImpl.startHandshake(OpenSSLSocketImpl.java:328)
 </code></pre><p>那, 上面那一大坨憑證資料是怎樣取得的? 方法其實差不多:</p>
 <pre><code>openssl s_client -connect cdn.rawgit.com:443 -showcerts
 </code></pre>
 <p>會得到這樣的結果:</p>
-<pre><code>CONNECTED(00000003)
+<pre tabindex=0><code>CONNECTED(00000003)
 depth=2 /C=GB/ST=Greater Manchester/L=Salford/O=COMODO CA Limited/CN=COMODO RSA Certification Authority
 verify error:num=20:unable to get local issuer certificate
 verify return:0
@@ -667,249 +696,6 @@ Reading time ~3 minutes
 <p>大致上就這樣</p>
 </div>
 </article>
-<article class=hentry>
-<header>
-<div class=entry-meta>
-<span class="entry-date date published updated"><time datetime="2016-09-18 22:41:43 +0000 UTC"><a href=/%E7%AD%86%E8%A8%98-%E4%B8%AD%E7%A7%8B%E9%80%A3%E5%81%87%E5%B0%8F%E5%AF%A6%E9%A9%97/>Sep 18, 2016</a></time></span>
-<span class=entry-reading-time>
-<i class="fa fa-clock-o"></i>
-Reading time ~7 minutes
-</span>
-</div>
-<h1 class=entry-title><a href=/%E7%AD%86%E8%A8%98-%E4%B8%AD%E7%A7%8B%E9%80%A3%E5%81%87%E5%B0%8F%E5%AF%A6%E9%A9%97/ rel=bookmark title="[筆記] 中秋連假小實驗" itemprop=url>[筆記] 中秋連假小實驗</a></h1>
-</header>
-<div class=entry-content>
-<p>最近直播蠻火紅的, 直播服務也不少, 連Facebook都做了直播功能, 最近也跟人聊了不少這方面的東西, 所以想說趁中秋連假來自己研究看看, 只是中秋節連假雖然多, 做的事情還真是不少, 看電影, 打球, 打電動, 看球的, 又碰上颱風天, 不過還是先搞個簡單的雛形唄</p>
-<h3 id=相關應用>相關應用</h3>
-<p>市面上有不少關於直播的應用, 應該說, 簡直是氾濫, 而且每一種人氣似乎都是很旺, 還不是很了解在旺啥的, 現在可能也不少人認為當個網紅就可以一炮而紅之類的</p>
-<ul>
-<li>Live.me
-<ul>
-<li><img src=/images/posts/IMG_9517.PNG alt></li>
-</ul>
-</li>
-<li>小米直播
-<ul>
-<li><img src=/images/posts/IMG_9519.PNG alt></li>
-<li><img src=/images/posts/IMG_9520.PNG alt></li>
-</ul>
-</li>
-<li>17
-<ul>
-<li><img src=/images/posts/IMG_9521.PNG alt></li>
-<li><img src=/images/posts/IMG_9522.PNG alt></li>
-</ul>
-</li>
-<li>麥卡貝
-<ul>
-<li><img src=/images/posts/IMG_9523.PNG alt></li>
-</ul>
-</li>
-</ul>
-<p>這邊其實可以看出, 根本大同小異, 大多是賣肉&mldr;喔, 不是, 賣網紅, 後面故意舉了一個麥卡貝當例子, 它是稍微不一樣, 以賣直播節目像是運動比賽的轉播(嗚~~金鋒退休了). 而不是一般的UGC(User generated), 當然這邊也沒舉一般很流行的遊戲直播像是<a href=https://www.twitch.tv>Twitch</a>, 不過這類早已為大家所熟知了</p>
-<p>不管是哪一種, 大部分的設計都是大同小異, 都是以單向直播為主, 輔以文字聊天室, 可以送個愛心或禮物, Facebook稍稍進階點, 會將直播過程錄製下來, 不只錄製節目, 還有過程中的互動, 不過大家都是蠻近似的</p>
-<h3 id=基本原理>基本原理</h3>
-<p>如果照以上的功能設計, 簡單的可以畫成兩個部分, 一個是直播串流(Video Stream)的部分, 一個則是聊天室的部分, 大致上的後端可以以這兩個為核心</p>
-<p>關於直播串流的技術部分, Facebook 曾分享了一篇關於他們做直播串流經驗的文章:</p>
-<p><a href=https://code.facebook.com/posts/1653074404941839/under-the-hood-broadcasting-live-video-to-millions/>Under the hood: Broadcasting live video to millions</a></p>
-<p>從這邊可以了解到, 串流需要能夠支撐到非常多人同時觀賞, 網紅可能數百到數千, 像是蘋果的發表會, 或是Google I/O, WWDC 這種會議則可能是數萬到數十萬, 所以服務的高並發, 高流量是可以預期的, 架構上也要能夠承受這樣的強度, 簡化的畫起來應該像是這樣:</p>
-<div class=mermaid>
-graph LR;
-C[Client]--publish-->M[Media Server];
-M--forward-->E(Edge Server);
-M--forward-->E2(Edge Server);
-M--forward-->E3(Edge Server);
-E-->V(Viewer);
-E-->V2(Viewer);
-E2-->V3(Viewer);
-E2-->V4(Viewer);
-E3-->CDN;
-CDN-->V5(Viewer);
-CDN-->V6(Viewer);
-CDN-->V7(Viewer);
-</div>
-<p>Viewer不直接從Media Server取串流內容是考量到Media server通常要接收多個Client發佈的串流, 一個假設性的想法是, 對於UGC(User generated content), 主播應該遠少於觀眾, 假設就算一個服務可以吸引到百萬級別的觀眾, 同時線上的主播應該了不起是幾千個而已, 即便如此, Media server本身從Client接收發布的串流資料後, 可能還需要做轉碼(transcoding), 和轉送的動作, 尤其是轉碼是較為耗CPU資源的工作, 如果把主播跟觀眾放在同一個伺服器上, 除了影響品質外, 也會不方便擴充, 因此減少Media server上的"觀眾"(讓觀眾只是其他少數的edge servers), 便可以在觀眾增加時相對好擴充容量(增加edge的數量)</p>
-<p>但大部分的狀況來說, 每個直播的觀眾不一定是非常大量, 在Facebook那篇文章內也有提到, 在小量觀眾的狀況下, 分流到多個edge的效率應該就沒那麼的好了, 反而這時候放在同一台server減少延遲會是更好的選擇</p>
-<p>串流的通訊協定有不少, 像是<a href=https://en.wikipedia.org/wiki/Real-time_Transport_Protocol>RTP</a>, <a href=https://en.wikipedia.org/wiki/Real_Time_Streaming_Protocol>RTSP</a>, <a href=https://en.wikipedia.org/wiki/Real-Time_Messaging_Protocol>RTMP</a>, <a href=https://en.wikipedia.org/wiki/HTTP_Live_Streaming>HLS</a>, <a href=https://webrtc.org>WebRTC</a>等等, Facebook那篇文章主要提到的是<a href=https://en.wikipedia.org/wiki/Real-Time_Messaging_Protocol>RTMP</a>, <a href=https://en.wikipedia.org/wiki/HTTP_Live_Streaming>HLS</a>, 查了一下資料, 似乎這兩個也是目前比較主流做直播用的, 雖然WebRTC被討論的也蠻多的, 但似乎比較沒被應用在大量的直播, RTMP跟HLS都是可以透過HTTP來做傳輸(RTMP需要做封裝 - RTMPT), 讓他們具有穿越防火牆的優勢, 而HLS是以檔案為基礎的, 所以適合用一般的CDN來做快取, 在做大量的直播優勢較大, 缺點是延遲太長了, 但這兩者其實也是可以合併使用的, 在小群體時用RTMP, 等觀眾成長到一定數量實再導流到HLS去</p>
-<h3 id=proof-of-concept-的初步想法與簡單的設計>Proof of concept 的初步想法與簡單的設計</h3>
-<p>幾個初步的想法</p>
-<ol>
-<li>直播 = live stream + chat room</li>
-<li>現在直播應用很多, 所以應該不少現成的open source解決方案可以套用, POC可以從這些東西下手, 不用重造輪子</li>
-<li>需求: Client發布直播後, Viewer可以知道現在有誰在直播並觀看, 並可以透過訊息聊天</li>
-</ol>
-<p><strong>發布</strong></p>
-<div class=mermaid>
-sequenceDiagram
-participant Client
-participant Register
-participant MediaServer
-participant Viewer
-Client->>Register: I want to go live
-activate Register
-Register-->>Client: Here is your ID and token
-deactivate Register
-Client->>MediaServer: Publish(id,token)
-activate MediaServer
-MediaServer->>Register: token valid?
-activate Register
-Register-->>MediaServer: Yes
-deactivate Register
-MediaServer-->>Client: OK
-deactivate MediaServer
-Client->>Register: I am ready to live
-activate Register
-Register->>Viewer: Somebody is ready to live
-activate Viewer
-deactivate Register
-Viewer->Viewer: Update UI
-deactivate Viewer
-</div>
-<p><strong>觀賞直播</strong></p>
-<p>這部分就沒什麼特別的了, 當一般的chat room做就好</p>
-<h3 id=先看一下成果>先看一下成果</h3>
-<p>這成品有點粗劣, 有點不好意思 :P</p>
-<div style=position:relative;padding-bottom:56.25%;height:0;overflow:hidden>
-<iframe src=https://www.youtube.com/embed/DyF27GlfuZ8 style=position:absolute;top:0;left:0;width:100%;height:100%;border:0 allowfullscreen title="YouTube Video"></iframe>
-</div>
-<p>我publish client只實作iOS版本, 而Viewer只實作了Android版本(根本只各做一半嘛!!/翻桌), 後端用<a href=firebase.google.com>firebase</a>處理資料的部分, 所以即時通知新的直播, 和聊天沒啥問題(但我聊天的UI還是沒刻 >"&lt;)</p>
-<h3 id=相關解決方案>相關解決方案</h3>
-<p>既然沒有重新做輪子, 自然用了不少Open source的解決方案來達成, 從Server到Android, iOS要找到相關可用的實在不難, 可以說這部份實在是太成熟了, 研究完後覺得Facebook那篇文章也只是一般般而已</p>
-<h4 id=steaming-server>Steaming server</h4>
-<p>RTMP相關的解決方案還算不少, 這邊列幾個</p>
-<ol>
-<li><a href=https://github.com/arut/nginx-rtmp-module>Nginx RTMP Module</a> - 架構在Nginx之上, 也算老牌了, 支援RTMP和HLS, 但看code base, 實在也沒啥在更新</li>
-<li><a href=http://www.monaserver.ovh>Mona server</a> - 支援RTMP, HTTP(非HLS), Web socket等等</li>
-<li><a href=http://red5.org>Red5 Media Server</a> - 支援RTMP, HLS, WebSocket, RTSP, 好像是要錢</li>
-<li><a href=https://github.com/ossrs/srs/>Simpe RTMP Server</a> - 這是由中國的觀止雲這家開源出來的, 講"Simple"其實一點都不Simple, 輕量, 穩定(至少我試直播一晚上都還蠻順利的), 好擴展(支援forward to edge), 可RTMP轉HLS, 因此我最後選擇這個方案</li>
-</ol>
-<h5 id=srs-simple-rtmp-server>SRS (Simple RTMP Server)</h5>
-<p><strong>硬體</strong></p>
-<p>我沒看到文件有寫硬體需求, 但我用Digital Ocean 1GB RAM, 30GB SSD的Droplet跑, 單一個直播, 直播好幾個鐘頭, CPU都不超過5%, 所以應該足夠</p>
-<p><strong>安裝</strong></p>
-<p>安裝上相當簡單</p>
-<ol>
-<li>從git上抓下來: <code>git clone https://github.com/ossrs/srs.git</code></li>
-<li>切換到相對應版本的branch(我是用2.0release) - <code>git checkout 2.0release</code></li>
-<li><code>cd srs/trunk; ./configure ; make ;</code></li>
-</ol>
-<p>建置好的執行檔會在srs/trunk/objs目錄下, 可以直接執行</p>
-<p><strong>設定</strong></p>
-<p>conf目錄下有很多不同的設定檔可以參考, 因為我要試RTMP, HLS所以我用的設定檔如下:</p>
-<pre><code>listen              1935;
-max_connections     1000;
-srs_log_tank        file;
-srs_log_file        ./objs/srs.log;
-http_api {
-    enabled         on;
-    listen          1985;
-}
-http_server {
-    enabled         on;
-    listen          8080;
-    dir             ./objs/nginx/html;
-}
-stats {
-    network         0;
-    disk            sda sdb xvda xvdb;
-}
-vhost __defaultVhost__ {
-    hls {
-        enabled         on;
-		hls_fragment    10;
-        hls_window      60;
-        hls_path        ./objs/nginx/html;
-        hls_m3u8_file   [app]/[stream].m3u8;
-        hls_ts_file     [app]/[stream]-[seq].ts;
-    }
-}
-</code></pre><p>相對應的設定可以參考文件</p>
-<p><strong>執行</strong></p>
-<p>很簡單: <code>srs -c my.conf</code> 即可</p>
-<h4 id=ios-rtmp-publish>iOS RTMP Publish</h4>
-<p>找到iOS支援RTMP publish的解決方案有幾種:</p>
-<ol>
-<li><a href=https://github.com/jgh-/VideoCore>VideoCore</a> - 這個我還沒去試過, 不知道好不好用, 但似乎有支援Filter和Watermark, 感覺蠻威的</li>
-<li><a href=https://github.com/shogo4405/lf.swift>lf.swift</a> - 簡單, Swift做的, 這兩個是優點, 對我這個只看得懂Swift看不懂ObjC的, debug是比較方便, 但除此之外好像也沒啥特色了</li>
-<li><a href=https://github.com/runner365/LiveVideoCoreSDK>LiveVideoCoreSDK</a> - 這文件不多, 我暫時就沒試了, 也支援濾鏡, 而且似乎這個作者也提供了Android版本, 只是好像沒支援Cocoapods或Cathage, 有空再來玩玩</li>
-<li><a href=https://github.com/LaiFengiOS/LFLiveKit>LFLiveKit</a> - 我最後是選用這個, 簡單, 且"自帶美顏"(現在騙人是很基本的)</li>
-</ol>
-<h5 id=lfswift>lf.swift</h5>
-<p>雖然文件上有提供cocoapods跟Carhtage的安裝方式, 但絕對不要用Carthage的那個, 第一原因是它Carthage支援似乎尚未搞定, 就算改點東西解決了它, 是可以安裝成功沒錯, 但會崩潰在XCGLogger, 似乎用framework含進來的方式會導致XCGLogger == nil, 這害我花了好多時間, 畢竟我是Carthage的愛用者, 後來轉用Cocoapods就沒事了</p>
-<p>幾個需要加的部分:</p>
-<p><em>AppDelegate.swift</em></p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-swift data-lang=swift><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>application</span>(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -&gt; Bool {
-
-        XCGLogger.defaultInstance().outputLogLevel = .Info
-        XCGLogger.defaultInstance().xcodeColorsEnabled = <span style=color:#66d9ef>true</span>
-        
-        <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>true</span>
-    }
-</code></pre></div><p>這兩行是設定logger要記錄的東西, 方便debug用</p>
-<p><em>ViewController</em></p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-swift data-lang=swift><span style=color:#66d9ef>override</span> <span style=color:#66d9ef>func</span> <span style=color:#a6e22e>viewDidLoad</span>() {
-	rtmpStream = RTMPStream(rtmpConnection: rtmpConnection)
-    rtmpStream.syncOrientation = <span style=color:#66d9ef>true</span>
-    rtmpStream.attachAudio(AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeAudio))
-        rtmpStream.attachCamera(DeviceUtil.deviceWithPosition(.Back))
-    rtmpStream.addObserver(<span style=color:#66d9ef>self</span>, forKeyPath: <span style=color:#e6db74>&#34;currentFPS&#34;</span>, options: NSKeyValueObservingOptions.New, context: <span style=color:#66d9ef>nil</span>)
-        
-    rtmpStream.captureSettings = [
-            <span style=color:#e6db74>&#34;sessionPreset&#34;</span>: AVCaptureSessionPreset1280x720,
-            <span style=color:#e6db74>&#34;continuousAutofocus&#34;</span>: <span style=color:#66d9ef>true</span>,
-            <span style=color:#e6db74>&#34;continuousExposure&#34;</span>: <span style=color:#66d9ef>true</span>,
-        ]
-
-    rtmpStream.videoSettings = [
-            <span style=color:#e6db74>&#34;width&#34;</span>: <span style=color:#ae81ff>1280</span>,
-            <span style=color:#e6db74>&#34;height&#34;</span>: <span style=color:#ae81ff>720</span>,
-        ]
-    lfView.attachStream(rtmpStream)
-
-    view.addSubview(lfView)
-}
-</code></pre></div><p>直播的部分會跟他的LFView綁一起</p>
-<h5 id=lflivekithttpsgithubcomlaifengioslflivekit><a href=https://github.com/LaiFengiOS/LFLiveKit>LFLiveKit</a></h5>
-<p>後來選用LFLiveKit的原因不是因為他自帶美顏 :D, 他寫法跟lf.swift一樣簡單, 而且不一定要把preview加到UI裡面, 而且他的preview不用用特定的class,只要是UIView就可</p>
-<p>範例直接貼他文件裡的就很清楚了:</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-swift data-lang=swift><span style=color:#75715e>// import LFLiveKit in [ProjectName]-Bridging-Header.h</span>
-<span style=color:#66d9ef>import</span> &lt;<span style=color:#a6e22e>LFLiveKit</span>.<span style=color:#a6e22e>h</span>&gt; 
-
-<span style=color:#75715e>//</span><span style=color:#75715e>MARK:</span><span style=color:#75715e> - Getters and Setters</span>
-<span style=color:#a6e22e>lazy</span> <span style=color:#a6e22e>var</span> <span style=color:#a6e22e>session</span>: <span style=color:#a6e22e>LFLiveSession</span> = {
-    <span style=color:#66d9ef>let</span> audioConfiguration = LFLiveAudioConfiguration.defaultConfiguration()
-    <span style=color:#66d9ef>let</span> videoConfiguration = LFLiveVideoConfiguration.defaultConfigurationForQuality(LFLiveVideoQuality.Low3, landscape: <span style=color:#66d9ef>false</span>)
-    <span style=color:#66d9ef>let</span> session = LFLiveSession(audioConfiguration: audioConfiguration, videoConfiguration: videoConfiguration)
-
-    session?.delegate = <span style=color:#66d9ef>self</span>
-    session?.preView = <span style=color:#66d9ef>self</span>.view
-    <span style=color:#66d9ef>return</span> session!
-}()
-
-<span style=color:#75715e>//</span><span style=color:#75715e>MARK:</span><span style=color:#75715e> - Event</span>
-<span style=color:#66d9ef>func</span> <span style=color:#a6e22e>startLive</span>() -&gt; Void { 
-    <span style=color:#66d9ef>let</span> stream = LFLiveStreamInfo()
-    stream.url = <span style=color:#e6db74>&#34;your server rtmp url&#34;</span>;
-    session.startLive(stream)
-}
-
-<span style=color:#66d9ef>func</span> <span style=color:#a6e22e>stopLive</span>() -&gt; Void {
-    session.stopLive()
-}
-
-<span style=color:#75715e>//</span><span style=color:#75715e>MARK:</span><span style=color:#75715e> - Callback</span>
-<span style=color:#66d9ef>func</span> <span style=color:#a6e22e>liveSession</span>(session: LFLiveSession?, debugInfo: LFLiveDebug?) 
-<span style=color:#66d9ef>func</span> <span style=color:#a6e22e>liveSession</span>(session: LFLiveSession?, errorCode: LFLiveSocketErrorCode)
-<span style=color:#66d9ef>func</span> <span style=color:#a6e22e>liveSession</span>(session: LFLiveSession?, liveStateDidChange state: LFLiveState)
-</code></pre></div><h4 id=android-stream-player>Android stream player</h4>
-<p>寫到後面有點累了, 也有點懶了, 還剩下Android這塊沒寫, 這邊就只列出方案不寫細節了, 主要我測過:</p>
-<ol>
-<li><a href=https://github.com/google/ExoPlayer/>ExoPlayer</a>: Google開源的Media player, 之前在做另一個東西時我有用過, 所以第一時間就想起這個, 不過, 原生的完全不支援RTMP, 不過可以參考<a href=https://github.com/ButterflyTV/ExoPlayer-with-RTMP-and-FLV-seek/blob/master/demo/src/main/java/com/google/android/exoplayer/demo/player/RtmpDataSource.java>這邊</a>, 但我實際上用, RTMP完全沒成功過, 一直出現FLV parse的問題, 倒是HLS沒問題</li>
-<li><a href=https://github.com/Bilibili/ijkplayer>Ijkplayer</a> - 這同時有Android和iOS版本, 是Bilibili開源的, 有點強大, 但基於ffmpeg, 不知道在license上會不會有風險, 使用起來還有點複雜, 但HLS, RTMP都是沒問題</li>
-<li><a href=https://github.com/pili-engineering/PLDroidPlayer>PLDroidPlayer</a> - 七牛雲針對ijkplayer的再製品, 比較方便的是, 它有封裝出一個video view可以直接使用, 相較於ijkplayer來說比較簡單易用</li>
-</ol>
-</div>
-</article>
 <div class=pagination>
 <ul class=inline-list>
 <li><a href=/page/8/ class=btn>Previous</a></li>
@@ -986,6 +772,7 @@ vhost __defaultVhost__ {
 <li><a href=/page/71/>71</a></li>
 <li><a href=/page/72/>72</a></li>
 <li><a href=/page/73/>73</a></li>
+<li><a href=/page/74/>74</a></li>
 <li><a href=/page/10/ class=btn>Next</a></li>
 </ul>
 </div>

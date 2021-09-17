@@ -20,7 +20,7 @@
 <link rel=stylesheet href=/css/main.css>
 <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel=stylesheet type=text/css>
 <meta http-equiv=cleartype content="on">
-<meta name=generator content="Hugo 0.87.0">
+<meta name=generator content="Hugo 0.88.1">
 <script src=/js/vendor/modernizr-2.6.2.custom.min.js></script>
 <script async src=https://unpkg.com/mermaid@8.2.3/dist/mermaid.min.js></script>
 <link rel="shortcut icon" href=/favicon.png>
@@ -76,6 +76,22 @@
 </div>
 </div>
 <div id=main role=main>
+<article class=hentry>
+<header>
+<div class=entry-meta>
+<span class="entry-date date published updated"><time datetime="2013-08-15 10:01:19 +0000 UTC"><a href=/%E7%9C%8B%E8%91%97%E6%B5%B7%E5%AF%AB%E7%A8%8B%E5%BC%8F%E6%9C%83%E4%B8%8D%E6%9C%83%E5%A4%AA%E5%AE%85%E9%BB%9E-PinterestRSSAggregator/>Aug 15, 2013</a></time></span>
+<span class=entry-reading-time>
+<i class="fa fa-clock-o"></i>
+Reading time ~2 minutes
+</span>
+</div>
+<h1 class=entry-title><a href=/%E7%9C%8B%E8%91%97%E6%B5%B7%E5%AF%AB%E7%A8%8B%E5%BC%8F%E6%9C%83%E4%B8%8D%E6%9C%83%E5%A4%AA%E5%AE%85%E9%BB%9E-PinterestRSSAggregator/ rel=bookmark title="看著海寫程式會不會太宅點? - PinterestRSSAggregator" itemprop=url>看著海寫程式會不會太宅點? - PinterestRSSAggregator</a></h1>
+</header>
+<div class=entry-content>
+<div class=separator style=clear:both;text-align:center><a href=http://bit.ly/16QMjak imageanchor=1 style=margin-left:1em;margin-right:1em><img border=0 height=225 src=http://bit.ly/1bxhUyX width=400></a></div><div class=separator style=clear:both;text-align:center><br></div>陽光&mldr;.跟沙灘呀&mldr;&mldr;真是好風景呀&mldr;.躺著寫程式真不錯 (其實在顧包包)<br><br>昨天上飛機前, 把這兩天晚上寫的東西, <a href=http://bit.ly/16QMjam target=_blank>PinterestRSSAggregator</a>, 在上飛機之前放上了github&mldr;.趁現在來補一些內容<br><br>會寫這東西的緣起在於這篇: <a href=http://bit.ly/1bxhUyZ>http://bit.ly/1bxhUyZ</a><br><br>Pinterest目前沒API, 這RSS也只能取得一個人最近的資訊, 但常常我們要看的不會是自己去pin的, 而是自己所follow的人pin的最新資訊, 所以這樣的RSS用處就嫌少了點, 所以想說如果可以把自己所follow的全部集結成一個rss應該會很不錯, 因此就寫了這些東西<br><br>一開始碰到的問題點是, 沒API, 怎抓following的資訊? 從 <a href=http://bit.ly/1bxhUz2,>http://bit.ly/1bxhUz2,</a> 似乎每個被follow的人的link都有userWrapper這class, 這或許是個出發點, 所以第一個版本做了一個直接去抓網頁回來解析抓出含有這class的連結&mldr;.但是&mldr;失敗了&mldr;因為抓回來的靜態網頁, 最多只有十二個人的連結, 超過就抓不到, 網頁上要滑鼠捲到最下面才會再load出其他的<br><br>後來想到的方法就是利用CasperJS, 模擬捲頁捲到最後的行為, 再把所有followings都抓回來&mldr;.喔耶&mldr;.這招居然行的通&mldr;.把所有rss 的url再用Google Feed API去抓內容(我懶得parse RSS了), 再用feed這module生成新的RSS&mldr;.大功告成&mldr;.接下來只要讓他固定一段時間跑一次, 就有一個土炮的Pinterest API用了&mldr; (還真heavy的API :( )<br><br>
+via Blogger <a href=http://bit.ly/16QMjqT>http://bit.ly/16QMjqT</a>
+</div>
+</article>
 <article class=hentry>
 <header>
 <div class=entry-meta>
@@ -138,22 +154,6 @@ Reading time ~1 minute
 <div class=entry-content>
 現在不管是Google+也好, 或是Facebook (Home), 似乎都很喜歡用圓形的大頭貼像這樣 (左上角圖形, <br><div class=separator style=clear:both;text-align:center><a href=http://bit.ly/10Ea6Kt imageanchor=1 style=margin-left:1em;margin-right:1em><img border=0 height=400 src=http://bit.ly/11DoFZH width=225></a></div><br>但在server端存的大頭照其實都是都是方形的, 所以必須抓下來後再轉畫成圓的, 最近從網路抓圖的部分, 我還蠻喜歡用<a href=http://bit.ly/10Ea9FT target=_blank>Picasso</a>的<br><br><div class=separator style=clear:both;text-align:center><a href=http://bit.ly/11DoFZJ imageanchor=1 style=margin-left:1em;margin-right:1em><img border=0 height=191 src=http://bit.ly/11DoFZJ width=400></a></div>沒啥別的原因, 就是它簡單, 雖然說, 它似乎還是有一些小小問題, 不過它可以用這樣短短一行解決圖檔下載並顯示到ImageView的一連串動作:<br><br><pre class="prettyprint prettyprinted" style="background-color:#f5f5f5;border-bottom-left-radius:4px;border-bottom-right-radius:4px;border-top-left-radius:4px;border-top-right-radius:4px;border:1px solid rgba(0,0,0,.14902);color:#666;font-family:Monaco,Menlo,Consolas,courier new,monospace;font-size:13px;line-height:20px;margin-bottom:20px;padding:9.5px;white-space:pre-wrap;word-break:break-all;word-wrap:break-word"><span style=background-color:#eee><span class=typ style=color:#222>Picasso</span><span class=pun style=color:#888>.</span><span class=kwd>with</span><span class=pun style=color:#888>(</span><span class=pln style=color:#000>context</span><span class=pun style=color:#888>).</span><span class=pln style=color:#000>load</span><span class=pun style=color:#888>(</span><span class=str style=color:#953a39>"http://bit.ly/11DoFZL"</span><span class=pun style=color:#888>).</span><span class=kwd>into</span><span class=pun style=color:#888>(</span><span class=pln style=color:#000>imageView</span><span class=pun style=color:#888>);</span></span></pre><div><br>不過, 簡單的代價可能在其他的地方來說彈性就不高了, 不過, 做這樣一個小玩意兒的彈性倒是還有, 在Picasso中, 可以實作Transformation把下載下來的圖檔再作一次後處理, 在它的網頁有一個CropSquareTransformation的範例, 圓形的大頭貼可以視為這一個的延伸:</div><div><br></div><div><script src=http://bit.ly/10Ea996></script></div><div>這邊利用了BitmapShader重畫了一張圓形的大頭貼, 出來的結果就會像是這樣:<br><div class=separator style=clear:both;text-align:center><a href=http://bit.ly/11DoFZP imageanchor=1 style=margin-left:1em;margin-right:1em><img border=0 height=400 src=http://bit.ly/10Ea998 width=225></a></div><br></div><div><br></div><br><br>
 via Blogger <a href=http://bit.ly/11DoEVG>http://bit.ly/11DoEVG</a>
-</div>
-</article>
-<article class=hentry>
-<header>
-<div class=entry-meta>
-<span class="entry-date date published updated"><time datetime="2013-06-20 20:16:26 +0000 UTC"><a href=/Android-%E4%B8%80%E9%96%83%E4%B8%80%E9%96%83%E4%BA%AE%E6%99%B6%E6%99%B6%E7%9A%84BlinkLayout/>Jun 20, 2013</a></time></span>
-<span class=entry-reading-time>
-<i class="fa fa-clock-o"></i>
-Reading time ~1 minute
-</span>
-</div>
-<h1 class=entry-title><a href=/Android-%E4%B8%80%E9%96%83%E4%B8%80%E9%96%83%E4%BA%AE%E6%99%B6%E6%99%B6%E7%9A%84BlinkLayout/ rel=bookmark title="[Android] 一閃一閃亮晶晶的BlinkLayout" itemprop=url>[Android] 一閃一閃亮晶晶的BlinkLayout</a></h1>
-</header>
-<div class=entry-content>
-<p>在<a href=https://developers.google.com/events/io/sessions/324958375 target=_blank>Androids Do Daydream</a>裡有提到Romain Guy要他提(大概假的吧)在layout裡面放"&lt;blink>&ldquo;可以做到view閃爍的效果而不用寫到一行code<br><br>查了一下AOSP的原始碼也的確有這東西, 它是一個躲在<a href=https://github.com/android/platform_frameworks_base/blob/5cb0f2184656642160e9ac032d0646f766058a5b/core/java/android/view/LayoutInflater.java target=_blank>LayoutInflater</a>的一個叫BlinkLayout的東西, 這樣一來就可以配合<a href=http://developer.android.com/reference/android/widget/TextClock.html target=_blank>TextClock</a> (API Level 17)來做一個閃爍的時鐘了<br><br><script src=https://gist.github.com/julianshen/5822197.js></script><br>不過, 這樣, 是整個TextClock在閃, 而不是像一般數字鐘一樣是只有&rdquo;:&ldquo;閃, 如果要做到只有&rdquo;:&ldquo;在閃, 那只好把"時"跟"分"給拆開, 像這樣: <br><br><script src=https://gist.github.com/julianshen/5822234.js></script><br><br>
-via Blogger <a href=http://julianshen.blogspot.com/2013/06/android-blinklayout.html>http://julianshen.blogspot.com/2013/06/android-blinklayout.html</a></p>
 </div>
 </article>
 <div class=pagination>
@@ -232,6 +232,7 @@ via Blogger <a href=http://julianshen.blogspot.com/2013/06/android-blinklayout.h
 <li><a href=/page/71/>71</a></li>
 <li><a href=/page/72/>72</a></li>
 <li><a href=/page/73/>73</a></li>
+<li><a href=/page/74/>74</a></li>
 <li><a href=/page/21/ class=btn>Next</a></li>
 </ul>
 </div>

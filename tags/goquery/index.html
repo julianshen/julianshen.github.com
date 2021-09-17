@@ -20,7 +20,7 @@
 <link rel=stylesheet href=/css/main.css>
 <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel=stylesheet type=text/css>
 <meta http-equiv=cleartype content="on">
-<meta name=generator content="Hugo 0.87.0">
+<meta name=generator content="Hugo 0.88.1">
 <script src=/js/vendor/modernizr-2.6.2.custom.min.js></script>
 <script async src=https://unpkg.com/mermaid@8.2.3/dist/mermaid.min.js></script>
 <link rel="shortcut icon" href=/favicon.png>
@@ -92,7 +92,7 @@ Reading time ~3 minutes
 碰到這種, 光解析網頁原始檔是不夠的, 因為很多tag的內容都是之後被javascript所產生的</p>
 <p>因此解析這類的網頁, 便可能需要去解析javascript的內容, 甚至是執行javascript, 在Go有一個好用的套件叫<a href=https://github.com/robertkrimen/otto>Otto</a>可以來解決這麻煩</p>
 <p>這邊以<a href=https://today.line.me/TW>Line Today</a>的網頁當作範例來說明, 如果你打開Line today的網頁原始檔來看, 絕大部分都是javascript, 而且資料似乎都在categoryJson內(如下)</p>
-<pre><code>&lt;script&gt;
+<pre tabindex=0><code>&lt;script&gt;
     var categoryJson = {
 		&quot;categories&quot;:[
 			{&quot;id&quot;:100003,&quot;name&quot;:&quot;今日頭條&quot;,&quot;source&quot;:0,&quot;title&quot;:null,&quot;thumbnail&quot;:null,&quot;url&quot;:{&quot;type&quot;:&quot;FILE&quot;,&quot;hash&quot;:

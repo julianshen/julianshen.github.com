@@ -20,7 +20,7 @@
 <link rel=stylesheet href=/css/main.css>
 <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel=stylesheet type=text/css>
 <meta http-equiv=cleartype content="on">
-<meta name=generator content="Hugo 0.87.0">
+<meta name=generator content="Hugo 0.88.1">
 <script src=/js/vendor/modernizr-2.6.2.custom.min.js></script>
 <script async src=https://unpkg.com/mermaid@8.2.3/dist/mermaid.min.js></script>
 <link rel="shortcut icon" href=/favicon.png>
@@ -184,13 +184,13 @@ Reading time ~7 minutes
 </code></pre></div><p>以前面config map掛載的範例來看的話, 假設, 我們用 <code>watchConfig("/config/game.properties")</code> 來監控"/config/game.properties", 這邊的"/config/game.properties"是由ConfigMap裡的 <code>game.properties</code> 來的, 所以變更這邊的<code>game.properties</code>, &ldquo;/config/game.properties"也會跟著改變</p>
 <p>但, 上面這段程式是"完全沒用的&rdquo;, 即使 <code>game.properties</code>和<code>/config/game.properties</code>內容都被改變了, 這邊的 <code>reloadConfig()</code> 也完全不會被觸發!!!! 如果使用golang的fsnotify, 也會是一樣的狀況</p>
 <p>為什麼呢? 難道是這樣掛載的檔案有啥特異? 先來 <code>ls -l</code>看一下:</p>
-<pre><code>ls -l /config/game.properties
+<pre tabindex=0><code>ls -l /config/game.properties
 lrwxrwxrwx 1 root root 24 Aug 21 16:55 /config/game.properties -&gt; ..data/game.properties
 </code></pre><p>這邊可以發現<code>/config/game.properties</code>是一個Symbolic link連到<code>..data/game.properties</code>去, 這樣就導致我們監控不到它嗎? 其實還不只, 再來<code>ls -l ..data</code>看看</p>
-<pre><code>ls -l ..data
+<pre tabindex=0><code>ls -l ..data
 lrwxrwxrwx 1 root root 31 Aug 21 16:58 ..data -&gt; ..2021_08_21_16_56_33.873456784
 </code></pre><p>Ok, <code>..data</code>也是一個Symbolic link, 所以實際上ConfigMap被變更過後, 真正檔案變更大guy會是這樣的:</p>
-<pre><code>CREATE ..2021_08_21_16_58_04.661956783
+<pre tabindex=0><code>CREATE ..2021_08_21_16_58_04.661956783
 CREATE ..2021_08_21_16_58_04.661956783/game.properties
 CREATE ..data_tmp (link to ..2021_08_21_16_58_04.661956783)
 MOVE ..data_tmp ..data
@@ -235,7 +235,7 @@ DELETE ..2021_08_21_16_56_33.873456784
 <p>如果程式不想配合著改, 或大部分都是透過環境變數的方式來使用ConfigMap的話, 又怕使用前面inotify sidecar的作法會造成問題, 希望有更好的方式去RollOut, 那可以參考一下<a href=https://github.com/stakater/Reloader>Reloader</a></p>
 <p><a href=https://github.com/stakater/Reloader>Reloader</a>會去監控ConfigMap跟Secret的變動, 來重啟跟他們有相關的DeploymentConfigs, Deployments, Daemonsets Statefulsets 和 Rollouts, 由於它是以Kubernetes conrtroller的形式存在, 並且採用Kubernetes API去監控資源: <a href=https://github.com/stakater/Reloader/blob/99a38bff8ea1346191b6a96583d3fbad72573ea5/internal/pkg/controller/controller.go#L47>https://github.com/stakater/Reloader/blob/99a38bff8ea1346191b6a96583d3fbad72573ea5/internal/pkg/controller/controller.go#L47</a></p>
 <p>安裝方法很簡單, 只需要用:</p>
-<pre><code>kubectl apply -f https://raw.githubusercontent.com/stakater/Reloader/master/deployments/kubernetes/reloader.yaml
+<pre tabindex=0><code>kubectl apply -f https://raw.githubusercontent.com/stakater/Reloader/master/deployments/kubernetes/reloader.yaml
 </code></pre><p>裝到你所需要的namespace即可, 然後在你的Deployment設定上加上一個annotation <code>reloader.stakater.com/auto: "true"</code>:</p>
 <div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>apps/v1</span>
 <span style=color:#f92672>kind</span>: <span style=color:#ae81ff>Deployment</span>

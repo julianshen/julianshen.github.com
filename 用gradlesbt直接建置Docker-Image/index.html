@@ -20,7 +20,7 @@
 <link rel=stylesheet href=/css/main.css>
 <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel=stylesheet type=text/css>
 <meta http-equiv=cleartype content="on">
-<meta name=generator content="Hugo 0.87.0">
+<meta name=generator content="Hugo 0.88.1">
 <script src=/js/vendor/modernizr-2.6.2.custom.min.js></script>
 <script async src=https://unpkg.com/mermaid@8.2.3/dist/mermaid.min.js></script>
 <link rel="shortcut icon" href=/favicon.png>
@@ -122,9 +122,9 @@ dependencies {
 <p>如果你的不是一般的Java application 而是Spring boot application的話, 則是可以用 <code>com.bmuschko.docker-spring-boot-application</code> 這個plugin而不是上面那個, 不過如果是Spring boot 2.3之後, 還有另一個方法</p>
 <h2 id=直接把spring-boot應用程式建置成docker-image>直接把Spring Boot應用程式建置成Docker image</h2>
 <p>如果是Spring Boot 2.3之後, 因為內建就有支援 <a href=https://buildpacks.io/>Cloud Native Buildpacks</a> , 所以直接就可以建置成docker image , 蠻簡單的, 只要執行</p>
-<pre><code>gradle bootBuildImage
+<pre tabindex=0><code>gradle bootBuildImage
 </code></pre><p>不過, 它image的名字會是 <code>library/project_name</code> , 所以如果你需要用其他的名字取代的話, 有兩種方法, 一種是加上 <code>--imageName</code> 給定名字, 像是:</p>
-<pre><code>gradle bootBuildImage --imageName=julianshen/springsample
+<pre tabindex=0><code>gradle bootBuildImage --imageName=julianshen/springsample
 </code></pre><p>另一種是把這段加到 <code>build.gradle.kts</code> 去(這邊以kotlin當範例):</p>
 <div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-kotlin data-lang=kotlin>tasks.getByName&lt;org.springframework.boot.gradle.tasks.bundling.BootBuildImage&gt;(<span style=color:#e6db74>&#34;bootBuildImage&#34;</span>) {
 	docker {
@@ -135,9 +135,9 @@ dependencies {
 <h2 id=把scala-application包裝成docker-image>把Scala application包裝成Docker image</h2>
 <p>如果是Scala就需要用到 <a href=https://www.scala-sbt.org/sbt-native-packager/index.html>SBT Native Packager</a></p>
 <p>用法也不難, 首先先把下面這段加到 <code>plugins.sbt</code> 去:</p>
-<pre><code>addSbtPlugin(&quot;com.typesafe.sbt&quot; % &quot;sbt-native-packager&quot; % &quot;1.7.6&quot;)
+<pre tabindex=0><code>addSbtPlugin(&quot;com.typesafe.sbt&quot; % &quot;sbt-native-packager&quot; % &quot;1.7.6&quot;)
 </code></pre><p>在 <code>build.sbt</code> 內加入:</p>
-<pre><code>enablePlugins(DockerPlugin)
+<pre tabindex=0><code>enablePlugins(DockerPlugin)
 </code></pre><p>然後執行 <code>sbt docker:publishLocal</code>即可, 相關設定可以參考 <a href=https://www.scala-sbt.org/sbt-native-packager/formats/docker.html>Docker plugin的文件</a></p>
 <footer class=entry-meta>
 <span class=entry-tags></span>

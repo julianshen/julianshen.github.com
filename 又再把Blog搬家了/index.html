@@ -21,7 +21,7 @@
 <link rel=stylesheet href=/css/main.css>
 <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel=stylesheet type=text/css>
 <meta http-equiv=cleartype content="on">
-<meta name=generator content="Hugo 0.87.0">
+<meta name=generator content="Hugo 0.88.1">
 <script src=/js/vendor/modernizr-2.6.2.custom.min.js></script>
 <script async src=https://unpkg.com/mermaid@8.2.3/dist/mermaid.min.js></script>
 <link rel="shortcut icon" href=/favicon.png>
@@ -134,7 +134,7 @@ Reading time ~7 minutes
 <p>這部份沒太複雜, 是透過<a href=https://github.com/jekyll/jekyll-import>jekyll-import</a></p>
 <p>安裝jekyll-import一樣可以透過<code>gem install</code>來安裝, 但建議不要這樣做, 是因為他用的Tumblr API是JSONP但程式卻將它當一般JSON在解碼, 會出錯, 這部份在最新版的code有解決(害我還去追了source code), 所以抓source回來自己build比較安全</p>
 <p>裝好之後執行:</p>
-<pre><code>#!/bin/sh
+<pre tabindex=0><code>#!/bin/sh
 ruby -rubygems -e 'require &quot;jekyll-import&quot;;
     JekyllImport::Importers::Tumblr.run({
       &quot;url&quot;            =&gt; &quot;http://blog.jln.co&quot;,

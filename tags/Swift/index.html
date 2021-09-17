@@ -20,7 +20,7 @@
 <link rel=stylesheet href=/css/main.css>
 <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel=stylesheet type=text/css>
 <meta http-equiv=cleartype content="on">
-<meta name=generator content="Hugo 0.87.0">
+<meta name=generator content="Hugo 0.88.1">
 <script src=/js/vendor/modernizr-2.6.2.custom.min.js></script>
 <script async src=https://unpkg.com/mermaid@8.2.3/dist/mermaid.min.js></script>
 <link rel="shortcut icon" href=/favicon.png>
@@ -97,9 +97,9 @@ Reading time ~5 minutes
 <p><a href=https://calibre-ebook.com/>Calibre</a>有一個方便的command line tool叫ebook-convert, 可以用來轉檔, 而cbz本身非常的簡單
 , 它就是一個zip檔, 裡面的圖片檔名照編號就好, 這code還算好寫</p>
 <p>再來就是看一下怎麼解析<a href=http://www.comicbus.com/>無限動漫</a>的內容了, 它的URL是長這樣的:</p>
-<pre><code>http://v.comicbus.com/online/comic-653.html?ch=1
+<pre tabindex=0><code>http://v.comicbus.com/online/comic-653.html?ch=1
 </code></pre><p>以上範例是名偵探柯南第一卷, 大膽猜測, 653是漫畫編號, ch是集數, 選到第二頁, URL會變成這樣</p>
-<pre><code>http://v.comicbus.com/online/comic-653.html?ch=4-2
+<pre tabindex=0><code>http://v.comicbus.com/online/comic-653.html?ch=4-2
 </code></pre><p>這樣其實就很明顯了, 接下來是內容的部分</p>
 <p>每一集的頭上有一個"正在觀看:[ 名偵探柯南 1 ]", &ldquo;[]&ldquo;內就是標題了吧, 另外還有一個"select&rdquo;, 裡面有這集所有的頁數資訊, 而圖片的id是"TheImg&rdquo;</p>
 <p>不過麻煩的是, 這些資訊似乎隱藏在javascript中, page載入後才會出現</p>
@@ -417,7 +417,7 @@ deactivate Viewer
 <p>建置好的執行檔會在srs/trunk/objs目錄下, 可以直接執行</p>
 <p><strong>設定</strong></p>
 <p>conf目錄下有很多不同的設定檔可以參考, 因為我要試RTMP, HLS所以我用的設定檔如下:</p>
-<pre><code>listen              1935;
+<pre tabindex=0><code>listen              1935;
 max_connections     1000;
 srs_log_tank        file;
 srs_log_file        ./objs/srs.log;

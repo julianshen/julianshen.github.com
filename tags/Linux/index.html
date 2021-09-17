@@ -20,7 +20,7 @@
 <link rel=stylesheet href=/css/main.css>
 <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel=stylesheet type=text/css>
 <meta http-equiv=cleartype content="on">
-<meta name=generator content="Hugo 0.87.0">
+<meta name=generator content="Hugo 0.88.1">
 <script src=/js/vendor/modernizr-2.6.2.custom.min.js></script>
 <script async src=https://unpkg.com/mermaid@8.2.3/dist/mermaid.min.js></script>
 <link rel="shortcut icon" href=/favicon.png>
@@ -94,10 +94,10 @@ Reading time ~1 minute
 <div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh>sudo apt-get install davfs2
 </code></pre></div><h4 id=設定帳號密碼>設定帳號密碼</h4>
 <p>修改<code>/etc/davfs2/secrets</code>, 加入</p>
-<pre><code>https://dav.box.com/dav box.com帳號 密碼
+<pre tabindex=0><code>https://dav.box.com/dav box.com帳號 密碼
 </code></pre><h4 id=掛載>掛載</h4>
 <p>執行底下指令掛載</p>
-<pre><code>sudo mkdir /mnt/box.com
+<pre tabindex=0><code>sudo mkdir /mnt/box.com
 sudo -t davfs https://dav.box.com/dav /mnt/box.com
 </code></pre><p>成功之後,就會在/mnt/box.com底下看到你的檔案了(包含人家分享給你協作的檔案根目錄), 之後當本地端檔案存取即可, 設定好auto mount即可在開機後掛載</p>
 </div>

@@ -20,7 +20,7 @@
 <link rel=stylesheet href=/css/main.css>
 <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel=stylesheet type=text/css>
 <meta http-equiv=cleartype content="on">
-<meta name=generator content="Hugo 0.87.0">
+<meta name=generator content="Hugo 0.88.1">
 <script src=/js/vendor/modernizr-2.6.2.custom.min.js></script>
 <script async src=https://unpkg.com/mermaid@8.2.3/dist/mermaid.min.js></script>
 <link rel="shortcut icon" href=/favicon.png>
@@ -400,7 +400,7 @@ Reading time ~2 minutes
 <p>在開發的時候總會有一個需求是想在開發階段做跟生產環境不一樣的事, 像我自己的習慣是在做畫面時, 不見得後端資料和API都已經準備好了, 所以我會先以假的資料(mock data)來取代, 放上線後才是真正去抓server api</p>
 <p>因此就會需要一個方法來判斷現在到底是不是在開發階段, 如果使用<a href=https://webpack.github.io/>webpack</a>來開發, 這件事就會變得很簡單, 最近一直在寫<a href=https://vuejs.org>Vue.js</a>, 這邊就有<a href=https://vuejs.org>Vue.js</a> (反正我也還不懂react.js, 哈)</p>
 <p>用vue-cli建立一個以webpack為工作流程的專案很簡單:</p>
-<pre><code>vue init webpack my-project
+<pre tabindex=0><code>vue init webpack my-project
 </code></pre><p>跑完後相關的檔案都幫你產生好了</p>
 <p>要在你的程式裡面判斷目前是否是開發環境的話, 只要加入這樣的判斷:</p>
 <div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=color:#66d9ef>if</span> (<span style=color:#a6e22e>process</span>.<span style=color:#a6e22e>env</span>.<span style=color:#a6e22e>NODE_ENV</span> <span style=color:#f92672>===</span> <span style=color:#e6db74>&#39;development&#39;</span>) {

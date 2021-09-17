@@ -20,7 +20,7 @@
 <link rel=stylesheet href=/css/main.css>
 <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel=stylesheet type=text/css>
 <meta http-equiv=cleartype content="on">
-<meta name=generator content="Hugo 0.87.0">
+<meta name=generator content="Hugo 0.88.1">
 <script src=/js/vendor/modernizr-2.6.2.custom.min.js></script>
 <script async src=https://unpkg.com/mermaid@8.2.3/dist/mermaid.min.js></script>
 <link rel="shortcut icon" href=/favicon.png>
@@ -79,9 +79,9 @@ Reading time ~3 minutes
 <h2 id=microk8s>MicroK8s</h2>
 <p><a href=https://microk8s.io/>MicroK8s</a> 算是一個不錯的選擇, 輕量化, 單機可以跑, 重要的是, 可以隨時開關, 對於我這台老電腦來說, 需要的時候再開就好</p>
 <p>安裝方式很簡單(Linux下需要先有<a href=https://snapcraft.io/docs/installing-snapd>snap</a>):</p>
-<pre><code>sudo snap install microk8s --classic
+<pre tabindex=0><code>sudo snap install microk8s --classic
 </code></pre><p>使用 <code>microk8s status</code> 可以看目前狀態, <code>microk8s start</code>可以開始執行, <code>microk8s stop</code>即可停止</p>
-<pre><code># microk8s status
+<pre tabindex=0><code># microk8s status
 microk8s is not running, try microk8s start
 # microk8s start
 [sudo] password for julianshen:            
@@ -124,7 +124,7 @@ addons:
     traefik              # traefik Ingress controller for external access
 </code></pre><p>如果是正在執行的狀態下, <code>microk8s status</code> 可以看到有哪些可用的addon, 如果要啟動其中一個addon(例如trafik), 也只要執行 <code>microk8s enable traefik</code>, 非常簡單</p>
 <p>最基本來說, 你可以使用 <code>microk8s kubectl</code> 來執行相關的 <code>kubectl</code>指令, 如果要方便的GUI界面來管理的話, 也可以透過啟動dashboard:</p>
-<pre><code># microk8s enable dashboard
+<pre tabindex=0><code># microk8s enable dashboard
 Enabling Kubernetes Dashboard
 Addon metrics-server is already enabled.
 Applying manifest
