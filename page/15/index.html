@@ -79,6 +79,21 @@
 <article class=hentry>
 <header>
 <div class=entry-meta>
+<span class="entry-date date published updated"><time datetime="2015-06-10 04:00:14 +0000 UTC"><a href=/wwdc-day-2-%E7%9C%9F%E7%9A%84%E9%83%BD%E5%BE%97%E6%8F%90%E6%97%A9%E5%8D%8A%E5%80%8B%E5%B0%8F%E6%99%82%E4%BE%86%E6%8E%92%E9%9A%8A%E3%84%A7%E4%B8%8D%E5%B0%8F%E5%BF%83%E5%B0%B1%E9%95%B7%E9%95%B7%E7%9A%84%E4%BA%BA%E9%BE%8D%E4%BA%86%E7%9C%9F%E6%98%AF%E6%81%90%E6%80%96google/>Jun 10, 2015</a></time></span>
+<span class=entry-reading-time>
+<i class="fa fa-clock-o"></i>
+Reading time ~1 minute
+</span>
+</div>
+<h1 class=entry-title><a href=/wwdc-day-2-%E7%9C%9F%E7%9A%84%E9%83%BD%E5%BE%97%E6%8F%90%E6%97%A9%E5%8D%8A%E5%80%8B%E5%B0%8F%E6%99%82%E4%BE%86%E6%8E%92%E9%9A%8A%E3%84%A7%E4%B8%8D%E5%B0%8F%E5%BF%83%E5%B0%B1%E9%95%B7%E9%95%B7%E7%9A%84%E4%BA%BA%E9%BE%8D%E4%BA%86%E7%9C%9F%E6%98%AF%E6%81%90%E6%80%96google/ rel=bookmark title="wwdc day 2 真的都得提早半個小時來排隊ㄧ不小心就長長的人龍了真是恐怖google" itemprop=url>wwdc day 2 真的都得提早半個小時來排隊ㄧ不小心就長長的人龍了真是恐怖google</a></h1>
+</header>
+<div class=entry-content>
+<img src=/tumblr_files/tumblr_npp0we67iM1qzj38go1_1280.jpg><br><p>wwdc day 2 - 真的都得提早半個小時來排隊，ㄧ不小心就長長的人龍了，真是恐怖，Google IO大概只有非常熱門的才會這樣，參加這種developer conference 最大的好處是，吸收到的能量都很正向，常常看到很多很開心的到處跟人聊天介紹自己做的東西，交換心得和技術，看到一堆happy developers是很開心的事，大家似乎對自己身為developer都很驕傲呀！</p>
+</div>
+</article>
+<article class=hentry>
+<header>
+<div class=entry-meta>
 <span class="entry-date date published updated"><time datetime="2015-06-09 11:02:10 +0000 UTC"><a href=/Amazon-Locker/>Jun 9, 2015</a></time></span>
 <span class=entry-reading-time>
 <i class="fa fa-clock-o"></i>
@@ -168,21 +183,6 @@ Reading time ~1 minute
 <p>主要是看<a href="https://itunes.apple.com/us/app/medium/id828256236?mt=8">Medium iOS版</a>的搜尋畫面, 覺得他在UITextField裡顯示載入動畫還蠻不錯的, 不會有礙整個畫面的觀瞻, 所以就想做成像這樣:</p><figure class=tmblr-full data-orig-height=643 data-orig-width=375><img src=http://66.media.tumblr.com/0fabc4425e110a68867ace07d0c3bd7b/tumblr_inline_no78lkpgQu1qzg4zq_540.png data-orig-height=643 data-orig-width=375></figure><p>其實這也不難, 靠的是UITextField的rightView(有rightView和leftView可用), 只要把rightView指定到一個UIActivityIndicatorView, 把rightViewMode設成.Always, 然後呼叫startAnimation就可以了:</p><p><a href=https://github.com/julianshen/RAC-GitHubUserSearch/blob/aa3754787f2eec9e779493dffc65a65aa918c50a/GithubUserSearch/ViewController.swift#L39-L41>https://github.com/julianshen/RAC-GitHubUserSearch/blob/aa3754787f2eec9e779493dffc65a65aa918c50a/GithubUserSearch/ViewController.swift#L39-L41</a><br></p><p>另外在loading結束後把rightViewMode設成.Never</p><p><a href=https://github.com/julianshen/RAC-GitHubUserSearch/blob/aa3754787f2eec9e779493dffc65a65aa918c50a/GithubUserSearch/ViewController.swift#L52-L54>https://github.com/julianshen/RAC-GitHubUserSearch/blob/master/GithubUserSearch/ViewController.swift#L52-L54</a><br></p><p>那怎判斷loading開始了呢? 那就要借重另一個東西, 在呼叫GitHubAPI前呼叫observe:</p><p><a href=https://github.com/julianshen/RAC-GitHubUserSearch/blob/aa3754787f2eec9e779493dffc65a65aa918c50a/GithubUserSearch/ViewController.swift#L35-L44>https://github.com/julianshen/RAC-GitHubUserSearch/blob/aa3754787f2eec9e779493dffc65a65aa918c50a/GithubUserSearch/ViewController.swift#L35-L44</a><br></p>
 </div>
 </article>
-<article class=hentry>
-<header>
-<div class=entry-meta>
-<span class="entry-date date published updated"><time datetime="2015-05-12 02:52:27 +0000 UTC"><a href=/iOS%E9%96%8B%E7%99%BC%E7%94%9F%E6%89%8B%E7%AD%86%E8%A8%98-Unsubscribe-Signal/>May 12, 2015</a></time></span>
-<span class=entry-reading-time>
-<i class="fa fa-clock-o"></i>
-Reading time ~1 minute
-</span>
-</div>
-<h1 class=entry-title><a href=/iOS%E9%96%8B%E7%99%BC%E7%94%9F%E6%89%8B%E7%AD%86%E8%A8%98-Unsubscribe-Signal/ rel=bookmark title="[iOS開發生手筆記] Unsubscribe Signal" itemprop=url>[iOS開發生手筆記] Unsubscribe Signal</a></h1>
-</header>
-<div class=entry-content>
-<p>今天的東西要分兩篇寫</p><p>之前下載圖的地方: </p><p><a href=https://github.com/julianshen/RAC-GitHubUserSearch/blob/9183f978ee782fbf8e118c79a9557f294e8aa87b/GithubUserSearch/ViewController.swift#L65-L84>https://github.com/julianshen/RAC-GitHubUserSearch/blob/9183f978ee782fbf8e118c79a9557f294e8aa87b/GithubUserSearch/ViewController.swift#L65-L84</a> </p><p>有個缺點, 就是當UITableView已經被更新或是滑到下一個頁面時, 圖片下載並沒有被中斷, 但cell又是被回收使用的, 導致前一張下載完後還是會先顯示到UIImageView上去, 這樣會造成圖片跳來跳去的</p><p>最直覺的想法是當圖還沒下載完之前這個cell已經要被重複利用到別地方前就終止下載, 但在RAC裡面, Signal是沒辦法被中途停止的, 但可以被unsubcribe, 因此改寫成:</p><p><a href=https://github.com/julianshen/RAC-GitHubUserSearch/blob/aa3754787f2eec9e779493dffc65a65aa918c50a/GithubUserSearch/ViewController.swift#L81-L96>https://github.com/julianshen/RAC-GitHubUserSearch/blob/aa3754787f2eec9e779493dffc65a65aa918c50a/GithubUserSearch/ViewController.swift#L81-L96</a><br></p><p>這邊用到一個東西就是Disposable, 利用這東西的dispose()方法, 就可以unsubscribe 還沒做完的Signal了</p>
-</div>
-</article>
 <div class=pagination>
 <ul class=inline-list>
 <li><a href=/page/14/ class=btn>Previous</a></li>
@@ -260,6 +260,7 @@ Reading time ~1 minute
 <li><a href=/page/72/>72</a></li>
 <li><a href=/page/73/>73</a></li>
 <li><a href=/page/74/>74</a></li>
+<li><a href=/page/75/>75</a></li>
 <li><a href=/page/16/ class=btn>Next</a></li>
 </ul>
 </div>

@@ -80,6 +80,22 @@ All posts
 <article class=hentry>
 <header>
 <div class=entry-meta>
+<span class="entry-date date published updated"><time datetime="2013-06-20 20:16:26 +0000 UTC"><a href=/Android-%E4%B8%80%E9%96%83%E4%B8%80%E9%96%83%E4%BA%AE%E6%99%B6%E6%99%B6%E7%9A%84BlinkLayout/>Jun 20, 2013</a></time></span>
+<span class=entry-reading-time>
+<i class="fa fa-clock-o"></i>
+Reading time ~1 minute
+</span>
+</div>
+<h1 class=entry-title><a href=/Android-%E4%B8%80%E9%96%83%E4%B8%80%E9%96%83%E4%BA%AE%E6%99%B6%E6%99%B6%E7%9A%84BlinkLayout/ rel=bookmark title="[Android] 一閃一閃亮晶晶的BlinkLayout" itemprop=url>[Android] 一閃一閃亮晶晶的BlinkLayout</a></h1>
+</header>
+<div class=entry-content>
+<p>在<a href=https://developers.google.com/events/io/sessions/324958375 target=_blank>Androids Do Daydream</a>裡有提到Romain Guy要他提(大概假的吧)在layout裡面放"&lt;blink>&ldquo;可以做到view閃爍的效果而不用寫到一行code<br><br>查了一下AOSP的原始碼也的確有這東西, 它是一個躲在<a href=https://github.com/android/platform_frameworks_base/blob/5cb0f2184656642160e9ac032d0646f766058a5b/core/java/android/view/LayoutInflater.java target=_blank>LayoutInflater</a>的一個叫BlinkLayout的東西, 這樣一來就可以配合<a href=http://developer.android.com/reference/android/widget/TextClock.html target=_blank>TextClock</a> (API Level 17)來做一個閃爍的時鐘了<br><br><script src=https://gist.github.com/julianshen/5822197.js></script><br>不過, 這樣, 是整個TextClock在閃, 而不是像一般數字鐘一樣是只有&rdquo;:&ldquo;閃, 如果要做到只有&rdquo;:&ldquo;在閃, 那只好把"時"跟"分"給拆開, 像這樣: <br><br><script src=https://gist.github.com/julianshen/5822234.js></script><br><br>
+via Blogger <a href=http://julianshen.blogspot.com/2013/06/android-blinklayout.html>http://julianshen.blogspot.com/2013/06/android-blinklayout.html</a></p>
+</div>
+</article>
+<article class=hentry>
+<header>
+<div class=entry-meta>
 <span class="entry-date date published updated"><time datetime="2013-06-17 09:46:39 +0000 UTC"><a href=/%E7%AD%86%E8%A8%98Android-StudioGit-push/>Jun 17, 2013</a></time></span>
 <span class=entry-reading-time>
 <i class="fa fa-clock-o"></i>
@@ -139,22 +155,6 @@ Reading time ~3 minutes
 <div class=entry-content>
 原本在Android下解析JSON內容,  大多用<a href=http://bit.ly/14AliYI target=_blank>JSONObject</a>和<a href=http://bit.ly/16rSIaD target=_blank>JSONArray</a>, 這兩個是很簡單的JSON parser, 只要將字串(String)傳入即可<br><br>不過, 這跟在用DOM解析XML是有類似的問題, 解析文件是一氣呵成, 必須要把所有內容先走過一遍, 也需要更多的記憶體來儲存, 這對於解析較大的文件是一個大問題, 必須要花費更多時間和空間, 而且如果所需要的資料就算只是整份文件中間的一小部分, 還是得先把整份文件走完, 在XML, 可以用SAX來解決這問題, 但Android要到API level 11(Honeycomb) 才新增了<a href=http://bit.ly/14AljMq target=_blank>JsonReader</a>這個算是JSON界的SAX的解決方案<br><br> <a href=http://bit.ly/14AljMq target=_blank>JsonReader</a>類似SAX, 也是一種streaming parser, 並不用一次讀出所有字串內容, 它要的只是個Reader, 但不太像SAX屬於事件驅動(event driven)的方式, 它應該比較像token consuming, 它定義了幾類基本的<a href=http://bit.ly/14AljMr target=_blank>JsonToken</a>,  它也有BEGIN(END)_OBJECT, BEGIN(END)_ARRAY這種類似SAX中startElement, endElement, 但卻沒類似SAX的startDocument<br><br>解析一個JSON物件的程式碼如下:<br><br><blockquote class=tr_bq><pre><b>    <span style=color:#900> {username:"Bob", age: 14, sex: "m"}</span></b><span style=color:#900> </span></pre></blockquote><blockquote class=tr_bq><pre><b>     reader.beginObject();</b><br>     while (reader.hasNext()) {<br>       String name = <b>reader.nextName();</b><br>       if (name.equals("username")) {<br>         username = reader.nextString();<br>       } else if (name.equals("age")) {<br>         followersCount = reader.nextInt();<br>       } <span style=color:#900>else {<br>         reader.skipValue();<br>       }</span><br>     }<br><b>reader.endObject();</b></pre></blockquote>解析一個物件, 要從beginObject開始(陣列則是beginArray), endObject結束, 接著透過一個while loop一個個走過這物件內所有的token, 說實在的, 不是很好debug,  你必須要先知道下一個要處理的token是啥類別, 以上面的例子為例, 物件內第一個token是"username", 這是一個JsonToken.NAME, 因此要用nextName來處理, 搞錯了就會出錯, 還不容易知道錯哪,  而上面那例子裡的"else"也是必須的, 拿掉的話, 在endObject就會出錯, 因為這段程式並沒去處理"sex", 因此處理完sex這個名字後, 並未消化掉"m"這個值(JsonToken.STRING), 而是直接endObject, 這會產生一個IllegalStateException<br><br>為了避免用了錯誤的方式處理下一個token, 可以先用<a href=http://bit.ly/16rSFLX target=_blank>peek()</a>來看一下下一個要處理的種類<br><br>在可讀性上, 用JsonReader寫出的並不是很好, 但它卻適合來處理大的JSON文件, 或是像Twitter Streaming API這種幾乎無止盡的<br><br>這當然也不是只有在Android上有, Google也早把這也<a href=http://bit.ly/14AljMt target=_blank>包含到GSON去了</a><br><br>
 via Blogger <a href=http://bit.ly/16rSFLZ>http://bit.ly/16rSFLZ</a>
-</div>
-</article>
-<article class=hentry>
-<header>
-<div class=entry-meta>
-<span class="entry-date date published updated"><time datetime="2013-03-22 02:02:05 +0000 UTC"><a href=/%E5%8F%AF%E4%BB%A5%E7%94%A8%E4%BE%86%E5%8F%96%E4%BB%A3Google-Reader%E7%9A%84%E5%8F%A6%E4%B8%80%E5%80%8BGoogle%E7%94%A2%E5%93%81-Currents-%E6%BD%AE%E6%B5%81%E5%90%8C%E6%AD%A5/>Mar 22, 2013</a></time></span>
-<span class=entry-reading-time>
-<i class="fa fa-clock-o"></i>
-Reading time ~3 minutes
-</span>
-</div>
-<h1 class=entry-title><a href=/%E5%8F%AF%E4%BB%A5%E7%94%A8%E4%BE%86%E5%8F%96%E4%BB%A3Google-Reader%E7%9A%84%E5%8F%A6%E4%B8%80%E5%80%8BGoogle%E7%94%A2%E5%93%81-Currents-%E6%BD%AE%E6%B5%81%E5%90%8C%E6%AD%A5/ rel=bookmark title="可以用來取代Google Reader的另一個Google產品 - Currents (潮流同步)" itemprop=url>可以用來取代Google Reader的另一個Google產品 - Currents (潮流同步)</a></h1>
-</header>
-<div class=entry-content>
-<p>最近科技界比較流行的戲碼是: Google要把Google Reader給送上斷頭台了<br><br>這齣戲有點輕肥皂劇的感覺, 先是Google公布要把Reader給喀嚓了, 再來就是一堆重度使用者叫苦連天, 一堆原本吃Google reader豆腐的服務跳出來說要接手實作替代方案, 緊接著是<a href=http://b.qr.ae/14ZiNey>Google reader的Product manager 在Quora上爆料Google都把人抽去做Google+</a>, 再來就是有重量級的部落格重炮轟擊Google關掉受歡迎的東西卻拿人力去開發沒用的東西(Google+), 對於這樣的評論, 個人是認為"言重了", 我自己本身的觀點跟這些是有點相反的, 不過我的觀點不主流, 這篇也不是為了談這個, 只是先行加點小小囉嗦&mldr; :P<br><br>Google Reader停了, 對原本的重度使用者以及使用到他的服務比如說feedly, 應該是重傷不少, 對我個人而言, 影響不大, 我在幾年前早把我消耗資訊的習慣, 從Reader轉到Twitter了, 個人認為Twitter也是一個很好的消化資訊的管道<br><br>不過, 先不管Reader和Twitter&mldr;你聽過Google有一個跟Reader同質性相當高的服務叫Google Currents嗎? 這是一個在這一年內(應該是吧)的新服務(中文譯名是有點矬):<br><br></p><div class=separator style=clear:both;text-align:center><a href=http://bit.ly/WXnszp imageanchor=1 style=margin-left:1em;margin-right:1em><img border=0 src=http://bit.ly/WXnszp></a></div><br>目前除了有Android版本外, iOS上也是可以找的到<br><br>跟Google Reader不同的是, 它比較像Flipboard, 事先把新聞網站分類整理好讓使用者訂閱, 乍看之下是跟Google Reader不一樣的概念, 但是, 其實Google Reader訂閱的東西也是可以轉移到這邊來的<br><br>首先, 從"新增訂閱項目"開始<br><div class=separator style=clear:both;text-align:center><a href=http://bit.ly/WXnveM imageanchor=1 style=margin-left:1em;margin-right:1em><img border=0 height=320 src=http://bit.ly/15wmjNJ width=180></a></div><div class=separator style=clear:both;text-align:left><br></div><div class=separator style=clear:both;text-align:left>拉到最下面, 可以找到你原本就在Google Reader已訂閱的項目, 這時候你就可以把他們一個個加進來了</div><div class=separator style=clear:both;text-align:center><a href=http://bit.ly/WXnszt imageanchor=1 style=margin-left:1em;margin-right:1em><img border=0 height=320 src=http://bit.ly/15wmh8z width=180></a></div><div class=separator style=clear:both;text-align:center><br></div><div class=separator style=clear:both;text-align:center><br></div><div class=separator style=clear:both;text-align:left>那可不可以加自定的RSS呢? 也不難, 這邊示範了怎樣加我自己Flickr的RSS, 搜尋"flickr julianshen", 馬上就找到它了, 我甚至還不用跑到Flickr網頁去找到那個RSS</div><div class=separator style=clear:both;text-align:center><a href=http://bit.ly/WXnveO imageanchor=1 style=margin-left:1em;margin-right:1em><img border=0 height=320 src=http://bit.ly/15wmjNL width=180></a></div><br>再做另一個實驗, 搜尋我的名字"julianshen", 不但我的Flickr, 我的blog, 甚至是我的GitHub, Youtube, 都跑出來可以讓你去訂閱, 而且搜尋速度, 還蠻快的<br><div class=separator style=clear:both;text-align:center><a href=http://bit.ly/WXnszv imageanchor=1 style=margin-left:1em;margin-right:1em><img border=0 height=320 src=http://bit.ly/15wmh8B width=180></a></div><br>當然也不是沒有缺點:<br><br><ol><li>目前只有Android, iOS 版本並無PC或Web版本, 當然更無其他3rd party軟體</li><li>加進去的RSS都會被自動歸類, 大多被歸類在"資訊提供", 有些會被歸類的其他類別(比如說某些科技公司的新聞的RSS可能會被自動歸類到科技類), 沒辦法像Google Reader一樣自定目錄來分類, 也不能修改分類</li><li>沒辦法直接跟瀏覽器配合</li></ol><div>不過這些好像對Google來說也不是啥複雜難做的吧</div><div><br></div><div>有兩個同質性那麼高的服務, 關掉其中一個也還蠻合理的啦, 賴到Google+頭上, 好像也有點無辜 XD</div><br><br><div class=separator style=clear:both;text-align:center><br></div><br><br><br>
-via Blogger <a href=http://bit.ly/WXnszx>http://bit.ly/WXnszx</a>
 </div>
 </article>
 <div class=pagination>
@@ -234,6 +234,7 @@ via Blogger <a href=http://bit.ly/WXnszx>http://bit.ly/WXnszx</a>
 <li><a href=/post/page/72/>72</a></li>
 <li><a href=/post/page/73/>73</a></li>
 <li><a href=/post/page/74/>74</a></li>
+<li><a href=/post/page/75/>75</a></li>
 <li><a href=/post/page/23/ class=btn>Next</a></li>
 </ul>
 </div>

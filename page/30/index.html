@@ -79,6 +79,21 @@
 <article class=hentry>
 <header>
 <div class=entry-meta>
+<span class="entry-date date published updated"><time datetime="2012-04-13 02:51:13 +0000 UTC"><a href=/%E7%AD%86%E8%A8%98-Practice-Open-graph-with-Facebook-JavaScript-API/>Apr 13, 2012</a></time></span>
+<span class=entry-reading-time>
+<i class="fa fa-clock-o"></i>
+Reading time ~1 minute
+</span>
+</div>
+<h1 class=entry-title><a href=/%E7%AD%86%E8%A8%98-Practice-Open-graph-with-Facebook-JavaScript-API/ rel=bookmark title="[筆記] Practice: Open graph with Facebook JavaScript API" itemprop=url>[筆記] Practice: Open graph with Facebook JavaScript API</a></h1>
+</header>
+<div class=entry-content>
+<div class=posterous_autopost><p>Source: <a href=https://bitbucket.org/julianshen/videomag/overview>https://bitbucket.org/julianshen/videomag/overview</a></p> <p>Demo URL:<a href=http://growing-wind-8625.herokuapp.com/top> </a><a href=http://growing-wind-8625.herokuapp.com/top>http://growing-wind-8625.herokuapp.com/top</a></p> <p>Server: Play framework 2.0 on Heroku</p> <p>Open graph object: Youtube video, Action: watch</p> <p>It&rsquo;s not a problem to add youtube video since it already contains open graph meta data in page. All we have to do is call &ldquo;/me/video.watches?video=youtube_link&rdquo; with POST.</p> <p>To post activity to timeline, the permission &ldquo;publish_actions&rdquo; is required. </p> <p>The result on timeline:</p> <div class="p_embed p_image_embed"> <img alt=_2012-04-13_2 height=65 src=http://getfile0.posterous.com/getfile/files.posterous.com/temp-2012-04-12/xgHCmzygzzzlDxxjbqcuoyeIAzHdgylkEfnGpAddspGblpwpmlrEckDHamkB/_2012-04-13_2.49.36.png.scaled500.png width=390></div> </div>
+</div>
+</article>
+<article class=hentry>
+<header>
+<div class=entry-meta>
 <span class="entry-date date published updated"><time datetime="2012-03-26 01:32:34 +0000 UTC"><a href=/%E6%8B%89%E9%BA%B5%E9%A3%9F%E8%A8%98-%E9%A6%99%E6%B8%AF-Mist-%E5%89%B5%E4%BD%9C%E9%BA%B5%E5%B7%A5%E6%88%BF-%E8%88%87-%E7%A7%80%E6%8B%89%E9%BA%B5/>Mar 26, 2012</a></time></span>
 <span class=entry-reading-time>
 <i class="fa fa-clock-o"></i>
@@ -134,21 +149,6 @@ Reading time ~1 minute
 </header>
 <div class=entry-content>
 <div class=posterous_autopost><p>The following example shows how to create a simple Facebook login button with Facebook javascript API:</p> <p> <script src="https://gist.github.com/1994297.js?file=gistfile1.phtml"></script></p> <p>Normally, this page would be reloaded if user finished authorized your app. But it won&rsquo;t be reloaded in Chrome due to the follwing error:</p> <blockquote> <p><span style=color:red>Unsafe JavaScript attempt to access frame with URL</span> <a href="https://s-static.ak.fbcdn.net/connect/xd_proxy.php?version=3#cb=f363e58d9">https://s-static.ak.fbcdn.net/connect/xd_proxy.php?version=3#cb=f363e58d9</a>&origin=http%3A%2F%2Fwww.ab.com%2Ffcb27588&relation=opener&transport=postmessage&frame=fac4c0f18&access_token=AAAEHZBpoK3B0BALv8Cf96gaKEnn4ZBtXgjCOQCFFhVDL4K0rZAE2NGDcqZCPlZByNNKEDmYSGKHQv8jAUM2yGZCHkOcyXUKhoZD&expires_in=0&signed_request=g7sYd_XQx-EBPtQQGk-0ISRMrUDnT4L4WHAmlNsVFBU.eyJhbGdvcml0aG0iOiJITUFDLVNIQTI1NiIsImNvZGUiOiJBUURKYkZBNjZuemduSDBBN0dXWmd2SGxZZkQxQVp4Qm1MSnc0Z3ppUV9FQ25VeEYyZmcyTmJGcFh3UHZDeWhyYnFrT1RxNmRVc2xsb0d4dlFCd290UjRyV0ZsSnJtVjFoNy1QUTlJbTRROXh3MmNKMGU1b0NReWtmT1ZZcXhMUDRVRldVSDgwVU5ic1BLTHdyNk80cFlSVVItQzNIYjhyRWgxek40ZFEzSkpreXhBcU1KSHljcWxETzh2dF96T3ZpN0EiLCJpc3N1ZWRfYXQiOjEzMzExMzg3MjQsInVzZXJfaWQiOiIxMTI5MjgzNDM3In0 from frame with URL <a href=http://www.ab.com/login.html>http://www.ab.com/login.html</a>. Domains, protocols and ports must match.</p> </blockquote> <p>Some people use FB.getLoginStatus() to check if user authorized app at page loaded. If page could be reloaded, it&rsquo;s no problem. However, in this case, it&rsquo;s not. </p> <p>There are several questions on StackOverflow related to this:</p> <p><a href=http://stackoverflow.com/questions/3577947/facebook-gives-unsafe-javascript-attempt-to-access-frame-with-url-error-in-chr>http://stackoverflow.com/questions/3577947/facebook-gives-unsafe-javascript-attempt-to-access-frame-with-url-error-in-chr</a></p> <p><a href=http://stackoverflow.com/questions/8013008/facebook-authentication-unsafe-javascript-attempt-to-access-frame-with-url>http://stackoverflow.com/questions/8013008/facebook-authentication-unsafe-javascript-attempt-to-access-frame-with-url</a></p> <p><a href=http://stackoverflow.com/questions/3010170/unsafe-javascript-attempt-to-access-frame-with-url-error-being-continuously>http://stackoverflow.com/questions/3010170/unsafe-javascript-attempt-to-access-frame-with-url-error-being-continuously</a></p> <p>But none of these solves my problem. I don&rsquo;t want to solve this with introduce PHP sdk. I would like to solve it with pure front end codes. </p> <p>Therefore, I find 3 solutions:</p> <ol><li>Ignore the error and register login event to solve the problem:</li> <li>Add attribute &ldquo;show-faces="true&rdquo;&ldquo; to &lt;fb:login-button> to solve</li> <li>Add attribute "render-in-iframe="true&rdquo;&ldquo; to &lt;fb:login-button> to solve. This is a bad idea since this is an undocumented attribute.</li> </ol><p>In solution 2 and 3, login-button seems to be placed into an iframe. And 3 would display an incomplete login button (bug?)</p> <ol></ol></div>
-</div>
-</article>
-<article class=hentry>
-<header>
-<div class=entry-meta>
-<span class="entry-date date published updated"><time datetime="2012-02-24 23:06:52 +0000 UTC"><a href=/%E6%8B%89%E9%BA%B5%E9%A3%9F%E8%A8%98-%E5%8F%B0%E5%8C%97-%E5%B1%B1%E5%B0%8F%E5%B1%8B-%E9%BB%91%E9%AD%94%E6%8B%89%E9%BA%B5/>Feb 24, 2012</a></time></span>
-<span class=entry-reading-time>
-<i class="fa fa-clock-o"></i>
-Reading time ~1 minute
-</span>
-</div>
-<h1 class=entry-title><a href=/%E6%8B%89%E9%BA%B5%E9%A3%9F%E8%A8%98-%E5%8F%B0%E5%8C%97-%E5%B1%B1%E5%B0%8F%E5%B1%8B-%E9%BB%91%E9%AD%94%E6%8B%89%E9%BA%B5/ rel=bookmark title="[拉麵食記] 台北 山小屋 - 黑魔拉麵" itemprop=url>[拉麵食記] 台北 山小屋 - 黑魔拉麵</a></h1>
-</header>
-<div class=entry-content>
-<div class=posterous_autopost><div class="p_embed p_image_embed"> <a href=http://getfile5.posterous.com/getfile/files.posterous.com/temp-2012-02-24/tjCIgFksmDHJoxjGBcggkpaeqJkDoHsbwwHJfordfFJyfjdtzIwyuhrpjCop/IMG_2553.jpg.scaled1000.jpg><img alt=Img_2553 height=373 src=http://getfile9.posterous.com/getfile/files.posterous.com/temp-2012-02-24/tjCIgFksmDHJoxjGBcggkpaeqJkDoHsbwwHJfordfFJyfjdtzIwyuhrpjCop/IMG_2553.jpg.scaled500.jpg width=500></a> </div> <div class="p_embed p_image_embed"> <a href=http://getfile1.posterous.com/getfile/files.posterous.com/temp-2012-02-24/HDgwtJJvgEGqfIhnqswJftbhBiFFzmcrghmuHasifhiFDxHtuuFcswJffJIs/IMG_2551.jpg.scaled1000.jpg><img alt=Img_2551 height=373 src=http://getfile7.posterous.com/getfile/files.posterous.com/temp-2012-02-24/HDgwtJJvgEGqfIhnqswJftbhBiFFzmcrghmuHasifhiFDxHtuuFcswJffJIs/IMG_2551.jpg.scaled500.jpg width=500></a> </div> <p>這家離上次去的屯京不遠, 但卻不像屯京一樣大排長龍, 其實店內還坐不到一半, 不過上次吃屯京是吃沾麵, 所以無法比較拉麵, 不過這家山小屋也是蠻好吃的</p> <p>我點的是 黑魔拉麵 , 跟我上次去大阪吃的黑河童是同類型的, 豚骨湯頭加上黑麻油, 一整碗像墨汁一樣, 豚骨湯頭還蠻鮮甜的, 應該有用心到, 配上黑麻油的香氣, 這碗湯頭是挺不錯的, 麵是細麵, 我要求要略硬, 口感還不錯, 叉燒則是一般</p> <p>餃子皮有煎脆, 內餡有燙口, 蠻好吃的</p> <p>最後&mldr;.好久沒拍的空碗照:</p> <div class="p_embed p_image_embed"> <a href=http://getfile8.posterous.com/getfile/files.posterous.com/temp-2012-02-24/nyztCdyuqtkGyaGFEgcAasEkFwlrxgDhkaGjflfnGtshppacgHJtidnezbmm/IMG_2557.jpg.scaled1000.jpg><img alt=Img_2557 height=373 src=http://getfile4.posterous.com/getfile/files.posterous.com/temp-2012-02-24/nyztCdyuqtkGyaGFEgcAasEkFwlrxgDhkaGjflfnGtshppacgHJtidnezbmm/IMG_2557.jpg.scaled500.jpg width=500></a> </div> </div>
 </div>
 </article>
 <div class=pagination>
@@ -228,6 +228,7 @@ Reading time ~1 minute
 <li><a href=/page/72/>72</a></li>
 <li><a href=/page/73/>73</a></li>
 <li><a href=/page/74/>74</a></li>
+<li><a href=/page/75/>75</a></li>
 <li><a href=/page/31/ class=btn>Next</a></li>
 </ul>
 </div>

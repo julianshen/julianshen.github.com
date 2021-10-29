@@ -79,6 +79,88 @@
 <article class=hentry>
 <header>
 <div class=entry-meta>
+<span class="entry-date date published updated"><time datetime="2017-02-07 17:18:05 +0000 UTC"><a href=/Swift-%E6%BC%AB%E7%95%AB%E7%88%AC%E8%9F%B2/>Feb 7, 2017</a></time></span>
+<span class=entry-reading-time>
+<i class="fa fa-clock-o"></i>
+Reading time ~5 minutes
+</span>
+</div>
+<h1 class=entry-title><a href=/Swift-%E6%BC%AB%E7%95%AB%E7%88%AC%E8%9F%B2/ rel=bookmark title="[Swift] 漫畫爬蟲" itemprop=url>[Swift] 漫畫爬蟲</a></h1>
+</header>
+<div class=entry-content>
+<p>最近搬家又讓我挖出了Amazon Kindle, 又覺得拿來看漫畫很方便(這戲演了幾次了呀?), 雖然說好像也有網站可以下載漫畫.mobi檔, 不過似乎是會員制的, 不喜歡</p>
+<p>因此又讓我想寫漫畫的爬蟲了, 這次的目標是: <a href=http://www.comicbus.com/>無限動漫</a> (他們的app實在做得有夠差)</p>
+<p>這次幾個需求是:</p>
+<ol>
+<li>Command line下就可以跑了(這也沒必要做UI吧?)</li>
+<li>在os x下可以執行(我自己電腦是mac)</li>
+<li>出來的檔案可以放到kindle看(.mobi檔或epub)</li>
+</ol>
+<p>mobi或epub的檔案格式似乎有點麻煩, 也不太好做得好, 所以決定用cbz檔再用<a href=https://calibre-ebook.com/>Calibre</a>轉mobi</p>
+<p><a href=https://calibre-ebook.com/>Calibre</a>有一個方便的command line tool叫ebook-convert, 可以用來轉檔, 而cbz本身非常的簡單
+, 它就是一個zip檔, 裡面的圖片檔名照編號就好, 這code還算好寫</p>
+<p>再來就是看一下怎麼解析<a href=http://www.comicbus.com/>無限動漫</a>的內容了, 它的URL是長這樣的:</p>
+<pre tabindex=0><code>http://v.comicbus.com/online/comic-653.html?ch=1
+</code></pre><p>以上範例是名偵探柯南第一卷, 大膽猜測, 653是漫畫編號, ch是集數, 選到第二頁, URL會變成這樣</p>
+<pre tabindex=0><code>http://v.comicbus.com/online/comic-653.html?ch=4-2
+</code></pre><p>這樣其實就很明顯了, 接下來是內容的部分</p>
+<p>每一集的頭上有一個"正在觀看:[ 名偵探柯南 1 ]", &ldquo;[]&ldquo;內就是標題了吧, 另外還有一個"select&rdquo;, 裡面有這集所有的頁數資訊, 而圖片的id是"TheImg&rdquo;</p>
+<p>不過麻煩的是, 這些資訊似乎隱藏在javascript中, page載入後才會出現</p>
+<p>這如果使用headless browser像是<a href=http://phantomjs.org/>Phantomjs</a>就沒啥問題, 但這邊我不想用它, 因為使用這工具還要再裝它</p>
+<p>我下一個選擇是Go + <a href=https://github.com/sourcegraph/webloop>Webloop</a>, <a href=https://github.com/sourcegraph/webloop>Webloop</a>是一個Go的headless browser lib, 它是基於WebkitGtk+做成的,
+不過我在mac上裝WebkitGTK+裝好久一直有問題, 所以&mldr;放棄&mldr;.</p>
+<p>接下來的選擇呢? 還有其他的headless browser嗎?有的! <a href=https://github.com/phimage/Erik>Erik</a>, 這是一個Swift的head less browser,
+用Swift寫爬蟲好像挺酷的, 查了一下, 有人用<a href=https://github.com/Alamofire/Alamofire>Alamofire</a> + <a href=https://github.com/tid-kijyun/Kanna>Kanna</a>, 不過這在這例子不適用, 這例子還是比較適合<a href=https://github.com/phimage/Erik>Erik</a></p>
+<h3 id=成品>成品</h3>
+<p>先給成果: <a href="https://drive.google.com/open?id=0B5rbRldWhe82MWRnVkpMQlExTHc">ComicGo</a></p>
+<p>這已經是一個OS X的可執行檔, 在Command line下執行 <code>ComicGo 653 1</code>就可以抓名偵探柯南第一集, 相關的漫畫編號集數, 就去<a href=http://www.comicbus.com/>無限動漫</a>查吧</p>
+<p>抓完會在你的Download目錄出現"名偵探柯南 1.cbz"再用ebook-covert去轉成你要的格式就可以了</p>
+<p>少少的時間隨便寫寫而已, 有bug就見諒囉</p>
+<h3 id=os-x-command-line-tool>OS X Command line tool</h3>
+<p>XCode + Swift是可以拿來寫command line tool的, 新增一個專案選"Command line tool":</p>
+<p><img src=/images/posts/xcodecmd.png alt></p>
+<p>這樣就可以開始寫了</p>
+<p>一開始在專案內部會發現一個"main.swift", 由於用swift寫command line app並沒有像其他語言有main function這類的東西
+所以程式就寫在這吧</p>
+<h3 id=開發command-line-tool的坑>開發Command line tool的坑</h3>
+<p>坑&mldr;真的不少</p>
+<p>首先, 你不能使用任何的framework, 因為command line tool產出會是一個可執行檔, 不是一個app bundle, 所以不能包含任何的framework</p>
+<p>第二, swift framework不能static link, 像是Erik, Kanna這些swift module, 都是dynamic lib</p>
+<p>慘, 光前面這兩點就麻煩了, 開發這個ComicGo, 我用到了<a href=https://github.com/phimage/Erik>Erik</a>, <a href=https://github.com/tid-kijyun/Kanna>Kanna</a>, <a href=https://github.com/marmelroy/Zip>Zip</a>等等
+, 這樣到底要怎麼辦? 跑起來就image not found</p>
+<p>所以呢?土法煉鋼, 把這些module的codes全部引入到我的專案內(所以沒打算Open ssource, 太醜了), 這樣一來就解決掉問題了, 不過這功不算小, 因為Kanna相依libxml, Zip相依libz這些native lib</p>
+<p>第三個坑, Erik是利用OS X裡面原生的WebKit去讀取網頁的, 因此他的設計是把載入網頁放到另一個DispatchQueue(javascript執行又是另一個),
+但Command line邏輯很單線, 它並不會等callback回來才結束程式, 因此會發現怎麼Erik都沒動作就結束程式了, 因此必須要有個機制來卡住</p>
+<p>這個機制就是<a href="https://www.google.com.tw/webhp?sourceid=chrome-instant&ion=1&espv=2&ie=UTF-8#q=swift+runloop">RunLoop</a>, 關於RunLoop這邊不多做解釋, 看一下<a href="https://www.google.com.tw/webhp?sourceid=chrome-instant&ion=1&espv=2&ie=UTF-8#q=swift+runloop">官方文件</a>
+在程式內則是這樣:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-swift data-lang=swift><span style=color:#66d9ef>let</span> rl = RunLoop.current
+<span style=color:#66d9ef>var</span> finished = <span style=color:#66d9ef>false</span>
+
+<span style=color:#66d9ef>while</span> <span style=color:#f92672>!</span>finished {
+    rl.run(mode: RunLoopMode.defaultRunLoopMode, before: Date(timeIntervalSinceNow: <span style=color:#ae81ff>2</span>))
+}
+</code></pre></div><p>當callback完畢後, 把finished設成true就可以結束整個程式了</p>
+<h3 id=erik>Erik</h3>
+<p>好像還沒介紹<a href=https://github.com/phimage/Erik>Erik</a>喔?其實有點想偷懶跳過了 :P</p>
+<p>使用<a href=https://github.com/phimage/Erik>Erik</a>來爬網頁其實很簡單,</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-swift data-lang=swift>Erik.visit(url: url) { object, error <span style=color:#66d9ef>in</span>
+    <span style=color:#66d9ef>if</span> <span style=color:#66d9ef>let</span> e = error {
+
+    } <span style=color:#66d9ef>else</span> <span style=color:#66d9ef>if</span> <span style=color:#66d9ef>let</span> doc = object {
+        <span style=color:#75715e>// HTML Inspection</span>
+		<span style=color:#66d9ef>for</span> link <span style=color:#66d9ef>in</span> doc.querySelectorAll(<span style=color:#e6db74>&#34;a, link&#34;</span>) {
+    		print(link.text)
+    		print(link[<span style=color:#e6db74>&#34;href&#34;</span>])
+		}
+    }
+}
+</code></pre></div><p>只要有些CSS selector的觀念就可以了, 連querySelectorAll這名字都是一樣的, Erik並不是直接用Webkit去做CSS query的, 而是把webkit的內容拿來用<a href=https://github.com/tid-kijyun/Kanna>Kanna</a>解析,
+javascript的執行也一樣, 因此如果對html node有任何變動, 是不會反映到webkit裡面去的, 用Erik來爬的優點是專門針對那些動態網頁的, 有這個就簡單太多了!</p>
+</div>
+</article>
+<article class=hentry>
+<header>
+<div class=entry-meta>
 <span class="entry-date date published updated"><time datetime="2017-02-07 16:20:37 +0000 UTC"><a href=/Go-Bleve-%E8%87%AA%E5%B8%B6%E5%85%A8%E6%96%87%E6%90%9C%E5%B0%8B/>Feb 7, 2017</a></time></span>
 <span class=entry-reading-time>
 <i class="fa fa-clock-o"></i>
@@ -399,35 +481,6 @@ Reading time ~4 minutes
 實在很不一致, 一個用property, 一個用name, 因此在<a href=https://github.com/julianshen/og>OG</a>的做法是先用property, 如果再找不到用name去找</p>
 </div>
 </article>
-<article class=hentry>
-<header>
-<div class=entry-meta>
-<span class="entry-date date published updated"><time datetime="2017-01-21 00:22:49 +0000 UTC"><a href=/%E5%9C%A8Heroku%E4%B8%8A%E7%94%A8apt-get%E5%AE%89%E8%A3%9D%E5%A5%97%E4%BB%B6/>Jan 21, 2017</a></time></span>
-<span class=entry-reading-time>
-<i class="fa fa-clock-o"></i>
-Reading time ~2 minutes
-</span>
-</div>
-<h1 class=entry-title><a href=/%E5%9C%A8Heroku%E4%B8%8A%E7%94%A8apt-get%E5%AE%89%E8%A3%9D%E5%A5%97%E4%BB%B6/ rel=bookmark title=在Heroku上用apt-get安裝套件 itemprop=url>在Heroku上用apt-get安裝套件</a></h1>
-</header>
-<div class=entry-content>
-<p><a href=https://www.heroku.com>Heroku</a>蠻好用的, 也用了好幾年了, 拿來做prototype真是方便, 不過慚愧的是, 我還沒付過錢給他(真惡劣)
-最近chatbot玩得比較多, 不想花錢租server, 所以就比較頻繁的用它, 說到這裡, 照例, 先來廣告一下:</p>
-<p>新的<a href=https://line.me/R/ti/p/%40dlk1367a>Line叭寇(Barcode)小幫手</a> (轉含有條碼的圖片給它, 它會幫你解讀):</p>
-<p><a href=https://line.me/R/ti/p/%40dlk1367a><img src=http://qr-official.line.me/L/zMCfmfxLHk.png alt></a></p>
-<p>好了, 回歸正題, Heroku 雖然是一個Paas的服務, 但它彈性非常大, 透過不同的buildpack也可以支援不同的語言跟框架,
-不像Google的GAE, 支援的平台就比較有限</p>
-<p>Heroku本身也是跑在Linux上, 因此, 如果你需要額外的套件, 其實也是沒問題的, 舉個例子, 雖然我這個叭寇小幫手是用Go來寫的
-但卻會用到<a href=http://zbar.sourceforge.net/>ZBar</a>這個讀取條碼的C程式庫, Heroku上當然沒裝, 所以建置Go時, 會因為找不到
-程式庫而失敗</p>
-<p>在Linux上, 我們可以用<code>apt-get</code>去安裝套件, 以zbar這例子是<code>apt-get install libzbar-dev</code>, 但在Heroku上又該怎麼裝呢?</p>
-<p>還是要透過buildpack, 在command line下執行下面指令:</p>
-<pre tabindex=0><code>heroku buildpacks:add --index 1 https://github.com/heroku/heroku-buildpack-apt
-</code></pre><p>apt這個build pack是放在官方的Github上, 因為我們希望該需要的, 軟體在一開始就把它準備好了</p>
-<p>除了加build pack外, 還是不夠的, 你的套件還是沒被安裝, 因此繼續加一個叫<code>Aptfile</code>的檔案, 內容是你需要安裝的套件</p>
-<p>當你push你的程式到heroku上後, 它就會根據<code>Aptfile</code>去安裝相對應的套件了</p>
-</div>
-</article>
 <div class=pagination>
 <ul class=inline-list>
 <li><a href=/page/5/ class=btn>Previous</a></li>
@@ -505,6 +558,7 @@ Reading time ~2 minutes
 <li><a href=/page/72/>72</a></li>
 <li><a href=/page/73/>73</a></li>
 <li><a href=/page/74/>74</a></li>
+<li><a href=/page/75/>75</a></li>
 <li><a href=/page/7/ class=btn>Next</a></li>
 </ul>
 </div>
