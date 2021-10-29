@@ -80,6 +80,36 @@ All posts
 <article class=hentry>
 <header>
 <div class=entry-meta>
+<span class="entry-date date published updated"><time datetime="2011-02-27 18:42:45 +0000 UTC"><a href=/Android%E7%AD%86%E8%A8%98-SDK-3.0-%E5%88%9D%E6%8E%A2Fragment/>Feb 27, 2011</a></time></span>
+<span class=entry-reading-time>
+<i class="fa fa-clock-o"></i>
+Reading time ~3 minutes
+</span>
+</div>
+<h1 class=entry-title><a href=/Android%E7%AD%86%E8%A8%98-SDK-3.0-%E5%88%9D%E6%8E%A2Fragment/ rel=bookmark title="[Android][筆記] SDK 3.0 - 初探Fragment" itemprop=url>[Android][筆記] SDK 3.0 - 初探Fragment</a></h1>
+</header>
+<div class=entry-content>
+<div class=posterous_autopost><p>詳細的Fragment初階可以參考<a href=http://developer.android.com/guide/topics/fundamentals/fragments.html> Developer Document</a></p> <p>Developer document裡面的Design Philosophy提到, Fragement的設計是為了讓大尺寸的螢幕(比如說Tablet), 有更動態更彈性的UI設計, 從那個範例圖來簡單的說, 就是想達到iPad上那種Multi-panel的UI設計</p> <p>在實際設計上, 似乎想要把Fragment設計成一個比較通用的design, 因此看起來比較不像是把一個Activity的話面分屍切成等份, 而是把Fragment當成UI上一個個有自己生命週期的獨立個體, 因此它的實踐未必是以Multi-panel的形態, 因此也有類似像<a href=http://developer.android.com/reference/android/app/DialogFragment.html>DialogFragment</a>的存在</p> <p>如果以Web design的觀點來看, Fragment可以類比成&lt;frame>或是&lt;iframe>, &lt;frame>或&lt;iframe>可以看成一個HTML document的一個pagelet, 而Fragment也是可以看成一個Activity裡面受Activity裡的FragmentManager所管理的lightweight inner Activity, 我個人其實對Fragment這設計並不是很欣賞, 如果用它來implement multi-panel UI感覺頗tricky, 尤其在landscape/portrait轉換上, 而Fragment的角色定位似乎介於View以及Activity之間, 你可以將之看成一個有生命週期的複雜View的包裝(好拗口 = =&ldquo;), 也可以把它看成一個簡易到不行的Activity, 對照ActivityGroup/LocalActivityManager來說, Fragment/FragmentManager 雖然顯得相對的light, 但特別為了這些目的把FragmentManager給整進Activity內, 感覺只是肥化Activity而已</p> <p>Fragment並不是implement multi-panel UI的唯一途徑, Romain Guy有一個叫做<a href=http://code.google.com/p/xlarge-demos/>x-large demos/PhotoAlbum</a>的範例, 在這範例中, 他實作了一個Multi-panel based的Album, 但卻沒有用到任何一個Fragment</p> <p>在初看到這個API時讓我比較感興趣的是, 目前在Android market上已經有相當多的phone based的軟體了, 如果是要把自己原有的架構在Phone based的軟體轉成同時也支援Fragment架構的tablet軟體(就兩者通吃), 在code的重用性, 以及porting的effort到底大不大? </p> <p>基本上, 這也不是太大的問題, 只是要把原本Activity裡面的東西抽出變成一個Fragment來implement, Activity變成只是Fragment的封裝</p> <p>例如說, 原本的layout假設是 main.xml, Activity裡面原本是以</p> <blockquote class=posterous_short_quote> <p>setContentView(R.layout.main)</p> </blockquote> <p>把原本的layout抽出獨立成另一個layout, 比如說mylayout.xml, 並新增一個新的Fragment(比如說叫MyFragment), 原本的main.xml內容改成:</p> <p> <script src="https://gist.github.com/845965.js?file=gistfile1.xml"></script></p> <p>MyFragment只要implement onCreateView:</p> <p> <script src="https://gist.github.com/845967.js?file=gistfile1.java"></script></p> <p>這樣Activity跑起來就跟原本還沒用Fragment沒啥兩樣&mldr;呃, 那這樣還多此一舉用Fragment幹嗎? 其實這只是一個簡單的靜態範例, 新創造出來的Fragment, 還可以重複在別的Activity被使用(比如說一個for tablet 的multi-panel activity), 也可以動態被創造出來應用</p></div>
+</div>
+</article>
+<article class=hentry>
+<header>
+<div class=entry-meta>
+<span class="entry-date date published updated"><time datetime="2011-02-27 04:06:44 +0000 UTC"><a href=/Chrome-ext-Social-network/Facebook-%E7%8B%82%E7%86%B1%E8%80%85%E7%9A%84Chrome-ext/>Feb 27, 2011</a></time></span>
+<span class=entry-reading-time>
+<i class="fa fa-clock-o"></i>
+Reading time ~1 minute
+</span>
+</div>
+<h1 class=entry-title><a href=/Chrome-ext-Social-network/Facebook-%E7%8B%82%E7%86%B1%E8%80%85%E7%9A%84Chrome-ext/ rel=bookmark title="[Chrome ext] Social network/Facebook 狂熱者的Chrome ext" itemprop=url>[Chrome ext] Social network/Facebook 狂熱者的Chrome ext</a></h1>
+</header>
+<div class=entry-content>
+<div class=posterous_autopost><p>糟糕, 這個應該就是指我了.. XD</p> <p>會想去找這些是因為用了Android上的一個Browser - Skyfile, 覺得上面的Facebook整合很不賴, 尤其是Like和Popular, 一個可以讓你對任何的網頁使用Facebook like, 一個是讓你知道其他人對這網頁說了些什麼</p> <p>當然在Chrome上也可以找到類似的Ext</p> <p>1.<a href=https://chrome.google.com/webstore/detail/lkdedmbpkaiahjjibfdmpoefffnbdkli> Facebook for Google Chrome</a> 和 <a href=https://chrome.google.com/webstore/detail/fdmnalkjmfaojgghopchkfpogpgdcbfe>Quickrr Facebook like</a></p> <p><img title="Hosted by imgur.com" src=http://i.imgur.com/W4el3.png alt></p> <p>第一個是把Facebook的News feed整合到那個button上, 一按下來就可以看到你最新的News feeds</p> <p>而Qucickrr Facebook like則是可以讓你對任何URL說"讚"啦!</p> <p>2. <a href=https://chrome.google.com/webstore/detail/icjocbnbhcddhjhjlfogoacocamjaepk>BuzzGrowl for Twitter and Facebook</a></p> <p><img title="Hosted by imgur.com" src=http://i.imgur.com/i01O9.png alt></p> <p>這個是讓你知道你目前正在看的網頁, 別人對它有啥看法(Facebook, Twitter上), 基本上, 這東西比較討厭的地方就是會佔住右下角的空間</p> </div>
+</div>
+</article>
+<article class=hentry>
+<header>
+<div class=entry-meta>
 <span class="entry-date date published updated"><time datetime="2011-02-27 03:34:44 +0000 UTC"><a href=/Android-%E5%B1%AC%E6%96%BCAndroid-developer%E7%9A%84Chrome-extension/>Feb 27, 2011</a></time></span>
 <span class=entry-reading-time>
 <i class="fa fa-clock-o"></i>
@@ -120,36 +150,6 @@ Reading time ~2 minutes
 </header>
 <div class=entry-content>
 <div class=posterous_autopost><p>昨天去看醫生時, 在診所時看了一個節目, 我忘了是什麼節目了, 那集在討論有些小牌的模特兒為了吸引目光(或說是相機, 攝影機的焦點), 想盡辦法露出事業線(或擠出)</p> <p>說實在的, 很不懂為啥把這叫事業線, 感覺有點把人物化了, 不過每個人條件本來就不同, 如果身材比例不好, 胸前再偉大也不好看吧? 比例好的話, 就算不大, 擠不出線, 看起來也是會很順眼的</p> <p>今天在Yamaha等小遠上課時, 隔壁座位一群女士(還是太太?)在聊天, 突然其中一位很高興的大聲說到: &ldquo;嘿, 你們看, 我有沒變很瘦?&rdquo;, 然後一群人就這樣很熱烈的討論起來了, 好像女人都還蠻在乎胖瘦的, 不過應該也不只是女人, 愛美人的天性, 無可厚非, 肥胖對健康是不好(我也不想胖呀 T.T), 不過太瘦也不見得是好是呀, 不影響健康的體型, 應該都是好的吧, 不過很多人都會把胖瘦當做一個美麗的指標, 不過, 這應該因時因人不同吧, 傳說楊玉環不是也挺豐腴的?</p> <p>我個人是認為, 美是由心生的, 善良, 聰明的人就蠻美的呀~~~其實說起來也算是種偏見吧.. :P</p> <p>不過不管怎樣, 只要有人欣賞就是美, 全世界的人都死光只剩一個人的話, 美醜也沒那麼重要了, 所以只要有人懂得欣賞, 不就都是正妹帥哥(我這是歪理嗎?)</p> <p>嗯, 這標題實在很難下&mldr;..單純只是突然的一個想法而已&mldr;.</p></div>
-</div>
-</article>
-<article class=hentry>
-<header>
-<div class=entry-meta>
-<span class="entry-date date published updated"><time datetime="2011-02-26 04:03:47 +0000 UTC"><a href=/%E5%91%8A%E7%99%BD/>Feb 26, 2011</a></time></span>
-<span class=entry-reading-time>
-<i class="fa fa-clock-o"></i>
-Reading time ~1 minute
-</span>
-</div>
-<h1 class=entry-title><a href=/%E5%91%8A%E7%99%BD/ rel=bookmark title=告白 itemprop=url>告白</a></h1>
-</header>
-<div class=entry-content>
-<div class=posterous_autopost><p><iframe src="https://www.youtube.com/embed/G9sW-vKGFRw?hd=1" frameborder=0 height=300 width=480></iframe></p> <p>前陣子巴里島回來, 在MOD上看到這部片 ,想說不知道看啥就來看看</p> <p>老實說, 我是衝著松隆子來看這部片的, 松隆子並不美豔, 但她帶了種知性, 有腦袋的女人比較美.. :P</p> <p>前面離題了</p> <p>這部片, 出乎我意料的沈重, 真的很沈重, 女老師為了獨生愛女的死向學生復仇, 生命在這一整部片的鋪陳下, 似乎毫無價值</p> <p>整部片是以不同的人的告白串連, 沒很專心的話, 可能會串不起整個劇情, 想睡覺, 心情不好, 千萬別去看這片呀, 很沈重的, 劇情我就不多做描述, 以免破梗, 預告可以看一下&mldr;.</p></div>
-</div>
-</article>
-<article class=hentry>
-<header>
-<div class=entry-meta>
-<span class="entry-date date published updated"><time datetime="2011-02-26 03:49:35 +0000 UTC"><a href=/Cars-2/>Feb 26, 2011</a></time></span>
-<span class=entry-reading-time>
-<i class="fa fa-clock-o"></i>
-Reading time ~1 minute
-</span>
-</div>
-<h1 class=entry-title><a href=/Cars-2/ rel=bookmark title="Cars 2" itemprop=url>Cars 2</a></h1>
-</header>
-<div class=entry-content>
-<div class=posterous_autopost><p><iframe src="https://www.youtube.com/embed/oFTfAdauCOo?hd=1" frameborder=0 height=300 width=480></iframe></p> <p>哈，還蠻期待這部續集的, 因為第一集我起碼看過不下三四十遍</p> <p>為啥看那麼多遍? 因為兒子兩三歲時最喜歡看這個, 要看這個才能安撫他, 而且他會一遍接一遍看, 看不膩, 看到我很多台詞都會背囉&mldr;..</p> <p>不過我也喜歡這部就是了.. :D</p> <p>康康配的拖線的國語配音, 真的很棒&mldr;&ldquo;我是拖線, 是拖地板的拖, 不是脫衣服的脫喔&rdquo;! XD</p></div>
 </div>
 </article>
 <div class=pagination>
