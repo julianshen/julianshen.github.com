@@ -80,6 +80,21 @@ All posts
 <article class=hentry>
 <header>
 <div class=entry-meta>
+<span class="entry-date date published updated"><time datetime="2011-02-23 00:12:02 +0000 UTC"><a href=/Android-%E4%B8%8D%E9%80%8F%E9%81%8EIntent-receiver%E5%8F%8A%E5%AE%9A%E7%BE%A9%E8%87%AA%E5%B7%B1%E7%9A%84AIDL%E5%81%9AIPC%E7%9A%84%E6%96%B9%E6%B3%95/>Feb 23, 2011</a></time></span>
+<span class=entry-reading-time>
+<i class="fa fa-clock-o"></i>
+Reading time ~2 minutes
+</span>
+</div>
+<h1 class=entry-title><a href=/Android-%E4%B8%8D%E9%80%8F%E9%81%8EIntent-receiver%E5%8F%8A%E5%AE%9A%E7%BE%A9%E8%87%AA%E5%B7%B1%E7%9A%84AIDL%E5%81%9AIPC%E7%9A%84%E6%96%B9%E6%B3%95/ rel=bookmark title="[Android] 不透過Intent receiver及定義自己的AIDL做IPC的方法" itemprop=url>[Android] 不透過Intent receiver及定義自己的AIDL做IPC的方法</a></h1>
+</header>
+<div class=entry-content>
+<div class=posterous_autopost><p>在Android裡, 做IPC(Inter process call)的方法有很多種, 可以寫一個Intent receiver接收來自於另一個process的Intent, 也可以自己用AIDL定義interface來做</p> <p>不過用Receiver的方式, intent會先跑到system server在送到目的地去, 而且Receiver的角色有點像是一對多, 不是很經濟, 至於AIDL, 實在太麻煩了, 對於簡單的應用, 或是懶人來說&mldr;.只有兩個字&mldr;.&ldquo;麻煩&rdquo;</p> <p>所幸, 還有一個東西: <a href=http://developer.android.com/reference/android/os/Messenger.html>Messenger</a></p> <p>這東西可以讓你對目標的Handler發送message&mldr;對, 沒錯, 就是對另一個process的Handler發送message, 感覺好像很神奇, 一般不都是對同一個process的Handler發送message, 這個卻可以對remote, 但說穿了很簡單, 它只是先用AIDL定好了送message的interface而已</p> <p>使用的方法很簡單, 以下是Service端:</p> <p> <script src="https://gist.github.com/838564.js?file=gistfile1.java"></script></p> <p>只要在onBind的時候把Messenger的Binder回傳回去就好</p> <p>Client端也很簡單, 把service給bind上, 然後用binder來創建Messenger, 這樣對Messenger送的message自然就會透過binder丟到遠端的process去了</p> <p> <script src="https://gist.github.com/838573.js?file=gistfile1.java"></script></p> <p>那, 可以雙向溝通嗎? 其實是可以的&mldr;.<a href=http://developer.android.com/reference/android/os/Message.html>Message</a>這class有個member: replyTo, 它就是一個Messenger, 把Messenger也附帶一起傳過去, 自然就可以做雙向溝通了</p></div>
+</div>
+</article>
+<article class=hentry>
+<header>
+<div class=entry-meta>
 <span class="entry-date date published updated"><time datetime="2011-02-22 01:58:12 +0000 UTC"><a href=/Miro-Media-converter/>Feb 22, 2011</a></time></span>
 <span class=entry-reading-time>
 <i class="fa fa-clock-o"></i>
@@ -135,21 +150,6 @@ Reading time ~1 minute
 </header>
 <div class=entry-content>
 <div class=posterous_autopost><p><span style=font-size:medium>&ldquo;凡走過必留下痕跡&rdquo;</span></p> <p>這是很久之前綜藝節目尋人單元 - 超級任務 裡 阿亮的台詞</p> <p>今天在想, 如果當年就已經有了Facebook而且就已經像現在這麼的流行熱門的話, 尋人任務應該會更加的簡單吧, 畢竟所有Facebook上的使用者, 不管是自願或是非自願, 多多少少就已經留下痕跡了</p> <p>許多人可能都有強烈的感覺到, 透過Facebook, 常常很容易就把失散多年的親戚同學朋友, 通通都連起來了, 藉由朋友的朋友, 或交友網路, Facebook漸漸的一個個幫你把他們兜起來, 甚至不用到阿亮了</p> <p>更進一步的, 藉由photo tagging, 不僅可以保留你跟朋友之間互動的回憶, 甚至有可能把你已經忘了他是誰的帳號再次在你腦袋連結起來, 今天試用了 <a href=http://apps.facebook.com/socialflows/>Social flow</a>這個AP, 利用了photo tagging來幫你分類朋友這個idea相當的棒, 不過想想也挺直覺的, 有過互動關係的人才有可能一起出現在照片, 或許, 應用可能不止於此而已</p> <p>還有哪些痕跡可以被利用到? Places, Events 其實都是很好的素材呀!</p> <p>題外話, </p> <p>今天看Zuck預拍幫HTC站台的影片播出, 心裡突然一陣莫名的感動冒了出來&mldr;.我好像有點太走火入魔了.. :P</p></div>
-</div>
-</article>
-<article class=hentry>
-<header>
-<div class=entry-meta>
-<span class="entry-date date published updated"><time datetime="2011-02-15 02:50:56 +0000 UTC"><a href=/%E5%9C%98%E9%AB%94%E7%B5%84%E7%B9%94/>Feb 15, 2011</a></time></span>
-<span class=entry-reading-time>
-<i class="fa fa-clock-o"></i>
-Reading time ~1 minute
-</span>
-</div>
-<h1 class=entry-title><a href=/%E5%9C%98%E9%AB%94%E7%B5%84%E7%B9%94/ rel=bookmark title=團體，組織 itemprop=url>團體，組織</a></h1>
-</header>
-<div class=entry-content>
-<div class=posterous_autopost>在 大搜查線2 – 封鎖彩虹橋 這部電影中，有一個比較明顯凸顯的，那就是階層管理的組織對比人人都有決定權和行動權的組織<p>後者的行動力與反應力自然快過前者，因為沒有太大的包袱，有方向就前進，也比較承受的起失敗，反觀前者就很容易受制於一些無聊的桎梏，容易停滯不前</p><p>自由軟體工作者，就像後者，往往就很有機會搞出些火花，以群體利益或說企業利益為前提的一般企業，常就抹殺掉不少好創意</p><p>雖說各還是有其優缺，不全然是誰好誰壞，我個人是比較喜歡自由些，對於由上而下的威權暴力我還是蠻反感的</p></div>
 </div>
 </article>
 <div class=pagination>

@@ -80,6 +80,22 @@ All posts
 <article class=hentry>
 <header>
 <div class=entry-meta>
+<span class="entry-date date published updated"><time datetime="2012-10-31 23:29:36 +0000 UTC"><a href=/%E7%AC%AC%E4%B8%80%E6%AC%A1%E7%94%A8impress.js%E5%81%9A%E7%9A%84%E6%8A%95%E5%BD%B1%E7%89%87-Introduction-to-node.js/>Oct 31, 2012</a></time></span>
+<span class=entry-reading-time>
+<i class="fa fa-clock-o"></i>
+Reading time ~1 minute
+</span>
+</div>
+<h1 class=entry-title><a href=/%E7%AC%AC%E4%B8%80%E6%AC%A1%E7%94%A8impress.js%E5%81%9A%E7%9A%84%E6%8A%95%E5%BD%B1%E7%89%87-Introduction-to-node.js/ rel=bookmark title="第一次用impress.js做的投影片: Introduction to node.js" itemprop=url>第一次用impress.js做的投影片: Introduction to node.js</a></h1>
+</header>
+<div class=entry-content>
+<p>明天要在team內開一堂node.js簡介的課, 每次老是用Powerpoint和keynote做投影片, 開始有點乏味了, 所以這次打算嘗試一下<br><br><a href=http://impress.js/><b><span style=font-size:large>Impress.js</span></b></a><br><br>這跟一般投影片製作軟體很不一樣, 正確說來它是一個javascript framework而非一個完整的軟體, 所以也沒啥GUI(似乎也有不少人幫它寫editor), 不過基本說來, 用它來做投影片的方式, 就是拿source codes裡的html檔來改就對了<br><br>出來的結果很炫, 但編寫的過程有點小累, 所以後面有點偷懶, 不過也完成了明天要講的投影片:<br><br><a href=http://bit.ly/X0S95r>Introduction to node.js</a><br><br>寫完了之後, 想把它開放出來, 我之前放投影片都依賴了slideshare, 不過slideshare並不能吃這種檔案呀! 所以host又是另一個問題, 所幸, 還有developer的好朋友 - github<br><br>github有個好東西叫page, 可以讓你放一些介紹網頁, 也可以有自己的host name像是"julianshen.github.com", 只要照下面這網頁內的說明, 就可以建立屬於自己project的"page":<br></p><h2 style="border:0;color:#333;font-family:helvetica,arial,freesans,clean,sans-serif;font-weight:300;font:inherit;margin:10px 0;padding:0;vertical-align:baseline"><a href=http://bit.ly/VDCRON>Creating Project Pages manually</a></h2><br><br>
+via Blogger <a href=http://bit.ly/X0SaGq>http://bit.ly/X0SaGq</a>
+</div>
+</article>
+<article class=hentry>
+<header>
+<div class=entry-meta>
 <span class="entry-date date published updated"><time datetime="2012-10-25 00:18:23 +0000 UTC"><a href=/Go%E7%AD%86%E8%A8%98-Go-on-GAE-%E6%AF%94Hello-World%E5%A4%9A%E4%B8%80%E9%BB%9E%E9%BB%9E-%E8%99%95%E7%90%86static-files/>Oct 25, 2012</a></time></span>
 <span class=entry-reading-time>
 <i class="fa fa-clock-o"></i>
@@ -139,22 +155,6 @@ Reading time ~2 minutes
 <div class=entry-content>
 <p>我不太懂closure, 不懂的程度大概是我在用它的時候也沒有意識到我在用, 也沒玩過Go, 不過昨晚心血來潮的開始想用它來寫一些東西, 研究了一下, 發現它&mldr;挺有趣的, 尤其是concurrent的部份, 以及讓我重新檢視了一下closure這部份<br><br>在Go裡, function是可以像在javascript中一樣, 被指定到一個變數來使用:<br><script src=http://bit.ly/RicXAa></script><br>上面兩個範例, 一個是把函式指定給一個變數, 一個是來當做回傳值, 這也是Go的closure大致上的形態, 在Go Tour的<a href=http://bit.ly/POcY1X>第48頁的作業</a>, 便是要求利用closure來完成Fibonacci數列的計算, 我們所熟知的Fibonacci數列(0, 1, 1, 2, 3, 5, 8 &mldr; f(n) = f(n-1) + f(n-2))可以用iterative或recursive的方式來求解(<a href=http://bit.ly/RicZbe>範例</a>), 當然使用Go其實也可以採用這兩種方式: <br><br><b><i>Iterative solution: </i></b><br><script src=http://bit.ly/POcYPr></script><b><i>Recursive solution: </i></b><br><script src=http://bit.ly/RicZbg></script> 如果單以公式看, Recursive solution是比較容易被理解的, 不過也比較有stack overflow的風險, 當然, 照這練習題的要求, 以上兩者都不滿足, 那改用closure來實作又是怎樣? <br><script src=http://bit.ly/POcYPt></script> 整體上還算蠻簡潔的, 既然closure在javascript也很常被利用, 這邊放一個javascript的版本做一下比較: <br><script src=http://bit.ly/RicZbi></script><br>測試了一下效能, 前三種實作方式, 感覺不出有太大的差異, 也就很難說誰優誰劣, 至於Go與javascript的比較, 如果是以"go run &ldquo;的方式跟node.js來比, node.js高出甚多, 可能"go run"還是需要經過編譯階段, 但如果先以"go build"編譯成原生碼(native code), go的效能就高出甚多了, 不過以這比較也不算準啦&mldr;. <br><br><br><br><br>
 via Blogger <a href=http://bit.ly/POcYPv>http://bit.ly/POcYPv</a></p>
-</div>
-</article>
-<article class=hentry>
-<header>
-<div class=entry-meta>
-<span class="entry-date date published updated"><time datetime="2012-10-09 06:39:53 +0000 UTC"><a href=/%E5%9C%A8node.js%E4%BD%BF%E7%94%A8underscore.js/>Oct 9, 2012</a></time></span>
-<span class=entry-reading-time>
-<i class="fa fa-clock-o"></i>
-Reading time ~2 minutes
-</span>
-</div>
-<h1 class=entry-title><a href=/%E5%9C%A8node.js%E4%BD%BF%E7%94%A8underscore.js/ rel=bookmark title=在node.js使用underscore.js itemprop=url>在node.js使用underscore.js</a></h1>
-</header>
-<div class=entry-content>
-太早起床,只好隨便研究點東西 :P<br>  <br><a href=http://bit.ly/R10QWB>underscore.js</a>對javascript來說是一個蠻好用的工具, 在前端應用程式的開發中也很常被利用到,但同樣以javascript為基礎開發的node.js, 能否直接使用underscore.js呢?<br><br>嘗試以下面的程式碼用node.js跑:<br><br><pre class="prettyprint lang-js">require('./underscore.js');                                                                <br><br>var a = [1, 23, 6, 11, 25, 12, 33, 11, 4];<br><br> _.forEach(a, function(v) {<br>     console.log(v);<br>});<br></pre><br><br>執行結果會得到<i><b>&ldquo;ReferenceError: _ is not defined&rdquo; </b></i><br>打開underscore.js的原始碼一看, 發現了這一段, 其實它是有針對node.js做手腳的:<br><br><br><pre class="prettyprint lang-js">// Export the Underscore object for **Node.js**, with<br>// backwards-compatibility for the old `require()` API. If we're in<br>// the browser, add `_` as a global object via a string identifier,                     <br>// for Closure Compiler "advanced" mode.<br>if (typeof exports !== 'undefined') {<br>     if (typeof module !== 'undefined' &amp;&amp; module.exports) {<br>       exports = module.exports = _;<br>     }<br>     exports._ = _;<br> } else {<br>      root['_'] = _;<br> } <br></pre><br>也就是, 在browser時, &ldquo;_"是一個global object, 但在node.js則不是, 原本的範例如果改成這樣就可以了:<br><br><br><pre class="prettyprint lang-js">var _us = require('./underscore.js');                                                                <br><br>var a = [1, 23, 6, 11, 25, 12, 33, 11, 4];<br><br> _us.forEach(a, function(v) {<br>     console.log(v);<br>});<br></pre><br><br>這樣一來, 前後端也可以共用同一份underscore.js了<br><br>補充: 類似的工具還有<a href=http://bit.ly/tq8zi7>async</a>這個, 也是前後端都可以應用 <br><br>
-via Blogger <a href=http://bit.ly/R10QWD>http://bit.ly/R10QWD</a>
 </div>
 </article>
 <div class=pagination>

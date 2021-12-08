@@ -80,6 +80,22 @@ All posts
 <article class=hentry>
 <header>
 <div class=entry-meta>
+<span class="entry-date date published updated"><time datetime="2012-11-07 23:19:07 +0000 UTC"><a href=/node.js-%E5%9C%A8heroku%E4%B8%8A%E7%94%A8bower%E7%AE%A1%E7%90%86%E5%89%8D%E7%AB%AF%E7%AC%AC%E4%B8%89%E6%96%B9%E5%85%83%E4%BB%B6/>Nov 7, 2012</a></time></span>
+<span class=entry-reading-time>
+<i class="fa fa-clock-o"></i>
+Reading time ~4 minutes
+</span>
+</div>
+<h1 class=entry-title><a href=/node.js-%E5%9C%A8heroku%E4%B8%8A%E7%94%A8bower%E7%AE%A1%E7%90%86%E5%89%8D%E7%AB%AF%E7%AC%AC%E4%B8%89%E6%96%B9%E5%85%83%E4%BB%B6/ rel=bookmark title="[node.js] 在heroku上用bower管理前端第三方元件" itemprop=url>[node.js] 在heroku上用bower管理前端第三方元件</a></h1>
+</header>
+<div class=entry-content>
+<p>在做web applications時，或多或少都會使用到像是jQuery, bootstrap這類的第三方元件，使用已經host在既有CDN 的版本（比如說google的）是一個不錯的方法，但不是每一種都有這類方案，一個個從各網站下載回本地端又不是那麼容易管理，<a href=http://bit.ly/QuXxeM>bower</a>就是為此出現的，<a href=http://bit.ly/QuXxeM>bower</a>是一個類似npm的軟體，由Twitter所開發出來且是開放原始碼，所不同的是，npm是管理node.js相關的套件，但bower是管前端的<br><br>舉一個例子，你可以利用bower來安裝jQuery :<br></p><blockquote><em>bower install jQuery</em></blockquote>bower會把jQuery 安裝到<i>&ldquo;components/jQuery&rdquo;</i> 目錄裡<br><br>在npm , 你可以把所有相關的模組設定在package.json中，這樣就不用一個個下"npm install mypackage"這樣的指令了，bower也有類似的設計，只是為了避免跟package.json造成混淆它採用的檔名是component.json，內容跟package.json差不多：<br><blockquote><em>{</em><br><em>    dependencies: {</em><br><em>      &ldquo;JQuery&rdquo;: &ldquo;*&rdquo;</em><br><em>    }</em><br><em>}</em></blockquote>在Heroku deploy node.js app有個很方便的地方是，當你做git push 後，它會根據package.json自動幫你安裝相關的node.js 模組，但不幸的是它並不支援bower，只支援npm<br><br>還好Heroku很有彈性，可以藉由buildpack來自己加這部份<br><br><a href=http://bit.ly/SqrY1M>buildpack API</a>其實還蠻簡單的, 基本上只要準備三支shell script:<br><ul><li>bin/detect</li><li>bin/compile</li><li>bin/release</li></ul><div>大部分的東西, 大多在"bin/compile"裡完成的</div><div><br></div><div>自己做的buildpack也只要放github, 然後將自己app的buildpack指定到這來即可 (使用heroku toolbelt):</div><div><ul><li>新建的程式使用自己的buildpack:  <br><i style=background-color:#ccc>heroku create myapp &ndash;buildpack <a href=http://bit.ly/SqrV6k>http://bit.ly/SqrV6k</a> </i></li><li>既有的程式更換buildpack:<br><span style=background-color:#ccc><i>heroku config:add BUILDPACK_URL=http://bit.ly/SqrV6k</i></span></li></ul></div>當然, 不需要重頭建立自己的buildpack, Heroku官方的buildpack都有open source在github上, 如<a href=http://bit.ly/RVJcUf>Node.js buildpack</a>, 所以只要fork出來修改即可, 因此我從<a href=http://bit.ly/RVJcUf>Node.js buildpack</a> fork出一個新的<a href=http://bit.ly/RVJf2u>buidlpack</a>, 主要的修改是:<br><br><ol><li>安裝bower</li><li>找出所有的component.json並用"bower install"安裝套件</li></ol><div>本想說 &ldquo;1&rdquo; 應該蠻簡單的, 因為bower也是用node.js開發的, 應該只要用npm install bower就搞定了, 但事實是, 這樣會碰壁, 因為bower採用了<a href=http://bit.ly/Js8SYF>lodash</a> , lodash跟Heroku的npm似乎八字不合, 安裝過程到lodash的post-install就會失敗, 也沒明顯的錯誤, 只說這應該是套件問題, 而去查了lodash, 也有人報過類似的issue, 但作者卻以lodash沒問題應該是npm的問題把這issue給關了(鬼打牆?), 但:</div><div><ul><li>自己電腦上安裝bower或lodash都沒問題</li><li>在自己的package.json加上lodash, deploy到Heroku也一樣掛</li><li>在package.json裡設定engine裡的npm版本到最新的1.1.65(跟自己電腦上一樣版本), 也一樣不行</li></ul></div><br>那&mldr;就不得不懷疑是npm問題了, 查了原本buildpack寫的, Heroku的node.js和npm其實是拿他們自己放在S3的binary package來安裝的, 可疑!<br><br>因此就使用了下一招 - 用npm來裝npm<br><br>用Heroku系統內的npm來裝npm是可行的, npm install npm的結果是, 會有一份最新的npm被安裝到node_modules底下, 可以用"node_modules/.bin/npm"來呼叫這版本, 因此就加上了:<br><blockquote class=tr_bq><i>node_modules/.bin/npm install bower</i></blockquote>Bingo! 這樣可行, bower一樣被安裝到 node_modules/.bin底下, 加上 &ldquo;2"的邏輯到"bin/compile"後就大功告成了,<br><br>有修改的部份只有<a href=http://bit.ly/RVJf2w>"bin/compile&rdquo;</a>, 比對一下commit history就可以知道我修改過啥, 中間有做了很多實驗, 所以有不少垃圾commits, 可以忽略<br><br>如果有需要這版本buildpack, 也歡迎利用:<br><h3><a href=http://bit.ly/RVJf2u>http://bit.ly/RVJf2u</a></h3><br><br><br><div id=blogsy_footer style=clear:both;font-size:small;text-align:right><a href=http://bit.ly/jKo32O target=_blank><img alt=在Blogsy發表的 height=20 src=http://bit.ly/Nh8z1A style=margin-right:5px;vertical-align:middle width=20>在Blogsy發表的</a></div><br><br>
+via Blogger <a href=http://bit.ly/WAoUr6>http://bit.ly/WAoUr6</a>
+</div>
+</article>
+<article class=hentry>
+<header>
+<div class=entry-meta>
 <span class="entry-date date published updated"><time datetime="2012-11-05 22:13:04 +0000 UTC"><a href=/node.js-%E7%94%A8npm%E5%AE%89%E8%A3%9D%E6%94%BE%E5%9C%A8github%E4%B8%8A%E7%9A%84module/>Nov 5, 2012</a></time></span>
 <span class=entry-reading-time>
 <i class="fa fa-clock-o"></i>
@@ -139,22 +155,6 @@ Reading time ~2 minutes
 <div class=entry-content>
 <p>最近給自己一個作業寫了一個Go版的Facebook API, 本想要實作realtime api時想到, 我需要把這server開放給Facebook server可以存取<br></p><div><br></div><div>看來看去, 好像只有Google自家的GAE有支援Go, 這大概也是因為Go是他們親生子的關係吧, 不過之前一陣子用Heroku用習慣了, 而且, 想說Heroku有支援那麼多的語言平台, 不知道有沒有, 結果翻遍官方的文件, 卻沒發現Go的蹤影</div><div><br></div><div>正當要放棄時, 發現, 其實Heroku還蠻威的, 除了支援很多不同的語言平台外, 居然還可以讓你延伸, 而它就是透過開放"Buildpack"這東西:</div><div><br></div><div><a href=http://bit.ly/JvAYiJ>Heroku Buildpack</a></div><div><br></div><div><br></div><div>而就有一個老兄寫了一個Go用的buildpack (這位老兄在Heroku工作):</div><div><br></div><div><a href=http://bit.ly/JvAYiJ>Heroku buildpack: Go</a></div><div><a href=http://bit.ly/TV722H>Getting start with Go on Heroku</a></div><div><br></div><div>基本上就是建立Procfile和.godir而已, 很簡單, 這樣地鼠同好就有除了GAE以外的選擇囉&mldr;.</div><div><br></div><div>另外就是自己的作業, Facebook API for Go : <a href=http://bit.ly/TZ6Zsu>http://bit.ly/TZ6Zsu</a></div><div>這是一個api實作可以用於server端, realtime API目前還寫的很簡陋, 詳細用法可以看 <a href=http://bit.ly/TZ6XRl>sample/server.go</a></div><div><br></div><div>這邊一個比較好玩的是, 在Go裡, 你要用這樣的package, 毋須把整個source抓回來build, 而只要使用這樣的方法import:</div><div><br></div><blockquote class=tr_bq><span class=n style="background-color:#fff;border:0;color:#333;font-family:Consolas,liberation mono,Courier,monospace;font-size:12px;line-height:16px;margin:0;padding:0;white-space:pre">import facebook</span><span style="background-color:#fff;color:#333;font-family:Consolas,liberation mono,Courier,monospace;font-size:12px;line-height:16px;white-space:pre"> </span><span class=s style="background-color:#fff;border:0;color:#d14;font-family:Consolas,liberation mono,Courier,monospace;font-size:12px;line-height:16px;margin:0;padding:0;white-space:pre">&ldquo;github.com/julianshen/FacebookGoSDK&rdquo;</span></blockquote>這樣是import一個在github上的package, 當你使用"go run"或"go get"之類的來編譯執行程式時, Go自動會上github幫你把這些相關的package取回, 用這個Heroku buildpack做出的環境一樣適用<br><div><br></div><br><br>
 via Blogger <a href=http://bit.ly/TZ6Zsv>http://bit.ly/TZ6Zsv</a>
-</div>
-</article>
-<article class=hentry>
-<header>
-<div class=entry-meta>
-<span class="entry-date date published updated"><time datetime="2012-10-31 23:29:36 +0000 UTC"><a href=/%E7%AC%AC%E4%B8%80%E6%AC%A1%E7%94%A8impress.js%E5%81%9A%E7%9A%84%E6%8A%95%E5%BD%B1%E7%89%87-Introduction-to-node.js/>Oct 31, 2012</a></time></span>
-<span class=entry-reading-time>
-<i class="fa fa-clock-o"></i>
-Reading time ~1 minute
-</span>
-</div>
-<h1 class=entry-title><a href=/%E7%AC%AC%E4%B8%80%E6%AC%A1%E7%94%A8impress.js%E5%81%9A%E7%9A%84%E6%8A%95%E5%BD%B1%E7%89%87-Introduction-to-node.js/ rel=bookmark title="第一次用impress.js做的投影片: Introduction to node.js" itemprop=url>第一次用impress.js做的投影片: Introduction to node.js</a></h1>
-</header>
-<div class=entry-content>
-<p>明天要在team內開一堂node.js簡介的課, 每次老是用Powerpoint和keynote做投影片, 開始有點乏味了, 所以這次打算嘗試一下<br><br><a href=http://impress.js/><b><span style=font-size:large>Impress.js</span></b></a><br><br>這跟一般投影片製作軟體很不一樣, 正確說來它是一個javascript framework而非一個完整的軟體, 所以也沒啥GUI(似乎也有不少人幫它寫editor), 不過基本說來, 用它來做投影片的方式, 就是拿source codes裡的html檔來改就對了<br><br>出來的結果很炫, 但編寫的過程有點小累, 所以後面有點偷懶, 不過也完成了明天要講的投影片:<br><br><a href=http://bit.ly/X0S95r>Introduction to node.js</a><br><br>寫完了之後, 想把它開放出來, 我之前放投影片都依賴了slideshare, 不過slideshare並不能吃這種檔案呀! 所以host又是另一個問題, 所幸, 還有developer的好朋友 - github<br><br>github有個好東西叫page, 可以讓你放一些介紹網頁, 也可以有自己的host name像是"julianshen.github.com", 只要照下面這網頁內的說明, 就可以建立屬於自己project的"page":<br></p><h2 style="border:0;color:#333;font-family:helvetica,arial,freesans,clean,sans-serif;font-weight:300;font:inherit;margin:10px 0;padding:0;vertical-align:baseline"><a href=http://bit.ly/VDCRON>Creating Project Pages manually</a></h2><br><br>
-via Blogger <a href=http://bit.ly/X0SaGq>http://bit.ly/X0SaGq</a>
 </div>
 </article>
 <div class=pagination>
