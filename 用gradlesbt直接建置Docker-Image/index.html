@@ -20,7 +20,7 @@
 <link rel=stylesheet href=/css/main.css>
 <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel=stylesheet type=text/css>
 <meta http-equiv=cleartype content="on">
-<meta name=generator content="Hugo 0.88.1">
+<meta name=generator content="Hugo 0.89.4">
 <script src=/js/vendor/modernizr-2.6.2.custom.min.js></script>
 <script async src=https://unpkg.com/mermaid@8.2.3/dist/mermaid.min.js></script>
 <link rel="shortcut icon" href=/favicon.png>
@@ -110,11 +110,11 @@ repositories {
 }
 
 dependencies {
-    implementation(<span style=color:#e6db74>&#34;io.ktor:ktor-server-core:</span><span style=color:#e6db74>$ktor_version</span><span style=color:#e6db74>&#34;</span>)
-    implementation(<span style=color:#e6db74>&#34;io.ktor:ktor-server-netty:</span><span style=color:#e6db74>$ktor_version</span><span style=color:#e6db74>&#34;</span>)
-    implementation(<span style=color:#e6db74>&#34;ch.qos.logback:logback-classic:</span><span style=color:#e6db74>$logback_version</span><span style=color:#e6db74>&#34;</span>)
-    testImplementation(<span style=color:#e6db74>&#34;io.ktor:ktor-server-tests:</span><span style=color:#e6db74>$ktor_version</span><span style=color:#e6db74>&#34;</span>)
-    testImplementation(<span style=color:#e6db74>&#34;org.jetbrains.kotlin:kotlin-test:</span><span style=color:#e6db74>$kotlin_version</span><span style=color:#e6db74>&#34;</span>)
+    implementation(<span style=color:#e6db74>&#34;io.ktor:ktor-server-core:</span><span style=color:#e6db74>$ktor</span><span style=color:#e6db74>_version&#34;</span>)
+    implementation(<span style=color:#e6db74>&#34;io.ktor:ktor-server-netty:</span><span style=color:#e6db74>$ktor</span><span style=color:#e6db74>_version&#34;</span>)
+    implementation(<span style=color:#e6db74>&#34;ch.qos.logback:logback-classic:</span><span style=color:#e6db74>$logback</span><span style=color:#e6db74>_version&#34;</span>)
+    testImplementation(<span style=color:#e6db74>&#34;io.ktor:ktor-server-tests:</span><span style=color:#e6db74>$ktor</span><span style=color:#e6db74>_version&#34;</span>)
+    testImplementation(<span style=color:#e6db74>&#34;org.jetbrains.kotlin:kotlin-test:</span><span style=color:#e6db74>$kotlin</span><span style=color:#e6db74>_version&#34;</span>)
 }
 </code></pre></div><p>雖然是kotlin寫的, 不過這是一個標準的Java Application, 有它的main class, 我們要加上的只有 <code>id("com.bmuschko.docker-java-application") version "6.7.0"</code> 和 <code>docker {}</code> 內的內容而已, 基本主要就是baseImage跟image的名字就好了</p>
 <p>執行 <code>gradle dockerBuildImage</code> 就可以直接幫你把程式建置好並包裝成docker image了</p>
