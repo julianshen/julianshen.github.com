@@ -1,117 +1,12 @@
-<!doctype html><!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=en><![endif]--><!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang=en><![endif]--><!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang=en><![endif]--><!--[if gt IE 8]><!--><html class=no-js lang=en><!--<![endif]-->
-<head>
-<meta charset=utf-8>
-<title>移動wsl映像到另一個磁碟 &#8211; Le murmure de Julian</title>
-<meta name=description content>
-<meta property="og:title" content="移動wsl映像到另一個磁碟">
-<meta property="og:description" content="WSL 當作開發環境固然方便好用的, 但也吃蠻大空間的, 最近在開發的東西, 需要跑一個postgresql, 裝不少資料, 吃掉我蠻多硬碟空間的, 偏偏我S">
-<meta property="og:type" content="article">
-<meta property="og:url" content="https://blog.jln.co/%E7%A7%BB%E5%8B%95wsl%E6%98%A0%E5%83%8F%E5%88%B0%E5%8F%A6%E4%B8%80%E5%80%8B%E7%A3%81%E7%A2%9F/"><meta property="og:image" content="https://og.jln.co/jlns1/56e75YuVd3Ns5pig5YOP5Yiw5Y-m5LiA5YCL56OB56Kf"><meta property="article:section" content="post">
-<meta property="article:published_time" content="2021-10-30T00:35:14+08:00">
-<meta property="article:modified_time" content="2021-10-30T00:35:14+08:00">
-<meta name=twitter:card content="summary_large_image">
-<meta name=twitter:image content="https://og.jln.co/jlns1/56e75YuVd3Ns5pig5YOP5Yiw5Y-m5LiA5YCL56OB56Kf">
-<meta name=twitter:title content="移動wsl映像到另一個磁碟">
-<meta name=twitter:description content="WSL 當作開發環境固然方便好用的, 但也吃蠻大空間的, 最近在開發的東西, 需要跑一個postgresql, 裝不少資料, 吃掉我蠻多硬碟空間的, 偏偏我S">
-<link rel=canonical href=https://blog.jln.co/%E7%A7%BB%E5%8B%95wsl%E6%98%A0%E5%83%8F%E5%88%B0%E5%8F%A6%E4%B8%80%E5%80%8B%E7%A3%81%E7%A2%9F/>
-<meta name=HandheldFriendly content="True">
-<meta name=MobileOptimized content="320">
-<meta name=viewport content="width=device-width,initial-scale=1">
-<link rel=stylesheet href=/css/main.css>
-<link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel=stylesheet type=text/css>
-<meta http-equiv=cleartype content="on">
-<meta name=generator content="Hugo 0.89.4">
-<script src=/js/vendor/modernizr-2.6.2.custom.min.js></script>
+<!doctype html><!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=en><![endif]--><!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang=en><![endif]--><!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang=en><![endif]--><!--[if gt IE 8]><!--><html class=no-js lang=en><!--<![endif]--><head><meta charset=utf-8><title>移動wsl映像到另一個磁碟 &#8211; Le murmure de Julian</title><meta name=description content><meta property="og:title" content="移動wsl映像到另一個磁碟"><meta property="og:description" content="WSL 當作開發環境固然方便好用的, 但也吃蠻大空間的, 最近在開發的東西, 需要跑一個postgresql, 裝不少資料, 吃掉我蠻多硬碟空間的, 偏偏我S"><meta property="og:type" content="article"><meta property="og:url" content="https://blog.jln.co/%E7%A7%BB%E5%8B%95wsl%E6%98%A0%E5%83%8F%E5%88%B0%E5%8F%A6%E4%B8%80%E5%80%8B%E7%A3%81%E7%A2%9F/"><meta property="og:image" content="https://og.jln.co/jlns1/56e75YuVd3Ns5pig5YOP5Yiw5Y-m5LiA5YCL56OB56Kf"><meta property="article:section" content="post"><meta property="article:published_time" content="2021-10-30T00:35:14+08:00"><meta property="article:modified_time" content="2021-10-30T00:35:14+08:00"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://og.jln.co/jlns1/56e75YuVd3Ns5pig5YOP5Yiw5Y-m5LiA5YCL56OB56Kf"><meta name=twitter:title content="移動wsl映像到另一個磁碟"><meta name=twitter:description content="WSL 當作開發環境固然方便好用的, 但也吃蠻大空間的, 最近在開發的東西, 需要跑一個postgresql, 裝不少資料, 吃掉我蠻多硬碟空間的, 偏偏我S"><link rel=canonical href=https://blog.jln.co/%E7%A7%BB%E5%8B%95wsl%E6%98%A0%E5%83%8F%E5%88%B0%E5%8F%A6%E4%B8%80%E5%80%8B%E7%A3%81%E7%A2%9F/><meta name=HandheldFriendly content="True"><meta name=MobileOptimized content="320"><meta name=viewport content="width=device-width,initial-scale=1"><link rel=stylesheet href=/css/main.css><link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel=stylesheet type=text/css><meta http-equiv=cleartype content="on"><meta name=generator content="Hugo 0.104.3"><script src=/js/vendor/modernizr-2.6.2.custom.min.js></script>
 <script async src=https://unpkg.com/mermaid@8.2.3/dist/mermaid.min.js></script>
-<link rel="shortcut icon" href=/favicon.png>
-</head>
-<body id=post>
-<nav id=dl-menu class=dl-menuwrapper role=navigation style=display:inline-block>
-<button class=dl-trigger>Open Menu</button>
-<ul class=dl-menu>
-<li><a href=/>Home</a></li>
-<li>
-<a href=#>About</a>
-<ul class=dl-submenu>
-<li>
-<img src=/images/avatar.png alt="Julian Shen's photo" class=author-photo>
-<h4>Julian Shen</h4>
-<p>Softward developer</p>
-</li>
-<li>
-<a href=mailto:julianshen22@gmail.com><i class="fa fa-fw fa-envelope"></i> Email</a>
-</li>
-<li>
-<a href=https://linkedin.com/in/julianshen><i class="fa fa-fw fa-linkedin"></i> LinkedIn</a>
-</li>
-<li>
-<a href=https://github.com/julianshen><i class="fa fa-fw fa-github"></i> GitHub</a>
-</li>
-<li>
-<a href=https://instagram.com/julianshen><i class="fa fa-fw fa-instagram"></i> Instagram</a>
-</li>
-</ul>
-</li>
-<li>
-<a href=#>Posts</a>
-<ul class=dl-submenu>
-<li><a href=/post/>All Posts</a></li>
-<li><a href=/tags/>All Tags</a></li>
-</ul>
-</li>
-<li><a href=/></a></li>
-</ul>
-</nav>
-<div id=main role=main>
-<article class=hentry>
-<header class=header-title>
-<div class=header-title-wrap>
-<h1 class=entry-title><a href=/%E7%A7%BB%E5%8B%95wsl%E6%98%A0%E5%83%8F%E5%88%B0%E5%8F%A6%E4%B8%80%E5%80%8B%E7%A3%81%E7%A2%9F/ rel=bookmark title=移動wsl映像到另一個磁碟>移動wsl映像到另一個磁碟</a></h1>
-<h2><span class="entry-date date published"><time datetime="2021-10-30 00:35:14 +0800 +0800">October 30, 2021</time></span></h2>
-<p class=entry-reading-time>
-<i class="fa fa-clock-o"></i>
-Reading time ~2 minutes
-</p>
-</div>
-</header>
-<div class=entry-content>
-<p><a href=https://docs.microsoft.com/zh-tw/windows/wsl/about>WSL</a> 當作開發環境固然方便好用的, 但也吃蠻大空間的, 最近在開發的東西, 需要跑一個postgresql, 裝不少資料, 吃掉我蠻多硬碟空間的, 偏偏我SSD就只有小小的512G (好吧, 的確寒酸到不像開發者的電腦), 一下子就吃滿滿了, 所以就必須要把這個給搬到我另一個比較大的磁碟救急(說是救急的意思是, 預期它會吃上1TB, 不過這又是會碰到一個問題, 之後再解了)</p>
-<p>WSL新開的映像檔都是放在<code>C:</code>(畢竟不是謎片,不會自動住到D槽&mldr;咦?!), 要把它搬家的話, 需要先把它export出來, export的方法很簡單:</p>
-<pre tabindex=0><code>wsl --shutdown
+<link rel="shortcut icon" href=/favicon.png></head><body id=post><nav id=dl-menu class=dl-menuwrapper role=navigation style=display:inline-block><button class=dl-trigger>Open Menu</button><ul class=dl-menu><li><a href=/>Home</a></li><li><a href=#>About</a><ul class=dl-submenu><li><img src=/images/avatar.png alt="Julian Shen's photo" class=author-photo><h4>Julian Shen</h4><p>Softward developer</p></li><li><a href=mailto:julianshen22@gmail.com><i class="fa fa-fw fa-envelope"></i> Email</a></li><li><a href=https://linkedin.com/in/julianshen><i class="fa fa-fw fa-linkedin"></i> LinkedIn</a></li><li><a href=https://github.com/julianshen><i class="fa fa-fw fa-github"></i> GitHub</a></li><li><a href=https://instagram.com/julianshen><i class="fa fa-fw fa-instagram"></i> Instagram</a></li></ul></li><li><a href=#>Posts</a><ul class=dl-submenu><li><a href=/post/>All Posts</a></li><li><a href=/tags/>All Tags</a></li></ul></li><li><a href=/></a></li></ul></nav><div id=main role=main><article class=hentry><header class=header-title><div class=header-title-wrap><h1 class=entry-title><a href=/%E7%A7%BB%E5%8B%95wsl%E6%98%A0%E5%83%8F%E5%88%B0%E5%8F%A6%E4%B8%80%E5%80%8B%E7%A3%81%E7%A2%9F/ rel=bookmark title=移動wsl映像到另一個磁碟>移動wsl映像到另一個磁碟</a></h1><h2><span class="entry-date date published"><time datetime="2021-10-30 00:35:14 +0800 +0800">October 30, 2021</time></span></h2><p class=entry-reading-time><i class="fa fa-clock-o"></i>
+Reading time ~2 minutes</p></div></header><div class=entry-content><p><a href=https://docs.microsoft.com/zh-tw/windows/wsl/about>WSL</a> 當作開發環境固然方便好用的, 但也吃蠻大空間的, 最近在開發的東西, 需要跑一個postgresql, 裝不少資料, 吃掉我蠻多硬碟空間的, 偏偏我SSD就只有小小的512G (好吧, 的確寒酸到不像開發者的電腦), 一下子就吃滿滿了, 所以就必須要把這個給搬到我另一個比較大的磁碟救急(說是救急的意思是, 預期它會吃上1TB, 不過這又是會碰到一個問題, 之後再解了)</p><p>WSL新開的映像檔都是放在<code>C:</code>(畢竟不是謎片,不會自動住到D槽&mldr;咦?!), 要把它搬家的話, 需要先把它export出來, export的方法很簡單:</p><pre tabindex=0><code>wsl --shutdown
 wsl --export Ubuntu-20.04 d:\ubuntuback.tar
-</code></pre><p>先shutdown是想保險一點, 所以也先把相關的視窗(像是Terminal, VSCode)都關一關, 如果映像檔很大, 這預期要做非常久, 像我這個有200G以上, 放下去, 基本上我就去看電視不管它了, 當然也要確保一下你目標硬碟夠大, 這邊<code>Ubuntu-20.04</code>是我要備份的目標, 如果不知道名字是啥可以用<code>wsl -l</code>查詢</p>
-<p>export完之後, 接著就用:</p>
-<pre tabindex=0><code>wsl --import Ubuntu20dev e:\wsl\dev D:\ubuntuback.tar
-</code></pre><p>這邊<code>Ubuntu20dev</code>是新的名字, 不要跟舊的重複了, import完後就可以用<code>wsl -d Ubuntu20dev</code> 登入進去玩了</p>
-<p>不過登入後, 咦, 等一下, 怎麼會是用root? 之前舊的並不是呀! 要解決這個問題, 新增這個檔案<code>/etc/wsl.conf</code>, 裡面內容是</p>
-<pre tabindex=0><code>[user]
+</code></pre><p>先shutdown是想保險一點, 所以也先把相關的視窗(像是Terminal, VSCode)都關一關, 如果映像檔很大, 這預期要做非常久, 像我這個有200G以上, 放下去, 基本上我就去看電視不管它了, 當然也要確保一下你目標硬碟夠大, 這邊<code>Ubuntu-20.04</code>是我要備份的目標, 如果不知道名字是啥可以用<code>wsl -l</code>查詢</p><p>export完之後, 接著就用:</p><pre tabindex=0><code>wsl --import Ubuntu20dev e:\wsl\dev D:\ubuntuback.tar
+</code></pre><p>這邊<code>Ubuntu20dev</code>是新的名字, 不要跟舊的重複了, import完後就可以用<code>wsl -d Ubuntu20dev</code> 登入進去玩了</p><p>不過登入後, 咦, 等一下, 怎麼會是用root? 之前舊的並不是呀! 要解決這個問題, 新增這個檔案<code>/etc/wsl.conf</code>, 裡面內容是</p><pre tabindex=0><code>[user]
 default=yourloginname
-</code></pre><p>把wsl再shutdown之後再重新進來就不會是root了</p>
-<footer class=entry-meta>
-<span class=entry-tags></span>
-<div class=social-share>
-<ul class="socialcount socialcount-small inline-list">
-<li class=facebook><a href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fblog.jln.co%2f%25E7%25A7%25BB%25E5%258B%2595wsl%25E6%2598%25A0%25E5%2583%258F%25E5%2588%25B0%25E5%258F%25A6%25E4%25B8%2580%25E5%2580%258B%25E7%25A3%2581%25E7%25A2%259F%2f" target=_blank title="Share on Facebook"><span class=count><i class="fa fa-facebook-square"></i> Like</span></a></li>
-<li class=twitter><a href="https://twitter.com/intent/tweet?text=https%3a%2f%2fblog.jln.co%2f%25E7%25A7%25BB%25E5%258B%2595wsl%25E6%2598%25A0%25E5%2583%258F%25E5%2588%25B0%25E5%258F%25A6%25E4%25B8%2580%25E5%2580%258B%25E7%25A3%2581%25E7%25A2%259F%2f" target=_blank title="Share on Twitter"><span class=count><i class="fa fa-twitter-square"></i> Tweet</span></a></li>
-<li class=line><a href="https://social-plugins.line.me/lineit/share?url=https%3a%2f%2fblog.jln.co%2f%25E7%25A7%25BB%25E5%258B%2595wsl%25E6%2598%25A0%25E5%2583%258F%25E5%2588%25B0%25E5%258F%25A6%25E4%25B8%2580%25E5%2580%258B%25E7%25A3%2581%25E7%25A2%259F%2f" target=_blank title="Share on LINE"><span class=count><i class="fab fa-line"></i>LINE</span></a></li>
-</ul>
-</div>
-</footer>
-</div>
-<section id=disqus_thread><div class=fb-comments data-href=https://blog.jln.co/%E7%A7%BB%E5%8B%95wsl%E6%98%A0%E5%83%8F%E5%88%B0%E5%8F%A6%E4%B8%80%E5%80%8B%E7%A3%81%E7%A2%9F/ data-numposts=5 data-width></div></section>
-</article>
-</div>
-<div class=footer-wrapper>
-<footer role=contentinfo>
-<span> Powered by <a href=https://gohugo.io/ rel=nofollow>Hugo</a> using the <a href=https://github.com/dldx/hpstr-hugo-theme rel=nofollow>HPSTR theme</a>.</span>
-</footer>
-</div>
-<script src=//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js></script>
+</code></pre><p>把wsl再shutdown之後再重新進來就不會是root了</p><footer class=entry-meta><span class=entry-tags></span><div class=social-share><ul class="socialcount socialcount-small inline-list"><li class=facebook><a href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fblog.jln.co%2f%25E7%25A7%25BB%25E5%258B%2595wsl%25E6%2598%25A0%25E5%2583%258F%25E5%2588%25B0%25E5%258F%25A6%25E4%25B8%2580%25E5%2580%258B%25E7%25A3%2581%25E7%25A2%259F%2f" target=_blank title="Share on Facebook"><span class=count><i class="fa fa-facebook-square"></i> Like</span></a></li><li class=twitter><a href="https://twitter.com/intent/tweet?text=https%3a%2f%2fblog.jln.co%2f%25E7%25A7%25BB%25E5%258B%2595wsl%25E6%2598%25A0%25E5%2583%258F%25E5%2588%25B0%25E5%258F%25A6%25E4%25B8%2580%25E5%2580%258B%25E7%25A3%2581%25E7%25A2%259F%2f" target=_blank title="Share on Twitter"><span class=count><i class="fa fa-twitter-square"></i> Tweet</span></a></li><li class=line><a href="https://social-plugins.line.me/lineit/share?url=https%3a%2f%2fblog.jln.co%2f%25E7%25A7%25BB%25E5%258B%2595wsl%25E6%2598%25A0%25E5%2583%258F%25E5%2588%25B0%25E5%258F%25A6%25E4%25B8%2580%25E5%2580%258B%25E7%25A3%2581%25E7%25A2%259F%2f" target=_blank title="Share on LINE"><span class=count><i class="fab fa-line"></i>LINE</span></a></li></ul></div></footer></div><section id=disqus_thread><div class=fb-comments data-href=https://blog.jln.co/%E7%A7%BB%E5%8B%95wsl%E6%98%A0%E5%83%8F%E5%88%B0%E5%8F%A6%E4%B8%80%E5%80%8B%E7%A3%81%E7%A2%9F/ data-numposts=5 data-width></div></section></article></div><div class=footer-wrapper><footer role=contentinfo><span>Powered by <a href=https://gohugo.io/ rel=nofollow>Hugo</a> using the <a href=https://github.com/dldx/hpstr-hugo-theme rel=nofollow>HPSTR theme</a>.</span></footer></div><script src=//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js></script>
 <script src=https://kit.fontawesome.com/872a53b461.js crossorigin=anonymous></script>
-<script>window.jQuery||document.write('<script src="/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
-<script src=/js/scripts.min.js></script>
-<script type=application/javascript>var doNotTrack=!1;doNotTrack||(function(a,e,f,g,b,c,d){a.GoogleAnalyticsObject=b,a[b]=a[b]||function(){(a[b].q=a[b].q||[]).push(arguments)},a[b].l=1*new Date,c=e.createElement(f),d=e.getElementsByTagName(f)[0],c.async=1,c.src=g,d.parentNode.insertBefore(c,d)}(window,document,'script','https://www.google-analytics.com/analytics.js','ga'),ga('create','UA-79243751-1','auto'),ga('send','pageview'))</script>
-<div id=fb-root></div>
-<script async defer crossorigin=anonymous src="https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v7.0&appId=293999444006555&autoLogAppEvents=1" nonce=geZSUIUh></script>
-</body>
-</html>
+<script>window.jQuery||document.write('<script src="/js/vendor/jquery-1.9.1.min.js"><\/script>')</script><script src=/js/scripts.min.js></script>
+<script type=application/javascript>var doNotTrack=!1;doNotTrack||(function(e,t,n,s,o,i,a){e.GoogleAnalyticsObject=o,e[o]=e[o]||function(){(e[o].q=e[o].q||[]).push(arguments)},e[o].l=1*new Date,i=t.createElement(n),a=t.getElementsByTagName(n)[0],i.async=1,i.src=s,a.parentNode.insertBefore(i,a)}(window,document,"script","https://www.google-analytics.com/analytics.js","ga"),ga("create","UA-79243751-1","auto"),ga("send","pageview"))</script><div id=fb-root></div><script async defer crossorigin=anonymous src="https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v7.0&appId=293999444006555&autoLogAppEvents=1" nonce=geZSUIUh></script></body></html>
